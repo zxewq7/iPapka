@@ -1,3 +1,2 @@
-Meester.xcodeproj/*.pbxuser
-Meester.xcodeproj/xcuserdata/*.xcuserdatad/*
 .DS_Store
+build/*
