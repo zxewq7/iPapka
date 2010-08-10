@@ -6,12 +6,15 @@
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "MeesterViewController.h"
+#import "DocumentListViewController.h"
 #import "DocumentCell.h"
 #import "Document.h"
+#import "SwitchViewController.h"
 
-@implementation MeesterViewController
-@synthesize docListView = _docListView;
+@implementation DocumentListViewController
+@synthesize docListView;
+@synthesize switchViewController;
+
 static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 
 /*
@@ -117,6 +120,8 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 
 #pragma mark -
 #pragma mark Grid View Delegate
-
-// nothing here yet
+- (void) gridView: (AQGridView *) gridView didSelectItemAtIndex: (NSUInteger) index
+{
+    [self.switchViewController showDocument:(Document *)[_documents objectAtIndex:index]];
+}
 @end

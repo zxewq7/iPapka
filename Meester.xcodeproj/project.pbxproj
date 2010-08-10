@@ -14,11 +14,13 @@
 		8116FF96121134E900DD537F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF95121134E900DD537F /* main.m */; };
 		8116FF99121134E900DD537F /* MeesterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF98121134E900DD537F /* MeesterAppDelegate.m */; };
 		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
-		8116FF9F121134E900DD537F /* MeesterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF9E121134E900DD537F /* MeesterViewController.m */; };
-		8116FFA2121134E900DD537F /* MeesterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FFA0121134E900DD537F /* MeesterViewController.xib */; };
+		8116FF9F121134E900DD537F /* DocumentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF9E121134E900DD537F /* DocumentListViewController.m */; };
+		8116FFA2121134E900DD537F /* DocumentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FFA0121134E900DD537F /* DocumentListViewController.xib */; };
+		814AE0491211D40700457254 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE0481211D40700457254 /* SwitchViewController.m */; };
+		814AE04E1211D55300457254 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE04D1211D55300457254 /* DocumentViewController.m */; };
+		814AE0661211D59400457254 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 814AE0641211D59400457254 /* DocumentViewController.xib */; };
 		81FEA53112119ECD00A9ABD3 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51212119ECD00A9ABD3 /* Document.m */; };
 		81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51412119ECD00A9ABD3 /* DocumentCell.m */; };
-		81FEA53412119ECD00A9ABD3 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51812119ECD00A9ABD3 /* DocumentViewController.m */; };
 		81FEA53512119ECD00A9ABD3 /* AQGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51D12119ECD00A9ABD3 /* AQGridView.m */; };
 		81FEA53612119ECD00A9ABD3 /* AQGridViewAnimatorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51F12119ECD00A9ABD3 /* AQGridViewAnimatorItem.m */; };
 		81FEA53712119ECD00A9ABD3 /* AQGridViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA52212119ECD00A9ABD3 /* AQGridViewCell.m */; };
@@ -52,15 +54,18 @@
 		8116FF97121134E900DD537F /* MeesterAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeesterAppDelegate.h; sourceTree = "<group>"; };
 		8116FF98121134E900DD537F /* MeesterAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeesterAppDelegate.m; sourceTree = "<group>"; };
 		8116FF9B121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		8116FF9D121134E900DD537F /* MeesterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeesterViewController.h; sourceTree = "<group>"; };
-		8116FF9E121134E900DD537F /* MeesterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeesterViewController.m; sourceTree = "<group>"; };
-		8116FFA1121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MeesterViewController.xib; sourceTree = "<group>"; };
+		8116FF9D121134E900DD537F /* DocumentListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentListViewController.h; sourceTree = "<group>"; };
+		8116FF9E121134E900DD537F /* DocumentListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewController.m; sourceTree = "<group>"; };
+		8116FFA1121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentListViewController.xib; sourceTree = "<group>"; };
+		814AE0471211D40700457254 /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchViewController.h; sourceTree = "<group>"; };
+		814AE0481211D40700457254 /* SwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchViewController.m; sourceTree = "<group>"; };
+		814AE04C1211D55300457254 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
+		814AE04D1211D55300457254 /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewController.m; sourceTree = "<group>"; };
+		814AE0651211D59400457254 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentViewController.xib; sourceTree = "<group>"; };
 		81FEA51112119ECD00A9ABD3 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
 		81FEA51212119ECD00A9ABD3 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
 		81FEA51312119ECD00A9ABD3 /* DocumentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCell.h; sourceTree = "<group>"; };
 		81FEA51412119ECD00A9ABD3 /* DocumentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCell.m; sourceTree = "<group>"; };
-		81FEA51712119ECD00A9ABD3 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
-		81FEA51812119ECD00A9ABD3 /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewController.m; sourceTree = "<group>"; };
 		81FEA51A12119ECD00A9ABD3 /* AQGridView+CellLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AQGridView+CellLayout.h"; sourceTree = "<group>"; };
 		81FEA51B12119ECD00A9ABD3 /* AQGridView+CellLocationDelegation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AQGridView+CellLocationDelegation.h"; sourceTree = "<group>"; };
 		81FEA51C12119ECD00A9ABD3 /* AQGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AQGridView.h; sourceTree = "<group>"; };
@@ -124,16 +129,18 @@
 		8116FF7F121134E900DD537F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				814AE0471211D40700457254 /* SwitchViewController.h */,
+				814AE0481211D40700457254 /* SwitchViewController.m */,
 				81FEA51112119ECD00A9ABD3 /* Document.h */,
 				81FEA51212119ECD00A9ABD3 /* Document.m */,
 				81FEA51312119ECD00A9ABD3 /* DocumentCell.h */,
 				81FEA51412119ECD00A9ABD3 /* DocumentCell.m */,
-				81FEA51712119ECD00A9ABD3 /* DocumentViewController.h */,
-				81FEA51812119ECD00A9ABD3 /* DocumentViewController.m */,
 				8116FF97121134E900DD537F /* MeesterAppDelegate.h */,
 				8116FF98121134E900DD537F /* MeesterAppDelegate.m */,
-				8116FF9D121134E900DD537F /* MeesterViewController.h */,
-				8116FF9E121134E900DD537F /* MeesterViewController.m */,
+				8116FF9D121134E900DD537F /* DocumentListViewController.h */,
+				8116FF9E121134E900DD537F /* DocumentListViewController.m */,
+				814AE04C1211D55300457254 /* DocumentViewController.h */,
+				814AE04D1211D55300457254 /* DocumentViewController.m */,
 				81FEA51912119ECD00A9ABD3 /* GridView */,
 			);
 			path = Classes;
@@ -151,11 +158,12 @@
 		8116FF81121134E900DD537F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				814AE0641211D59400457254 /* DocumentViewController.xib */,
 				81FEA54012119EE500A9ABD3 /* images */,
 				8116FF90121134E900DD537F /* Meester-Info.plist */,
 				8116FF92121134E900DD537F /* InfoPlist.strings */,
 				8116FF9A121134E900DD537F /* MainWindow.xib */,
-				8116FFA0121134E900DD537F /* MeesterViewController.xib */,
+				8116FFA0121134E900DD537F /* DocumentListViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -259,7 +267,6 @@
 			isa = PBXProject;
 			buildConfigurationList = 8116FF7D121134E900DD537F /* Build configuration list for PBXProject "Meester" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -281,7 +288,7 @@
 			files = (
 				8116FF94121134E900DD537F /* InfoPlist.strings in Resources */,
 				8116FF9C121134E900DD537F /* MainWindow.xib in Resources */,
-				8116FFA2121134E900DD537F /* MeesterViewController.xib in Resources */,
+				8116FFA2121134E900DD537F /* DocumentListViewController.xib in Resources */,
 				81FEA54A12119EE500A9ABD3 /* DocListBackground.jpg in Resources */,
 				81FEA54B12119EE500A9ABD3 /* AQGridSelection.png in Resources */,
 				81FEA54C12119EE500A9ABD3 /* AQGridSelectionGray.png in Resources */,
@@ -290,6 +297,7 @@
 				81FEA54F12119EE500A9ABD3 /* AQGridSelectionRed.png in Resources */,
 				81FEA55012119EE500A9ABD3 /* Resolution.png in Resources */,
 				81FEA55112119EE500A9ABD3 /* Signature.png in Resources */,
+				814AE0661211D59400457254 /* DocumentViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,10 +310,9 @@
 			files = (
 				8116FF96121134E900DD537F /* main.m in Sources */,
 				8116FF99121134E900DD537F /* MeesterAppDelegate.m in Sources */,
-				8116FF9F121134E900DD537F /* MeesterViewController.m in Sources */,
+				8116FF9F121134E900DD537F /* DocumentListViewController.m in Sources */,
 				81FEA53112119ECD00A9ABD3 /* Document.m in Sources */,
 				81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */,
-				81FEA53412119ECD00A9ABD3 /* DocumentViewController.m in Sources */,
 				81FEA53512119ECD00A9ABD3 /* AQGridView.m in Sources */,
 				81FEA53612119ECD00A9ABD3 /* AQGridViewAnimatorItem.m in Sources */,
 				81FEA53712119ECD00A9ABD3 /* AQGridViewCell.m in Sources */,
@@ -316,6 +323,8 @@
 				81FEA53C12119ECD00A9ABD3 /* NSIndexSet+AQIndexesOutsideSet.m in Sources */,
 				81FEA53D12119ECD00A9ABD3 /* NSIndexSet+AQIsSetContiguous.m in Sources */,
 				81FEA53E12119ECD00A9ABD3 /* UIColor+AQGridView.m in Sources */,
+				814AE0491211D40700457254 /* SwitchViewController.m in Sources */,
+				814AE04E1211D55300457254 /* DocumentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,12 +347,20 @@
 			name = MainWindow.xib;
 			sourceTree = "<group>";
 		};
-		8116FFA0121134E900DD537F /* MeesterViewController.xib */ = {
+		8116FFA0121134E900DD537F /* DocumentListViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				8116FFA1121134E900DD537F /* en */,
 			);
-			name = MeesterViewController.xib;
+			name = DocumentListViewController.xib;
+			sourceTree = "<group>";
+		};
+		814AE0641211D59400457254 /* DocumentViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				814AE0651211D59400457254 /* en */,
+			);
+			name = DocumentViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

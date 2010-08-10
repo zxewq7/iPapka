@@ -9,7 +9,7 @@
 
 #import "MeesterAppDelegate.h"
 
-#import "MeesterViewController.h"
+#import "SwitchViewController.h"
 
 @implementation MeesterAppDelegate
 
