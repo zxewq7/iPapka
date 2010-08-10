@@ -8,9 +8,8 @@
 
 #import <UIKit/UIKit.h>
 #import "AQGridView.h"
-#import "DocumentCellChooser.h"
 
-@interface MeesterViewController : UIViewController <AQGridViewDelegate, AQGridViewDataSource, DocumentCellChooserDelegate> 
+@interface MeesterViewController : UIViewController <AQGridViewDelegate, AQGridViewDataSource> 
 {
     AQGridView *_docListView;
     NSMutableArray    *_documents;

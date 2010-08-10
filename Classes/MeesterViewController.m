@@ -42,10 +42,6 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 	self.docListView.dataSource = self;
     self.docListView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocListBackground.jpg"]];
 
-    DocumentCellChooser * chooser = [[DocumentCellChooser alloc] initWithItemTitles: [NSArray arrayWithObjects: NSLocalizedString(@"Plain", @""), NSLocalizedString(@"Filled", @""), nil]];
-    chooser.delegate = self;
-    [chooser release];
-
     if ( _documents != nil )
         return;
 
@@ -89,21 +85,6 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     [_documents release];
     [super dealloc];
 }
-
-#pragma mark -
-#pragma mark DocumentCellChooser delegates
-
-- (void) cellChooser: (DocumentCellChooser *) chooser selectedItemAtIndex: (NSUInteger) index
-{
-    self.docListView.separatorStyle = AQGridViewCellSeparatorStyleSingleLine;
-    self.docListView.resizesCellWidthToFit = YES;
-    self.docListView.separatorColor = [UIColor colorWithWhite: 0.85 alpha: 1.0];
-
-    [self.docListView reloadData];
-}
-    
-#pragma mark -
-#pragma mark Grid View Data Source
 
 - (NSUInteger) numberOfItemsInGridView: (AQGridView *) aGridView
 {
