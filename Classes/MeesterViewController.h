@@ -7,10 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AQGridView.h"
+#import "DocumentCellChooser.h"
 
-@interface MeesterViewController : UIViewController {
-
+@interface MeesterViewController : UIViewController <AQGridViewDelegate, AQGridViewDataSource, DocumentCellChooserDelegate> 
+{
+    AQGridView *_docListView;
+    NSMutableArray    *_documents;
+    
 }
 
+@property (nonatomic, retain) IBOutlet AQGridView * docListView;
 @end
 
