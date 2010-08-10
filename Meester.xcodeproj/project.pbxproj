@@ -1,0 +1,291 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		8116FF8B121134E900DD537F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8A121134E900DD537F /* UIKit.framework */; };
+		8116FF8D121134E900DD537F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8C121134E900DD537F /* Foundation.framework */; };
+		8116FF8F121134E900DD537F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8E121134E900DD537F /* CoreGraphics.framework */; };
+		8116FF94121134E900DD537F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF92121134E900DD537F /* InfoPlist.strings */; };
+		8116FF96121134E900DD537F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF95121134E900DD537F /* main.m */; };
+		8116FF99121134E900DD537F /* MeesterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF98121134E900DD537F /* MeesterAppDelegate.m */; };
+		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
+		8116FF9F121134E900DD537F /* MeesterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF9E121134E900DD537F /* MeesterViewController.m */; };
+		8116FFA2121134E900DD537F /* MeesterViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FFA0121134E900DD537F /* MeesterViewController.xib */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		8116FF87121134E900DD537F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		8116FF8A121134E900DD537F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		8116FF8C121134E900DD537F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8116FF8E121134E900DD537F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		8116FF90121134E900DD537F /* Meester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Meester-Info.plist"; sourceTree = "<group>"; };
+		8116FF91121134E900DD537F /* Meester_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Meester_Prefix.pch; sourceTree = "<group>"; };
+		8116FF93121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8116FF95121134E900DD537F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		8116FF97121134E900DD537F /* MeesterAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeesterAppDelegate.h; sourceTree = "<group>"; };
+		8116FF98121134E900DD537F /* MeesterAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeesterAppDelegate.m; sourceTree = "<group>"; };
+		8116FF9B121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		8116FF9D121134E900DD537F /* MeesterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeesterViewController.h; sourceTree = "<group>"; };
+		8116FF9E121134E900DD537F /* MeesterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeesterViewController.m; sourceTree = "<group>"; };
+		8116FFA1121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MeesterViewController.xib; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		8116FF84121134E900DD537F /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8116FF8B121134E900DD537F /* UIKit.framework in Frameworks */,
+				8116FF8D121134E900DD537F /* Foundation.framework in Frameworks */,
+				8116FF8F121134E900DD537F /* CoreGraphics.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		8116FF78121134E900DD537F = {
+			isa = PBXGroup;
+			children = (
+				8116FF7F121134E900DD537F /* Classes */,
+				8116FF80121134E900DD537F /* Other Sources */,
+				8116FF81121134E900DD537F /* Resources */,
+				8116FF82121134E900DD537F /* Frameworks */,
+				8116FF88121134E900DD537F /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		8116FF7F121134E900DD537F /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				8116FF97121134E900DD537F /* MeesterAppDelegate.h */,
+				8116FF98121134E900DD537F /* MeesterAppDelegate.m */,
+				8116FF9D121134E900DD537F /* MeesterViewController.h */,
+				8116FF9E121134E900DD537F /* MeesterViewController.m */,
+			);
+			path = Classes;
+			sourceTree = "<group>";
+		};
+		8116FF80121134E900DD537F /* Other Sources */ = {
+			isa = PBXGroup;
+			children = (
+				8116FF91121134E900DD537F /* Meester_Prefix.pch */,
+				8116FF95121134E900DD537F /* main.m */,
+			);
+			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		8116FF81121134E900DD537F /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8116FF90121134E900DD537F /* Meester-Info.plist */,
+				8116FF92121134E900DD537F /* InfoPlist.strings */,
+				8116FF9A121134E900DD537F /* MainWindow.xib */,
+				8116FFA0121134E900DD537F /* MeesterViewController.xib */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		8116FF82121134E900DD537F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				8116FF8A121134E900DD537F /* UIKit.framework */,
+				8116FF8C121134E900DD537F /* Foundation.framework */,
+				8116FF8E121134E900DD537F /* CoreGraphics.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8116FF88121134E900DD537F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8116FF87121134E900DD537F /* Meester.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		8116FF86121134E900DD537F /* Meester */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8116FFA5121134E900DD537F /* Build configuration list for PBXNativeTarget "Meester" */;
+			buildPhases = (
+				8116FF83121134E900DD537F /* Sources */,
+				8116FF84121134E900DD537F /* Frameworks */,
+				8116FF85121134E900DD537F /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Meester;
+			productName = Meester;
+			productReference = 8116FF87121134E900DD537F /* Meester.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		8116FF7A121134E900DD537F /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 8116FF7D121134E900DD537F /* Build configuration list for PBXProject "Meester" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 8116FF78121134E900DD537F;
+			productRefGroup = 8116FF88121134E900DD537F /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				8116FF86121134E900DD537F /* Meester */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		8116FF85121134E900DD537F /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8116FF94121134E900DD537F /* InfoPlist.strings in Resources */,
+				8116FF9C121134E900DD537F /* MainWindow.xib in Resources */,
+				8116FFA2121134E900DD537F /* MeesterViewController.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		8116FF83121134E900DD537F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8116FF96121134E900DD537F /* main.m in Sources */,
+				8116FF99121134E900DD537F /* MeesterAppDelegate.m in Sources */,
+				8116FF9F121134E900DD537F /* MeesterViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		8116FF92121134E900DD537F /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8116FF93121134E900DD537F /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		8116FF9A121134E900DD537F /* MainWindow.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8116FF9B121134E900DD537F /* en */,
+			);
+			name = MainWindow.xib;
+			sourceTree = "<group>";
+		};
+		8116FFA0121134E900DD537F /* MeesterViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				8116FFA1121134E900DD537F /* en */,
+			);
+			name = MeesterViewController.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		8116FFA3121134E900DD537F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				PREBINDING = NO;
+				SDKROOT = iphoneos4.0;
+			};
+			name = Debug;
+		};
+		8116FFA4121134E900DD537F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PREBINDING = NO;
+				SDKROOT = iphoneos4.0;
+			};
+			name = Release;
+		};
+		8116FFA6121134E900DD537F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Meester_Prefix.pch;
+				INFOPLIST_FILE = "Meester-Info.plist";
+				PRODUCT_NAME = Meester;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		8116FFA7121134E900DD537F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Meester_Prefix.pch;
+				INFOPLIST_FILE = "Meester-Info.plist";
+				PRODUCT_NAME = Meester;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		8116FF7D121134E900DD537F /* Build configuration list for PBXProject "Meester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8116FFA3121134E900DD537F /* Debug */,
+				8116FFA4121134E900DD537F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8116FFA5121134E900DD537F /* Build configuration list for PBXNativeTarget "Meester" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8116FFA6121134E900DD537F /* Debug */,
+				8116FFA7121134E900DD537F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 8116FF7A121134E900DD537F /* Project object */;
+}
