@@ -16,7 +16,7 @@
     NSDate       *date;
     NSString     *text;
     NSDictionary *performers;
-    BOOL         underControl;
+    BOOL         managed;
     NSArray      *comments;
     NSArray      *attachments;
 
@@ -30,7 +30,7 @@
 @property (nonatomic, retain) NSDate       *date;
 @property (nonatomic, retain) NSString     *text;
 @property (nonatomic, retain) NSDictionary *performers;
-@property (nonatomic)         BOOL         underControl;
+@property (nonatomic)         BOOL         managed;
 @property (nonatomic, retain) NSArray      *comments;
 @property (nonatomic, retain) NSArray      *attachments;
 

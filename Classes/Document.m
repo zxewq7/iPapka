@@ -10,7 +10,7 @@
 
 
 @implementation Document
-@synthesize uid, title, remoteUrl, icon, author, date, text, performers, underControl, comments, attachments;
+@synthesize uid, title, remoteUrl, icon, author, date, text, performers, managed, comments, attachments;
 - (void) dealloc
 {
     self.title = nil;
