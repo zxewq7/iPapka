@@ -10,29 +10,13 @@
 #import "DocumentCell.h"
 #import "Document.h"
 #import "SwitchViewController.h"
+#import "LNDataSource.h"
 
 @implementation DocumentListViewController
 @synthesize docListView;
 @synthesize switchViewController;
 
 static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
-
-/*
-// The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView {
-}
-*/
-
 
 // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void) viewDidLoad
@@ -44,24 +28,7 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 	self.docListView.delegate = self;
 	self.docListView.dataSource = self;
     self.docListView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocListBackground.jpg"]];
-
-    if ( _documents != nil )
-        return;
-
-#warning fake data
-    _documents = [[NSMutableArray alloc] init];
-    [_documents retain];
-    
-    for(int i=0;i<100;i++)
-    {
-        Document *document = [[Document alloc] init];
-        document.icon =  [UIImage imageNamed: @"Signature.png"];
-        document.title = [NSString stringWithFormat:@"Document #%d", i];
-        document.uid = [NSString stringWithFormat:@"document #%d", i];
-        [_documents addObject:document];
-        [document release];
-    }
-    
+    _dataController = [LNDataSource sharedLNDataSource];
     [self.docListView reloadData];
 }
 
@@ -79,19 +46,22 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 }
 
 - (void)viewDidUnload {
+    [super viewDidUnload];
     self.docListView = nil;
 }
 
 
 - (void)dealloc {
     self.docListView=nil;
-    [_documents release];
+    self.switchViewController = nil;
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Grid View Data Source
 - (NSUInteger) numberOfItemsInGridView: (AQGridView *) aGridView
 {
-    return ( [_documents count] );
+    return ( [_dataController count] );
 }
 
 - (AQGridViewCell *) gridView: (AQGridView *) aGridView cellForItemAtIndex: (NSUInteger) index
@@ -106,7 +76,7 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
         filledCell.selectionStyle = AQGridViewCellSelectionStyleBlueGray;
     }
             
-    filledCell.document = [_documents objectAtIndex:index];
+    filledCell.document = [_dataController documentAtIndex:index];
             
     cell = filledCell;
     
@@ -122,6 +92,6 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 #pragma mark Grid View Delegate
 - (void) gridView: (AQGridView *) gridView didSelectItemAtIndex: (NSUInteger) index
 {
-    [self.switchViewController showDocument:(Document *)[_documents objectAtIndex:index]];
+    [self.switchViewController showDocument:(Document *)[_dataController documentAtIndex:index]];
 }
 @end

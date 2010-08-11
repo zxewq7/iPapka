@@ -9,12 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "AQGridView.h"
 
-@class SwitchViewController;
+@class SwitchViewController, LNDataSource;
 
 @interface DocumentListViewController : UIViewController <AQGridViewDelegate, AQGridViewDataSource> 
 {
     AQGridView           *docListView;
-    NSMutableArray       *_documents;
+    LNDataSource         *_dataController;
     SwitchViewController *switchViewController;
 }
 

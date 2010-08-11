@@ -16,6 +16,7 @@
 		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
 		8116FF9F121134E900DD537F /* DocumentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF9E121134E900DD537F /* DocumentListViewController.m */; };
 		8116FFA2121134E900DD537F /* DocumentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FFA0121134E900DD537F /* DocumentListViewController.xib */; };
+		813FF9C312128FCF00C864FD /* LNDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 813FF9C212128FCF00C864FD /* LNDataSource.m */; };
 		814AE0491211D40700457254 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE0481211D40700457254 /* SwitchViewController.m */; };
 		814AE04E1211D55300457254 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE04D1211D55300457254 /* DocumentViewController.m */; };
 		814AE0661211D59400457254 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 814AE0641211D59400457254 /* DocumentViewController.xib */; };
@@ -57,6 +58,9 @@
 		8116FF9D121134E900DD537F /* DocumentListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentListViewController.h; sourceTree = "<group>"; };
 		8116FF9E121134E900DD537F /* DocumentListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewController.m; sourceTree = "<group>"; };
 		8116FFA1121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentListViewController.xib; sourceTree = "<group>"; };
+		813FF9C112128FCF00C864FD /* LNDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDataSource.h; sourceTree = "<group>"; };
+		813FF9C212128FCF00C864FD /* LNDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDataSource.m; sourceTree = "<group>"; };
+		813FF9E91212950700C864FD /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		814AE0471211D40700457254 /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchViewController.h; sourceTree = "<group>"; };
 		814AE0481211D40700457254 /* SwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchViewController.m; sourceTree = "<group>"; };
 		814AE04C1211D55300457254 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 		8116FF7F121134E900DD537F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				813FF9E91212950700C864FD /* SynthesizeSingleton.h */,
 				814AE0471211D40700457254 /* SwitchViewController.h */,
 				814AE0481211D40700457254 /* SwitchViewController.m */,
 				81FEA51112119ECD00A9ABD3 /* Document.h */,
@@ -142,6 +147,8 @@
 				814AE04C1211D55300457254 /* DocumentViewController.h */,
 				814AE04D1211D55300457254 /* DocumentViewController.m */,
 				81FEA51912119ECD00A9ABD3 /* GridView */,
+				813FF9C112128FCF00C864FD /* LNDataSource.h */,
+				813FF9C212128FCF00C864FD /* LNDataSource.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -325,6 +332,7 @@
 				81FEA53E12119ECD00A9ABD3 /* UIColor+AQGridView.m in Sources */,
 				814AE0491211D40700457254 /* SwitchViewController.m in Sources */,
 				814AE04E1211D55300457254 /* DocumentViewController.m in Sources */,
+				813FF9C312128FCF00C864FD /* LNDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

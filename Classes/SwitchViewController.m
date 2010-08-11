@@ -68,6 +68,7 @@
     if (self.documentViewController.view.superview != nil)
         return;
     [currentView.view removeFromSuperview];
+    self.documentViewController.document = anDocument;
     [self.view insertSubview:self.documentViewController.view atIndex:0];
     currentView = self.documentViewController;
 
