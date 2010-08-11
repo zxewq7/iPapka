@@ -5,4 +5,4 @@ LNDataSource/build/*
 /build/*
 *.xcodeproj/xcuserdata/*
 *.pbxuser
-*.xcodeproj/*.mode1v3
+*.mode1v3
