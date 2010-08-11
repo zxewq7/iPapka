@@ -7,23 +7,23 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		817867831213154A00D38BD3 /* Attachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 8178677D1213154A00D38BD3 /* Attachment.h */; };
-		817867841213154A00D38BD3 /* Attachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 8178677E1213154A00D38BD3 /* Attachment.m */; };
-		817867851213154A00D38BD3 /* Comment.h in Headers */ = {isa = PBXBuildFile; fileRef = 8178677F1213154A00D38BD3 /* Comment.h */; };
-		817867861213154A00D38BD3 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 817867801213154A00D38BD3 /* Comment.m */; };
-		817867871213154A00D38BD3 /* Document.h in Headers */ = {isa = PBXBuildFile; fileRef = 817867811213154A00D38BD3 /* Document.h */; };
-		817867881213154A00D38BD3 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 817867821213154A00D38BD3 /* Document.m */; };
+		817868291213190B00D38BD3 /* Attachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 817868231213190B00D38BD3 /* Attachment.h */; };
+		8178682A1213190B00D38BD3 /* Attachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 817868241213190B00D38BD3 /* Attachment.m */; };
+		8178682B1213190B00D38BD3 /* Comment.h in Headers */ = {isa = PBXBuildFile; fileRef = 817868251213190B00D38BD3 /* Comment.h */; };
+		8178682C1213190B00D38BD3 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 817868261213190B00D38BD3 /* Comment.m */; };
+		8178682D1213190B00D38BD3 /* Document.h in Headers */ = {isa = PBXBuildFile; fileRef = 817868271213190B00D38BD3 /* Document.h */; };
+		8178682E1213190B00D38BD3 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 817868281213190B00D38BD3 /* Document.m */; };
 		AA747D9F0F9514B9006C5449 /* DataModel_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* DataModel_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		8178677D1213154A00D38BD3 /* Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attachment.h; sourceTree = "<group>"; };
-		8178677E1213154A00D38BD3 /* Attachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attachment.m; sourceTree = "<group>"; };
-		8178677F1213154A00D38BD3 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
-		817867801213154A00D38BD3 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		817867811213154A00D38BD3 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
-		817867821213154A00D38BD3 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		817868231213190B00D38BD3 /* Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Attachment.h; path = Classes/Attachment.h; sourceTree = "<group>"; };
+		817868241213190B00D38BD3 /* Attachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Attachment.m; path = Classes/Attachment.m; sourceTree = "<group>"; };
+		817868251213190B00D38BD3 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Comment.h; path = Classes/Comment.h; sourceTree = "<group>"; };
+		817868261213190B00D38BD3 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Comment.m; path = Classes/Comment.m; sourceTree = "<group>"; };
+		817868271213190B00D38BD3 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Document.h; path = Classes/Document.h; sourceTree = "<group>"; };
+		817868281213190B00D38BD3 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Document.m; path = Classes/Document.m; sourceTree = "<group>"; };
 		AA747D9E0F9514B9006C5449 /* DataModel_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModel_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libDataModel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDataModel.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -71,12 +71,12 @@
 		08FB77AEFE84172EC02AAC07 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				8178677D1213154A00D38BD3 /* Attachment.h */,
-				8178677E1213154A00D38BD3 /* Attachment.m */,
-				8178677F1213154A00D38BD3 /* Comment.h */,
-				817867801213154A00D38BD3 /* Comment.m */,
-				817867811213154A00D38BD3 /* Document.h */,
-				817867821213154A00D38BD3 /* Document.m */,
+				817868231213190B00D38BD3 /* Attachment.h */,
+				817868241213190B00D38BD3 /* Attachment.m */,
+				817868251213190B00D38BD3 /* Comment.h */,
+				817868261213190B00D38BD3 /* Comment.m */,
+				817868271213190B00D38BD3 /* Document.h */,
+				817868281213190B00D38BD3 /* Document.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -97,9 +97,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				AA747D9F0F9514B9006C5449 /* DataModel_Prefix.pch in Headers */,
-				817867831213154A00D38BD3 /* Attachment.h in Headers */,
-				817867851213154A00D38BD3 /* Comment.h in Headers */,
-				817867871213154A00D38BD3 /* Document.h in Headers */,
+				817868291213190B00D38BD3 /* Attachment.h in Headers */,
+				8178682B1213190B00D38BD3 /* Comment.h in Headers */,
+				8178682D1213190B00D38BD3 /* Document.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -146,9 +146,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				817867841213154A00D38BD3 /* Attachment.m in Sources */,
-				817867861213154A00D38BD3 /* Comment.m in Sources */,
-				817867881213154A00D38BD3 /* Document.m in Sources */,
+				8178682A1213190B00D38BD3 /* Attachment.m in Sources */,
+				8178682C1213190B00D38BD3 /* Comment.m in Sources */,
+				8178682E1213190B00D38BD3 /* Document.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
