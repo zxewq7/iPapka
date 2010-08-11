@@ -20,6 +20,8 @@
 		814AE0491211D40700457254 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE0481211D40700457254 /* SwitchViewController.m */; };
 		814AE04E1211D55300457254 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE04D1211D55300457254 /* DocumentViewController.m */; };
 		814AE0661211D59400457254 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 814AE0641211D59400457254 /* DocumentViewController.xib */; };
+		81DBAEB11212DA6F00207D6E /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEB01212DA6F00207D6E /* Comment.m */; };
+		81DBAEBA1212DAF600207D6E /* Attachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEB91212DAF600207D6E /* Attachment.m */; };
 		81FEA53112119ECD00A9ABD3 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51212119ECD00A9ABD3 /* Document.m */; };
 		81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51412119ECD00A9ABD3 /* DocumentCell.m */; };
 		81FEA53512119ECD00A9ABD3 /* AQGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51D12119ECD00A9ABD3 /* AQGridView.m */; };
@@ -66,6 +68,10 @@
 		814AE04C1211D55300457254 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
 		814AE04D1211D55300457254 /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewController.m; sourceTree = "<group>"; };
 		814AE0651211D59400457254 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentViewController.xib; sourceTree = "<group>"; };
+		81DBAEAF1212DA6F00207D6E /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		81DBAEB01212DA6F00207D6E /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		81DBAEB81212DAF600207D6E /* Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Attachment.h; sourceTree = "<group>"; };
+		81DBAEB91212DAF600207D6E /* Attachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Attachment.m; sourceTree = "<group>"; };
 		81FEA51112119ECD00A9ABD3 /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
 		81FEA51212119ECD00A9ABD3 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
 		81FEA51312119ECD00A9ABD3 /* DocumentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCell.h; sourceTree = "<group>"; };
@@ -133,11 +139,10 @@
 		8116FF7F121134E900DD537F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				81DBAEAE1212DA5800207D6E /* Model */,
 				813FF9E91212950700C864FD /* SynthesizeSingleton.h */,
 				814AE0471211D40700457254 /* SwitchViewController.h */,
 				814AE0481211D40700457254 /* SwitchViewController.m */,
-				81FEA51112119ECD00A9ABD3 /* Document.h */,
-				81FEA51212119ECD00A9ABD3 /* Document.m */,
 				81FEA51312119ECD00A9ABD3 /* DocumentCell.h */,
 				81FEA51412119ECD00A9ABD3 /* DocumentCell.m */,
 				8116FF97121134E900DD537F /* MeesterAppDelegate.h */,
@@ -165,11 +170,11 @@
 		8116FF81121134E900DD537F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				814AE0641211D59400457254 /* DocumentViewController.xib */,
 				81FEA54012119EE500A9ABD3 /* images */,
 				8116FF90121134E900DD537F /* Meester-Info.plist */,
 				8116FF92121134E900DD537F /* InfoPlist.strings */,
 				8116FF9A121134E900DD537F /* MainWindow.xib */,
+				814AE0641211D59400457254 /* DocumentViewController.xib */,
 				8116FFA0121134E900DD537F /* DocumentListViewController.xib */,
 			);
 			name = Resources;
@@ -192,6 +197,19 @@
 				8116FF87121134E900DD537F /* Meester.app */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		81DBAEAE1212DA5800207D6E /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				81FEA51112119ECD00A9ABD3 /* Document.h */,
+				81FEA51212119ECD00A9ABD3 /* Document.m */,
+				81DBAEAF1212DA6F00207D6E /* Comment.h */,
+				81DBAEB01212DA6F00207D6E /* Comment.m */,
+				81DBAEB81212DAF600207D6E /* Attachment.h */,
+				81DBAEB91212DAF600207D6E /* Attachment.m */,
+			);
+			name = Model;
 			sourceTree = "<group>";
 		};
 		81FEA51912119ECD00A9ABD3 /* GridView */ = {
@@ -333,6 +351,8 @@
 				814AE0491211D40700457254 /* SwitchViewController.m in Sources */,
 				814AE04E1211D55300457254 /* DocumentViewController.m in Sources */,
 				813FF9C312128FCF00C864FD /* LNDataSource.m in Sources */,
+				81DBAEB11212DA6F00207D6E /* Comment.m in Sources */,
+				81DBAEBA1212DAF600207D6E /* Attachment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@
 
 
 @implementation Document
-@synthesize uid, title, remoteUrl, icon, author, date, text, performers, underControl;
+@synthesize uid, title, remoteUrl, icon, author, date, text, performers, underControl, comments, attachments;
 - (void) dealloc
 {
     self.title = nil;
@@ -19,7 +19,8 @@
     self.date = nil;
     self.text = nil;
     self.performers = nil;
-    
+    self.comments = nil;
+    self.attachments = nil;
     self.remoteUrl = nil;
     self.uid = nil;
     [super dealloc];

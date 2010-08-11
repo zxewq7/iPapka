@@ -17,6 +17,8 @@
     NSString     *text;
     NSDictionary *performers;
     BOOL         underControl;
+    NSArray      *comments;
+    NSArray      *attachments;
 
     NSString     *remoteUrl;
     NSString     *uid;
@@ -29,6 +31,8 @@
 @property (nonatomic, retain) NSString     *text;
 @property (nonatomic, retain) NSDictionary *performers;
 @property (nonatomic)         BOOL         underControl;
+@property (nonatomic, retain) NSArray      *comments;
+@property (nonatomic, retain) NSArray      *attachments;
 
 @property (nonatomic, retain) NSString     *remoteUrl;
 @property (nonatomic, retain) NSString     *uid;
