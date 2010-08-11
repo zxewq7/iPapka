@@ -11,12 +11,12 @@
 
 @interface Attachment : NSObject {
     NSString     *title;
-    UIImage      *icon;
+    UIImage      *_icon;
     NSString     *remoteUrl;
 }
 
-@property (nonatomic, retain) NSString     *title;
-@property (nonatomic, retain) UIImage      *icon;
-@property (nonatomic, retain) NSString     *remoteUrl;
+@property (nonatomic, retain)           NSString     *title;
+@property (nonatomic, retain, readonly) UIImage      *icon;
+@property (nonatomic, retain)           NSString     *remoteUrl;
 
 @end

@@ -10,12 +10,20 @@
 
 
 @implementation Attachment
-@synthesize title, remoteUrl, icon;
+@synthesize title, remoteUrl;
+
 - (void) dealloc
 {
     self.title = nil;
-    self.icon = nil;
+    [_icon release];
     self.remoteUrl = nil;
     [super dealloc];
+}
+@dynamic icon;
+-(UIImage *)icon
+{
+    if (_icon == nil)
+        _icon = [UIImage imageNamed: @"LoadingAttachment.png"];
+    return _icon;
 }
 @end

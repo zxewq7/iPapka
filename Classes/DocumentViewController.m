@@ -11,12 +11,13 @@
 #import "LNDataSource.h"
 #import "DocumentCell.h"
 #import "Document.h"
+#import "AttachmentsViewController.h"
 
 static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 
 @implementation DocumentViewController
 
-@synthesize switchViewController, docListView, documentTitle;
+@synthesize switchViewController, docListView, documentTitle, attachmentsViewController;
     // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void) viewDidLoad
 {
@@ -77,6 +78,7 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     [_document release];
     _document = [aDocument retain];
     documentTitle.text = _document.title;
+    attachmentsViewController.document = _document;
 }
 #pragma mark -
 #pragma mark Grid View Data Source

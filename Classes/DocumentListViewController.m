@@ -93,5 +93,6 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 - (void) gridView: (AQGridView *) gridView didSelectItemAtIndex: (NSUInteger) index
 {
     [self.switchViewController showDocument:(Document *)[_dataController documentAtIndex:index]];
+    [gridView deselectItemAtIndex:index animated:NO];
 }
 @end

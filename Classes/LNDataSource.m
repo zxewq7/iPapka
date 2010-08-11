@@ -8,6 +8,7 @@
 
 #import "LNDataSource.h"
 #import "Document.h"
+#import "Attachment.h"
 #import "SynthesizeSingleton.h"
 
 @implementation LNDataSource
@@ -25,6 +26,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             document.icon =  [UIImage imageNamed: @"Signature.png"];
             document.title = [NSString stringWithFormat:@"Document #%d", i];
             document.uid = [NSString stringWithFormat:@"document #%d", i];
+            
+            NSMutableArray *attachments = [[NSMutableArray alloc] init];
+            for (int ii=0;ii<10;ii++)
+            {
+                Attachment *attachment = [[Attachment alloc] init];
+                attachment.title = [NSString stringWithFormat:@"Attachment #%d", ii];
+                [attachments addObject:attachment];
+                [attachment release];
+            }
+            document.attachments = attachments;
+            [attachments release];
             [(NSMutableArray *)_documents addObject:document];
             [document release];
         }
