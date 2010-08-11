@@ -85,7 +85,6 @@
 		8116FF9D121134E900DD537F /* DocumentListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentListViewController.h; sourceTree = "<group>"; };
 		8116FF9E121134E900DD537F /* DocumentListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewController.m; sourceTree = "<group>"; };
 		8116FFA1121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentListViewController.xib; sourceTree = "<group>"; };
-		813FF9E91212950700C864FD /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		814AE0471211D40700457254 /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchViewController.h; sourceTree = "<group>"; };
 		814AE0481211D40700457254 /* SwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchViewController.m; sourceTree = "<group>"; };
 		814AE04C1211D55300457254 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
@@ -167,7 +166,6 @@
 			children = (
 				81DBAEC21212DE0F00207D6E /* AttachmentCell.h */,
 				81DBAEC31212DE0F00207D6E /* AttachmentCell.m */,
-				813FF9E91212950700C864FD /* SynthesizeSingleton.h */,
 				814AE0471211D40700457254 /* SwitchViewController.h */,
 				814AE0481211D40700457254 /* SwitchViewController.m */,
 				81FEA51312119ECD00A9ABD3 /* DocumentCell.h */,
