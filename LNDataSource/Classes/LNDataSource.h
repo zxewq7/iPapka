@@ -8,12 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
-@class Document;
+@class Document, ASINetworkQueue;
 @interface LNDataSource : NSObject
 {
-    NSArray *_documents;
+    NSArray             *_documents;
+    ASINetworkQueue     *_networkQueue;
+    NSString            *_docDirectory;
+    NSMutableDictionary *_handlers;
+    BOOL                documentsListRefreshed;
+    NSString            *documentsListRefreshError;
 }
 + (LNDataSource *)sharedLNDataSource;
+@property (nonatomic)         BOOL     documentsListRefreshed;
+@property (nonatomic, retain) NSString *documentsListRefreshError;
 -(NSUInteger) count;
 -(Document *) documentAtIndex:(NSUInteger) anIndex;
+-(void) refreshDocuments;
 @end

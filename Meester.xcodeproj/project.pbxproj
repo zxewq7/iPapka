@@ -16,6 +16,13 @@
 		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
 		8116FF9F121134E900DD537F /* DocumentListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF9E121134E900DD537F /* DocumentListViewController.m */; };
 		8116FFA2121134E900DD537F /* DocumentListViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FFA0121134E900DD537F /* DocumentListViewController.xib */; };
+		8137EC2D12142204006C1416 /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC26121421AB006C1416 /* libASIHTTPRequest.a */; };
+		8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
+		8137EC381214225E006C1416 /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
+		8137EC3C12142274006C1416 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3B12142274006C1416 /* CFNetwork.framework */; };
+		8137EC3E1214228F006C1416 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */; };
+		8137EC401214229D006C1416 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3F1214229D006C1416 /* SystemConfiguration.framework */; };
+		8137EC42121422A6006C1416 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC41121422A6006C1416 /* MobileCoreServices.framework */; };
 		814AE0491211D40700457254 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE0481211D40700457254 /* SwitchViewController.m */; };
 		814AE04E1211D55300457254 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE04D1211D55300457254 /* DocumentViewController.m */; };
 		814AE0661211D59400457254 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 814AE0641211D59400457254 /* DocumentViewController.xib */; };
@@ -47,6 +54,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		8137EC25121421AB006C1416 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteInfo = ASIHTTPRequest;
+		};
+		8169414412140748005AE9FE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = BD80A3A20F894C7F0067878C;
+			remoteInfo = UnitTest;
+		};
 		8178674E121313FC00D38BD3 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 81786747121313FC00D38BD3 /* DataModel.xcodeproj */;
@@ -65,10 +86,23 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libLNDataSource.a */;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = LNDataSource;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		8137EC3A12142263006C1416 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				8137EC381214225E006C1416 /* PLBlocks.framework in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		8116FF87121134E900DD537F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -85,6 +119,12 @@
 		8116FF9D121134E900DD537F /* DocumentListViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentListViewController.h; sourceTree = "<group>"; };
 		8116FF9E121134E900DD537F /* DocumentListViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentListViewController.m; sourceTree = "<group>"; };
 		8116FFA1121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentListViewController.xib; sourceTree = "<group>"; };
+		8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
+		8137EC3512142239006C1416 /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = thirdparty/PLBlocks.framework; sourceTree = "<group>"; };
+		8137EC3B12142274006C1416 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
+		8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
+		8137EC3F1214229D006C1416 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
+		8137EC41121422A6006C1416 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		814AE0471211D40700457254 /* SwitchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SwitchViewController.h; sourceTree = "<group>"; };
 		814AE0481211D40700457254 /* SwitchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SwitchViewController.m; sourceTree = "<group>"; };
 		814AE04C1211D55300457254 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
@@ -138,12 +178,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8137EC2D12142204006C1416 /* libASIHTTPRequest.a in Frameworks */,
 				817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */,
 				8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */,
 				8116FF8B121134E900DD537F /* UIKit.framework in Frameworks */,
 				8116FF8D121134E900DD537F /* Foundation.framework in Frameworks */,
 				8116FF8F121134E900DD537F /* CoreGraphics.framework in Frameworks */,
 				81FEA55412119F0900A9ABD3 /* QuartzCore.framework in Frameworks */,
+				8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */,
+				8137EC3C12142274006C1416 /* CFNetwork.framework in Frameworks */,
+				8137EC3E1214228F006C1416 /* libz.1.2.3.dylib in Frameworks */,
+				8137EC401214229D006C1416 /* SystemConfiguration.framework in Frameworks */,
+				8137EC42121422A6006C1416 /* MobileCoreServices.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -186,6 +232,7 @@
 		8116FF80121134E900DD537F /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */,
 				817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */,
 				81786747121313FC00D38BD3 /* DataModel.xcodeproj */,
 				8116FF91121134E900DD537F /* Meester_Prefix.pch */,
@@ -210,10 +257,15 @@
 		8116FF82121134E900DD537F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8137EC3512142239006C1416 /* PLBlocks.framework */,
 				81FEA55312119F0900A9ABD3 /* QuartzCore.framework */,
 				8116FF8A121134E900DD537F /* UIKit.framework */,
 				8116FF8C121134E900DD537F /* Foundation.framework */,
 				8116FF8E121134E900DD537F /* CoreGraphics.framework */,
+				8137EC3B12142274006C1416 /* CFNetwork.framework */,
+				8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */,
+				8137EC3F1214229D006C1416 /* SystemConfiguration.framework */,
+				8137EC41121422A6006C1416 /* MobileCoreServices.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -222,6 +274,14 @@
 			isa = PBXGroup;
 			children = (
 				8116FF87121134E900DD537F /* Meester.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		8137EC22121421AB006C1416 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				8137EC26121421AB006C1416 /* libASIHTTPRequest.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -238,6 +298,7 @@
 			isa = PBXGroup;
 			children = (
 				817867BD1213157E00D38BD3 /* libLNDataSource.a */,
+				8169414512140748005AE9FE /* UnitTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -306,6 +367,7 @@
 				8116FF83121134E900DD537F /* Sources */,
 				8116FF84121134E900DD537F /* Frameworks */,
 				8116FF85121134E900DD537F /* Resources */,
+				8137EC3A12142263006C1416 /* CopyFiles */,
 			);
 			buildRules = (
 			);
@@ -333,6 +395,10 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
+					ProductGroup = 8137EC22121421AB006C1416 /* Products */;
+					ProjectRef = 8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */;
+				},
+				{
 					ProductGroup = 81786748121313FC00D38BD3 /* Products */;
 					ProjectRef = 81786747121313FC00D38BD3 /* DataModel.xcodeproj */;
 				},
@@ -349,6 +415,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		8137EC26121421AB006C1416 /* libASIHTTPRequest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libASIHTTPRequest.a;
+			remoteRef = 8137EC25121421AB006C1416 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		8169414512140748005AE9FE /* UnitTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = UnitTest.app;
+			remoteRef = 8169414412140748005AE9FE /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		8178674F121313FC00D38BD3 /* libDataModel.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -468,6 +548,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = DEBUG;
+				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
@@ -484,6 +565,7 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
@@ -500,12 +582,16 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/thirdparty\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Meester_Prefix.pch;
 				INFOPLIST_FILE = "Meester-Info.plist";
 				PRODUCT_NAME = Meester;
-				USER_HEADER_SEARCH_PATHS = "LNDataSource/** DataModel/**";
+				USER_HEADER_SEARCH_PATHS = "$(inherited)";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -515,11 +601,15 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/thirdparty\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Meester_Prefix.pch;
 				INFOPLIST_FILE = "Meester-Info.plist";
 				PRODUCT_NAME = Meester;
-				USER_HEADER_SEARCH_PATHS = "LNDataSource/** DataModel/**";
+				USER_HEADER_SEARCH_PATHS = "$(inherited)";
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};

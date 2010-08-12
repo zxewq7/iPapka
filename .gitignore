@@ -2,7 +2,7 @@
 build/*
 DataModel/build/*
 LNDataSource/build/*
-/build/*
+build*
 *.xcodeproj/xcuserdata/*
 *.pbxuser
 *.mode1v3

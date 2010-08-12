@@ -12,6 +12,9 @@
 #import "SwitchViewController.h"
 #import "LNDataSource.h"
 
+static NSString* DocumentsListRefreshedContext     = @"DocumentsListRefreshedContext";
+static NSString* DocumentsListRefreshErrorContext  = @"DocumentsListRefreshErrorContext";
+
 @implementation DocumentListViewController
 @synthesize docListView;
 @synthesize switchViewController;
@@ -29,6 +32,19 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 	self.docListView.dataSource = self;
     self.docListView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocListBackground.jpg"]];
     _dataController = [LNDataSource sharedLNDataSource];
+    
+    [_dataController addObserver:self
+                        forKeyPath:@"documentsListRefreshed"
+                        options:0
+                        context:&DocumentsListRefreshedContext];
+    
+    [_dataController addObserver:self
+                        forKeyPath:@"documentsListRefreshError"
+                        options:0
+                        context:&DocumentsListRefreshErrorContext];
+    
+    
+    [_dataController refreshDocuments];
     [self.docListView reloadData];
 }
 
@@ -56,6 +72,29 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     self.switchViewController = nil;
     [super dealloc];
 }
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &DocumentsListRefreshedContext)
+    {
+        [self.docListView reloadData];
+    }
+    else if (context == &DocumentsListRefreshErrorContext)
+    {
+        
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
+}
+
 
 #pragma mark -
 #pragma mark Grid View Data Source
