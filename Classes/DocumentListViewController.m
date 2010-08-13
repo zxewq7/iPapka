@@ -12,8 +12,6 @@
 #import "SwitchViewController.h"
 #import "LNDataSource.h"
 
-static NSString* DocumentsListRefreshErrorContext  = @"DocumentsListRefreshErrorContext";
-
 @interface DocumentListViewController(Private)
 - (void)documentsAdded:(NSNotification *)notification;
 - (void)documentsRemoved:(NSNotification *)notification;
@@ -33,13 +31,7 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 	self.docListView.delegate = self;
 	self.docListView.dataSource = self;
     self.docListView.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocListBackground.jpg"]];
-    _dataController = [LNDataSource sharedLNDataSource];
     
-    [_dataController addObserver:self
-                        forKeyPath:@"documentsListRefreshError"
-                        options:0
-                        context:&DocumentsListRefreshErrorContext];
-
     [[NSNotificationCenter defaultCenter] addObserver:self
                                           selector:@selector(documentsAdded:)
                                           name:@"DocumentsAdded" object:nil];
@@ -47,15 +39,15 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
                                           selector:@selector(documentsRemoved:)
                                           name:@"DocumentsRemoved" object:nil];
     self.allDocuments = [NSMutableArray array];
-    [self.allDocuments addObjectsFromArray:[_dataController.documents allValues]];
+    [self.allDocuments addObjectsFromArray:[[LNDataSource sharedLNDataSource].documents allValues]];
     
     NSSortDescriptor *titleDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title"
                                                  ascending:YES];
     self.sortDescriptors = [NSArray arrayWithObject:titleDescriptor];
     [titleDescriptor release];
     [self.allDocuments sortedArrayUsingDescriptors:self.sortDescriptors];
-    [_dataController refreshDocuments];
     [self.docListView reloadData];
+    [[LNDataSource sharedLNDataSource] refreshDocuments];
 }
 
 
@@ -88,7 +80,7 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 #pragma mark Grid View Data Source
 - (NSUInteger) numberOfItemsInGridView: (AQGridView *) aGridView
 {
-    return ( [[_dataController documents] count] );
+    return ( [self.allDocuments count] );
 }
 
 - (AQGridViewCell *) gridView: (AQGridView *) aGridView cellForItemAtIndex: (NSUInteger) index
@@ -152,22 +144,5 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     }
     [allDocuments removeObjectsAtIndexes:indicies];
     [docListView deleteItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationFade];
-}
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == &DocumentsListRefreshErrorContext)
-    {
-#warning how about errors?
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
-    }
 }
 @end
