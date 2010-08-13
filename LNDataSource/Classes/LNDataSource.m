@@ -146,14 +146,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             [uidsToRemove addObject:uid];
     }
     
-    if ([uidsToRemove count] >0)
+    if ([uidsToRemove count])
     {
         NSArray *removedDocuments = [self.documents objectsForKeys:uidsToRemove notFoundMarker:@""];
         [self.documents removeObjectsForKeys:uidsToRemove];
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"DocumentsRemoved" object:removedDocuments];
     }
-    if ([newDocuments count] >0)
+    if ([newDocuments count])
     {
         [self.documents addEntriesFromDictionary:newDocuments];
         [[NSNotificationCenter defaultCenter]
