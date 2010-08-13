@@ -24,5 +24,5 @@
 
 - (void) listDocuments;
 - (void) showDocument:(Document *) anDocument;
-
+- (void) refresh:(id)sender;
 @end

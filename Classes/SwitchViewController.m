@@ -9,7 +9,7 @@
 #import "SwitchViewController.h"
 #import "DocumentListViewController.h"
 #import "DocumentViewController.h"
-
+#import "LNDataSource.h"
 
 @implementation SwitchViewController
 
@@ -101,5 +101,8 @@
     [super dealloc];
 }
 
-
+- (void) refresh:(id)sender
+{
+    [[LNDataSource sharedLNDataSource] refreshDocuments];
+}
 @end
