@@ -98,7 +98,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 {
     LNHttpRequest *request;
     NSString *url = [NSString stringWithFormat:url_FetchView, self.host, self.databaseReplicaId, self.viewReplicaId];
-    NSLog(@"start fetching %@", url);
 	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
     NSString *folder = [[_docDirectory stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:self.databaseReplicaId];
     [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:TRUE 
@@ -229,7 +228,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 {
     LNHttpRequest *request;
     NSString *url = [NSString stringWithFormat:url_FetchDocument, self.host, self.databaseReplicaId, self.viewReplicaId, document.uid];
-    NSLog(@"start fetching %@", url);
 	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
     NSString *folder = [[[_docDirectory stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:self.databaseReplicaId] stringByAppendingPathComponent:document.uid];
     [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:TRUE 
