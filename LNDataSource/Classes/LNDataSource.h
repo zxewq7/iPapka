@@ -11,16 +11,13 @@
 @class Document, ASINetworkQueue;
 @interface LNDataSource : NSObject
 {
-    NSArray             *_documents;
+    NSMutableDictionary *_documents;
     ASINetworkQueue     *_networkQueue;
     NSString            *_docDirectory;
-    BOOL                documentsListRefreshed;
     NSString            *documentsListRefreshError;
 }
 + (LNDataSource *)sharedLNDataSource;
-@property (nonatomic)         BOOL     documentsListRefreshed;
 @property (nonatomic, retain) NSString *documentsListRefreshError;
--(NSUInteger) count;
--(Document *) documentAtIndex:(NSUInteger) anIndex;
+@property (nonatomic, retain) NSMutableDictionary *documents;
 -(void) refreshDocuments;
 @end

@@ -16,9 +16,13 @@
     AQGridView           *docListView;
     LNDataSource         *_dataController;
     SwitchViewController *switchViewController;
+    NSMutableArray              *allDocuments;
+    NSArray              *sortDescriptors;
 }
 
-@property (nonatomic, retain) IBOutlet AQGridView           *docListView;
+@property (nonatomic, retain) IBOutlet AQGridView  *docListView;
 @property (nonatomic, retain) SwitchViewController *switchViewController;
+@property (nonatomic, retain) NSMutableArray              *allDocuments;
+@property (nonatomic, retain) NSArray              *sortDescriptors;
 @end
 

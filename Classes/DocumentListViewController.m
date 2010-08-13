@@ -12,12 +12,14 @@
 #import "SwitchViewController.h"
 #import "LNDataSource.h"
 
-static NSString* DocumentsListRefreshedContext     = @"DocumentsListRefreshedContext";
 static NSString* DocumentsListRefreshErrorContext  = @"DocumentsListRefreshErrorContext";
 
+@interface DocumentListViewController(Private)
+- (void)documentsAdded:(NSNotification *)notification;
+- (void)documentsRemoved:(NSNotification *)notification;
+@end
 @implementation DocumentListViewController
-@synthesize docListView;
-@synthesize switchViewController;
+@synthesize docListView, switchViewController, allDocuments, sortDescriptors;
 
 static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 
@@ -34,16 +36,24 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     _dataController = [LNDataSource sharedLNDataSource];
     
     [_dataController addObserver:self
-                        forKeyPath:@"documentsListRefreshed"
-                        options:0
-                        context:&DocumentsListRefreshedContext];
-    
-    [_dataController addObserver:self
                         forKeyPath:@"documentsListRefreshError"
                         options:0
                         context:&DocumentsListRefreshErrorContext];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector(documentsAdded:)
+                                          name:@"DocumentsAdded" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                          selector:@selector(documentsRemoved:)
+                                          name:@"DocumentsRemoved" object:nil];
+    self.allDocuments = [NSMutableArray array];
+    [self.allDocuments addObjectsFromArray:[_dataController.documents allValues]];
     
-    
+    NSSortDescriptor *titleDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title"
+                                                 ascending:YES];
+    self.sortDescriptors = [NSArray arrayWithObject:titleDescriptor];
+    [titleDescriptor release];
+    [self.allDocuments sortedArrayUsingDescriptors:self.sortDescriptors];
     [_dataController refreshDocuments];
     [self.docListView reloadData];
 }
@@ -70,37 +80,15 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 - (void)dealloc {
     self.docListView=nil;
     self.switchViewController = nil;
+    [allDocuments release];
     [super dealloc];
 }
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == &DocumentsListRefreshedContext)
-    {
-        [self.docListView reloadData];
-    }
-    else if (context == &DocumentsListRefreshErrorContext)
-    {
-        
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
-    }
-}
-
 
 #pragma mark -
 #pragma mark Grid View Data Source
 - (NSUInteger) numberOfItemsInGridView: (AQGridView *) aGridView
 {
-    return ( [_dataController count] );
+    return ( [[_dataController documents] count] );
 }
 
 - (AQGridViewCell *) gridView: (AQGridView *) aGridView cellForItemAtIndex: (NSUInteger) index
@@ -115,7 +103,7 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
         filledCell.selectionStyle = AQGridViewCellSelectionStyleBlueGray;
     }
             
-    filledCell.document = [_dataController documentAtIndex:index];
+    filledCell.document = [self.allDocuments objectAtIndex:index];
             
     cell = filledCell;
     
@@ -131,7 +119,55 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
 #pragma mark Grid View Delegate
 - (void) gridView: (AQGridView *) gridView didSelectItemAtIndex: (NSUInteger) index
 {
-    [self.switchViewController showDocument:(Document *)[_dataController documentAtIndex:index]];
+    [self.switchViewController showDocument:(Document *)[allDocuments objectAtIndex:index]];
     [gridView deselectItemAtIndex:index animated:NO];
+}
+@end
+
+@implementation DocumentListViewController(Private)
+- (void)documentsAdded:(NSNotification *)notification
+{
+    NSArray *documents = notification.object;
+    [self.allDocuments addObjectsFromArray:documents];
+    [self.allDocuments sortedArrayUsingDescriptors:self.sortDescriptors];
+    
+    NSMutableIndexSet *indicies = [NSMutableIndexSet indexSet];
+    for(Document *document in documents)
+    {
+        NSUInteger index = [self.allDocuments indexOfObject:document];
+        [indicies addIndex:index];
+    }
+    
+    [docListView insertItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationRight];
+}
+
+- (void)documentsRemoved:(NSNotification *)notification
+{
+    NSArray *documents = notification.object;
+    NSMutableIndexSet *indicies = [NSMutableIndexSet indexSet];
+    for(Document *document in documents)
+    {
+        NSUInteger index = [self.allDocuments indexOfObject:document];
+        [indicies addIndex:index];
+    }
+    [allDocuments removeObjectsAtIndexes:indicies];
+    [docListView deleteItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationFade];
+}
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &DocumentsListRefreshErrorContext)
+    {
+#warning how about errors?
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
 }
 @end

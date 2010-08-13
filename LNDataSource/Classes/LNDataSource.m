@@ -15,6 +15,9 @@
 #import "ASINetworkQueue.h"
 #import "LotusViewParser.h"
 
+static NSString *field_Uid = @"UNID";
+static NSString *field_Title = @"Title";
+
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
 - (void)fetchFailed:(ASIHTTPRequest *)request;
@@ -23,7 +26,7 @@
 
 @implementation LNDataSource
 SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
-@synthesize documentsListRefreshed, documentsListRefreshError;
+@synthesize documentsListRefreshError, documents=_documents;
 -(id)init
 {
     if ((self = [super init])) {
@@ -36,7 +39,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         NSArray *arrayPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _docDirectory = [arrayPaths objectAtIndex:0];
         
-        _documents = [[NSMutableArray alloc] init];
+        self.documents = [NSMutableDictionary dictionary];
         for(int i=0;i<100;i++)
         {
             Document *document = [[Document alloc] init];
@@ -54,7 +57,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             }
             document.attachments = attachments;
             [attachments release];
-            [(NSMutableArray *)_documents addObject:document];
+            [self.documents setObject:document forKey:document.uid];
             [document release];
         }
     }
@@ -65,20 +68,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 {
     [_networkQueue reset];
 	[_networkQueue release];
-	[_documents release];
+	self.documents = nil;
     
     [super dealloc];
 }
 
-- (NSUInteger) count
-{
-    return [_documents count];
-}
-
-- (Document *) documentAtIndex:(NSUInteger) anIndex
-{
-    return [_documents objectAtIndex:anIndex];
-}
 -(void) refreshDocuments
 {
     LNHttpRequest *request;
@@ -93,7 +87,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             [self parseViewData:file];
         else
         {
-            self.documentsListRefreshed = NO;
             documentsListRefreshError = error;
         }
     };
@@ -121,11 +114,49 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 - (void)parseViewData:(NSString *) xmlFile
 {
     LotusViewParser *parser = [LotusViewParser parseView:xmlFile];
+    NSUInteger size = [parser.documentEntries count];
+    NSMutableDictionary *newDocuments = [[NSMutableDictionary alloc] initWithCapacity:size];
+    NSMutableSet *allUids = [[NSMutableSet alloc] initWithCapacity:size];
+    NSMutableArray *uidsToRemove = [[NSMutableArray alloc] initWithCapacity:size];
     for (NSDictionary *entry in parser.documentEntries) 
     {
-        NSLog(@"%@", entry);
+        NSString *uid = [entry objectForKey:field_Uid];
+        Document *document = [self.documents objectForKey:uid];
+        [allUids addObject:uid];
+        if (document == nil)
+        {
+#warning set all fields
+            document = [[Document alloc] init];
+            document.icon =  [UIImage imageNamed: @"Signature.png"];
+            document.title = [entry objectForKey:field_Title];
+            document.uid = uid;
+            [newDocuments setObject:document forKey:uid];
+            [document release];
+        }
     }
     
-    self.documentsListRefreshed = YES;
+        //remove obsoleted documents
+    for (NSString *uid in [self.documents allKeys])
+    {
+        if (![allUids containsObject:uid])
+            [uidsToRemove addObject:uid];
+    }
+    
+    if ([uidsToRemove count] >0)
+    {
+        NSArray *removedDocuments = [self.documents objectsForKeys:uidsToRemove notFoundMarker:@""];
+        [self.documents removeObjectsForKeys:uidsToRemove];
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"DocumentsRemoved" object:removedDocuments];
+    }
+    if ([newDocuments count] >0)
+    {
+        [self.documents addEntriesFromDictionary:newDocuments];
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"DocumentsAdded" object:[newDocuments allValues]];
+    }
+    [uidsToRemove release];
+    [allUids release];
+    [newDocuments release];
 }
 @end
