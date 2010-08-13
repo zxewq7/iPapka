@@ -29,6 +29,8 @@
 		8157845E12147E6C00067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8157845D12147E6C00067473 /* libxml2.dylib */; };
 		8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8178674F121313FC00D38BD3 /* libDataModel.a */; };
 		817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 817867BD1213157E00D38BD3 /* libLNDataSource.a */; };
+		81B33A7E1215A20600A06317 /* ResolutionNotLoaded.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B33A7D1215A20600A06317 /* ResolutionNotLoaded.png */; };
+		81B33A801215A20F00A06317 /* SignatureNotLoaded.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B33A7F1215A20F00A06317 /* SignatureNotLoaded.png */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
 		81DBAEFB1212E05600207D6E /* LoadingAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 81DBAEFA1212E05600207D6E /* LoadingAttachment.png */; };
@@ -134,6 +136,8 @@
 		8157845D12147E6C00067473 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		81786747121313FC00D38BD3 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
 		817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
+		81B33A7D1215A20600A06317 /* ResolutionNotLoaded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResolutionNotLoaded.png; sourceTree = "<group>"; };
+		81B33A7F1215A20F00A06317 /* SignatureNotLoaded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignatureNotLoaded.png; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
@@ -340,6 +344,8 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81B33A7F1215A20F00A06317 /* SignatureNotLoaded.png */,
+				81B33A7D1215A20600A06317 /* ResolutionNotLoaded.png */,
 				81DBAEFA1212E05600207D6E /* LoadingAttachment.png */,
 				81FEA54112119EE500A9ABD3 /* DocListBackground.jpg */,
 				81FEA54812119EE500A9ABD3 /* Resolution.png */,
@@ -467,6 +473,8 @@
 				81FEA55112119EE500A9ABD3 /* Signature.png in Resources */,
 				814AE0661211D59400457254 /* DocumentViewController.xib in Resources */,
 				81DBAEFB1212E05600207D6E /* LoadingAttachment.png in Resources */,
+				81B33A7E1215A20600A06317 /* ResolutionNotLoaded.png in Resources */,
+				81B33A801215A20F00A06317 /* SignatureNotLoaded.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

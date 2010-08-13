@@ -8,6 +8,7 @@
 
 #import "LNDataSource.h"
 #import "Document.h"
+#import "Resolution.h"
 #import "Attachment.h"
 #import "SynthesizeSingleton.h"
 #import "ASINetworkQueue.h"
@@ -50,7 +51,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         for(int i=0;i<100;i++)
         {
             Document *document = [[Document alloc] init];
-            document.icon =  [UIImage imageNamed: @"Signature.png"];
             document.title = [NSString stringWithFormat:@"Document #%d", i];
             document.uid = [NSString stringWithFormat:@"document #%d", i];
             
@@ -135,8 +135,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             //new document
         if (document == nil)
         {
-            document = [[Document alloc] init];
-            document.icon =  [UIImage imageNamed: @"Signature.png"];
+            NSString *form = [entry objectForKey:field_Form];
+            if ([form isEqualToString:form_Resolution])
+                document = [[Resolution alloc] init];
+            else if ([form isEqualToString:form_Signature])
+                document = [[Document alloc] init];
+            else
+            {
+                NSLog(@"wrong form, document skipped: %@ %@", uid, form);
+                continue;
+            }
             document.title = [entry objectForKey:field_Title];
             document.uid = uid;
             document.author = [entry objectForKey:field_Author];

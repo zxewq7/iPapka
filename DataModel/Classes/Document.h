@@ -11,29 +11,26 @@
 
 @interface Document : NSObject {
     NSString     *title;
-    UIImage      *icon;
     NSString     *author;
     NSDate       *date;
-    NSString     *text;
-    NSDictionary *performers;
-    BOOL         managed;
     NSArray      *comments;
     NSArray      *attachments;
 
     NSString     *remoteUrl;
     NSString     *uid;
+    NSDate       *dateModified;
+    BOOL         loaded;
 }
 
 @property (nonatomic, retain) NSString     *title;
-@property (nonatomic, retain) UIImage      *icon;
+@property (nonatomic, readonly) UIImage      *icon;
 @property (nonatomic, retain) NSString     *author;
 @property (nonatomic, retain) NSDate       *date;
-@property (nonatomic, retain) NSString     *text;
-@property (nonatomic, retain) NSDictionary *performers;
-@property (nonatomic)         BOOL         managed;
 @property (nonatomic, retain) NSArray      *comments;
 @property (nonatomic, retain) NSArray      *attachments;
 
 @property (nonatomic, retain) NSString     *remoteUrl;
 @property (nonatomic, retain) NSString     *uid;
+@property (nonatomic, retain) NSDate       *dateModified;
+@property (nonatomic)         BOOL         loaded;
 @end

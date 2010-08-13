@@ -10,20 +10,24 @@
 
 
 @implementation Document
-@synthesize uid, title, remoteUrl, icon, author, date, text, performers, managed, comments, attachments;
+@synthesize uid, title, remoteUrl, author, date, comments, attachments, dateModified, loaded;
 - (void) dealloc
 {
     self.title = nil;
-    self.icon = nil;
     self.author = nil;
     self.date = nil;
-    self.text = nil;
-    self.performers = nil;
     self.comments = nil;
     self.attachments = nil;
     self.remoteUrl = nil;
     self.uid = nil;
+    self.dateModified = nil;
     [super dealloc];
+}
+
+@dynamic icon;
+- (UIImage *) icon
+{
+    return [UIImage imageNamed: loaded?@"Signature.png":@"SignatureNotLoaded.png"];
 }
 
 #pragma mark -
