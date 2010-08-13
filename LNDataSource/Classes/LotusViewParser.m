@@ -13,6 +13,8 @@
 
 #define BUF_SIZE 8192
 
+static NSString *UNID_ATTRIBUTE = @"UNID"; 
+
     // Function prototypes for SAX callbacks. This sample implements a minimal subset of SAX callbacks.
     // Depending on your application's needs, you might want to implement more callbacks.
 static void startElementSAX(void *ctx, const xmlChar *localname, const xmlChar *prefix, const xmlChar *URI, int nb_namespaces, const xmlChar **namespaces, int nb_attributes, int nb_defaulted, const xmlChar **attributes);
@@ -123,6 +125,27 @@ static const NSUInteger kAutoreleasePoolPurgeFrequency = 20;
     [characterBuffer setLength:0];
     return currentString;
 }
+
+- (NSString *)findAttribute:(int) nb_attributes attributes:(const xmlChar **)attributes name:(const char *)name length:(NSUInteger) length;
+{
+    unsigned int index = 0;
+    for ( int indexAttribute = 0; 
+         indexAttribute < nb_attributes; 
+         ++indexAttribute, index += 5 )
+    {
+        const xmlChar *localname = attributes[index];
+        if (strncmp((const char *)localname, name, length))
+            continue;
+//        const xmlChar *prefix = attributes[index+1];
+//        const xmlChar *nsURI = attributes[index+2];
+        const xmlChar *valueBegin = attributes[index+3];
+        const xmlChar *valueEnd = attributes[index+4];
+        NSData *dataResult = [NSData dataWithBytes:(const char *)valueBegin length:(const char *)valueEnd-(const char *)valueBegin];
+        NSString *stringValue = [[NSString alloc] initWithData:dataResult encoding: NSUTF8StringEncoding];
+        return [stringValue autorelease];
+    }
+    return @"oops";
+}
 @end
 
 #pragma mark SAX Parsing Callbacks
@@ -137,6 +160,11 @@ static const char *kName_Datetime = "datetime";
 static const NSUInteger kLength_Datetime = 9;
 static const char *kName_Text = "text";
 static const NSUInteger kLength_Text = 5;
+static const char *kName_Unid = "unid";
+static const NSUInteger kLength_Unid = 4;
+static const char *kName_Name = "name";
+static const NSUInteger kLength_Name = 5;
+
 
 /*
  This callback is invoked when the parser finds the beginning of a node in the XML. For this application,
@@ -152,12 +180,14 @@ static void startElementSAX(void *ctx, const xmlChar *localname, const xmlChar *
         // The third parameter to strncmp is the number of characters in the element name, plus 1 for the null terminator.
     if (prefix == NULL && !strncmp((const char *)localname, kName_Item, kLength_Item)) {
         NSMutableDictionary *newDocumentEntry = [[NSMutableDictionary alloc] init];
+        NSString *unid = [parser findAttribute:nb_attributes attributes:attributes name:kName_Unid length:kLength_Unid];
+        [newDocumentEntry setObject:unid forKey:UNID_ATTRIBUTE];
         parser.currentDocumentEntry = newDocumentEntry;
         [newDocumentEntry release];
         parser.parsingADocumentEntry = YES;
     } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_EntryData, kLength_EntryData))) )) {
-#warning fake field name
-        parser.currentFieldName = @"field";
+        NSString *fieldName = [parser findAttribute:nb_attributes attributes:attributes name:kName_Name length:kLength_Name];
+        parser.currentFieldName = fieldName;
     } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_Datetime, kLength_Datetime) || !strncmp((const char *)localname, kName_Text, kLength_Text))) )) {
         parser.storingCharacters = YES;
     }
