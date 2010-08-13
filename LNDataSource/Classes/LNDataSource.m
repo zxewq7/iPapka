@@ -17,6 +17,7 @@
 
 static NSString *field_Uid = @"UNID";
 static NSString *field_Title = @"Title";
+static NSString *field_Author = @"Author";
 
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -38,6 +39,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         
         NSArray *arrayPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _docDirectory = [arrayPaths objectAtIndex:0];
+        [_docDirectory retain];
         
         self.documents = [NSMutableDictionary dictionary];
         for(int i=0;i<100;i++)
@@ -68,6 +70,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 {
     [_networkQueue reset];
 	[_networkQueue release];
+    [_docDirectory release];
 	self.documents = nil;
     
     [super dealloc];
@@ -130,6 +133,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             document.icon =  [UIImage imageNamed: @"Signature.png"];
             document.title = [entry objectForKey:field_Title];
             document.uid = uid;
+            document.author = [entry objectForKey:field_Author];
             [newDocuments setObject:document forKey:uid];
             [document release];
         }
