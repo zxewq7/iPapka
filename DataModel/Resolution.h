@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Document.h"
 
-@interface Resolution : Document {
+@interface Resolution : Document<NSCoding> {
     NSString     *text;
     NSDictionary *performers;
     BOOL         managed;

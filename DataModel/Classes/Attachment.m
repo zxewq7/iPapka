@@ -26,4 +26,22 @@
         _icon = [UIImage imageNamed: @"LoadingAttachment.png"];
     return _icon;
 }
+
+#pragma mark -
+#pragma mark NSCoding
+- (id) initWithCoder: (NSCoder *)coder
+{
+    if (self = [super init])
+    {
+        self.title = [coder decodeObjectForKey:@"title"];
+        self.remoteUrl = [coder decodeObjectForKey:@"remoteUrl"];
+    }
+    return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *)coder
+{
+    [coder encodeObject: self.title forKey:@"title"];
+    [coder encodeObject: self.remoteUrl forKey:@"remoteUrl"];
+}
 @end

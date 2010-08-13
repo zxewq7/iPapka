@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface Attachment : NSObject {
+@interface Attachment : NSObject<NSCoding> {
     NSString     *title;
     UIImage      *_icon;
     NSString     *remoteUrl;

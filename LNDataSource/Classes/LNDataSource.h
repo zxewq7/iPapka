@@ -13,7 +13,8 @@
 {
     NSMutableDictionary *_documents;
     ASINetworkQueue     *_networkQueue;
-    NSString            *_docDirectory;
+    NSString            *_databaseDirectory;
+    NSString            *_viewDirectory;
     NSString            *documentsListRefreshError;
     NSString            *databaseReplicaId;
     NSString            *viewReplicaId;

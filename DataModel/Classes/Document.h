@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface Document : NSObject {
+@interface Document : NSObject<NSCoding> {
     NSString     *title;
     NSString     *author;
     NSDate       *date;

@@ -25,4 +25,22 @@
     return [UIImage imageNamed: hasError?@"ResolutionError.png":loaded?@"Resolution.png":@"ResolutionNotLoaded.png"];
 }
 
+#pragma mark -
+#pragma mark NSCoding
+- (id) initWithCoder: (NSCoder *)coder
+{
+    if (self = [super initWithCoder:coder])
+    {
+        self.text = [coder decodeObjectForKey:@"text"];
+        self.performers = [coder decodeObjectForKey:@"performers"];
+    }
+    return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *)coder
+{
+    [super encodeWithCoder:coder];
+    [coder encodeObject: self.text forKey:@"text"];
+    [coder encodeObject: self.performers forKey:@"performers"];
+}
 @end

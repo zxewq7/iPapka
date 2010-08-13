@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@interface Comment : NSObject {
+@interface Comment : NSObject<NSCoding> {
     NSString     *author;
     NSDate       *date;
     NSString     *text;

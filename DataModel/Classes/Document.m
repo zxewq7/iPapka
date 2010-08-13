@@ -45,4 +45,37 @@
 	else
 		return NO;
 }
+
+#pragma mark -
+#pragma mark NSCoding
+- (id) initWithCoder: (NSCoder *)coder
+{
+    if (self = [super init])
+    {
+        self.title = [coder decodeObjectForKey:@"title"];
+        self.author = [coder decodeObjectForKey:@"author"];
+        self.date = [coder decodeObjectForKey:@"date"];
+        self.comments = [coder decodeObjectForKey:@"comments"];
+        self.attachments = [coder decodeObjectForKey:@"attachments"];
+        self.remoteUrl = [coder decodeObjectForKey:@"remoteUrl"];
+        self.uid = [coder decodeObjectForKey:@"uid"];
+        self.dateModified = [coder decodeObjectForKey:@"dateModified"];
+        self.loaded = [[coder decodeObjectForKey:@"loaded"] boolValue];
+
+    }
+    return self;
+}
+
+- (void) encodeWithCoder: (NSCoder *)coder
+{
+    [coder encodeObject: self.title forKey:@"title"];
+    [coder encodeObject: self.author forKey:@"author"];
+    [coder encodeObject: self.date forKey:@"date"];
+    [coder encodeObject: self.comments forKey:@"comments"];
+    [coder encodeObject: self.attachments forKey:@"attachments"];
+    [coder encodeObject: self.remoteUrl forKey:@"remoteUrl"];
+    [coder encodeObject: self.uid forKey:@"uid"];
+    [coder encodeObject: self.dateModified forKey:@"dateModified"];
+    [coder encodeObject: [NSNumber numberWithBool: self.loaded] forKey:@"loaded"];
+}
 @end
