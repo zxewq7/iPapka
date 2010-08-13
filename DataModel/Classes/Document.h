@@ -20,6 +20,7 @@
     NSString     *uid;
     NSDate       *dateModified;
     BOOL         loaded;
+    BOOL         hasError;
 }
 
 @property (nonatomic, retain) NSString     *title;
@@ -33,4 +34,5 @@
 @property (nonatomic, retain) NSString     *uid;
 @property (nonatomic, retain) NSDate       *dateModified;
 @property (nonatomic)         BOOL         loaded;
+@property (nonatomic)         BOOL         hasError;
 @end

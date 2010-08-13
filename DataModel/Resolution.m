@@ -22,7 +22,7 @@
 @dynamic icon;
 - (UIImage *) icon
 {
-    return [UIImage imageNamed: loaded?@"Resolution.png":@"ResolutionNotLoaded.png"];
+    return [UIImage imageNamed: hasError?@"ResolutionError.png":loaded?@"Resolution.png":@"ResolutionNotLoaded.png"];
 }
 
 @end

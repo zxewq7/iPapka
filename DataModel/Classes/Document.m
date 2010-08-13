@@ -10,7 +10,7 @@
 
 
 @implementation Document
-@synthesize uid, title, remoteUrl, author, date, comments, attachments, dateModified, loaded;
+@synthesize uid, title, remoteUrl, author, date, comments, attachments, dateModified, loaded, hasError;
 - (void) dealloc
 {
     self.title = nil;
@@ -27,7 +27,7 @@
 @dynamic icon;
 - (UIImage *) icon
 {
-    return [UIImage imageNamed: loaded?@"Signature.png":@"SignatureNotLoaded.png"];
+    return [UIImage imageNamed: hasError?@"SignatureError.png":loaded?@"Signature.png":@"SignatureNotLoaded.png"];
 }
 
 #pragma mark -
