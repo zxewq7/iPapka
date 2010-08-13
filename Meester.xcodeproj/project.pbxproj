@@ -26,6 +26,7 @@
 		814AE0491211D40700457254 /* SwitchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE0481211D40700457254 /* SwitchViewController.m */; };
 		814AE04E1211D55300457254 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE04D1211D55300457254 /* DocumentViewController.m */; };
 		814AE0661211D59400457254 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 814AE0641211D59400457254 /* DocumentViewController.xib */; };
+		8157845E12147E6C00067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8157845D12147E6C00067473 /* libxml2.dylib */; };
 		8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8178674F121313FC00D38BD3 /* libDataModel.a */; };
 		817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 817867BD1213157E00D38BD3 /* libLNDataSource.a */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
@@ -130,6 +131,7 @@
 		814AE04C1211D55300457254 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
 		814AE04D1211D55300457254 /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewController.m; sourceTree = "<group>"; };
 		814AE0651211D59400457254 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentViewController.xib; sourceTree = "<group>"; };
+		8157845D12147E6C00067473 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		81786747121313FC00D38BD3 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
 		817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
@@ -190,6 +192,7 @@
 				8137EC3E1214228F006C1416 /* libz.1.2.3.dylib in Frameworks */,
 				8137EC401214229D006C1416 /* SystemConfiguration.framework in Frameworks */,
 				8137EC42121422A6006C1416 /* MobileCoreServices.framework in Frameworks */,
+				8157845E12147E6C00067473 /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,6 +269,7 @@
 				8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */,
 				8137EC3F1214229D006C1416 /* SystemConfiguration.framework */,
 				8137EC41121422A6006C1416 /* MobileCoreServices.framework */,
+				8157845D12147E6C00067473 /* libxml2.dylib */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

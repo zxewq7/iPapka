@@ -11,8 +11,9 @@
 #import "Attachment.h"
 #import "SynthesizeSingleton.h"
 #import "ASINetworkQueue.h"
-#import "ASIHTTPRequest.h"
+#import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
+#import "LotusViewParser.h"
 
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -34,8 +35,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         
         NSArray *arrayPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _docDirectory = [arrayPaths objectAtIndex:0];
-        
-        _handlers = [[NSMutableDictionary alloc] init];
         
         _documents = [[NSMutableArray alloc] init];
         for(int i=0;i<100;i++)
@@ -82,21 +81,22 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 }
 -(void) refreshDocuments
 {
-    ASIHTTPRequest *request;
+    LNHttpRequest *request;
     NSString *url = @"http://vovasty/~vovasty/89FB7FB8A9330311C325777C004EEFC8/89FB7FB8A9330311C325777C004EEFC8?ReadViewEntries&count=100";
-	request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:url]];
+	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
     NSString *folder = [[_docDirectory stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:@"89FB7FB8A9330311C325777C004EEFC8"];
     [[NSFileManager defaultManager] createDirectoryAtPath:folder withIntermediateDirectories:TRUE 
                    attributes:nil error:nil]; 
 	[request setDownloadDestinationPath:[folder stringByAppendingPathComponent:@"/89FB7FB8A9330311C325777C004EEFC8.xml"]];
-    id hnd = ^(NSString *file, NSString* error) {
-        if (error!=nil)
+    request.requestHandler = ^(NSString *file, NSString* error) {
+        if (error==nil)
             [self parseViewData:file];
         else
+        {
+            self.documentsListRefreshed = NO;
             documentsListRefreshError = error;
+        }
     };
-    [_handlers setObject:hnd forKey:url];
-    [hnd release];
 	[_networkQueue addOperation:request];
 }
 
@@ -107,23 +107,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 #pragma mark ASINetworkQueue delegate
 - (void)fetchComplete:(ASIHTTPRequest *)request
 {
-    NSString *url = [[request originalURL] absoluteString];
-    int (^handler)(NSString *file, NSString* error) = [_handlers objectForKey:url];
+    void (^handler)(NSString *file, NSString* error) = ((LNHttpRequest *)request).requestHandler;
     if (handler)
         handler([request downloadDestinationPath], nil);
-    [_handlers removeObjectForKey:url];
 }
 
 - (void)fetchFailed:(ASIHTTPRequest *)request
 {
-    NSString *url = [[request originalURL] absoluteString];
-    int (^handler)(NSString *file, NSString* error) = [_handlers objectForKey:url];
+    void (^handler)(NSString *file, NSString* error) = ((LNHttpRequest *)request).requestHandler;
     if (handler)
         handler(nil, [[request error] localizedDescription]);
-    [_handlers removeObjectForKey:url];
 }
 - (void)parseViewData:(NSString *) xmlFile
 {
+    LotusViewParser *parser = [LotusViewParser parseView:xmlFile];
+    for (NSDictionary *entry in parser.documentEntries) 
+    {
+        NSLog(@"%@", entry);
+    }
+    
     self.documentsListRefreshed = YES;
 }
 @end

@@ -14,7 +14,6 @@
     NSArray             *_documents;
     ASINetworkQueue     *_networkQueue;
     NSString            *_docDirectory;
-    NSMutableDictionary *_handlers;
     BOOL                documentsListRefreshed;
     NSString            *documentsListRefreshError;
 }

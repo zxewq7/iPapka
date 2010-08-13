@@ -14,6 +14,12 @@
 		81578305121433D900067473 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81578304121433D900067473 /* PLBlocks.framework */; };
 		815783131214347700067473 /* LotusViewParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 815783121214347700067473 /* LotusViewParser.m */; };
 		815783151214349A00067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 815783141214349A00067473 /* libxml2.dylib */; };
+		81578325121459C700067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 815783141214349A00067473 /* libxml2.dylib */; };
+		8157836A12145D9100067473 /* LotusViewParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 815783121214347700067473 /* LotusViewParser.m */; };
+		8157836B12145D9700067473 /* LotusViewParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 815783111214347700067473 /* LotusViewParser.h */; };
+		8166805312153D4500D3EE40 /* LNHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8166805212153D4500D3EE40 /* LNHttpRequest.m */; };
+		8166806E12153DF800D3EE40 /* LNHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8166805212153D4500D3EE40 /* LNHttpRequest.m */; };
+		8166807312153DFD00D3EE40 /* LNHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 8166805112153D4500D3EE40 /* LNHttpRequest.h */; };
 		817ABEA412140E3E001D2197 /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81F4770612140B1400F89F60 /* libASIHTTPRequest.a */; };
 		817ABEB812140EBE001D2197 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 817ABEB712140EBE001D2197 /* CFNetwork.framework */; };
 		817ABEE112140EF7001D2197 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 817ABEE012140EF7001D2197 /* libz.1.2.3.dylib */; };
@@ -89,6 +95,8 @@
 		815783111214347700067473 /* LotusViewParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LotusViewParser.h; sourceTree = "<group>"; };
 		815783121214347700067473 /* LotusViewParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LotusViewParser.m; sourceTree = "<group>"; };
 		815783141214349A00067473 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		8166805112153D4500D3EE40 /* LNHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNHttpRequest.h; sourceTree = "<group>"; };
+		8166805212153D4500D3EE40 /* LNHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNHttpRequest.m; sourceTree = "<group>"; };
 		817ABEB712140EBE001D2197 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		817ABEE012140EF7001D2197 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		8198E6561213FDC300299A5E /* LNDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDataSourceTest.m; sourceTree = "<group>"; };
@@ -130,6 +138,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD6668550F83F84100ABF98B /* Foundation.framework in Frameworks */,
+				81578325121459C700067473 /* libxml2.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,6 +209,8 @@
 				8198E68D1213FF0000299A5E /* SynthesizeSingleton.h */,
 				815783111214347700067473 /* LotusViewParser.h */,
 				815783121214347700067473 /* LotusViewParser.m */,
+				8166805112153D4500D3EE40 /* LNHttpRequest.h */,
+				8166805212153D4500D3EE40 /* LNHttpRequest.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -240,6 +251,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8166807312153DFD00D3EE40 /* LNHttpRequest.h in Headers */,
+				8157836B12145D9700067473 /* LotusViewParser.h in Headers */,
 				8198E68F1213FF0000299A5E /* LNDataSource.h in Headers */,
 				8198E6911213FF0000299A5E /* SynthesizeSingleton.h in Headers */,
 			);
@@ -372,6 +385,7 @@
 				8198E67A1213FE8300299A5E /* GTMSenTestCase.m in Sources */,
 				8198E68E1213FF0000299A5E /* LNDataSource.m in Sources */,
 				815783131214347700067473 /* LotusViewParser.m in Sources */,
+				8166805312153D4500D3EE40 /* LNHttpRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -379,6 +393,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8166806E12153DF800D3EE40 /* LNHttpRequest.m in Sources */,
+				8157836A12145D9100067473 /* LotusViewParser.m in Sources */,
 				8198E6901213FF0000299A5E /* LNDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -416,6 +432,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LNDataSource_Prefix.pch;
+				HEADER_SEARCH_PATHS = $SDKROOT/usr/include/libxml2;
 				INSTALL_PATH = /usr/local/lib;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_CFLAGS = "-DDEBUG=1";
@@ -433,6 +450,7 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = LNDataSource_Prefix.pch;
+				HEADER_SEARCH_PATHS = $SDKROOT/usr/include/libxml2;
 				INSTALL_PATH = /usr/local/lib;
 				OTHER_CFLAGS = "";
 				PRODUCT_NAME = LNDataSource;
@@ -449,10 +467,11 @@
 				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
 				SDKROOT = iphonesimulator3.2;
-				USER_HEADER_SEARCH_PATHS = "$PROJECT_DIR/../DataModel/** $PROJECT_DIR/../thirdparty/ASIHTTPRequest/**";
+				USER_HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2 $PROJECT_DIR/../DataModel/** $PROJECT_DIR/../thirdparty/ASIHTTPRequest/**";
 			};
 			name = Debug;
 		};
@@ -464,9 +483,10 @@
 				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "";
 				PREBINDING = NO;
 				SDKROOT = iphonesimulator3.2;
-				USER_HEADER_SEARCH_PATHS = "$PROJECT_DIR/../DataModel/** $PROJECT_DIR/../thirdparty/ASIHTTPRequest/**";
+				USER_HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2 $PROJECT_DIR/../DataModel/** $PROJECT_DIR/../thirdparty/ASIHTTPRequest/**";
 			};
 			name = Release;
 		};
@@ -476,10 +496,7 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../thirdparty\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -508,10 +525,7 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = (
-					"$(inherited)",
-					"\"$(SRCROOT)/../thirdparty\"",
-				);
+				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = GTM_Prefix.pch;
