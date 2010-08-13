@@ -34,10 +34,9 @@ static xmlSAXHandler simpleSAXHandlerStruct;
     {
         self.documentEntries = [NSMutableArray arrayWithCapacity:10];
         self.parsePool = [[NSAutoreleasePool alloc] init];
-        [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
         self.parseFormatterDst = [[[NSDateFormatter alloc] init] autorelease];
             //20100811T183249,89+04
-        [self.parseFormatterDst setDateFormat:@"yyyyMMdd'T'HHMMss,SS"];
+        [self.parseFormatterDst setDateFormat:@"yyyyMMdd'T'HHmmss,S"];
         self.parseFormatterSimple = [[[NSDateFormatter alloc] init] autorelease];
             //20100811
         [self.parseFormatterSimple setDateFormat:@"yyyyMMdd"];
@@ -196,7 +195,7 @@ static void startElementSAX(void *ctx, const xmlChar *localname, const xmlChar *
         NSString *fieldName = [parser findAttribute:nb_attributes attributes:attributes name:kName_Name length:kLength_Name];
         parser.currentFieldName = fieldName;
     } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_Datetime, kLength_Datetime))) )) {
-        parser.dateDst =  [parser findAttribute:nb_attributes attributes:attributes name:kName_Dst length:kLength_Dst] == nil;
+        parser.dateDst =  [parser findAttribute:nb_attributes attributes:attributes name:kName_Dst length:kLength_Dst] != nil;
         parser.storingCharacters = YES;
     } else if (parser.parsingADocumentEntry && ( (prefix == NULL && !strncmp((const char *)localname, kName_Text, kLength_Text)) )) {
         parser.storingCharacters = YES;
