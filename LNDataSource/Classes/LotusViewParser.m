@@ -26,7 +26,7 @@ static void errorEncounteredSAX(void * ctx, const char * msg, ...);
 static xmlSAXHandler simpleSAXHandlerStruct;
 
 @implementation LotusViewParser
-@synthesize parsePool, parseFormatter, characterBuffer, currentDocumentEntry, storingCharacters, parsingADocumentEntry, documentEntries, currentFieldName;
+@synthesize parsePool, dateDst, parseFormatterSimple, parseFormatterDst, characterBuffer, currentDocumentEntry, storingCharacters, parsingADocumentEntry, documentEntries, currentFieldName;
 
 -(id) initWithFileName:(NSString *) fileName
 {
@@ -34,9 +34,13 @@ static xmlSAXHandler simpleSAXHandlerStruct;
     {
         self.documentEntries = [NSMutableArray arrayWithCapacity:10];
         self.parsePool = [[NSAutoreleasePool alloc] init];
-        self.parseFormatter = [[[NSDateFormatter alloc] init] autorelease];
-        [parseFormatter setDateStyle:NSDateFormatterLongStyle];
-        [parseFormatter setTimeStyle:NSDateFormatterNoStyle];
+        [NSDateFormatter setDefaultFormatterBehavior:NSDateFormatterBehavior10_4];
+        self.parseFormatterDst = [[[NSDateFormatter alloc] init] autorelease];
+            //20100811T183249,89+04
+        [self.parseFormatterDst setDateFormat:@"yyyyMMdd'T'HHMMss,SS"];
+        self.parseFormatterSimple = [[[NSDateFormatter alloc] init] autorelease];
+            //20100811
+        [self.parseFormatterSimple setDateFormat:@"yyyyMMdd"];
         countOfParsedItems = 0;
             // the date formatter must be set to US locale in order to parse the dates
         self.characterBuffer = [NSMutableData data];
@@ -78,7 +82,8 @@ static xmlSAXHandler simpleSAXHandlerStruct;
             // Release resources used only in this thread.
         xmlFreeParserCtxt(context);
         self.characterBuffer = nil;
-        self.parseFormatter = nil;
+        self.parseFormatterDst = nil;
+        self.parseFormatterSimple = nil;
         [parsePool release];
         self.parsePool = nil;        
     }
@@ -164,6 +169,8 @@ static const char *kName_Unid = "unid";
 static const NSUInteger kLength_Unid = 4;
 static const char *kName_Name = "name";
 static const NSUInteger kLength_Name = 5;
+static const char *kName_Dst = "dst";
+static const NSUInteger kLength_Dst = 4;
 
 
 /*
@@ -188,7 +195,10 @@ static void startElementSAX(void *ctx, const xmlChar *localname, const xmlChar *
     } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_EntryData, kLength_EntryData))) )) {
         NSString *fieldName = [parser findAttribute:nb_attributes attributes:attributes name:kName_Name length:kLength_Name];
         parser.currentFieldName = fieldName;
-    } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_Datetime, kLength_Datetime) || !strncmp((const char *)localname, kName_Text, kLength_Text))) )) {
+    } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_Datetime, kLength_Datetime))) )) {
+        parser.dateDst =  [parser findAttribute:nb_attributes attributes:attributes name:kName_Dst length:kLength_Dst] == nil;
+        parser.storingCharacters = YES;
+    } else if (parser.parsingADocumentEntry && ( (prefix == NULL && !strncmp((const char *)localname, kName_Text, kLength_Text)) )) {
         parser.storingCharacters = YES;
     }
 }
@@ -210,8 +220,21 @@ static void	endElementSAX(void *ctx, const xmlChar *localname, const xmlChar *pr
         } else if (!strncmp((const char *)localname, kName_Text, kLength_Text)) {
             [parser.currentDocumentEntry setObject:[parser currentString] forKey:parser.currentFieldName];
         } else if (!strncmp((const char *)localname, kName_Datetime, kLength_Datetime)) {
-#warning text date
-            [parser.currentDocumentEntry setObject:[parser currentString] forKey:parser.currentFieldName];
+            NSString *dateString = [parser currentString];
+            NSDate *date;
+#warning truncated time zone
+            if (parser.dateDst)
+            {
+                dateString = [dateString substringToIndex:[dateString length]-3];
+                date = [parser.parseFormatterDst dateFromString:dateString];
+            }
+            else
+                date = [parser.parseFormatterSimple dateFromString:dateString];
+            if (date)
+                [parser.currentDocumentEntry setObject:date forKey:parser.currentFieldName];
+            else 
+                NSLog(@"Unparseable date: %@", [parser currentString]);
+
         }
     }
     parser.storingCharacters = NO;
