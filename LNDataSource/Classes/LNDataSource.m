@@ -18,6 +18,11 @@
 static NSString *field_Uid = @"UNID";
 static NSString *field_Title = @"Title";
 static NSString *field_Author = @"Author";
+static NSString *field_Modified = @"Modified";
+static NSString *field_Form = @"Form";
+
+static NSString *form_Resolution = @"Resolution";
+static NSString *form_Signature = @"Signature";
 
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -119,6 +124,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
     LotusViewParser *parser = [LotusViewParser parseView:xmlFile];
     NSUInteger size = [parser.documentEntries count];
     NSMutableDictionary *newDocuments = [[NSMutableDictionary alloc] initWithCapacity:size];
+    NSMutableDictionary *updatedDocuments = [[NSMutableDictionary alloc] initWithCapacity:size];
     NSMutableSet *allUids = [[NSMutableSet alloc] initWithCapacity:size];
     NSMutableArray *uidsToRemove = [[NSMutableArray alloc] initWithCapacity:size];
     for (NSDictionary *entry in parser.documentEntries) 
@@ -126,16 +132,29 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         NSString *uid = [entry objectForKey:field_Uid];
         Document *document = [self.documents objectForKey:uid];
         [allUids addObject:uid];
+            //new document
         if (document == nil)
         {
-#warning set all fields
             document = [[Document alloc] init];
             document.icon =  [UIImage imageNamed: @"Signature.png"];
             document.title = [entry objectForKey:field_Title];
             document.uid = uid;
             document.author = [entry objectForKey:field_Author];
+            document.dateModified = [entry objectForKey:field_Modified];
             [newDocuments setObject:document forKey:uid];
             [document release];
+        }
+        else
+        {
+            NSDate *newDate = [entry objectForKey:field_Modified];
+                //document updated
+            if ([document.dateModified earlierDate: newDate])
+            {
+                document.title = [entry objectForKey:field_Title];
+                document.author = [entry objectForKey:field_Author];
+                document.dateModified = newDate;
+                [updatedDocuments setObject:document forKey:document.uid];
+            }
         }
     }
     
@@ -145,7 +164,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         if (![allUids containsObject:uid])
             [uidsToRemove addObject:uid];
     }
-    
+        //remove documents
     if ([uidsToRemove count])
     {
         NSArray *removedDocuments = [self.documents objectsForKeys:uidsToRemove notFoundMarker:@""];
@@ -153,14 +172,25 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"DocumentsRemoved" object:removedDocuments];
     }
+        //add new dowuments
     if ([newDocuments count])
     {
         [self.documents addEntriesFromDictionary:newDocuments];
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"DocumentsAdded" object:[newDocuments allValues]];
     }
+
+        //update dowuments
+    if ([updatedDocuments count])
+    {
+        [self.documents addEntriesFromDictionary:updatedDocuments];
+        [[NSNotificationCenter defaultCenter]
+         postNotificationName:@"DocumentsUpdated" object:[updatedDocuments allValues]];
+    }
+    
     [uidsToRemove release];
     [allUids release];
     [newDocuments release];
+    [updatedDocuments release];
 }
 @end

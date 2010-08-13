@@ -15,6 +15,7 @@
 @interface DocumentListViewController(Private)
 - (void)documentsAdded:(NSNotification *)notification;
 - (void)documentsRemoved:(NSNotification *)notification;
+- (void)documentsUpdated:(NSNotification *)notification;
 @end
 @implementation DocumentListViewController
 @synthesize docListView, switchViewController, allDocuments, sortDescriptors;
@@ -38,6 +39,9 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     [[NSNotificationCenter defaultCenter] addObserver:self
                                           selector:@selector(documentsRemoved:)
                                           name:@"DocumentsRemoved" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(documentsUpdated:)
+                                                 name:@"DocumentsUpdated" object:nil];
     self.allDocuments = [NSMutableArray array];
     [self.allDocuments addObjectsFromArray:[[LNDataSource sharedLNDataSource].documents allValues]];
     
@@ -149,5 +153,25 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
         [allDocuments removeObjectsAtIndexes:indicies];
         [docListView deleteItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationFade];
     }
+}
+
+- (void)documentsUpdated:(NSNotification *)notification
+{
+    NSArray *documents = notification.object;
+    NSMutableIndexSet *indicies = [NSMutableIndexSet indexSet];
+    for(Document *document in documents)
+    {
+        NSUInteger index = [self.allDocuments indexOfObject:document];
+        if (index != NSNotFound)
+        {
+            [indicies addIndex:index];
+            [self.allDocuments replaceObjectAtIndex:index withObject:document];
+        }
+    }
+    
+    [self.allDocuments sortedArrayUsingDescriptors:self.sortDescriptors];
+    
+    if ([indicies count])
+        [docListView reloadItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationFade];
 }
 @end
