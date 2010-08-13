@@ -43,11 +43,11 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     
     NSSortDescriptor *titleDescriptor = [[NSSortDescriptor alloc] initWithKey:@"title"
                                                  ascending:YES];
+    self.allDocuments = [NSMutableArray arrayWithArray:[[LNDataSource sharedLNDataSource].documents allValues]];
     self.sortDescriptors = [NSArray arrayWithObject:titleDescriptor];
     [titleDescriptor release];
     [self.allDocuments sortedArrayUsingDescriptors:self.sortDescriptors];
     [self.docListView reloadData];
-    [[LNDataSource sharedLNDataSource] refreshDocuments];
 }
 
 
@@ -127,10 +127,11 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     for(Document *document in documents)
     {
         NSUInteger index = [self.allDocuments indexOfObject:document];
-        [indicies addIndex:index];
+        if (index != NSNotFound)
+            [indicies addIndex:index];
     }
-    
-    [docListView insertItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationRight];
+    if ([indicies count])
+        [docListView insertItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationRight];
 }
 
 - (void)documentsRemoved:(NSNotification *)notification
@@ -140,9 +141,13 @@ static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
     for(Document *document in documents)
     {
         NSUInteger index = [self.allDocuments indexOfObject:document];
-        [indicies addIndex:index];
+        if (index != NSNotFound)
+            [indicies addIndex:index];
     }
-    [allDocuments removeObjectsAtIndexes:indicies];
-    [docListView deleteItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationFade];
+    if ([indicies count])
+    {
+        [allDocuments removeObjectsAtIndexes:indicies];
+        [docListView deleteItemsAtIndices: indicies withAnimation: AQGridViewItemAnimationFade];
+    }
 }
 @end

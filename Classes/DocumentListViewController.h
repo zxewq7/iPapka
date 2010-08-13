@@ -15,7 +15,7 @@
 {
     AQGridView           *docListView;
     SwitchViewController *switchViewController;
-    NSMutableArray              *allDocuments;
+    NSMutableArray       *allDocuments;
     NSArray              *sortDescriptors;
 }
 
