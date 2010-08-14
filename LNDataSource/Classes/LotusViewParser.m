@@ -95,7 +95,10 @@ static xmlSAXHandler simpleSAXHandlerStruct;
     return [[[LotusViewParser alloc] initWithFileName:fileName] autorelease];
 }
 
-
+-(void)dealloc
+{
+    self.documentEntries=nil;
+}
 
 
 #pragma mark Parsing support methods

@@ -14,7 +14,7 @@
 #define BUF_SIZE 8192
 
 static NSString *UNID_ATTRIBUTE = @"UNID"; 
-static NSString *TYPE_ATTRIBUTE = @"FORM"; 
+static NSString *TYPE_ATTRIBUTE = @"form"; 
 static NSString *REPLICAID_ATTRIBUTE = @"REPLICAID";
 static NSString *TYPE_DATE      = @"date"; 
 
