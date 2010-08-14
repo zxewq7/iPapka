@@ -83,6 +83,8 @@ static xmlSAXHandler simpleSAXHandlerStruct;
         self.characterBuffer = nil;
         self.parseFormatterDst = nil;
         self.parseFormatterSimple = nil;
+        self.currentDocumentEntry = nil;
+        self.currentFieldName = nil;
         [parsePool release];
         self.parsePool = nil;        
     }
