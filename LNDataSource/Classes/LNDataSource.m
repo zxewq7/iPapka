@@ -55,7 +55,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         
 #warning test settings        
         self.host = @"http://vovasty/~vovasty";
-        self.databaseReplicaId = @"B87EF6328229743EC325777C004FF99C";
+        self.databaseReplicaId = @"C325777C0045161D";
         self.viewReplicaId = @"89FB7FB8A9330311C325777C004EEFC8";
         
         
