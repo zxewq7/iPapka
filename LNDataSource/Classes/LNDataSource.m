@@ -270,7 +270,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
     
     document.hasError = NO;
     document.loaded = YES;
-        //    [self saveDocument:document];
+    [self saveDocument:document];
 }
 - (void)loadSavedDocuments
 {
