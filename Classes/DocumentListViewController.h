@@ -7,21 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AQGridView.h"
+#import "DocumentsGridDatasource.h"
 
-@class SwitchViewController, LNDataSource;
+@class SwitchViewController;
 
-@interface DocumentListViewController : UIViewController <AQGridViewDelegate, AQGridViewDataSource> 
+@interface DocumentListViewController : DocumentsGridDatasource<AQGridViewDelegate> 
 {
-    AQGridView           *docListView;
     SwitchViewController *switchViewController;
-    NSMutableArray       *allDocuments;
-    NSArray              *sortDescriptors;
 }
 
-@property (nonatomic, retain) IBOutlet AQGridView  *docListView;
 @property (nonatomic, retain) SwitchViewController *switchViewController;
-@property (nonatomic, retain) NSMutableArray       *allDocuments;
-@property (nonatomic, retain) NSArray              *sortDescriptors;
 @end
 

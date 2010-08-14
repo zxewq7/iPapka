@@ -7,14 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "AQGridView.h"
+#import "DocumentsGridDatasource.h"
 
-@class SwitchViewController, LNDataSource, Document, AttachmentsViewController;
+@class SwitchViewController, Document, AttachmentsViewController;
 
-@interface DocumentViewController : UIViewController <AQGridViewDelegate, AQGridViewDataSource> 
+@interface DocumentViewController : DocumentsGridDatasource<AQGridViewDelegate>
 {
-    AQGridView                  *docListView;
-    LNDataSource                *_dataController;
     SwitchViewController        *switchViewController;
     Document                    *_document;
     UILabel                     *documentTitle;
@@ -22,7 +20,6 @@
 }
 @property (nonatomic, retain) SwitchViewController                  *switchViewController;
 @property (nonatomic, retain) Document                              *document;
-@property (nonatomic, retain) IBOutlet AQGridView                   *docListView;
 @property (nonatomic, retain) IBOutlet UILabel                      *documentTitle;
 @property (nonatomic, retain) IBOutlet AttachmentsViewController    *attachmentsViewController;
 - (void) showDocumentList:(id) sender;

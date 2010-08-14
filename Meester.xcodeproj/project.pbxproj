@@ -36,6 +36,7 @@
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
 		81DBAEFB1212E05600207D6E /* LoadingAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 81DBAEFA1212E05600207D6E /* LoadingAttachment.png */; };
+		81FC33C51216942D007F780E /* DocumentsGridDatasource.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FC33C41216942D007F780E /* DocumentsGridDatasource.m */; };
 		81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51412119ECD00A9ABD3 /* DocumentCell.m */; };
 		81FEA53512119ECD00A9ABD3 /* AQGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51D12119ECD00A9ABD3 /* AQGridView.m */; };
 		81FEA53612119ECD00A9ABD3 /* AQGridViewAnimatorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51F12119ECD00A9ABD3 /* AQGridViewAnimatorItem.m */; };
@@ -147,6 +148,8 @@
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
 		81DBAEC31212DE0F00207D6E /* AttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentCell.m; sourceTree = "<group>"; };
 		81DBAEFA1212E05600207D6E /* LoadingAttachment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoadingAttachment.png; sourceTree = "<group>"; };
+		81FC33C31216942D007F780E /* DocumentsGridDatasource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentsGridDatasource.h; sourceTree = "<group>"; };
+		81FC33C41216942D007F780E /* DocumentsGridDatasource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentsGridDatasource.m; sourceTree = "<group>"; };
 		81FEA51312119ECD00A9ABD3 /* DocumentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCell.h; sourceTree = "<group>"; };
 		81FEA51412119ECD00A9ABD3 /* DocumentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCell.m; sourceTree = "<group>"; };
 		81FEA51A12119ECD00A9ABD3 /* AQGridView+CellLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AQGridView+CellLayout.h"; sourceTree = "<group>"; };
@@ -233,9 +236,11 @@
 				8116FF9E121134E900DD537F /* DocumentListViewController.m */,
 				814AE04C1211D55300457254 /* DocumentViewController.h */,
 				814AE04D1211D55300457254 /* DocumentViewController.m */,
-				81FEA51912119ECD00A9ABD3 /* GridView */,
 				81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */,
 				81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */,
+				81FC33C31216942D007F780E /* DocumentsGridDatasource.h */,
+				81FC33C41216942D007F780E /* DocumentsGridDatasource.m */,
+				81FEA51912119ECD00A9ABD3 /* GridView */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -511,6 +516,7 @@
 				814AE04E1211D55300457254 /* DocumentViewController.m in Sources */,
 				81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */,
 				81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */,
+				81FC33C51216942D007F780E /* DocumentsGridDatasource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
