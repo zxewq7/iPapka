@@ -22,6 +22,7 @@ static NSString *field_Title       = @"title";
 static NSString *field_Author      = @"author";
 static NSString *field_Modified    = @"modified";
 static NSString *field_Form        = @"form";
+static NSString *field_Text        = @"text";
 
 static NSString *form_Resolution   = @"Resolution";
 static NSString *form_Signature    = @"Signature";
@@ -132,7 +133,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 
 - (void)parseViewData:(NSString *) xmlFile
 {
-    return;
     LotusViewParser *parser = [LotusViewParser parseView:xmlFile];
     NSUInteger size = [parser.documentEntries count];
     NSMutableDictionary *newDocuments = [[NSMutableDictionary alloc] initWithCapacity:size];
@@ -260,13 +260,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 }
 - (void)parseDocumentData:(Document *) document xmlFile:(NSString *) xmlFile;
 {
-//    LotusDocumentParser *parser = [LotusDocumentParser parseDocument:xmlFile];
-//    NSDictionary *parsedDocument = parser.documentEntry;
-//    if ([document isKindOfClass:[Resolution class]]) 
-//    {
-//       ((Resolution *)document).text = [parsedDocument objectForKey:field_Text];
-//    }
-//    document.author = [parsedDocument objectForKey:field_Author];
+    LotusDocumentParser *parser = [LotusDocumentParser parseDocument:xmlFile];
+    NSDictionary *parsedDocument = parser.documentEntry;
+    if ([document isKindOfClass:[Resolution class]]) 
+    {
+       ((Resolution *)document).text = [parsedDocument objectForKey:field_Text];
+    }
+    document.author = [parsedDocument objectForKey:field_Author];
     
     document.hasError = NO;
     document.loaded = YES;

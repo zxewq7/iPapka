@@ -98,6 +98,7 @@ static xmlSAXHandler simpleSAXHandlerStruct;
 -(void)dealloc
 {
     self.documentEntries=nil;
+    [super dealloc];
 }
 
 

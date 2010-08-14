@@ -98,6 +98,11 @@ static xmlSAXHandler simpleSAXHandlerStruct;
     return [[[LotusDocumentParser alloc] initWithFileName:fileName] autorelease];
 }
 
+-(void)dealloc
+{
+    self.documentEntry = nil;
+    [super dealloc];
+}
 
 
 
