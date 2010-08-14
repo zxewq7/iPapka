@@ -1,12 +1,12 @@
 //
-//  LotusViewParser.m
+//  LotusDocumentParser.m
 //  LNDataSource
 //
 //  Created by Vladimir Solomenchuk on 12.08.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "LotusViewParser.h"
+#import "LotusDocumentParser.h"
 #import <libxml/tree.h>
 #include <sys/stat.h>
 #include <fcntl.h>
@@ -14,6 +14,9 @@
 #define BUF_SIZE 8192
 
 static NSString *UNID_ATTRIBUTE = @"UNID"; 
+static NSString *TYPE_ATTRIBUTE = @"FORM"; 
+static NSString *REPLICAID_ATTRIBUTE = @"REPLICAID";
+static NSString *TYPE_DATE      = @"date"; 
 
     // Function prototypes for SAX callbacks. This sample implements a minimal subset of SAX callbacks.
     // Depending on your application's needs, you might want to implement more callbacks.
@@ -25,21 +28,17 @@ static void errorEncounteredSAX(void * ctx, const char * msg, ...);
     // Forward reference. The structure is defined in full at the end of the file.
 static xmlSAXHandler simpleSAXHandlerStruct;
 
-@implementation LotusViewParser
-@synthesize parsePool, dateDst, parseFormatterSimple, parseFormatterDst, characterBuffer, currentDocumentEntry, storingCharacters, parsingADocumentEntry, documentEntries, currentFieldName;
+@implementation LotusDocumentParser
+@synthesize parsePool, parseFormatter, characterBuffer, currentDocumentEntry, storingCharacters, parsingADocumentEntry, currentFieldName, documentStack, currentFieldType, documentEntry, currentList, listStack;
 
 -(id) initWithFileName:(NSString *) fileName
 {
     if ((self = [super init])) 
     {
-        self.documentEntries = [NSMutableArray arrayWithCapacity:10];
         self.parsePool = [[NSAutoreleasePool alloc] init];
-        self.parseFormatterDst = [[[NSDateFormatter alloc] init] autorelease];
+        self.parseFormatter = [[[NSDateFormatter alloc] init] autorelease];
             //20100811T183249,89+04
-        [self.parseFormatterDst setDateFormat:@"yyyyMMdd'T'HHmmss,S"];
-        self.parseFormatterSimple = [[[NSDateFormatter alloc] init] autorelease];
-            //20100811
-        [self.parseFormatterSimple setDateFormat:@"yyyyMMdd"];
+        [self.parseFormatter setDateFormat:@"yyyyMMdd'T'HHmmss,S"];
         countOfParsedItems = 0;
             // the date formatter must be set to US locale in order to parse the dates
         self.characterBuffer = [NSMutableData data];
@@ -48,7 +47,8 @@ static xmlSAXHandler simpleSAXHandlerStruct;
             // The second argument, self, will be passed as user data to each of the SAX handlers. The last three arguments
             // are left blank to avoid creating a tree in memory.
         context = xmlCreatePushParserCtxt(&simpleSAXHandlerStruct, self, NULL, 0, NULL);
-        
+        self.documentStack = [NSMutableArray array];
+        self.listStack = [NSMutableArray array];
         
         
         
@@ -81,18 +81,21 @@ static xmlSAXHandler simpleSAXHandlerStruct;
             // Release resources used only in this thread.
         xmlFreeParserCtxt(context);
         self.characterBuffer = nil;
-        self.parseFormatterDst = nil;
-        self.parseFormatterSimple = nil;
+        self.parseFormatter = nil;
+        self.documentStack = nil;
         self.currentDocumentEntry = nil;
         self.currentFieldName = nil;
+        self.documentStack = nil;
+        self.listStack = nil;
+        self.currentFieldType = nil;
         [parsePool release];
         self.parsePool = nil;        
     }
     return self;
 }
-+(id) parseView:(NSString *) fileName
++(id) parseDocument:(NSString *) fileName
 {
-    return [[[LotusViewParser alloc] initWithFileName:fileName] autorelease];
+    return [[[LotusDocumentParser alloc] initWithFileName:fileName] autorelease];
 }
 
 
@@ -103,10 +106,6 @@ static xmlSAXHandler simpleSAXHandlerStruct;
 static const NSUInteger kAutoreleasePoolPurgeFrequency = 20;
 
 - (void)finishedDocumentEntry {
-    [self.documentEntries addObject:self.currentDocumentEntry];
-        // performSelectorOnMainThread: will retain the object until the selector has been performed
-        // setting the local reference to nil ensures that the local reference will be released
-    self.currentDocumentEntry = nil;
     countOfParsedItems++;
         // Periodically purge the autorelease pool. The frequency of this action may need to be tuned according to the 
         // size of the objects being parsed. The goal is to keep the autorelease pool from growing too large, but 
@@ -142,8 +141,6 @@ static const NSUInteger kAutoreleasePoolPurgeFrequency = 20;
         const xmlChar *localname = attributes[index];
         if (strncmp((const char *)localname, name, length))
             continue;
-//        const xmlChar *prefix = attributes[index+1];
-//        const xmlChar *nsURI = attributes[index+2];
         const xmlChar *valueBegin = attributes[index+3];
         const xmlChar *valueEnd = attributes[index+4];
         NSData *dataResult = [NSData dataWithBytes:(const char *)valueBegin length:(const char *)valueEnd-(const char *)valueBegin];
@@ -158,20 +155,22 @@ static const NSUInteger kAutoreleasePoolPurgeFrequency = 20;
 
     // The following constants are the XML element names and their string lengths for parsing comparison.
     // The lengths include the null terminator, to ensure exact matches.
-static const char *kName_Item = "viewentry";
-static const NSUInteger kLength_Item = 10;
-static const char *kName_EntryData = "entrydata";
-static const NSUInteger kLength_EntryData = 10;
-static const char *kName_Datetime = "datetime";
-static const NSUInteger kLength_Datetime = 9;
-static const char *kName_Text = "text";
-static const NSUInteger kLength_Text = 5;
+static const char *kName_Document = "document";
+static const NSUInteger kLength_Document = 9;
+static const char *kName_Field = "field";
+static const NSUInteger kLength_Field = 6;
+static const char *kName_List = "list";
+static const NSUInteger kLength_List = 5;
+
+
 static const char *kName_Unid = "unid";
-static const NSUInteger kLength_Unid = 4;
+static const NSUInteger kLength_Unid = 5;
+static const char *kName_Replicaid = "replicaid";
+static const NSUInteger kLength_Replicaid = 10;
 static const char *kName_Name = "name";
 static const NSUInteger kLength_Name = 5;
-static const char *kName_Dst = "dst";
-static const NSUInteger kLength_Dst = 4;
+static const char *kName_Type = "type";
+static const NSUInteger kLength_Type = 5;
 
 
 /*
@@ -183,26 +182,48 @@ static const NSUInteger kLength_Dst = 4;
  */
 static void startElementSAX(void *ctx, const xmlChar *localname, const xmlChar *prefix, const xmlChar *URI, 
                             int nb_namespaces, const xmlChar **namespaces, int nb_attributes, int nb_defaulted, const xmlChar **attributes) {
-    LotusViewParser *parser = (LotusViewParser *)ctx;
+    LotusDocumentParser *parser = (LotusDocumentParser *)ctx;
         // The second parameter to strncmp is the name of the element, which we known from the XML schema of the feed.
         // The third parameter to strncmp is the number of characters in the element name, plus 1 for the null terminator.
-    if (prefix == NULL && !strncmp((const char *)localname, kName_Item, kLength_Item)) {
+    if (prefix == NULL && !strncmp((const char *)localname, kName_Document, kLength_Document)) {
         NSMutableDictionary *newDocumentEntry = [[NSMutableDictionary alloc] init];
         NSString *unid = [parser findAttribute:nb_attributes attributes:attributes name:kName_Unid length:kLength_Unid];
+        NSString *type = [parser findAttribute:nb_attributes attributes:attributes name:kName_Type length:kLength_Type];
+        NSString *replicaId = [parser findAttribute:nb_attributes attributes:attributes name:kName_Replicaid length:kLength_Replicaid];
         if (unid)
             [newDocumentEntry setObject:unid forKey:UNID_ATTRIBUTE];
+        if (type)
+            [newDocumentEntry setObject:type forKey:TYPE_ATTRIBUTE];
+        if (replicaId)
+            [newDocumentEntry setObject:replicaId forKey:REPLICAID_ATTRIBUTE];
+        if (parser.currentDocumentEntry == nil)//main document 
+            parser.documentEntry = newDocumentEntry;
+        else //stack current document
+            [parser.documentStack addObject:parser.currentDocumentEntry];
+
+        [parser.currentList addObject:newDocumentEntry];
         parser.currentDocumentEntry = newDocumentEntry;
         [newDocumentEntry release];
         parser.parsingADocumentEntry = YES;
-    } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_EntryData, kLength_EntryData))) )) {
+        parser.storingCharacters = NO;
+    } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_Field, kLength_Field))) )) {
+        parser.currentFieldName = [parser findAttribute:nb_attributes attributes:attributes name:kName_Name length:kLength_Name];
+        parser.currentFieldType = [parser findAttribute:nb_attributes attributes:attributes name:kName_Type length:kLength_Type];
+        parser.storingCharacters = YES;
+    } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_List, kLength_List))) )) {
         NSString *fieldName = [parser findAttribute:nb_attributes attributes:attributes name:kName_Name length:kLength_Name];
-        parser.currentFieldName = fieldName;
-    } else if (parser.parsingADocumentEntry && ( (prefix == NULL && (!strncmp((const char *)localname, kName_Datetime, kLength_Datetime))) )) {
-        parser.dateDst =  [parser findAttribute:nb_attributes attributes:attributes name:kName_Dst length:kLength_Dst] != nil;
-        parser.storingCharacters = YES;
-    } else if (parser.parsingADocumentEntry && ( (prefix == NULL && !strncmp((const char *)localname, kName_Text, kLength_Text)) )) {
-        parser.storingCharacters = YES;
-    }
+
+        NSMutableArray *newList = [[NSMutableArray alloc] init];
+        if (parser.currentList != nil)
+            [parser.listStack addObject:parser.currentList];
+        parser.currentList = newList;
+        [parser.currentDocumentEntry setObject:newList forKey:fieldName];
+        
+        parser.currentFieldType = nil;
+        parser.storingCharacters = NO;
+        [newList release];
+    } else
+        parser.storingCharacters = NO;
 }
 
 /*
@@ -213,31 +234,44 @@ static void startElementSAX(void *ctx, const xmlChar *localname, const xmlChar *
  contents and store that with the current Song object.
  */
 static void	endElementSAX(void *ctx, const xmlChar *localname, const xmlChar *prefix, const xmlChar *URI) {    
-    LotusViewParser *parser = (LotusViewParser *)ctx;
+    LotusDocumentParser *parser = (LotusDocumentParser *)ctx;
     if (parser.parsingADocumentEntry == NO) return;
     if (prefix == NULL) {
-        if (!strncmp((const char *)localname, kName_Item, kLength_Item)) {
+        if (!strncmp((const char *)localname, kName_Document, kLength_Document)) {
             [parser finishedDocumentEntry];
-            parser.parsingADocumentEntry = NO;
-        } else if (!strncmp((const char *)localname, kName_Text, kLength_Text)) {
-            [parser.currentDocumentEntry setObject:[parser currentString] forKey:parser.currentFieldName];
-        } else if (!strncmp((const char *)localname, kName_Datetime, kLength_Datetime)) {
-            NSString *string = [parser currentString];
-            NSDate *date;
-#warning truncated time zone
-            if (parser.dateDst)
+            if ([parser.documentStack count]) 
             {
+                parser.currentDocumentEntry = [parser.documentStack lastObject];
+                [parser.documentStack removeLastObject];
+            }
+        } else if (!strncmp((const char *)localname, kName_Field, kLength_Field)) {
+            NSString *string = [parser currentString];
+            if ([parser.currentFieldType isEqualToString:TYPE_DATE] && [string length]>4) 
+            {
+#warning truncated time zone
                 NSString *dateString = [string substringToIndex:[string length]-3];
-                date = [parser.parseFormatterDst dateFromString:dateString];
+                NSDate *date = [parser.parseFormatter dateFromString:dateString];
+                if (date)
+                    [parser.currentDocumentEntry setObject:date forKey:parser.currentFieldName];
+                else 
+                    NSLog(@"Unparseable date: %@", string);
+                
+            }
+            else 
+                [parser.currentDocumentEntry setObject:string forKey:parser.currentFieldName];
+
+        } else if (!strncmp((const char *)localname, kName_List, kLength_List)) {
+                //pop stacked list
+            if ([parser.listStack count]) 
+            {
+                parser.currentList = [parser.documentStack lastObject];
+                [parser.listStack removeLastObject];
             }
             else
-                date = [parser.parseFormatterSimple dateFromString:string];
-            if (date)
-                [parser.currentDocumentEntry setObject:date forKey:parser.currentFieldName];
-            else 
-                NSLog(@"Unparseable date: %@", string);
-
+                parser.currentList = nil;
+            
         }
+        
     }
     parser.storingCharacters = NO;
 }
@@ -246,7 +280,7 @@ static void	endElementSAX(void *ctx, const xmlChar *localname, const xmlChar *pr
  This callback is invoked when the parser encounters character data inside a node. The parser class determines how to use the character data.
  */
 static void	charactersFoundSAX(void *ctx, const xmlChar *ch, int len) {
-    LotusViewParser *parser = (LotusViewParser *)ctx;
+    LotusDocumentParser *parser = (LotusDocumentParser *)ctx;
         // A state variable, "storingCharacters", is set when nodes of interest begin and end. 
         // This determines whether character data is handled or ignored. 
     if (parser.storingCharacters == NO) return;

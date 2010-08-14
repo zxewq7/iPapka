@@ -15,12 +15,14 @@
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
 #import "LotusViewParser.h"
+#import "LotusDocumentParser.h"
 
 static NSString *field_Uid         = @"UNID";
 static NSString *field_Title       = @"Title";
 static NSString *field_Author      = @"Author";
 static NSString *field_Modified    = @"Modified";
 static NSString *field_Form        = @"Form";
+static NSString *field_Text        = @"text";
 
 static NSString *form_Resolution   = @"Resolution";
 static NSString *form_Signature    = @"Signature";
@@ -259,6 +261,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 }
 - (void)parseDocumentData:(Document *) document xmlFile:(NSString *) xmlFile;
 {
+    LotusDocumentParser *parser = [LotusDocumentParser parseDocument:xmlFile];
+    NSDictionary *parsedDocument = parser.documentEntry;
+    if ([document isKindOfClass:[Resolution class]]) 
+    {
+       ((Resolution *)document).text = [parsedDocument objectForKey:field_Text];
+    }
     document.hasError = NO;
     document.loaded = YES;
     [self saveDocument:document];
