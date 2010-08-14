@@ -18,11 +18,10 @@
 #import "LotusDocumentParser.h"
 
 static NSString *field_Uid         = @"UNID";
-static NSString *field_Title       = @"Title";
-static NSString *field_Author      = @"Author";
-static NSString *field_Modified    = @"Modified";
-static NSString *field_Form        = @"Form";
-static NSString *field_Text        = @"text";
+static NSString *field_Title       = @"title";
+static NSString *field_Author      = @"author";
+static NSString *field_Modified    = @"modified";
+static NSString *field_Form        = @"form";
 
 static NSString *form_Resolution   = @"Resolution";
 static NSString *form_Signature    = @"Signature";
@@ -99,13 +98,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
     NSString *url = [NSString stringWithFormat:url_FetchView, self.host, self.databaseReplicaId, self.viewReplicaId];
 	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
 	[request setDownloadDestinationPath:[_viewDirectory stringByAppendingPathComponent:@"index.xml"]];
-    request.requestHandler = ^(NSString *file, NSString* error) {
-        if (error == nil  && [request responseStatusCode] == 200)
-            [self parseViewData:file];
+    __block LNDataSource *blockSelf = self;
+    request.requestHandler = ^(ASIHTTPRequest *request) {
+        if ([request error] == nil  && [request responseStatusCode] == 200)
+            [blockSelf parseViewData:[request downloadDestinationPath]];
         else
         {
-            documentsListRefreshError = error;
-            NSLog(@"error fetching url %@\n%@", url, error);
+            blockSelf->documentsListRefreshError = [[request error] localizedDescription];
+            NSLog(@"error fetching url %@\n%@", [request originalURL], blockSelf->documentsListRefreshError);
         }
     };
 	[_networkQueue addOperation:request];
@@ -118,20 +118,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 #pragma mark ASINetworkQueue delegate
 - (void)fetchComplete:(ASIHTTPRequest *)request
 {
-    void (^handler)(NSString *file, NSString* error) = ((LNHttpRequest *)request).requestHandler;
+    void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
     if (handler)
-        handler([request downloadDestinationPath], nil);
+        handler(request);
 }
 
 - (void)fetchFailed:(ASIHTTPRequest *)request
 {
-    void (^handler)(NSString *file, NSString* error) = ((LNHttpRequest *)request).requestHandler;
+    void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
     if (handler)
-        handler(nil, [[request error] localizedDescription]);
+        handler(request);
 }
 
 - (void)parseViewData:(NSString *) xmlFile
 {
+    return;
     LotusViewParser *parser = [LotusViewParser parseView:xmlFile];
     NSUInteger size = [parser.documentEntries count];
     NSMutableDictionary *newDocuments = [[NSMutableDictionary alloc] initWithCapacity:size];
@@ -229,15 +230,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
     NSString *url = [NSString stringWithFormat:url_FetchDocument, self.host, self.databaseReplicaId, self.viewReplicaId, document.uid];
 	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
 	[request setDownloadDestinationPath:[[self documentDirectory:document] stringByAppendingPathComponent:@"index.html"]];
-    request.requestHandler = ^(NSString *file, NSString* error) {
-        if (error == nil && [request responseStatusCode] == 200)
-        {
-            [self parseDocumentData:document xmlFile:file];
-        }
+    request.requestHandler = ^(ASIHTTPRequest *request) {
+        if ([request error] == nil  && [request responseStatusCode] == 200)
+            [self parseDocumentData:document xmlFile:[request downloadDestinationPath]];
         else
         {
             document.hasError = YES;
-            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", url, error, [request responseStatusCode]);
+            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
         [[NSNotificationCenter defaultCenter]
          postNotificationName:@"DocumentsUpdated" object:[NSArray arrayWithObject:document]];
@@ -261,15 +260,17 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 }
 - (void)parseDocumentData:(Document *) document xmlFile:(NSString *) xmlFile;
 {
-    LotusDocumentParser *parser = [LotusDocumentParser parseDocument:xmlFile];
-    NSDictionary *parsedDocument = parser.documentEntry;
-    if ([document isKindOfClass:[Resolution class]]) 
-    {
-       ((Resolution *)document).text = [parsedDocument objectForKey:field_Text];
-    }
+//    LotusDocumentParser *parser = [LotusDocumentParser parseDocument:xmlFile];
+//    NSDictionary *parsedDocument = parser.documentEntry;
+//    if ([document isKindOfClass:[Resolution class]]) 
+//    {
+//       ((Resolution *)document).text = [parsedDocument objectForKey:field_Text];
+//    }
+//    document.author = [parsedDocument objectForKey:field_Author];
+    
     document.hasError = NO;
     document.loaded = YES;
-    [self saveDocument:document];
+        //    [self saveDocument:document];
 }
 - (void)loadSavedDocuments
 {

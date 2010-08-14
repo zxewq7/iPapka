@@ -10,7 +10,7 @@
 #import "ASIHTTPRequest.h"
 
 @interface LNHttpRequest : ASIHTTPRequest {
-    void (^requestHandler)(NSString *file, NSString* error);
+    void (^requestHandler)(ASIHTTPRequest *request);
 }
-@property (nonatomic, copy) void (^requestHandler)(NSString *file, NSString* error);
+@property (nonatomic, copy) void (^requestHandler)(ASIHTTPRequest *request);
 @end

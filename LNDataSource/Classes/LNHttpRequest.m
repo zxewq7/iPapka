@@ -11,7 +11,7 @@
 
 @implementation LNHttpRequest
 @synthesize requestHandler;
--(void) dealloc
+- (void)dealloc
 {
     self.requestHandler = nil;
     [super dealloc];
