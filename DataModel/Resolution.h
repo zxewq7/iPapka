@@ -10,11 +10,11 @@
 #import "Document.h"
 
 @interface Resolution : Document<NSCoding> {
-    NSString     *text;
-    NSDictionary *performers;
-    BOOL         managed;
+    NSString            *text;
+    NSMutableDictionary *performers;
+    BOOL                managed;
 }
-@property (nonatomic, retain) NSString     *text;
-@property (nonatomic, retain) NSDictionary *performers;
-@property (nonatomic)         BOOL         managed;
+@property (nonatomic, retain) NSString            *text;
+@property (nonatomic, retain) NSMutableDictionary *performers;
+@property (nonatomic)         BOOL                managed;
 @end

@@ -32,6 +32,7 @@
     if (self = [super initWithCoder:coder])
     {
         self.text = [coder decodeObjectForKey:@"text"];
+        self.managed = [[coder decodeObjectForKey:@"managed"] boolValue];
         self.performers = [coder decodeObjectForKey:@"performers"];
     }
     return self;
@@ -42,5 +43,6 @@
     [super encodeWithCoder:coder];
     [coder encodeObject: self.text forKey:@"text"];
     [coder encodeObject: self.performers forKey:@"performers"];
+    [coder encodeObject: [NSNumber numberWithBool:self.managed] forKey:@"managed"];
 }
 @end
