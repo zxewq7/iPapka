@@ -27,16 +27,10 @@
 		814AE04E1211D55300457254 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE04D1211D55300457254 /* DocumentViewController.m */; };
 		8157845E12147E6C00067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8157845D12147E6C00067473 /* libxml2.dylib */; };
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
-		816FFA351217CB870083E7A4 /* ButtonAccept.png in Resources */ = {isa = PBXBuildFile; fileRef = 816FFA341217CB870083E7A4 /* ButtonAccept.png */; };
 		8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8178674F121313FC00D38BD3 /* libDataModel.a */; };
 		817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 817867BD1213157E00D38BD3 /* libLNDataSource.a */; };
-		81B33A7E1215A20600A06317 /* ResolutionNotLoaded.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B33A7D1215A20600A06317 /* ResolutionNotLoaded.png */; };
-		81B33A801215A20F00A06317 /* SignatureNotLoaded.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B33A7F1215A20F00A06317 /* SignatureNotLoaded.png */; };
-		81B33AD41215A57400A06317 /* ResolutionError.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B33AD21215A57400A06317 /* ResolutionError.png */; };
-		81B33AD51215A57400A06317 /* SignatureError.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B33AD31215A57400A06317 /* SignatureError.png */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
-		81DBAEFB1212E05600207D6E /* LoadingAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 81DBAEFA1212E05600207D6E /* LoadingAttachment.png */; };
 		81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51412119ECD00A9ABD3 /* DocumentCell.m */; };
 		81FEA53512119ECD00A9ABD3 /* AQGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51D12119ECD00A9ABD3 /* AQGridView.m */; };
 		81FEA53612119ECD00A9ABD3 /* AQGridViewAnimatorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51F12119ECD00A9ABD3 /* AQGridViewAnimatorItem.m */; };
@@ -48,14 +42,11 @@
 		81FEA53C12119ECD00A9ABD3 /* NSIndexSet+AQIndexesOutsideSet.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA52C12119ECD00A9ABD3 /* NSIndexSet+AQIndexesOutsideSet.m */; };
 		81FEA53D12119ECD00A9ABD3 /* NSIndexSet+AQIsSetContiguous.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA52E12119ECD00A9ABD3 /* NSIndexSet+AQIsSetContiguous.m */; };
 		81FEA53E12119ECD00A9ABD3 /* UIColor+AQGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA53012119ECD00A9ABD3 /* UIColor+AQGridView.m */; };
-		81FEA54A12119EE500A9ABD3 /* DocListBackground.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 81FEA54112119EE500A9ABD3 /* DocListBackground.jpg */; };
 		81FEA54B12119EE500A9ABD3 /* AQGridSelection.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FEA54312119EE500A9ABD3 /* AQGridSelection.png */; };
 		81FEA54C12119EE500A9ABD3 /* AQGridSelectionGray.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FEA54412119EE500A9ABD3 /* AQGridSelectionGray.png */; };
 		81FEA54D12119EE500A9ABD3 /* AQGridSelectionGrayBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FEA54512119EE500A9ABD3 /* AQGridSelectionGrayBlue.png */; };
 		81FEA54E12119EE500A9ABD3 /* AQGridSelectionGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FEA54612119EE500A9ABD3 /* AQGridSelectionGreen.png */; };
 		81FEA54F12119EE500A9ABD3 /* AQGridSelectionRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FEA54712119EE500A9ABD3 /* AQGridSelectionRed.png */; };
-		81FEA55012119EE500A9ABD3 /* Resolution.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FEA54812119EE500A9ABD3 /* Resolution.png */; };
-		81FEA55112119EE500A9ABD3 /* Signature.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FEA54912119EE500A9ABD3 /* Signature.png */; };
 		81FEA55412119F0900A9ABD3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FEA55312119F0900A9ABD3 /* QuartzCore.framework */; };
 /* End PBXBuildFile section */
 
@@ -137,18 +128,12 @@
 		8157845D12147E6C00067473 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		816FF802121708530083E7A4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		816FFA341217CB870083E7A4 /* ButtonAccept.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAccept.png; sourceTree = "<group>"; };
 		81786747121313FC00D38BD3 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
 		817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
-		81B33A7D1215A20600A06317 /* ResolutionNotLoaded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResolutionNotLoaded.png; sourceTree = "<group>"; };
-		81B33A7F1215A20F00A06317 /* SignatureNotLoaded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignatureNotLoaded.png; sourceTree = "<group>"; };
-		81B33AD21215A57400A06317 /* ResolutionError.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResolutionError.png; sourceTree = "<group>"; };
-		81B33AD31215A57400A06317 /* SignatureError.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SignatureError.png; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
 		81DBAEC31212DE0F00207D6E /* AttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentCell.m; sourceTree = "<group>"; };
-		81DBAEFA1212E05600207D6E /* LoadingAttachment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LoadingAttachment.png; sourceTree = "<group>"; };
 		81FEA51312119ECD00A9ABD3 /* DocumentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCell.h; sourceTree = "<group>"; };
 		81FEA51412119ECD00A9ABD3 /* DocumentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCell.m; sourceTree = "<group>"; };
 		81FEA51A12119ECD00A9ABD3 /* AQGridView+CellLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AQGridView+CellLayout.h"; sourceTree = "<group>"; };
@@ -174,14 +159,11 @@
 		81FEA52E12119ECD00A9ABD3 /* NSIndexSet+AQIsSetContiguous.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSIndexSet+AQIsSetContiguous.m"; sourceTree = "<group>"; };
 		81FEA52F12119ECD00A9ABD3 /* UIColor+AQGridView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+AQGridView.h"; sourceTree = "<group>"; };
 		81FEA53012119ECD00A9ABD3 /* UIColor+AQGridView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+AQGridView.m"; sourceTree = "<group>"; };
-		81FEA54112119EE500A9ABD3 /* DocListBackground.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = DocListBackground.jpg; sourceTree = "<group>"; };
 		81FEA54312119EE500A9ABD3 /* AQGridSelection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelection.png; sourceTree = "<group>"; };
 		81FEA54412119EE500A9ABD3 /* AQGridSelectionGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionGray.png; sourceTree = "<group>"; };
 		81FEA54512119EE500A9ABD3 /* AQGridSelectionGrayBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionGrayBlue.png; sourceTree = "<group>"; };
 		81FEA54612119EE500A9ABD3 /* AQGridSelectionGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionGreen.png; sourceTree = "<group>"; };
 		81FEA54712119EE500A9ABD3 /* AQGridSelectionRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionRed.png; sourceTree = "<group>"; };
-		81FEA54812119EE500A9ABD3 /* Resolution.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Resolution.png; sourceTree = "<group>"; };
-		81FEA54912119EE500A9ABD3 /* Signature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Signature.png; sourceTree = "<group>"; };
 		81FEA55312119F0900A9ABD3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -350,15 +332,6 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				816FFA341217CB870083E7A4 /* ButtonAccept.png */,
-				81B33AD21215A57400A06317 /* ResolutionError.png */,
-				81B33AD31215A57400A06317 /* SignatureError.png */,
-				81B33A7F1215A20F00A06317 /* SignatureNotLoaded.png */,
-				81B33A7D1215A20600A06317 /* ResolutionNotLoaded.png */,
-				81DBAEFA1212E05600207D6E /* LoadingAttachment.png */,
-				81FEA54112119EE500A9ABD3 /* DocListBackground.jpg */,
-				81FEA54812119EE500A9ABD3 /* Resolution.png */,
-				81FEA54912119EE500A9ABD3 /* Signature.png */,
 				81FEA54212119EE500A9ABD3 /* GridView */,
 			);
 			path = images;
@@ -471,20 +444,11 @@
 			files = (
 				8116FF94121134E900DD537F /* InfoPlist.strings in Resources */,
 				8116FF9C121134E900DD537F /* MainWindow.xib in Resources */,
-				81FEA54A12119EE500A9ABD3 /* DocListBackground.jpg in Resources */,
 				81FEA54B12119EE500A9ABD3 /* AQGridSelection.png in Resources */,
 				81FEA54C12119EE500A9ABD3 /* AQGridSelectionGray.png in Resources */,
 				81FEA54D12119EE500A9ABD3 /* AQGridSelectionGrayBlue.png in Resources */,
 				81FEA54E12119EE500A9ABD3 /* AQGridSelectionGreen.png in Resources */,
 				81FEA54F12119EE500A9ABD3 /* AQGridSelectionRed.png in Resources */,
-				81FEA55012119EE500A9ABD3 /* Resolution.png in Resources */,
-				81FEA55112119EE500A9ABD3 /* Signature.png in Resources */,
-				81DBAEFB1212E05600207D6E /* LoadingAttachment.png in Resources */,
-				81B33A7E1215A20600A06317 /* ResolutionNotLoaded.png in Resources */,
-				81B33A801215A20F00A06317 /* SignatureNotLoaded.png in Resources */,
-				81B33AD41215A57400A06317 /* ResolutionError.png in Resources */,
-				81B33AD51215A57400A06317 /* SignatureError.png in Resources */,
-				816FFA351217CB870083E7A4 /* ButtonAccept.png in Resources */,
 				812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */,
 				812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */,
 			);

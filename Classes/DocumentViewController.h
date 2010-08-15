@@ -10,5 +10,8 @@
 
 @interface DocumentViewController : UIViewController
 {
+    UIToolbar *toolbar;
 }
+
+@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
 @end
