@@ -9,17 +9,15 @@
 
 #import <UIKit/UIKit.h>
 
-@class SwitchViewController;
-
 @interface MeesterAppDelegate : NSObject <UIApplicationDelegate> {
 
     UIWindow *window;
 
-    SwitchViewController *viewController;
+    UIViewController *viewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
 
-@property (nonatomic, retain) IBOutlet SwitchViewController *viewController;
+@property (nonatomic, retain) IBOutlet UIViewController *viewController;
 @end
 

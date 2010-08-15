@@ -19,6 +19,7 @@
 
 static NSString *field_Uid         = @"UNID";
 static NSString *field_Title       = @"title";
+static NSString *field_Date        = @"date";
 static NSString *field_Author      = @"author";
 static NSString *field_Modified    = @"modified";
 static NSString *field_Form        = @"form";
@@ -161,6 +162,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             document.uid = uid;
             document.author = [entry objectForKey:field_Author];
             document.dateModified = [entry objectForKey:field_Modified];
+            document.date = [entry objectForKey:field_Date];
             [newDocuments setObject:document forKey:uid];
             [document release];
         }

@@ -7,59 +7,54 @@
 //
 
 #import "DocumentViewController.h"
-#import "SwitchViewController.h"
-#import "DocumentCell.h"
-#import "Document.h"
-#import "AttachmentsViewController.h"
-
-static NSString * DocumentCellIdentifier = @"DocumentCellIdentifier";
+#import "LNDataSource.h"
 
 @implementation DocumentViewController
 
-@synthesize switchViewController, documentTitle, attachmentsViewController;
-    // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
-    
-	self.docListView.delegate = self;
-    self.docListView.layoutDirection = AQGridViewLayoutDirectionHorizontal;
-    [self.docListView reloadData];
+/*
+ // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
+ - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+ if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
+ // Custom initialization
+ }
+ return self;
+ }
+ */
+
+/*
+ // Implement loadView to create a view hierarchy programmatically, without using a nib.
+ - (void)loadView {
+ }
+ */
+
+/*
+ // Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+ - (void)viewDidLoad {
+ [super viewDidLoad];
+ }
+ */
+
+    // Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+        // Return YES for supported orientations
+    return YES;
 }
+
+- (void)didReceiveMemoryWarning {
+        // Releases the view if it doesn't have a superview.
+    [super didReceiveMemoryWarning];
+    
+        // Release any cached data, images, etc that aren't in use.
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+        // Release any retained subviews of the main view.
+        // e.g. self.myOutlet = nil;
+}
+
 
 - (void)dealloc {
-    self.switchViewController = nil;
-    self.document = nil;
     [super dealloc];
-}
-
-- (void) showDocumentList:(id) sender
-{
-    [self.switchViewController listDocuments];
-}
-
-@dynamic document;
-
-- (Document *) document
-{
-    return _document;
-}
-
-- (void) setDocument:(Document *) aDocument
-{
-    if (_document == aDocument)
-        return;
-    [_document release];
-    _document = [aDocument retain];
-    documentTitle.text = _document.title;
-    attachmentsViewController.document = _document;
-}
-
-#pragma mark -
-#pragma mark Grid View Delegate
-- (void) gridView: (AQGridView *) gridView didSelectItemAtIndex: (NSUInteger) index
-{
-    DocumentCell *cell = (DocumentCell *)[gridView cellForItemAtIndex: index];
-    self.document = cell.document;
 }
 @end
