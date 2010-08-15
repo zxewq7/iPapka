@@ -175,6 +175,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
                 document.title = [entry objectForKey:field_Title];
                 document.author = [entry objectForKey:field_Author];
                 document.dateModified = newDate;
+                document.date = [entry objectForKey:field_Date];
                 [updatedDocuments setObject:document forKey:document.uid];
             }
         }
@@ -269,7 +270,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
        ((Resolution *)document).text = [parsedDocument objectForKey:field_Text];
     }
     document.author = [parsedDocument objectForKey:field_Author];
-    
+    document.date = [parsedDocument objectForKey:field_Date];
     document.hasError = NO;
     document.loaded = YES;
     [self saveDocument:document];
