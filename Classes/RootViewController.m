@@ -10,6 +10,9 @@
 #import "DocumentViewController.h"
 #import "LNDataSource.h"
 #import "Document.h"
+#import "DocumentCell.h"
+
+#define ROW_HEIGHT 94
 
 @interface RootViewController(Private)
 - (void)documentsAdded:(NSNotification *)notification;
@@ -24,14 +27,14 @@
 @synthesize popoverController, splitViewController, rootPopoverButtonItem, sections, sectionsOrdered, sectionsOrderedLabels, dateFormatter, sortDescriptors;
 
 #pragma mark -
-#pragma mark Initialization
-
-#pragma mark -
 #pragma mark View lifecycle
 
 - (void)viewDidLoad {
     
     [super viewDidLoad];
+    
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.rowHeight = ROW_HEIGHT;
     
     self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     [self.dateFormatter setDateFormat:@"dd MMMM yyyy"];
@@ -117,15 +120,16 @@
     static NSString *CellIdentifier = @"DocumentCellIdentifier";
     
         // Dequeue or create a cell of the appropriate type.
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
+    DocumentCell *cell = (DocumentCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+	if (cell == nil) {
+		cell = [[[DocumentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell.frame = CGRectMake(0.0, 0.0, 320.0, ROW_HEIGHT);
+	}
     
         // Set appropriate labels for the cells.
     NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
     Document *document = [documentSection objectAtIndex:indexPath.row];
-    cell.textLabel.text = document.title;
+    [cell setDocument: document];
     return cell;
 }
 

@@ -15,6 +15,8 @@
 		8116FF99121134E900DD537F /* MeesterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF98121134E900DD537F /* MeesterAppDelegate.m */; };
 		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
 		812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 812AAC4312181F2000E3FBC8 /* DocumentViewController.xib */; };
+		812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 812AADB01218312400E3FBC8 /* DocumentCellView.m */; };
+		812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 812AAE8A1218433500E3FBC8 /* Localizable.strings */; };
 		8137EC2D12142204006C1416 /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC26121421AB006C1416 /* libASIHTTPRequest.a */; };
 		8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC381214225E006C1416 /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
@@ -121,6 +123,9 @@
 		8116FF98121134E900DD537F /* MeesterAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeesterAppDelegate.m; sourceTree = "<group>"; };
 		8116FF9B121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		812AAC4412181F2000E3FBC8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentViewController.xib; sourceTree = "<group>"; };
+		812AADAF1218312400E3FBC8 /* DocumentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCellView.h; sourceTree = "<group>"; };
+		812AADB01218312400E3FBC8 /* DocumentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCellView.m; sourceTree = "<group>"; };
+		812AAE8B1218433500E3FBC8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
 		8137EC3512142239006C1416 /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = thirdparty/PLBlocks.framework; sourceTree = "<group>"; };
 		8137EC3B12142274006C1416 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -222,6 +227,8 @@
 				81DBAEC31212DE0F00207D6E /* AttachmentCell.m */,
 				81FEA51312119ECD00A9ABD3 /* DocumentCell.h */,
 				81FEA51412119ECD00A9ABD3 /* DocumentCell.m */,
+				812AADAF1218312400E3FBC8 /* DocumentCellView.h */,
+				812AADB01218312400E3FBC8 /* DocumentCellView.m */,
 				8116FF97121134E900DD537F /* MeesterAppDelegate.h */,
 				8116FF98121134E900DD537F /* MeesterAppDelegate.m */,
 				814AE04C1211D55300457254 /* DocumentViewController.h */,
@@ -250,6 +257,7 @@
 		8116FF81121134E900DD537F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				812AAE8A1218433500E3FBC8 /* Localizable.strings */,
 				812AAC4312181F2000E3FBC8 /* DocumentViewController.xib */,
 				81FEA54012119EE500A9ABD3 /* images */,
 				8116FF90121134E900DD537F /* Meester-Info.plist */,
@@ -478,6 +486,7 @@
 				81B33AD51215A57400A06317 /* SignatureError.png in Resources */,
 				816FFA351217CB870083E7A4 /* ButtonAccept.png in Resources */,
 				812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */,
+				812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -505,6 +514,7 @@
 				81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */,
 				81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */,
 				816FF804121708530083E7A4 /* RootViewController.m in Sources */,
+				812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -541,6 +551,14 @@
 				812AAC4412181F2000E3FBC8 /* en */,
 			);
 			name = DocumentViewController.xib;
+			sourceTree = "<group>";
+		};
+		812AAE8A1218433500E3FBC8 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				812AAE8B1218433500E3FBC8 /* en */,
+			);
+			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

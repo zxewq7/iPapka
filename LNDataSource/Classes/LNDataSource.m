@@ -24,6 +24,7 @@ static NSString *field_Author      = @"author";
 static NSString *field_Modified    = @"modified";
 static NSString *field_Form        = @"form";
 static NSString *field_Text        = @"text";
+static NSString *field_Performers  = @"performers";
 
 static NSString *form_Resolution   = @"Resolution";
 static NSString *form_Signature    = @"Signature";
@@ -268,6 +269,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
     if ([document isKindOfClass:[Resolution class]]) 
     {
        ((Resolution *)document).text = [parsedDocument objectForKey:field_Text];
+        NSArray *performers = [parsedDocument objectForKey:field_Performers];
+        if ([performers count])
+            ((Resolution *)document).performers = [NSMutableDictionary dictionaryWithDictionary:[performers objectAtIndex:0]];
     }
     document.author = [parsedDocument objectForKey:field_Author];
     document.date = [parsedDocument objectForKey:field_Date];
