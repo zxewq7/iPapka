@@ -208,90 +208,116 @@
         NSDate *documentDate = document.date;
         NSDateComponents *comps = [calendar components:unitFlags fromDate:documentDate];
         NSDate *documentSection = [calendar dateFromComponents:comps];
-        
-        if (sectionIndex == NSNotFound) //new section
+        if (isDeleteDocuments)
         {
-            NSUInteger length = [self.sectionsOrdered count];
-            NSUInteger insertIndex = NSNotFound;
-            for (NSUInteger i=0; i < length; i++) 
+            if (sectionIndex != NSNotFound) 
             {
-                NSDate *section = [self.sectionsOrdered objectAtIndex:i];
-                if ([documentSection earlierDate:section]) 
+                NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
+                NSUInteger documentIndex = [sectionDocuments indexOfObject:document];
+                if (documentIndex != NSNotFound) 
                 {
-                    insertIndex = i;
-                    break;
-                }
-            }
-            if (insertIndex == NSNotFound)
-            {
-                [self.sectionsOrdered addObject:documentSection];
-                [self.sectionsOrderedLabels addObject: [self.dateFormatter stringFromDate:documentSection]];
-                [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
-                insertIndex = [self.sectionsOrdered count]-1;
-            }
-            else 
-            {
-                [self.sectionsOrdered insertObject:documentSection atIndex:insertIndex];
-                [self.sectionsOrderedLabels insertObject: [self.dateFormatter stringFromDate:documentSection] atIndex:insertIndex];
-                [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
-            }
-            [self.tableView insertSections:[NSIndexSet indexSetWithIndex: insertIndex] withRowAnimation:UITableViewRowAnimationFade];
-            sectionIndex = insertIndex;
-        }
-        else //update section documents
-        {
-            NSMutableArray *sectionDocuments = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:sectionIndex]];
-            NSUInteger length = [sectionDocuments count];
-            NSUInteger possibleInsertIndex = NSNotFound;
-            BOOL updated = NO;
-            for (NSUInteger i=0; i < length; i++) 
-            {
-                Document *doc = [sectionDocuments objectAtIndex:i];
-                if ([document isEqual:doc]) 
-                {
-                    [sectionDocuments replaceObjectAtIndex:i withObject:document];
-
-                    NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:sectionIndex];
-                    [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-                    updated = YES;
-                    break;
-                }
-                else if (possibleInsertIndex == NSNotFound && [document.date earlierDate:doc.date])
-                    possibleInsertIndex = i;
-            }
-            if (!updated && possibleInsertIndex != NSNotFound) //insert document
-            {
-                [sectionDocuments insertObject: document atIndex:possibleInsertIndex];
-                NSIndexPath *path = [NSIndexPath indexPathForRow:possibleInsertIndex inSection:sectionIndex];
-                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-            }
-        }
-            //remove possible dublicates
-        if (isNewDocuments)
-        {
-            NSUInteger length = [self.sectionsOrdered count];
-            for (NSUInteger i=0;i < length; i++) 
-            {
-                if (sectionIndex == i) //skip updated section
-                    continue;
-                NSDate *section = [self.sectionsOrdered objectAtIndex:i];
-                NSMutableArray *sectionDocuments = [self.sections objectForKey:section];
-                NSUInteger docIndex = [sectionDocuments indexOfObject:document];
-                if (docIndex != NSNotFound)
-                {
-                    NSIndexPath *path = [NSIndexPath indexPathForRow:docIndex inSection:sectionIndex];
-                    [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-                    [sectionDocuments removeObjectAtIndex:docIndex];
-
-                    if (![sectionDocuments count]) //remove section
+                    if ([sectionDocuments count] == 1) //remove empty section
                     {
-                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
                         [self.sections removeObjectForKey:documentSection];
                         [self.sectionsOrdered removeObject:documentSection];
                         [self.sectionsOrderedLabels removeObject:[self.dateFormatter stringFromDate:documentSection]];
+                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: 0] withRowAnimation:UITableViewRowAnimationFade];
                     }
-                    break;
+                    else
+                    {
+                        NSIndexPath *path = [NSIndexPath indexPathForRow:documentIndex inSection:sectionIndex];
+                        [sectionDocuments removeObjectAtIndex:documentIndex];
+                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+                    }
                 }
+            }
+        }
+        else
+        {
+            if (sectionIndex == NSNotFound) //new section
+            {
+                NSUInteger length = [self.sectionsOrdered count];
+                NSUInteger insertIndex = NSNotFound;
+                for (NSUInteger i=0; i < length; i++) 
+                {
+                    NSDate *section = [self.sectionsOrdered objectAtIndex:i];
+                    if ([documentSection earlierDate:section]) 
+                    {
+                        insertIndex = i;
+                        break;
+                    }
+                }
+                if (insertIndex == NSNotFound)
+                {
+                    [self.sectionsOrdered addObject:documentSection];
+                    [self.sectionsOrderedLabels addObject: [self.dateFormatter stringFromDate:documentSection]];
+                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
+                    insertIndex = [self.sectionsOrdered count]-1;
+                }
+                else 
+                {
+                    [self.sectionsOrdered insertObject:documentSection atIndex:insertIndex];
+                    [self.sectionsOrderedLabels insertObject: [self.dateFormatter stringFromDate:documentSection] atIndex:insertIndex];
+                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
+                }
+                [self.tableView insertSections:[NSIndexSet indexSetWithIndex: insertIndex] withRowAnimation:UITableViewRowAnimationFade];
+                sectionIndex = insertIndex;
+            }
+            else //update section documents
+            {
+                NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
+                NSUInteger length = [sectionDocuments count];
+                NSUInteger possibleInsertIndex = NSNotFound;
+                BOOL updated = NO;
+                for (NSUInteger i=0; i < length; i++) 
+                {
+                    Document *doc = [sectionDocuments objectAtIndex:i];
+                    if ([document isEqual:doc]) 
+                    {
+                        [sectionDocuments replaceObjectAtIndex:i withObject:document];
+
+                        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:sectionIndex];
+                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+                        updated = YES;
+                        break;
+                    }
+                    else if (possibleInsertIndex == NSNotFound && [document.date earlierDate:doc.date])
+                        possibleInsertIndex = i;
+                }
+                if (!updated && possibleInsertIndex != NSNotFound) //insert document
+                {
+                    [sectionDocuments insertObject: document atIndex:possibleInsertIndex];
+                    NSIndexPath *path = [NSIndexPath indexPathForRow:possibleInsertIndex inSection:sectionIndex];
+                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+                }
+            }
+                //remove possible dublicates
+                NSUInteger length = [self.sectionsOrdered count];
+                for (NSUInteger i=0;i < length; i++) 
+                {
+                    if (sectionIndex == i) //skip updated section
+                        continue;
+                    NSDate *section = [self.sectionsOrdered objectAtIndex:i];
+                    NSMutableArray *sectionDocuments = [self.sections objectForKey:section];
+                    NSUInteger docIndex = [sectionDocuments indexOfObject:document];
+                    if (docIndex != NSNotFound)
+                    {
+                        if ([sectionDocuments count] == 1) //remove section
+                        {
+                            NSDate *docSection = [self.sectionsOrdered objectAtIndex:i];
+                            [self.sections removeObjectForKey:docSection];
+                            [self.sectionsOrderedLabels removeObjectAtIndex:i];
+                            [self.sectionsOrdered removeObjectAtIndex:i];
+                            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: i] withRowAnimation:UITableViewRowAnimationFade];
+                        }
+                        else
+                        {
+                            [sectionDocuments removeObjectAtIndex:docIndex];
+                            NSIndexPath *path = [NSIndexPath indexPathForRow:docIndex inSection:i];
+                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+                        }
+                        break;
+                    }
             }
         }
     }
