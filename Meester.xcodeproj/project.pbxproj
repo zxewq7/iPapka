@@ -12,7 +12,7 @@
 		8116FF8F121134E900DD537F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8E121134E900DD537F /* CoreGraphics.framework */; };
 		8116FF94121134E900DD537F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF92121134E900DD537F /* InfoPlist.strings */; };
 		8116FF96121134E900DD537F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF95121134E900DD537F /* main.m */; };
-		8116FF99121134E900DD537F /* MeesterAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF98121134E900DD537F /* MeesterAppDelegate.m */; };
+		8116FF99121134E900DD537F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF98121134E900DD537F /* AppDelegate.m */; };
 		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
 		812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 812AAC4312181F2000E3FBC8 /* DocumentViewController.xib */; };
 		812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 812AADB01218312400E3FBC8 /* DocumentCellView.m */; };
@@ -110,8 +110,8 @@
 		8116FF91121134E900DD537F /* Meester_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Meester_Prefix.pch; sourceTree = "<group>"; };
 		8116FF93121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8116FF95121134E900DD537F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8116FF97121134E900DD537F /* MeesterAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeesterAppDelegate.h; sourceTree = "<group>"; };
-		8116FF98121134E900DD537F /* MeesterAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MeesterAppDelegate.m; sourceTree = "<group>"; };
+		8116FF97121134E900DD537F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		8116FF98121134E900DD537F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8116FF9B121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		812AAC4412181F2000E3FBC8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentViewController.xib; sourceTree = "<group>"; };
 		812AADAF1218312400E3FBC8 /* DocumentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCellView.h; sourceTree = "<group>"; };
@@ -211,8 +211,8 @@
 				81FEA51412119ECD00A9ABD3 /* DocumentCell.m */,
 				812AADAF1218312400E3FBC8 /* DocumentCellView.h */,
 				812AADB01218312400E3FBC8 /* DocumentCellView.m */,
-				8116FF97121134E900DD537F /* MeesterAppDelegate.h */,
-				8116FF98121134E900DD537F /* MeesterAppDelegate.m */,
+				8116FF97121134E900DD537F /* AppDelegate.h */,
+				8116FF98121134E900DD537F /* AppDelegate.m */,
 				814AE04C1211D55300457254 /* DocumentViewController.h */,
 				814AE04D1211D55300457254 /* DocumentViewController.m */,
 				81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */,
@@ -462,7 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8116FF96121134E900DD537F /* main.m in Sources */,
-				8116FF99121134E900DD537F /* MeesterAppDelegate.m in Sources */,
+				8116FF99121134E900DD537F /* AppDelegate.m in Sources */,
 				81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */,
 				81FEA53512119ECD00A9ABD3 /* AQGridView.m in Sources */,
 				81FEA53612119ECD00A9ABD3 /* AQGridViewAnimatorItem.m in Sources */,

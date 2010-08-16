@@ -9,7 +9,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MeesterAppDelegate : NSObject <UIApplicationDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate> {
 
     UIWindow *window;
 

@@ -7,9 +7,9 @@
 //
 
 
-#import "MeesterAppDelegate.h"
+#import "AppDelegate.h"
 
-@implementation MeesterAppDelegate
+@implementation AppDelegate
 
 
 @synthesize window;
