@@ -58,6 +58,18 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentsUpdated:)
                                                  name:@"DocumentsUpdated" object:nil];
+        // create back button
+        //http://stackoverflow.com/questions/227078/creating-a-left-arrow-button-like-uinavigationbars-back-style-on-a-uitoolbar/3426793#3426793
+    UIButton* backButton = [UIButton buttonWithType:101]; // left-pointing shape!
+    [backButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
+    [backButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
+    
+        // create button item -- note that UIButton subclasses UIView
+    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+    
+        // add to toolbar, or to a navbar (you should only have one of these!)
+        //    [toolbar setItems:[NSArray arrayWithObject:backItem]];
+    self.navigationItem.leftBarButtonItem = backItem;
 }
 
 -(void) viewDidUnload {
@@ -199,6 +211,9 @@
     [[LNDataSource sharedLNDataSource] refreshDocuments];
 }
 
+-(void)showFolders:(id)sender
+{
+}
 @end
 
 @implementation RootViewController(Private)

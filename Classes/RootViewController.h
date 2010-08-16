@@ -33,4 +33,5 @@
 @property (nonatomic, retain) NSDateFormatter     *dateFormatter;
 @property (nonatomic, retain) NSArray             *sortDescriptors;
 -(void)refreshDocuments:(id)sender;
+-(void)showFolders:(id)sender;
 @end
