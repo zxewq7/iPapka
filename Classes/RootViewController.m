@@ -227,6 +227,9 @@
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
     for (Document *document in documents) 
     {
+            //skip not loaded documents
+        if (!document.isLoaded)
+            continue;
         NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:document.date];
         NSDate *documentDate = document.date;
         NSDateComponents *comps = [calendar components:unitFlags fromDate:documentDate];
