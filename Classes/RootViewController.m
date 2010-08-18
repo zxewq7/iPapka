@@ -64,12 +64,16 @@
     [backButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
     
-        // create button item -- note that UIButton subclasses UIView
-    UIBarButtonItem* backItem = [[UIBarButtonItem alloc] initWithCustomView:backButton];
+        //create bottom toolbar
+        //http://stackoverflow.com/questions/1072604/whats-the-right-way-to-add-a-toolbar-to-a-uitableview
     
-        // add to toolbar, or to a navbar (you should only have one of these!)
-        //    [toolbar setItems:[NSArray arrayWithObject:backItem]];
-    self.navigationItem.leftBarButtonItem = backItem;
+        //Create a button 
+        //    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(info_clicked:)];
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRefresh.png"] style:UIBarButtonItemStylePlain target:self action:@selector(refreshDocuments:)];
+    [self setToolbarItems:[NSArray arrayWithObjects:refreshButton, nil] animated:NO];
+    [refreshButton release];
+    
+    [self.navigationController setToolbarHidden:NO];
 }
 
 -(void) viewDidUnload {
