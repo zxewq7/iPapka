@@ -29,7 +29,6 @@
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
 		8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8178674F121313FC00D38BD3 /* libDataModel.a */; };
 		817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 817867BD1213157E00D38BD3 /* libLNDataSource.a */; };
-		81925166121BCB6700B2D9BE /* ButtonRefresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 81925165121BCB6700B2D9BE /* ButtonRefresh.png */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
 		81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51412119ECD00A9ABD3 /* DocumentCell.m */; };
@@ -131,7 +130,6 @@
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		81786747121313FC00D38BD3 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
 		817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
-		81925165121BCB6700B2D9BE /* ButtonRefresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRefresh.png; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
@@ -334,7 +332,6 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				81925165121BCB6700B2D9BE /* ButtonRefresh.png */,
 				81FEA54212119EE500A9ABD3 /* GridView */,
 			);
 			path = images;
@@ -454,7 +451,6 @@
 				81FEA54F12119EE500A9ABD3 /* AQGridSelectionRed.png in Resources */,
 				812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */,
 				812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */,
-				81925166121BCB6700B2D9BE /* ButtonRefresh.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

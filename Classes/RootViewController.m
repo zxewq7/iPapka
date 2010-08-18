@@ -19,12 +19,13 @@
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentsUpdated:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isNewDocuments:(BOOL)isNewDocuments isDeleteDocuments:(BOOL)isDeleteDocuments;
+- (void)setActivity:(NSString *) message inProgress:(BOOL)inAProgress;
 @end
 
 
 @implementation RootViewController
 
-@synthesize popoverController, splitViewController, rootPopoverButtonItem, sections, sectionsOrdered, sectionsOrderedLabels, dateFormatter, sortDescriptors;
+@synthesize popoverController, splitViewController, rootPopoverButtonItem, sections, sectionsOrdered, sectionsOrderedLabels, dateFormatter, sortDescriptors, activityIndicator, activityLabel;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -69,11 +70,34 @@
     
         //Create a button 
         //    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(info_clicked:)];
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRefresh.png"] style:UIBarButtonItemStylePlain target:self action:@selector(refreshDocuments:)];
-    [self setToolbarItems:[NSArray arrayWithObjects:refreshButton, nil] animated:NO];
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshDocuments:)];
+
+        //activity view
+        //http://stackoverflow.com/questions/333441/adding-a-uilabel-to-a-uitoolbar
+    UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 20.0f)];
+    [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];    
+    activity.hidesWhenStopped = YES;
+    self.activityIndicator = activity;
+
+    UIBarButtonItem *activityIndicatorButton = [[UIBarButtonItem alloc] initWithCustomView:activity];
+    
+        //activity label
+    UILabel *aLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 235, 20)];
+    aLabel.backgroundColor = [UIColor clearColor];
+    self.activityLabel = aLabel;
+    UIBarButtonItem *activityLabelButton = [[UIBarButtonItem alloc] initWithCustomView:aLabel];
+    
+    [self setToolbarItems:[NSArray arrayWithObjects:refreshButton, activityIndicatorButton, activityLabelButton, nil] animated:YES];
+
+    [activityIndicatorButton release];
+    [activity release];
+    [activityLabelButton release];
+    [aLabel release];
     [refreshButton release];
     
+    
     [self.navigationController setToolbarHidden:NO];
+    [self setActivity:@"idle" inProgress:NO];
 }
 
 -(void) viewDidUnload {
@@ -205,6 +229,8 @@
     self.sectionsOrderedLabels = nil;
     self.dateFormatter = nil;
     self.sortDescriptors = nil;
+    self.activityIndicator = nil;
+    self.activityLabel = nil;
     [super dealloc];
 }
 
@@ -212,6 +238,7 @@
 #pragma mark actions
 -(void)refreshDocuments:(id)sender
 {
+    [self setActivity:NSLocalizedString(@"Synchronizing", "Synchronizing") inProgress:YES];
     [[LNDataSource sharedLNDataSource] refreshDocuments];
 }
 
@@ -364,5 +391,14 @@
 {
     NSArray *documents = notification.object;
     [self updateDocuments: documents isNewDocuments:NO isDeleteDocuments:NO];
+}
+- (void)setActivity:(NSString *) message inProgress:(BOOL)inAProgress
+{
+    if (inAProgress)
+        [self.activityIndicator startAnimating];
+    else
+        [self.activityIndicator stopAnimating];
+    
+    self.activityLabel.text = message;
 }
 @end
