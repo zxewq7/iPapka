@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+@class SegmentedLabel;
 
 @interface RootViewController : UITableViewController <UISplitViewControllerDelegate> {
 	
@@ -21,7 +22,7 @@
     NSDateFormatter         *dateFormatter;
     NSArray                 *sortDescriptors;
     UIActivityIndicatorView *activityIndicator;
-    UILabel                 *activityLabel;
+    SegmentedLabel          *activityLabel;
 }
 
 @property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
@@ -35,7 +36,7 @@
 @property (nonatomic, retain) NSDateFormatter         *dateFormatter;
 @property (nonatomic, retain) NSArray                 *sortDescriptors;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, retain) UILabel                 *activityLabel;
+@property (nonatomic, retain) SegmentedLabel          *activityLabel;
 -(void)refreshDocuments:(id)sender;
 -(void)showFolders:(id)sender;
 @end

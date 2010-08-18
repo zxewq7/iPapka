@@ -29,6 +29,7 @@
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
 		8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8178674F121313FC00D38BD3 /* libDataModel.a */; };
 		817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 817867BD1213157E00D38BD3 /* libLNDataSource.a */; };
+		81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81925245121BF4A800B2D9BE /* SegmentedLabel.m */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
 		81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51412119ECD00A9ABD3 /* DocumentCell.m */; };
@@ -130,6 +131,8 @@
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		81786747121313FC00D38BD3 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
 		817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
+		81925244121BF4A800B2D9BE /* SegmentedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedLabel.h; sourceTree = "<group>"; };
+		81925245121BF4A800B2D9BE /* SegmentedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedLabel.m; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
@@ -220,6 +223,8 @@
 				81FEA51912119ECD00A9ABD3 /* GridView */,
 				816FF802121708530083E7A4 /* RootViewController.h */,
 				816FF803121708530083E7A4 /* RootViewController.m */,
+				81925244121BF4A800B2D9BE /* SegmentedLabel.h */,
+				81925245121BF4A800B2D9BE /* SegmentedLabel.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -479,6 +484,7 @@
 				81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */,
 				816FF804121708530083E7A4 /* RootViewController.m in Sources */,
 				812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */,
+				81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

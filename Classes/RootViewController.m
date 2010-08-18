@@ -11,6 +11,7 @@
 #import "LNDataSource.h"
 #import "Document.h"
 #import "DocumentCell.h"
+#import "SegmentedLabel.h";
 
 #define ROW_HEIGHT 94
 
@@ -19,13 +20,23 @@
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentsUpdated:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isNewDocuments:(BOOL)isNewDocuments isDeleteDocuments:(BOOL)isDeleteDocuments;
-- (void)setActivity:(NSString *) message inProgress:(BOOL)inAProgress;
+- (void)setActivity:(NSString *) message message2:(NSString *) aMessage2 message3:(NSString *) aMessage3 inProgress:(BOOL)inAProgress;
+- (void)createToolbar;
 @end
 
 
 @implementation RootViewController
 
-@synthesize popoverController, splitViewController, rootPopoverButtonItem, sections, sectionsOrdered, sectionsOrderedLabels, dateFormatter, sortDescriptors, activityIndicator, activityLabel;
+@synthesize popoverController, 
+            splitViewController, 
+            rootPopoverButtonItem, 
+            sections, 
+            sectionsOrdered, 
+            sectionsOrderedLabels, 
+            dateFormatter, 
+            sortDescriptors, 
+            activityIndicator, 
+            activityLabel;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -64,40 +75,8 @@
     UIButton* backButton = [UIButton buttonWithType:101]; // left-pointing shape!
     [backButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
-    
-        //create bottom toolbar
-        //http://stackoverflow.com/questions/1072604/whats-the-right-way-to-add-a-toolbar-to-a-uitableview
-    
-        //Create a button 
-        //    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(info_clicked:)];
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshDocuments:)];
-
-        //activity view
-        //http://stackoverflow.com/questions/333441/adding-a-uilabel-to-a-uitoolbar
-    UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 20.0f)];
-    [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];    
-    activity.hidesWhenStopped = YES;
-    self.activityIndicator = activity;
-
-    UIBarButtonItem *activityIndicatorButton = [[UIBarButtonItem alloc] initWithCustomView:activity];
-    
-        //activity label
-    UILabel *aLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 235, 20)];
-    aLabel.backgroundColor = [UIColor clearColor];
-    self.activityLabel = aLabel;
-    UIBarButtonItem *activityLabelButton = [[UIBarButtonItem alloc] initWithCustomView:aLabel];
-    
-    [self setToolbarItems:[NSArray arrayWithObjects:refreshButton, activityIndicatorButton, activityLabelButton, nil] animated:YES];
-
-    [activityIndicatorButton release];
-    [activity release];
-    [activityLabelButton release];
-    [aLabel release];
-    [refreshButton release];
-    
-    
-    [self.navigationController setToolbarHidden:NO];
-    [self setActivity:@"idle" inProgress:NO];
+    [self createToolbar];
+    [self setActivity:@"Synchronyzed" message2:@"14.08.10" message3:@"14:40" inProgress:NO];
 }
 
 -(void) viewDidUnload {
@@ -238,7 +217,7 @@
 #pragma mark actions
 -(void)refreshDocuments:(id)sender
 {
-    [self setActivity:NSLocalizedString(@"Synchronizing", "Synchronizing") inProgress:YES];
+        //    [self setActivity:NSLocalizedString(@"Synchronizing", "Synchronizing") inProgress:YES];
     [[LNDataSource sharedLNDataSource] refreshDocuments];
 }
 
@@ -392,13 +371,69 @@
     NSArray *documents = notification.object;
     [self updateDocuments: documents isNewDocuments:NO isDeleteDocuments:NO];
 }
-- (void)setActivity:(NSString *) message inProgress:(BOOL)inAProgress
+- (void)setActivity:(NSString *) message message2:(NSString *) aMessage2 message3:(NSString *) aMessage3 inProgress:(BOOL)inAProgress;
 {
     if (inAProgress)
         [self.activityIndicator startAnimating];
     else
         [self.activityIndicator stopAnimating];
     
-    self.activityLabel.text = message;
+    self.activityLabel.texts = [NSArray arrayWithObjects:[message stringByAppendingString:@" "], [aMessage2 stringByAppendingString:@" "], aMessage3, nil];
+}
+- (void) createToolbar
+{
+        //create bottom toolbar
+        //http://stackoverflow.com/questions/1072604/whats-the-right-way-to-add-a-toolbar-to-a-uitableview
+    
+        //Create a button 
+        //    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(info_clicked:)];
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshDocuments:)];
+    
+        //activity view
+        //http://stackoverflow.com/questions/333441/adding-a-uilabel-to-a-uitoolbar
+    UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 20.0f)];
+    [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];    
+    activity.hidesWhenStopped = YES;
+    self.activityIndicator = activity;
+    
+    UIBarButtonItem *activityIndicatorButton = [[UIBarButtonItem alloc] initWithCustomView:activity];
+    
+        //activity label
+    SegmentedLabel *aLabel = [[SegmentedLabel alloc] initWithFrame:CGRectMake(0, 0, 235, 20)];
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    label1.backgroundColor = [UIColor clearColor];
+    label1.textColor = [UIColor colorWithRed:0.350 green:0.375 blue:0.404 alpha:1.000];;
+    label1.shadowColor = [UIColor whiteColor];
+    label1.shadowOffset = CGSizeMake(0.0, 1.0);
+    label1.font = [UIFont boldSystemFontOfSize:13];
+    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    label2.backgroundColor = [UIColor clearColor];
+    label2.textColor = [UIColor colorWithRed:0.350 green:0.375 blue:0.404 alpha:1.000];;
+    label2.shadowColor = [UIColor whiteColor];
+    label2.shadowOffset = CGSizeMake(0.0, 1.0);
+    label2.font = [UIFont systemFontOfSize:13];
+    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
+    label3.backgroundColor = [UIColor clearColor];
+    label3.textColor = [UIColor colorWithRed:0.350 green:0.375 blue:0.404 alpha:1.000];;
+    label3.shadowColor = [UIColor whiteColor];
+    label3.shadowOffset = CGSizeMake(0.0, 1.0);
+    label3.font = [UIFont boldSystemFontOfSize:13];
+
+    aLabel.backgroundColor = [UIColor clearColor];
+    aLabel.labels = [NSArray arrayWithObjects:label1, label2, label3, nil];
+    self.activityLabel = aLabel;
+    UIBarButtonItem *activityLabelButton = [[UIBarButtonItem alloc] initWithCustomView:aLabel];
+    
+    [self setToolbarItems:[NSArray arrayWithObjects:refreshButton, activityIndicatorButton, activityLabelButton, nil] animated:YES];
+    
+    [activityIndicatorButton release];
+    [activity release];
+    [activityLabelButton release];
+    [aLabel release];
+    [refreshButton release];
+    
+    
+    [self.navigationController setToolbarHidden:NO];
+    
 }
 @end
