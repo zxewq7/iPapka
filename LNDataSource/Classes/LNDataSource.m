@@ -58,7 +58,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         [_networkQueue go];
         
 #warning test settings        
-        self.host = @"http://vovasty/~vovasty";
+        self.host = @"http://127.0.0.1/~vovasty";
         self.databaseReplicaId = @"C325777C0045161D";
         self.viewReplicaId = @"89FB7FB8A9330311C325777C004EEFC8";
         
