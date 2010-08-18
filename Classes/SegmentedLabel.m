@@ -50,7 +50,7 @@
 
         [label sizeToFit];
         CGRect f = label.frame;
-        label.frame = CGRectMake(f.origin.x+x, f.origin.y, f.size.width, f.size.height);
+        label.frame = CGRectMake(x, f.origin.y, f.size.width, f.size.height);
         x = label.frame.origin.x+label.frame.size.width;
     }
 
