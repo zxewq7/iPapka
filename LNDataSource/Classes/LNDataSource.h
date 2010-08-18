@@ -15,13 +15,11 @@
     ASINetworkQueue     *_networkQueue;
     NSString            *_databaseDirectory;
     NSString            *_viewDirectory;
-    NSString            *documentsListRefreshError;
     NSString            *databaseReplicaId;
     NSString            *viewReplicaId;
     NSString            *host;
 }
 + (LNDataSource *)sharedLNDataSource;
-@property (nonatomic, retain) NSString            *documentsListRefreshError;
 @property (nonatomic, retain) NSMutableDictionary *documents;
 @property (nonatomic, retain) NSString            *databaseReplicaId;
 @property (nonatomic, retain) NSString            *viewReplicaId;

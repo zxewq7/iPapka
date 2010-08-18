@@ -47,7 +47,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 
 @implementation LNDataSource
 SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
-@synthesize documentsListRefreshError, documents=_documents, viewReplicaId, databaseReplicaId, host;
+@synthesize documents=_documents, viewReplicaId, databaseReplicaId, host;
 -(id)init
 {
     if ((self = [super init])) {
@@ -103,13 +103,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 	[request setDownloadDestinationPath:[_viewDirectory stringByAppendingPathComponent:@"index.xml"]];
     __block LNDataSource *blockSelf = self;
     request.requestHandler = ^(ASIHTTPRequest *request) {
-        if ([request error] == nil  && [request responseStatusCode] == 200)
+        NSString *error = [request error] == nil?
+                                ([request responseStatusCode] == 200?
+                                    nil:
+                                    NSLocalizedString(@"Bad response", "Bad response")):
+                                [[request error] localizedDescription];
+        if (error == nil)
             [blockSelf parseViewData:[request downloadDestinationPath]];
         else
         {
-            blockSelf->documentsListRefreshError = [[request error] localizedDescription];
-            NSLog(@"error fetching url %@\n%@", [request originalURL], blockSelf->documentsListRefreshError);
+            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
         }
+        [[NSNotificationCenter defaultCenter]
+            postNotificationName:@"DocumentsListRefreshed" object:error];
+
     };
 	[_networkQueue addOperation:request];
 }
