@@ -19,6 +19,7 @@
 - (void)documentsAdded:(NSNotification *)notification;
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentsUpdated:(NSNotification *)notification;
+- (void)documentsListRefreshed:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isNewDocuments:(BOOL)isNewDocuments isDeleteDocuments:(BOOL)isDeleteDocuments;
 - (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...;
 - (void)createToolbar;
@@ -70,13 +71,16 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentsUpdated:)
                                                  name:@"DocumentsUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(documentsListRefreshed:)
+                                                 name:@"DocumentsListRefreshed" object:nil];
         // create back button
         //http://stackoverflow.com/questions/227078/creating-a-left-arrow-button-like-uinavigationbars-back-style-on-a-uitoolbar/3426793#3426793
     UIButton* backButton = [UIButton buttonWithType:101]; // left-pointing shape!
     [backButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
     [self createToolbar];
-    [self setActivity:NO message:@"Synchronyzed", @"14.08.10", @"14:40"];
+    [self setActivity:NO message:@"Synchronyzed", @"14.08.10", @"14:40", nil];
 }
 
 -(void) viewDidUnload {
@@ -217,7 +221,7 @@
 #pragma mark actions
 -(void)refreshDocuments:(id)sender
 {
-    [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing")];
+    [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing"), nil];
     [[LNDataSource sharedLNDataSource] refreshDocuments];
 }
 
@@ -371,7 +375,17 @@
     NSArray *documents = notification.object;
     [self updateDocuments: documents isNewDocuments:NO isDeleteDocuments:NO];
 }
-- (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...;
+
+- (void)documentsListRefreshed:(NSNotification *)notification
+{
+    NSString *error = notification.object;
+    if (error)
+        [self setActivity:NO message:error, nil];
+    else
+        [self setActivity:NO message:@"BAH", nil];
+}
+
+- (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...
 {
     va_list args;
     va_start(args, aMessage);
