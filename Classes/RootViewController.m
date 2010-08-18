@@ -20,7 +20,7 @@
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentsUpdated:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isNewDocuments:(BOOL)isNewDocuments isDeleteDocuments:(BOOL)isDeleteDocuments;
-- (void)setActivity:(NSString *) message message2:(NSString *) aMessage2 message3:(NSString *) aMessage3 inProgress:(BOOL)inAProgress;
+- (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...;
 - (void)createToolbar;
 @end
 
@@ -76,7 +76,7 @@
     [backButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
     [self createToolbar];
-    [self setActivity:@"Synchronyzed" message2:@"14.08.10" message3:@"14:40" inProgress:NO];
+    [self setActivity:NO message:@"Synchronyzed", @"14.08.10", @"14:40"];
 }
 
 -(void) viewDidUnload {
@@ -217,7 +217,7 @@
 #pragma mark actions
 -(void)refreshDocuments:(id)sender
 {
-        //    [self setActivity:NSLocalizedString(@"Synchronizing", "Synchronizing") inProgress:YES];
+    [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing")];
     [[LNDataSource sharedLNDataSource] refreshDocuments];
 }
 
@@ -371,14 +371,27 @@
     NSArray *documents = notification.object;
     [self updateDocuments: documents isNewDocuments:NO isDeleteDocuments:NO];
 }
-- (void)setActivity:(NSString *) message message2:(NSString *) aMessage2 message3:(NSString *) aMessage3 inProgress:(BOOL)inAProgress;
+- (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...;
 {
-    if (inAProgress)
+    va_list args;
+    va_start(args, aMessage);
+    NSMutableArray *texts = [NSMutableArray arrayWithCapacity:3];
+    for (NSString *arg = aMessage; arg != nil; arg = va_arg(args, NSString*))
+    {
+        if (![arg isKindOfClass:[NSString class]])
+              break;
+
+        [texts addObject:[arg stringByAppendingString:@" "]];
+    }
+    va_end(args);
+    
+    
+    self.activityLabel.texts = texts;
+    
+    if (isProgress)
         [self.activityIndicator startAnimating];
     else
         [self.activityIndicator stopAnimating];
-    
-    self.activityLabel.texts = [NSArray arrayWithObjects:[message stringByAppendingString:@" "], [aMessage2 stringByAppendingString:@" "], aMessage3, nil];
 }
 - (void) createToolbar
 {

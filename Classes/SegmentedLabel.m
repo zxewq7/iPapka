@@ -21,8 +21,9 @@
     for (NSUInteger i=0;i<length;i++) 
         [[views objectAtIndex:i] removeFromSuperview];
 
+    [labels release];
     labels = [theLabels retain];
-    [theLabels release];
+        //    [theLabels release];
 
     for (UILabel *label in labels) 
         [self addSubview:label];
@@ -32,18 +33,18 @@
 {
     if (texts == theTexts)
         return;
+    
+    [texts release];
     texts = [theTexts retain];
-    [theTexts release];
     
-    
-    NSUInteger length = [labels count];
+    NSUInteger length = [self.labels count];
     NSUInteger textsLength = [texts count];
     CGFloat x = 0;
     for (NSUInteger i=0;i<length;i++) 
     {
         UILabel *label = [self.labels objectAtIndex:i];
         if (i<textsLength)
-            label.text = [self.texts objectAtIndex:i];
+            label.text = [texts objectAtIndex:i];
         else
             label.text = @"";
 
