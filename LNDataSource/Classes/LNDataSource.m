@@ -97,6 +97,9 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 
 -(void) refreshDocuments
 {
+    [[NSNotificationCenter defaultCenter]
+     postNotificationName:@"DocumentsListWillRefreshed" object:nil];
+
     LNHttpRequest *request;
     NSString *url = [NSString stringWithFormat:url_FetchView, self.host, self.databaseReplicaId, self.viewReplicaId];
 	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
@@ -111,11 +114,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         if (error == nil)
             [blockSelf parseViewData:[request downloadDestinationPath]];
         else
-        {
             NSLog(@"error fetching url %@\n%@", [request originalURL], error);
-        }
+
         [[NSNotificationCenter defaultCenter]
-            postNotificationName:@"DocumentsListRefreshed" object:error];
+            postNotificationName:@"DocumentsListDidRefreshed" object:error];
 
     };
 	[_networkQueue addOperation:request];

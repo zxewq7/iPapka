@@ -23,6 +23,8 @@
     NSArray                 *sortDescriptors;
     UIActivityIndicatorView *activityIndicator;
     SegmentedLabel          *activityLabel;
+    NSDateFormatter         *activityDateFormatter;
+    NSDateFormatter         *activityTimeFormatter;
 }
 
 @property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
@@ -37,6 +39,8 @@
 @property (nonatomic, retain) NSArray                 *sortDescriptors;
 @property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
 @property (nonatomic, retain) SegmentedLabel          *activityLabel;
+@property (nonatomic, retain) NSDateFormatter         *activityDateFormatter;
+@property (nonatomic, retain) NSDateFormatter         *activityTimeFormatter;
 -(void)refreshDocuments:(id)sender;
 -(void)showFolders:(id)sender;
 @end

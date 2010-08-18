@@ -19,7 +19,8 @@
 - (void)documentsAdded:(NSNotification *)notification;
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentsUpdated:(NSNotification *)notification;
-- (void)documentsListRefreshed:(NSNotification *)notification;
+- (void)documentsListWillRefreshed:(NSNotification *)notification;
+- (void)documentsListDidRefreshed:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isNewDocuments:(BOOL)isNewDocuments isDeleteDocuments:(BOOL)isDeleteDocuments;
 - (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...;
 - (void)createToolbar;
@@ -37,7 +38,9 @@
             dateFormatter, 
             sortDescriptors, 
             activityIndicator, 
-            activityLabel;
+            activityLabel,
+            activityDateFormatter,
+            activityTimeFormatter;
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -55,7 +58,13 @@
     self.sections = [NSMutableDictionary dictionaryWithCapacity:1];
     self.sectionsOrdered = [NSMutableArray arrayWithCapacity:1];
     self.sectionsOrderedLabels = [NSMutableArray arrayWithCapacity:1];
-    
+    self.activityDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [self.activityDateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [self.activityDateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    self.activityTimeFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [self.activityTimeFormatter setDateStyle:NSDateFormatterNoStyle];
+    [self.activityTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
+                                  
     [self updateDocuments: [[LNDataSource sharedLNDataSource].documents allValues] isNewDocuments:YES isDeleteDocuments:NO];
     
     
@@ -72,15 +81,17 @@
                                              selector:@selector(documentsUpdated:)
                                                  name:@"DocumentsUpdated" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsListRefreshed:)
-                                                 name:@"DocumentsListRefreshed" object:nil];
+                                             selector:@selector(documentsListWillRefreshed:)
+                                                 name:@"DocumentsListWillRefreshed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(documentsListDidRefreshed:)
+                                                 name:@"DocumentsListDidRefreshed" object:nil];
         // create back button
         //http://stackoverflow.com/questions/227078/creating-a-left-arrow-button-like-uinavigationbars-back-style-on-a-uitoolbar/3426793#3426793
     UIButton* backButton = [UIButton buttonWithType:101]; // left-pointing shape!
     [backButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
     [backButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
     [self createToolbar];
-    [self setActivity:NO message:@"Synchronyzed", @"14.08.10", @"14:40", nil];
 }
 
 -(void) viewDidUnload {
@@ -214,6 +225,8 @@
     self.sortDescriptors = nil;
     self.activityIndicator = nil;
     self.activityLabel = nil;
+    self.activityDateFormatter = nil;
+    self.activityTimeFormatter = nil;
     [super dealloc];
 }
 
@@ -221,7 +234,6 @@
 #pragma mark actions
 -(void)refreshDocuments:(id)sender
 {
-    [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing"), nil];
     [[LNDataSource sharedLNDataSource] refreshDocuments];
 }
 
@@ -376,14 +388,28 @@
     [self updateDocuments: documents isNewDocuments:NO isDeleteDocuments:NO];
 }
 
-- (void)documentsListRefreshed:(NSNotification *)notification
+- (void)documentsListDidRefreshed:(NSNotification *)notification
 {
     NSString *error = notification.object;
     if (error)
         [self setActivity:NO message:error, nil];
     else
-        [self setActivity:NO message:@"BAH", nil];
+    {
+        NSDate *now = [NSDate date];
+        [self setActivity:NO message: NSLocalizedString(@"Synchronized", "Synchronized"), 
+                                      [self.activityDateFormatter stringFromDate:now], 
+                                      [self.activityTimeFormatter stringFromDate:now],
+                                       nil];
+    }
+
 }
+
+- (void)documentsListWillRefreshed:(NSNotification *)notification
+{
+    [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing"), nil];
+}
+
+
 
 - (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...
 {
