@@ -10,7 +10,7 @@
 
 
 @implementation Document
-@synthesize uid, title, remoteUrl, author, date, comments, attachments, dateModified, loaded, hasError;
+@synthesize uid, title, remoteUrl, author, date, comments, attachments, dateModified, isLoaded, hasError;
 - (void) dealloc
 {
     self.title = nil;
@@ -22,12 +22,6 @@
     self.uid = nil;
     self.dateModified = nil;
     [super dealloc];
-}
-
-@dynamic icon;
-- (UIImage *) icon
-{
-    return [UIImage imageNamed: hasError?@"SignatureError.png":loaded?@"Signature.png":@"SignatureNotLoaded.png"];
 }
 
 #pragma mark -
@@ -60,7 +54,6 @@
         self.remoteUrl = [coder decodeObjectForKey:@"remoteUrl"];
         self.uid = [coder decodeObjectForKey:@"uid"];
         self.dateModified = [coder decodeObjectForKey:@"dateModified"];
-        self.loaded = [[coder decodeObjectForKey:@"loaded"] boolValue];
 
     }
     return self;
@@ -76,6 +69,5 @@
     [coder encodeObject: self.remoteUrl forKey:@"remoteUrl"];
     [coder encodeObject: self.uid forKey:@"uid"];
     [coder encodeObject: self.dateModified forKey:@"dateModified"];
-    [coder encodeObject: [NSNumber numberWithBool: self.loaded] forKey:@"loaded"];
 }
 @end

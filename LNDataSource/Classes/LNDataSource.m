@@ -276,8 +276,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
     document.author = [parsedDocument objectForKey:field_Author];
     document.date = [parsedDocument objectForKey:field_Date];
     document.hasError = NO;
-    document.loaded = YES;
-    [self saveDocument:document];
+    document.isLoaded = YES;
+        //    [self saveDocument:document];
 }
 - (void)loadSavedDocuments
 {
@@ -291,6 +291,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         if ([df fileExistsAtPath:documentObjectPath isDirectory:NULL]) 
         {
             Document *document = [NSKeyedUnarchiver unarchiveObjectWithFile:documentObjectPath];
+            document.isLoaded = YES;
             [self.documents setObject:document forKey:document.uid];
         }
     }

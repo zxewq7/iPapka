@@ -19,12 +19,6 @@
     [super dealloc];
 }
 
-@dynamic icon;
-- (UIImage *) icon
-{
-    return [UIImage imageNamed: hasError?@"ResolutionError.png":loaded?@"Resolution.png":@"ResolutionNotLoaded.png"];
-}
-
 #pragma mark -
 #pragma mark NSCoding
 - (id) initWithCoder: (NSCoder *)coder
