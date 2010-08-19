@@ -274,14 +274,12 @@
     NSPredicate *filter = folder.predicate;
     for (Document *document in documents) 
     {
-            //skip not loaded documents
-        if (![filter evaluateWithObject:document])
-            continue;
-        NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:document.date];
         NSDate *documentDate = document.date;
         NSDateComponents *comps = [calendar components:unitFlags fromDate:documentDate];
         NSDate *documentSection = [calendar dateFromComponents:comps];
-        if (isDeleteDocuments)
+        NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:documentSection];
+        
+        if (isDeleteDocuments || ![filter evaluateWithObject:document])
         {
             if (sectionIndex != NSNotFound) 
             {
@@ -294,7 +292,7 @@
                         [self.sections removeObjectForKey:documentSection];
                         [self.sectionsOrdered removeObject:documentSection];
                         [self.sectionsOrderedLabels removeObject:[self.dateFormatter stringFromDate:documentSection]];
-                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: 0] withRowAnimation:UITableViewRowAnimationFade];
+                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
                     }
                     else
                     {
@@ -322,16 +320,16 @@
                 }
                 if (insertIndex == NSNotFound)
                 {
+                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
                     [self.sectionsOrdered addObject:documentSection];
                     [self.sectionsOrderedLabels addObject: [self.dateFormatter stringFromDate:documentSection]];
-                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
                     insertIndex = [self.sectionsOrdered count]-1;
                 }
                 else 
                 {
+                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
                     [self.sectionsOrdered insertObject:documentSection atIndex:insertIndex];
                     [self.sectionsOrderedLabels insertObject: [self.dateFormatter stringFromDate:documentSection] atIndex:insertIndex];
-                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
                 }
                 [self.tableView insertSections:[NSIndexSet indexSetWithIndex: insertIndex] withRowAnimation:UITableViewRowAnimationFade];
                 sectionIndex = insertIndex;
