@@ -53,7 +53,6 @@
     
     [_attachment release];
     _attachment = [anAttachment retain];
-    _imageView.image = _attachment.icon;
     _title.text = _attachment.title;
     [self setNeedsLayout];
 }
