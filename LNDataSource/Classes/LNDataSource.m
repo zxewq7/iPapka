@@ -25,13 +25,18 @@ static NSString *field_Modified    = @"modified";
 static NSString *field_Form        = @"form";
 static NSString *field_Text        = @"text";
 static NSString *field_Performers  = @"performers";
+static NSString *field_Attachments = @"attachments";
+static NSString *field_AttachmentName = @"name";
+static NSString *field_AttachmentPages = @"pages";
 
 static NSString *form_Resolution   = @"Resolution";
 static NSString *form_Signature    = @"Signature";
 #warning debug data
     //static NSString *url_FetchView     = @"%@/%@/%@?ReadViewEntries&count=100";
+    //static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 static NSString *url_FetchView     = @"%@/%@/%@.xml?ReadViewEntries&count=100";
-static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
+static NSString *url_FetchDocument = @"%@/%@/%@/%@.xml?EditDocument";
+
 
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -43,6 +48,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 - (void)loadSavedDocuments;
 - (void)deleteDocument:(Document *) document;
 - (NSString *) documentDirectory:(Document *) document;
+- (void)fetchAttachment:(Attachment *) attachment document:(Document *)document;
 @end
 
 @implementation LNDataSource
@@ -245,17 +251,77 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 	[request setDownloadDestinationPath:[[self documentDirectory:document] stringByAppendingPathComponent:@"index.html"]];
     request.requestHandler = ^(ASIHTTPRequest *request) {
         if ([request error] == nil  && [request responseStatusCode] == 200)
+        {
             [self parseDocumentData:document xmlFile:[request downloadDestinationPath]];
+            NSLog(@"%@", [request downloadDestinationPath]);
+        }
         else
         {
             document.hasError = YES;
             NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
         [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"DocumentsUpdated" object:[NSArray arrayWithObject:document]];
+            postNotificationName:@"DocumentsUpdated" object:[NSArray arrayWithObject:document]];
     };
 	[_networkQueue addOperation:request];
 }
+
+- (void)fetchAttachment:(Attachment *) attachment document:(Document *)document;
+{
+        //assume, that values contains urls
+    NSDictionary *pages = attachment.pages;
+    NSString *path = [[[self documentDirectory:document] stringByAppendingPathComponent:@"attachments"] stringByAppendingPathComponent:attachment.title];
+    [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:TRUE 
+                                               attributes:nil error:nil];
+    attachment.path = path;
+    for (NSString *pageName in [pages allKeys]) 
+    {
+        NSString *url = [pages objectForKey:pageName];
+        LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
+        [request setDownloadDestinationPath:[path stringByAppendingPathComponent:pageName]];
+        request.requestHandler = ^(ASIHTTPRequest *request) {
+            if ([request error] == nil  && [request responseStatusCode] == 200)
+                [attachment.pages setValue:[[request downloadDestinationPath] lastPathComponent] forKey:pageName];
+            else
+            {
+                attachment.hasError = YES;
+                [attachment.pages setValue:@"error" forKey:pageName];
+                NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
+            }
+            
+            BOOL loaded = YES;
+            for (NSString *fileName in [pages allValues]) 
+            {
+                if ([fileName isEqualToString:@""]) 
+                {
+                    loaded = NO;
+                    break;
+                }
+            }
+            attachment.isLoaded = loaded;
+            if (loaded) 
+            {
+                loaded = YES;
+                for (Attachment *attachment in document.attachments) 
+                {
+                    if (!attachment.isLoaded) 
+                    {
+                        loaded = NO;
+                        break;
+                    }
+                }
+            }
+            document.isLoaded = loaded;
+            //    [self saveDocument:document];
+            if (loaded) 
+                [[NSNotificationCenter defaultCenter]
+                    postNotificationName:@"DocumentsUpdated" object:[NSArray arrayWithObject:document]];
+        };
+        [_networkQueue addOperation:request];
+        
+    }
+}
+
 - (NSString *) documentDirectory:(Document *) document
 {
     NSString *directory = [_viewDirectory stringByAppendingPathComponent:document.uid];
@@ -282,11 +348,31 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         if ([performers count])
             ((Resolution *)document).performers = [NSMutableDictionary dictionaryWithDictionary:[performers objectAtIndex:0]];
     }
+    
+    NSArray *attachments = [parsedDocument objectForKey:field_Attachments];
+    NSMutableArray *documentAttachments = [NSMutableArray arrayWithCapacity:[attachments count]];
+    for(NSDictionary *attachment in attachments)
+    {
+        Attachment *newAttachment = [[Attachment alloc] init];
+        newAttachment.title = [attachment objectForKey:field_AttachmentName];
+        NSArray *pages = [attachment objectForKey:field_AttachmentPages];
+        NSMutableDictionary *newAttachments = [NSMutableDictionary dictionary];
+        for (NSDictionary *page in pages) {
+            for (NSString *pageName in page.allKeys) {
+                NSString *pageUrl = [page objectForKey:pageName];
+                [newAttachments setObject:pageUrl forKey:pageName];
+            }
+        }
+        newAttachment.pages = newAttachments;
+        [self fetchAttachment:newAttachment document:document];
+        [documentAttachments addObject:newAttachment];
+        [newAttachment release];
+    }
+    document.attachments = documentAttachments;
+                            
     document.author = [parsedDocument objectForKey:field_Author];
     document.date = [parsedDocument objectForKey:field_Date];
     document.hasError = NO;
-    document.isLoaded = YES;
-        //    [self saveDocument:document];
 }
 - (void)loadSavedDocuments
 {

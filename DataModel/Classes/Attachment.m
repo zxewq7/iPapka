@@ -10,21 +10,13 @@
 
 
 @implementation Attachment
-@synthesize title, remoteUrl;
+@synthesize title, pages, isLoaded, hasError, path;
 
 - (void) dealloc
 {
     self.title = nil;
-    [_icon release];
-    self.remoteUrl = nil;
+    self.pages = nil;
     [super dealloc];
-}
-@dynamic icon;
--(UIImage *)icon
-{
-    if (_icon == nil)
-        _icon = [UIImage imageNamed: @"LoadingAttachment.png"];
-    return _icon;
 }
 
 #pragma mark -
@@ -34,7 +26,8 @@
     if (self = [super init])
     {
         self.title = [coder decodeObjectForKey:@"title"];
-        self.remoteUrl = [coder decodeObjectForKey:@"remoteUrl"];
+        self.pages = [coder decodeObjectForKey:@"pages"];
+        self.path = [coder decodeObjectForKey:@"path"];
     }
     return self;
 }
@@ -42,6 +35,7 @@
 - (void) encodeWithCoder: (NSCoder *)coder
 {
     [coder encodeObject: self.title forKey:@"title"];
-    [coder encodeObject: self.remoteUrl forKey:@"remoteUrl"];
+    [coder encodeObject: self.pages forKey:@"pages"];
+    [coder encodeObject: self.path forKey:@"path"];
 }
 @end

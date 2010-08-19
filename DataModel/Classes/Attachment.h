@@ -11,12 +11,16 @@
 
 @interface Attachment : NSObject<NSCoding> {
     NSString     *title;
-    UIImage      *_icon;
-    NSString     *remoteUrl;
+    NSDictionary *pages;
+    NSString     *path;
+    BOOL         isLoaded;
+    BOOL         hasError;
 }
 
-@property (nonatomic, retain)           NSString     *title;
-@property (nonatomic, retain, readonly) UIImage      *icon;
-@property (nonatomic, retain)           NSString     *remoteUrl;
+@property (nonatomic, retain) NSString     *title;
+@property (nonatomic, retain) NSDictionary *pages;
+@property (nonatomic, retain) NSString     *path;
 
+@property (nonatomic)         BOOL         isLoaded;
+@property (nonatomic)         BOOL         hasError;
 @end

@@ -10,15 +10,13 @@
 
 
 @implementation Document
-@synthesize uid, title, remoteUrl, author, date, comments, attachments, dateModified, isLoaded, hasError;
+@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError;
 - (void) dealloc
 {
     self.title = nil;
     self.author = nil;
     self.date = nil;
-    self.comments = nil;
     self.attachments = nil;
-    self.remoteUrl = nil;
     self.uid = nil;
     self.dateModified = nil;
     [super dealloc];
@@ -49,9 +47,7 @@
         self.title = [coder decodeObjectForKey:@"title"];
         self.author = [coder decodeObjectForKey:@"author"];
         self.date = [coder decodeObjectForKey:@"date"];
-        self.comments = [coder decodeObjectForKey:@"comments"];
         self.attachments = [coder decodeObjectForKey:@"attachments"];
-        self.remoteUrl = [coder decodeObjectForKey:@"remoteUrl"];
         self.uid = [coder decodeObjectForKey:@"uid"];
         self.dateModified = [coder decodeObjectForKey:@"dateModified"];
 
@@ -64,9 +60,7 @@
     [coder encodeObject: self.title forKey:@"title"];
     [coder encodeObject: self.author forKey:@"author"];
     [coder encodeObject: self.date forKey:@"date"];
-    [coder encodeObject: self.comments forKey:@"comments"];
     [coder encodeObject: self.attachments forKey:@"attachments"];
-    [coder encodeObject: self.remoteUrl forKey:@"remoteUrl"];
     [coder encodeObject: self.uid forKey:@"uid"];
     [coder encodeObject: self.dateModified forKey:@"dateModified"];
 }
