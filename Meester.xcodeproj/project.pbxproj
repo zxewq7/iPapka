@@ -24,6 +24,7 @@
 		8137EC3E1214228F006C1416 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */; };
 		8137EC401214229D006C1416 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3F1214229D006C1416 /* SystemConfiguration.framework */; };
 		8137EC42121422A6006C1416 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC41121422A6006C1416 /* MobileCoreServices.framework */; };
+		81399954121D3EF3009B0912 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81399953121D3EF3009B0912 /* MasterViewController.m */; };
 		814AE04E1211D55300457254 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE04D1211D55300457254 /* DocumentViewController.m */; };
 		8157845E12147E6C00067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8157845D12147E6C00067473 /* libxml2.dylib */; };
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
@@ -126,6 +127,8 @@
 		8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		8137EC3F1214229D006C1416 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		8137EC41121422A6006C1416 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
+		81399952121D3EF3009B0912 /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
+		81399953121D3EF3009B0912 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		814AE04C1211D55300457254 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
 		814AE04D1211D55300457254 /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewController.m; sourceTree = "<group>"; };
 		8157845D12147E6C00067473 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -317,6 +320,8 @@
 				816FF803121708530083E7A4 /* RootViewController.m */,
 				8179B2BB121C327A00842F63 /* FoldersViewController.h */,
 				8179B2BC121C327A00842F63 /* FoldersViewController.m */,
+				81399952121D3EF3009B0912 /* MasterViewController.h */,
+				81399953121D3EF3009B0912 /* MasterViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -521,6 +526,7 @@
 				81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */,
 				8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */,
 				8179B76E121D22D500842F63 /* Folder.m in Sources */,
+				81399954121D3EF3009B0912 /* MasterViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

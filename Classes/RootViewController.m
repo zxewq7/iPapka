@@ -11,7 +11,6 @@
 #import "LNDataSource.h"
 #import "Document.h"
 #import "DocumentCell.h"
-#import "SegmentedLabel.h";
 #import "Folder.h";
 
 #define ROW_HEIGHT 94
@@ -20,11 +19,7 @@
 - (void)documentsAdded:(NSNotification *)notification;
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentsUpdated:(NSNotification *)notification;
-- (void)documentsListWillRefreshed:(NSNotification *)notification;
-- (void)documentsListDidRefreshed:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments;
-- (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...;
-- (void)createToolbar;
 @end
 
 
@@ -40,10 +35,6 @@
             sectionsOrderedLabels, 
             dateFormatter, 
             sortDescriptors, 
-            activityIndicator, 
-            activityLabel,
-            activityDateFormatter,
-            activityTimeFormatter,
             folder;
 
 - (void) setFolder:(Folder *)aFolder
@@ -71,12 +62,6 @@
     self.sections = [NSMutableDictionary dictionaryWithCapacity:1];
     self.sectionsOrdered = [NSMutableArray arrayWithCapacity:1];
     self.sectionsOrderedLabels = [NSMutableArray arrayWithCapacity:1];
-    self.activityDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [self.activityDateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [self.activityDateFormatter setTimeStyle:NSDateFormatterNoStyle];
-    self.activityTimeFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [self.activityTimeFormatter setDateStyle:NSDateFormatterNoStyle];
-    [self.activityTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
                                   
     [self updateDocuments: [[LNDataSource sharedLNDataSource].documents allValues] isDeleteDocuments:NO];
     
@@ -93,21 +78,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentsUpdated:)
                                                  name:@"DocumentsUpdated" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsListWillRefreshed:)
-                                                 name:@"DocumentsListWillRefreshed" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsListDidRefreshed:)
-                                                 name:@"DocumentsListDidRefreshed" object:nil];
-        // create folders button
-        //http://stackoverflow.com/questions/227078/creating-a-left-arrow-button-like-uinavigationbars-back-style-on-a-uitoolbar/3426793#3426793
-//    UIButton* foldersButton = [UIButton buttonWithType:101]; // left-pointing shape!
-//    [foldersButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
-//    [foldersButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
-//    // create button item -- note that UIButton subclasses UIView
-//    UIBarButtonItem* foldersItem = [[UIBarButtonItem alloc] initWithCustomView:foldersButton];
-//    self.navigationItem.leftBarButtonItem = foldersItem;
-    [self createToolbar];
 }
 
 -(void) viewDidUnload {
@@ -238,31 +208,8 @@
     self.sectionsOrderedLabels = nil;
     self.dateFormatter = nil;
     self.sortDescriptors = nil;
-    self.activityIndicator = nil;
-    self.activityLabel = nil;
-    self.activityDateFormatter = nil;
-    self.activityTimeFormatter = nil;
     self.folder = nil;
     [super dealloc];
-}
-
-#pragma mark -
-#pragma mark actions
--(void)refreshDocuments:(id)sender
-{
-    [[LNDataSource sharedLNDataSource] refreshDocuments];
-}
-
--(void)showFolders:(id)sender
-{
-//    DocumentViewController *detail = [[[DocumentViewController alloc] initWithNibName:@"DocumentViewController" bundle:nil] autorelease];
-//    FoldersViewController *root = [[[FoldersViewController alloc] init] autorelease];
-//
-//    UINavigationController *rootNav = [[[UINavigationController alloc] initWithRootViewController:root]autorelease];
-//    
-//    self.splitViewController.delegate = root;
-//    self.splitViewController.viewControllers = [NSArray arrayWithObjects:rootNav, detail, nil];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 @end
 
@@ -409,107 +356,5 @@
 {
     NSArray *documents = notification.object;
     [self updateDocuments: documents isDeleteDocuments:NO];
-}
-
-- (void)documentsListDidRefreshed:(NSNotification *)notification
-{
-    NSString *error = notification.object;
-    if (error)
-        [self setActivity:NO message:error, nil];
-    else
-    {
-        NSDate *now = [NSDate date];
-        [self setActivity:NO message: NSLocalizedString(@"Synchronized", "Synchronized"), 
-                                      [self.activityDateFormatter stringFromDate:now], 
-                                      [self.activityTimeFormatter stringFromDate:now],
-                                       nil];
-    }
-
-}
-
-- (void)documentsListWillRefreshed:(NSNotification *)notification
-{
-    [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing"), nil];
-}
-
-
-
-- (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...
-{
-    va_list args;
-    va_start(args, aMessage);
-    NSMutableArray *texts = [NSMutableArray arrayWithCapacity:3];
-    for (NSString *arg = aMessage; arg != nil; arg = va_arg(args, NSString*))
-    {
-        if (![arg isKindOfClass:[NSString class]])
-              break;
-
-        [texts addObject:[arg stringByAppendingString:@" "]];
-    }
-    va_end(args);
-    
-    
-    self.activityLabel.texts = texts;
-    
-    if (isProgress)
-        [self.activityIndicator startAnimating];
-    else
-        [self.activityIndicator stopAnimating];
-}
-- (void) createToolbar
-{
-        //create bottom toolbar
-        //http://stackoverflow.com/questions/1072604/whats-the-right-way-to-add-a-toolbar-to-a-uitableview
-    
-        //Create a button 
-        //    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(info_clicked:)];
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshDocuments:)];
-    
-        //activity view
-        //http://stackoverflow.com/questions/333441/adding-a-uilabel-to-a-uitoolbar
-    UIActivityIndicatorView *activity = [[UIActivityIndicatorView alloc] initWithFrame:CGRectMake(0.0f, 0.0f, 20.0f, 20.0f)];
-    [activity setActivityIndicatorViewStyle:UIActivityIndicatorViewStyleGray];    
-    activity.hidesWhenStopped = YES;
-    self.activityIndicator = activity;
-    
-    UIBarButtonItem *activityIndicatorButton = [[UIBarButtonItem alloc] initWithCustomView:activity];
-    
-        //activity label
-    SegmentedLabel *aLabel = [[SegmentedLabel alloc] initWithFrame:CGRectMake(0, 0, 235, 20)];
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
-    label1.backgroundColor = [UIColor clearColor];
-    label1.textColor = [UIColor colorWithRed:0.350 green:0.375 blue:0.404 alpha:1.000];;
-    label1.shadowColor = [UIColor whiteColor];
-    label1.shadowOffset = CGSizeMake(0.0, 1.0);
-    label1.font = [UIFont boldSystemFontOfSize:13];
-    UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
-    label2.backgroundColor = [UIColor clearColor];
-    label2.textColor = [UIColor colorWithRed:0.350 green:0.375 blue:0.404 alpha:1.000];;
-    label2.shadowColor = [UIColor whiteColor];
-    label2.shadowOffset = CGSizeMake(0.0, 1.0);
-    label2.font = [UIFont systemFontOfSize:13];
-    UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 10, 20)];
-    label3.backgroundColor = [UIColor clearColor];
-    label3.textColor = [UIColor colorWithRed:0.350 green:0.375 blue:0.404 alpha:1.000];;
-    label3.shadowColor = [UIColor whiteColor];
-    label3.shadowOffset = CGSizeMake(0.0, 1.0);
-    label3.font = [UIFont boldSystemFontOfSize:13];
-
-    aLabel.backgroundColor = [UIColor clearColor];
-    aLabel.labels = [NSArray arrayWithObjects:label1, label2, label3, nil];
-    self.activityLabel = aLabel;
-    UIBarButtonItem *activityLabelButton = [[UIBarButtonItem alloc] initWithCustomView:aLabel];
-    
-    [self setToolbarItems:[NSArray arrayWithObjects:refreshButton, activityIndicatorButton, activityLabelButton, nil] animated:YES];
-    
-    [activityIndicatorButton release];
-    [activity release];
-    [activityLabelButton release];
-    [aLabel release];
-    [refreshButton release];
-    
-    
-    [self.navigationController setToolbarHidden:NO];
-    
 }
 @end

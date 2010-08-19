@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "MasterViewController.h"
 
 @class RootViewController, Folder;
 
-@interface FoldersViewController : UITableViewController <UISplitViewControllerDelegate> {
+@interface FoldersViewController : MasterViewController <UISplitViewControllerDelegate> {
     RootViewController *rootViewController;
     NSArray            *folders;
 }

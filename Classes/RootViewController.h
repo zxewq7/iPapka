@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "MasterViewController.h"
 
-@class SegmentedLabel, FoldersViewController, Folder;
+@class FoldersViewController, Folder;
 
-@interface RootViewController : UITableViewController <UISplitViewControllerDelegate> {
+@interface RootViewController : MasterViewController <UISplitViewControllerDelegate> {
 	
 	UISplitViewController *splitViewController;
     
@@ -21,10 +22,6 @@
     NSMutableArray          *sectionsOrderedLabels;
     NSDateFormatter         *dateFormatter;
     NSArray                 *sortDescriptors;
-    UIActivityIndicatorView *activityIndicator;
-    SegmentedLabel          *activityLabel;
-    NSDateFormatter         *activityDateFormatter;
-    NSDateFormatter         *activityTimeFormatter;
     Folder                  *folder;
 }
 
@@ -38,11 +35,5 @@
 @property (nonatomic, retain) NSMutableArray            *sectionsOrderedLabels;
 @property (nonatomic, retain) NSDateFormatter           *dateFormatter;
 @property (nonatomic, retain) NSArray                   *sortDescriptors;
-@property (nonatomic, retain) UIActivityIndicatorView   *activityIndicator;
-@property (nonatomic, retain) SegmentedLabel            *activityLabel;
-@property (nonatomic, retain) NSDateFormatter           *activityDateFormatter;
-@property (nonatomic, retain) NSDateFormatter           *activityTimeFormatter;
 @property (nonatomic, retain, setter=setFolder:) Folder *folder;
--(void)refreshDocuments:(id)sender;
--(void)showFolders:(id)sender;
 @end
