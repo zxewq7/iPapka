@@ -13,8 +13,6 @@
 
 @interface RootViewController : MasterViewController <UISplitViewControllerDelegate> {
 	
-	UISplitViewController *splitViewController;
-    
     UIPopoverController     *popoverController;    
     UIBarButtonItem         *rootPopoverButtonItem;
     NSMutableDictionary     *sections;
@@ -24,8 +22,6 @@
     NSArray                 *sortDescriptors;
     Folder                  *folder;
 }
-
-@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 
 @property (nonatomic, retain) UIPopoverController *popoverController;
 @property (nonatomic, retain) UIBarButtonItem *rootPopoverButtonItem;

@@ -28,7 +28,6 @@
 #pragma mark -
 #pragma mark properties
 @synthesize popoverController, 
-            splitViewController, 
             rootPopoverButtonItem, 
             sections, 
             sectionsOrdered, 
@@ -83,7 +82,6 @@
 -(void) viewDidUnload {
 	[super viewDidUnload];
 	
-	self.splitViewController = nil;
 	self.rootPopoverButtonItem = nil;
 }
 
