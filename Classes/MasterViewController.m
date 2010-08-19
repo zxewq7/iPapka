@@ -45,6 +45,15 @@
     [self createToolbar];
 }
 
+    /*
+        http://stackoverflow.com/questions/2339721/hiding-a-uinavigationcontrollers-uitoolbar-during-viewwilldisappear
+        only way to avlid back strips around uitableview
+     */
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self.navigationController setToolbarHidden:NO];
+}
+
 #pragma mark -
 #pragma mark Memory management
 
@@ -159,9 +168,5 @@
     [activityLabelButton release];
     [aLabel release];
     [refreshButton release];
-    
-    
-    [self.navigationController setToolbarHidden:NO];
-    
 }
 @end
