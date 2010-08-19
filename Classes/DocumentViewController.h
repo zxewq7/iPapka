@@ -14,4 +14,8 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
+
+- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
+
+- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
 @end

@@ -44,6 +44,7 @@
     folder = [aFolder retain];
     self.title = folder.localizedName;
     [self updateDocuments:[[[LNDataSource sharedLNDataSource] documents] allValues] isDeleteDocuments:NO];
+    self.rootPopoverButtonItem.title = folder.localizedName;
 }
 
 #pragma mark -
@@ -64,9 +65,6 @@
                                   
     [self updateDocuments: [[LNDataSource sharedLNDataSource].documents allValues] isDeleteDocuments:NO];
     
-    
-        // Set the content size for the popover: there are just two rows in the table view, so set to rowHeight*2.
-    self.contentSizeForViewInPopover = CGSizeMake(310.0, self.tableView.rowHeight*2.0);
     
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentsAdded:)
@@ -95,20 +93,20 @@
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
         // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
-    barButtonItem.title = NSLocalizedString(@"Folders", "Folders");
+    barButtonItem.title = folder.localizedName;
     self.popoverController = pc;
     self.rootPopoverButtonItem = barButtonItem;
-        //    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
-        //    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
+    DocumentViewController *detailViewController = [svc.viewControllers objectAtIndex:1];
+    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
 }
 
 
 - (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
     
         // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
-        //    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
-        //    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
-    barButtonItem.title = NSLocalizedString(@"Folders", "Folders");
+    DocumentViewController *detailViewController = [svc.viewControllers objectAtIndex:1];
+    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
+    barButtonItem.title = folder.localizedName;
     self.popoverController = nil;
     self.rootPopoverButtonItem = nil;
 }

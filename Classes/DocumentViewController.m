@@ -54,6 +54,27 @@
         // e.g. self.myOutlet = nil;
 }
 
+#pragma mark -
+#pragma mark Managing the popover
+
+- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+        // Add the popover button to the toolbar.
+    NSMutableArray *itemsArray = [toolbar.items mutableCopy];
+    [itemsArray insertObject:barButtonItem atIndex:0];
+    [toolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
+
+
+- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+        // Remove the popover button from the toolbar.
+    NSMutableArray *itemsArray = [toolbar.items mutableCopy];
+    [itemsArray removeObject:barButtonItem];
+    [toolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
 
 - (void)dealloc {
     [super dealloc];
