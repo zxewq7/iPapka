@@ -8,20 +8,41 @@
 
 
 #import "AppDelegate.h"
+#import "RootViewController.h"
+#import "Folder.h"
 
 @implementation AppDelegate
 
 
-@synthesize window;
-
-@synthesize viewController;
+@synthesize viewController, window, navigationController, rootViewController;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+        //Create dictionary
+	NSMutableDictionary* defaultValues = [NSMutableDictionary dictionary];
+    Folder *inbox = [Folder folderWith:@"Inbox" andPredicateString:@"SELF.isLoaded == YES"];
+    NSArray* defaultFolders = [NSArray arrayWithObjects:
+                                    inbox,
+                                    [Folder folderWith:@"Archive" andPredicateString:@"SELF.isLoaded == NO"],
+                                    nil];
+    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
+    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
+        //Register the dictionary of defaults
+    
+    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+    
+	[currentDefaults registerDefaults:defaultValues];
+    
+    
+    
+    NSData *lastFolderData = [currentDefaults objectForKey:@"lastFolder"];
+    Folder *lastFolder;
+    if (lastFolderData != nil)
+        lastFolder = [NSKeyedUnarchiver unarchiveObjectWithData:lastFolderData];
 
-    // Override point for customization after application launch.
-     
-    [window addSubview:viewController.view];
-    [window makeKeyAndVisible];
+    self.rootViewController.folder = lastFolder;
+    [self.navigationController pushViewController:self.rootViewController animated:NO];
+    [self.window addSubview:viewController.view];
+    [self.window makeKeyAndVisible];
     return YES;
 }
 
@@ -32,8 +53,10 @@
 
 - (void)dealloc {
 
-    [window release];
-    [viewController release];
+    self.window = nil;
+    self.viewController = nil;
+    self.navigationController = nil;
+    self.rootViewController = nil;
     [super dealloc];
 }
 

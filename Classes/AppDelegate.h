@@ -9,15 +9,25 @@
 
 #import <UIKit/UIKit.h>
 
+@class RootViewController;
+
 @interface AppDelegate : NSObject <UIApplicationDelegate> {
 
-    UIWindow *window;
+    UIWindow                *window;
 
-    UIViewController *viewController;
+    UIViewController        *viewController;
+    
+    UINavigationController  *navigationController;
+    
+    RootViewController      *rootViewController;
 }
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) IBOutlet UIWindow                 *window;
 
-@property (nonatomic, retain) IBOutlet UIViewController *viewController;
+@property (nonatomic, retain) IBOutlet UIViewController         *viewController;
+
+@property (nonatomic, retain) IBOutlet UINavigationController   *navigationController;
+
+@property (nonatomic, retain) IBOutlet RootViewController       *rootViewController;
 @end
 

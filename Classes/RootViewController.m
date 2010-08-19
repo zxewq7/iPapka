@@ -12,6 +12,7 @@
 #import "Document.h"
 #import "DocumentCell.h"
 #import "SegmentedLabel.h";
+#import "Folder.h";
 
 #define ROW_HEIGHT 94
 
@@ -21,7 +22,7 @@
 - (void)documentsUpdated:(NSNotification *)notification;
 - (void)documentsListWillRefreshed:(NSNotification *)notification;
 - (void)documentsListDidRefreshed:(NSNotification *)notification;
-- (void)updateDocuments:(NSArray *) documents isNewDocuments:(BOOL)isNewDocuments isDeleteDocuments:(BOOL)isDeleteDocuments;
+- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments;
 - (void)setActivity:(BOOL) isProgress message:(NSString *) aMessage, ...;
 - (void)createToolbar;
 @end
@@ -29,6 +30,8 @@
 
 @implementation RootViewController
 
+#pragma mark -
+#pragma mark properties
 @synthesize popoverController, 
             splitViewController, 
             rootPopoverButtonItem, 
@@ -40,7 +43,18 @@
             activityIndicator, 
             activityLabel,
             activityDateFormatter,
-            activityTimeFormatter;
+            activityTimeFormatter,
+            folder;
+
+- (void) setFolder:(Folder *)aFolder
+{
+    if (folder == aFolder)
+        return;
+    [folder release];
+    folder = [aFolder retain];
+    self.title = folder.localizedName;
+    [self updateDocuments:[[[LNDataSource sharedLNDataSource] documents] allValues] isDeleteDocuments:NO];
+}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -48,7 +62,6 @@
 - (void)viewDidLoad {
     
     [super viewDidLoad];
-    
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.rowHeight = ROW_HEIGHT;
     
@@ -65,7 +78,7 @@
     [self.activityTimeFormatter setDateStyle:NSDateFormatterNoStyle];
     [self.activityTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
                                   
-    [self updateDocuments: [[LNDataSource sharedLNDataSource].documents allValues] isNewDocuments:YES isDeleteDocuments:NO];
+    [self updateDocuments: [[LNDataSource sharedLNDataSource].documents allValues] isDeleteDocuments:NO];
     
     
         // Set the content size for the popover: there are just two rows in the table view, so set to rowHeight*2.
@@ -86,11 +99,14 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentsListDidRefreshed:)
                                                  name:@"DocumentsListDidRefreshed" object:nil];
-        // create back button
+        // create folders button
         //http://stackoverflow.com/questions/227078/creating-a-left-arrow-button-like-uinavigationbars-back-style-on-a-uitoolbar/3426793#3426793
-    UIButton* backButton = [UIButton buttonWithType:101]; // left-pointing shape!
-    [backButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
-    [backButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
+//    UIButton* foldersButton = [UIButton buttonWithType:101]; // left-pointing shape!
+//    [foldersButton addTarget:self action:@selector(showFolders:) forControlEvents:UIControlEventTouchUpInside];
+//    [foldersButton setTitle:NSLocalizedString(@"Folders", "Folders") forState:UIControlStateNormal];
+//    // create button item -- note that UIButton subclasses UIView
+//    UIBarButtonItem* foldersItem = [[UIBarButtonItem alloc] initWithCustomView:foldersButton];
+//    self.navigationItem.leftBarButtonItem = foldersItem;
     [self createToolbar];
 }
 
@@ -108,11 +124,10 @@
     return YES;
 }
 
-
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
         // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
-    barButtonItem.title = @"Root View Controller";
+    barButtonItem.title = NSLocalizedString(@"Folders", "Folders");
     self.popoverController = pc;
     self.rootPopoverButtonItem = barButtonItem;
         //    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
@@ -125,6 +140,7 @@
         // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
         //    UIViewController <SubstitutableDetailViewController> *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
         //    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
+    barButtonItem.title = NSLocalizedString(@"Folders", "Folders");
     self.popoverController = nil;
     self.rootPopoverButtonItem = nil;
 }
@@ -210,7 +226,6 @@
         //    [detailViewController release];
 }
 
-
 #pragma mark -
 #pragma mark Memory management
 
@@ -227,6 +242,7 @@
     self.activityLabel = nil;
     self.activityDateFormatter = nil;
     self.activityTimeFormatter = nil;
+    self.folder = nil;
     [super dealloc];
 }
 
@@ -239,18 +255,27 @@
 
 -(void)showFolders:(id)sender
 {
+//    DocumentViewController *detail = [[[DocumentViewController alloc] initWithNibName:@"DocumentViewController" bundle:nil] autorelease];
+//    FoldersViewController *root = [[[FoldersViewController alloc] init] autorelease];
+//
+//    UINavigationController *rootNav = [[[UINavigationController alloc] initWithRootViewController:root]autorelease];
+//    
+//    self.splitViewController.delegate = root;
+//    self.splitViewController.viewControllers = [NSArray arrayWithObjects:rootNav, detail, nil];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 @end
 
 @implementation RootViewController(Private)
-- (void)updateDocuments:(NSArray *) documents isNewDocuments:(BOOL)isNewDocuments isDeleteDocuments:(BOOL)isDeleteDocuments
+- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    NSPredicate *filter = folder.predicate;
     for (Document *document in documents) 
     {
             //skip not loaded documents
-        if (!document.isLoaded)
+        if (![filter evaluateWithObject:document])
             continue;
         NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:document.date];
         NSDate *documentDate = document.date;
@@ -373,19 +398,19 @@
 - (void)documentsAdded:(NSNotification *)notification
 {
     NSArray *documents = notification.object;
-    [self updateDocuments: documents isNewDocuments:YES isDeleteDocuments:NO];
+    [self updateDocuments: documents isDeleteDocuments:NO];
 }
 
 - (void)documentsRemoved:(NSNotification *)notification
 {
     NSArray *documents = notification.object;
-    [self updateDocuments: documents isNewDocuments:NO isDeleteDocuments:YES];
+    [self updateDocuments: documents isDeleteDocuments:YES];
 }
 
 - (void)documentsUpdated:(NSNotification *)notification
 {
     NSArray *documents = notification.object;
-    [self updateDocuments: documents isNewDocuments:NO isDeleteDocuments:NO];
+    [self updateDocuments: documents isDeleteDocuments:NO];
 }
 
 - (void)documentsListDidRefreshed:(NSNotification *)notification

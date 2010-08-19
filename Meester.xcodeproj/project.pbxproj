@@ -29,6 +29,8 @@
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
 		8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8178674F121313FC00D38BD3 /* libDataModel.a */; };
 		817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 817867BD1213157E00D38BD3 /* libLNDataSource.a */; };
+		8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B2BC121C327A00842F63 /* FoldersViewController.m */; };
+		8179B76E121D22D500842F63 /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B76D121D22D500842F63 /* Folder.m */; };
 		81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81925245121BF4A800B2D9BE /* SegmentedLabel.m */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
@@ -131,6 +133,10 @@
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		81786747121313FC00D38BD3 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
 		817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
+		8179B2BB121C327A00842F63 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
+		8179B2BC121C327A00842F63 /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
+		8179B76C121D22D500842F63 /* Folder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder.h; sourceTree = "<group>"; };
+		8179B76D121D22D500842F63 /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
 		81925244121BF4A800B2D9BE /* SegmentedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedLabel.h; sourceTree = "<group>"; };
 		81925245121BF4A800B2D9BE /* SegmentedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedLabel.m; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
@@ -208,23 +214,11 @@
 		8116FF7F121134E900DD537F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				81DBAEC21212DE0F00207D6E /* AttachmentCell.h */,
-				81DBAEC31212DE0F00207D6E /* AttachmentCell.m */,
-				81FEA51312119ECD00A9ABD3 /* DocumentCell.h */,
-				81FEA51412119ECD00A9ABD3 /* DocumentCell.m */,
-				812AADAF1218312400E3FBC8 /* DocumentCellView.h */,
-				812AADB01218312400E3FBC8 /* DocumentCellView.m */,
+				81399861121D2FB1009B0912 /* Controller */,
+				81399860121D2F98009B0912 /* View */,
+				8139985E121D2F7D009B0912 /* Model */,
 				8116FF97121134E900DD537F /* AppDelegate.h */,
 				8116FF98121134E900DD537F /* AppDelegate.m */,
-				814AE04C1211D55300457254 /* DocumentViewController.h */,
-				814AE04D1211D55300457254 /* DocumentViewController.m */,
-				81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */,
-				81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */,
-				81FEA51912119ECD00A9ABD3 /* GridView */,
-				816FF802121708530083E7A4 /* RootViewController.h */,
-				816FF803121708530083E7A4 /* RootViewController.m */,
-				81925244121BF4A800B2D9BE /* SegmentedLabel.h */,
-				81925245121BF4A800B2D9BE /* SegmentedLabel.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -285,6 +279,46 @@
 				8137EC26121421AB006C1416 /* libASIHTTPRequest.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		8139985E121D2F7D009B0912 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				8179B76C121D22D500842F63 /* Folder.h */,
+				8179B76D121D22D500842F63 /* Folder.m */,
+			);
+			name = Model;
+			sourceTree = "<group>";
+		};
+		81399860121D2F98009B0912 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				81925244121BF4A800B2D9BE /* SegmentedLabel.h */,
+				81925245121BF4A800B2D9BE /* SegmentedLabel.m */,
+				81DBAEC21212DE0F00207D6E /* AttachmentCell.h */,
+				81DBAEC31212DE0F00207D6E /* AttachmentCell.m */,
+				81FEA51312119ECD00A9ABD3 /* DocumentCell.h */,
+				81FEA51412119ECD00A9ABD3 /* DocumentCell.m */,
+				812AADAF1218312400E3FBC8 /* DocumentCellView.h */,
+				812AADB01218312400E3FBC8 /* DocumentCellView.m */,
+				81FEA51912119ECD00A9ABD3 /* GridView */,
+			);
+			name = View;
+			sourceTree = "<group>";
+		};
+		81399861121D2FB1009B0912 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				814AE04C1211D55300457254 /* DocumentViewController.h */,
+				814AE04D1211D55300457254 /* DocumentViewController.m */,
+				81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */,
+				81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */,
+				816FF802121708530083E7A4 /* RootViewController.h */,
+				816FF803121708530083E7A4 /* RootViewController.m */,
+				8179B2BB121C327A00842F63 /* FoldersViewController.h */,
+				8179B2BC121C327A00842F63 /* FoldersViewController.m */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 		81786748121313FC00D38BD3 /* Products */ = {
@@ -485,6 +519,8 @@
 				816FF804121708530083E7A4 /* RootViewController.m in Sources */,
 				812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */,
 				81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */,
+				8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */,
+				8179B76E121D22D500842F63 /* Folder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

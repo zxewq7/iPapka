@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class SegmentedLabel;
+@class SegmentedLabel, FoldersViewController, Folder;
 
 @interface RootViewController : UITableViewController <UISplitViewControllerDelegate> {
 	
@@ -25,22 +25,24 @@
     SegmentedLabel          *activityLabel;
     NSDateFormatter         *activityDateFormatter;
     NSDateFormatter         *activityTimeFormatter;
+    Folder                  *folder;
 }
 
-@property (nonatomic, assign) IBOutlet UISplitViewController *splitViewController;
+@property (nonatomic, retain) IBOutlet UISplitViewController *splitViewController;
 
 @property (nonatomic, retain) UIPopoverController *popoverController;
 @property (nonatomic, retain) UIBarButtonItem *rootPopoverButtonItem;
 
-@property (nonatomic, retain) NSMutableDictionary     *sections;
-@property (nonatomic, retain) NSMutableArray          *sectionsOrdered;
-@property (nonatomic, retain) NSMutableArray          *sectionsOrderedLabels;
-@property (nonatomic, retain) NSDateFormatter         *dateFormatter;
-@property (nonatomic, retain) NSArray                 *sortDescriptors;
-@property (nonatomic, retain) UIActivityIndicatorView *activityIndicator;
-@property (nonatomic, retain) SegmentedLabel          *activityLabel;
-@property (nonatomic, retain) NSDateFormatter         *activityDateFormatter;
-@property (nonatomic, retain) NSDateFormatter         *activityTimeFormatter;
+@property (nonatomic, retain) NSMutableDictionary       *sections;
+@property (nonatomic, retain) NSMutableArray            *sectionsOrdered;
+@property (nonatomic, retain) NSMutableArray            *sectionsOrderedLabels;
+@property (nonatomic, retain) NSDateFormatter           *dateFormatter;
+@property (nonatomic, retain) NSArray                   *sortDescriptors;
+@property (nonatomic, retain) UIActivityIndicatorView   *activityIndicator;
+@property (nonatomic, retain) SegmentedLabel            *activityLabel;
+@property (nonatomic, retain) NSDateFormatter           *activityDateFormatter;
+@property (nonatomic, retain) NSDateFormatter           *activityTimeFormatter;
+@property (nonatomic, retain, setter=setFolder:) Folder *folder;
 -(void)refreshDocuments:(id)sender;
 -(void)showFolders:(id)sender;
 @end
