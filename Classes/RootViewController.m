@@ -83,13 +83,6 @@
 	self.rootPopoverButtonItem = nil;
 }
 
-#pragma mark -
-#pragma mark Rotation support
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
-
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
         // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.

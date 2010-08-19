@@ -55,6 +55,42 @@
 }
 
 #pragma mark -
+#pragma mark Rotation support
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+        //fix labels colors for popup
+    UIColor *textColor;
+    UIColor *shadowColor;
+    CGSize  shadowOffset;
+    switch (interfaceOrientation) {
+        case UIDeviceOrientationPortrait:
+        case UIInterfaceOrientationPortraitUpsideDown:    
+            textColor = [UIColor whiteColor];
+            shadowColor = [UIColor clearColor];
+            shadowOffset = CGSizeMake(0.0, 0.0);
+            break;
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:    
+        default:
+            textColor = [UIColor colorWithRed:0.350 green:0.375 blue:0.404 alpha:1.000];
+            shadowColor = [UIColor whiteColor];
+            shadowOffset = CGSizeMake(0.0, 1.0);
+            break;
+    }
+
+    NSArray *labels = activityLabel.labels;
+    for (UILabel *label in labels) 
+    {
+        label.textColor = textColor;
+        label.shadowColor = shadowColor;
+        label.shadowOffset = shadowOffset;
+    }
+    
+    
+    return YES;
+}
+
+#pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc {
