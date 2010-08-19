@@ -11,7 +11,7 @@
 
 @class RootViewController, Folder;
 
-@interface FoldersViewController : MasterViewController <UISplitViewControllerDelegate> {
+@interface FoldersViewController : MasterViewController{
     RootViewController *rootViewController;
     NSArray            *folders;
 }

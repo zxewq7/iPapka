@@ -45,15 +45,6 @@
     return YES;
 }
 
-- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
-    
-}
-
-
-- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-}
-
-
 #pragma mark -
 #pragma mark Table view data source
 
