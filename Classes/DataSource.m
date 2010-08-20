@@ -123,6 +123,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.dateModified = aDocument.dateModified;
     newDocument.author = aDocument.author;
     newDocument.title = aDocument.title;
+    newDocument.uid = aDocument.uid;
     
 	NSError *error;
 	if (![managedObjectContext save:&error]) {
