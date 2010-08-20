@@ -34,7 +34,8 @@
             sectionsOrderedLabels, 
             dateFormatter, 
             sortDescriptors, 
-            folder;
+            folder,
+            splitViewController;
 
 - (void) setFolder:(Folder *)aFolder
 {
@@ -147,42 +148,25 @@
 #pragma mark Table view selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     /*
      Create and configure a new detail view controller appropriate for the selection.
      */
-        //    NSUInteger row = indexPath.row;
+    DocumentViewController *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
     
-        //    UIViewController <SubstitutableDetailViewController> *detailViewController = nil;
-        //    
-        //    if (row == 0) {
-        //        FirstDetailViewController *newDetailViewController = [[FirstDetailViewController alloc] initWithNibName:@"FirstDetailView" bundle:nil];
-        //        detailViewController = newDetailViewController;
-        //    }
-        //    
-        //    if (row == 1) {
-        //        SecondDetailViewController *newDetailViewController = [[SecondDetailViewController alloc] initWithNibName:@"SecondDetailView" bundle:nil];
-        //        detailViewController = newDetailViewController;
-        //    }
-    
-        //    DocumentViewController *detailViewController = [[DocumentViewController alloc] initWithNibName:@"DocumentViewController" bundle:nil];
-        //    
-        //        // Update the split view controller's view controllers array.
-        //    NSArray *viewControllers = [[NSArray alloc] initWithObjects:self.navigationController, detailViewController, nil];
-        //    splitViewController.viewControllers = viewControllers;
-        //    [viewControllers release];
-        //    
-        //        // Dismiss the popover if it's present.
-        //    if (popoverController != nil) {
-        //        [popoverController dismissPopoverAnimated:YES];
-        //    }
+    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
+    Document *document = [documentSection objectAtIndex:indexPath.row];
+
+    detailViewController.document = document;
+
+        // Dismiss the popover if it's present.
+    if (popoverController != nil) {
+        [popoverController dismissPopoverAnimated:YES];
+    }
     
         // Configure the new view controller's popover button (after the view has been displayed and its toolbar/navigation bar has been created).
-        //    if (rootPopoverButtonItem != nil) {
-        //        [detailViewController showRootPopoverButtonItem:self.rootPopoverButtonItem];
-        //    }
-    
-        //    [detailViewController release];
+    if (rootPopoverButtonItem != nil) {
+        [detailViewController showRootPopoverButtonItem:self.rootPopoverButtonItem];
+    }
 }
 
 #pragma mark -
@@ -191,6 +175,7 @@
 - (void)dealloc {
     self.popoverController = nil;
     self.rootPopoverButtonItem = nil;
+    self.splitViewController = nil;
     
     self.sections = nil;
     self.sectionsOrdered = nil;

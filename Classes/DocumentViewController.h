@@ -8,12 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
+@class Document;
+
 @interface DocumentViewController : UIViewController
 {
     UIToolbar *toolbar;
+    UILabel   *documentTitle;
+    Document  *document;
 }
 
 @property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
+@property (nonatomic, retain) IBOutlet UILabel   *documentTitle;
+
+@property (nonatomic, retain, setter=setDocument:) Document  *document;
 
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
 

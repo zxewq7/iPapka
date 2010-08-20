@@ -21,7 +21,9 @@
     NSDateFormatter         *dateFormatter;
     NSArray                 *sortDescriptors;
     Folder                  *folder;
+    UISplitViewController   *splitViewController;
 }
+@property (nonatomic, retain) IBOutlet UISplitViewController   *splitViewController;
 
 @property (nonatomic, retain) UIPopoverController *popoverController;
 @property (nonatomic, retain) UIBarButtonItem *rootPopoverButtonItem;

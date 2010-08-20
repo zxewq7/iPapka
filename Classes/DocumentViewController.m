@@ -8,10 +8,24 @@
 
 #import "DocumentViewController.h"
 #import "LNDataSource.h"
+#import "Document.h"
 
 @implementation DocumentViewController
-@synthesize toolbar;
 
+#pragma mark -
+#pragma mark Properties
+@synthesize toolbar, document, documentTitle;
+
+
+-(void) setDocument:(Document *) aDocument
+{
+    if (document == aDocument)
+        return;
+    [document release];
+    document = [aDocument retain];
+    
+    documentTitle.text = document.title;
+}
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
  - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
@@ -77,6 +91,9 @@
 }
 
 - (void)dealloc {
+    self.toolbar = nil;
+    self.document = nil;
+    self.documentTitle = nil;
     [super dealloc];
 }
 @end
