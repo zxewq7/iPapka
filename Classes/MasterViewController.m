@@ -8,7 +8,7 @@
 
 #import "MasterViewController.h"
 #import "SegmentedLabel.h"
-#import "LNDataSource.h"
+#import "DataSource.h"
 
 @interface MasterViewController(Private)
 - (void)documentsListDidRefreshed:(NSNotification *)notification;
@@ -127,7 +127,7 @@
 #pragma mark actions
 -(void)refreshDocuments:(id)sender
 {
-    [[LNDataSource sharedLNDataSource] refreshDocuments];
+    [[DataSource sharedDataSource] refreshDocuments];
 }
 @end
 

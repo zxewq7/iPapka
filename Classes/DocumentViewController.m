@@ -7,7 +7,6 @@
 //
 
 #import "DocumentViewController.h"
-#import "LNDataSource.h"
 #import "Document.h"
 
 @implementation DocumentViewController

@@ -15,6 +15,7 @@
 		8178682E1213190B00D38BD3 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 817868281213190B00D38BD3 /* Document.m */; };
 		81B33A3612159D5C00A06317 /* Resolution.h in Headers */ = {isa = PBXBuildFile; fileRef = 81B33A3412159D5C00A06317 /* Resolution.h */; };
 		81B33A3712159D5C00A06317 /* Resolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B33A3512159D5C00A06317 /* Resolution.m */; };
+		81B74C49121E828C005117D4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B74C48121E828C005117D4 /* CoreData.framework */; };
 		AA747D9F0F9514B9006C5449 /* DataModel_Prefix.pch in Headers */ = {isa = PBXBuildFile; fileRef = AA747D9E0F9514B9006C5449 /* DataModel_Prefix.pch */; };
 		AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = AACBBE490F95108600F1A2B1 /* Foundation.framework */; };
 /* End PBXBuildFile section */
@@ -28,6 +29,7 @@
 		817868281213190B00D38BD3 /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Document.m; path = Classes/Document.m; sourceTree = "<group>"; };
 		81B33A3412159D5C00A06317 /* Resolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Resolution.h; sourceTree = "<group>"; };
 		81B33A3512159D5C00A06317 /* Resolution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Resolution.m; sourceTree = "<group>"; };
+		81B74C48121E828C005117D4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		AA747D9E0F9514B9006C5449 /* DataModel_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataModel_Prefix.pch; sourceTree = SOURCE_ROOT; };
 		AACBBE490F95108600F1A2B1 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D2AAC07E0554694100DB518D /* libDataModel.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libDataModel.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -39,6 +41,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				AACBBE4A0F95108600F1A2B1 /* Foundation.framework in Frameworks */,
+				81B74C49121E828C005117D4 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -68,6 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				AACBBE490F95108600F1A2B1 /* Foundation.framework */,
+				81B74C48121E828C005117D4 /* CoreData.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

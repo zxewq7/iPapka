@@ -9,20 +9,31 @@
 #import <Foundation/Foundation.h>
 
 @class Document, ASINetworkQueue;
+
+@protocol LNDataSourceDelegate
+- (void) documentUpdated:(Document *) document;
+- (void) documentsDeleted:(NSArray *) documents;
+- (void) documentAdded:(Document *) document;
+- (void) documentsListDidRefreshed:(id) sender;
+- (void) documentsListWillRefreshed:(id) sender;
+@end
+
+
 @interface LNDataSource : NSObject
 {
-    NSMutableDictionary *_documents;
-    ASINetworkQueue     *_networkQueue;
-    NSString            *_databaseDirectory;
-    NSString            *_viewDirectory;
-    NSString            *databaseReplicaId;
-    NSString            *viewReplicaId;
-    NSString            *host;
+    NSMutableSet                    *cacheIndex;
+    ASINetworkQueue                 *_networkQueue;
+    NSString                        *_databaseDirectory;
+    NSString                        *databaseReplicaId;
+    NSString                        *viewReplicaId;
+    NSString                        *host;
+    NSObject<LNDataSourceDelegate>  *delegate;
 }
-+ (LNDataSource *)sharedLNDataSource;
-@property (nonatomic, retain) NSMutableDictionary *documents;
-@property (nonatomic, retain) NSString            *databaseReplicaId;
-@property (nonatomic, retain) NSString            *viewReplicaId;
-@property (nonatomic, retain) NSString            *host;
--(void) refreshDocuments;
+@property (nonatomic, retain) NSString                        *databaseReplicaId;
+@property (nonatomic, retain) NSString                        *viewReplicaId;
+@property (nonatomic, retain) NSString                        *host;
+@property (nonatomic, retain) NSObject<LNDataSourceDelegate>  *delegate;
+- (void) refreshDocuments;
+- (void) loadCache;
+- (Document *) loadDocument:(NSString *) anUid;
 @end

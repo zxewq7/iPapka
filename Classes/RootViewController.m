@@ -8,7 +8,7 @@
 
 #import "RootViewController.h"
 #import "DocumentViewController.h"
-#import "LNDataSource.h"
+#import "DataSource.h"
 #import "Document.h"
 #import "DocumentCell.h"
 #import "Folder.h";
@@ -16,10 +16,11 @@
 #define ROW_HEIGHT 94
 
 @interface RootViewController(Private)
-- (void)documentsAdded:(NSNotification *)notification;
+- (void)documentAdded:(NSNotification *)notification;
 - (void)documentsRemoved:(NSNotification *)notification;
-- (void)documentsUpdated:(NSNotification *)notification;
+- (void)documentUpdated:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments;
+- (NSUInteger) indexOfDocument:(Document *) document inArray:(NSArray *) anArray;
 @end
 
 
@@ -50,7 +51,7 @@
         [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
     
     self.title = folder.localizedName;
-    [self updateDocuments:[[[LNDataSource sharedLNDataSource] documents] allValues] isDeleteDocuments:NO];
+    [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO];
     self.rootPopoverButtonItem.title = folder.localizedName;
 }
 
@@ -70,12 +71,9 @@
     self.sectionsOrdered = [NSMutableArray arrayWithCapacity:1];
     self.sectionsOrderedLabels = [NSMutableArray arrayWithCapacity:1];
                                   
-    [self updateDocuments: [[LNDataSource sharedLNDataSource].documents allValues] isDeleteDocuments:NO];
-    
-    
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsAdded:)
-                                                 name:@"DocumentsAdded" object:nil];
+                                             selector:@selector(documentAdded:)
+                                                 name:@"DocumentAdded" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentsRemoved:)
                                                  name:@"DocumentsRemoved" object:nil];
@@ -184,6 +182,7 @@
     self.dateFormatter = nil;
     self.sortDescriptors = nil;
     self.folder = nil;
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super dealloc];
 }
 @end
@@ -193,7 +192,6 @@
 {
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-    NSPredicate *filter = folder.predicate;
     for (Document *document in documents) 
     {
         NSDate *documentDate = document.date;
@@ -201,12 +199,12 @@
         NSDate *documentSection = [calendar dateFromComponents:comps];
         NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:documentSection];
         
-        if (isDeleteDocuments || ![filter evaluateWithObject:document])
+        if (isDeleteDocuments)
         {
             if (sectionIndex != NSNotFound) 
             {
                 NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
-                NSUInteger documentIndex = [sectionDocuments indexOfObject:document];
+                NSUInteger documentIndex = [self indexOfDocument:document inArray:sectionDocuments];
                 if (documentIndex != NSNotFound) 
                 {
                     if ([sectionDocuments count] == 1) //remove empty section
@@ -292,7 +290,7 @@
                         continue;
                     NSDate *section = [self.sectionsOrdered objectAtIndex:i];
                     NSMutableArray *sectionDocuments = [self.sections objectForKey:section];
-                    NSUInteger docIndex = [sectionDocuments indexOfObject:document];
+                    NSUInteger docIndex = [self indexOfDocument: document inArray:sectionDocuments];
                     if (docIndex != NSNotFound)
                     {
                         if ([sectionDocuments count] == 1) //remove section
@@ -315,10 +313,10 @@
         }
     }
 }
-- (void)documentsAdded:(NSNotification *)notification
+- (void)documentAdded:(NSNotification *)notification
 {
-    NSArray *documents = notification.object;
-    [self updateDocuments: documents isDeleteDocuments:NO];
+    Document *document = notification.object;
+    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO];
 }
 
 - (void)documentsRemoved:(NSNotification *)notification
@@ -327,9 +325,22 @@
     [self updateDocuments: documents isDeleteDocuments:YES];
 }
 
-- (void)documentsUpdated:(NSNotification *)notification
+- (void)documentUpdated:(NSNotification *)notification
 {
-    NSArray *documents = notification.object;
-    [self updateDocuments: documents isDeleteDocuments:NO];
+    Document *document = notification.object;
+    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO];
+}
+
+    //we cannot override isEqual in Document, so find it in old way
+- (NSUInteger) indexOfDocument:(Document *) document inArray:(NSArray *) anArray;
+{
+    NSUInteger length = [anArray count];
+    NSString *uid = document.uid;
+    for (NSUInteger i=0; i < length; i++) 
+    {
+        if ([((Document *)[anArray objectAtIndex:i]).uid isEqualToString: uid])
+            return i;
+    }
+    return NSNotFound;
 }
 @end

@@ -5,15 +5,14 @@
 //  Created by Vladimir Solomenchuk on 10.08.10.
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
 //
+#import <CoreData/CoreData.h>
 
-#import <UIKit/UIKit.h>
-
-
-@interface Document : NSObject<NSCoding> {
+@interface Document : NSManagedObject<NSCoding> {
     NSString     *title;
     NSString     *author;
     NSDate       *date;
     NSArray      *attachments;
+    BOOL         isRead;
 
     NSString     *uid;
     NSDate       *dateModified;
@@ -25,6 +24,7 @@
 @property (nonatomic, retain) NSString     *author;
 @property (nonatomic, retain) NSDate       *date;
 @property (nonatomic, retain) NSArray      *attachments;
+@property (nonatomic)         BOOL         isRead;
 
 @property (nonatomic, retain) NSString     *uid;
 @property (nonatomic, retain) NSDate       *dateModified;

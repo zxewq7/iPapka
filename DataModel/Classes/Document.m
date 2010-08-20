@@ -10,7 +10,7 @@
 
 
 @implementation Document
-@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError;
+@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError, isRead;
 - (void) dealloc
 {
     self.title = nil;
@@ -20,22 +20,6 @@
     self.uid = nil;
     self.dateModified = nil;
     [super dealloc];
-}
-
-#pragma mark -
-#pragma mark isEqual implementation
-
-- (NSUInteger)hash;
-{
-	return [self.uid hash];
-}
-
-- (BOOL)isEqual:(id)anObject
-{
-	if ([anObject isKindOfClass: [Document class]])
-		return [[anObject uid] isEqualToString: uid];
-	else
-		return NO;
 }
 
 #pragma mark -
@@ -50,6 +34,7 @@
         self.attachments = [coder decodeObjectForKey:@"attachments"];
         self.uid = [coder decodeObjectForKey:@"uid"];
         self.dateModified = [coder decodeObjectForKey:@"dateModified"];
+        self.isRead = [[coder decodeObjectForKey:@"isRead"] boolValue];
 
     }
     return self;
@@ -63,5 +48,6 @@
     [coder encodeObject: self.attachments forKey:@"attachments"];
     [coder encodeObject: self.uid forKey:@"uid"];
     [coder encodeObject: self.dateModified forKey:@"dateModified"];
+    [coder encodeObject: [NSNumber numberWithBool:self.isRead] forKey:@"isRead"];
 }
 @end

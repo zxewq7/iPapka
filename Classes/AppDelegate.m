@@ -19,10 +19,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         //Create dictionary
 	NSMutableDictionary* defaultValues = [NSMutableDictionary dictionary];
-    Folder *inbox = [Folder folderWith:@"Inbox" andPredicateString:@"SELF.isLoaded == YES"];
+    Folder *inbox = [Folder folderWith:@"Inbox" andPredicateString:@"SELF.isRead == NO"];
     NSArray* defaultFolders = [NSArray arrayWithObjects:
                                     inbox,
-                                    [Folder folderWith:@"Archive" andPredicateString:@"SELF.isLoaded == NO"],
+                                    [Folder folderWith:@"Archive" andPredicateString:@"SELF.isRead == YES"],
                                     nil];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];

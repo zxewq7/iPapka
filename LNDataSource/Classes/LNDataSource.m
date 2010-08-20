@@ -31,29 +31,24 @@ static NSString *field_AttachmentPages = @"pages";
 
 static NSString *form_Resolution   = @"Resolution";
 static NSString *form_Signature    = @"Signature";
-#warning debug data
-    //static NSString *url_FetchView     = @"%@/%@/%@?ReadViewEntries&count=100";
-    //static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
-static NSString *url_FetchView     = @"%@/%@/%@.xml?ReadViewEntries&count=100";
-static NSString *url_FetchDocument = @"%@/%@/%@/%@.xml?EditDocument";
+static NSString *url_FetchView     = @"%@/%@/%@?ReadViewEntries&count=100";
+static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 
 
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
 - (void)fetchFailed:(ASIHTTPRequest *)request;
 - (void)parseViewData:(NSString *) xmlFile;
-- (void)fetchDocument:(Document *) document;
+- (void)fetchDocument:(Document *) document isNew:(BOOL) isNew;
 - (void)parseDocumentData:(Document *) document xmlFile:(NSString *) xmlFile;
 - (void)saveDocument:(Document *) document;
-- (void)loadSavedDocuments;
-- (void)deleteDocument:(Document *) document;
-- (NSString *) documentDirectory:(Document *) document;
+- (void)deleteDocument:(NSString *) anUid;
+- (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchAttachment:(Attachment *) attachment document:(Document *)document pageUrls:(NSMutableDictionary *) pageUrls;
 @end
 
 @implementation LNDataSource
-SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
-@synthesize documents=_documents, viewReplicaId, databaseReplicaId, host;
+@synthesize viewReplicaId, databaseReplicaId, host, delegate;
 -(id)init
 {
     if ((self = [super init])) {
@@ -63,53 +58,43 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         [_networkQueue setDelegate:self];
         [_networkQueue go];
         
-#warning test settings        
-        self.host = @"http://127.0.0.1/~vovasty";
-        self.databaseReplicaId = @"C325777C0045161D";
-        self.viewReplicaId = @"89FB7FB8A9330311C325777C004EEFC8";
-        
-        
-        NSArray *arrayPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        _databaseDirectory = [[[arrayPaths objectAtIndex:0]  stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:self.databaseReplicaId];
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        _databaseDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+        _databaseDirectory = [[_databaseDirectory stringByAppendingPathComponent:@"Cache"] stringByAppendingPathComponent:self.databaseReplicaId];
         [_databaseDirectory retain];
 
         [[NSFileManager defaultManager] createDirectoryAtPath:_databaseDirectory withIntermediateDirectories:TRUE 
                                                    attributes:nil error:nil]; 
 
-        _viewDirectory = [_databaseDirectory stringByAppendingPathComponent:self.viewReplicaId];
-        [_viewDirectory retain];
-        
-        [[NSFileManager defaultManager] createDirectoryAtPath:_viewDirectory withIntermediateDirectories:TRUE 
-                                                   attributes:nil error:nil]; 
-
-        self.documents = [NSMutableDictionary dictionary];
-        
-        [self loadSavedDocuments];
-        
+        cacheIndex = [[NSMutableSet alloc] initWithCapacity:50];
     }
     return self;
 }
 
+#pragma mark -
+#pragma mark Memory management
 -(void)dealloc
 {
     [_networkQueue reset];
 	[_networkQueue release];
     [_databaseDirectory release];
-    [_viewDirectory release];
-	self.documents = nil;
+	[cacheIndex release];
+    self.delegate = nil;
     
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Methods
 -(void) refreshDocuments
 {
-    [[NSNotificationCenter defaultCenter]
-     postNotificationName:@"DocumentsListWillRefreshed" object:nil];
+    if ( [delegate respondsToSelector:@selector(documentsListWillRefreshed:)] ) 
+        [delegate documentsListWillRefreshed:self];
 
     LNHttpRequest *request;
     NSString *url = [NSString stringWithFormat:url_FetchView, self.host, self.databaseReplicaId, self.viewReplicaId];
 	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
-	[request setDownloadDestinationPath:[_viewDirectory stringByAppendingPathComponent:@"index.xml"]];
+	[request setDownloadDestinationPath:[_databaseDirectory stringByAppendingPathComponent:@"index.xml"]];
     __block LNDataSource *blockSelf = self;
     request.requestHandler = ^(ASIHTTPRequest *request) {
         NSString *error = [request error] == nil?
@@ -122,13 +107,37 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         else
             NSLog(@"error fetching url %@\n%@", [request originalURL], error);
 
-        [[NSNotificationCenter defaultCenter]
-            postNotificationName:@"DocumentsListDidRefreshed" object:error];
-
+        if ( [blockSelf->delegate respondsToSelector:@selector(documentsListDidRefreshed:)] ) 
+            [blockSelf->delegate documentsListDidRefreshed:self];
     };
 	[_networkQueue addOperation:request];
 }
 
+- (void)loadCache
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    NSDirectoryEnumerator *dirEnum = [df enumeratorAtPath:_databaseDirectory];
+    
+    NSString *file;
+    while (file = [dirEnum nextObject]) 
+    {
+        NSString *documentObjectPath = [_databaseDirectory stringByAppendingPathComponent: [file stringByAppendingPathComponent:@"index.object"]];
+        if ([df fileExistsAtPath:documentObjectPath isDirectory:NULL]) 
+            [cacheIndex addObject:file];
+    }
+}
+
+- (Document *) loadDocument:(NSString *) anUid
+{
+    NSString *path = [self documentDirectory:anUid];
+    NSString *documentObjectPath = [path stringByAppendingPathComponent:@"index.object"];
+    NSFileManager *df = [NSFileManager defaultManager];
+    
+    if ([df fileExistsAtPath:documentObjectPath isDirectory:NULL])
+        return [NSKeyedUnarchiver unarchiveObjectWithFile:documentObjectPath];
+    else
+        return nil;
+}
 @end
 
 @implementation LNDataSource(Private)
@@ -152,17 +161,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 {
     LotusViewParser *parser = [LotusViewParser parseView:xmlFile];
     NSUInteger size = [parser.documentEntries count];
-    NSMutableDictionary *newDocuments = [[NSMutableDictionary alloc] initWithCapacity:size];
-    NSMutableDictionary *updatedDocuments = [[NSMutableDictionary alloc] initWithCapacity:size];
-    NSMutableSet *allUids = [[NSMutableSet alloc] initWithCapacity:size];
-    NSMutableArray *uidsToRemove = [[NSMutableArray alloc] initWithCapacity:size];
+    NSMutableArray *newDocuments = [NSMutableArray arrayWithCapacity:size];
+    NSMutableArray *updatedDocuments = [NSMutableArray arrayWithCapacity:size];
+    NSMutableSet *allUids = [NSMutableSet setWithCapacity:size];
+    NSMutableSet *uidsToRemove = [NSMutableSet setWithCapacity:size];
     for (NSDictionary *entry in parser.documentEntries) 
     {
         NSString *uid = [entry objectForKey:field_Uid];
-        Document *document = [self.documents objectForKey:uid];
-        [allUids addObject:uid];
+        Document *document;
             //new document
-        if (document == nil)
+        if (![cacheIndex containsObject:uid])
         {
             NSString *form = [entry objectForKey:field_Form];
             if ([form isEqualToString:form_Resolution])
@@ -179,7 +187,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             document.author = [entry objectForKey:field_Author];
             document.dateModified = [entry objectForKey:field_Modified];
             document.date = [entry objectForKey:field_Date];
-            [newDocuments setObject:document forKey:uid];
+            [newDocuments addObject:document];
             [document release];
         }
         else
@@ -192,13 +200,15 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
                 document.author = [entry objectForKey:field_Author];
                 document.dateModified = newDate;
                 document.date = [entry objectForKey:field_Date];
-                [updatedDocuments setObject:document forKey:document.uid];
+                [updatedDocuments addObject:document];
             }
         }
+        
+        [allUids addObject:uid];
     }
     
         //remove obsoleted documents
-    for (NSString *uid in [self.documents allKeys])
+    for (NSString *uid in cacheIndex)
     {
         if (![allUids containsObject:uid])
             [uidsToRemove addObject:uid];
@@ -206,69 +216,63 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         //remove documents
     if ([uidsToRemove count])
     {
-        NSArray *removedDocuments = [self.documents objectsForKeys:uidsToRemove notFoundMarker:@""];
-        [self.documents removeObjectsForKeys:uidsToRemove];
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"DocumentsRemoved" object:removedDocuments];
-        for(Document *document in removedDocuments)
-            [self deleteDocument:document];
         
-    }
-        //add new dowuments
-    if ([newDocuments count])
-    {
-        [self.documents addEntriesFromDictionary:newDocuments];
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"DocumentsAdded" object:[newDocuments allValues]];
-    }
-
-        //update documents
-    if ([updatedDocuments count])
-    {
-        [self.documents addEntriesFromDictionary:updatedDocuments];
-        [[NSNotificationCenter defaultCenter]
-         postNotificationName:@"DocumentsUpdated" object:[updatedDocuments allValues]];
+        NSMutableArray *documentToRemove = [NSMutableArray arrayWithCapacity:[uidsToRemove count]];
+        
+        for (NSString *uid in uidsToRemove)
+        {
+            Document *document = [self loadDocument:uid];
+            [documentToRemove addObject:document];
+            [self deleteDocument:uid];
+        }
+        
+        if ( [delegate respondsToSelector:@selector(documentsDeleted:)] ) 
+            [delegate documentsDeleted:documentToRemove];
     }
         //fetch new documents
-    for (Document *document in [newDocuments allValues])
-        [self fetchDocument: document];
-
-        //refetch updated documents
-    for (Document *document in [updatedDocuments allValues])
-        [self fetchDocument: document];
-
-    [uidsToRemove release];
-    [allUids release];
-    [newDocuments release];
-    [updatedDocuments release];
+    for (Document *document in newDocuments)
+        [self fetchDocument: document isNew:YES];
+    
+        //fetch updated documents
+    for (Document *document in updatedDocuments)
+        [self fetchDocument: document isNew:NO];
 }
 
-- (void)fetchDocument:(Document *) document
+- (void)fetchDocument:(Document *) document isNew:(BOOL) isNew
 {
     LNHttpRequest *request;
     NSString *url = [NSString stringWithFormat:url_FetchDocument, self.host, self.databaseReplicaId, self.viewReplicaId, document.uid];
 	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
-	[request setDownloadDestinationPath:[[self documentDirectory:document] stringByAppendingPathComponent:@"index.html"]];
+    NSString *directory = [self documentDirectory:document.uid];
+    NSFileManager *df = [NSFileManager defaultManager];
+    if (isNew)
+        [df createDirectoryAtPath:directory withIntermediateDirectories:TRUE attributes:nil error:nil];
+
+	[request setDownloadDestinationPath:[directory stringByAppendingPathComponent:@"index.html"]];
     request.requestHandler = ^(ASIHTTPRequest *request) {
         if ([request error] == nil  && [request responseStatusCode] == 200)
         {
-            [self parseDocumentData:document xmlFile:[request downloadDestinationPath]];
-            NSLog(@"%@", [request downloadDestinationPath]);
+            NSString *file = [request downloadDestinationPath];
+            [self parseDocumentData:document xmlFile:file];
+            [self saveDocument:document];
+            [df removeItemAtPath:file error:NULL];
+            if ( isNew && [delegate respondsToSelector:@selector(documentAdded:)] ) 
+                [delegate documentAdded:document];
+            else if ( !isNew && [delegate respondsToSelector:@selector(documentUpdated:)] )
+                [delegate documentUpdated:document];
         }
         else
         {
-            document.hasError = YES;
+            [df removeItemAtPath:directory error:NULL];
             NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
-        [[NSNotificationCenter defaultCenter]
-            postNotificationName:@"DocumentsUpdated" object:[NSArray arrayWithObject:document]];
     };
 	[_networkQueue addOperation:request];
 }
 
 - (void)fetchAttachment:(Attachment *) attachment document:(Document *)document pageUrls:(NSMutableDictionary *) pageUrls
 {
-    NSString *path = [[[self documentDirectory:document] stringByAppendingPathComponent:@"attachments"] stringByAppendingPathComponent:attachment.title];
+    NSString *path = [[[self documentDirectory:document.uid] stringByAppendingPathComponent:@"attachments"] stringByAppendingPathComponent:attachment.title];
     [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:TRUE 
                                                attributes:nil error:nil];
     attachment.path = path;
@@ -284,7 +288,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             else
             {
                 attachment.hasError = YES;
-                [attachment.pages setValue:@"error" forKey:pageName];
+                [pageUrls setValue:@"error" forKey:pageName];
                 NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
             }
             
@@ -320,28 +324,26 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
                 }
             }
             document.isLoaded = loaded;
-            //    [self saveDocument:document];
-            if (loaded) 
-                [[NSNotificationCenter defaultCenter]
-                    postNotificationName:@"DocumentsUpdated" object:[NSArray arrayWithObject:document]];
+            [self saveDocument:document];
+            if (loaded && [delegate respondsToSelector:@selector(documentUpdated:)]) 
+                [delegate documentUpdated:document];
         };
         [_networkQueue addOperation:request];
         
     }
 }
 
-- (NSString *) documentDirectory:(Document *) document
+- (NSString *) documentDirectory:(NSString *) anUid
 {
-    NSString *directory = [_viewDirectory stringByAppendingPathComponent:document.uid];
-    [[NSFileManager defaultManager] createDirectoryAtPath:directory withIntermediateDirectories:TRUE 
-                                               attributes:nil error:nil];
+    NSString *directory = [_databaseDirectory stringByAppendingPathComponent: anUid];
     return directory;
 }
 - (void)saveDocument:(Document *) document
 {
-    NSString * path = [self documentDirectory:document];
+    NSString * path = [self documentDirectory:document.uid];
     
     [NSKeyedArchiver archiveRootObject: document toFile: [path stringByAppendingPathComponent:@"index.object"]];
+    [cacheIndex addObject:document.uid];
     NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
     
 }
@@ -381,27 +383,11 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
     document.date = [parsedDocument objectForKey:field_Date];
     document.hasError = NO;
 }
-- (void)loadSavedDocuments
-{
-    
-    NSFileManager *df = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *dirEnum = [df enumeratorAtPath:_viewDirectory];
-    
-    NSString *file;
-    while (file = [dirEnum nextObject]) {
-        NSString *documentObjectPath = [_viewDirectory stringByAppendingPathComponent: [file stringByAppendingPathComponent:@"index.object"] ];
-        if ([df fileExistsAtPath:documentObjectPath isDirectory:NULL]) 
-        {
-            Document *document = [NSKeyedUnarchiver unarchiveObjectWithFile:documentObjectPath];
-            document.isLoaded = YES;
-            [self.documents setObject:document forKey:document.uid];
-        }
-    }
-}
-- (void)deleteDocument:(Document *) document
+- (void)deleteDocument:(NSString *) anUid
 {
     NSFileManager *df = [NSFileManager defaultManager];
-    NSString *documentPath = [self documentDirectory:document];
+    NSString *documentPath = [self documentDirectory:anUid];
     [df removeItemAtPath:documentPath error:NULL];
+    [cacheIndex removeObject:anUid];
 }
 @end
