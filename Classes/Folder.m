@@ -17,7 +17,7 @@
     Folder *folder = [[Folder alloc] init];
     folder.name = aName;
     folder.predicateString = aPredicateString;
-    return folder;
+    return [folder autorelease];
 }
 
 - (void) dealloc
