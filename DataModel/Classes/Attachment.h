@@ -11,16 +11,18 @@
 
 @interface Attachment : NSObject<NSCoding> {
     NSString     *title;
-    NSDictionary *pages;
+    NSArray      *pages;
     NSString     *path;
     BOOL         isLoaded;
     BOOL         hasError;
 }
 
 @property (nonatomic, retain) NSString     *title;
-@property (nonatomic, retain) NSDictionary *pages;
+@property (nonatomic, retain) NSArray      *pages;
 @property (nonatomic, retain) NSString     *path;
 
 @property (nonatomic)         BOOL         isLoaded;
 @property (nonatomic)         BOOL         hasError;
+
+-(UIImage *) imageForIndex:(NSUInteger) pageIndex;
 @end

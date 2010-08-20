@@ -48,7 +48,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@.xml?EditDocument";
 - (void)loadSavedDocuments;
 - (void)deleteDocument:(Document *) document;
 - (NSString *) documentDirectory:(Document *) document;
-- (void)fetchAttachment:(Attachment *) attachment document:(Document *)document;
+- (void)fetchAttachment:(Attachment *) attachment document:(Document *)document pageUrls:(NSMutableDictionary *) pageUrls;
 @end
 
 @implementation LNDataSource
@@ -266,22 +266,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
 	[_networkQueue addOperation:request];
 }
 
-- (void)fetchAttachment:(Attachment *) attachment document:(Document *)document;
+- (void)fetchAttachment:(Attachment *) attachment document:(Document *)document pageUrls:(NSMutableDictionary *) pageUrls
 {
-        //assume, that values contains urls
-    NSDictionary *pages = attachment.pages;
     NSString *path = [[[self documentDirectory:document] stringByAppendingPathComponent:@"attachments"] stringByAppendingPathComponent:attachment.title];
     [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:TRUE 
                                                attributes:nil error:nil];
     attachment.path = path;
-    for (NSString *pageName in [pages allKeys]) 
+    for (NSString *pageName in [pageUrls allKeys]) 
     {
-        NSString *url = [pages objectForKey:pageName];
+        NSString *url = [pageUrls objectForKey:pageName];
+        [pageUrls setObject:@"" forKey:pageName];
         LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
         [request setDownloadDestinationPath:[path stringByAppendingPathComponent:pageName]];
         request.requestHandler = ^(ASIHTTPRequest *request) {
             if ([request error] == nil  && [request responseStatusCode] == 200)
-                [attachment.pages setValue:[[request downloadDestinationPath] lastPathComponent] forKey:pageName];
+                [pageUrls setValue:[[request downloadDestinationPath] lastPathComponent] forKey:pageName];
             else
             {
                 attachment.hasError = YES;
@@ -290,12 +289,21 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
             }
             
             BOOL loaded = YES;
-            for (NSString *fileName in [pages allValues]) 
+            for (NSString *fileName in [pageUrls allValues]) 
             {
                 if ([fileName isEqualToString:@""]) 
                 {
                     loaded = NO;
                     break;
+                }
+                if (loaded) 
+                {
+                    NSArray *pageNames = [[pageUrls allKeys] sortedArrayUsingSelector:@selector(localizedCaseInsensitiveCompare:)];
+                    NSMutableArray *pages = [NSMutableArray arrayWithCapacity:[pageNames count]];
+
+                    for (NSString *pageName in pageNames) 
+                        [pages addObject:[pageUrls objectForKey:pageName]];
+                    attachment.pages = pages;
                 }
             }
             attachment.isLoaded = loaded;
@@ -356,15 +364,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(LNDataSource);
         Attachment *newAttachment = [[Attachment alloc] init];
         newAttachment.title = [attachment objectForKey:field_AttachmentName];
         NSArray *pages = [attachment objectForKey:field_AttachmentPages];
-        NSMutableDictionary *newAttachments = [NSMutableDictionary dictionary];
+        NSMutableDictionary *pageUrls = [NSMutableDictionary dictionary];
         for (NSDictionary *page in pages) {
             for (NSString *pageName in page.allKeys) {
                 NSString *pageUrl = [page objectForKey:pageName];
-                [newAttachments setObject:pageUrl forKey:pageName];
+                [pageUrls setObject:pageUrl forKey:pageName];
             }
         }
-        newAttachment.pages = newAttachments;
-        [self fetchAttachment:newAttachment document:document];
+        [self fetchAttachment:newAttachment document:document pageUrls:pageUrls];
         [documentAttachments addObject:newAttachment];
         [newAttachment release];
     }
