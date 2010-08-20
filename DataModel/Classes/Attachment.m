@@ -39,8 +39,8 @@
     [coder encodeObject: self.path forKey:@"path"];
 }
 
--(UIImage *) imageForIndex:(NSUInteger) pageIndex
+-(UIImage *) pageForIndex:(NSUInteger) anIndex
 {
-    return [UIImage imageWithContentsOfFile:[pages objectAtIndex:pageIndex]];
+    return [UIImage imageWithContentsOfFile:[pages objectAtIndex:anIndex]];
 }
 @end
