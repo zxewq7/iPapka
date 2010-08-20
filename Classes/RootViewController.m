@@ -43,6 +43,12 @@
         return;
     [folder release];
     folder = [aFolder retain];
+    
+        //deselect selected row
+    NSIndexPath *selectedPath = [self.tableView indexPathForSelectedRow];
+    if (selectedPath)
+        [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
+    
     self.title = folder.localizedName;
     [self updateDocuments:[[[LNDataSource sharedLNDataSource] documents] allValues] isDeleteDocuments:NO];
     self.rootPopoverButtonItem.title = folder.localizedName;
@@ -161,11 +167,6 @@
         // Dismiss the popover if it's present.
     if (popoverController != nil) {
         [popoverController dismissPopoverAnimated:YES];
-    }
-    
-        // Configure the new view controller's popover button (after the view has been displayed and its toolbar/navigation bar has been created).
-    if (rootPopoverButtonItem != nil) {
-        [detailViewController showRootPopoverButtonItem:self.rootPopoverButtonItem];
     }
 }
 
