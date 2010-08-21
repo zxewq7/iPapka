@@ -77,8 +77,8 @@
                                              selector:@selector(documentsRemoved:)
                                                  name:@"DocumentsRemoved" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsUpdated:)
-                                                 name:@"DocumentsUpdated" object:nil];
+                                             selector:@selector(documentUpdated:)
+                                                 name:@"DocumentUpdated" object:nil];
 }
 
 -(void) viewDidUnload {
