@@ -10,12 +10,13 @@
 
 
 @implementation Resolution
-@synthesize text, performers, managed;
+@synthesize text, performers, managed, parentResolution;
 
 - (void) dealloc
 {
     self.text = nil;
     self.performers = nil;
+    self.parentResolution = nil;
     [super dealloc];
 }
 
@@ -28,6 +29,7 @@
         self.text = [coder decodeObjectForKey:@"text"];
         self.managed = [[coder decodeObjectForKey:@"managed"] boolValue];
         self.performers = [coder decodeObjectForKey:@"performers"];
+        self.parentResolution = [coder decodeObjectForKey:@"parentResolution"];
     }
     return self;
 }
@@ -38,5 +40,6 @@
     [coder encodeObject: self.text forKey:@"text"];
     [coder encodeObject: self.performers forKey:@"performers"];
     [coder encodeObject: [NSNumber numberWithBool:self.managed] forKey:@"managed"];
+    [coder encodeObject: parentResolution forKey:@"parentResolution"];
 }
 @end

@@ -6,11 +6,14 @@
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
 //
 
-@interface Document : NSObject<NSCoding> {
+#import <CoreData/CoreData.h>
+
+@interface Document : NSManagedObject<NSCoding> {
     NSString     *title;
     NSString     *author;
     NSDate       *date;
     NSArray      *attachments;
+    NSArray      *links;
     NSNumber     *isRead;
 
     NSString     *uid;
@@ -23,6 +26,7 @@
 @property (nonatomic, retain) NSString     *author;
 @property (nonatomic, retain) NSDate       *date;
 @property (nonatomic, retain) NSArray      *attachments;
+@property (nonatomic, retain) NSArray      *links;
 @property (nonatomic, retain) NSNumber     *isRead;
 
 @property (nonatomic, retain) NSString     *uid;

@@ -120,19 +120,19 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 
 - (void) documentAdded:(Document *) aDocument
 {
-    NSManagedObject *newDocument = nil;
+    Document *newDocument = nil;
     BOOL isResolution = [aDocument isKindOfClass:[Resolution class]];
     if (isResolution)
          newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:managedObjectContext];
     else
          newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
     
-    [newDocument setValue:aDocument.date forKey:@"date"];
-    [newDocument setValue:aDocument.dateModified forKey:@"dateModified"];
-    [newDocument setValue:aDocument.author forKey:@"author"];
-    [newDocument setValue:aDocument.title forKey:@"title"];
-    [newDocument setValue:aDocument.uid forKey:@"uid"];
-    [newDocument setValue:[NSNumber numberWithBool:NO] forKey:@"isRead"];
+    newDocument.date = aDocument.date;
+    newDocument.dateModified = aDocument.dateModified;
+    newDocument.author = aDocument.author;
+    newDocument.title = aDocument.title;
+    newDocument.uid = aDocument.uid;
+    newDocument.isRead = [NSNumber numberWithBool:NO];
     
     if (isResolution)
         [newDocument setValue:((Resolution *)aDocument).performers forKey:@"performers"];
