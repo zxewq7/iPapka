@@ -467,7 +467,7 @@
 		1DEB922308733DC00010E9CD /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
@@ -476,23 +476,25 @@
 				HEADER_SEARCH_PATHS = "";
 				ONLY_ACTIVE_ARCH = YES;
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos3.2;
 				USER_HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2 $PROJECT_DIR/../DataModel/** $PROJECT_DIR/../thirdparty/ASIHTTPRequest/**";
+				VALID_ARCHS = armv7;
 			};
 			name = Debug;
 		};
 		1DEB922408733DC00010E9CD /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "";
 				PREBINDING = NO;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos3.2;
 				USER_HEADER_SEARCH_PATHS = "$SDKROOT/usr/include/libxml2 $PROJECT_DIR/../DataModel/** $PROJECT_DIR/../thirdparty/ASIHTTPRequest/**";
+				VALID_ARCHS = armv7;
 			};
 			name = Release;
 		};
