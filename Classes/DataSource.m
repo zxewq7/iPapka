@@ -14,6 +14,7 @@
 
 @interface DataSource(Private)
 -(Document *) findDocumentByUid:(NSString *) anUid;
+-(void) commit;
 @end
 
 @implementation DataSource
@@ -90,9 +91,9 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         foundDocument.dateModified = aDocument.dateModified;
         foundDocument.author = aDocument.author;
         foundDocument.title = aDocument.title;
-        NSError *error = nil;
-        if (![managedObjectContext save:&error])
-                NSAssert1(NO, @"Unhandled error executing document update: %@", [error localizedDescription]);
+        
+        [self commit];
+        
         [notify postNotificationName:@"DocumentUpdated" object:foundDocument];
     }
     else
@@ -108,9 +109,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
             [managedObjectContext deleteObject:foundDocument];
     }
     
-    NSError *error = nil;
-    if (![managedObjectContext save:&error])
-        NSAssert1(NO, @"Unhandled error executing document delete: %@", [error localizedDescription]);
+    [self commit];
     
     [notify postNotificationName:@"DocumentsDeleted" object:documents];
 }
@@ -124,9 +123,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.title = aDocument.title;
     newDocument.uid = aDocument.uid;
     
-	NSError *error = nil;
-	if (![managedObjectContext save:&error])
-        NSAssert1(NO, @"Unhandled error executing document insert: %@", [error localizedDescription]);
+	[self commit];
 	
 
     [notify postNotificationName:@"DocumentAdded" object:newDocument];
@@ -211,5 +208,22 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         return [fetchResults objectAtIndex:0];
     
     return nil;
+}
+-(void)commit
+{
+    NSError *error = nil;
+    if (![managedObjectContext save:&error])
+    {
+            //remove documents from cache for consistency
+        NSSet *insertedObjects  = [managedObjectContext insertedObjects];
+        for (Document *document in insertedObjects)
+            [lnDataSource deleteDocument:document.uid];
+
+        NSSet *updatedObjects  = [managedObjectContext updatedObjects];
+        for (Document *document in updatedObjects)
+            [lnDataSource deleteDocument:document.uid];
+        
+        NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
+    }
 }
 @end

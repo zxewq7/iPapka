@@ -42,7 +42,6 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 - (void)fetchDocument:(Document *) document isNew:(BOOL) isNew;
 - (void)parseDocumentData:(Document *) document xmlFile:(NSString *) xmlFile;
 - (void)saveDocument:(Document *) document;
-- (void)deleteDocument:(NSString *) anUid;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchAttachment:(Attachment *) attachment document:(Document *)document pageUrls:(NSMutableDictionary *) pageUrls;
 @end
@@ -137,6 +136,14 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
         return [NSKeyedUnarchiver unarchiveObjectWithFile:documentObjectPath];
     else
         return nil;
+}
+
+- (void)deleteDocument:(NSString *) anUid
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    NSString *documentPath = [self documentDirectory:anUid];
+    [df removeItemAtPath:documentPath error:NULL];
+    [cacheIndex removeObject:anUid];
 }
 @end
 
@@ -382,12 +389,5 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
     document.author = [parsedDocument objectForKey:field_Author];
     document.date = [parsedDocument objectForKey:field_Date];
     document.hasError = NO;
-}
-- (void)deleteDocument:(NSString *) anUid
-{
-    NSFileManager *df = [NSFileManager defaultManager];
-    NSString *documentPath = [self documentDirectory:anUid];
-    [df removeItemAtPath:documentPath error:NULL];
-    [cacheIndex removeObject:anUid];
 }
 @end

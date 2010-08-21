@@ -36,4 +36,5 @@
 - (void) refreshDocuments;
 - (void) loadCache;
 - (Document *) loadDocument:(NSString *) anUid;
+- (void)deleteDocument:(NSString *) anUid;
 @end
