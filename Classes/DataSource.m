@@ -102,16 +102,18 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 
 - (void) documentsDeleted:(NSArray *) documents
 {
+    NSMutableArray *documentsToDelete = [NSMutableArray arrayWithCapacity:[documents count]];
     for (Document *document in documents) 
     {
         Document *foundDocument = [self findDocumentByUid:document.uid];
+        [documentsToDelete addObject:foundDocument];
         if (foundDocument)
             [managedObjectContext deleteObject:(NSManagedObject *)foundDocument];
     }
     
-    [self commit];
+    [notify postNotificationName:@"DocumentsRemoved" object:documentsToDelete];
     
-    [notify postNotificationName:@"DocumentsRemoved" object:documents];
+    [self commit];
 }
 
 - (void) documentAdded:(Document *) aDocument
