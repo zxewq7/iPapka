@@ -91,10 +91,9 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         foundDocument.author = aDocument.author;
         foundDocument.title = aDocument.title;
         NSError *error;
-        if (![managedObjectContext save:&error]) {
-#warning handle error
-        }
-        [notify postNotificationName:@"DocumentUpdated" object:aDocument];
+        if (![managedObjectContext save:&error])
+                NSAssert1(NO, @"Unhandled error executing document update: %@", [error localizedDescription]);
+        [notify postNotificationName:@"DocumentUpdated" object:foundDocument];
     }
     else
         [self documentAdded:aDocument];
@@ -110,9 +109,9 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     }
     
     NSError *error;
-    if (![managedObjectContext save:&error]) {
-#warning handle error
-    }
+    if (![managedObjectContext save:&error])
+        NSAssert1(NO, @"Unhandled error executing document delete: %@", [error localizedDescription]);
+    
     [notify postNotificationName:@"DocumentsDeleted" object:documents];
 }
 
@@ -123,14 +122,14 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.dateModified = aDocument.dateModified;
     newDocument.author = aDocument.author;
     newDocument.title = aDocument.title;
-    newDocument.uid = aDocument.uid;
+        //    newDocument.uid = aDocument.uid;
     
 	NSError *error;
-	if (![managedObjectContext save:&error]) {
-#warning handle error
-	}
+	if (![managedObjectContext save:&error])
+        NSAssert1(NO, @"Unhandled error executing document insert: %@", [error localizedDescription]);
+	
 
-    [notify postNotificationName:@"DocumentAdded" object:aDocument];
+    [notify postNotificationName:@"DocumentAdded" object:newDocument];
 }
 
 - (void) documentsListDidRefreshed:(id) sender
@@ -153,7 +152,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 	 Create a fetch request; find the Event entity and assign it to the request; add a sort descriptor; then execute the fetch.
 	 */
 	NSFetchRequest *request = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = [NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext];
+	NSEntityDescription *entity = self.documentEntityDescription;
 	[request setEntity:entity];
 	
         // Order the events by creation date, most recent first.
