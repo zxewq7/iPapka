@@ -90,7 +90,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         foundDocument.dateModified = aDocument.dateModified;
         foundDocument.author = aDocument.author;
         foundDocument.title = aDocument.title;
-        NSError *error;
+        NSError *error = nil;
         if (![managedObjectContext save:&error])
                 NSAssert1(NO, @"Unhandled error executing document update: %@", [error localizedDescription]);
         [notify postNotificationName:@"DocumentUpdated" object:foundDocument];
@@ -108,7 +108,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
             [managedObjectContext deleteObject:foundDocument];
     }
     
-    NSError *error;
+    NSError *error = nil;
     if (![managedObjectContext save:&error])
         NSAssert1(NO, @"Unhandled error executing document delete: %@", [error localizedDescription]);
     
@@ -122,9 +122,9 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.dateModified = aDocument.dateModified;
     newDocument.author = aDocument.author;
     newDocument.title = aDocument.title;
-        //    newDocument.uid = aDocument.uid;
+    newDocument.uid = aDocument.uid;
     
-	NSError *error;
+	NSError *error = nil;
 	if (![managedObjectContext save:&error])
         NSAssert1(NO, @"Unhandled error executing document insert: %@", [error localizedDescription]);
 	
@@ -151,29 +151,24 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 	 Fetch existing events.
 	 Create a fetch request; find the Event entity and assign it to the request; add a sort descriptor; then execute the fetch.
 	 */
-	NSFetchRequest *request = [[NSFetchRequest alloc] init];
-	NSEntityDescription *entity = self.documentEntityDescription;
-	[request setEntity:entity];
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:self.documentEntityDescription];
 	
-        // Order the events by creation date, most recent first.
-	NSSortDescriptor *sortDescriptor = [[NSSortDescriptor alloc] initWithKey:@"date" ascending:NO];
-	NSArray *sortDescriptors = [[NSArray alloc] initWithObjects:sortDescriptor, nil];
-	[request setSortDescriptors:sortDescriptors];
-    [request setPredicate:folder.predicate];
-	[sortDescriptor release];
-	[sortDescriptors release];
+    [fetchRequest setPredicate:folder.predicate];
 	
         // Execute the fetch -- create a mutable copy of the result.
 	NSError *error = nil;
-	NSMutableArray *mutableFetchResults = [[managedObjectContext executeFetchRequest:request error:&error] mutableCopy];
-	if (mutableFetchResults == nil) {
-            // Handle the error.
-	}
-	
-        //clean up.
-	[request release];
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    NSAssert1(fetchResults != nil, @"Unhandled error executing document update: %@", [error localizedDescription]);
+
+    for (Document *doc in fetchResults) {
+        NSLog(@"%@", doc.uid);
+        NSLog(@"%@", doc.author);
+        NSLog(@"%@", doc.title);
+    }
     
-    return [mutableFetchResults autorelease];
+    return fetchResults;
 }
 -(void) refreshDocuments
 {
