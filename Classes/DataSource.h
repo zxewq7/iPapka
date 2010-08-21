@@ -30,4 +30,5 @@
 -(NSArray *) documentsForFolder:(Folder *) folder;
 -(void) refreshDocuments;
 -(Document *) loadDocument:(Document *) aDocument;
+-(void) shutdown;
 @end

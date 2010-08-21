@@ -10,6 +10,7 @@
 #import "AppDelegate.h"
 #import "RootViewController.h"
 #import "Folder.h"
+#import "DataSource.h"
 
 @implementation AppDelegate
 
@@ -48,7 +49,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 
-    // Save data if appropriate.
+    [[DataSource sharedDataSource] shutdown];
 }
 
 - (void)dealloc {

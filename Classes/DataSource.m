@@ -125,7 +125,6 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     
 	[self commit];
 	
-
     [notify postNotificationName:@"DocumentAdded" object:newDocument];
 }
 
@@ -175,6 +174,10 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 {
     return [lnDataSource loadDocument:aDocument.uid];
 }
+-(void) shutdown
+{
+    [self commit];
+}
 #pragma mark -
 #pragma mark Memory management
 
@@ -212,7 +215,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 -(void)commit
 {
     NSError *error = nil;
-    if (![managedObjectContext save:&error])
+    if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
     {
             //remove documents from cache for consistency
         NSSet *insertedObjects  = [managedObjectContext insertedObjects];
