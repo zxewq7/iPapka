@@ -111,7 +111,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     
     [self commit];
     
-    [notify postNotificationName:@"DocumentsDeleted" object:documents];
+    [notify postNotificationName:@"DocumentsRemoved" object:documents];
 }
 
 - (void) documentAdded:(Document *) aDocument
