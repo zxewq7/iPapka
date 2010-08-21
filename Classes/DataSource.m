@@ -11,6 +11,7 @@
 #import "SynthesizeSingleton.h"
 #import "Document.h"
 #import "LNDataSource.h"
+#import "Resolution.h"
 
 @interface DataSource(Private)
 -(Document *) findDocumentByUid:(NSString *) anUid;
@@ -118,7 +119,12 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 
 - (void) documentAdded:(Document *) aDocument
 {
-    NSManagedObject *newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
+    NSManagedObject *newDocument = nil;
+    BOOL isResolution = [aDocument isKindOfClass:[Resolution class]];
+    if (isResolution)
+         newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:managedObjectContext];
+    else
+         newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
     
     [newDocument setValue:aDocument.date forKey:@"date"];
     [newDocument setValue:aDocument.dateModified forKey:@"dateModified"];
@@ -126,11 +132,14 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     [newDocument setValue:aDocument.title forKey:@"title"];
     [newDocument setValue:aDocument.uid forKey:@"uid"];
     
+    if (isResolution)
+        [newDocument setValue:((Resolution *)aDocument).performers forKey:@"performers"];
+    
 	[self commit];
     
         //    [newDocument release];
 	
-    [notify postNotificationName:@"DocumentAdded" object:aDocument];
+    [notify postNotificationName:@"DocumentAdded" object:newDocument];
 }
 
 - (void) documentsListDidRefreshed:(id) sender
