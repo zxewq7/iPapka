@@ -106,7 +106,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     {
         Document *foundDocument = [self findDocumentByUid:document.uid];
         if (foundDocument)
-            [managedObjectContext deleteObject:foundDocument];
+            [managedObjectContext deleteObject:(NSManagedObject *)foundDocument];
     }
     
     [self commit];
@@ -116,16 +116,19 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 
 - (void) documentAdded:(Document *) aDocument
 {
-    Document *newDocument = [[Document alloc] initWithEntity:self.documentEntityDescription insertIntoManagedObjectContext:managedObjectContext];
-    newDocument.date = aDocument.date;
-    newDocument.dateModified = aDocument.dateModified;
-    newDocument.author = aDocument.author;
-    newDocument.title = aDocument.title;
-    newDocument.uid = aDocument.uid;
+    NSManagedObject *newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
+    
+    [newDocument setValue:aDocument.date forKey:@"date"];
+    [newDocument setValue:aDocument.dateModified forKey:@"dateModified"];
+    [newDocument setValue:aDocument.author forKey:@"author"];
+    [newDocument setValue:aDocument.title forKey:@"title"];
+    [newDocument setValue:aDocument.uid forKey:@"uid"];
     
 	[self commit];
+    
+        //    [newDocument release];
 	
-    [notify postNotificationName:@"DocumentAdded" object:newDocument];
+    [notify postNotificationName:@"DocumentAdded" object:aDocument];
 }
 
 - (void) documentsListDidRefreshed:(id) sender
@@ -143,31 +146,23 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 #pragma mark methods
 -(NSArray *) documentsForFolder:(Folder *) folder
 {
-    /*
-	 Fetch existing events.
-	 Create a fetch request; find the Event entity and assign it to the request; add a sort descriptor; then execute the fetch.
-	 */
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:self.documentEntityDescription];
 	
-    [fetchRequest setPredicate:folder.predicate];
+        //    [fetchRequest setPredicate:folder.predicate];
 	
-        // Execute the fetch -- create a mutable copy of the result.
 	NSError *error = nil;
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
     [fetchRequest release];
     NSAssert1(fetchResults != nil, @"Unhandled error executing document update: %@", [error localizedDescription]);
 
-    for (Document *doc in fetchResults) {
-        NSLog(@"%@", doc.uid);
-        NSLog(@"%@", doc.author);
-        NSLog(@"%@", doc.title);
-    }
-    
     return fetchResults;
 }
 -(void) refreshDocuments
 {
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:self.documentEntityDescription];
+	
     [lnDataSource refreshDocuments];
 }
 -(Document *) loadDocument:(Document *) aDocument
