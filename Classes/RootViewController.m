@@ -19,7 +19,7 @@
 - (void)documentAdded:(NSNotification *)notification;
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentUpdated:(NSNotification *)notification;
-- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments;
+- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
 @end
 
 
@@ -50,7 +50,7 @@
         [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
     
     self.title = folder.localizedName;
-    [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO];
+    [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO isDelta:NO];
     self.rootPopoverButtonItem.title = folder.localizedName;
 }
 
@@ -187,12 +187,26 @@
 @end
 
 @implementation RootViewController(Private)
-- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments
+- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
 {
+    if (!isDelta && [documents count] == 0) //just clear all
+    {
+        NSUInteger length = [sections count];
+        [sections removeAllObjects];
+        [sectionsOrdered removeAllObjects];
+        [sectionsOrderedLabels removeAllObjects];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange: NSMakeRange(0, length)] withRowAnimation:UITableViewRowAnimationFade];
+        return;
+    }
+    
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+    NSPredicate *filter = folder.predicate;
     for (Document *document in documents) 
     {
+        if (![filter evaluateWithObject:document])
+            continue;
+        
         NSDate *documentDate = document.date;
         NSDateComponents *comps = [calendar components:unitFlags fromDate:documentDate];
         NSDate *documentSection = [calendar dateFromComponents:comps];
@@ -315,18 +329,18 @@
 - (void)documentAdded:(NSNotification *)notification
 {
     Document *document = notification.object;
-    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO];
+    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO isDelta:YES];
 }
 
 - (void)documentsRemoved:(NSNotification *)notification
 {
     NSArray *documents = notification.object;
-    [self updateDocuments: documents isDeleteDocuments:YES];
+    [self updateDocuments: documents isDeleteDocuments:YES isDelta:YES];
 }
 
 - (void)documentUpdated:(NSNotification *)notification
 {
     Document *document = notification.object;
-    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO];
+    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO isDelta:YES];
 }
 @end
