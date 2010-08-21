@@ -20,7 +20,6 @@
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentUpdated:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments;
-- (NSUInteger) indexOfDocument:(Document *) document inArray:(NSArray *) anArray;
 @end
 
 
@@ -204,7 +203,7 @@
             if (sectionIndex != NSNotFound) 
             {
                 NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
-                NSUInteger documentIndex = [self indexOfDocument:document inArray:sectionDocuments];
+                NSUInteger documentIndex = [sectionDocuments indexOfObject:document];
                 if (documentIndex != NSNotFound) 
                 {
                     if ([sectionDocuments count] == 1) //remove empty section
@@ -290,7 +289,7 @@
                         continue;
                     NSDate *section = [self.sectionsOrdered objectAtIndex:i];
                     NSMutableArray *sectionDocuments = [self.sections objectForKey:section];
-                    NSUInteger docIndex = [self indexOfDocument: document inArray:sectionDocuments];
+                    NSUInteger docIndex = [sectionDocuments indexOfObject: document];
                     if (docIndex != NSNotFound)
                     {
                         if ([sectionDocuments count] == 1) //remove section
@@ -329,18 +328,5 @@
 {
     Document *document = notification.object;
     [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO];
-}
-
-    //we cannot override isEqual in Document, so find it in old way
-- (NSUInteger) indexOfDocument:(Document *) document inArray:(NSArray *) anArray;
-{
-    NSUInteger length = [anArray count];
-    NSString *uid = document.uid;
-    for (NSUInteger i=0; i < length; i++) 
-    {
-        if ([((Document *)[anArray objectAtIndex:i]).uid isEqualToString: uid])
-            return i;
-    }
-    return NSNotFound;
 }
 @end

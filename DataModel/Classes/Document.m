@@ -50,4 +50,21 @@
     [coder encodeObject: self.dateModified forKey:@"dateModified"];
     [coder encodeObject: [NSNumber numberWithBool:self.isRead] forKey:@"isRead"];
 }
+
+#pragma mark -
+#pragma mark isEqual implementation
+
+- (NSUInteger)hash;
+{
+	return [self.uid hash];
+}
+
+- (BOOL)isEqual:(id)anObject
+{
+	if ([anObject isKindOfClass: [Document class]])
+		return [[anObject uid] isEqualToString: uid];
+	else
+		return NO;
+}
+
 @end
