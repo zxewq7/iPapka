@@ -174,10 +174,10 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
     for (NSDictionary *entry in parser.documentEntries) 
     {
         NSString *uid = [entry objectForKey:field_Uid];
-        Document *document;
             //new document
         if (![cacheIndex containsObject:uid])
         {
+            Document *document = nil;
             NSString *form = [entry objectForKey:field_Form];
             if ([form isEqualToString:form_Resolution])
                 document = [[Resolution alloc] init];
@@ -200,6 +200,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
         {
             NSDate *newDate = [entry objectForKey:field_Modified];
                 //document updated
+            Document *document = [self loadDocument:uid];
             if ([document.dateModified compare: newDate] == NSOrderedAscending)
             {
                 document.title = [entry objectForKey:field_Title];
@@ -270,7 +271,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
         else
         {
             [df removeItemAtPath:directory error:NULL];
-            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
+                //NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
     };
 	[_networkQueue addOperation:request];
@@ -295,7 +296,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
             {
                 attachment.hasError = YES;
                 [pageUrls setValue:@"error" forKey:pageName];
-                NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
+                    //NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
             }
             
             BOOL loaded = YES;
@@ -350,7 +351,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
     
     [NSKeyedArchiver archiveRootObject: document toFile: [path stringByAppendingPathComponent:@"index.object"]];
     [cacheIndex addObject:document.uid];
-    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
+        //    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
     
 }
 - (void)parseDocumentData:(Document *) document xmlFile:(NSString *) xmlFile;
