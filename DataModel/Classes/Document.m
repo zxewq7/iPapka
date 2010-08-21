@@ -19,6 +19,7 @@
     self.attachments = nil;
     self.uid = nil;
     self.dateModified = nil;
+    self.isRead = nil;
     [super dealloc];
 }
 
@@ -34,7 +35,7 @@
         self.attachments = [coder decodeObjectForKey:@"attachments"];
         self.uid = [coder decodeObjectForKey:@"uid"];
         self.dateModified = [coder decodeObjectForKey:@"dateModified"];
-        self.isRead = [[coder decodeObjectForKey:@"isRead"] boolValue];
+        self.isRead = [coder decodeObjectForKey:@"isRead"];
 
     }
     return self;
@@ -48,7 +49,7 @@
     [coder encodeObject: self.attachments forKey:@"attachments"];
     [coder encodeObject: self.uid forKey:@"uid"];
     [coder encodeObject: self.dateModified forKey:@"dateModified"];
-    [coder encodeObject: [NSNumber numberWithBool:self.isRead] forKey:@"isRead"];
+    [coder encodeObject: self.isRead forKey:@"isRead"];
 }
 
 #pragma mark -

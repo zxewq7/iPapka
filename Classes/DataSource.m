@@ -92,6 +92,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         foundDocument.dateModified = aDocument.dateModified;
         foundDocument.author = aDocument.author;
         foundDocument.title = aDocument.title;
+        foundDocument.isRead = [NSNumber numberWithBool:NO];
         
         [self commit];
         
@@ -131,6 +132,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     [newDocument setValue:aDocument.author forKey:@"author"];
     [newDocument setValue:aDocument.title forKey:@"title"];
     [newDocument setValue:aDocument.uid forKey:@"uid"];
+    [newDocument setValue:[NSNumber numberWithBool:NO] forKey:@"isRead"];
     
     if (isResolution)
         [newDocument setValue:((Resolution *)aDocument).performers forKey:@"performers"];
@@ -160,13 +162,13 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:self.documentEntityDescription];
 	
-        //    [fetchRequest setPredicate:folder.predicate];
+    [fetchRequest setPredicate:folder.predicate];
 	
 	NSError *error = nil;
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
     [fetchRequest release];
     NSAssert1(fetchResults != nil, @"Unhandled error executing document update: %@", [error localizedDescription]);
-
+    
     return fetchResults;
 }
 -(void) refreshDocuments

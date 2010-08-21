@@ -11,7 +11,7 @@
     NSString     *author;
     NSDate       *date;
     NSArray      *attachments;
-    BOOL         isRead;
+    NSNumber     *isRead;
 
     NSString     *uid;
     NSDate       *dateModified;
@@ -23,7 +23,7 @@
 @property (nonatomic, retain) NSString     *author;
 @property (nonatomic, retain) NSDate       *date;
 @property (nonatomic, retain) NSArray      *attachments;
-@property (nonatomic)         BOOL         isRead;
+@property (nonatomic, retain) NSNumber     *isRead;
 
 @property (nonatomic, retain) NSString     *uid;
 @property (nonatomic, retain) NSDate       *dateModified;
