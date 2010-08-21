@@ -70,8 +70,8 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         }
         lnDataSource = [[LNDataSource alloc] init];
 #warning test settings        
-        lnDataSource.host = @"http://127.0.0.1/~vovasty";
-        lnDataSource.databaseReplicaId = @"C325777C0045161D";
+        lnDataSource.host = @"http://10.0.2.4/~vovasty";
+        lnDataSource.databaseReplicaId = @"C325777C0045161D.xml";
         lnDataSource.viewReplicaId = @"89FB7FB8A9330311C325777C004EEFC8";
         lnDataSource.delegate = self;
         [lnDataSource loadCache];
