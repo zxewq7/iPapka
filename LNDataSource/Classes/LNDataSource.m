@@ -10,7 +10,6 @@
 #import "Document.h"
 #import "Resolution.h"
 #import "Attachment.h"
-#import "SynthesizeSingleton.h"
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"

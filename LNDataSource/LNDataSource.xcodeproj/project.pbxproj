@@ -30,7 +30,6 @@
 		8198E68E1213FF0000299A5E /* LNDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8198E68C1213FF0000299A5E /* LNDataSource.m */; };
 		8198E68F1213FF0000299A5E /* LNDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 8198E68B1213FF0000299A5E /* LNDataSource.h */; };
 		8198E6901213FF0000299A5E /* LNDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8198E68C1213FF0000299A5E /* LNDataSource.m */; };
-		8198E6911213FF0000299A5E /* SynthesizeSingleton.h in Headers */ = {isa = PBXBuildFile; fileRef = 8198E68D1213FF0000299A5E /* SynthesizeSingleton.h */; };
 		81F151381215C3CA00DB33BB /* LotusDocumentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F151371215C3CA00DB33BB /* LotusDocumentParser.m */; };
 		81F1514C1215C48100DB33BB /* LotusDocumentParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 81F151361215C3CA00DB33BB /* LotusDocumentParser.h */; };
 		81F1514F1215C48800DB33BB /* LotusDocumentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F151371215C3CA00DB33BB /* LotusDocumentParser.m */; };
@@ -111,7 +110,6 @@
 		8198E6771213FE8300299A5E /* GTMSenTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMSenTestCase.m; path = GoogleToolbox/GTMSenTestCase.m; sourceTree = "<group>"; };
 		8198E68B1213FF0000299A5E /* LNDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDataSource.h; sourceTree = "<group>"; };
 		8198E68C1213FF0000299A5E /* LNDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDataSource.m; sourceTree = "<group>"; };
-		8198E68D1213FF0000299A5E /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SynthesizeSingleton.h; sourceTree = "<group>"; };
 		81F151361215C3CA00DB33BB /* LotusDocumentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LotusDocumentParser.h; sourceTree = "<group>"; };
 		81F151371215C3CA00DB33BB /* LotusDocumentParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LotusDocumentParser.m; sourceTree = "<group>"; };
 		81F476FE12140B1400F89F60 /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = ../thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = SOURCE_ROOT; };
@@ -211,7 +209,6 @@
 			children = (
 				8198E68B1213FF0000299A5E /* LNDataSource.h */,
 				8198E68C1213FF0000299A5E /* LNDataSource.m */,
-				8198E68D1213FF0000299A5E /* SynthesizeSingleton.h */,
 				815783111214347700067473 /* LotusViewParser.h */,
 				815783121214347700067473 /* LotusViewParser.m */,
 				81F151361215C3CA00DB33BB /* LotusDocumentParser.h */,
@@ -262,7 +259,6 @@
 				8166807312153DFD00D3EE40 /* LNHttpRequest.h in Headers */,
 				8157836B12145D9700067473 /* LotusViewParser.h in Headers */,
 				8198E68F1213FF0000299A5E /* LNDataSource.h in Headers */,
-				8198E6911213FF0000299A5E /* SynthesizeSingleton.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
