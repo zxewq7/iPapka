@@ -7,34 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		8104AFB012140F66002F0283 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104AFAF12140F66002F0283 /* SystemConfiguration.framework */; };
-		8104AFB812140F77002F0283 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104AFB712140F77002F0283 /* MobileCoreServices.framework */; };
-		8104B01F12140FAF002F0283 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8104B01E12140FAF002F0283 /* CoreGraphics.framework */; };
-		812ACBD9121409130004F986 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 812ACBD4121408FB0004F986 /* libDataModel.a */; };
-		81578305121433D900067473 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81578304121433D900067473 /* PLBlocks.framework */; };
-		815783131214347700067473 /* LotusViewParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 815783121214347700067473 /* LotusViewParser.m */; };
-		815783151214349A00067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 815783141214349A00067473 /* libxml2.dylib */; };
 		81578325121459C700067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 815783141214349A00067473 /* libxml2.dylib */; };
 		8157836A12145D9100067473 /* LotusViewParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 815783121214347700067473 /* LotusViewParser.m */; };
 		8157836B12145D9700067473 /* LotusViewParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 815783111214347700067473 /* LotusViewParser.h */; };
-		8166805312153D4500D3EE40 /* LNHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8166805212153D4500D3EE40 /* LNHttpRequest.m */; };
 		8166806E12153DF800D3EE40 /* LNHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8166805212153D4500D3EE40 /* LNHttpRequest.m */; };
 		8166807312153DFD00D3EE40 /* LNHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 8166805112153D4500D3EE40 /* LNHttpRequest.h */; };
-		817ABEA412140E3E001D2197 /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81F4770612140B1400F89F60 /* libASIHTTPRequest.a */; };
-		817ABEB812140EBE001D2197 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 817ABEB712140EBE001D2197 /* CFNetwork.framework */; };
-		817ABEE112140EF7001D2197 /* libz.1.2.3.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 817ABEE012140EF7001D2197 /* libz.1.2.3.dylib */; };
-		8198E6621213FE3100299A5E /* LNDataSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8198E6561213FDC300299A5E /* LNDataSourceTest.m */; };
-		8198E6781213FE8300299A5E /* GTMIPhoneUnitTestDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8198E6741213FE8300299A5E /* GTMIPhoneUnitTestDelegate.m */; };
-		8198E6791213FE8300299A5E /* GTMIPhoneUnitTestMain.m in Sources */ = {isa = PBXBuildFile; fileRef = 8198E6751213FE8300299A5E /* GTMIPhoneUnitTestMain.m */; };
-		8198E67A1213FE8300299A5E /* GTMSenTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 8198E6771213FE8300299A5E /* GTMSenTestCase.m */; };
-		8198E68E1213FF0000299A5E /* LNDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8198E68C1213FF0000299A5E /* LNDataSource.m */; };
 		8198E68F1213FF0000299A5E /* LNDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 8198E68B1213FF0000299A5E /* LNDataSource.h */; };
 		8198E6901213FF0000299A5E /* LNDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8198E68C1213FF0000299A5E /* LNDataSource.m */; };
-		81F151381215C3CA00DB33BB /* LotusDocumentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F151371215C3CA00DB33BB /* LotusDocumentParser.m */; };
 		81F1514C1215C48100DB33BB /* LotusDocumentParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 81F151361215C3CA00DB33BB /* LotusDocumentParser.h */; };
 		81F1514F1215C48800DB33BB /* LotusDocumentParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F151371215C3CA00DB33BB /* LotusDocumentParser.m */; };
 		BD6668550F83F84100ABF98B /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD6668540F83F84100ABF98B /* Foundation.framework */; };
-		BD80A6F20F8C87A60067878C /* UnitTest-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BD80A6F10F8C87A60067878C /* UnitTest-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -66,26 +48,7 @@
 			remoteGlobalIDString = D2AAC07D0554694100DB518D;
 			remoteInfo = ASIHTTPRequest;
 		};
-		BD80A5590F8BC7BF0067878C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 0867D690FE84028FC02AAC07 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = LNDataSource;
-		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		BD80A3F80F8A69DC0067878C /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		32DBCF5E0370ADEE00C91783 /* LNDataSource_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDataSource_Prefix.pch; sourceTree = "<group>"; };
@@ -101,41 +64,17 @@
 		8166805212153D4500D3EE40 /* LNHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNHttpRequest.m; sourceTree = "<group>"; };
 		817ABEB712140EBE001D2197 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		817ABEE012140EF7001D2197 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
-		8198E6561213FDC300299A5E /* LNDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDataSourceTest.m; sourceTree = "<group>"; };
-		8198E6721213FE8300299A5E /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMDefines.h; path = GoogleToolbox/GTMDefines.h; sourceTree = "<group>"; };
-		8198E6731213FE8300299A5E /* GTMIPhoneUnitTestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMIPhoneUnitTestDelegate.h; path = GoogleToolbox/GTMIPhoneUnitTestDelegate.h; sourceTree = "<group>"; };
-		8198E6741213FE8300299A5E /* GTMIPhoneUnitTestDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMIPhoneUnitTestDelegate.m; path = GoogleToolbox/GTMIPhoneUnitTestDelegate.m; sourceTree = "<group>"; };
-		8198E6751213FE8300299A5E /* GTMIPhoneUnitTestMain.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMIPhoneUnitTestMain.m; path = GoogleToolbox/GTMIPhoneUnitTestMain.m; sourceTree = "<group>"; };
-		8198E6761213FE8300299A5E /* GTMSenTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GTMSenTestCase.h; path = GoogleToolbox/GTMSenTestCase.h; sourceTree = "<group>"; };
-		8198E6771213FE8300299A5E /* GTMSenTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GTMSenTestCase.m; path = GoogleToolbox/GTMSenTestCase.m; sourceTree = "<group>"; };
 		8198E68B1213FF0000299A5E /* LNDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDataSource.h; sourceTree = "<group>"; };
 		8198E68C1213FF0000299A5E /* LNDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDataSource.m; sourceTree = "<group>"; };
 		81F151361215C3CA00DB33BB /* LotusDocumentParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LotusDocumentParser.h; sourceTree = "<group>"; };
 		81F151371215C3CA00DB33BB /* LotusDocumentParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LotusDocumentParser.m; sourceTree = "<group>"; };
 		81F476FE12140B1400F89F60 /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = ../thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = SOURCE_ROOT; };
 		BD6668540F83F84100ABF98B /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		BD80A3A20F894C7F0067878C /* UnitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UnitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BD80A6F10F8C87A60067878C /* UnitTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UnitTest-Info.plist"; sourceTree = SOURCE_ROOT; };
 		D2AAC07E0554694100DB518D /* libLNDataSource.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLNDataSource.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		BD80A3A00F894C7F0067878C /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				817ABEA412140E3E001D2197 /* libASIHTTPRequest.a in Frameworks */,
-				812ACBD9121409130004F986 /* libDataModel.a in Frameworks */,
-				817ABEB812140EBE001D2197 /* CFNetwork.framework in Frameworks */,
-				817ABEE112140EF7001D2197 /* libz.1.2.3.dylib in Frameworks */,
-				8104AFB012140F66002F0283 /* SystemConfiguration.framework in Frameworks */,
-				8104AFB812140F77002F0283 /* MobileCoreServices.framework in Frameworks */,
-				8104B01F12140FAF002F0283 /* CoreGraphics.framework in Frameworks */,
-				81578305121433D900067473 /* PLBlocks.framework in Frameworks */,
-				815783151214349A00067473 /* libxml2.dylib in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D2AAC07C0554694100DB518D /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -152,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				D2AAC07E0554694100DB518D /* libLNDataSource.a */,
-				BD80A3A20F894C7F0067878C /* UnitTest.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,8 +101,6 @@
 				81F476FE12140B1400F89F60 /* ASIHTTPRequest.xcodeproj */,
 				812ACBCC121408FB0004F986 /* DataModel.xcodeproj */,
 				8198E68A1213FF0000299A5E /* Classes */,
-				BD849B6C0F8921BB00EB1682 /* UnitTests */,
-				BD849B6E0F8921ED00EB1682 /* GoogleToolbox */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
 				034768DFFF38A50411DB9C8B /* Products */,
@@ -227,27 +163,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		BD849B6C0F8921BB00EB1682 /* UnitTests */ = {
-			isa = PBXGroup;
-			children = (
-				8198E6561213FDC300299A5E /* LNDataSourceTest.m */,
-			);
-			name = UnitTests;
-			sourceTree = "<group>";
-		};
-		BD849B6E0F8921ED00EB1682 /* GoogleToolbox */ = {
-			isa = PBXGroup;
-			children = (
-				8198E6721213FE8300299A5E /* GTMDefines.h */,
-				8198E6731213FE8300299A5E /* GTMIPhoneUnitTestDelegate.h */,
-				8198E6741213FE8300299A5E /* GTMIPhoneUnitTestDelegate.m */,
-				8198E6751213FE8300299A5E /* GTMIPhoneUnitTestMain.m */,
-				8198E6761213FE8300299A5E /* GTMSenTestCase.h */,
-				8198E6771213FE8300299A5E /* GTMSenTestCase.m */,
-			);
-			name = GoogleToolbox;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -265,26 +180,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		BD80A3A10F894C7F0067878C /* UnitTest */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BD80A3B30F894CAE0067878C /* Build configuration list for PBXNativeTarget "UnitTest" */;
-			buildPhases = (
-				BD80A3F80F8A69DC0067878C /* CopyFiles */,
-				BD80A39E0F894C7F0067878C /* Resources */,
-				BD80A39F0F894C7F0067878C /* Sources */,
-				BD80A3A00F894C7F0067878C /* Frameworks */,
-				BD80A3C90F894CDD0067878C /* ShellScript */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				BD80A55A0F8BC7BF0067878C /* PBXTargetDependency */,
-			);
-			name = UnitTest;
-			productName = UnitTest;
-			productReference = BD80A3A20F894C7F0067878C /* UnitTest.app */;
-			productType = "com.apple.product-type.application";
-		};
 		D2AAC07D0554694100DB518D /* LNDataSource */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1DEB921E08733DC00010E9CD /* Build configuration list for PBXNativeTarget "LNDataSource" */;
@@ -328,7 +223,6 @@
 			projectRoot = "";
 			targets = (
 				D2AAC07D0554694100DB518D /* LNDataSource */,
-				BD80A3A10F894C7F0067878C /* UnitTest */,
 			);
 		};
 /* End PBXProject section */
@@ -350,50 +244,7 @@
 		};
 /* End PBXReferenceProxy section */
 
-/* Begin PBXResourcesBuildPhase section */
-		BD80A39E0F894C7F0067878C /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				BD80A6F20F8C87A60067878C /* UnitTest-Info.plist in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		BD80A3C90F894CDD0067878C /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "#\"$GTM_PATH/UnitTesting/RunIPhoneUnitTest.sh\"\n\n\"$PROJECT_DIR/GoogleToolbox/RunIPhoneUnitTest.sh\"";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		BD80A39F0F894C7F0067878C /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				8198E6621213FE3100299A5E /* LNDataSourceTest.m in Sources */,
-				8198E6781213FE8300299A5E /* GTMIPhoneUnitTestDelegate.m in Sources */,
-				8198E6791213FE8300299A5E /* GTMIPhoneUnitTestMain.m in Sources */,
-				8198E67A1213FE8300299A5E /* GTMSenTestCase.m in Sources */,
-				8198E68E1213FF0000299A5E /* LNDataSource.m in Sources */,
-				815783131214347700067473 /* LotusViewParser.m in Sources */,
-				8166805312153D4500D3EE40 /* LNHttpRequest.m in Sources */,
-				81F151381215C3CA00DB33BB /* LotusDocumentParser.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		D2AAC07B0554694100DB518D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -417,11 +268,6 @@
 			isa = PBXTargetDependency;
 			name = ASIHTTPRequest;
 			targetProxy = 81F4770712140B1C00F89F60 /* PBXContainerItemProxy */;
-		};
-		BD80A55A0F8BC7BF0067878C /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = D2AAC07D0554694100DB518D /* LNDataSource */;
-			targetProxy = BD80A5590F8BC7BF0067878C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -498,62 +344,6 @@
 			};
 			name = Release;
 		};
-		BD80A3A40F894C800067878C /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = LNDataSource_Prefix.pch;
-				HEADER_SEARCH_PATHS = $SDKROOT/usr/include/libxml2;
-				INFOPLIST_FILE = "UnitTest-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_CFLAGS = "-DDEBUG=1";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = UnitTest;
-				SDKROOT = iphonesimulator3.2;
-				USER_HEADER_SEARCH_PATHS = "$(inherited)";
-			};
-			name = Debug;
-		};
-		BD80A3A50F894C800067878C /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = GTM_Prefix.pch;
-				HEADER_SEARCH_PATHS = $SDKROOT/usr/include/libxml2;
-				INFOPLIST_FILE = "UnitTest-Info.plist";
-				INSTALL_PATH = "$(HOME)/Applications";
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					UIKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = UnitTest;
-				SDKROOT = iphonesimulator3.2;
-				USER_HEADER_SEARCH_PATHS = "$(inherited)";
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -571,15 +361,6 @@
 			buildConfigurations = (
 				1DEB922308733DC00010E9CD /* Debug */,
 				1DEB922408733DC00010E9CD /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		BD80A3B30F894CAE0067878C /* Build configuration list for PBXNativeTarget "UnitTest" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BD80A3A40F894C800067878C /* Debug */,
-				BD80A3A50F894C800067878C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

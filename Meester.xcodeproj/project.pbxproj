@@ -17,7 +17,6 @@
 		812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 812AAC4312181F2000E3FBC8 /* DocumentViewController.xib */; };
 		812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 812AADB01218312400E3FBC8 /* DocumentCellView.m */; };
 		812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 812AAE8A1218433500E3FBC8 /* Localizable.strings */; };
-		8137EC2D12142204006C1416 /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC26121421AB006C1416 /* libASIHTTPRequest.a */; };
 		8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC381214225E006C1416 /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC3C12142274006C1416 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3B12142274006C1416 /* CFNetwork.framework */; };
@@ -29,8 +28,6 @@
 		81549ABD122105250043FFE7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 81549ABC122105250043FFE7 /* Settings.bundle */; };
 		8157845E12147E6C00067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8157845D12147E6C00067473 /* libxml2.dylib */; };
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
-		8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8178674F121313FC00D38BD3 /* libDataModel.a */; };
-		817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 817867BD1213157E00D38BD3 /* libLNDataSource.a */; };
 		8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B2BC121C327A00842F63 /* FoldersViewController.m */; };
 		8179B76E121D22D500842F63 /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B76D121D22D500842F63 /* Folder.m */; };
 		81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81925245121BF4A800B2D9BE /* SegmentedLabel.m */; };
@@ -39,6 +36,9 @@
 		81B74CCE121E87B8005117D4 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B74CCD121E87B8005117D4 /* DataSource.m */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
+		81FB942E1221197B008A1E15 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB93FD12211918008A1E15 /* libDataModel.a */; };
+		81FB942F12211980008A1E15 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB942912211972008A1E15 /* libLNDataSource.a */; };
+		81FB943812211998008A1E15 /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB943712211993008A1E15 /* libASIHTTPRequest.a */; };
 		81FEA53212119ECD00A9ABD3 /* DocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51412119ECD00A9ABD3 /* DocumentCell.m */; };
 		81FEA53512119ECD00A9ABD3 /* AQGridView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51D12119ECD00A9ABD3 /* AQGridView.m */; };
 		81FEA53612119ECD00A9ABD3 /* AQGridViewAnimatorItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FEA51F12119ECD00A9ABD3 /* AQGridViewAnimatorItem.m */; };
@@ -59,40 +59,26 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8137EC25121421AB006C1416 /* PBXContainerItemProxy */ = {
+		81FB93FC12211918008A1E15 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */;
+			containerPortal = 81FB93F512211918008A1E15 /* DataModel.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
-			remoteInfo = ASIHTTPRequest;
-		};
-		8169414412140748005AE9FE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = BD80A3A20F894C7F0067878C;
-			remoteInfo = UnitTest;
-		};
-		8178674E121313FC00D38BD3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 81786747121313FC00D38BD3 /* DataModel.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libDataModel.a */;
 			remoteInfo = DataModel;
 		};
-		817867501213140100D38BD3 /* PBXContainerItemProxy */ = {
+		81FB942812211972008A1E15 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 81786747121313FC00D38BD3 /* DataModel.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = D2AAC07D0554694100DB518D;
-			remoteInfo = DataModel;
-		};
-		817867BC1213157E00D38BD3 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */;
+			containerPortal = 81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libLNDataSource.a */;
 			remoteInfo = LNDataSource;
+		};
+		81FB943612211993008A1E15 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libASIHTTPRequest.a */;
+			remoteInfo = ASIHTTPRequest;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -125,7 +111,6 @@
 		812AADAF1218312400E3FBC8 /* DocumentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCellView.h; sourceTree = "<group>"; };
 		812AADB01218312400E3FBC8 /* DocumentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCellView.m; sourceTree = "<group>"; };
 		812AAE8B1218433500E3FBC8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
 		8137EC3512142239006C1416 /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = thirdparty/PLBlocks.framework; sourceTree = "<group>"; };
 		8137EC3B12142274006C1416 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
@@ -140,8 +125,6 @@
 		8157845D12147E6C00067473 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		816FF802121708530083E7A4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
-		81786747121313FC00D38BD3 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
-		817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
 		8179B2BB121C327A00842F63 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
 		8179B2BC121C327A00842F63 /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
 		8179B76C121D22D500842F63 /* Folder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder.h; sourceTree = "<group>"; };
@@ -156,6 +139,9 @@
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
 		81DBAEC31212DE0F00207D6E /* AttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentCell.m; sourceTree = "<group>"; };
+		81FB93F512211918008A1E15 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
+		81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
+		81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
 		81FEA51312119ECD00A9ABD3 /* DocumentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCell.h; sourceTree = "<group>"; };
 		81FEA51412119ECD00A9ABD3 /* DocumentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCell.m; sourceTree = "<group>"; };
 		81FEA51A12119ECD00A9ABD3 /* AQGridView+CellLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AQGridView+CellLayout.h"; sourceTree = "<group>"; };
@@ -194,9 +180,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8137EC2D12142204006C1416 /* libASIHTTPRequest.a in Frameworks */,
-				817867BE1213158B00D38BD3 /* libLNDataSource.a in Frameworks */,
-				8178676D1213150F00D38BD3 /* libDataModel.a in Frameworks */,
+				81FB943812211998008A1E15 /* libASIHTTPRequest.a in Frameworks */,
+				81FB942F12211980008A1E15 /* libLNDataSource.a in Frameworks */,
+				81FB942E1221197B008A1E15 /* libDataModel.a in Frameworks */,
 				8116FF8B121134E900DD537F /* UIKit.framework in Frameworks */,
 				8116FF8D121134E900DD537F /* Foundation.framework in Frameworks */,
 				8116FF8F121134E900DD537F /* CoreGraphics.framework in Frameworks */,
@@ -243,10 +229,10 @@
 		8116FF80121134E900DD537F /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */,
+				81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */,
+				81FB93F512211918008A1E15 /* DataModel.xcodeproj */,
 				81549A9F122104B60043FFE7 /* SynthesizeSingleton.h */,
-				8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */,
-				817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */,
-				81786747121313FC00D38BD3 /* DataModel.xcodeproj */,
 				8116FF91121134E900DD537F /* Meester_Prefix.pch */,
 				8116FF95121134E900DD537F /* main.m */,
 			);
@@ -293,14 +279,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8137EC22121421AB006C1416 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8137EC26121421AB006C1416 /* libASIHTTPRequest.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		8139985E121D2F7D009B0912 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -343,19 +321,26 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
-		81786748121313FC00D38BD3 /* Products */ = {
+		81FB93F612211918008A1E15 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8178674F121313FC00D38BD3 /* libDataModel.a */,
+				81FB93FD12211918008A1E15 /* libDataModel.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		817867B61213157E00D38BD3 /* Products */ = {
+		81FB941C12211972008A1E15 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				817867BD1213157E00D38BD3 /* libLNDataSource.a */,
-				8169414512140748005AE9FE /* UnitTest.app */,
+				81FB942912211972008A1E15 /* libLNDataSource.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		81FB943312211993008A1E15 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				81FB943712211993008A1E15 /* libASIHTTPRequest.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -425,7 +410,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				817867511213140100D38BD3 /* PBXTargetDependency */,
 			);
 			name = Meester;
 			productName = Meester;
@@ -448,16 +432,16 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 8137EC22121421AB006C1416 /* Products */;
-					ProjectRef = 8137EC21121421AB006C1416 /* ASIHTTPRequest.xcodeproj */;
+					ProductGroup = 81FB943312211993008A1E15 /* Products */;
+					ProjectRef = 81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */;
 				},
 				{
-					ProductGroup = 81786748121313FC00D38BD3 /* Products */;
-					ProjectRef = 81786747121313FC00D38BD3 /* DataModel.xcodeproj */;
+					ProductGroup = 81FB93F612211918008A1E15 /* Products */;
+					ProjectRef = 81FB93F512211918008A1E15 /* DataModel.xcodeproj */;
 				},
 				{
-					ProductGroup = 817867B61213157E00D38BD3 /* Products */;
-					ProjectRef = 817867B51213157E00D38BD3 /* LNDataSource.xcodeproj */;
+					ProductGroup = 81FB941C12211972008A1E15 /* Products */;
+					ProjectRef = 81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -468,32 +452,25 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		8137EC26121421AB006C1416 /* libASIHTTPRequest.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libASIHTTPRequest.a;
-			remoteRef = 8137EC25121421AB006C1416 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8169414512140748005AE9FE /* UnitTest.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = UnitTest.app;
-			remoteRef = 8169414412140748005AE9FE /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8178674F121313FC00D38BD3 /* libDataModel.a */ = {
+		81FB93FD12211918008A1E15 /* libDataModel.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libDataModel.a;
-			remoteRef = 8178674E121313FC00D38BD3 /* PBXContainerItemProxy */;
+			remoteRef = 81FB93FC12211918008A1E15 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		817867BD1213157E00D38BD3 /* libLNDataSource.a */ = {
+		81FB942912211972008A1E15 /* libLNDataSource.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libLNDataSource.a;
-			remoteRef = 817867BC1213157E00D38BD3 /* PBXContainerItemProxy */;
+			remoteRef = 81FB942812211972008A1E15 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		81FB943712211993008A1E15 /* libASIHTTPRequest.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libASIHTTPRequest.a;
+			remoteRef = 81FB943612211993008A1E15 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -551,14 +528,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		817867511213140100D38BD3 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = DataModel;
-			targetProxy = 817867501213140100D38BD3 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		8116FF92121134E900DD537F /* InfoPlist.strings */ = {
