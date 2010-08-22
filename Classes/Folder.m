@@ -7,9 +7,9 @@
 //
 
 #import "Folder.h"
-#import "Document.h"
-#import "Resolution.h"
-#import "Signature.h"
+#import "DocumentManaged.h"
+#import "ResolutionManaged.h"
+#import "SignatureManaged.h"
 
 @implementation Folder
 @synthesize name, predicateString, entityName;
@@ -108,11 +108,11 @@
     if (entityClass == nil) 
     {
         if ([entityName isEqualToString:@"Document"])
-            entityClass = [Document class];
+            entityClass = [DocumentManaged class];
         else if ([entityName isEqualToString:@"Resolution"])
-            entityClass = [Resolution class];
+            entityClass = [ResolutionManaged class];
         else if ([entityName isEqualToString:@"Signature"])
-            entityClass = [Signature class];
+            entityClass = [SignatureManaged class];
         else
             NSAssert1(NO, @"Unknown entity name: %@", entityName);
     }

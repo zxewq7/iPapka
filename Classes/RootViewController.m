@@ -9,7 +9,7 @@
 #import "RootViewController.h"
 #import "DocumentViewController.h"
 #import "DataSource.h"
-#import "Document.h"
+#import "DocumentManaged.h"
 #import "DocumentCell.h"
 #import "Folder.h";
 
@@ -203,7 +203,7 @@
     NSPredicate *filter = folder.predicate;
     Class entityClass = folder.entityClass;
     
-    for (Document *document in documents) 
+    for (DocumentManaged *document in documents) 
     {
         if ([document isMemberOfClass:entityClass] && (filter && ![filter evaluateWithObject:document]))
             continue;
@@ -276,7 +276,7 @@
                 BOOL updated = NO;
                 for (NSUInteger i=0; i < length; i++) 
                 {
-                    Document *doc = [sectionDocuments objectAtIndex:i];
+                    DocumentManaged *doc = [sectionDocuments objectAtIndex:i];
                     if ([document isEqual:doc]) 
                     {
                         [sectionDocuments replaceObjectAtIndex:i withObject:document];

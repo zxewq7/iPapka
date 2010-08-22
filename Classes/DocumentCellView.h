@@ -1,12 +1,12 @@
-@class Document;
+@class DocumentManaged;
 
 @interface DocumentCellView : UIView {
-	Document *document;
+	DocumentManaged *document;
 	NSDateFormatter *dateFormatter;
 	BOOL highlighted;
 }
 
-@property (nonatomic, retain) Document *document;
+@property (nonatomic, retain) DocumentManaged *document;
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 @property (nonatomic, getter=isHighlighted) BOOL highlighted;
 

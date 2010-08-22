@@ -1,6 +1,6 @@
 #import "DocumentCell.h"
 #import "DocumentCellView.h"
-#import "Document.h"
+#import "DocumentManaged.h"
 
 
 @implementation DocumentCell
@@ -22,7 +22,7 @@
 }
 
 
-- (void)setDocument:(Document *)newDocument
+- (void)setDocument:(DocumentManaged *)newDocument
 {
 	documentCellView.document = newDocument;
 }

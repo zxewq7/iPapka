@@ -1,6 +1,6 @@
 #import "DocumentCellView.h"
-#import "Document.h"
-#import "Resolution.h"
+#import "DocumentManaged.h"
+#import "ResolutionManaged.h"
 
 @implementation DocumentCellView
 
@@ -25,7 +25,7 @@
 }
 
 
-- (void)Document:(Document *)newDocument {
+- (void)Document:(DocumentManaged *)newDocument {
 	
 	// If the time zone wrapper changes, update the date formatter and abbreviation string.
 	if (document != newDocument) {
@@ -123,14 +123,18 @@
         Draw the document date, right-aligned in the middle column.
         To ensure it is right-aligned, first find its width with the given font and minimum allowed font size. Then draw the string at the appropriate offset.
         */
-    if ([self.document isKindOfClass:[Resolution class]] && [((Resolution *)document).performers count]) 
+    if ([self.document isKindOfClass:[ResolutionManaged class]]) 
     {
-        [thirdTextColor set];
+        NSDictionary *performers =  (NSDictionary *)((ResolutionManaged *)document).performers;
+        if ([performers count])
+        {
+            [thirdTextColor set];
         
-        NSString *performersString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Performers", "Performers"), [[((Resolution *)document).performers allValues] componentsJoinedByString: @", "]];
+            NSString *performersString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Performers", "Performers"), [[performers allValues] componentsJoinedByString: @", "]];
         
-        point = CGPointMake(boundsX + LEFT_OFFSET, PERFORMERS_ROW_TOP);
-        [performersString drawAtPoint:point forWidth:cellWith withFont:thirdFont minFontSize:MIN_SECONDARY_FONT_SIZE actualFontSize:NULL lineBreakMode:UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+            point = CGPointMake(boundsX + LEFT_OFFSET, PERFORMERS_ROW_TOP);
+            [performersString drawAtPoint:point forWidth:cellWith withFont:thirdFont minFontSize:MIN_SECONDARY_FONT_SIZE actualFontSize:NULL lineBreakMode:UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
+        }
     }
 }
 

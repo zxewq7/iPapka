@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "LNDataSource.h"
 
-@class Folder, Document, LNDataSource;
+@class Folder, Document, DocumentManaged, LNDataSource;
 
 @interface DataSource : NSObject<LNDataSourceDelegate>
 {
@@ -29,6 +29,6 @@
 
 -(NSArray *) documentsForFolder:(Folder *) folder;
 -(void) refreshDocuments;
--(Document *) loadDocument:(Document *) aDocument;
+-(Document *) loadDocument:(DocumentManaged *) aDocument;
 -(void) shutdown;
 @end

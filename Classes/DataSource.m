@@ -9,13 +9,17 @@
 #import "DataSource.h"
 #import "Folder.h"
 #import "SynthesizeSingleton.h"
+#import "DocumentManaged.h"
 #import "Document.h"
 #import "LNDataSource.h"
+#import "ResolutionManaged.h"
+#import "SignatureManaged.h"
 #import "Resolution.h"
 #import "Signature.h"
 
+
 @interface DataSource(Private)
--(Document *) findDocumentByUid:(NSString *) anUid;
+-(DocumentManaged *) findDocumentByUid:(NSString *) anUid;
 -(void) commit;
 -(void) createLNDatasourceFromDefaults;
 @end
@@ -86,7 +90,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 #pragma mark LNDataSourceDelegate
 - (void) documentUpdated:(Document *) aDocument
 {
-    Document *foundDocument = [self findDocumentByUid:aDocument.uid];
+    DocumentManaged *foundDocument = [self findDocumentByUid:aDocument.uid];
     if (foundDocument) 
     {
         foundDocument.date = aDocument.date;
@@ -112,7 +116,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     NSMutableArray *documentsToDelete = [NSMutableArray arrayWithCapacity:[documents count]];
     for (Document *document in documents) 
     {
-        Document *foundDocument = [self findDocumentByUid:document.uid];
+        DocumentManaged *foundDocument = [self findDocumentByUid:document.uid];
         [documentsToDelete addObject:foundDocument];
         if (foundDocument)
             [managedObjectContext deleteObject:(NSManagedObject *)foundDocument];
@@ -142,7 +146,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.isRead = [NSNumber numberWithBool:NO];
     
     if (isResolution)
-        ((Resolution *)newDocument).performers = ((Resolution *)aDocument).performers;
+        ((ResolutionManaged *)newDocument).performers = ((Resolution *)aDocument).performers;
     
 	[self commit];
     
@@ -184,7 +188,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 {
     [lnDataSource refreshDocuments];
 }
--(Document *) loadDocument:(Document *) aDocument
+-(Document *) loadDocument:(DocumentManaged *) aDocument
 {
     return [lnDataSource loadDocument:aDocument.uid];
 }
@@ -210,7 +214,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 @end
 
 @implementation DataSource(Private)
--(Document *) findDocumentByUid:(NSString *) anUid
+-(DocumentManaged *) findDocumentByUid:(NSString *) anUid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:self.documentEntityDescription];
@@ -234,11 +238,11 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     {
             //remove documents from cache for consistency
         NSSet *insertedObjects  = [managedObjectContext insertedObjects];
-        for (Document *document in insertedObjects)
+        for (DocumentManaged *document in insertedObjects)
             [lnDataSource deleteDocument:document.uid];
 
         NSSet *updatedObjects  = [managedObjectContext updatedObjects];
-        for (Document *document in updatedObjects)
+        for (DocumentManaged *document in updatedObjects)
             [lnDataSource deleteDocument:document.uid];
         
         NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);

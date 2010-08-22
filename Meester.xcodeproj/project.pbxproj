@@ -34,6 +34,12 @@
 		81B74BD6121E7DD0005117D4 /* Document.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */; };
 		81B74C62121E8306005117D4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B74C61121E8306005117D4 /* CoreData.framework */; };
 		81B74CCE121E87B8005117D4 /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B74CCD121E87B8005117D4 /* DataSource.m */; };
+		81CAD07B12215EC300E47930 /* DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD07A12215EC300E47930 /* DocumentManaged.m */; };
+		81CAD07D12215EC300E47930 /* ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD07C12215EC300E47930 /* ResolutionManaged.m */; };
+		81CAD07F12215EC400E47930 /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD07E12215EC400E47930 /* SignatureManaged.m */; };
+		81CAD08412215EC400E47930 /* _DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD08312215EC400E47930 /* _DocumentManaged.m */; };
+		81CAD08612215EC500E47930 /* _ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD08512215EC500E47930 /* _ResolutionManaged.m */; };
+		81CAD08812215EC500E47930 /* _SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD08712215EC500E47930 /* _SignatureManaged.m */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
 		81FB942E1221197B008A1E15 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB93FD12211918008A1E15 /* libDataModel.a */; };
@@ -63,21 +69,21 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 81FB93F512211918008A1E15 /* DataModel.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libDataModel.a */;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = DataModel;
 		};
 		81FB942812211972008A1E15 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libLNDataSource.a */;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = LNDataSource;
 		};
 		81FB943612211993008A1E15 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = D2AAC07E0554694100DB518D /* libASIHTTPRequest.a */;
+			remoteGlobalIDString = D2AAC07E0554694100DB518D;
 			remoteInfo = ASIHTTPRequest;
 		};
 /* End PBXContainerItemProxy section */
@@ -131,10 +137,22 @@
 		8179B76D121D22D500842F63 /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
 		81925244121BF4A800B2D9BE /* SegmentedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedLabel.h; sourceTree = "<group>"; };
 		81925245121BF4A800B2D9BE /* SegmentedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedLabel.m; sourceTree = "<group>"; };
-		81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
+		81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */ = {isa = PBXFileReference; comments = xmod; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
 		81B74C61121E8306005117D4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		81B74CCC121E87B8005117D4 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
 		81B74CCD121E87B8005117D4 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
+		81CAD07A12215EC300E47930 /* DocumentManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentManaged.m; sourceTree = "<group>"; };
+		81CAD07C12215EC300E47930 /* ResolutionManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResolutionManaged.m; sourceTree = "<group>"; };
+		81CAD07E12215EC400E47930 /* SignatureManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignatureManaged.m; sourceTree = "<group>"; };
+		81CAD08012215EC400E47930 /* DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentManaged.h; sourceTree = "<group>"; };
+		81CAD08112215EC400E47930 /* ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResolutionManaged.h; sourceTree = "<group>"; };
+		81CAD08212215EC400E47930 /* SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignatureManaged.h; sourceTree = "<group>"; };
+		81CAD08312215EC400E47930 /* _DocumentManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DocumentManaged.m; sourceTree = "<group>"; };
+		81CAD08512215EC500E47930 /* _ResolutionManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _ResolutionManaged.m; sourceTree = "<group>"; };
+		81CAD08712215EC500E47930 /* _SignatureManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _SignatureManaged.m; sourceTree = "<group>"; };
+		81CAD08912215EC500E47930 /* _DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DocumentManaged.h; sourceTree = "<group>"; };
+		81CAD08A12215EC500E47930 /* _ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _ResolutionManaged.h; sourceTree = "<group>"; };
+		81CAD08B12215EC600E47930 /* _SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _SignatureManaged.h; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
@@ -229,6 +247,7 @@
 		8116FF80121134E900DD537F /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				81CAD07912215EC100E47930 /* Document */,
 				81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */,
 				81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */,
 				81FB93F512211918008A1E15 /* DataModel.xcodeproj */,
@@ -319,6 +338,25 @@
 				81399953121D3EF3009B0912 /* MasterViewController.m */,
 			);
 			name = Controller;
+			sourceTree = "<group>";
+		};
+		81CAD07912215EC100E47930 /* Document */ = {
+			isa = PBXGroup;
+			children = (
+				81CAD07A12215EC300E47930 /* DocumentManaged.m */,
+				81CAD07C12215EC300E47930 /* ResolutionManaged.m */,
+				81CAD07E12215EC400E47930 /* SignatureManaged.m */,
+				81CAD08012215EC400E47930 /* DocumentManaged.h */,
+				81CAD08112215EC400E47930 /* ResolutionManaged.h */,
+				81CAD08212215EC400E47930 /* SignatureManaged.h */,
+				81CAD08312215EC400E47930 /* _DocumentManaged.m */,
+				81CAD08512215EC500E47930 /* _ResolutionManaged.m */,
+				81CAD08712215EC500E47930 /* _SignatureManaged.m */,
+				81CAD08912215EC500E47930 /* _DocumentManaged.h */,
+				81CAD08A12215EC500E47930 /* _ResolutionManaged.h */,
+				81CAD08B12215EC600E47930 /* _SignatureManaged.h */,
+			);
+			path = Document;
 			sourceTree = "<group>";
 		};
 		81FB93F612211918008A1E15 /* Products */ = {
@@ -524,6 +562,12 @@
 				81399954121D3EF3009B0912 /* MasterViewController.m in Sources */,
 				81B74BD6121E7DD0005117D4 /* Document.xcdatamodel in Sources */,
 				81B74CCE121E87B8005117D4 /* DataSource.m in Sources */,
+				81CAD07B12215EC300E47930 /* DocumentManaged.m in Sources */,
+				81CAD07D12215EC300E47930 /* ResolutionManaged.m in Sources */,
+				81CAD07F12215EC400E47930 /* SignatureManaged.m in Sources */,
+				81CAD08412215EC400E47930 /* _DocumentManaged.m in Sources */,
+				81CAD08612215EC500E47930 /* _ResolutionManaged.m in Sources */,
+				81CAD08812215EC500E47930 /* _SignatureManaged.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
