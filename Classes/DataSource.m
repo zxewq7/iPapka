@@ -16,6 +16,7 @@
 @interface DataSource(Private)
 -(Document *) findDocumentByUid:(NSString *) anUid;
 -(void) commit;
+-(void) createLNDatasourceFromDefaults;
 @end
 
 @implementation DataSource
@@ -68,16 +69,15 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
             managedObjectContext = [[NSManagedObjectContext alloc] init];
             [managedObjectContext setPersistentStoreCoordinator: persistentStoreCoordinator];
         }
-        lnDataSource = [[LNDataSource alloc] init];
-#warning test settings        
-        lnDataSource.host = @"http://10.0.2.4/~vovasty";
-        lnDataSource.databaseReplicaId = @"C325777C0045161D.xml";
-        lnDataSource.viewReplicaId = @"89FB7FB8A9330311C325777C004EEFC8";
-        lnDataSource.delegate = self;
-        [lnDataSource loadCache];
+        
+        [self createLNDatasourceFromDefaults];
         
         [[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext] retain];
         
+        [[NSNotificationCenter defaultCenter] addObserver:self
+                                                 selector:@selector(defaultsChanged:)
+                                                     name:NSUserDefaultsDidChangeNotification
+                                                   object:nil];
     }
     return self;
 }
@@ -220,6 +220,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     
     return nil;
 }
+
 -(void)commit
 {
     NSError *error = nil;
@@ -236,5 +237,37 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         
         NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
     }
+}
+
+- (void)defaultsChanged:(NSNotification *)notif
+{
+        //purge cache - we need not it anymore
+    [lnDataSource purgeCache];
+    
+    [self createLNDatasourceFromDefaults];
+}
+
+-(void) createLNDatasourceFromDefaults
+{
+    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+    NSString *serverHost = [currentDefaults objectForKey:@"serverHost"];
+    NSString *serverDatabase = [currentDefaults objectForKey:@"serverDatabase"];
+    NSString *serverDatabaseView = [currentDefaults objectForKey:@"serverDatabaseView"];
+    NSString *serverAuthLogin = [currentDefaults objectForKey:@"serverAuthLogin"];
+    NSString *serverAuthPassword = [currentDefaults objectForKey:@"serverAuthPassword"];
+    
+    LNDataSource *ds = [[LNDataSource alloc] init];
+    ds.host = serverHost;
+    ds.databaseReplicaId = serverDatabase;
+    ds.viewReplicaId = serverDatabaseView;
+    ds.login = serverAuthLogin;
+    ds.password = serverAuthPassword;
+    [ds loadCache];
+
+    [lnDataSource release];
+    lnDataSource = ds;
+
+    lnDataSource.delegate = self;
+
 }
 @end
