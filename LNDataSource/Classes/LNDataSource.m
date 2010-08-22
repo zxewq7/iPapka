@@ -46,7 +46,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 @end
 
 @implementation LNDataSource
-@synthesize viewReplicaId, databaseReplicaId, host, delegate;
+@synthesize viewReplicaId, databaseReplicaId, host, delegate, login, password;
 -(id)init
 {
     if ((self = [super init])) {
@@ -77,6 +77,11 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 	[_networkQueue release];
     [_databaseDirectory release];
 	[cacheIndex release];
+    self.viewReplicaId = nil;
+    self.databaseReplicaId = nil;
+    self.host = nil;
+    self.login = nil;
+    self.password = nil;
     self.delegate = nil;
     
     [super dealloc];

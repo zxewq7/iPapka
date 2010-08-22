@@ -26,12 +26,16 @@
     NSString                        *_databaseDirectory;
     NSString                        *databaseReplicaId;
     NSString                        *viewReplicaId;
+    NSString                        *login;
+    NSString                        *password;
     NSString                        *host;
     NSObject<LNDataSourceDelegate>  *delegate;
 }
 @property (nonatomic, retain) NSString                        *databaseReplicaId;
 @property (nonatomic, retain) NSString                        *viewReplicaId;
 @property (nonatomic, retain) NSString                        *host;
+@property (nonatomic, retain) NSString                        *login;
+@property (nonatomic, retain) NSString                        *password;
 @property (nonatomic, retain) NSObject<LNDataSourceDelegate>  *delegate;
 - (void) refreshDocuments;
 - (void) loadCache;
