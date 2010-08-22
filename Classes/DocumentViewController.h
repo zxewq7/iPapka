@@ -13,12 +13,12 @@
 @interface DocumentViewController : UIViewController
 {
     UIToolbar *toolbar;
-    UILabel   *documentTitle;
+    UIBarButtonItem   *documentTitle;
     Document  *document;
 }
 
-@property (nonatomic, retain) IBOutlet UIToolbar *toolbar;
-@property (nonatomic, retain) IBOutlet UILabel   *documentTitle;
+@property (nonatomic, retain) IBOutlet UIToolbar        *toolbar;
+@property (nonatomic, retain) IBOutlet UIBarButtonItem  *documentTitle;
 
 @property (nonatomic, retain, setter=setDocument:) Document  *document;
 
