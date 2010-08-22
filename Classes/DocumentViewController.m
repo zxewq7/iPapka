@@ -31,6 +31,10 @@
  - (void)viewDidLoad
 {
     [super viewDidLoad];
+    if (document == nil) 
+    {
+        documentTitle.title = nil;
+    }
     self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocumentViewBackground.png"]];
 }
 
