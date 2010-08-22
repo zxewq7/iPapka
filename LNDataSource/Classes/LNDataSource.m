@@ -144,6 +144,12 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
     [df removeItemAtPath:documentPath error:NULL];
     [cacheIndex removeObject:anUid];
 }
+
+- (void)purgeCache
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    [df removeItemAtPath:_databaseDirectory error:NULL];
+}
 @end
 
 @implementation LNDataSource(Private)
