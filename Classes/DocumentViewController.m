@@ -30,8 +30,8 @@
 
  - (void)viewDidLoad
 {
-     [super viewDidLoad];
-     
+    [super viewDidLoad];
+    self.view.backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocumentViewBackground.png"]];
 }
 
     // Override to allow orientations other than the default portrait orientation.
