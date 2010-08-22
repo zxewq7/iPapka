@@ -47,8 +47,8 @@
 
 
 - (void)drawRect:(CGRect)rect {
-	
-#define LEFT_OFFSET 26
+
+#define LEFT_OFFSET 40
 #define RIGHT_OFFSET 17
 
 #define MAIN_FONT_SIZE 20
@@ -116,13 +116,24 @@
 		 */
 	NSString *dateString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Date approval", "Date approval"), [dateFormatter stringFromDate:document.date]];
     
+    /*
+     Draw the document date, right-aligned in the middle column.
+     To ensure it is right-aligned, first find its width with the given font and minimum allowed font size. Then draw the string at the appropriate offset.
+     */
+    
 	point = CGPointMake(boundsX + LEFT_OFFSET, DATE_ROW_TOP);
 	[dateString drawAtPoint:point forWidth:cellWith withFont:secondaryFont minFontSize:MIN_SECONDARY_FONT_SIZE actualFontSize:NULL lineBreakMode:UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];
 		
-        /*
-        Draw the document date, right-aligned in the middle column.
-        To ensure it is right-aligned, first find its width with the given font and minimum allowed font size. Then draw the string at the appropriate offset.
-        */
+        // Draw the unread mark.
+    if (![document.isRead boolValue]) 
+    {
+        UIImage *unread = [UIImage imageNamed:@"UnreadMark.png"];
+        CGFloat imageY = (contentRect.size.height - unread.size.height) / 2;
+        
+        point = CGPointMake(boundsX + (LEFT_OFFSET-unread.size.width)/2, imageY);
+        [unread drawAtPoint:point];
+    }
+    
     if ([self.document isKindOfClass:[ResolutionManaged class]]) 
     {
         NSDictionary *performers =  (NSDictionary *)((ResolutionManaged *)document).performers;

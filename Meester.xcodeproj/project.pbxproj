@@ -40,6 +40,8 @@
 		81CAD08412215EC400E47930 /* _DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD08312215EC400E47930 /* _DocumentManaged.m */; };
 		81CAD08612215EC500E47930 /* _ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD08512215EC500E47930 /* _ResolutionManaged.m */; };
 		81CAD08812215EC500E47930 /* _SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CAD08712215EC500E47930 /* _SignatureManaged.m */; };
+		81CAD11112217E5700E47930 /* DocumentViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CAD10F12217E5700E47930 /* DocumentViewBackground.png */; };
+		81CAD11212217E5700E47930 /* UnreadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CAD11012217E5700E47930 /* UnreadMark.png */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
 		81FB942E1221197B008A1E15 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB93FD12211918008A1E15 /* libDataModel.a */; };
@@ -153,6 +155,8 @@
 		81CAD08912215EC500E47930 /* _DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DocumentManaged.h; sourceTree = "<group>"; };
 		81CAD08A12215EC500E47930 /* _ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _ResolutionManaged.h; sourceTree = "<group>"; };
 		81CAD08B12215EC600E47930 /* _SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _SignatureManaged.h; sourceTree = "<group>"; };
+		81CAD10F12217E5700E47930 /* DocumentViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentViewBackground.png; sourceTree = "<group>"; };
+		81CAD11012217E5700E47930 /* UnreadMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnreadMark.png; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
@@ -416,6 +420,8 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81CAD10F12217E5700E47930 /* DocumentViewBackground.png */,
+				81CAD11012217E5700E47930 /* UnreadMark.png */,
 				81FEA54212119EE500A9ABD3 /* GridView */,
 			);
 			path = images;
@@ -528,6 +534,8 @@
 				812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */,
 				812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */,
 				81549ABD122105250043FFE7 /* Settings.bundle in Resources */,
+				81CAD11112217E5700E47930 /* DocumentViewBackground.png in Resources */,
+				81CAD11212217E5700E47930 /* UnreadMark.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
