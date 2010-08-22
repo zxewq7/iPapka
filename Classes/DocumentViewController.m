@@ -24,6 +24,8 @@
     document = [aDocument retain];
     
     documentTitle.text = document.title;
+    if (![document.isRead boolValue])
+        document.isRead = [NSNumber numberWithBool:YES];
 }
 /*
  // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
