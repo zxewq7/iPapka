@@ -20,6 +20,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
         //Create dictionary
 	NSMutableDictionary* defaultValues = [NSMutableDictionary dictionary];
+    
+        //default folders
     Folder *inbox = [Folder folderWith:@"Inbox" andPredicateString:@"isRead == NO"];
     NSArray* defaultFolders = [NSArray arrayWithObjects:
                                     inbox,
@@ -27,6 +29,15 @@
                                     nil];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
+
+#warning test default settings
+    
+    [defaultValues setObject:@"http://10.0.2.4/~vovasty" forKey:@"serverHost"];
+    [defaultValues setObject:@"C325777C0045161D.xml" forKey:@"serverDatabase"];
+    [defaultValues setObject:@"89FB7FB8A9330311C325777C004EEFC8" forKey:@"serverDatabaseView"];
+    [defaultValues setObject:@"serverAuthLogin" forKey:@"serverAuthLogin"];
+    [defaultValues setObject:@"serverAuthPassword" forKey:@"serverAuthPassword"];
+    
         //Register the dictionary of defaults
     
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
