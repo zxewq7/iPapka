@@ -12,6 +12,7 @@
 #import "Document.h"
 #import "LNDataSource.h"
 #import "Resolution.h"
+#import "Signature.h"
 
 @interface DataSource(Private)
 -(Document *) findDocumentByUid:(NSString *) anUid;
@@ -93,6 +94,10 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         foundDocument.author = aDocument.author;
         foundDocument.title = aDocument.title;
         foundDocument.isRead = [NSNumber numberWithBool:NO];
+        if ([aDocument isKindOfClass:[Signature class]])
+        {
+            
+        }
         
         [self commit];
         
@@ -124,8 +129,10 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     BOOL isResolution = [aDocument isKindOfClass:[Resolution class]];
     if (isResolution)
          newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:managedObjectContext];
-    else
-         newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
+    else if ([aDocument isKindOfClass:[Signature class]])
+         newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Signature" inManagedObjectContext:managedObjectContext];
+    else 
+        NSAssert1(NO,@"Unknown entity: %@", [[aDocument class] name]);
     
     newDocument.date = aDocument.date;
     newDocument.dateModified = aDocument.dateModified;
@@ -135,7 +142,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.isRead = [NSNumber numberWithBool:NO];
     
     if (isResolution)
-        [newDocument setValue:((Resolution *)aDocument).performers forKey:@"performers"];
+        ((Resolution *)newDocument).performers = ((Resolution *)aDocument).performers;
     
 	[self commit];
     
@@ -160,9 +167,11 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 -(NSArray *) documentsForFolder:(Folder *) folder
 {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	[fetchRequest setEntity:self.documentEntityDescription];
+	[fetchRequest setEntity:[NSEntityDescription entityForName:folder.entityName inManagedObjectContext:managedObjectContext]];
 	
-    [fetchRequest setPredicate:folder.predicate];
+    NSPredicate *filter = folder.predicate;
+    if (filter)
+        [fetchRequest setPredicate:folder.predicate];
 	
 	NSError *error = nil;
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
@@ -173,9 +182,6 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 }
 -(void) refreshDocuments
 {
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	[fetchRequest setEntity:self.documentEntityDescription];
-	
     [lnDataSource refreshDocuments];
 }
 -(Document *) loadDocument:(Document *) aDocument

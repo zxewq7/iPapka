@@ -198,13 +198,14 @@
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange: NSMakeRange(0, length)] withRowAnimation:UITableViewRowAnimationFade];
         return;
     }
-    
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
     NSPredicate *filter = folder.predicate;
+    Class entityClass = folder.entityClass;
+    
     for (Document *document in documents) 
     {
-        if (![filter evaluateWithObject:document])
+        if ([document isMemberOfClass:entityClass] && (filter && ![filter evaluateWithObject:document]))
             continue;
         
         NSDate *documentDate = document.date;

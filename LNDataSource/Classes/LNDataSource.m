@@ -9,6 +9,7 @@
 #import "LNDataSource.h"
 #import "Document.h"
 #import "Resolution.h"
+#import "Signature.h"
 #import "Attachment.h"
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
@@ -193,7 +194,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
             if ([form isEqualToString:form_Resolution])
                 document = [[Resolution alloc] init];
             else if ([form isEqualToString:form_Signature])
-                document = [[Document alloc] init];
+                document = [[Signature alloc] init];
             else
             {
                 NSLog(@"wrong form, document skipped: %@ %@", uid, form);

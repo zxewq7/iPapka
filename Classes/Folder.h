@@ -14,10 +14,14 @@
     NSString     *localizedName;
     NSString     *predicateString;
     NSPredicate  *predicate;
+    NSString     *entityName;
+    Class        entityClass;
 }
-+(id)folderWith:(NSString *) aName andPredicateString:(NSString *) aPredicateString;
-@property (nonatomic, retain, setter=setName:)                NSString     *name;
-@property (nonatomic, readonly, getter=localizedName) NSString     *localizedName;
-@property (nonatomic, retain, setter=setPredicateString:)     NSString     *predicateString;
-@property (nonatomic, readonly, getter=predicate)     NSPredicate  *predicate;
++(id)folderWith:(NSString *) aName predicateString:(NSString *) aPredicateString andEntityName:(NSString *) anEntityName;
+@property (nonatomic, retain, setter=setName:)              NSString     *name;
+@property (nonatomic, readonly, getter=localizedName)       NSString     *localizedName;
+@property (nonatomic, retain, setter=setPredicateString:)   NSString     *predicateString;
+@property (nonatomic, readonly, getter=predicate)           NSPredicate  *predicate;
+@property (nonatomic, retain, setter=setEntityName:)        NSString     *entityName;
+@property (nonatomic, readonly, getter=entityClass)         Class        entityClass;
 @end
