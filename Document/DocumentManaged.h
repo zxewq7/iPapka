@@ -1,5 +1,6 @@
 #import "_DocumentManaged.h"
 
+@class Document;
 @interface DocumentManaged : _DocumentManaged {}
-// Custom logic goes here.
+@property (nonatomic, readonly, getter=document) Document *document;
 @end

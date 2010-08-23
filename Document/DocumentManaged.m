@@ -1,7 +1,12 @@
 #import "DocumentManaged.h"
+#import "DataSource.h"
 
 @implementation DocumentManaged
+@synthesize document;
 
-// Custom logic goes here.
+-(Document *) document
+{
+    return [[DataSource sharedDataSource] loadDocument:self];
+}
 
 @end
