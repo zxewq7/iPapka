@@ -32,4 +32,5 @@
 -(Document *) loadDocument:(DocumentManaged *) aDocument;
 -(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder;
 -(void) shutdown;
+-(void) commit;
 @end

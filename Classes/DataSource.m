@@ -20,7 +20,6 @@
 
 @interface DataSource(Private)
 -(DocumentManaged *) findDocumentByUid:(NSString *) anUid;
--(void) commit;
 -(void) createLNDatasourceFromDefaults;
 @end
 
@@ -219,6 +218,24 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 {
     [self commit];
 }
+
+-(void)commit
+{
+    NSError *error = nil;
+    if (![managedObjectContext save:&error])
+    {
+            //remove documents from cache for consistency
+        NSSet *insertedObjects  = [managedObjectContext insertedObjects];
+        for (DocumentManaged *document in insertedObjects)
+            [lnDataSource deleteDocument:document.uid];
+        
+        NSSet *updatedObjects  = [managedObjectContext updatedObjects];
+        for (DocumentManaged *document in updatedObjects)
+            [lnDataSource deleteDocument:document.uid];
+        
+        NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
+    }
+}
 #pragma mark -
 #pragma mark Memory management
 
@@ -252,24 +269,6 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         return [fetchResults objectAtIndex:0];
     
     return nil;
-}
-
--(void)commit
-{
-    NSError *error = nil;
-    if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
-    {
-            //remove documents from cache for consistency
-        NSSet *insertedObjects  = [managedObjectContext insertedObjects];
-        for (DocumentManaged *document in insertedObjects)
-            [lnDataSource deleteDocument:document.uid];
-
-        NSSet *updatedObjects  = [managedObjectContext updatedObjects];
-        for (DocumentManaged *document in updatedObjects)
-            [lnDataSource deleteDocument:document.uid];
-        
-        NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
-    }
 }
 
 - (void)defaultsChanged:(NSNotification *)notif
