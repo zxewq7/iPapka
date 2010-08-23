@@ -353,8 +353,6 @@ static NSString* OperationCount = @"OperationCount";
                 }
                 document.isLoaded = loaded;
                 [self saveDocument:document];
-                if (loaded && [delegate respondsToSelector:@selector(documentUpdated:)]) 
-                    [delegate documentUpdated:document];
             };
             [_networkQueue addOperation:request];
             
