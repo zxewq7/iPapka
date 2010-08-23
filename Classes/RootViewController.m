@@ -189,14 +189,13 @@
 @implementation RootViewController(Private)
 - (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
 {
-    if (!isDelta && [documents count] == 0) //just clear all
+    if (!isDelta) //just clear all
     {
         NSUInteger length = [sections count];
         [sections removeAllObjects];
         [sectionsOrdered removeAllObjects];
         [sectionsOrderedLabels removeAllObjects];
         [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange: NSMakeRange(0, length)] withRowAnimation:UITableViewRowAnimationFade];
-        return;
     }
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
