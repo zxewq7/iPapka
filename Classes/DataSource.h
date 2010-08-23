@@ -30,5 +30,6 @@
 -(NSArray *) documentsForFolder:(Folder *) folder;
 -(void) refreshDocuments;
 -(Document *) loadDocument:(DocumentManaged *) aDocument;
+-(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder;
 -(void) shutdown;
 @end

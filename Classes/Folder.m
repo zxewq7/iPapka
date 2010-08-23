@@ -12,12 +12,8 @@
 #import "SignatureManaged.h"
 
 @implementation Folder
-@synthesize name, predicateString, entityName, countUnread;
+@synthesize name, predicateString, entityName;
 
--(NSUInteger) countUnread
-{
-    return 100;
-}
 +(id)folderWith:(NSString *) aName predicateString:(NSString *) aPredicateString andEntityName:(NSString *) anEntityName
 {
     Folder *folder = [[Folder alloc] init];

@@ -180,10 +180,33 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 	NSError *error = nil;
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
     [fetchRequest release];
-    NSAssert1(fetchResults != nil, @"Unhandled error executing document update: %@", [error localizedDescription]);
+    NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
     
     return fetchResults;
 }
+
+-(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder
+{
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:[NSEntityDescription entityForName:folder.entityName inManagedObjectContext:managedObjectContext]];
+	
+    NSPredicate *filter = folder.predicate;
+    NSString *format = @"isRead==NO";
+    if (filter)
+        format = [[format stringByAppendingString:@" && "] stringByAppendingString:folder.predicateString];
+
+    [fetchRequest setPredicate: [NSPredicate predicateWithFormat:format]];
+
+	
+	NSError *error = nil;
+    NSUInteger count = [managedObjectContext countForFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    NSAssert1(count != NSNotFound, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
+    
+    return count;
+}
+
+
 -(void) refreshDocuments
 {
     [lnDataSource refreshDocuments];

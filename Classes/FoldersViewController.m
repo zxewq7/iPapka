@@ -11,6 +11,7 @@
 #import "DocumentViewController.h"
 #import "Folder.h"
 #import "TDBadgedCell.h"
+#import "DataSource.h"
 
 @implementation FoldersViewController
 @synthesize rootViewController, folders;
@@ -60,7 +61,7 @@
     Folder *folder = [self.folders objectAtIndex:indexPath.row];
     
 	cell.textLabel.text = folder.localizedName;
-	cell.badgeNumber = folder.countUnread; 
+	cell.badgeNumber = [[DataSource sharedDataSource] countUnreadDocumentsForFolder:folder];
     return cell;
 }
 
