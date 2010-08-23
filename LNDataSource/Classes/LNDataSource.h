@@ -30,6 +30,8 @@
     NSString                        *password;
     NSString                        *host;
     NSObject<LNDataSourceDelegate>  *delegate;
+    NSDateFormatter     *parseFormatterDst;
+    NSDateFormatter     *parseFormatterSimple;
 }
 @property (nonatomic, retain) NSString                        *databaseReplicaId;
 @property (nonatomic, retain) NSString                        *viewReplicaId;

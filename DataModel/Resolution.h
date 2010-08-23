@@ -10,13 +10,15 @@
 #import "Document.h"
 
 @interface Resolution : Document<NSCoding> {
-    NSString            *text;
-    NSMutableDictionary *performers;
-    BOOL                managed;
-    Resolution          *parentResolution;
+    NSString   *text;
+    NSArray    *performers;
+    BOOL       managed;
+    Resolution *parentResolution;
+    NSDate     *deadline;
 }
-@property (nonatomic, retain) NSString            *text;
-@property (nonatomic, retain) NSMutableDictionary *performers;
-@property (nonatomic)         BOOL                managed;
-@property (nonatomic, retain) Resolution          *parentResolution;
+@property (nonatomic, retain) NSString   *text;
+@property (nonatomic, retain) NSArray    *performers;
+@property (nonatomic, retain) NSDate     *deadline;
+@property (nonatomic)         BOOL       managed;
+@property (nonatomic, retain) Resolution *parentResolution;
 @end

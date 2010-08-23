@@ -10,6 +10,7 @@
 
 
 @interface Attachment : NSObject<NSCoding> {
+    NSString     *uid;
     NSString     *title;
     NSArray      *pages;
     NSString     *path;
@@ -17,6 +18,7 @@
     BOOL         hasError;
 }
 
+@property (nonatomic, retain) NSString     *uid;
 @property (nonatomic, retain) NSString     *title;
 @property (nonatomic, retain) NSArray      *pages;
 @property (nonatomic, retain) NSString     *path;

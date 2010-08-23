@@ -15,22 +15,25 @@
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
 #import "LotusViewParser.h"
-#import "LotusDocumentParser.h"
+#import "SBJsonParser.h"
 
 static NSString *field_Uid         = @"UNID";
-static NSString *field_Title       = @"title";
+static NSString *field_Title       = @"subject";
 static NSString *field_Date        = @"date";
 static NSString *field_Author      = @"author";
 static NSString *field_Modified    = @"modified";
+static NSString *field_Subdocument = @"document";
+static NSString *field_Deadline    = @"deadline";
 static NSString *field_Form        = @"form";
 static NSString *field_Text        = @"text";
 static NSString *field_Performers  = @"performers";
-static NSString *field_Attachments = @"attachments";
+static NSString *field_Attachments = @"files";
 static NSString *field_AttachmentName = @"name";
-static NSString *field_AttachmentPages = @"pages";
+static NSString *field_AttachmentUid = @"id";
+static NSString *field_AttachmentPageCount = @"pageCount";
 
 static NSString *form_Resolution   = @"Resolution";
-static NSString *form_Signature    = @"Signature";
+static NSString *form_Signature    = @"Document";
 static NSString *url_FetchView     = @"%@/%@/%@?ReadViewEntries&count=100";
 static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 
@@ -40,7 +43,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
 - (void)fetchFailed:(ASIHTTPRequest *)request;
 - (void)parseViewData:(NSString *) xmlFile;
 - (void)fetchDocument:(Document *) document isNew:(BOOL) isNew;
-- (void)parseDocumentData:(Document *) document xmlFile:(NSString *) xmlFile;
+- (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile;
 - (void)saveDocument:(Document *) document;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchAttachment:(Attachment *) attachment document:(Document *)document pageUrls:(NSMutableDictionary *) pageUrls;
@@ -66,6 +69,14 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
                                                    attributes:nil error:nil]; 
 
         cacheIndex = [[NSMutableSet alloc] initWithCapacity:50];
+        
+        parseFormatterDst = [[NSDateFormatter alloc] init];
+            //20100811T183249,89+04
+        [parseFormatterDst setDateFormat:@"yyyyMMdd'T'HHmmss,S"];
+        parseFormatterSimple = [[NSDateFormatter alloc] init];
+            //20100811
+        [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
+        
     }
     return self;
 }
@@ -84,6 +95,8 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
     self.login = nil;
     self.password = nil;
     self.delegate = nil;
+    [parseFormatterDst release];
+    [parseFormatterSimple release];
     
     [super dealloc];
 }
@@ -200,11 +213,8 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
                 NSLog(@"wrong form, document skipped: %@ %@", uid, form);
                 continue;
             }
-            document.title = [entry objectForKey:field_Title];
             document.uid = uid;
-            document.author = [entry objectForKey:field_Author];
             document.dateModified = [entry objectForKey:field_Modified];
-            document.date = [entry objectForKey:field_Date];
             [newDocuments addObject:document];
             [document release];
         }
@@ -215,10 +225,7 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
             Document *document = [self loadDocument:uid];
             if ([document.dateModified compare: newDate] == NSOrderedAscending)
             {
-                document.title = [entry objectForKey:field_Title];
-                document.author = [entry objectForKey:field_Author];
                 document.dateModified = newDate;
-                document.date = [entry objectForKey:field_Date];
                 [updatedDocuments addObject:document];
             }
         }
@@ -272,13 +279,16 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
         if ([request error] == nil  && [request responseStatusCode] == 200)
         {
             NSString *file = [request downloadDestinationPath];
-            [self parseDocumentData:document xmlFile:file];
-            [self saveDocument:document];
-            [df removeItemAtPath:file error:NULL];
-            if ( isNew && [delegate respondsToSelector:@selector(documentAdded:)] ) 
-                [delegate documentAdded:document];
-            else if ( !isNew && [delegate respondsToSelector:@selector(documentUpdated:)] )
-                [delegate documentUpdated:document];
+            Document *doc = [self parseDocumentData:document jsonFile:file];
+            if (doc != nil) 
+            {
+                [self saveDocument:doc];
+                [df removeItemAtPath:file error:NULL];
+                if ( isNew && [delegate respondsToSelector:@selector(documentAdded:)] ) 
+                    [delegate documentAdded:doc];
+                else if ( !isNew && [delegate respondsToSelector:@selector(documentUpdated:)] )
+                    [delegate documentUpdated:doc];
+            }
         }
         else
         {
@@ -366,40 +376,58 @@ static NSString *url_FetchDocument = @"%@/%@/%@/%@?EditDocument";
         //    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
     
 }
-- (void)parseDocumentData:(Document *) document xmlFile:(NSString *) xmlFile;
+- (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile
 {
-    LotusDocumentParser *parser = [LotusDocumentParser parseDocument:xmlFile];
-    NSDictionary *parsedDocument = parser.documentEntry;
+    NSString *jsonString = [NSString stringWithContentsOfFile:jsonFile encoding:NSUTF8StringEncoding error:NULL];
+    SBJsonParser *json = [[SBJsonParser new] autorelease];
+    NSError *error = nil;
+    NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
+    if (parsedDocument == nil) {
+        NSLog(@"error parsing document $@, error:%@", document.uid, error);
+        return nil;
+    }
+    NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
+
+    document.author = [parsedDocument objectForKey:field_Author];
+    document.title = [subDocument objectForKey:field_Title];
+    NSDate *dDate = nil;
+    NSString *sDate = [parsedDocument objectForKey:field_Date];
+    if (sDate && ![sDate isEqualToString:@""])
+        dDate = [parseFormatterSimple dateFromString:sDate];
+    document.date = dDate;
+    
     if ([document isKindOfClass:[Resolution class]]) 
     {
-       ((Resolution *)document).text = [parsedDocument objectForKey:field_Text];
-        NSArray *performers = [parsedDocument objectForKey:field_Performers];
-        if ([performers count])
-            ((Resolution *)document).performers = [NSMutableDictionary dictionaryWithDictionary:[performers objectAtIndex:0]];
+        Resolution *resolution = (Resolution *)document;
+        resolution.text = [parsedDocument objectForKey:field_Text];
+        resolution.performers = [parsedDocument objectForKey:field_Performers];
+        NSDate *dDeadline = nil;
+        NSString *sDeadline = [parsedDocument objectForKey:field_Deadline];
+        if (sDeadline && ![sDeadline isEqualToString:@""])
+            dDeadline = [parseFormatterSimple dateFromString:sDeadline];
+        resolution.deadline = dDeadline;
     }
     
-    NSArray *attachments = [parsedDocument objectForKey:field_Attachments];
+    NSArray *attachments = [subDocument objectForKey:field_Attachments];
     NSMutableArray *documentAttachments = [NSMutableArray arrayWithCapacity:[attachments count]];
     for(NSDictionary *attachment in attachments)
     {
         Attachment *newAttachment = [[Attachment alloc] init];
         newAttachment.title = [attachment objectForKey:field_AttachmentName];
-        NSArray *pages = [attachment objectForKey:field_AttachmentPages];
-        NSMutableDictionary *pageUrls = [NSMutableDictionary dictionary];
-        for (NSDictionary *page in pages) {
-            for (NSString *pageName in page.allKeys) {
-                NSString *pageUrl = [page objectForKey:pageName];
-                [pageUrls setObject:pageUrl forKey:pageName];
-            }
-        }
-        [self fetchAttachment:newAttachment document:document pageUrls:pageUrls];
+        newAttachment.uid = [attachment objectForKey:field_AttachmentUid];
+        NSNumber *nPageCount = [attachment objectForKey:field_AttachmentPageCount];
+        NSUInteger pageCount = nPageCount == nil?0:[nPageCount intValue];
+        
+        NSMutableArray *pages = [NSMutableArray arrayWithCapacity:pageCount];
+        for (NSUInteger i = 0; i < pageCount ; i++) //just empty array
+            [pages addObject:@""];
+
+        newAttachment.pages = pages;
         [documentAttachments addObject:newAttachment];
         [newAttachment release];
     }
     document.attachments = documentAttachments;
-                            
-    document.author = [parsedDocument objectForKey:field_Author];
-    document.date = [parsedDocument objectForKey:field_Date];
     document.hasError = NO;
+    return document;
 }
 @end

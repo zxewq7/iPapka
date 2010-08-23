@@ -83,13 +83,6 @@
 
 
 
-@dynamic date;
-
-
-
-
-
-
 
 
 @end

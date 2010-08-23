@@ -92,7 +92,6 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     DocumentManaged *foundDocument = [self findDocumentByUid:aDocument.uid];
     if (foundDocument) 
     {
-        foundDocument.date = aDocument.date;
         foundDocument.dateModified = aDocument.dateModified;
         foundDocument.author = aDocument.author;
         foundDocument.title = aDocument.title;
@@ -137,7 +136,6 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     else 
         NSAssert1(NO,@"Unknown entity: %@", [[aDocument class] name]);
     
-    newDocument.date = aDocument.date;
     newDocument.dateModified = aDocument.dateModified;
     newDocument.author = aDocument.author;
     newDocument.title = aDocument.title;

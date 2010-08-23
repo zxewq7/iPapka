@@ -114,7 +114,7 @@
 		 Draw the document date, right-aligned in the middle column.
 		 To ensure it is right-aligned, first find its width with the given font and minimum allowed font size. Then draw the string at the appropriate offset.
 		 */
-	NSString *dateString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Date approval", "Date approval"), [dateFormatter stringFromDate:document.date]];
+	NSString *dateString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Date approval", "Date approval"), [dateFormatter stringFromDate:document.dateModified]];
     
     /*
      Draw the document date, right-aligned in the middle column.
@@ -136,12 +136,12 @@
     
     if ([self.document isKindOfClass:[ResolutionManaged class]]) 
     {
-        NSDictionary *performers =  (NSDictionary *)((ResolutionManaged *)document).performers;
+        NSArray *performers =  (NSArray *)((ResolutionManaged *)document).performers;
         if ([performers count])
         {
             [thirdTextColor set];
         
-            NSString *performersString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Performers", "Performers"), [[performers allValues] componentsJoinedByString: @", "]];
+            NSString *performersString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Performers", "Performers"), [performers componentsJoinedByString: @", "]];
         
             point = CGPointMake(boundsX + LEFT_OFFSET, PERFORMERS_ROW_TOP);
             [performersString drawAtPoint:point forWidth:cellWith withFont:thirdFont minFontSize:MIN_SECONDARY_FONT_SIZE actualFontSize:NULL lineBreakMode:UILineBreakModeTailTruncation baselineAdjustment:UIBaselineAdjustmentAlignBaselines];

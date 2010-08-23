@@ -33,7 +33,7 @@
 #warning test default settings
     
     [defaultValues setObject:@"http://10.0.2.4/~vovasty" forKey:@"serverHost"];
-    [defaultValues setObject:@"C325777C0045161D.xml" forKey:@"serverDatabase"];
+    [defaultValues setObject:@"C325777C0045161D.json" forKey:@"serverDatabase"];
     [defaultValues setObject:@"89FB7FB8A9330311C325777C004EEFC8" forKey:@"serverDatabaseView"];
     [defaultValues setObject:@"serverAuthLogin" forKey:@"serverAuthLogin"];
     [defaultValues setObject:@"serverAuthPassword" forKey:@"serverAuthPassword"];

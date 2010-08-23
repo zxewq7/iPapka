@@ -10,12 +10,13 @@
 
 
 @implementation Attachment
-@synthesize title, pages, isLoaded, hasError, path;
+@synthesize title, pages, isLoaded, hasError, path, uid;
 
 - (void) dealloc
 {
     self.title = nil;
     self.pages = nil;
+    self.uid = nil;
     [super dealloc];
 }
 
@@ -28,6 +29,7 @@
         self.title = [coder decodeObjectForKey:@"title"];
         self.pages = [coder decodeObjectForKey:@"pages"];
         self.path = [coder decodeObjectForKey:@"path"];
+        self.uid = [coder decodeObjectForKey:@"uid"];
     }
     return self;
 }
@@ -37,6 +39,7 @@
     [coder encodeObject: self.title forKey:@"title"];
     [coder encodeObject: self.pages forKey:@"pages"];
     [coder encodeObject: self.path forKey:@"path"];
+    [coder encodeObject: self.uid forKey:@"uid"];
 }
 
 -(UIImage *) pageForIndex:(NSUInteger) anIndex

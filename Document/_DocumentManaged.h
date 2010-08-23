@@ -11,7 +11,6 @@
 
 
 
-
 @interface DocumentManagedID : NSManagedObjectID {}
 @end
 
@@ -57,12 +56,6 @@
 
 
 
-@property (nonatomic, retain) NSDate *date;
-
-//- (BOOL)validateDate:(id*)value_ error:(NSError**)error_;
-
-
-
 
 @end
 
@@ -93,10 +86,6 @@
 
 - (BOOL)primitiveIsReadValue;
 - (void)setPrimitiveIsReadValue:(BOOL)value_;
-
-
-- (NSDate*)primitiveDate;
-- (void)setPrimitiveDate:(NSDate*)value;
 
 
 

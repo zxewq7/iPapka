@@ -208,7 +208,7 @@
         if ([document isMemberOfClass:entityClass] && (filter && ![filter evaluateWithObject:document]))
             continue;
         
-        NSDate *documentDate = document.date;
+        NSDate *documentDate = document.dateModified;
         NSDateComponents *comps = [calendar components:unitFlags fromDate:documentDate];
         NSDate *documentSection = [calendar dateFromComponents:comps];
         NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:documentSection];
@@ -286,7 +286,7 @@
                         updated = YES;
                         break;
                     }
-                    else if (possibleInsertIndex == NSNotFound && [document.date earlierDate:doc.date])
+                    else if (possibleInsertIndex == NSNotFound && [document.dateModified earlierDate:doc.dateModified])
                         possibleInsertIndex = i;
                 }
                 if (!updated && possibleInsertIndex != NSNotFound) //insert document
