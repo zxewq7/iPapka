@@ -21,10 +21,10 @@ static NSString *field_Uid         = @"UNID";
 static NSString *field_Title       = @"subject";
 static NSString *field_Date        = @"date";
 static NSString *field_Author      = @"author";
-static NSString *field_Modified    = @"modified";
+static NSString *field_Modified    = @"$modified";
 static NSString *field_Subdocument = @"document";
 static NSString *field_Deadline    = @"deadline";
-static NSString *field_Form        = @"form";
+static NSString *field_Form        = @"$Form";
 static NSString *field_Text        = @"text";
 static NSString *field_Performers  = @"performers";
 static NSString *field_Attachments = @"files";
@@ -32,8 +32,8 @@ static NSString *field_AttachmentName = @"name";
 static NSString *field_AttachmentUid = @"id";
 static NSString *field_AttachmentPageCount = @"pageCount";
 
-static NSString *form_Resolution   = @"Resolution";
-static NSString *form_Signature    = @"Document";
+static NSString *form_Resolution   = @"resolution";
+static NSString *form_Signature    = @"document";
 static NSString *url_FetchView     = @"%@/%@/%@?ReadViewEntries&count=100";
 static NSString *url_FetchDocument = @"%@/%@/%@/%@?OpenDocument";
     //document/id/file/file.id/page/pagenum
@@ -50,6 +50,7 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
 - (void)saveDocument:(Document *) document;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchAttachments:(Document *)document;
+- (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 @end
 
 @implementation LNDataSource
@@ -111,9 +112,8 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
     if ( [delegate respondsToSelector:@selector(documentsListWillRefreshed:)] ) 
         [delegate documentsListWillRefreshed:self];
 
-    LNHttpRequest *request;
     NSString *url = [NSString stringWithFormat:url_FetchView, self.host, self.databaseReplicaId, self.viewReplicaId];
-	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
+    LNHttpRequest *request = [self makeRequestWithUrl: url];
 	[request setDownloadDestinationPath:[_databaseDirectory stringByAppendingPathComponent:@"index.xml"]];
     __block LNDataSource *blockSelf = self;
     request.requestHandler = ^(ASIHTTPRequest *request) {
@@ -269,9 +269,8 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
 
 - (void)fetchDocument:(Document *) document isNew:(BOOL) isNew
 {
-    LNHttpRequest *request;
     NSString *url = [NSString stringWithFormat:url_FetchDocument, self.host, self.databaseReplicaId, self.viewReplicaId, document.uid];
-	request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
+    LNHttpRequest *request = [self makeRequestWithUrl: url];
     NSString *directory = [self documentDirectory:document.uid];
     NSFileManager *df = [NSFileManager defaultManager];
     if (isNew)
@@ -286,7 +285,7 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
             if (doc != nil) 
             {
                 [self saveDocument:doc];
-                [df removeItemAtPath:file error:NULL];
+                    //[df removeItemAtPath:file error:NULL];
                 if ( isNew && [delegate respondsToSelector:@selector(documentAdded:)] ) 
                     [delegate documentAdded:doc];
                 else if ( !isNew && [delegate respondsToSelector:@selector(documentUpdated:)] )
@@ -317,7 +316,7 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
         for (NSUInteger pageIndex = 0 ; pageIndex < pageCount; pageIndex++)
         {
             NSString *url = [NSString stringWithFormat:url_AttachmentFetchPage, host, databaseReplicaId, document.uid, attachment.uid, pageIndex];
-            LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
+            LNHttpRequest *request = [self makeRequestWithUrl: url];
             [request setDownloadDestinationPath:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", pageIndex]]];
             request.requestHandler = ^(ASIHTTPRequest *request) {
                 if ([request error] == nil  && [request responseStatusCode] == 200)
@@ -386,7 +385,7 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
     NSError *error = nil;
     NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
     if (parsedDocument == nil) {
-        NSLog(@"error parsing document $@, error:%@", document.uid, error);
+        NSLog(@"error parsing document %@, error:%@", document.uid, error);
         return nil;
     }
     NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
@@ -432,5 +431,12 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
     document.attachments = documentAttachments;
     document.hasError = NO;
     return document;
+}
+- (LNHttpRequest *) makeRequestWithUrl:(NSString *) url
+{
+    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
+    request.username = self.login;
+    request.password = self.password;
+    return request;
 }
 @end
