@@ -141,7 +141,7 @@
     
         // Set appropriate labels for the cells.
     NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
-    Document *document = [documentSection objectAtIndex:indexPath.row];
+    DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
     [cell setDocument: document];
     return cell;
 }
