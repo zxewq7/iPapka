@@ -32,11 +32,18 @@
 
 #warning test default settings
     
-    [defaultValues setObject:@"http://10.0.2.4/~vovasty" forKey:@"serverHost"];
-    [defaultValues setObject:@"C325777C0045161D.json" forKey:@"serverDatabase"];
-    [defaultValues setObject:@"89FB7FB8A9330311C325777C004EEFC8" forKey:@"serverDatabaseView"];
-    [defaultValues setObject:@"serverAuthLogin" forKey:@"serverAuthLogin"];
-    [defaultValues setObject:@"serverAuthPassword" forKey:@"serverAuthPassword"];
+//    [defaultValues setObject:@"http://10.0.2.4/~vovasty" forKey:@"serverHost"];
+//    [defaultValues setObject:@"C325777C0045161D.json" forKey:@"serverDatabase"];
+//    [defaultValues setObject:@"89FB7FB8A9330311C325777C004EEFC8" forKey:@"serverDatabaseView"];
+//    [defaultValues setObject:@"serverAuthLogin" forKey:@"serverAuthLogin"];
+//    [defaultValues setObject:@"serverAuthPassword" forKey:@"serverAuthPassword"];
+
+    [defaultValues setObject:@"http://195.208.68.133/cm35" forKey:@"serverHost"];
+    [defaultValues setObject:@"prvz.nsf" forKey:@"serverDatabase"];
+    [defaultValues setObject:@"4e99dcdd2e11c8a9c3257785003fa928" forKey:@"serverDatabaseView"];
+    [defaultValues setObject:@"Vasya V pupken/turumbay" forKey:@"serverAuthLogin"];
+    [defaultValues setObject:@"1" forKey:@"serverAuthPassword"];
+    
     
         //Register the dictionary of defaults
     
