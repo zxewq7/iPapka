@@ -129,7 +129,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 
 - (void) documentAdded:(Document *) aDocument
 {
-    Document *newDocument = nil;
+    DocumentManaged *newDocument = nil;
     BOOL isResolution = [aDocument isKindOfClass:[Resolution class]];
     if (isResolution)
          newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:managedObjectContext];
