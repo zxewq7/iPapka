@@ -62,6 +62,7 @@
     [self.navigationController pushViewController:self.rootViewController animated:NO];
     [self.window addSubview:viewController.view];
     [self.window makeKeyAndVisible];
+    [[DataSource sharedDataSource] refreshDocuments];
     return YES;
 }
 
