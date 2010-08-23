@@ -52,6 +52,7 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
 - (void)fetchAttachments:(Document *)document;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 @end
+static NSString* OperationCount = @"OperationCount";
 
 @implementation LNDataSource
 @synthesize viewReplicaId, databaseReplicaId, host, delegate, login, password;
@@ -81,6 +82,12 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
             //20100811
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
         
+        [_networkQueue addObserver:self
+                        forKeyPath:@"requestsCount"
+                        options:0
+                        context:&OperationCount];
+        
+        
     }
     return self;
 }
@@ -109,9 +116,6 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
 #pragma mark Methods
 -(void) refreshDocuments
 {
-    if ( [delegate respondsToSelector:@selector(documentsListWillRefreshed:)] ) 
-        [delegate documentsListWillRefreshed:self];
-
     NSString *url = [NSString stringWithFormat:url_FetchView, self.host, self.databaseReplicaId, self.viewReplicaId];
     LNHttpRequest *request = [self makeRequestWithUrl: url];
 	[request setDownloadDestinationPath:[_databaseDirectory stringByAppendingPathComponent:@"index.xml"]];
@@ -126,9 +130,6 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
             [blockSelf parseViewData:[request downloadDestinationPath]];
         else
             NSLog(@"error fetching url %@\n%@", [request originalURL], error);
-
-        if ( [blockSelf->delegate respondsToSelector:@selector(documentsListDidRefreshed:)] ) 
-            [blockSelf->delegate documentsListDidRefreshed:self];
     };
 	[_networkQueue addOperation:request];
 }
@@ -438,5 +439,36 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
     request.username = self.login;
     request.password = self.password;
     return request;
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &OperationCount)
+    {
+		if(_networkQueue.requestsCount)
+        {
+            if ( !isSyncing && [delegate respondsToSelector:@selector(documentsListWillRefreshed:)] ) 
+            {
+                [delegate documentsListWillRefreshed:self];
+                isSyncing = YES;
+            }
+        }
+        else
+        {
+            isSyncing = NO;
+            if ([ self.delegate respondsToSelector:@selector(documentsListDidRefreshed:)] ) 
+                [self.delegate documentsListDidRefreshed:self];
+        }
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
 }
 @end
