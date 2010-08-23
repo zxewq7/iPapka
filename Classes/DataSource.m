@@ -276,9 +276,9 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 - (void)defaultsChanged:(NSNotification *)notif
 {
         //purge cache - we need not it anymore
-    [lnDataSource purgeCache];
-    
-    [self createLNDatasourceFromDefaults];
+//    [lnDataSource purgeCache];
+//    
+//    [self createLNDatasourceFromDefaults];
 }
 
 -(void) createLNDatasourceFromDefaults
