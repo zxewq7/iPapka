@@ -48,6 +48,13 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     return documentUidPredicateTemplate;
 }
 
+-(NSDate *) lastSynced
+{
+    NSData *lastSynced = [[NSUserDefaults standardUserDefaults] objectForKey:@"lastSynced"];
+    if (lastSynced != nil)
+        return [NSKeyedUnarchiver unarchiveObjectWithData:lastSynced];
+    return nil;
+}
 #pragma mark -
 #pragma mark Initialization
 
@@ -158,6 +165,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 {
     isSyncing = NO;
     [notify postNotificationName:@"DocumentsListDidRefreshed" object:nil];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
 }
 
 - (void) documentsListWillRefreshed:(id) sender

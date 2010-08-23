@@ -96,6 +96,7 @@ static NSString* OperationCount = @"OperationCount";
 #pragma mark Memory management
 -(void)dealloc
 {
+    [_networkQueue removeObserver:self forKeyPath:OperationCount];
     [_networkQueue reset];
 	[_networkQueue release];
     [_databaseDirectory release];

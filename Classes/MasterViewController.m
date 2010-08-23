@@ -14,6 +14,7 @@
 - (void)documentsListDidRefreshed:(NSNotification *)notification;
 - (void)documentsListWillRefreshed:(NSNotification *)notification;
 - (void) createToolbar;
+- (void)updateSyncStatus;
 @end
 
 @implementation MasterViewController
@@ -43,8 +44,6 @@
     [self.activityTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
     
     [self createToolbar];
-    if ([DataSource sharedDataSource].isSyncing) 
-        [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing"), nil];
 }
 
     /*
@@ -54,6 +53,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO];
+    [self updateSyncStatus];
 }
 
 #pragma mark -
@@ -136,23 +136,12 @@
 @implementation MasterViewController(Private)
 - (void)documentsListDidRefreshed:(NSNotification *)notification
 {
-    NSString *error = notification.object;
-    if (error)
-        [self setActivity:NO message:error, nil];
-    else
-    {
-        NSDate *now = [NSDate date];
-        [self setActivity:NO message: NSLocalizedString(@"Synchronized", "Synchronized"), 
-         [self.activityDateFormatter stringFromDate:now], 
-         [self.activityTimeFormatter stringFromDate:now],
-         nil];
-    }
-    
+    [self updateSyncStatus];
 }
 
 - (void)documentsListWillRefreshed:(NSNotification *)notification
 {
-    [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing"), nil];
+    [self updateSyncStatus];
 }
 
 - (void) createToolbar
@@ -206,5 +195,23 @@
     [activityLabelButton release];
     [aLabel release];
     [refreshButton release];
+}
+- (void)updateSyncStatus
+{
+    DataSource *ds = [DataSource sharedDataSource];
+    if (ds.isSyncing) 
+        [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing"), nil];
+    else
+    {
+        NSDate *lastSynced = ds.lastSynced;
+        if (lastSynced)
+        {
+            [self setActivity:NO message: NSLocalizedString(@"Synchronized", "Synchronized"), 
+             [self.activityDateFormatter stringFromDate:lastSynced], 
+             [self.activityTimeFormatter stringFromDate:lastSynced],
+             nil];
+        }
+    }
+    
 }
 @end
