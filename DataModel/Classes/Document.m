@@ -10,7 +10,7 @@
 
 
 @implementation Document
-@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError, isRead, links;
+@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError, links;
 - (void) dealloc
 {
     self.title = nil;
@@ -19,7 +19,6 @@
     self.attachments = nil;
     self.uid = nil;
     self.dateModified = nil;
-    self.isRead = nil;
     self.links = nil;
     [super dealloc];
 }
@@ -36,7 +35,6 @@
         self.attachments = [coder decodeObjectForKey:@"attachments"];
         self.uid = [coder decodeObjectForKey:@"uid"];
         self.dateModified = [coder decodeObjectForKey:@"dateModified"];
-        self.isRead = [coder decodeObjectForKey:@"isRead"];
         self.links = [coder decodeObjectForKey:@"links"];
 
     }
@@ -51,7 +49,6 @@
     [coder encodeObject: self.attachments forKey:@"attachments"];
     [coder encodeObject: self.uid forKey:@"uid"];
     [coder encodeObject: self.dateModified forKey:@"dateModified"];
-    [coder encodeObject: self.isRead forKey:@"isRead"];
     [coder encodeObject: self.links forKey:@"links"];
 }
 @end

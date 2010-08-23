@@ -14,7 +14,6 @@
     NSDate       *date;
     NSArray      *attachments;
     NSArray      *links;
-    NSNumber     *isRead;
 
     NSString     *uid;
     NSDate       *dateModified;
@@ -27,7 +26,6 @@
 @property (nonatomic, retain) NSDate       *date;
 @property (nonatomic, retain) NSArray      *attachments;
 @property (nonatomic, retain) NSArray      *links;
-@property (nonatomic, retain) NSNumber     *isRead;
 
 @property (nonatomic, retain) NSString     *uid;
 @property (nonatomic, retain) NSDate       *dateModified;
