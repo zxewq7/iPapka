@@ -24,6 +24,8 @@
 @end
 
 @implementation DataSource
+@synthesize isSyncing;
+
 SYNTHESIZE_SINGLETON_FOR_CLASS(DataSource);
 #pragma mark -
 #pragma mark properties
@@ -154,11 +156,13 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 
 - (void) documentsListDidRefreshed:(id) sender
 {
+    isSyncing = NO;
     [notify postNotificationName:@"DocumentsListDidRefreshed" object:nil];
 }
 
 - (void) documentsListWillRefreshed:(id) sender
 {
+    isSyncing = YES;
     [notify postNotificationName:@"DocumentsListWillRefreshed" object:nil];
 }
 

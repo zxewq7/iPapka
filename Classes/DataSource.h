@@ -21,11 +21,13 @@
     NSNotificationCenter         *notify;
     NSEntityDescription          *documentEntityDescription;
     NSPredicate                  *documentUidPredicateTemplate;
+    BOOL                         isSyncing;
 }
 + (DataSource *)sharedDataSource;
 
 @property (nonatomic, retain, readonly) NSEntityDescription *documentEntityDescription;
 @property (nonatomic, retain, readonly) NSPredicate         *documentUidPredicateTemplate;
+@property (nonatomic)                   BOOL                isSyncing;
 
 -(NSArray *) documentsForFolder:(Folder *) folder;
 -(void) refreshDocuments;

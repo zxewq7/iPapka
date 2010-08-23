@@ -43,6 +43,8 @@
     [self.activityTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
     
     [self createToolbar];
+    if ([DataSource sharedDataSource].isSyncing) 
+        [self setActivity:YES message:NSLocalizedString(@"Synchronizing", "Synchronizing"), nil];
 }
 
     /*
