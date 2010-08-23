@@ -60,7 +60,19 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 
-    [[DataSource sharedDataSource] shutdown];
+    NSUInteger unreadCount = 0;
+    NSArray *folders = nil;
+    DataSource *ds = [DataSource sharedDataSource];
+    
+    NSData *foldersData = [[NSUserDefaults standardUserDefaults] objectForKey:@"folders"];
+    if (foldersData != nil)
+        folders = [NSKeyedUnarchiver unarchiveObjectWithData:foldersData];
+    
+    for (Folder *folder in folders) 
+        unreadCount+=[ds countUnreadDocumentsForFolder:folder];
+
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:unreadCount];
+    [ds shutdown];
 }
 
 - (void)dealloc {
