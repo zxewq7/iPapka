@@ -25,7 +25,7 @@
 }
 
 
-- (void)Document:(DocumentManaged *)newDocument {
+- (void)setDocument:(DocumentManaged *)newDocument {
 	
 	// If the time zone wrapper changes, update the date formatter and abbreviation string.
 	if (document != newDocument) {

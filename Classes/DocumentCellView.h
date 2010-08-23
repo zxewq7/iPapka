@@ -6,7 +6,7 @@
 	BOOL highlighted;
 }
 
-@property (nonatomic, retain) DocumentManaged *document;
+@property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;
 @property (nonatomic, retain) NSDateFormatter *dateFormatter;
 @property (nonatomic, getter=isHighlighted) BOOL highlighted;
 
