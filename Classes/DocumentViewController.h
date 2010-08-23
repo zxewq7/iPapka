@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class Document;
+@class DocumentManaged;
 
 @interface DocumentViewController : UIViewController
 {
     UIToolbar       *toolbar;
     UIBarButtonItem *documentTitle;
-    Document        *document;
+    DocumentManaged *document;
     UITableView     *tableView;
 }
 
@@ -22,7 +22,7 @@
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *documentTitle;
 @property (nonatomic, retain) IBOutlet UITableView     *tableView;
 
-@property (nonatomic, retain, setter=setDocument:) Document  *document;
+@property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
 
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
 

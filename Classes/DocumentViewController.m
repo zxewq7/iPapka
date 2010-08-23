@@ -7,7 +7,8 @@
 //
 
 #import "DocumentViewController.h"
-#import "Document.h"
+#import "DocumentManaged.h"
+#import "DataSource.h"
 
 @implementation DocumentViewController
 
@@ -16,7 +17,7 @@
 @synthesize toolbar, document, documentTitle, tableView;
 
 
--(void) setDocument:(Document *) aDocument
+-(void) setDocument:(DocumentManaged *) aDocument
 {
     if (document == aDocument)
         return;
@@ -26,6 +27,7 @@
     documentTitle.title = document.title;
     if (![document.isRead boolValue])
         document.isRead = [NSNumber numberWithBool:YES];
+    [[DataSource sharedDataSource] commit];
 }
 
  - (void)viewDidLoad
