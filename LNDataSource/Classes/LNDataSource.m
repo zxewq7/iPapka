@@ -116,6 +116,9 @@ static NSString* OperationCount = @"OperationCount";
 #pragma mark Methods
 -(void) refreshDocuments
 {
+    if (isSyncing) //prevent spam syncing requests
+        return;
+    
     NSString *url = [NSString stringWithFormat:url_FetchView, self.host, self.databaseReplicaId, self.viewReplicaId];
     LNHttpRequest *request = [self makeRequestWithUrl: url];
 	[request setDownloadDestinationPath:[_databaseDirectory stringByAppendingPathComponent:@"index.xml"]];
