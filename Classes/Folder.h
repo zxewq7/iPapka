@@ -24,4 +24,5 @@
 @property (nonatomic, readonly, getter=predicate)           NSPredicate  *predicate;
 @property (nonatomic, retain, setter=setEntityName:)        NSString     *entityName;
 @property (nonatomic, readonly, getter=entityClass)         Class        entityClass;
+@property (nonatomic, readonly, getter=countUnread)         NSUInteger   countUnread;
 @end

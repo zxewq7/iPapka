@@ -10,6 +10,7 @@
 #import "RootViewController.h"
 #import "DocumentViewController.h"
 #import "Folder.h"
+#import "TDBadgedCell.h"
 
 @implementation FoldersViewController
 @synthesize rootViewController, folders;
@@ -48,20 +49,18 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     static NSString *CellIdentifier = @"FoldersViewControllerCellIdentifier";
     
-        // Dequeue or create a cell of the appropriate type.
-    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    }
+    TDBadgedCell *cell = [[[TDBadgedCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     
-        // Set appropriate labels for the cells.
+	
+	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+	
+
     Folder *folder = [self.folders objectAtIndex:indexPath.row];
-    cell.textLabel.text = folder.localizedName;
-    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     
+	cell.textLabel.text = folder.localizedName;
+	cell.badgeNumber = folder.countUnread; 
     return cell;
 }
 
