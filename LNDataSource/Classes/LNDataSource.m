@@ -38,6 +38,9 @@ static NSString *field_Attachments = @"files";
 static NSString *field_AttachmentName = @"name";
 static NSString *field_AttachmentUid = @"id";
 static NSString *field_AttachmentPageCount = @"pageCount";
+static NSString *field_Links = @"links";
+static NSString *field_LinkUid = @"id";
+static NSString *field_LinkTitle = @"info";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -46,7 +49,7 @@ static NSString *url_FetchDocument = @"%@/%@/document/%@";
     //document/id/file/file.id/page/pagenum
 static NSString *url_AttachmentFetchPage = @"%@/%@/document/%@/file/%@/page/%@";
     //document/id/link/link.id/file/file.id/page/pagenum
-static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/page/%@";
+static NSString *url_LinkAttachmentFetchPage = @"%@/%@/document/%@/link/%@/file/%@/page/%@";
 
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -57,6 +60,7 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
 - (void)saveDocument:(Document *) document;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchAttachments:(Document *)document;
+- (void)fetchLinks:(Document *)document;
 - (void)fetchAttachments:(Document *)document rootDocument:(Document *)aRootDocument urlPattern:(NSString *) anUrlPattern basePath:(NSString *) aBasePath;
 - (void)checkDocumentIsLoaded:(Document *)document;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
@@ -309,19 +313,19 @@ static NSString* OperationCount = @"OperationCount";
 
 	[request setDownloadDestinationPath:[directory stringByAppendingPathComponent:@"index.html"]];
     request.requestHandler = ^(ASIHTTPRequest *request) {
+        NSString *file = [request downloadDestinationPath];
         if ([request error] == nil  && [request responseStatusCode] == 200)
         {
-            NSString *file = [request downloadDestinationPath];
             Document *doc = [self parseDocumentData:document jsonFile:file];
             if (doc != nil) 
             {
                 [self saveDocument:doc];
-                    //[df removeItemAtPath:file error:NULL];
                 if ( isNew && [delegate respondsToSelector:@selector(documentAdded:)] ) 
                     [delegate documentAdded:doc];
                 else if ( !isNew && [delegate respondsToSelector:@selector(documentUpdated:)] )
                     [delegate documentUpdated:doc];
                 [self fetchAttachments: document];
+                [self fetchLinks: document];
             }
         }
         else
@@ -329,6 +333,7 @@ static NSString* OperationCount = @"OperationCount";
             [df removeItemAtPath:directory error:NULL];
             NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
+            //[df removeItemAtPath:file error:NULL];
     };
 	[_networkQueue addOperation:request];
 }
@@ -410,6 +415,38 @@ static NSString* OperationCount = @"OperationCount";
         [newAttachment release];
     }
     document.attachments = documentAttachments;
+    
+    NSArray *links = [subDocument objectForKey:field_Links];
+    NSMutableArray *documentLinks = [NSMutableArray arrayWithCapacity:[attachments count]];
+    for(NSDictionary *link in links)
+    {
+        Document *linkDocument = [[Document alloc] init];
+        linkDocument.uid = [link objectForKey:field_LinkUid];
+        linkDocument.title = [link objectForKey:field_LinkTitle];
+        NSArray *linkAttachments = [link objectForKey:field_Attachments];
+        NSMutableArray *documentLinkAttachments = [NSMutableArray arrayWithCapacity:[linkAttachments count]];
+        for(NSDictionary *attachment in linkAttachments)
+        {
+            Attachment *newAttachment = [[Attachment alloc] init];
+            newAttachment.title = [attachment objectForKey:field_AttachmentName];
+            newAttachment.uid = [attachment objectForKey:field_AttachmentUid];
+            NSNumber *nPageCount = [attachment objectForKey:field_AttachmentPageCount];
+            NSUInteger pageCount = nPageCount == nil?0:[nPageCount intValue];
+            
+            NSMutableArray *pages = [NSMutableArray arrayWithCapacity:pageCount];
+            for (NSUInteger i = 0; i < pageCount ; i++) //just empty array
+                [pages addObject:@""];
+            
+            newAttachment.pages = pages;
+            [documentLinkAttachments addObject:newAttachment];
+            [newAttachment release];
+        }
+        linkDocument.attachments = documentLinkAttachments;
+        [documentLinks addObject:linkDocument];
+        [linkDocument release];
+    }
+    document.links = documentLinks;
+    
     document.hasError = NO;
     return document;
 }
@@ -487,10 +524,12 @@ static NSString* OperationCount = @"OperationCount";
 }
 - (void)fetchAttachments:(Document *)document rootDocument:(Document *)aRootDocument urlPattern:(NSString *) anUrlPattern basePath:(NSString *) aBasePath
 {
+    NSFileManager *df = [NSFileManager defaultManager];
+
     for (Attachment *attachment in document.attachments) 
     {
-        NSString *path = [aBasePath stringByAppendingPathComponent: attachment.uid];
-        [[NSFileManager defaultManager] createDirectoryAtPath:path withIntermediateDirectories:TRUE 
+        NSString *path = [[aBasePath stringByAppendingPathComponent: attachment.uid] stringByAppendingPathComponent: @"pages"];
+        [df createDirectoryAtPath:path withIntermediateDirectories:TRUE 
                                                    attributes:nil error:nil];
         attachment.path = path;
         NSUInteger pageCount = [attachment.pages count];
@@ -508,6 +547,8 @@ static NSString* OperationCount = @"OperationCount";
                 {
                     attachment.hasError = YES;
                     [attachment.pages replaceObjectAtIndex:pageIndex withObject:@"error"];
+                        //remove bugged response
+                    [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
                     NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
                 }
                 [self checkDocumentIsLoaded:aRootDocument];
@@ -535,21 +576,44 @@ static NSString* OperationCount = @"OperationCount";
         }
         attachment.isLoaded = attachmentsLoaded;
     }
+
+    BOOL linksLoaded = YES;
     
-    BOOL documentLoaded = YES;
-    if (attachmentsLoaded) 
+    for (Document *link in document.links) 
     {
-        for (Attachment *attachment in document.attachments) 
+        
+        if (link.isLoaded)
+            continue;
+        
+        for (Attachment *attachment in link.attachments)
         {
-            if (!attachment.isLoaded) 
+            if (attachment.isLoaded)
+                continue;
+            
+            for (NSString *fileName in attachment.pages) 
             {
-                documentLoaded = NO;
-                break;
+                if ([fileName isEqualToString:@""])
+                {
+                    linksLoaded = NO;
+                    break;
+                }
             }
+            attachment.isLoaded = linksLoaded;
         }
     }
-    document.isLoaded = documentLoaded;
+    
+    document.isLoaded = attachmentsLoaded & linksLoaded;
     [self saveDocument:document];
     
+}
+- (void)fetchLinks:(Document *)document
+{
+    NSString *path = [[self documentDirectory:document.uid] stringByAppendingPathComponent:@"links"];
+    for (Document *link in document.links) 
+    {
+        NSString *urlPattern = [NSString stringWithFormat:url_LinkAttachmentFetchPage, host, databaseReplicaId, document.uid, link.uid, @"%@", @"%d"];
+        
+        [self fetchAttachments:link rootDocument:document urlPattern:urlPattern basePath:path];
+    }
 }
 @end
