@@ -44,6 +44,13 @@
 
 -(UIImage *) pageForIndex:(NSUInteger) anIndex
 {
-    return [UIImage imageWithContentsOfFile:[pages objectAtIndex:anIndex]];
+    NSString *imageName = [pages objectAtIndex:anIndex];
+    if ([imageName isEqualToString:@"error"]) 
+        return [UIImage imageNamed:@"PageError.png"];
+    else if ([imageName isEqualToString:@""]) 
+        return [UIImage imageNamed:@"PageLoading.png"];
+
+    NSString *imagePath = [path stringByAppendingPathComponent:[pages objectAtIndex:anIndex]];
+    return [UIImage imageWithContentsOfFile:imagePath];
 }
 @end
