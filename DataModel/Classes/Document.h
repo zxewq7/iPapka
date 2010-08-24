@@ -6,9 +6,7 @@
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <CoreData/CoreData.h>
-
-@interface Document : NSManagedObject<NSCoding> {
+@interface Document : NSObject<NSCoding> {
     NSString     *title;
     NSString     *author;
     NSDate       *date;

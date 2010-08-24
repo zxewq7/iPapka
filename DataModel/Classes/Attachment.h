@@ -8,7 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-
 @interface Attachment : NSObject<NSCoding> {
     NSString        *uid;
     NSString        *title;
