@@ -27,6 +27,7 @@
 {
     self.name = nil;
     self.predicateString = nil;
+    self.entityName = nil;
     [predicate release];
     [localizedName release];
     [super dealloc];
