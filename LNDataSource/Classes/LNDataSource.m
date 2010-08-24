@@ -42,7 +42,7 @@ static NSString *field_AttachmentPageCount = @"pageCount";
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
 static NSString *url_FetchView     = @"%@/%@/%@/";
-static NSString *url_FetchDocument = @"%@/%@/%@/%@";
+static NSString *url_FetchDocument = @"%@/%@/document/%@";
     //document/id/file/file.id/page/pagenum
 static NSString *url_AttachmentFetchPage = @"%@/%@/document/%@/file/%@/page/%d";
     //document/id/link/link.id/file/file.id/page/pagenum
@@ -298,7 +298,7 @@ static NSString* OperationCount = @"OperationCount";
 
 - (void)fetchDocument:(Document *) document isNew:(BOOL) isNew
 {
-    NSString *url = [NSString stringWithFormat:url_FetchDocument, self.host, self.databaseReplicaId, self.viewReplicaId, document.uid];
+    NSString *url = [NSString stringWithFormat:url_FetchDocument, self.host, self.databaseReplicaId, document.uid];
     LNHttpRequest *request = [self makeRequestWithUrl: url];
     NSString *directory = [self documentDirectory:document.uid];
     NSFileManager *df = [NSFileManager defaultManager];
