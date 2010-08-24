@@ -42,7 +42,6 @@
 		8156516212229B7900CCCCFF /* AQGridSelectionGrayBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 8156515D12229B7900CCCCFF /* AQGridSelectionGrayBlue.png */; };
 		8156516312229B7900CCCCFF /* AQGridSelectionGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8156515E12229B7900CCCCFF /* AQGridSelectionGreen.png */; };
 		8156516412229B7900CCCCFF /* AQGridSelectionRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8156515F12229B7900CCCCFF /* AQGridSelectionRed.png */; };
-		8157845E12147E6C00067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 8157845D12147E6C00067473 /* libxml2.dylib */; };
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
 		8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B2BC121C327A00842F63 /* FoldersViewController.m */; };
 		8179B76E121D22D500842F63 /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B76D121D22D500842F63 /* Folder.m */; };
@@ -54,12 +53,12 @@
 		81CAD11212217E5700E47930 /* UnreadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CAD11012217E5700E47930 /* UnreadMark.png */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
 		81DBAEC41212DE0F00207D6E /* AttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC31212DE0F00207D6E /* AttachmentCell.m */; };
-		81E703F51222CED7004FCF7E /* DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E703F41222CED7004FCF7E /* DocumentManaged.m */; };
-		81E703F71222CED8004FCF7E /* ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E703F61222CED7004FCF7E /* ResolutionManaged.m */; };
-		81E703F91222CED8004FCF7E /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E703F81222CED8004FCF7E /* SignatureManaged.m */; };
-		81E703FE1222CED8004FCF7E /* _DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E703FD1222CED8004FCF7E /* _DocumentManaged.m */; };
-		81E704001222CED9004FCF7E /* _ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E703FF1222CED9004FCF7E /* _ResolutionManaged.m */; };
-		81E704021222CED9004FCF7E /* _SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E704011222CED9004FCF7E /* _SignatureManaged.m */; };
+		81F4BD5C1223BB11007E8E69 /* DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4BD5B1223BB10007E8E69 /* DocumentManaged.m */; };
+		81F4BD5E1223BB11007E8E69 /* ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4BD5D1223BB11007E8E69 /* ResolutionManaged.m */; };
+		81F4BD601223BB11007E8E69 /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4BD5F1223BB11007E8E69 /* SignatureManaged.m */; };
+		81F4BD651223BB13007E8E69 /* _DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4BD641223BB13007E8E69 /* _DocumentManaged.m */; };
+		81F4BD671223BB13007E8E69 /* _ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4BD661223BB13007E8E69 /* _ResolutionManaged.m */; };
+		81F4BD691223BB14007E8E69 /* _SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4BD681223BB13007E8E69 /* _SignatureManaged.m */; };
 		81FB942E1221197B008A1E15 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB93FD12211918008A1E15 /* libDataModel.a */; };
 		81FB942F12211980008A1E15 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB942912211972008A1E15 /* libLNDataSource.a */; };
 		81FB943812211998008A1E15 /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB943712211993008A1E15 /* libASIHTTPRequest.a */; };
@@ -161,7 +160,6 @@
 		8156515D12229B7900CCCCFF /* AQGridSelectionGrayBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionGrayBlue.png; sourceTree = "<group>"; };
 		8156515E12229B7900CCCCFF /* AQGridSelectionGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionGreen.png; sourceTree = "<group>"; };
 		8156515F12229B7900CCCCFF /* AQGridSelectionRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionRed.png; sourceTree = "<group>"; };
-		8157845D12147E6C00067473 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		816FF802121708530083E7A4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		8179B2BB121C327A00842F63 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
@@ -174,30 +172,24 @@
 		81B74C61121E8306005117D4 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		81B74CCC121E87B8005117D4 /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
 		81B74CCD121E87B8005117D4 /* DataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DataSource.m; sourceTree = "<group>"; };
-		81CAD08312215EC400E47930 /* _DocumentManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DocumentManaged.m; sourceTree = "<group>"; };
-		81CAD08512215EC500E47930 /* _ResolutionManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _ResolutionManaged.m; sourceTree = "<group>"; };
-		81CAD08712215EC500E47930 /* _SignatureManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _SignatureManaged.m; sourceTree = "<group>"; };
-		81CAD08912215EC500E47930 /* _DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DocumentManaged.h; sourceTree = "<group>"; };
-		81CAD08A12215EC500E47930 /* _ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _ResolutionManaged.h; sourceTree = "<group>"; };
-		81CAD08B12215EC600E47930 /* _SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _SignatureManaged.h; sourceTree = "<group>"; };
 		81CAD10F12217E5700E47930 /* DocumentViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentViewBackground.png; sourceTree = "<group>"; };
 		81CAD11012217E5700E47930 /* UnreadMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnreadMark.png; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		81DBAEC21212DE0F00207D6E /* AttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentCell.h; sourceTree = "<group>"; };
 		81DBAEC31212DE0F00207D6E /* AttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentCell.m; sourceTree = "<group>"; };
-		81E703F41222CED7004FCF7E /* DocumentManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentManaged.m; sourceTree = "<group>"; };
-		81E703F61222CED7004FCF7E /* ResolutionManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResolutionManaged.m; sourceTree = "<group>"; };
-		81E703F81222CED8004FCF7E /* SignatureManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignatureManaged.m; sourceTree = "<group>"; };
-		81E703FA1222CED8004FCF7E /* DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentManaged.h; sourceTree = "<group>"; };
-		81E703FB1222CED8004FCF7E /* ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResolutionManaged.h; sourceTree = "<group>"; };
-		81E703FC1222CED8004FCF7E /* SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignatureManaged.h; sourceTree = "<group>"; };
-		81E703FD1222CED8004FCF7E /* _DocumentManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DocumentManaged.m; sourceTree = "<group>"; };
-		81E703FF1222CED9004FCF7E /* _ResolutionManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _ResolutionManaged.m; sourceTree = "<group>"; };
-		81E704011222CED9004FCF7E /* _SignatureManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _SignatureManaged.m; sourceTree = "<group>"; };
-		81E704031222CED9004FCF7E /* _DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DocumentManaged.h; sourceTree = "<group>"; };
-		81E704041222CED9004FCF7E /* _ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _ResolutionManaged.h; sourceTree = "<group>"; };
-		81E704051222CED9004FCF7E /* _SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _SignatureManaged.h; sourceTree = "<group>"; };
+		81F4BD5B1223BB10007E8E69 /* DocumentManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentManaged.m; sourceTree = "<group>"; };
+		81F4BD5D1223BB11007E8E69 /* ResolutionManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResolutionManaged.m; sourceTree = "<group>"; };
+		81F4BD5F1223BB11007E8E69 /* SignatureManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignatureManaged.m; sourceTree = "<group>"; };
+		81F4BD611223BB11007E8E69 /* DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DocumentManaged.h; sourceTree = "<group>"; };
+		81F4BD621223BB12007E8E69 /* ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ResolutionManaged.h; sourceTree = "<group>"; };
+		81F4BD631223BB12007E8E69 /* SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignatureManaged.h; sourceTree = "<group>"; };
+		81F4BD641223BB13007E8E69 /* _DocumentManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _DocumentManaged.m; sourceTree = "<group>"; };
+		81F4BD661223BB13007E8E69 /* _ResolutionManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _ResolutionManaged.m; sourceTree = "<group>"; };
+		81F4BD681223BB13007E8E69 /* _SignatureManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = _SignatureManaged.m; sourceTree = "<group>"; };
+		81F4BD6A1223BB14007E8E69 /* _DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DocumentManaged.h; sourceTree = "<group>"; };
+		81F4BD6B1223BB14007E8E69 /* _ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _ResolutionManaged.h; sourceTree = "<group>"; };
+		81F4BD6C1223BB14007E8E69 /* _SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _SignatureManaged.h; sourceTree = "<group>"; };
 		81FB93F512211918008A1E15 /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
 		81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = LNDataSource.xcodeproj; path = LNDataSource/LNDataSource.xcodeproj; sourceTree = "<group>"; };
 		81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
@@ -223,7 +215,6 @@
 				8137EC3E1214228F006C1416 /* libz.1.2.3.dylib in Frameworks */,
 				8137EC401214229D006C1416 /* SystemConfiguration.framework in Frameworks */,
 				8137EC42121422A6006C1416 /* MobileCoreServices.framework in Frameworks */,
-				8157845E12147E6C00067473 /* libxml2.dylib in Frameworks */,
 				81B74C62121E8306005117D4 /* CoreData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,7 +253,6 @@
 			children = (
 				8156513812229B3400CCCCFF /* AQGridView */,
 				815651221222976A00CCCCFF /* TDBadgedCell */,
-				81CAD07912215EC100E47930 /* Document */,
 				81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */,
 				81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */,
 				81FB93F512211918008A1E15 /* DataModel.xcodeproj */,
@@ -300,7 +290,6 @@
 				8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */,
 				8137EC3F1214229D006C1416 /* SystemConfiguration.framework */,
 				8137EC41121422A6006C1416 /* MobileCoreServices.framework */,
-				8157845D12147E6C00067473 /* libxml2.dylib */,
 				81B74C61121E8306005117D4 /* CoreData.framework */,
 			);
 			name = Frameworks;
@@ -409,34 +398,21 @@
 			path = thirdparty/AQGridView/images;
 			sourceTree = SOURCE_ROOT;
 		};
-		81CAD07912215EC100E47930 /* Document */ = {
-			isa = PBXGroup;
-			children = (
-				81CAD08312215EC400E47930 /* _DocumentManaged.m */,
-				81CAD08512215EC500E47930 /* _ResolutionManaged.m */,
-				81CAD08712215EC500E47930 /* _SignatureManaged.m */,
-				81CAD08912215EC500E47930 /* _DocumentManaged.h */,
-				81CAD08A12215EC500E47930 /* _ResolutionManaged.h */,
-				81CAD08B12215EC600E47930 /* _SignatureManaged.h */,
-			);
-			path = Document;
-			sourceTree = "<group>";
-		};
 		81E703F31222CED7004FCF7E /* Document */ = {
 			isa = PBXGroup;
 			children = (
-				81E703F41222CED7004FCF7E /* DocumentManaged.m */,
-				81E703F61222CED7004FCF7E /* ResolutionManaged.m */,
-				81E703F81222CED8004FCF7E /* SignatureManaged.m */,
-				81E703FA1222CED8004FCF7E /* DocumentManaged.h */,
-				81E703FB1222CED8004FCF7E /* ResolutionManaged.h */,
-				81E703FC1222CED8004FCF7E /* SignatureManaged.h */,
-				81E703FD1222CED8004FCF7E /* _DocumentManaged.m */,
-				81E703FF1222CED9004FCF7E /* _ResolutionManaged.m */,
-				81E704011222CED9004FCF7E /* _SignatureManaged.m */,
-				81E704031222CED9004FCF7E /* _DocumentManaged.h */,
-				81E704041222CED9004FCF7E /* _ResolutionManaged.h */,
-				81E704051222CED9004FCF7E /* _SignatureManaged.h */,
+				81F4BD5B1223BB10007E8E69 /* DocumentManaged.m */,
+				81F4BD5D1223BB11007E8E69 /* ResolutionManaged.m */,
+				81F4BD5F1223BB11007E8E69 /* SignatureManaged.m */,
+				81F4BD611223BB11007E8E69 /* DocumentManaged.h */,
+				81F4BD621223BB12007E8E69 /* ResolutionManaged.h */,
+				81F4BD631223BB12007E8E69 /* SignatureManaged.h */,
+				81F4BD641223BB13007E8E69 /* _DocumentManaged.m */,
+				81F4BD661223BB13007E8E69 /* _ResolutionManaged.m */,
+				81F4BD681223BB13007E8E69 /* _SignatureManaged.m */,
+				81F4BD6A1223BB14007E8E69 /* _DocumentManaged.h */,
+				81F4BD6B1223BB14007E8E69 /* _ResolutionManaged.h */,
+				81F4BD6C1223BB14007E8E69 /* _SignatureManaged.h */,
 			);
 			path = Document;
 			sourceTree = "<group>";
@@ -607,12 +583,12 @@
 				8156515712229B3400CCCCFF /* NSIndexSet+AQIndexesOutsideSet.m in Sources */,
 				8156515812229B3400CCCCFF /* NSIndexSet+AQIsSetContiguous.m in Sources */,
 				8156515912229B3400CCCCFF /* UIColor+AQGridView.m in Sources */,
-				81E703F51222CED7004FCF7E /* DocumentManaged.m in Sources */,
-				81E703F71222CED8004FCF7E /* ResolutionManaged.m in Sources */,
-				81E703F91222CED8004FCF7E /* SignatureManaged.m in Sources */,
-				81E703FE1222CED8004FCF7E /* _DocumentManaged.m in Sources */,
-				81E704001222CED9004FCF7E /* _ResolutionManaged.m in Sources */,
-				81E704021222CED9004FCF7E /* _SignatureManaged.m in Sources */,
+				81F4BD5C1223BB11007E8E69 /* DocumentManaged.m in Sources */,
+				81F4BD5E1223BB11007E8E69 /* ResolutionManaged.m in Sources */,
+				81F4BD601223BB11007E8E69 /* SignatureManaged.m in Sources */,
+				81F4BD651223BB13007E8E69 /* _DocumentManaged.m in Sources */,
+				81F4BD671223BB13007E8E69 /* _ResolutionManaged.m in Sources */,
+				81F4BD691223BB14007E8E69 /* _SignatureManaged.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
