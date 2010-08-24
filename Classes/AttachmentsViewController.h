@@ -7,13 +7,21 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "AQGridView.h"
 
-@class Document;
-@interface AttachmentsViewController : NSObject<AQGridViewDelegate, AQGridViewDataSource> {
-    AQGridView           *attachmentListView;
-    Document             *_document;
+@class ImageScrollView, Attachment;
+@interface AttachmentsViewController : UIViewController<UIScrollViewDelegate> 
+{
+    UIScrollView *pagingScrollView;
+    
+    NSMutableSet *recycledPages;
+    NSMutableSet *visiblePages;
+    
+        // these values are stored off before we start rotation so we adjust our content offset appropriately during rotation
+    int           firstVisiblePageIndexBeforeRotation;
+    CGFloat       percentScrolledIntoFirstVisiblePage;
+    Attachment    *attachment;
+    CGRect        viewFrame;
 }
-@property (nonatomic, retain) IBOutlet AQGridView *attachmentListView;
-@property (nonatomic, retain) Document             *document;
+
+@property (nonatomic, retain, setter=setAttachment:)   Attachment    *attachment;
 @end

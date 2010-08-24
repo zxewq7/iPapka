@@ -8,21 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged;
+@class DocumentManaged, AttachmentsViewController;
 
 @interface DocumentViewController : UIViewController
 {
     UIToolbar       *toolbar;
     UIBarButtonItem *documentTitle;
     DocumentManaged *document;
-    UITableView     *tableView;
+    AttachmentsViewController    *attachmentsViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIToolbar       *toolbar;
 @property (nonatomic, retain) IBOutlet UIBarButtonItem *documentTitle;
-@property (nonatomic, retain) IBOutlet UITableView     *tableView;
 
-@property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
+@property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;
 
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
 
