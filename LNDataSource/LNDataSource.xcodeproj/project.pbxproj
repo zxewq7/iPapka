@@ -19,8 +19,6 @@
 		815652931222B6F300CCCCFF /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = 815652881222B6F300CCCCFF /* SBJsonWriter.h */; };
 		815652941222B6F300CCCCFF /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 815652891222B6F300CCCCFF /* SBJsonWriter.m */; };
 		81578325121459C700067473 /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 815783141214349A00067473 /* libxml2.dylib */; };
-		8157836A12145D9100067473 /* LotusViewParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 815783121214347700067473 /* LotusViewParser.m */; };
-		8157836B12145D9700067473 /* LotusViewParser.h in Headers */ = {isa = PBXBuildFile; fileRef = 815783111214347700067473 /* LotusViewParser.h */; };
 		8166806E12153DF800D3EE40 /* LNHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 8166805212153D4500D3EE40 /* LNHttpRequest.m */; };
 		8166807312153DFD00D3EE40 /* LNHttpRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = 8166805112153D4500D3EE40 /* LNHttpRequest.h */; };
 		8198E68F1213FF0000299A5E /* LNDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 8198E68B1213FF0000299A5E /* LNDataSource.h */; };
@@ -77,8 +75,6 @@
 		815652881222B6F300CCCCFF /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		815652891222B6F300CCCCFF /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		81578304121433D900067473 /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = ../thirdparty/PLBlocks.framework; sourceTree = SOURCE_ROOT; };
-		815783111214347700067473 /* LotusViewParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LotusViewParser.h; sourceTree = "<group>"; };
-		815783121214347700067473 /* LotusViewParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LotusViewParser.m; sourceTree = "<group>"; };
 		815783141214349A00067473 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		8166805112153D4500D3EE40 /* LNHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNHttpRequest.h; sourceTree = "<group>"; };
 		8166805212153D4500D3EE40 /* LNHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNHttpRequest.m; sourceTree = "<group>"; };
@@ -181,8 +177,6 @@
 			children = (
 				8198E68B1213FF0000299A5E /* LNDataSource.h */,
 				8198E68C1213FF0000299A5E /* LNDataSource.m */,
-				815783111214347700067473 /* LotusViewParser.h */,
-				815783121214347700067473 /* LotusViewParser.m */,
 				8166805112153D4500D3EE40 /* LNHttpRequest.h */,
 				8166805212153D4500D3EE40 /* LNHttpRequest.m */,
 			);
@@ -205,7 +199,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8166807312153DFD00D3EE40 /* LNHttpRequest.h in Headers */,
-				8157836B12145D9700067473 /* LotusViewParser.h in Headers */,
 				8198E68F1213FF0000299A5E /* LNDataSource.h in Headers */,
 				8156528A1222B6F300CCCCFF /* JSON.h in Headers */,
 				8156528B1222B6F300CCCCFF /* NSObject+SBJSON.h in Headers */,
@@ -289,7 +282,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8166806E12153DF800D3EE40 /* LNHttpRequest.m in Sources */,
-				8157836A12145D9100067473 /* LotusViewParser.m in Sources */,
 				8198E6901213FF0000299A5E /* LNDataSource.m in Sources */,
 				8156528C1222B6F300CCCCFF /* NSObject+SBJSON.m in Sources */,
 				8156528E1222B6F300CCCCFF /* NSString+SBJSON.m in Sources */,

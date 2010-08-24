@@ -14,10 +14,17 @@
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
-#import "LotusViewParser.h"
 #import "SBJsonParser.h"
 
-static NSString *field_Uid         = @"UNID";
+static NSString *view_RootEntry = @"viewentry";
+static NSString *view_EntryUid = @"@unid";
+static NSString *view_EntryData = @"entrydata";
+static NSString *view_EntryDataName = @"@name";
+static NSString *view_EntryDataDate = @"datetime";
+static NSString *view_EntryDataDateDst = @"@dst";
+static NSString *view_EntryDataText = @"text";
+static NSString *view_EntryDataFirstElement = @"0";
+
 static NSString *field_Title       = @"subject";
 static NSString *field_Date        = @"date";
 static NSString *field_Author      = @"author";
@@ -34,8 +41,8 @@ static NSString *field_AttachmentPageCount = @"pageCount";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
-static NSString *url_FetchView     = @"%@/%@/%@?ReadViewEntries&count=100";
-static NSString *url_FetchDocument = @"%@/%@/%@/%@?OpenDocument";
+static NSString *url_FetchView     = @"%@/%@/%@/";
+static NSString *url_FetchDocument = @"%@/%@/%@/%@";
     //document/id/file/file.id/page/pagenum
 static NSString *url_AttachmentFetchPage = @"%@/%@/document/%@/file/%@/page/%d";
     //document/id/link/link.id/file/file.id/page/pagenum
@@ -44,13 +51,14 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/document/%@/link/%@/file/%@/
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
 - (void)fetchFailed:(ASIHTTPRequest *)request;
-- (void)parseViewData:(NSString *) xmlFile;
+- (void)parseViewData:(NSString *) jsonFile;
 - (void)fetchDocument:(Document *) document isNew:(BOOL) isNew;
 - (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile;
 - (void)saveDocument:(Document *) document;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchAttachments:(Document *)document;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
+- (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 @end
 static NSString* OperationCount = @"OperationCount";
 
@@ -196,22 +204,39 @@ static NSString* OperationCount = @"OperationCount";
         handler(request);
 }
 
-- (void)parseViewData:(NSString *) xmlFile
+- (void)parseViewData:(NSString *) jsonFile
 {
-    LotusViewParser *parser = [LotusViewParser parseView:xmlFile];
-    NSUInteger size = [parser.documentEntries count];
+    NSString *jsonString = [NSString stringWithContentsOfFile:jsonFile encoding:NSUTF8StringEncoding error:NULL];
+    SBJsonParser *json = [[SBJsonParser alloc] init];
+    NSError *error = nil;
+    NSDictionary *parsedView = [json objectWithString:jsonString error:&error];
+    [json release];
+    if (parsedView == nil) {
+        NSLog(@"error parsing view, error:%@", error);
+        return;
+    }
+    NSArray *entries = [parsedView objectForKey:view_RootEntry]; 
+    NSUInteger size = [entries count];
     NSMutableArray *newDocuments = [NSMutableArray arrayWithCapacity:size];
     NSMutableArray *updatedDocuments = [NSMutableArray arrayWithCapacity:size];
     NSMutableSet *allUids = [NSMutableSet setWithCapacity:size];
     NSMutableSet *uidsToRemove = [NSMutableSet setWithCapacity:size];
-    for (NSDictionary *entry in parser.documentEntries) 
+    for (NSDictionary *entry in entries) 
     {
-        NSString *uid = [entry objectForKey:field_Uid];
+        NSString *uid = [entry objectForKey:view_EntryUid];
             //new document
+        NSArray *entryData = [entry objectForKey:view_EntryData];
+        NSDictionary *values = [self extractValuesFromViewColumn: entryData];
+        NSString *form = [values objectForKey:field_Form];
+        NSDate *dateModified = [values objectForKey:field_Modified];
+        NSAssert(form != nil, @"Unable to find form in view");
+        NSAssert(dateModified != nil, @"Unable to find dateModified in view");
+
         if (![cacheIndex containsObject:uid])
         {
+            
             Document *document = nil;
-            NSString *form = [entry objectForKey:field_Form];
+
             if ([form isEqualToString:form_Resolution])
                 document = [[Resolution alloc] init];
             else if ([form isEqualToString:form_Signature])
@@ -222,18 +247,17 @@ static NSString* OperationCount = @"OperationCount";
                 continue;
             }
             document.uid = uid;
-            document.dateModified = [entry objectForKey:field_Modified];
+            document.dateModified = dateModified;
             [newDocuments addObject:document];
             [document release];
         }
         else
         {
-            NSDate *newDate = [entry objectForKey:field_Modified];
                 //document updated
             Document *document = [self loadDocument:uid];
-            if ([document.dateModified compare: newDate] == NSOrderedAscending)
+            if ([document.dateModified compare: dateModified] == NSOrderedAscending)
             {
-                document.dateModified = newDate;
+                document.dateModified = dateModified;
                 [updatedDocuments addObject:document];
             }
         }
@@ -301,7 +325,7 @@ static NSString* OperationCount = @"OperationCount";
         else
         {
             [df removeItemAtPath:directory error:NULL];
-                //NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
+            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
     };
 	[_networkQueue addOperation:request];
@@ -330,7 +354,7 @@ static NSString* OperationCount = @"OperationCount";
                 {
                     attachment.hasError = YES;
                     [attachment.pages replaceObjectAtIndex:pageIndex withObject:@"error"];
-                        //NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
+                    NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
                 }
                 
                 BOOL loaded = YES;
@@ -384,9 +408,10 @@ static NSString* OperationCount = @"OperationCount";
 - (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile
 {
     NSString *jsonString = [NSString stringWithContentsOfFile:jsonFile encoding:NSUTF8StringEncoding error:NULL];
-    SBJsonParser *json = [[SBJsonParser new] autorelease];
+    SBJsonParser *json = [[SBJsonParser alloc] init];
     NSError *error = nil;
     NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
+    [json release];
     if (parsedDocument == nil) {
         NSLog(@"error parsing document %@, error:%@", document.uid, error);
         return nil;
@@ -472,5 +497,39 @@ static NSString* OperationCount = @"OperationCount";
                                change:change
                               context:context];
     }
+}
+- (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData
+{
+    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    for (NSDictionary *entryColumn in entryData)
+    {
+        NSString *colName = [entryColumn objectForKey:view_EntryDataName];
+        NSDictionary *text = [entryColumn objectForKey:view_EntryDataText];
+        if (text != nil) 
+        {
+            NSDictionary *value = [entryColumn objectForKey:view_EntryDataText];
+            [result setObject:[value objectForKey:view_EntryDataFirstElement] forKey:colName];
+            continue;
+        }
+        
+        NSDictionary *date = [entryColumn objectForKey:view_EntryDataDate];
+        
+        if (date != nil)
+        {
+            NSDictionary *value = [entryColumn objectForKey:view_EntryDataDate];
+            NSString *sDst = [value objectForKey:view_EntryDataDateDst];
+            NSString *sValue = [value objectForKey:view_EntryDataFirstElement];
+            NSDate *dValue = nil;
+            if (sDst && [sDst isEqualToString:@"true"]) 
+                dValue = [parseFormatterDst dateFromString:sValue];
+            else
+                dValue = [parseFormatterSimple dateFromString:sValue];
+            if (dValue != nil)
+                [result setObject:dValue forKey:colName];
+            continue;
+        }
+    }
+    
+    return result;
 }
 @end
