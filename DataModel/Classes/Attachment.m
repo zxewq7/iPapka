@@ -17,6 +17,7 @@
     self.title = nil;
     self.pages = nil;
     self.uid = nil;
+    self.path = nil;
     [super dealloc];
 }
 
