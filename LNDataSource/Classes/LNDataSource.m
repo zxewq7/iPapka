@@ -386,9 +386,6 @@ static NSString* OperationCount = @"OperationCount";
             
         }        
     }
-    
-    
-
 }
 
 - (NSString *) documentDirectory:(NSString *) anUid
@@ -398,12 +395,14 @@ static NSString* OperationCount = @"OperationCount";
 }
 - (void)saveDocument:(Document *) document
 {
-    NSString * path = [self documentDirectory:document.uid];
-    
-    [NSKeyedArchiver archiveRootObject: document toFile: [path stringByAppendingPathComponent:@"index.object"]];
-    [cacheIndex addObject:document.uid];
-        //    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
-    
+    @synchronized(self) 
+    {
+        NSString * path = [self documentDirectory:document.uid];
+        
+        [NSKeyedArchiver archiveRootObject: document toFile: [path stringByAppendingPathComponent:@"index.object"]];
+        [cacheIndex addObject:document.uid];
+            //    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
+    }
 }
 - (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile
 {
