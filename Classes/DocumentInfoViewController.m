@@ -10,10 +10,18 @@
 #import "DocumentManaged.h"
 #import "Document.h"
 #import "Resolution.h"
+#import "SegmentedLabel.h"
+#import "SegmentedTableCell.h"
 
 static NSString *ParentResolutionCell = @"ParentResolutionCell";
 static NSString *LinkCell = @"LinkCell";
 static NSString *ResolutionCell = @"ResolutionCell";
+static NSString *ResolutionAuthorCell = @"ResolutionAuthorCell";
+static NSString *ResolutionDateCell = @"ResolutionDateCell";
+static NSString *ResolutionPerformersCell = @"ResolutionPerformersCell";
+static NSString *ResolutionDeadlineCell = @"ResolutionDeadlineCell";
+static NSString *ResolutionManagedCell = @"ResolutionManagedCell";
+static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 @implementation DocumentInfoViewController
 
@@ -58,7 +66,7 @@ static NSString *ResolutionCell = @"ResolutionCell";
     }
     
     if (isResolution)
-        [sections addObject:[NSMutableArray arrayWithObject:ResolutionCell]];
+        [sections addObject:[NSMutableArray arrayWithObjects:ResolutionCell, ResolutionAuthorCell, ResolutionDateCell, nil]];
     [tableView reloadData];
 }
 
@@ -71,10 +79,14 @@ static NSString *ResolutionCell = @"ResolutionCell";
 #define RIGHT_OFFSET 65
 
     [super viewDidLoad];
+
+    dateFormatter = [[NSDateFormatter alloc] init];
+    [dateFormatter setDateFormat:@"dd MMMM yyyy"];
     
     UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocumentViewBackground.png"]];
     self.view.backgroundColor = backgroundColor;
     [backgroundColor release];
+    
     CGRect viewRect = self.view.bounds;
     CGRect tableViewRect = CGRectMake(viewRect.origin.x+LEFT_OFFSET, viewRect.origin.y + TOP_OFFSET, viewRect.size.width-LEFT_OFFSET-RIGHT_OFFSET, viewRect.size.height - TOP_OFFSET);
     tableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStyleGrouped];
@@ -119,6 +131,8 @@ static NSString *ResolutionCell = @"ResolutionCell";
     tableView = nil;
     [documentTitle release];
     documentTitle = nil;
+    [dateFormatter release];
+    dateFormatter = nil;
 }
 
 #pragma mark - UITableViewDataSource
@@ -145,11 +159,42 @@ static NSString *ResolutionCell = @"ResolutionCell";
     {
         cell = [tableView dequeueReusableCellWithIdentifier:ParentResolutionCell];
         if (cell == nil)
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ParentResolutionCell] autorelease];
+        {
+            cell = [[[SegmentedTableCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ParentResolutionCell] autorelease];
+            SegmentedLabel *aLabel = [[SegmentedLabel alloc] initWithFrame:CGRectMake(0, 0, 580, 20)];
+            UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+            label1.backgroundColor = [UIColor clearColor];
+            label1.textColor = [UIColor blackColor];
+            label1.font = [UIFont boldSystemFontOfSize:16];
+            UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+            label2.textColor = [UIColor darkGrayColor];
+            label2.font = [UIFont systemFontOfSize:14];
+            label2.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
+            label2.backgroundColor = [UIColor clearColor];
+            
+            aLabel.backgroundColor = [UIColor clearColor];
+            aLabel.labels = [NSArray arrayWithObjects:label1, label2, nil];
+            ((SegmentedTableCell *)cell).segmentedLabel = aLabel;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.backgroundColor  =[UIColor whiteColor];
+        }
         
         Resolution *parentResolution = ((Resolution *)unmanagedDocument).parentResolution;
-        cell.textLabel.text = parentResolution.title;
-        cell.detailTextLabel.text = [parentResolution.performers componentsJoinedByString: @", "];
+        
+        cell.detailTextLabel.text=NSLocalizedString(@"Expand", "Expand");
+
+        NSMutableString *detailString = [NSMutableString stringWithString: NSLocalizedString(@"Author", "Author")];
+        [detailString appendString:@": "];
+        [detailString appendString:parentResolution.author]; 
+        NSDate *date = parentResolution.date;
+        if (detailString && ![detailString isEqualToString:@""] && date != nil)
+            [detailString appendString:@", "];
+        
+        if (date != nil)
+            [detailString appendString:[dateFormatter stringFromDate:date]];
+        ((SegmentedTableCell *)cell).segmentedLabel.texts = [NSArray arrayWithObjects:[NSLocalizedString(@"Parent project", "Resolution project") stringByAppendingString:@"  "], 
+                                                                                    detailString, nil];
+
         cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
@@ -157,26 +202,88 @@ static NSString *ResolutionCell = @"ResolutionCell";
     {
         cell = [tableView dequeueReusableCellWithIdentifier:LinkCell];
         if (cell == nil)
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ParentResolutionCell] autorelease];
+        {
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LinkCell] autorelease];
+            cell.backgroundColor  =[UIColor whiteColor];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
         
         NSUInteger linkIndex = indexPath.row;
         Document *link = [unmanagedDocument.links objectAtIndex:linkIndex];
         cell.textLabel.text = link.title;
         cell.imageView.image = [UIImage imageNamed:@"LinkedDocumentIcon.png"];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else if (cellIdentifier == ResolutionCell)
     {
         cell = [tableView dequeueReusableCellWithIdentifier:ResolutionCell];
         if (cell == nil)
+        {
             cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionCell] autorelease];
+            cell.backgroundColor  =[UIColor whiteColor];
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        }
 
-        Resolution *resolution = (Resolution *)unmanagedDocument;
-        cell.textLabel.text = resolution.title;
-        cell.detailTextLabel.text = [resolution.performers componentsJoinedByString: @", "];
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.textLabel.text = NSLocalizedString(@"Resolution project", "Resolution project");
+        
+    }
+    else if (cellIdentifier == ResolutionAuthorCell)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionAuthorCell];
+        if (cell == nil)
+        {
+            cell = [[[SegmentedTableCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ResolutionAuthorCell] autorelease];
+            SegmentedLabel *aLabel = [[SegmentedLabel alloc] initWithFrame:CGRectMake(0, 0, 580, 20)];
+            UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+            label1.backgroundColor = [UIColor clearColor];
+            label1.textColor = [UIColor blackColor];
+            label1.font = [UIFont boldSystemFontOfSize:16];
+            UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+            label2.backgroundColor = [UIColor clearColor];
+            label2.textColor =[UIColor darkGrayColor];
+            label2.font = [UIFont systemFontOfSize:16];
+            
+            aLabel.backgroundColor = [UIColor clearColor];
+            aLabel.labels = [NSArray arrayWithObjects:label1, label2, nil];
+            ((SegmentedTableCell *)cell).segmentedLabel = aLabel;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor  =[UIColor whiteColor];
+        }
+        
+        NSString *detailString = document.author;
+        ((SegmentedTableCell *)cell).segmentedLabel.texts = [NSArray arrayWithObjects:[NSLocalizedString(@"Author", "Author") stringByAppendingString:@"  "], 
+                                                             detailString, nil];
+        
+        
+    }    
+    else if (cellIdentifier == ResolutionDateCell)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionDateCell];
+        if (cell == nil)
+        {
+            cell = [[[SegmentedTableCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ResolutionDateCell] autorelease];
+            SegmentedLabel *aLabel = [[SegmentedLabel alloc] initWithFrame:CGRectMake(0, 0, 580, 20)];
+            UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+            label1.backgroundColor = [UIColor clearColor];
+            label1.textColor = [UIColor blackColor];
+            label1.font = [UIFont boldSystemFontOfSize:16];
+            UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+            label2.backgroundColor = [UIColor clearColor];
+            label2.textColor =[UIColor darkGrayColor];
+            label2.font = [UIFont systemFontOfSize:16];
+            label2.textAlignment = UITextAlignmentRight;
+            
+            aLabel.backgroundColor = [UIColor clearColor];
+            aLabel.labels = [NSArray arrayWithObjects:label1, label2, nil];
+            ((SegmentedTableCell *)cell).segmentedLabel = aLabel;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor  =[UIColor whiteColor];
+        }
+        
+        NSString *detailString = [dateFormatter stringFromDate:document.dateModified];
+        ((SegmentedTableCell *)cell).segmentedLabel.texts = [NSArray arrayWithObjects:[NSLocalizedString(@"Date of approval", "Date of approval") stringByAppendingString:@"  "],
+                                                             detailString, nil];
     }
     
 	return cell;
@@ -186,6 +293,9 @@ static NSString *ResolutionCell = @"ResolutionCell";
     self.document = nil;
     [tableView release];
     [documentTitle release];
+    [dateFormatter release];
+    [unmanagedDocument release];
+    [sections release];
     [super dealloc];
 }
 @end

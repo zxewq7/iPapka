@@ -18,6 +18,7 @@
     BOOL            isResolution;
     BOOL            hasParentResolution;
     NSMutableArray  *sections;
+    NSDateFormatter *dateFormatter;
 }
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
 @end

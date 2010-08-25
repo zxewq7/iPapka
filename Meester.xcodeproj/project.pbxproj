@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		810100FB12253DCB00076F33 /* LinkedDocumentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 810100FA12253DCB00076F33 /* LinkedDocumentIcon.png */; };
+		810102B71225700E00076F33 /* SegmentedTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 810102B61225700E00076F33 /* SegmentedTableCell.m */; };
 		8101FEBB12250BAC00076F33 /* DocumentInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8101FEBA12250BAC00076F33 /* DocumentInfoViewController.xib */; };
 		8101FEBE12250BCB00076F33 /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8101FEBD12250BCB00076F33 /* DocumentInfoViewController.m */; };
 		8116FF8B121134E900DD537F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8A121134E900DD537F /* UIKit.framework */; };
@@ -101,6 +102,8 @@
 
 /* Begin PBXFileReference section */
 		810100FA12253DCB00076F33 /* LinkedDocumentIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LinkedDocumentIcon.png; sourceTree = "<group>"; };
+		810102B51225700E00076F33 /* SegmentedTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedTableCell.h; sourceTree = "<group>"; };
+		810102B61225700E00076F33 /* SegmentedTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedTableCell.m; sourceTree = "<group>"; };
 		8101FEBA12250BAC00076F33 /* DocumentInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentInfoViewController.xib; sourceTree = "<group>"; };
 		8101FEBC12250BCB00076F33 /* DocumentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoViewController.h; sourceTree = "<group>"; };
 		8101FEBD12250BCB00076F33 /* DocumentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoViewController.m; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 				81FEA51412119ECD00A9ABD3 /* DocumentCell.m */,
 				812AADAF1218312400E3FBC8 /* DocumentCellView.h */,
 				812AADB01218312400E3FBC8 /* DocumentCellView.m */,
+				810102B51225700E00076F33 /* SegmentedTableCell.h */,
+				810102B61225700E00076F33 /* SegmentedTableCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -539,6 +544,7 @@
 				81F4BD691223BB14007E8E69 /* _SignatureManaged.m in Sources */,
 				81F4C2EB12241A24007E8E69 /* ImageScrollView.m in Sources */,
 				8101FEBE12250BCB00076F33 /* DocumentInfoViewController.m in Sources */,
+				810102B71225700E00076F33 /* SegmentedTableCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
