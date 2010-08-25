@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8101FEBB12250BAC00076F33 /* DocumentInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8101FEBA12250BAC00076F33 /* DocumentInfoViewController.xib */; };
+		8101FEBE12250BCB00076F33 /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8101FEBD12250BCB00076F33 /* DocumentInfoViewController.m */; };
 		8116FF8B121134E900DD537F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8A121134E900DD537F /* UIKit.framework */; };
 		8116FF8D121134E900DD537F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8C121134E900DD537F /* Foundation.framework */; };
 		8116FF8F121134E900DD537F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8E121134E900DD537F /* CoreGraphics.framework */; };
@@ -97,6 +99,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		8101FEBA12250BAC00076F33 /* DocumentInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentInfoViewController.xib; sourceTree = "<group>"; };
+		8101FEBC12250BCB00076F33 /* DocumentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoViewController.h; sourceTree = "<group>"; };
+		8101FEBD12250BCB00076F33 /* DocumentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoViewController.m; sourceTree = "<group>"; };
 		8116FF87121134E900DD537F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8116FF8A121134E900DD537F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		8116FF8C121134E900DD537F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -242,6 +247,7 @@
 				81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */,
 				81E703F31222CED7004FCF7E /* Document */,
 				8153098F122440E4002245B3 /* AttachmentsViewController.xib */,
+				8101FEBA12250BAC00076F33 /* DocumentInfoViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -310,6 +316,8 @@
 				8179B2BC121C327A00842F63 /* FoldersViewController.m */,
 				81399952121D3EF3009B0912 /* MasterViewController.h */,
 				81399953121D3EF3009B0912 /* MasterViewController.m */,
+				8101FEBC12250BCB00076F33 /* DocumentInfoViewController.h */,
+				8101FEBD12250BCB00076F33 /* DocumentInfoViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -494,6 +502,7 @@
 				81530B61122456CA002245B3 /* ButtonComment.png in Resources */,
 				81530B641224571D002245B3 /* ButtonRotateCCV.png in Resources */,
 				81530B651224571D002245B3 /* ButtonRotateCV.png in Resources */,
+				8101FEBB12250BAC00076F33 /* DocumentInfoViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,6 +534,7 @@
 				81F4BD671223BB13007E8E69 /* _ResolutionManaged.m in Sources */,
 				81F4BD691223BB14007E8E69 /* _SignatureManaged.m in Sources */,
 				81F4C2EB12241A24007E8E69 /* ImageScrollView.m in Sources */,
+				8101FEBE12250BCB00076F33 /* DocumentInfoViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

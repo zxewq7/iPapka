@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, AttachmentsViewController;
+@class DocumentManaged, AttachmentsViewController, DocumentInfoViewController;
 
 @interface DocumentViewController : UIViewController
 {
@@ -16,6 +16,11 @@
     UIBarButtonItem *documentTitle;
     DocumentManaged *document;
     AttachmentsViewController    *attachmentsViewController;
+    DocumentInfoViewController *infoViewController;
+    UIButton                   *infoButton;
+    UIButton                   *penButton;
+    UIButton                   *eraseButton;
+    UIButton                   *commentButton;
 }
 
 @property (nonatomic, retain) IBOutlet UIToolbar       *toolbar;
@@ -26,4 +31,6 @@
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
 
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
+
+- (void) showDocumentInfo:(id) sender;
 @end
