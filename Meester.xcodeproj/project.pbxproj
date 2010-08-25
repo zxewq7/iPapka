@@ -34,11 +34,6 @@
 		81530B651224571D002245B3 /* ButtonRotateCV.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B631224571D002245B3 /* ButtonRotateCV.png */; };
 		81549ABD122105250043FFE7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 81549ABC122105250043FFE7 /* Settings.bundle */; };
 		815651251222976A00CCCCFF /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 815651241222976A00CCCCFF /* TDBadgedCell.m */; };
-		8156516012229B7900CCCCFF /* AQGridSelection.png in Resources */ = {isa = PBXBuildFile; fileRef = 8156515B12229B7900CCCCFF /* AQGridSelection.png */; };
-		8156516112229B7900CCCCFF /* AQGridSelectionGray.png in Resources */ = {isa = PBXBuildFile; fileRef = 8156515C12229B7900CCCCFF /* AQGridSelectionGray.png */; };
-		8156516212229B7900CCCCFF /* AQGridSelectionGrayBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 8156515D12229B7900CCCCFF /* AQGridSelectionGrayBlue.png */; };
-		8156516312229B7900CCCCFF /* AQGridSelectionGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8156515E12229B7900CCCCFF /* AQGridSelectionGreen.png */; };
-		8156516412229B7900CCCCFF /* AQGridSelectionRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8156515F12229B7900CCCCFF /* AQGridSelectionRed.png */; };
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
 		8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B2BC121C327A00842F63 /* FoldersViewController.m */; };
 		8179B76E121D22D500842F63 /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B76D121D22D500842F63 /* Folder.m */; };
@@ -137,11 +132,6 @@
 		81549ABC122105250043FFE7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		815651231222976A00CCCCFF /* TDBadgedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDBadgedCell.h; sourceTree = "<group>"; };
 		815651241222976A00CCCCFF /* TDBadgedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDBadgedCell.m; sourceTree = "<group>"; };
-		8156515B12229B7900CCCCFF /* AQGridSelection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelection.png; sourceTree = "<group>"; };
-		8156515C12229B7900CCCCFF /* AQGridSelectionGray.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionGray.png; sourceTree = "<group>"; };
-		8156515D12229B7900CCCCFF /* AQGridSelectionGrayBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionGrayBlue.png; sourceTree = "<group>"; };
-		8156515E12229B7900CCCCFF /* AQGridSelectionGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionGreen.png; sourceTree = "<group>"; };
-		8156515F12229B7900CCCCFF /* AQGridSelectionRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AQGridSelectionRed.png; sourceTree = "<group>"; };
 		816FF802121708530083E7A4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		8179B2BB121C327A00842F63 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
@@ -334,19 +324,6 @@
 			path = thirdparty/TDBadgedCell;
 			sourceTree = "<group>";
 		};
-		8156515A12229B7900CCCCFF /* AQGridView */ = {
-			isa = PBXGroup;
-			children = (
-				8156515B12229B7900CCCCFF /* AQGridSelection.png */,
-				8156515C12229B7900CCCCFF /* AQGridSelectionGray.png */,
-				8156515D12229B7900CCCCFF /* AQGridSelectionGrayBlue.png */,
-				8156515E12229B7900CCCCFF /* AQGridSelectionGreen.png */,
-				8156515F12229B7900CCCCFF /* AQGridSelectionRed.png */,
-			);
-			name = AQGridView;
-			path = thirdparty/AQGridView/images;
-			sourceTree = SOURCE_ROOT;
-		};
 		81E703F31222CED7004FCF7E /* Document */ = {
 			isa = PBXGroup;
 			children = (
@@ -411,7 +388,6 @@
 				81530B56122454F9002245B3 /* ButtonErase.png */,
 				81530B57122454F9002245B3 /* ButtonPen.png */,
 				81F4BF611223EF1B007E8E69 /* PageLoading.png */,
-				8156515A12229B7900CCCCFF /* AQGridView */,
 				81CAD10F12217E5700E47930 /* DocumentViewBackground.png */,
 				81CAD11012217E5700E47930 /* UnreadMark.png */,
 			);
@@ -510,11 +486,6 @@
 				81549ABD122105250043FFE7 /* Settings.bundle in Resources */,
 				81CAD11112217E5700E47930 /* DocumentViewBackground.png in Resources */,
 				81CAD11212217E5700E47930 /* UnreadMark.png in Resources */,
-				8156516012229B7900CCCCFF /* AQGridSelection.png in Resources */,
-				8156516112229B7900CCCCFF /* AQGridSelectionGray.png in Resources */,
-				8156516212229B7900CCCCFF /* AQGridSelectionGrayBlue.png in Resources */,
-				8156516312229B7900CCCCFF /* AQGridSelectionGreen.png in Resources */,
-				8156516412229B7900CCCCFF /* AQGridSelectionRed.png in Resources */,
 				81F4BF621223EF1B007E8E69 /* PageLoading.png in Resources */,
 				81530990122440E4002245B3 /* AttachmentsViewController.xib in Resources */,
 				81530B58122454F9002245B3 /* ButtonErase.png in Resources */,
