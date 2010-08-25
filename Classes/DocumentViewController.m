@@ -23,7 +23,7 @@
 
 #pragma mark -
 #pragma mark Properties
-@synthesize toolbar, document, documentTitle;
+@synthesize toolbar, document;
 
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -33,7 +33,6 @@
     [document release];
     document = [aDocument retain];
     
-    documentTitle.title = document.title;
     if (![document.isRead boolValue])
         document.isRead = [NSNumber numberWithBool:YES];
     [[DataSource sharedDataSource] commit];
@@ -50,8 +49,6 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    if (document == nil) 
-        documentTitle.title = nil;
 
     CGRect viewRect = self.view.bounds;
     CGRect toolbarRect = self.toolbar.bounds;
@@ -149,7 +146,6 @@
 - (void)dealloc {
     self.toolbar = nil;
     self.document = nil;
-    self.documentTitle = nil;
     [attachmentsViewController release];
     [infoViewController release];
     [penButton release];

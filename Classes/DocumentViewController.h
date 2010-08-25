@@ -13,7 +13,6 @@
 @interface DocumentViewController : UIViewController
 {
     UIToolbar       *toolbar;
-    UIBarButtonItem *documentTitle;
     DocumentManaged *document;
     AttachmentsViewController    *attachmentsViewController;
     DocumentInfoViewController *infoViewController;
@@ -24,7 +23,6 @@
 }
 
 @property (nonatomic, retain) IBOutlet UIToolbar       *toolbar;
-@property (nonatomic, retain) IBOutlet UIBarButtonItem *documentTitle;
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;
 
