@@ -8,9 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-
-@interface DocumentInfoViewController : UIViewController {
-
+@class DocumentManaged, Document;
+@interface DocumentInfoViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+{
+    DocumentManaged *document;
+    Document        *unmanagedDocument;
+    UITableView     *tableView;
+    UILabel         *documentTitle;
+    BOOL            isResolution;
+    BOOL            hasParentResolution;
+    NSMutableArray  *sections;
 }
-
+@property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
 @end
