@@ -34,6 +34,7 @@ static NSString *field_Deadline    = @"deadline";
 static NSString *field_Form        = @"$Form";
 static NSString *field_Text        = @"text";
 static NSString *field_Performers  = @"performers";
+static NSString *field_ParentResolution  = @"parent";
 static NSString *field_Attachments = @"files";
 static NSString *field_AttachmentName = @"name";
 static NSString *field_AttachmentUid = @"id";
@@ -65,6 +66,7 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/%@/document/%@/link/%@/file/
 - (void)checkDocumentIsLoaded:(Document *)document;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
+- (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary;
 @end
 static NSString* OperationCount = @"OperationCount";
 
@@ -387,13 +389,7 @@ static NSString* OperationCount = @"OperationCount";
     if ([document isKindOfClass:[Resolution class]]) 
     {
         Resolution *resolution = (Resolution *)document;
-        resolution.text = [parsedDocument objectForKey:field_Text];
-        resolution.performers = [parsedDocument objectForKey:field_Performers];
-        NSDate *dDeadline = nil;
-        NSString *sDeadline = [parsedDocument objectForKey:field_Deadline];
-        if (sDeadline && ![sDeadline isEqualToString:@""])
-            dDeadline = [parseFormatterSimple dateFromString:sDeadline];
-        resolution.deadline = dDeadline;
+        [self parseResolution:resolution fromDictionary:parsedDocument];
     }
     
     NSArray *attachments = [subDocument objectForKey:field_Attachments];
@@ -614,6 +610,31 @@ static NSString* OperationCount = @"OperationCount";
         NSString *urlPattern = [NSString stringWithFormat:url_LinkAttachmentFetchPage, host, databaseReplicaId, document.uid, link.uid, @"%@", @"%d"];
         
         [self fetchAttachments:link rootDocument:document urlPattern:urlPattern basePath:[path stringByAppendingPathComponent:link.uid]];
+    }
+}
+- (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary
+{
+    resolution.text = [dictionary objectForKey:field_Text];
+    resolution.author = [dictionary objectForKey:field_Author];
+    resolution.performers = [dictionary objectForKey:field_Performers];
+    NSDate *dDeadline = nil;
+    NSString *sDeadline = [dictionary objectForKey:field_Deadline];
+    if (sDeadline && ![sDeadline isEqualToString:@""])
+        dDeadline = [parseFormatterSimple dateFromString:sDeadline];
+    resolution.deadline = dDeadline;
+    NSDate *dDate = nil;
+    NSString *sDate = [dictionary objectForKey:field_Date];
+    if (sDate && ![sDate isEqualToString:@""])
+        dDate = [parseFormatterSimple dateFromString:sDate];
+
+    NSDictionary *parsedParentResolution = [dictionary objectForKey:field_ParentResolution];
+    if (parsedParentResolution) 
+    {
+        Resolution *parentResolution = [[Resolution alloc] init];
+        [self parseResolution:parentResolution fromDictionary:parsedParentResolution];
+        parentResolution.title = resolution.title;
+        resolution.parentResolution = parentResolution;
+        [parentResolution release];
     }
 }
 @end
