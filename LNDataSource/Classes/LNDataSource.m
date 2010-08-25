@@ -613,7 +613,7 @@ static NSString* OperationCount = @"OperationCount";
     {
         NSString *urlPattern = [NSString stringWithFormat:url_LinkAttachmentFetchPage, host, databaseReplicaId, document.uid, link.uid, @"%@", @"%d"];
         
-        [self fetchAttachments:link rootDocument:document urlPattern:urlPattern basePath:path];
+        [self fetchAttachments:link rootDocument:document urlPattern:urlPattern basePath:[path stringByAppendingPathComponent:link.uid]];
     }
 }
 @end
