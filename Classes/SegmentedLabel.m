@@ -23,7 +23,6 @@
 
     [labels release];
     labels = [theLabels retain];
-        //    [theLabels release];
 
     for (UILabel *label in labels) 
         [self addSubview:label];
@@ -39,7 +38,7 @@
     
     NSUInteger length = [self.labels count];
     NSUInteger textsLength = [texts count];
-    CGFloat x = 0;
+    CGFloat maxHeight = 0;
     for (NSUInteger i=0;i<length;i++) 
     {
         UILabel *label = [self.labels objectAtIndex:i];
@@ -47,13 +46,20 @@
             label.text = [texts objectAtIndex:i];
         else
             label.text = @"";
-
+        
         [label sizeToFit];
         CGRect f = label.frame;
-        label.frame = CGRectMake(x, f.origin.y, f.size.width, f.size.height);
-        x = label.frame.origin.x+label.frame.size.width;
+        maxHeight = MAX(maxHeight, f.size.height);
     }
 
+    CGFloat x = 0;
+    for (UILabel *label in labels) 
+    {
+        CGRect f = label.frame;
+        label.frame = CGRectMake(x, maxHeight-f.size.height, f.size.width, f.size.height);
+        x = label.frame.origin.x+label.frame.size.width;
+    }
+    
 }
 -(void) dealloc
 {
