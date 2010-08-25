@@ -150,6 +150,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.title = aDocument.title;
     newDocument.uid = aDocument.uid;
     newDocument.isRead = [NSNumber numberWithBool:NO];
+    newDocument.isArchived = [NSNumber numberWithBool:NO];
     
     if (isResolution)
         ((ResolutionManaged *)newDocument).performers = ((Resolution *)aDocument).performers;

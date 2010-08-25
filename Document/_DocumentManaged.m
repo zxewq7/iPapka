@@ -57,6 +57,32 @@
 
 
 
+@dynamic isArchived;
+
+
+
+- (BOOL)isArchivedValue {
+	NSNumber *result = [self isArchived];
+	return [result boolValue];
+}
+
+- (void)setIsArchivedValue:(BOOL)value_ {
+	[self setIsArchived:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsArchivedValue {
+	NSNumber *result = [self primitiveIsArchived];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsArchivedValue:(BOOL)value_ {
+	[self setPrimitiveIsArchived:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
 @dynamic isRead;
 
 

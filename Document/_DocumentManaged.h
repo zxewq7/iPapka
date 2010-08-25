@@ -11,6 +11,7 @@
 
 
 
+
 @interface DocumentManagedID : NSManagedObjectID {}
 @end
 
@@ -43,6 +44,16 @@
 @property (nonatomic, retain) NSString *uid;
 
 //- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSNumber *isArchived;
+
+@property BOOL isArchivedValue;
+- (BOOL)isArchivedValue;
+- (void)setIsArchivedValue:(BOOL)value_;
+
+//- (BOOL)validateIsArchived:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -79,6 +90,13 @@
 
 - (NSString*)primitiveUid;
 - (void)setPrimitiveUid:(NSString*)value;
+
+
+- (NSNumber*)primitiveIsArchived;
+- (void)setPrimitiveIsArchived:(NSNumber*)value;
+
+- (BOOL)primitiveIsArchivedValue;
+- (void)setPrimitiveIsArchivedValue:(BOOL)value_;
 
 
 - (NSNumber*)primitiveIsRead;
