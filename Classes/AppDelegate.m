@@ -26,6 +26,7 @@
     NSArray* defaultFolders = [NSArray arrayWithObjects:
                                     inbox,
                                     [Folder folderWith:@"Signatures" predicateString:nil andEntityName:@"Signature"],
+                                    [Folder folderWith:@"Archive" predicateString:@"isArchived == YES" andEntityName:@"Document"],
                                     nil];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
