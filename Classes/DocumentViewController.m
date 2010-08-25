@@ -36,6 +36,8 @@
     if (![document.isRead boolValue])
         document.isRead = [NSNumber numberWithBool:YES];
     [[DataSource sharedDataSource] commit];
+
+    infoViewController.document = document;
     
     NSArray *attachments = document.document.attachments;
     if ([attachments count]) 
@@ -43,6 +45,9 @@
         Attachment *firstAttachment = [attachments objectAtIndex:0];
         attachmentsViewController.attachment = firstAttachment;
     }
+
+        //infoViewController removed
+    infoButton.selected = NO;
 }
 
 
