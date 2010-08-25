@@ -61,7 +61,7 @@
         // Step 1: make the outer paging scroll view
     pagingScrollView = [[UIScrollView alloc] initWithFrame:viewFrame];
     pagingScrollView.pagingEnabled = YES;
-    pagingScrollView.backgroundColor = [UIColor blackColor];
+    pagingScrollView.backgroundColor = [UIColor clearColor];
     pagingScrollView.showsVerticalScrollIndicator = NO;
     pagingScrollView.showsHorizontalScrollIndicator = NO;
     pagingScrollView.contentSize = [self contentSizeForPagingScrollView];
