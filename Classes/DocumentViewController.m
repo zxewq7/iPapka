@@ -129,8 +129,8 @@
 	[UIView beginAnimations:nil context:nil];
 	[UIView setAnimationDuration:0.75];
 	
-	[UIView setAnimationTransition:([attachmentsViewController.view superview] ?
-									UIViewAnimationTransitionFlipFromLeft : UIViewAnimationTransitionFlipFromRight)
+	[UIView setAnimationTransition:(infoButton.selected ?
+									UIViewAnimationTransitionFlipFromRight:UIViewAnimationTransitionFlipFromLeft)
                            forView:attachmentsViewController.view cache:YES];
 	
 	if ([infoViewController.view superview])
