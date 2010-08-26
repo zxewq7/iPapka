@@ -23,6 +23,8 @@ static NSString *ResolutionDeadlineCell = @"ResolutionDeadlineCell";
 static NSString *ResolutionManagedCell = @"ResolutionManagedCell";
 static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
+#define kPerformersFieldTag 1
+
 @implementation DocumentInfoViewController
 
 #pragma mark -
@@ -66,7 +68,10 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     }
     
     if (isResolution)
-        [sections addObject:[NSMutableArray arrayWithObjects:ResolutionCell, ResolutionAuthorCell, ResolutionDateCell, nil]];
+        [sections addObject:[NSMutableArray arrayWithObjects:ResolutionCell, 
+                                                             ResolutionAuthorCell, 
+                                                             ResolutionDateCell,
+                                                             ResolutionPerformersCell, nil]];
     [tableView reloadData];
 }
 
@@ -224,10 +229,8 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
             cell.backgroundColor  =[UIColor whiteColor];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.textLabel.text = NSLocalizedString(@"Resolution project", "Resolution project");
         }
-
-        cell.textLabel.text = NSLocalizedString(@"Resolution project", "Resolution project");
-        
     }
     else if (cellIdentifier == ResolutionAuthorCell)
     {
@@ -285,6 +288,59 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         NSString *detailString = [dateFormatter stringFromDate:document.dateModified];
         ((SegmentedTableCell *)cell).segmentedLabel.texts = [NSArray arrayWithObjects:[NSLocalizedString(@"Date of approval", "Date of approval") stringByAppendingString:@"  "],
                                                              detailString, nil];
+    }
+    else if (cellIdentifier == ResolutionPerformersCell)
+    {
+        #define TEXT_FIELD_HEIGHT  25
+        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionPerformersCell];
+		if (cell == nil)
+		{
+                // a new cell needs to be created
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionPerformersCell] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor  =[UIColor whiteColor];
+            
+                //create performers field
+            NSString *label = NSLocalizedString(@"Performers", "Performers");
+            CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
+            cell.textLabel.text = label;
+            
+            CGRect labelFrame = cell.textLabel.frame;
+            CGRect cellFrame = cell.frame;
+            
+            CGRect performersFieldFrame = CGRectMake(labelFrame.origin.y+labelSize.width+20, (cellFrame.size.height-TEXT_FIELD_HEIGHT)/2, 450, TEXT_FIELD_HEIGHT);
+
+            UITextField *performersField = [[UITextField alloc] initWithFrame:performersFieldFrame];
+            
+            performersField.borderStyle = UITextBorderStyleNone;
+            performersField.textColor = [UIColor blackColor];
+                //            performersField.font = [UIFont systemFontOfSize:17.0];
+            performersField.backgroundColor = [UIColor whiteColor];
+            performersField.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
+            performersField.tag = kPerformersFieldTag;
+            
+            performersField.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
+            performersField.returnKeyType = UIReturnKeyDone;
+            
+            performersField.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
+            
+            performersField.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
+            
+                // Add an accessibility label that describes what the text field is for.
+            [performersField setAccessibilityLabel:NSLocalizedString(@"NormalTextField", @"")];
+            [cell.contentView addSubview:performersField];
+            
+            UIButton* addPerformerButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
+            [addPerformerButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
+            CGSize addPerformerButtonSize = addPerformerButton.frame.size;
+            CGRect addPerformerButtonFrame = CGRectMake(performersFieldFrame.origin.x+performersFieldFrame.size.width+20, (cellFrame.size.height-addPerformerButtonSize.height)/2, addPerformerButtonSize.height, addPerformerButtonSize.width);
+            addPerformerButton.frame = addPerformerButtonFrame;
+            [cell.contentView addSubview:addPerformerButton];
+		}
+        
+        UITextField *field = (UITextField *)[cell.contentView viewWithTag:kPerformersFieldTag];
+        if (field) 
+            field.text = [((Resolution *)unmanagedDocument).performers componentsJoinedByString: @", "];
     }
     
 	return cell;
