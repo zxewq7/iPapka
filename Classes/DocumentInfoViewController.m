@@ -24,6 +24,14 @@ static NSString *ResolutionManagedCell = @"ResolutionManagedCell";
 static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 #define kPerformersFieldTag 1
+#define kDetailLabelTag 2
+#define TEXT_FIELD_HEIGHT  25
+#define DETAIL_LABEL_HEIGHT  20
+
+@interface  DocumentInfoViewController(Private)
+-(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier;
+@end
+
 
 @implementation DocumentInfoViewController
 
@@ -236,62 +244,30 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     {
         cell = [tableView dequeueReusableCellWithIdentifier:ResolutionAuthorCell];
         if (cell == nil)
+            cell = [self createDetailsCell:NSLocalizedString(@"Author", "Author") identifier:ResolutionAuthorCell];
+        
+        UILabel *field = (UILabel *)[cell.contentView viewWithTag:kDetailLabelTag];
+        if (field) 
         {
-            cell = [[[SegmentedTableCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ResolutionAuthorCell] autorelease];
-            SegmentedLabel *aLabel = [[SegmentedLabel alloc] initWithFrame:CGRectMake(0, 0, 580, 20)];
-            UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-            label1.backgroundColor = [UIColor clearColor];
-            label1.textColor = [UIColor blackColor];
-            label1.font = [UIFont boldSystemFontOfSize:16];
-            UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-            label2.backgroundColor = [UIColor clearColor];
-            label2.textColor =[UIColor darkGrayColor];
-            label2.font = [UIFont systemFontOfSize:16];
-            
-            aLabel.backgroundColor = [UIColor clearColor];
-            aLabel.labels = [NSArray arrayWithObjects:label1, label2, nil];
-            ((SegmentedTableCell *)cell).segmentedLabel = aLabel;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor  =[UIColor whiteColor];
+            field.text = document.author;
+            [field sizeToFit];
         }
-        
-        NSString *detailString = document.author;
-        ((SegmentedTableCell *)cell).segmentedLabel.texts = [NSArray arrayWithObjects:[NSLocalizedString(@"Author", "Author") stringByAppendingString:@"  "], 
-                                                             detailString, nil];
-        
-        
     }    
     else if (cellIdentifier == ResolutionDateCell)
     {
         cell = [tableView dequeueReusableCellWithIdentifier:ResolutionDateCell];
         if (cell == nil)
+            cell = [self createDetailsCell:NSLocalizedString(@"Date of approval", "Date of approval") identifier:ResolutionDateCell];
+
+        UILabel *field = (UILabel *)[cell.contentView viewWithTag:kDetailLabelTag];
+        if (field) 
         {
-            cell = [[[SegmentedTableCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ResolutionDateCell] autorelease];
-            SegmentedLabel *aLabel = [[SegmentedLabel alloc] initWithFrame:CGRectMake(0, 0, 580, 20)];
-            UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-            label1.backgroundColor = [UIColor clearColor];
-            label1.textColor = [UIColor blackColor];
-            label1.font = [UIFont boldSystemFontOfSize:16];
-            UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-            label2.backgroundColor = [UIColor clearColor];
-            label2.textColor =[UIColor darkGrayColor];
-            label2.font = [UIFont systemFontOfSize:16];
-            label2.textAlignment = UITextAlignmentRight;
-            
-            aLabel.backgroundColor = [UIColor clearColor];
-            aLabel.labels = [NSArray arrayWithObjects:label1, label2, nil];
-            ((SegmentedTableCell *)cell).segmentedLabel = aLabel;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor  =[UIColor whiteColor];
+            field.text = [dateFormatter stringFromDate:document.dateModified];
+            [field sizeToFit];
         }
-        
-        NSString *detailString = [dateFormatter stringFromDate:document.dateModified];
-        ((SegmentedTableCell *)cell).segmentedLabel.texts = [NSArray arrayWithObjects:[NSLocalizedString(@"Date of approval", "Date of approval") stringByAppendingString:@"  "],
-                                                             detailString, nil];
     }
     else if (cellIdentifier == ResolutionPerformersCell)
     {
-        #define TEXT_FIELD_HEIGHT  25
         cell = [tableView dequeueReusableCellWithIdentifier:ResolutionPerformersCell];
 		if (cell == nil)
 		{
@@ -354,5 +330,28 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     [unmanagedDocument release];
     [sections release];
     [super dealloc];
+}
+@end
+
+@implementation  DocumentInfoViewController(Private)
+-(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier
+{
+    UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
+    
+    CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
+    cell.textLabel.text = label;
+    CGRect detailFrame = CGRectMake(labelSize.width+20, (cell.frame.size.height-DETAIL_LABEL_HEIGHT)/2, 10, DETAIL_LABEL_HEIGHT);
+    
+    UILabel *detailLabel = [[UILabel alloc] initWithFrame:detailFrame];
+    detailLabel.backgroundColor = [UIColor clearColor];
+    detailLabel.textColor =[UIColor darkGrayColor];
+    detailLabel.font = [UIFont systemFontOfSize:16];
+    detailLabel.textAlignment = UITextAlignmentRight;
+    detailLabel.tag = kDetailLabelTag;
+    [cell.contentView addSubview: detailLabel];
+        //[detailLabel release];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.backgroundColor  =[UIColor whiteColor];
+    return cell;
 }
 @end
