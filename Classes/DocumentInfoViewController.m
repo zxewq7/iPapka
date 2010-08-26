@@ -24,9 +24,14 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 #define kPerformersFieldTag 1
 #define kDetailLabelTag 2
 #define kDateButtonTag 3
+#define kSwitchTag 4
 #define TEXT_FIELD_HEIGHT  25
 #define DETAIL_LABEL_HEIGHT  20
 #define DATE_BUTTON_HEIGHT  25
+#define SWITCH_HEIGHT  27
+#define SWITCH_WIDTH  94
+#define CELL_WIDTH  618
+#define CELL_RIGHT_OFFSET  7
 
 @interface  DocumentInfoViewController(Private)
 -(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier;
@@ -87,7 +92,8 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
                                                              ResolutionAuthorCell, 
                                                              ResolutionDateCell,
                                                              ResolutionPerformersCell,
-                                                             ResolutionDeadlineCell, nil]];
+                                                             ResolutionDeadlineCell,
+                                                             ResolutionManagedCell, nil]];
     [tableView reloadData];
 }
 
@@ -326,7 +332,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 			cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.backgroundColor  =[UIColor whiteColor];
             
-                //create performers field
+                //create date button
             NSString *label = NSLocalizedString(@"Deadline", "Deadline");
             CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
             cell.textLabel.text = label;
@@ -357,7 +363,35 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
             CGRect newButtonFrame = CGRectMake(oldButtonFrame.origin.x, oldButtonFrame.origin.y,labelSize.width, DATE_BUTTON_HEIGHT);
             button.frame = newButtonFrame;
         }
+    }
+    else if (cellIdentifier == ResolutionManagedCell)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionManagedCell];
+		if (cell == nil)
+		{
+                // a new cell needs to be created
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionManagedCell] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor  =[UIColor whiteColor];
+            
+                //create managed switch
+            NSString *label = NSLocalizedString(@"Managed", "Managed");
+            cell.textLabel.text = label;
+            
+            CGRect cellFrame = cell.frame;
+            
+            CGRect switchFrame = CGRectMake(CELL_WIDTH-CELL_RIGHT_OFFSET-SWITCH_WIDTH, (cellFrame.size.height-SWITCH_HEIGHT)/2, SWITCH_HEIGHT, SWITCH_WIDTH);
+            
+            UISwitch* switchButton = [[[UISwitch alloc] initWithFrame:switchFrame] autorelease];
+            switchButton.tag = kSwitchTag;
+            [cell.contentView addSubview:switchButton];
+		}
+        
+        UISwitch *button = (UISwitch *)[cell.contentView viewWithTag:kSwitchTag];
+        if (button) 
+            [button setOn: ((Resolution *)unmanagedDocument).managed animated:NO];
     }    
+    
 	return cell;
 }
 
