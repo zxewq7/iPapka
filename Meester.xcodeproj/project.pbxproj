@@ -57,6 +57,7 @@
 		81F1371E122690E300E5DED7 /* ButtonPenSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1371D122690E300E5DED7 /* ButtonPenSelected.png */; };
 		81F1372C1226915400E5DED7 /* ButtonCommentSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1372A1226915400E5DED7 /* ButtonCommentSelected.png */; };
 		81F1372D1226915400E5DED7 /* ButtonEraseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1372B1226915400E5DED7 /* ButtonEraseSelected.png */; };
+		81F1381C1226AAB600E5DED7 /* ButtonDate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1381B1226AAB600E5DED7 /* ButtonDate.png */; };
 		81F4BF621223EF1B007E8E69 /* PageLoading.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F4BF611223EF1B007E8E69 /* PageLoading.png */; };
 		81F4C2EB12241A24007E8E69 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4C2EA12241A24007E8E69 /* ImageScrollView.m */; };
 		81FB942E1221197B008A1E15 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB93FD12211918008A1E15 /* libDataModel.a */; };
@@ -175,6 +176,7 @@
 		81F1371D122690E300E5DED7 /* ButtonPenSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPenSelected.png; sourceTree = "<group>"; };
 		81F1372A1226915400E5DED7 /* ButtonCommentSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonCommentSelected.png; sourceTree = "<group>"; };
 		81F1372B1226915400E5DED7 /* ButtonEraseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonEraseSelected.png; sourceTree = "<group>"; };
+		81F1381B1226AAB600E5DED7 /* ButtonDate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonDate.png; sourceTree = "<group>"; };
 		81F4BF611223EF1B007E8E69 /* PageLoading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageLoading.png; sourceTree = "<group>"; };
 		81F4C2E912241A24007E8E69 /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
 		81F4C2EA12241A24007E8E69 /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
@@ -399,6 +401,7 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81F1381B1226AAB600E5DED7 /* ButtonDate.png */,
 				81F1372A1226915400E5DED7 /* ButtonCommentSelected.png */,
 				81F1372B1226915400E5DED7 /* ButtonEraseSelected.png */,
 				81F1371D122690E300E5DED7 /* ButtonPenSelected.png */,
@@ -523,6 +526,7 @@
 				81F1371E122690E300E5DED7 /* ButtonPenSelected.png in Resources */,
 				81F1372C1226915400E5DED7 /* ButtonCommentSelected.png in Resources */,
 				81F1372D1226915400E5DED7 /* ButtonEraseSelected.png in Resources */,
+				81F1381C1226AAB600E5DED7 /* ButtonDate.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

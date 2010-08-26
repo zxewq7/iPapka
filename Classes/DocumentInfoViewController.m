@@ -23,11 +23,20 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 #define kPerformersFieldTag 1
 #define kDetailLabelTag 2
+#define kDateButtonTag 3
 #define TEXT_FIELD_HEIGHT  25
 #define DETAIL_LABEL_HEIGHT  20
+#define DATE_BUTTON_HEIGHT  25
 
 @interface  DocumentInfoViewController(Private)
 -(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier;
+- (UIButton *)buttonWithTitle:(NSString *)title
+                       target:(id)target
+                     selector:(SEL)selector
+                        frame:(CGRect)frame
+                        image:(UIImage *)image
+                 imagePressed:(UIImage *)imagePressed
+                darkTextColor:(BOOL)darkTextColor;
 @end
 
 
@@ -77,7 +86,8 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         [sections addObject:[NSMutableArray arrayWithObjects:ResolutionCell, 
                                                              ResolutionAuthorCell, 
                                                              ResolutionDateCell,
-                                                             ResolutionPerformersCell, nil]];
+                                                             ResolutionPerformersCell,
+                                                             ResolutionDeadlineCell, nil]];
     [tableView reloadData];
 }
 
@@ -306,7 +316,48 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         if (field) 
             field.text = [((Resolution *)unmanagedDocument).performers componentsJoinedByString: @", "];
     }
-    
+    else if (cellIdentifier == ResolutionDeadlineCell)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionDeadlineCell];
+		if (cell == nil)
+		{
+                // a new cell needs to be created
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionDeadlineCell] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor  =[UIColor whiteColor];
+            
+                //create performers field
+            NSString *label = NSLocalizedString(@"Deadline", "Deadline");
+            CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
+            cell.textLabel.text = label;
+            
+            CGRect labelFrame = cell.textLabel.frame;
+            CGRect cellFrame = cell.frame;
+            
+            CGRect dateButtonFrame = CGRectMake(labelFrame.origin.y+labelSize.width+20, (cellFrame.size.height-DATE_BUTTON_HEIGHT)/2, 10, DATE_BUTTON_HEIGHT);
+            
+            UIButton *dateButton = [self buttonWithTitle:@""
+                                             target:self
+                                           selector:nil
+                                              frame:dateButtonFrame
+                                              image:[UIImage imageNamed:@"ButtonDate.png"]
+                                       imagePressed:nil
+                                           darkTextColor:YES];
+            dateButton.tag = kDateButtonTag;
+            [cell.contentView addSubview:dateButton];
+		}
+        
+        UIButton *button = (UIButton *)[cell.contentView viewWithTag:kDateButtonTag];
+        if (button) 
+        {
+            NSString *label  = @"11 august 2010 11 august 2010";
+            [button setTitle:label forState:UIControlStateNormal];
+            CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
+            CGRect oldButtonFrame = button.frame;
+            CGRect newButtonFrame = CGRectMake(oldButtonFrame.origin.x, oldButtonFrame.origin.y,labelSize.width, DATE_BUTTON_HEIGHT);
+            button.frame = newButtonFrame;
+        }
+    }    
 	return cell;
 }
 
@@ -341,5 +392,44 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor  =[UIColor whiteColor];
     return cell;
+}
+
+- (UIButton *)buttonWithTitle:(NSString *)title
+                          target:(id)target
+                        selector:(SEL)selector
+                           frame:(CGRect)frame
+                           image:(UIImage *)image
+                    imagePressed:(UIImage *)imagePressed
+                   darkTextColor:(BOOL)darkTextColor
+{	
+	UIButton *button = [[UIButton alloc] initWithFrame:frame];
+        // or you can do this:
+        //		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	
+	button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+	button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+	
+	[button setTitle:title forState:UIControlStateNormal];	
+	if (darkTextColor)
+	{
+		[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+	}
+	else
+	{
+		[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+	}
+	
+	UIImage *newImage = [image stretchableImageWithLeftCapWidth:12.0 topCapHeight:0.0];
+	[button setBackgroundImage:newImage forState:UIControlStateNormal];
+	
+	UIImage *newPressedImage = [imagePressed stretchableImageWithLeftCapWidth:12.0 topCapHeight:0.0];
+	[button setBackgroundImage:newPressedImage forState:UIControlStateHighlighted];
+	
+	[button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+	
+        // in case the parent view draws with a custom color or gradient, use a transparent color
+	button.backgroundColor = [UIColor clearColor];
+	
+	return button;
 }
 @end
