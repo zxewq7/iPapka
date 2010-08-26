@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		810100FB12253DCB00076F33 /* LinkedDocumentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 810100FA12253DCB00076F33 /* LinkedDocumentIcon.png */; };
-		810102B71225700E00076F33 /* SegmentedTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 810102B61225700E00076F33 /* SegmentedTableCell.m */; };
 		810105AB12259F2D00076F33 /* DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810105AA12259F2D00076F33 /* DocumentManaged.m */; };
 		810105AD12259F2E00076F33 /* ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810105AC12259F2D00076F33 /* ResolutionManaged.m */; };
 		810105AF12259F2E00076F33 /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810105AE12259F2E00076F33 /* SignatureManaged.m */; };
@@ -38,7 +37,6 @@
 		81530990122440E4002245B3 /* AttachmentsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8153098F122440E4002245B3 /* AttachmentsViewController.xib */; };
 		81530B58122454F9002245B3 /* ButtonErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B56122454F9002245B3 /* ButtonErase.png */; };
 		81530B59122454F9002245B3 /* ButtonPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B57122454F9002245B3 /* ButtonPen.png */; };
-		81530B5F1224566C002245B3 /* ButtonInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B5E1224566C002245B3 /* ButtonInfo.png */; };
 		81530B61122456CA002245B3 /* ButtonComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B60122456CA002245B3 /* ButtonComment.png */; };
 		81530B641224571D002245B3 /* ButtonRotateCCV.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B621224571D002245B3 /* ButtonRotateCCV.png */; };
 		81530B651224571D002245B3 /* ButtonRotateCV.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B631224571D002245B3 /* ButtonRotateCV.png */; };
@@ -54,6 +52,11 @@
 		81CAD11112217E5700E47930 /* DocumentViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CAD10F12217E5700E47930 /* DocumentViewBackground.png */; };
 		81CAD11212217E5700E47930 /* UnreadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 81CAD11012217E5700E47930 /* UnreadMark.png */; };
 		81DBAEC11212DCCE00207D6E /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */; };
+		81F137141226907A00E5DED7 /* ButtonInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F137121226907A00E5DED7 /* ButtonInfo.png */; };
+		81F137151226907A00E5DED7 /* ButtonInfoSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F137131226907A00E5DED7 /* ButtonInfoSelected.png */; };
+		81F1371E122690E300E5DED7 /* ButtonPenSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1371D122690E300E5DED7 /* ButtonPenSelected.png */; };
+		81F1372C1226915400E5DED7 /* ButtonCommentSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1372A1226915400E5DED7 /* ButtonCommentSelected.png */; };
+		81F1372D1226915400E5DED7 /* ButtonEraseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1372B1226915400E5DED7 /* ButtonEraseSelected.png */; };
 		81F4BF621223EF1B007E8E69 /* PageLoading.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F4BF611223EF1B007E8E69 /* PageLoading.png */; };
 		81F4C2EB12241A24007E8E69 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4C2EA12241A24007E8E69 /* ImageScrollView.m */; };
 		81FB942E1221197B008A1E15 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB93FD12211918008A1E15 /* libDataModel.a */; };
@@ -102,8 +105,6 @@
 
 /* Begin PBXFileReference section */
 		810100FA12253DCB00076F33 /* LinkedDocumentIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LinkedDocumentIcon.png; sourceTree = "<group>"; };
-		810102B51225700E00076F33 /* SegmentedTableCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedTableCell.h; sourceTree = "<group>"; };
-		810102B61225700E00076F33 /* SegmentedTableCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedTableCell.m; sourceTree = "<group>"; };
 		810105AA12259F2D00076F33 /* DocumentManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DocumentManaged.m; sourceTree = "<group>"; };
 		810105AC12259F2D00076F33 /* ResolutionManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ResolutionManaged.m; sourceTree = "<group>"; };
 		810105AE12259F2E00076F33 /* SignatureManaged.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SignatureManaged.m; sourceTree = "<group>"; };
@@ -146,7 +147,6 @@
 		8153098F122440E4002245B3 /* AttachmentsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttachmentsViewController.xib; sourceTree = "<group>"; };
 		81530B56122454F9002245B3 /* ButtonErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonErase.png; sourceTree = "<group>"; };
 		81530B57122454F9002245B3 /* ButtonPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPen.png; sourceTree = "<group>"; };
-		81530B5E1224566C002245B3 /* ButtonInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonInfo.png; sourceTree = "<group>"; };
 		81530B60122456CA002245B3 /* ButtonComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonComment.png; sourceTree = "<group>"; };
 		81530B621224571D002245B3 /* ButtonRotateCCV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRotateCCV.png; sourceTree = "<group>"; };
 		81530B631224571D002245B3 /* ButtonRotateCV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRotateCV.png; sourceTree = "<group>"; };
@@ -170,6 +170,11 @@
 		81CAD11012217E5700E47930 /* UnreadMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnreadMark.png; sourceTree = "<group>"; };
 		81DBAEBF1212DCCE00207D6E /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
+		81F137121226907A00E5DED7 /* ButtonInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonInfo.png; sourceTree = "<group>"; };
+		81F137131226907A00E5DED7 /* ButtonInfoSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonInfoSelected.png; sourceTree = "<group>"; };
+		81F1371D122690E300E5DED7 /* ButtonPenSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPenSelected.png; sourceTree = "<group>"; };
+		81F1372A1226915400E5DED7 /* ButtonCommentSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonCommentSelected.png; sourceTree = "<group>"; };
+		81F1372B1226915400E5DED7 /* ButtonEraseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonEraseSelected.png; sourceTree = "<group>"; };
 		81F4BF611223EF1B007E8E69 /* PageLoading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageLoading.png; sourceTree = "<group>"; };
 		81F4C2E912241A24007E8E69 /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
 		81F4C2EA12241A24007E8E69 /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
@@ -304,8 +309,6 @@
 				81FEA51412119ECD00A9ABD3 /* DocumentCell.m */,
 				812AADAF1218312400E3FBC8 /* DocumentCellView.h */,
 				812AADB01218312400E3FBC8 /* DocumentCellView.m */,
-				810102B51225700E00076F33 /* SegmentedTableCell.h */,
-				810102B61225700E00076F33 /* SegmentedTableCell.m */,
 			);
 			name = View;
 			sourceTree = "<group>";
@@ -396,11 +399,15 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81F1372A1226915400E5DED7 /* ButtonCommentSelected.png */,
+				81F1372B1226915400E5DED7 /* ButtonEraseSelected.png */,
+				81F1371D122690E300E5DED7 /* ButtonPenSelected.png */,
+				81F137121226907A00E5DED7 /* ButtonInfo.png */,
+				81F137131226907A00E5DED7 /* ButtonInfoSelected.png */,
 				810100FA12253DCB00076F33 /* LinkedDocumentIcon.png */,
 				81530B621224571D002245B3 /* ButtonRotateCCV.png */,
 				81530B631224571D002245B3 /* ButtonRotateCV.png */,
 				81530B60122456CA002245B3 /* ButtonComment.png */,
-				81530B5E1224566C002245B3 /* ButtonInfo.png */,
 				81530B56122454F9002245B3 /* ButtonErase.png */,
 				81530B57122454F9002245B3 /* ButtonPen.png */,
 				81F4BF611223EF1B007E8E69 /* PageLoading.png */,
@@ -506,12 +513,16 @@
 				81530990122440E4002245B3 /* AttachmentsViewController.xib in Resources */,
 				81530B58122454F9002245B3 /* ButtonErase.png in Resources */,
 				81530B59122454F9002245B3 /* ButtonPen.png in Resources */,
-				81530B5F1224566C002245B3 /* ButtonInfo.png in Resources */,
 				81530B61122456CA002245B3 /* ButtonComment.png in Resources */,
 				81530B641224571D002245B3 /* ButtonRotateCCV.png in Resources */,
 				81530B651224571D002245B3 /* ButtonRotateCV.png in Resources */,
 				8101FEBB12250BAC00076F33 /* DocumentInfoViewController.xib in Resources */,
 				810100FB12253DCB00076F33 /* LinkedDocumentIcon.png in Resources */,
+				81F137141226907A00E5DED7 /* ButtonInfo.png in Resources */,
+				81F137151226907A00E5DED7 /* ButtonInfoSelected.png in Resources */,
+				81F1371E122690E300E5DED7 /* ButtonPenSelected.png in Resources */,
+				81F1372C1226915400E5DED7 /* ButtonCommentSelected.png in Resources */,
+				81F1372D1226915400E5DED7 /* ButtonEraseSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,7 +549,6 @@
 				815651251222976A00CCCCFF /* TDBadgedCell.m in Sources */,
 				81F4C2EB12241A24007E8E69 /* ImageScrollView.m in Sources */,
 				8101FEBE12250BCB00076F33 /* DocumentInfoViewController.m in Sources */,
-				810102B71225700E00076F33 /* SegmentedTableCell.m in Sources */,
 				810105AB12259F2D00076F33 /* DocumentManaged.m in Sources */,
 				810105AD12259F2E00076F33 /* ResolutionManaged.m in Sources */,
 				810105AF12259F2E00076F33 /* SignatureManaged.m in Sources */,
