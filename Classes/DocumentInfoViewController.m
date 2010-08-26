@@ -307,7 +307,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
             UIButton* addPerformerButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
             [addPerformerButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
             CGSize addPerformerButtonSize = addPerformerButton.frame.size;
-            CGRect addPerformerButtonFrame = CGRectMake(performersFieldFrame.origin.x+performersFieldFrame.size.width+20, (cellFrame.size.height-addPerformerButtonSize.height)/2, addPerformerButtonSize.height, addPerformerButtonSize.width);
+            CGRect addPerformerButtonFrame = CGRectMake(CELL_WIDTH-CELL_RIGHT_OFFSET-addPerformerButtonSize.width, (cellFrame.size.height-addPerformerButtonSize.height)/2, addPerformerButtonSize.height, addPerformerButtonSize.width);
             addPerformerButton.frame = addPerformerButtonFrame;
             [cell.contentView addSubview:addPerformerButton];
 		}
