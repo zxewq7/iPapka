@@ -203,7 +203,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         cell = [tableView dequeueReusableCellWithIdentifier:LinkCell];
         if (cell == nil)
         {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:LinkCell] autorelease];
+            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:LinkCell] autorelease];
             cell.backgroundColor  =[UIColor whiteColor];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -212,6 +212,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         NSUInteger linkIndex = indexPath.row;
         Document *link = [unmanagedDocument.links objectAtIndex:linkIndex];
         cell.textLabel.text = link.title;
+        cell.detailTextLabel.text = NSLocalizedString(@"Document", "Document");
         cell.imageView.image = [UIImage imageNamed:@"LinkedDocumentIcon.png"];
     }
     else if (cellIdentifier == ResolutionCell)
