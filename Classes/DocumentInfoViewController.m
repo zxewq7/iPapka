@@ -28,7 +28,6 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 @interface  DocumentInfoViewController(Private)
 -(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier;
--(void) layoutCell:(UITableViewCell *) cell;
 @end
 
 
@@ -342,17 +341,5 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor  =[UIColor whiteColor];
     return cell;
-}
--(void) layoutDetailsCell:(UITableViewCell *) cell
-{
-    CGSize labelSize = [cell.textLabel.text sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
-    CGRect detailFrame = CGRectMake(labelSize.width+20, (cell.frame.size.height-DETAIL_LABEL_HEIGHT)/2, 10, DETAIL_LABEL_HEIGHT);
-    UILabel *label = (UILabel *)[cell.contentView viewWithTag:kDetailLabelTag];
-    if (label) 
-    {
-        label.frame = detailFrame;
-        [label sizeToFit];
-    }
-    
 }
 @end
