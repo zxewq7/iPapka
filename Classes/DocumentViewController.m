@@ -49,7 +49,14 @@
         //infoViewController removed
     infoButton.selected = NO;
 }
-
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if ([attachmentsViewController respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) 
+        [attachmentsViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+         
+    if ([infoViewController respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) 
+         [infoViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
 
 - (void)viewDidLoad
 {

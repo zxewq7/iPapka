@@ -19,6 +19,7 @@
     BOOL            hasParentResolution;
     NSMutableArray  *sections;
     NSDateFormatter *dateFormatter;
+    CGFloat         cellWidth;
 }
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
 @end

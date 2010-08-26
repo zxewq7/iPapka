@@ -31,7 +31,6 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 #define DATE_BUTTON_HEIGHT  25
 #define SWITCH_HEIGHT  27
 #define SWITCH_WIDTH  94
-#define CELL_WIDTH  618.0f
 #define CELL_RIGHT_OFFSET  7.0f
 #define CELL_LEFT_OFFSET  13.0f
 #define CELL_HEIGHT 44
@@ -48,6 +47,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
                  imagePressed:(UIImage *)imagePressed
                 darkTextColor:(BOOL)darkTextColor;
 -(UILabel *) createLabelWithText:(NSString *) text;
+-(void) createTableView:(CGFloat) leftOffset rightOffset:(CGFloat) rightOffset;
 @end
 
 
@@ -106,12 +106,6 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 - (void)viewDidLoad
 {
-#define TOP_OFFSET 0
-        //#define LEFT_OFFSET -30
-        //#define RIGHT_OFFSET 40
-#define LEFT_OFFSET 0
-#define RIGHT_OFFSET 65
-
     [super viewDidLoad];
 
     dateFormatter = [[NSDateFormatter alloc] init];
@@ -120,35 +114,28 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocumentViewBackground.png"]];
     self.view.backgroundColor = backgroundColor;
     [backgroundColor release];
-    
-    CGRect viewRect = self.view.bounds;
-    CGRect tableViewRect = CGRectMake(viewRect.origin.x+LEFT_OFFSET, viewRect.origin.y + TOP_OFFSET, viewRect.size.width-LEFT_OFFSET-RIGHT_OFFSET, viewRect.size.height - TOP_OFFSET);
-    tableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStyleGrouped];
-        //clear table background
-        //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
-    tableView.backgroundView = nil;
-    
-        //create table header
-        //http://cocoawithlove.com/2009/04/easy-custom-uitableview-drawing.html
-    UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 60)];
-    documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, tableViewRect.size.width, 40)];
-    documentTitle.text = document.title;
-    documentTitle.textColor = [UIColor whiteColor];
-    documentTitle.textAlignment = UITextAlignmentCenter;
-    documentTitle.font = [UIFont boldSystemFontOfSize:24];
-    documentTitle.backgroundColor = [UIColor clearColor];
-    [containerView addSubview:documentTitle];
-    tableView.tableHeaderView = containerView;
-    [containerView release];
-    
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [self.view addSubview:tableView];
 }
-
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+        //recalc width
+    CGFloat rightOffset = 51.0f;
+    CGFloat leftOffset = -25.0f;
+    cellWidth = 730.0f;
+    switch (toInterfaceOrientation) 
+    {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            rightOffset = -15.0f;
+            leftOffset = -25.0f;
+            cellWidth = 665.0f;
+            break;
+    }
+    [self createTableView:leftOffset rightOffset:rightOffset];
+    
+    [tableView reloadData];
+}
     // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-        // Return YES for supported orientations
     return YES;
 }
 
@@ -331,7 +318,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
             UIButton* addPerformerButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
             [addPerformerButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
             CGSize addPerformerButtonSize = addPerformerButton.frame.size;
-            CGRect addPerformerButtonFrame = CGRectMake(CELL_WIDTH-CELL_RIGHT_OFFSET-addPerformerButtonSize.width, (cellFrame.size.height-addPerformerButtonSize.height)/2, addPerformerButtonSize.height, addPerformerButtonSize.width);
+            CGRect addPerformerButtonFrame = CGRectMake(cellWidth-CELL_RIGHT_OFFSET-addPerformerButtonSize.width, (cellFrame.size.height-addPerformerButtonSize.height)/2, addPerformerButtonSize.height, addPerformerButtonSize.width);
             addPerformerButton.frame = addPerformerButtonFrame;
             [cell.contentView addSubview:addPerformerButton];
 		}
@@ -398,7 +385,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
             
             CGRect cellFrame = cell.frame;
             
-            CGRect switchFrame = CGRectMake(CELL_WIDTH-CELL_RIGHT_OFFSET-SWITCH_WIDTH, (cellFrame.size.height-SWITCH_HEIGHT)/2, SWITCH_HEIGHT, SWITCH_WIDTH);
+            CGRect switchFrame = CGRectMake(cellWidth-CELL_RIGHT_OFFSET-SWITCH_WIDTH, (cellFrame.size.height-SWITCH_HEIGHT)/2, SWITCH_HEIGHT, SWITCH_WIDTH);
             
             UISwitch* switchButton = [[[UISwitch alloc] initWithFrame:switchFrame] autorelease];
             [switchButton addTarget:self action:nil forControlEvents:UIControlEventValueChanged];
@@ -431,7 +418,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         {
             label.text=((Resolution *)unmanagedDocument).text;
             CGRect labelFrame = label.frame;
-            labelFrame.size.width = CELL_WIDTH-CELL_RIGHT_OFFSET-CELL_LEFT_OFFSET;
+            labelFrame.size.width = cellWidth-CELL_RIGHT_OFFSET-CELL_LEFT_OFFSET;
             label.frame = labelFrame;
             [label sizeToFit];
         }
@@ -519,9 +506,39 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     CGRect labelFrame = label.frame;
     labelFrame.origin.x = CELL_LEFT_OFFSET;
     labelFrame.origin.y = CELL_TOP_OFFSET;
-    labelFrame.size.width = CELL_WIDTH-CELL_RIGHT_OFFSET-CELL_LEFT_OFFSET;
+    labelFrame.size.width = cellWidth-CELL_RIGHT_OFFSET-CELL_LEFT_OFFSET;
     label.frame = labelFrame;
     [label sizeToFit];
     return label;
 }
+-(void) createTableView:(CGFloat) leftOffset rightOffset:(CGFloat) rightOffset
+{
+    [documentTitle removeFromSuperview];
+    [documentTitle release];
+    [tableView removeFromSuperview];
+    [tableView release];
+    
+    CGRect viewRect = self.view.bounds;
+    CGRect tableViewRect = CGRectMake(leftOffset, 0, viewRect.size.width+rightOffset, viewRect.size.height);
+    tableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStyleGrouped];
+        //clear table background
+        //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
+    tableView.backgroundView = nil;
+    
+        //create table header
+        //http://cocoawithlove.com/2009/04/easy-custom-uitableview-drawing.html
+    UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 60)];
+    documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, tableViewRect.size.width, 40)];
+    documentTitle.text = document.title;
+    documentTitle.textColor = [UIColor whiteColor];
+    documentTitle.textAlignment = UITextAlignmentCenter;
+    documentTitle.font = [UIFont boldSystemFontOfSize:24];
+    documentTitle.backgroundColor = [UIColor clearColor];
+    [containerView addSubview:documentTitle];
+    tableView.tableHeaderView = containerView;
+    [containerView release];
+    
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    [self.view addSubview:tableView];}
 @end
