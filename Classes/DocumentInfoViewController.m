@@ -10,8 +10,6 @@
 #import "DocumentManaged.h"
 #import "Document.h"
 #import "Resolution.h"
-#import "SegmentedLabel.h"
-#import "SegmentedTableCell.h"
 
 static NSString *ParentResolutionCell = @"ParentResolutionCell";
 static NSString *LinkCell = @"LinkCell";
@@ -30,6 +28,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 @interface  DocumentInfoViewController(Private)
 -(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier;
+-(void) layoutCell:(UITableViewCell *) cell;
 @end
 
 
@@ -173,28 +172,12 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         cell = [tableView dequeueReusableCellWithIdentifier:ParentResolutionCell];
         if (cell == nil)
         {
-            cell = [[[SegmentedTableCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:ParentResolutionCell] autorelease];
-            SegmentedLabel *aLabel = [[SegmentedLabel alloc] initWithFrame:CGRectMake(0, 0, 580, 20)];
-            UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-            label1.backgroundColor = [UIColor clearColor];
-            label1.textColor = [UIColor blackColor];
-            label1.font = [UIFont boldSystemFontOfSize:16];
-            UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-            label2.textColor = [UIColor darkGrayColor];
-            label2.font = [UIFont systemFontOfSize:14];
-            label2.baselineAdjustment = UIBaselineAdjustmentAlignBaselines;
-            label2.backgroundColor = [UIColor clearColor];
-            
-            aLabel.backgroundColor = [UIColor clearColor];
-            aLabel.labels = [NSArray arrayWithObjects:label1, label2, nil];
-            ((SegmentedTableCell *)cell).segmentedLabel = aLabel;
+            cell = [self createDetailsCell:NSLocalizedString(@"Parent project", "Resolution project") identifier:ParentResolutionCell];
             cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.backgroundColor  =[UIColor whiteColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
         
         Resolution *parentResolution = ((Resolution *)unmanagedDocument).parentResolution;
-        
-        cell.detailTextLabel.text=NSLocalizedString(@"Expand", "Expand");
 
         NSMutableString *detailString = [NSMutableString stringWithString: NSLocalizedString(@"Author", "Author")];
         [detailString appendString:@": "];
@@ -205,11 +188,17 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         
         if (date != nil)
             [detailString appendString:[dateFormatter stringFromDate:date]];
-        ((SegmentedTableCell *)cell).segmentedLabel.texts = [NSArray arrayWithObjects:[NSLocalizedString(@"Parent project", "Resolution project") stringByAppendingString:@"  "], 
-                                                                                    detailString, nil];
+        
+        
+        UILabel *field = (UILabel *)[cell.contentView viewWithTag:kDetailLabelTag];
+        if (field) 
+        {
+            field.text = detailString;
+            [field sizeToFit];
+        }
+        
+        cell.detailTextLabel.text=NSLocalizedString(@"Expand", "Expand");
 
-        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     else if (cellIdentifier == LinkCell)
     {
@@ -353,5 +342,17 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor  =[UIColor whiteColor];
     return cell;
+}
+-(void) layoutDetailsCell:(UITableViewCell *) cell
+{
+    CGSize labelSize = [cell.textLabel.text sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
+    CGRect detailFrame = CGRectMake(labelSize.width+20, (cell.frame.size.height-DETAIL_LABEL_HEIGHT)/2, 10, DETAIL_LABEL_HEIGHT);
+    UILabel *label = (UILabel *)[cell.contentView viewWithTag:kDetailLabelTag];
+    if (label) 
+    {
+        label.frame = detailFrame;
+        [label sizeToFit];
+    }
+    
 }
 @end
