@@ -149,7 +149,11 @@ static NSString* OperationCount = @"OperationCount";
         if (error == nil)
             [blockSelf parseViewData:[request downloadDestinationPath]];
         else
+        {
             NSLog(@"error fetching url %@\n%@", [request originalURL], error);
+            if ([ self.delegate respondsToSelector:@selector(documentsListDidRefreshed:)] ) 
+                [self.delegate documentsListDidRefreshed:self];
+        }
     };
 	[_networkQueue addOperation:request];
 }
