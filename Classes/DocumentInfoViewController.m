@@ -25,13 +25,18 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 #define kDetailLabelTag 2
 #define kDateButtonTag 3
 #define kSwitchTag 4
+#define kTextTag 5
 #define TEXT_FIELD_HEIGHT  25
 #define DETAIL_LABEL_HEIGHT  20
 #define DATE_BUTTON_HEIGHT  25
 #define SWITCH_HEIGHT  27
 #define SWITCH_WIDTH  94
-#define CELL_WIDTH  618
-#define CELL_RIGHT_OFFSET  7
+#define CELL_WIDTH  618.0f
+#define CELL_RIGHT_OFFSET  7.0f
+#define CELL_LEFT_OFFSET  13.0f
+#define CELL_HEIGHT 44
+#define CELL_TOP_OFFSET 10.0f
+#define CELL_BOTTOM_OFFSET 10.0f
 
 @interface  DocumentInfoViewController(Private)
 -(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier;
@@ -42,6 +47,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
                         image:(UIImage *)image
                  imagePressed:(UIImage *)imagePressed
                 darkTextColor:(BOOL)darkTextColor;
+-(UILabel *) createLabelWithText:(NSString *) text;
 @end
 
 
@@ -93,7 +99,8 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
                                                              ResolutionDateCell,
                                                              ResolutionPerformersCell,
                                                              ResolutionDeadlineCell,
-                                                             ResolutionManagedCell, nil]];
+                                                             ResolutionManagedCell,
+                                                             ResolutionTextCell, nil]];
     [tableView reloadData];
 }
 
@@ -174,6 +181,17 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     return [[sections objectAtIndex:section] count];
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSString *cellIdentifier = [[sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if (cellIdentifier == ResolutionTextCell)
+    {
+        UILabel* text = [self createLabelWithText:((Resolution *)unmanagedDocument).text];
+        CGFloat height = text.frame.size.height; 
+        return height<CELL_HEIGHT?CELL_HEIGHT:(height+CELL_TOP_OFFSET+CELL_BOTTOM_OFFSET);
+    }
+    return CELL_HEIGHT;
+}
     // to determine which UITableViewCell to be used on a given row.
     //
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -383,6 +401,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
             CGRect switchFrame = CGRectMake(CELL_WIDTH-CELL_RIGHT_OFFSET-SWITCH_WIDTH, (cellFrame.size.height-SWITCH_HEIGHT)/2, SWITCH_HEIGHT, SWITCH_WIDTH);
             
             UISwitch* switchButton = [[[UISwitch alloc] initWithFrame:switchFrame] autorelease];
+            [switchButton addTarget:self action:nil forControlEvents:UIControlEventValueChanged];
             switchButton.tag = kSwitchTag;
             [cell.contentView addSubview:switchButton];
 		}
@@ -391,7 +410,32 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         if (button) 
             [button setOn: ((Resolution *)unmanagedDocument).managed animated:NO];
     }    
-    
+    else if (cellIdentifier == ResolutionTextCell)
+    {
+        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionTextCell];
+		if (cell == nil)
+		{
+                // a new cell needs to be created
+			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionTextCell] autorelease];
+			cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.backgroundColor  =[UIColor whiteColor];
+                //create managed switch
+            UILabel* text = [self createLabelWithText:@""];
+            text.tag = kTextTag;
+            text.numberOfLines=0;
+            [cell.contentView addSubview:text];
+		}
+        
+        UILabel *label = (UILabel *)[cell.contentView viewWithTag:kTextTag];
+        if (label)
+        {
+            label.text=((Resolution *)unmanagedDocument).text;
+            CGRect labelFrame = label.frame;
+            labelFrame.size.width = CELL_WIDTH-CELL_RIGHT_OFFSET-CELL_LEFT_OFFSET;
+            label.frame = labelFrame;
+            [label sizeToFit];
+        }
+    }      
 	return cell;
 }
 
@@ -415,14 +459,13 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     cell.textLabel.text = label;
     CGRect detailFrame = CGRectMake(labelSize.width+20, (cell.frame.size.height-DETAIL_LABEL_HEIGHT)/2, 10, DETAIL_LABEL_HEIGHT);
     
-    UILabel *detailLabel = [[UILabel alloc] initWithFrame:detailFrame];
+    UILabel *detailLabel = [[[UILabel alloc] initWithFrame:detailFrame] autorelease];
     detailLabel.backgroundColor = [UIColor clearColor];
     detailLabel.textColor =[UIColor darkGrayColor];
     detailLabel.font = [UIFont systemFontOfSize:16];
     detailLabel.textAlignment = UITextAlignmentRight;
     detailLabel.tag = kDetailLabelTag;
     [cell.contentView addSubview: detailLabel];
-        //[detailLabel release];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.backgroundColor  =[UIColor whiteColor];
     return cell;
@@ -465,5 +508,20 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 	button.backgroundColor = [UIColor clearColor];
 	
 	return button;
+}
+
+-(UILabel *) createLabelWithText:(NSString *) text
+{
+    UILabel* label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
+    label.numberOfLines=0;
+
+    label.text=text;
+    CGRect labelFrame = label.frame;
+    labelFrame.origin.x = CELL_LEFT_OFFSET;
+    labelFrame.origin.y = CELL_TOP_OFFSET;
+    labelFrame.size.width = CELL_WIDTH-CELL_RIGHT_OFFSET-CELL_LEFT_OFFSET;
+    label.frame = labelFrame;
+    [label sizeToFit];
+    return label;
 }
 @end
