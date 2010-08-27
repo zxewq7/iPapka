@@ -207,6 +207,8 @@
     pagingScrollView.frame = CGRectMake(viewRect.origin.x, viewRect.origin.y, viewRect.size.width, originalHeight+heightAdd);    
     currentPage.view.frame = CGRectMake(0, 0, viewRect.size.width, originalHeight+heightAdd);
     nextPage.view.frame = CGRectMake(0, 0, viewRect.size.width, originalHeight+heightAdd);
+    [currentPage updateViews:NO];
+    [nextPage updateViews:NO];
 }
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration

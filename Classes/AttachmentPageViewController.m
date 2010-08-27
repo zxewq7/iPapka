@@ -49,23 +49,21 @@
                                fromView:imageView],
                               [self.view.window bounds])))
 	{
-		for (UIView *childView in imageView.subviews)
-		{
-			[childView setNeedsDisplay];
-		}
+		
+            CGPoint restorePoint = [imageView pointToCenterAfterRotation];
+            CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
+            [imageView setMaxMinZoomScalesForCurrentBounds];
+            [imageView restoreCenterPoint:restorePoint scale:restoreScale];
+            
 		viewNeedsUpdate = NO;
 	}
 }
-
-#define LEFT_OFFSET 10.0f
-#define RIGHT_OFFSET 75.0f
 
 - (void)loadView 
 {    
     imageView = [[ImageScrollView alloc] init];
     imageView.backgroundColor = [UIColor redColor];
     
-        //    imageView.frame = CGRectMake(LEFT_OFFSET, 0, self.view.frame.size.width-LEFT_OFFSET-RIGHT_OFFSET, self.view.frame.size.height);
     self.view = imageView;
 }
 - (void)viewDidLoad {
