@@ -62,7 +62,6 @@
 - (void)loadView 
 {    
     imageView = [[ImageScrollView alloc] init];
-    imageView.backgroundColor = [UIColor redColor];
     
     self.view = imageView;
 }
