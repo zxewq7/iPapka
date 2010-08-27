@@ -20,6 +20,7 @@
     Attachment    *attachment;
     CGRect        viewFrame;
     CGFloat       originalHeight;
+    CGFloat       originalWidth;
 }
 
 @property (nonatomic, retain, setter=setAttachment:)   Attachment    *attachment;

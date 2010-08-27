@@ -60,13 +60,17 @@
 	[pagingScrollView addSubview:currentPage.view];
 	[pagingScrollView addSubview:nextPage.view];
     originalHeight = pagingScrollView.frame.size.height;
+    originalWidth = pagingScrollView.frame.size.width;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+
     currentPage.attachment = attachment;
     nextPage.attachment = attachment;
+    currentPage.view.frame = CGRectMake(0, 0, originalWidth, originalHeight);
+    nextPage.view.frame = CGRectMake(0, 0, originalWidth, originalHeight);
 	[self applyNewIndex:0 pageController:currentPage];
 	[self applyNewIndex:1 pageController:nextPage];
     [self resizePagingScrollView];
@@ -198,10 +202,11 @@
     
     
     pagingScrollView.frame = CGRectMake(viewRect.origin.x, viewRect.origin.y, viewRect.size.width, originalHeight+heightAdd);    
-    currentPage.view.frame = CGRectMake(0, rightPageOffset+leftPageOffset, viewRect.size.width-rightPageOffset-leftPageOffset, originalHeight+heightAdd);
-    nextPage.view.frame = CGRectMake(0, 0, viewRect.size.width, originalHeight+heightAdd);
+    currentPage.view.frame = CGRectMake(0, rightPageOffset+leftPageOffset, originalWidth-rightPageOffset-leftPageOffset, originalHeight+heightAdd);
+    nextPage.view.frame = CGRectMake(0, rightPageOffset+leftPageOffset, originalWidth-rightPageOffset-leftPageOffset, originalHeight+heightAdd);
     [currentPage updateViews:NO];
     [nextPage updateViews:NO];
+    [self resizePagingScrollView];
 }
 @end
 
