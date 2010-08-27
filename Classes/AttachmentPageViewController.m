@@ -81,12 +81,13 @@
     [super viewDidUnload];
     [imageView release];
     imageView=nil;
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    [imageView release];
+    self.attachment = nil;
     [super dealloc];
 }
 
