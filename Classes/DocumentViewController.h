@@ -20,6 +20,7 @@
     UIButton                   *penButton;
     UIButton                   *eraseButton;
     UIButton                   *commentButton;
+    UIButton                   *attachmentButton;
 }
 
 @property (nonatomic, retain) IBOutlet UIToolbar       *toolbar;
@@ -31,4 +32,6 @@
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
 
 - (void) showDocumentInfo:(id) sender;
+
+-(void) showAttachmentsList:(id) sender;
 @end

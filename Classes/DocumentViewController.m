@@ -15,6 +15,8 @@
 #import "AttachmentsViewController.h"
 #import "DocumentInfoViewController.h"
 
+#define kAttachmentLabelTag 1
+
 @interface DocumentViewController(Private)
 - (void) createToolbar;
 - (UIButton *) createButton:(NSString *) aNormalImageName selectedState:(NSString *) aSelectedImageName action:(SEL) anAction;
@@ -44,6 +46,8 @@
     {
         Attachment *firstAttachment = [attachments objectAtIndex:0];
         attachmentsViewController.attachment = firstAttachment;
+        NSString *attachmentTitle = [NSString stringWithFormat:@"%d %@ %d", 1, NSLocalizedString(@"of", "of"), [firstAttachment.pages count]];
+        [attachmentButton setTitle:attachmentTitle forState:UIControlStateNormal];
     }
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
@@ -104,6 +108,8 @@
     eraseButton = nil;
     [commentButton release];
     commentButton = nil;
+    [attachmentButton release];
+    attachmentButton = nil;
 }
 
 #pragma mark -
@@ -162,7 +168,15 @@
     [penButton release];
     [eraseButton release];
     [commentButton release];
+    [attachmentButton release];
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Actions
+- (void) showAttachmentsList:(id) sender
+{
+    attachmentButton.selected = !attachmentButton.selected;
 }
 @end
 
@@ -183,9 +197,32 @@
 
     commentButton = [self createButton:@"ButtonComment.png" selectedState:@"ButtonCommentSelected.png" action:nil];
     [commentButton retain];
+
+        //attachment button with label
+#define kStdButtonWidth		106.0
+#define kStdButtonHeight	40.0
+
+    CGRect frame = CGRectMake(182.0, 5.0, kStdButtonWidth, kStdButtonHeight);
+    attachmentButton = [[UIButton alloc] initWithFrame:frame];
+        // or you can do this:
+        //		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
+	
+	attachmentButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+	attachmentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    [attachmentButton setImage:[UIImage imageNamed:@"ButtonAttachment.png"] forState:UIControlStateNormal];
+    [attachmentButton setImage:[UIImage imageNamed:@"ButtonAttachmentSelected.png"] forState:UIControlStateSelected];
+    [attachmentButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [attachmentButton setTitleColor:[UIColor colorWithRed:0.000 green:0.596 blue:0.992 alpha:1.0] forState:UIControlStateSelected];
+    
+	[attachmentButton addTarget:self action:@selector(showAttachmentsList:) forControlEvents:UIControlEventTouchUpInside];
+    
+        // in case the parent view draws with a custom color or gradient, use a transparent color
+	attachmentButton.backgroundColor = [UIColor clearColor];    
     
     
 	UIBarButtonItem *infoBarButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+    UIBarButtonItem *attachmentBarButton = [[UIBarButtonItem alloc] initWithCustomView:attachmentButton];
+    
     UIBarButtonItem *fleaxBarButton1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *penBarButton = [[UIBarButtonItem alloc] initWithCustomView:penButton];
     UIBarButtonItem *eraseBarButton = [[UIBarButtonItem alloc] initWithCustomView:eraseButton];
@@ -197,6 +234,7 @@
     declineBarButton.style = UIBarButtonItemStyleBordered;
     UIBarButtonItem *acceptBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style:UIBarButtonItemStyleBordered target:self action:nil];
 	self.toolbar.items = [NSArray arrayWithObjects:infoBarButton, 
+                                                    attachmentBarButton,
                                                     fleaxBarButton1,
                                                     penBarButton, 
                                                     eraseBarButton, 
@@ -209,6 +247,7 @@
                                                     nil];
     
     [infoBarButton release];
+    [attachmentBarButton release];
     [fleaxBarButton1 release];
     [penBarButton release];
     [eraseBarButton release];
