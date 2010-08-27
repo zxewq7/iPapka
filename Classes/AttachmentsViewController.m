@@ -179,6 +179,9 @@
 {
     CGRect viewRect= pagingScrollView.frame;
     CGFloat heightAdd = 0.0f;
+    CGFloat rightPageOffset = 0.0f;
+    CGFloat leftPageOffset = 0.0f;
+    
     switch (toInterfaceOrientation) 
     {
         case UIInterfaceOrientationLandscapeLeft:
@@ -186,6 +189,8 @@
         case UIDeviceOrientationFaceDown:
         case UIDeviceOrientationFaceUp:    
             heightAdd = -274.0f;
+            rightPageOffset = 53.0f;
+            leftPageOffset = 11.0f;
             break;
         default:
             break;
@@ -193,7 +198,7 @@
     
     
     pagingScrollView.frame = CGRectMake(viewRect.origin.x, viewRect.origin.y, viewRect.size.width, originalHeight+heightAdd);    
-    currentPage.view.frame = CGRectMake(0, 0, viewRect.size.width, originalHeight+heightAdd);
+    currentPage.view.frame = CGRectMake(0, rightPageOffset+leftPageOffset, viewRect.size.width-rightPageOffset-leftPageOffset, originalHeight+heightAdd);
     nextPage.view.frame = CGRectMake(0, 0, viewRect.size.width, originalHeight+heightAdd);
     [currentPage updateViews:NO];
     [nextPage updateViews:NO];
