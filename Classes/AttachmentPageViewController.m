@@ -21,10 +21,10 @@
 	if (pageIndex >= 0 && pageIndex < [attachment.pages count])
 	{		
         [imageView displayImage:[attachment pageForIndex:pageIndex]];
-//        CGPoint restorePoint = [imageView pointToCenterAfterRotation];
-//        CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
-//        [imageView setMaxMinZoomScalesForCurrentBounds];
-//        [imageView restoreCenterPoint:restorePoint scale:restoreScale];
+        CGPoint restorePoint = [imageView pointToCenterAfterRotation];
+        CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
+        [imageView setMaxMinZoomScalesForCurrentBounds];
+        [imageView restoreCenterPoint:restorePoint scale:restoreScale];
 		CGRect absoluteRect = [self.view.window
                                convertRect:imageView.bounds
                                fromView:imageView];
