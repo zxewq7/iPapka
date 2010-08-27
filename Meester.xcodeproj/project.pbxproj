@@ -14,7 +14,6 @@
 		810105B412259F3000076F33 /* _DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810105B312259F2F00076F33 /* _DocumentManaged.m */; };
 		810105B612259F3000076F33 /* _ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810105B512259F3000076F33 /* _ResolutionManaged.m */; };
 		810105B812259F3000076F33 /* _SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810105B712259F3000076F33 /* _SignatureManaged.m */; };
-		8101FEBB12250BAC00076F33 /* DocumentInfoViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8101FEBA12250BAC00076F33 /* DocumentInfoViewController.xib */; };
 		8101FEBE12250BCB00076F33 /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8101FEBD12250BCB00076F33 /* DocumentInfoViewController.m */; };
 		8116FF8B121134E900DD537F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8A121134E900DD537F /* UIKit.framework */; };
 		8116FF8D121134E900DD537F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8C121134E900DD537F /* Foundation.framework */; };
@@ -34,7 +33,6 @@
 		8137EC42121422A6006C1416 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC41121422A6006C1416 /* MobileCoreServices.framework */; };
 		81399954121D3EF3009B0912 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81399953121D3EF3009B0912 /* MasterViewController.m */; };
 		814AE04E1211D55300457254 /* DocumentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 814AE04D1211D55300457254 /* DocumentViewController.m */; };
-		81530990122440E4002245B3 /* AttachmentsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8153098F122440E4002245B3 /* AttachmentsViewController.xib */; };
 		81530B58122454F9002245B3 /* ButtonErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B56122454F9002245B3 /* ButtonErase.png */; };
 		81530B59122454F9002245B3 /* ButtonPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B57122454F9002245B3 /* ButtonPen.png */; };
 		81530B61122456CA002245B3 /* ButtonComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B60122456CA002245B3 /* ButtonComment.png */; };
@@ -59,7 +57,6 @@
 		81F1372D1226915400E5DED7 /* ButtonEraseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1372B1226915400E5DED7 /* ButtonEraseSelected.png */; };
 		81F1381C1226AAB600E5DED7 /* ButtonDate.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F1381B1226AAB600E5DED7 /* ButtonDate.png */; };
 		81F13BE11227A8EF00E5DED7 /* AttachmentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F13BE01227A8EF00E5DED7 /* AttachmentPageViewController.m */; };
-		81F13BF51227ACCE00E5DED7 /* AttachmentPageViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 81F13BF41227ACCE00E5DED7 /* AttachmentPageViewController.xib */; };
 		81F4BF621223EF1B007E8E69 /* PageLoading.png in Resources */ = {isa = PBXBuildFile; fileRef = 81F4BF611223EF1B007E8E69 /* PageLoading.png */; };
 		81F4C2EB12241A24007E8E69 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81F4C2EA12241A24007E8E69 /* ImageScrollView.m */; };
 		81FB942E1221197B008A1E15 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81FB93FD12211918008A1E15 /* libDataModel.a */; };
@@ -120,7 +117,6 @@
 		810105B912259F3100076F33 /* _DocumentManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _DocumentManaged.h; sourceTree = "<group>"; };
 		810105BA12259F3100076F33 /* _ResolutionManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _ResolutionManaged.h; sourceTree = "<group>"; };
 		810105BB12259F3100076F33 /* _SignatureManaged.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = _SignatureManaged.h; sourceTree = "<group>"; };
-		8101FEBA12250BAC00076F33 /* DocumentInfoViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = DocumentInfoViewController.xib; sourceTree = "<group>"; };
 		8101FEBC12250BCB00076F33 /* DocumentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoViewController.h; sourceTree = "<group>"; };
 		8101FEBD12250BCB00076F33 /* DocumentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoViewController.m; sourceTree = "<group>"; };
 		8116FF87121134E900DD537F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -147,7 +143,6 @@
 		81399953121D3EF3009B0912 /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		814AE04C1211D55300457254 /* DocumentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentViewController.h; sourceTree = "<group>"; };
 		814AE04D1211D55300457254 /* DocumentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentViewController.m; sourceTree = "<group>"; };
-		8153098F122440E4002245B3 /* AttachmentsViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttachmentsViewController.xib; sourceTree = "<group>"; };
 		81530B56122454F9002245B3 /* ButtonErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonErase.png; sourceTree = "<group>"; };
 		81530B57122454F9002245B3 /* ButtonPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPen.png; sourceTree = "<group>"; };
 		81530B60122456CA002245B3 /* ButtonComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonComment.png; sourceTree = "<group>"; };
@@ -181,7 +176,6 @@
 		81F1381B1226AAB600E5DED7 /* ButtonDate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonDate.png; sourceTree = "<group>"; };
 		81F13BDF1227A8EF00E5DED7 /* AttachmentPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentPageViewController.h; sourceTree = "<group>"; };
 		81F13BE01227A8EF00E5DED7 /* AttachmentPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentPageViewController.m; sourceTree = "<group>"; };
-		81F13BF41227ACCE00E5DED7 /* AttachmentPageViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AttachmentPageViewController.xib; sourceTree = "<group>"; };
 		81F4BF611223EF1B007E8E69 /* PageLoading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageLoading.png; sourceTree = "<group>"; };
 		81F4C2E912241A24007E8E69 /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
 		81F4C2EA12241A24007E8E69 /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
@@ -263,9 +257,6 @@
 				8116FF9A121134E900DD537F /* MainWindow.xib */,
 				81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */,
 				81E703F31222CED7004FCF7E /* Document */,
-				8153098F122440E4002245B3 /* AttachmentsViewController.xib */,
-				8101FEBA12250BAC00076F33 /* DocumentInfoViewController.xib */,
-				81F13BF41227ACCE00E5DED7 /* AttachmentPageViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -521,13 +512,11 @@
 				81CAD11112217E5700E47930 /* DocumentViewBackground.png in Resources */,
 				81CAD11212217E5700E47930 /* UnreadMark.png in Resources */,
 				81F4BF621223EF1B007E8E69 /* PageLoading.png in Resources */,
-				81530990122440E4002245B3 /* AttachmentsViewController.xib in Resources */,
 				81530B58122454F9002245B3 /* ButtonErase.png in Resources */,
 				81530B59122454F9002245B3 /* ButtonPen.png in Resources */,
 				81530B61122456CA002245B3 /* ButtonComment.png in Resources */,
 				81530B641224571D002245B3 /* ButtonRotateCCV.png in Resources */,
 				81530B651224571D002245B3 /* ButtonRotateCV.png in Resources */,
-				8101FEBB12250BAC00076F33 /* DocumentInfoViewController.xib in Resources */,
 				810100FB12253DCB00076F33 /* LinkedDocumentIcon.png in Resources */,
 				81F137141226907A00E5DED7 /* ButtonInfo.png in Resources */,
 				81F137151226907A00E5DED7 /* ButtonInfoSelected.png in Resources */,
@@ -535,7 +524,6 @@
 				81F1372C1226915400E5DED7 /* ButtonCommentSelected.png in Resources */,
 				81F1372D1226915400E5DED7 /* ButtonEraseSelected.png in Resources */,
 				81F1381C1226AAB600E5DED7 /* ButtonDate.png in Resources */,
-				81F13BF51227ACCE00E5DED7 /* AttachmentPageViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
