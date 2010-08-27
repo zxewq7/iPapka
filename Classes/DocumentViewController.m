@@ -45,9 +45,6 @@
         Attachment *firstAttachment = [attachments objectAtIndex:0];
         attachmentsViewController.attachment = firstAttachment;
     }
-
-        //infoViewController removed
-    infoButton.selected = NO;
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -75,6 +72,7 @@
     [backgroundColor release];
     [self.view addSubview:attachmentsViewController.view];
     infoViewController = [[DocumentInfoViewController alloc] init];
+    infoViewController.view.frame = CGRectMake(0, 0, viewRect.size.width, windowFrame.size.height);
     [self createToolbar];
 }
 
