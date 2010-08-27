@@ -65,7 +65,8 @@
     CGRect viewRect = self.view.bounds;
     CGRect toolbarRect = self.toolbar.bounds;
     
-    CGRect scrollViewRect = CGRectMake(0, viewRect.origin.y + toolbarRect.size.height, viewRect.size.width, viewRect.size.height - toolbarRect.size.height);
+    CGRect windowFrame = [[UIScreen mainScreen] bounds];
+    CGRect scrollViewRect = CGRectMake(0, toolbarRect.size.height, viewRect.size.width, windowFrame.size.height - toolbarRect.size.height);
     attachmentsViewController = [[AttachmentsViewController alloc] initWithFrame:scrollViewRect];
 
     [self.view addSubview: attachmentsViewController.view];

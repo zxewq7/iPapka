@@ -8,19 +8,18 @@
 
 #import <Foundation/Foundation.h>
 
-@class ImageScrollView, Attachment;
+@class AttachmentPageViewController, Attachment;
 @interface AttachmentsViewController : UIViewController<UIScrollViewDelegate> 
 {
     UIScrollView *pagingScrollView;
     
-    NSMutableSet *recycledPages;
-    NSMutableSet *visiblePages;
+    AttachmentPageViewController *currentPage;
+    AttachmentPageViewController *nextPage;
+
     
-        // these values are stored off before we start rotation so we adjust our content offset appropriately during rotation
-    int           firstVisiblePageIndexBeforeRotation;
-    CGFloat       percentScrolledIntoFirstVisiblePage;
     Attachment    *attachment;
     CGRect        viewFrame;
+    CGFloat       originalHeight;
 }
 
 @property (nonatomic, retain, setter=setAttachment:)   Attachment    *attachment;
