@@ -93,7 +93,8 @@
     barButtonItem.title = folder.localizedName;
     self.popoverController = pc;
     self.rootPopoverButtonItem = barButtonItem;
-    DocumentViewController *detailViewController = [svc.viewControllers objectAtIndex:1];
+    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
+    DocumentViewController *detailViewController = [detailNavigationController.viewControllers objectAtIndex:0];
     [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
 }
 
@@ -101,7 +102,8 @@
 - (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
     
         // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
-    DocumentViewController *detailViewController = [svc.viewControllers objectAtIndex:1];
+    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
+    DocumentViewController *detailViewController = [detailNavigationController.viewControllers objectAtIndex:0];
     [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
     barButtonItem.title = folder.localizedName;
     self.popoverController = nil;
@@ -154,7 +156,9 @@
     /*
      Create and configure a new detail view controller appropriate for the selection.
      */
-    DocumentViewController *detailViewController = [splitViewController.viewControllers objectAtIndex:1];
+    
+    UINavigationController *navogationController = [splitViewController.viewControllers objectAtIndex:1];
+    DocumentViewController *detailViewController = [navogationController.viewControllers objectAtIndex:0];
     
     NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
     DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];

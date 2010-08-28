@@ -25,7 +25,7 @@
 
 #pragma mark -
 #pragma mark Properties
-@synthesize navigationBar, document;
+@synthesize navigationController, document;
 
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -68,10 +68,8 @@
     [super viewDidLoad];
 
     CGRect viewRect = self.view.bounds;
-    CGRect toolbarRect = self.navigationBar.bounds;
-    
     CGRect windowFrame = [[UIScreen mainScreen] bounds];
-    CGRect scrollViewRect = CGRectMake(0, toolbarRect.size.height, viewRect.size.width, windowFrame.size.height - toolbarRect.size.height);
+    CGRect scrollViewRect = CGRectMake(0, 0, viewRect.size.width, windowFrame.size.height);
     attachmentsViewController = [[AttachmentsViewController alloc] initWithFrame:scrollViewRect];
 
     [self.view addSubview: attachmentsViewController.view];
@@ -113,7 +111,7 @@
     commentButton = nil;
     [attachmentButton release];
     attachmentButton = nil;
-    self.navigationBar = nil;
+    self.navigationController = nil;
 }
 
 #pragma mark -
@@ -122,7 +120,7 @@
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
         // Add the popover button to the toolbar.
-    UIToolbar *toolbar = (UIToolbar *)self.navigationBar.topItem.leftBarButtonItem.customView;
+    UIToolbar *toolbar = (UIToolbar *)self.navigationItem.leftBarButtonItem.customView;
     NSMutableArray *itemsArray = [toolbar.items mutableCopy];
     [itemsArray insertObject:barButtonItem atIndex:0];
     [toolbar setItems:itemsArray animated:NO];
@@ -133,11 +131,30 @@
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
         // Remove the popover button from the toolbar.
-    UIToolbar *toolbar = (UIToolbar *)self.navigationBar.topItem.leftBarButtonItem.customView;
+    UIToolbar *toolbar = (UIToolbar *)self.navigationItem.leftBarButtonItem.customView;
     NSMutableArray *itemsArray = [toolbar.items mutableCopy];
     [itemsArray removeObject:barButtonItem];
     [toolbar setItems:itemsArray animated:NO];
     [itemsArray release];
+}
+
+- (void)dealloc {
+    self.document = nil;
+    [attachmentsViewController release];
+    [infoViewController release];
+    [penButton release];
+    [eraseButton release];
+    [commentButton release];
+    [attachmentButton release];
+    self.navigationController = nil;
+    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Actions
+- (void) showAttachmentsList:(id) sender
+{
+    attachmentButton.selected = !attachmentButton.selected;
 }
 
 - (void) showDocumentInfo:(id) sender
@@ -164,25 +181,6 @@
     
 	[UIView commitAnimations];
 	
-}
-
-- (void)dealloc {
-    self.document = nil;
-    [attachmentsViewController release];
-    [infoViewController release];
-    [penButton release];
-    [eraseButton release];
-    [commentButton release];
-    [attachmentButton release];
-    self.navigationBar = nil;
-    [super dealloc];
-}
-
-#pragma mark -
-#pragma mark Actions
-- (void) showAttachmentsList:(id) sender
-{
-    attachmentButton.selected = !attachmentButton.selected;
 }
 @end
 
@@ -256,12 +254,12 @@
                                                     declineBarButton,
                                                     acceptBarButton,
                                                     nil];
-
-    self.navigationBar.topItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
                                                      initWithCustomView:leftToolbar];
 
-    self.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
                                               initWithCustomView:rightToolbar];
+    self.navigationItem.title = @"";
     [leftToolbar release];
     [rightToolbar release];
     [infoBarButton release];
