@@ -238,7 +238,7 @@
     UIBarButtonItem *acceptBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style:UIBarButtonItemStyleBordered target:self action:nil];
 
     UIToolbar *leftToolbar = [[UIToolbar alloc]
-                               initWithFrame:CGRectMake(0, 0, 100, 44)];
+                               initWithFrame:CGRectMake(0, 0, 300, 44)];
     UIToolbar *rightToolbar = [[UIToolbar alloc]
                                initWithFrame:CGRectMake(0, 0, 500, 44)];
 

@@ -125,7 +125,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     {
         case UIInterfaceOrientationLandscapeLeft:
         case UIInterfaceOrientationLandscapeRight:
-            rightOffset = -15.0f;
+            rightOffset = 4.0f;
             leftOffset = -25.0f;
             cellWidth = 665.0f;
             break;
