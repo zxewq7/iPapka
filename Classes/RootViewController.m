@@ -94,7 +94,7 @@
     self.popoverController = pc;
     self.rootPopoverButtonItem = barButtonItem;
     UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
-    DocumentViewController *detailViewController = [detailNavigationController.viewControllers objectAtIndex:0];
+    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
     [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
 }
 
@@ -103,7 +103,7 @@
     
         // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
     UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
-    DocumentViewController *detailViewController = [detailNavigationController.viewControllers objectAtIndex:0];
+    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
     [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
     barButtonItem.title = folder.localizedName;
     self.popoverController = nil;
