@@ -63,13 +63,22 @@
          [infoViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
+- (void)loadView
+{
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,320,180)];
+    
+    self.view = v;
+    
+    [v release];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    CGRect viewRect = self.view.bounds;
     CGRect windowFrame = [[UIScreen mainScreen] bounds];
-    CGRect scrollViewRect = CGRectMake(0, 0, viewRect.size.width, windowFrame.size.height);
+    self.view.frame = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
+    CGRect scrollViewRect = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
     attachmentsViewController = [[AttachmentsViewController alloc] initWithFrame:scrollViewRect];
 
     [self.view addSubview: attachmentsViewController.view];
@@ -78,7 +87,7 @@
     [backgroundColor release];
     [self.view addSubview:attachmentsViewController.view];
     infoViewController = [[DocumentInfoViewController alloc] init];
-    infoViewController.view.frame = CGRectMake(0, 0, viewRect.size.width, windowFrame.size.height);
+    infoViewController.view.frame = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
     [self createToolbar];
 }
 
