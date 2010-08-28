@@ -42,13 +42,17 @@
     infoViewController.document = document;
     
     NSArray *attachments = document.document.attachments;
-    if ([attachments count]) 
+    NSUInteger numberOfAttachments = [attachments count];
+    if (numberOfAttachments) 
     {
         Attachment *firstAttachment = [attachments objectAtIndex:0];
         attachmentsViewController.attachment = firstAttachment;
-        NSString *attachmentTitle = [NSString stringWithFormat:@"%d %@ %d", 1, NSLocalizedString(@"of", "of"), [firstAttachment.pages count]];
+        NSString *attachmentTitle = [NSString stringWithFormat:@"%d %@ %d", 1, NSLocalizedString(@"of", "of"), numberOfAttachments];
         [attachmentButton setTitle:attachmentTitle forState:UIControlStateNormal];
+        attachmentButton.enabled = YES;
     }
+    else
+        attachmentButton.enabled = NO;
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
