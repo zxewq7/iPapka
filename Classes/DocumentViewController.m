@@ -25,7 +25,7 @@
 
 #pragma mark -
 #pragma mark Properties
-@synthesize toolbar, document;
+@synthesize navigationBar, document;
 
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -68,7 +68,7 @@
     [super viewDidLoad];
 
     CGRect viewRect = self.view.bounds;
-    CGRect toolbarRect = self.toolbar.bounds;
+    CGRect toolbarRect = self.navigationBar.bounds;
     
     CGRect windowFrame = [[UIScreen mainScreen] bounds];
     CGRect scrollViewRect = CGRectMake(0, toolbarRect.size.height, viewRect.size.width, windowFrame.size.height - toolbarRect.size.height);
@@ -98,7 +98,6 @@
 }
 
 - (void)viewDidUnload {
-    self.toolbar = nil;
     [super viewDidUnload];
     [attachmentsViewController release];
     attachmentsViewController = nil;
@@ -114,6 +113,7 @@
     commentButton = nil;
     [attachmentButton release];
     attachmentButton = nil;
+    self.navigationBar = nil;
 }
 
 #pragma mark -
@@ -122,6 +122,7 @@
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
         // Add the popover button to the toolbar.
+    UIToolbar *toolbar = (UIToolbar *)self.navigationBar.topItem.leftBarButtonItem.customView;
     NSMutableArray *itemsArray = [toolbar.items mutableCopy];
     [itemsArray insertObject:barButtonItem atIndex:0];
     [toolbar setItems:itemsArray animated:NO];
@@ -132,6 +133,7 @@
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
         // Remove the popover button from the toolbar.
+    UIToolbar *toolbar = (UIToolbar *)self.navigationBar.topItem.leftBarButtonItem.customView;
     NSMutableArray *itemsArray = [toolbar.items mutableCopy];
     [itemsArray removeObject:barButtonItem];
     [toolbar setItems:itemsArray animated:NO];
@@ -165,7 +167,6 @@
 }
 
 - (void)dealloc {
-    self.toolbar = nil;
     self.document = nil;
     [attachmentsViewController release];
     [infoViewController release];
@@ -173,6 +174,7 @@
     [eraseButton release];
     [commentButton release];
     [attachmentButton release];
+    self.navigationBar = nil;
     [super dealloc];
 }
 
@@ -233,23 +235,35 @@
     UIBarButtonItem *commentBarButton = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
     UIBarButtonItem *rotateCCVBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRotateCCV.png"] style:UIBarButtonItemStylePlain target:self action:nil];
     UIBarButtonItem *rotateCVBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRotateCV.png"] style:UIBarButtonItemStylePlain target:self action:nil];
-    UIBarButtonItem *fleaxBarButton2 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
     UIBarButtonItem *declineBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:nil];
     declineBarButton.style = UIBarButtonItemStyleBordered;
     UIBarButtonItem *acceptBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style:UIBarButtonItemStyleBordered target:self action:nil];
-	self.toolbar.items = [NSArray arrayWithObjects:infoBarButton, 
-                                                    attachmentBarButton,
-                                                    fleaxBarButton1,
-                                                    penBarButton, 
+
+    UIToolbar *leftToolbar = [[UIToolbar alloc]
+                               initWithFrame:CGRectMake(0, 0, 100, 44)];
+    UIToolbar *rightToolbar = [[UIToolbar alloc]
+                               initWithFrame:CGRectMake(0, 0, 500, 44)];
+
+    leftToolbar.items = [NSArray arrayWithObjects:infoBarButton, 
+                          attachmentBarButton,
+                          nil];
+    rightToolbar.items = [NSArray arrayWithObjects: penBarButton, 
                                                     eraseBarButton, 
                                                     commentBarButton, 
                                                     rotateCCVBarButton, 
                                                     rotateCVBarButton,
-                                                    fleaxBarButton2,
+                                                    fleaxBarButton1,
                                                     declineBarButton,
                                                     acceptBarButton,
                                                     nil];
-    
+
+    self.navigationBar.topItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                                     initWithCustomView:leftToolbar];
+
+    self.navigationBar.topItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithCustomView:rightToolbar];
+    [leftToolbar release];
+    [rightToolbar release];
     [infoBarButton release];
     [attachmentBarButton release];
     [fleaxBarButton1 release];
@@ -258,7 +272,6 @@
     [commentBarButton release];
     [rotateCCVBarButton release];
     [rotateCVBarButton release];
-    [fleaxBarButton2 release];
     [declineBarButton release];
     [acceptBarButton release];
 }

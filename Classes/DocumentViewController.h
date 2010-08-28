@@ -12,7 +12,7 @@
 
 @interface DocumentViewController : UIViewController
 {
-    UIToolbar       *toolbar;
+    UINavigationBar             *navigationBar;
     DocumentManaged *document;
     AttachmentsViewController    *attachmentsViewController;
     DocumentInfoViewController *infoViewController;
@@ -23,7 +23,7 @@
     UIButton                   *attachmentButton;
 }
 
-@property (nonatomic, retain) IBOutlet UIToolbar       *toolbar;
+@property (nonatomic, retain) IBOutlet UINavigationBar       *navigationBar;
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;
 

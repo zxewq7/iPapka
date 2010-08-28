@@ -22,7 +22,6 @@
 		8116FF96121134E900DD537F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF95121134E900DD537F /* main.m */; };
 		8116FF99121134E900DD537F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF98121134E900DD537F /* AppDelegate.m */; };
 		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
-		812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 812AAC4312181F2000E3FBC8 /* DocumentViewController.xib */; };
 		812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 812AADB01218312400E3FBC8 /* DocumentCellView.m */; };
 		812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 812AAE8A1218433500E3FBC8 /* Localizable.strings */; };
 		8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
@@ -132,7 +131,6 @@
 		8116FF97121134E900DD537F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8116FF98121134E900DD537F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		8116FF9B121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
-		812AAC4412181F2000E3FBC8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/DocumentViewController.xib; sourceTree = "<group>"; };
 		812AADAF1218312400E3FBC8 /* DocumentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCellView.h; sourceTree = "<group>"; };
 		812AADB01218312400E3FBC8 /* DocumentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCellView.m; sourceTree = "<group>"; };
 		812AAE8B1218433500E3FBC8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -254,7 +252,6 @@
 			isa = PBXGroup;
 			children = (
 				812AAE8A1218433500E3FBC8 /* Localizable.strings */,
-				812AAC4312181F2000E3FBC8 /* DocumentViewController.xib */,
 				81FEA54012119EE500A9ABD3 /* images */,
 				8116FF90121134E900DD537F /* Meester-Info.plist */,
 				8116FF92121134E900DD537F /* InfoPlist.strings */,
@@ -512,7 +509,6 @@
 			files = (
 				8116FF94121134E900DD537F /* InfoPlist.strings in Resources */,
 				8116FF9C121134E900DD537F /* MainWindow.xib in Resources */,
-				812AAC4512181F2000E3FBC8 /* DocumentViewController.xib in Resources */,
 				812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */,
 				81549ABD122105250043FFE7 /* Settings.bundle in Resources */,
 				81CAD11112217E5700E47930 /* DocumentViewBackground.png in Resources */,
@@ -585,14 +581,6 @@
 				8116FF9B121134E900DD537F /* en */,
 			);
 			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
-		812AAC4312181F2000E3FBC8 /* DocumentViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				812AAC4412181F2000E3FBC8 /* en */,
-			);
-			name = DocumentViewController.xib;
 			sourceTree = "<group>";
 		};
 		812AAE8A1218433500E3FBC8 /* Localizable.strings */ = {
