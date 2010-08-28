@@ -509,15 +509,15 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 -(void) createTableView:(UIInterfaceOrientation) orientation
 {
 
-    CGFloat rightOffset = 27.0f;
-    CGFloat leftOffset = -25.0f;
-    cellWidth = 730.0f;
+    CGFloat rightOffset = -4.0f;
+    CGFloat leftOffset =  -44.0f;
+    cellWidth = 726.0f;
     switch (orientation) 
     {
         case UIInterfaceOrientationLandscapeLeft:
         case UIInterfaceOrientationLandscapeRight:
-            rightOffset = -21.0f;
-            leftOffset = -25.0f;
+            rightOffset = 60.0f;
+            leftOffset = -44.0f;
             cellWidth = 662.0f;
             break;
     }
@@ -526,8 +526,8 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     [tableView removeFromSuperview];
     [tableView release];
     
-    CGRect viewRect = self.view.bounds;
-    CGRect tableViewRect = CGRectMake(leftOffset, 0, viewRect.size.width+rightOffset-leftOffset, viewRect.size.height);
+    CGRect viewRect = [[UIScreen mainScreen] bounds];
+    CGRect tableViewRect = CGRectMake(leftOffset, 0, viewRect.size.width-rightOffset-leftOffset, viewRect.size.height);
     tableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStyleGrouped];
         //clear table background
         //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
