@@ -143,8 +143,8 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     NSString *cellIdentifier = [[sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
     if (cellIdentifier == LinkCell)
     {
-        Document *link = [document.document.links objectAtIndex:indexPath.row];
         DocumentLinkViewController *linkController = [[DocumentLinkViewController alloc] init];
+        [linkController setDocument:document linkIndex:0 attachmentIndex:0];
         [self.navigationController pushViewController:linkController animated:YES];
         [linkController release];
     }
