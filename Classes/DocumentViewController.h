@@ -21,6 +21,8 @@
     UIButton                   *eraseButton;
     UIButton                   *commentButton;
     UIButton                   *attachmentButton;
+    UIToolbar                  *leftToolbar;
+    UIToolbar                  *rightToolbar;
 }
 
 @property (nonatomic, retain) IBOutlet UINavigationController       *navigationController;

@@ -88,7 +88,14 @@
     [self.view addSubview:attachmentsViewController.view];
     infoViewController = [[DocumentInfoViewController alloc] init];
     infoViewController.view.frame = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
-    [self createToolbar];
+    if (!(leftToolbar && rightToolbar))
+        [self createToolbar];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                             initWithCustomView:leftToolbar];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithCustomView:rightToolbar];
+    
 }
 
     // Override to allow orientations other than the default portrait orientation.
@@ -114,6 +121,10 @@
     [attachmentButton release];
     attachmentButton = nil;
     self.navigationController = nil;
+    [leftToolbar release];
+    leftToolbar = nil;
+    [rightToolbar release];
+    rightToolbar = nil;
 }
 
 #pragma mark -
@@ -121,11 +132,13 @@
 
 - (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
+    if (!(leftToolbar && rightToolbar)) // for some reason this method called before any object initialization
+        [self createToolbar];
+
         // Add the popover button to the toolbar.
-    UIToolbar *toolbar = (UIToolbar *)self.navigationItem.leftBarButtonItem.customView;
-    NSMutableArray *itemsArray = [toolbar.items mutableCopy];
+    NSMutableArray *itemsArray = [leftToolbar.items mutableCopy];
     [itemsArray insertObject:barButtonItem atIndex:0];
-    [toolbar setItems:itemsArray animated:NO];
+    [leftToolbar setItems:itemsArray animated:NO];
     [itemsArray release];
 }
 
@@ -133,10 +146,9 @@
 - (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
     
         // Remove the popover button from the toolbar.
-    UIToolbar *toolbar = (UIToolbar *)self.navigationItem.leftBarButtonItem.customView;
-    NSMutableArray *itemsArray = [toolbar.items mutableCopy];
+    NSMutableArray *itemsArray = [leftToolbar.items mutableCopy];
     [itemsArray removeObject:barButtonItem];
-    [toolbar setItems:itemsArray animated:NO];
+    [leftToolbar setItems:itemsArray animated:NO];
     [itemsArray release];
 }
 
@@ -149,6 +161,8 @@
     [commentButton release];
     [attachmentButton release];
     self.navigationController = nil;
+    [leftToolbar release];
+    [rightToolbar release];
     [super dealloc];
 }
 
@@ -240,9 +254,9 @@
     declineBarButton.style = UIBarButtonItemStyleBordered;
     UIBarButtonItem *acceptBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style:UIBarButtonItemStyleBordered target:self action:nil];
 
-    UIToolbar *leftToolbar = [[UIToolbar alloc]
+    leftToolbar = [[UIToolbar alloc]
                                initWithFrame:CGRectMake(0, 0, 300, 44)];
-    UIToolbar *rightToolbar = [[UIToolbar alloc]
+    rightToolbar = [[UIToolbar alloc]
                                initWithFrame:CGRectMake(0, 0, 500, 44)];
 
     leftToolbar.items = [NSArray arrayWithObjects:infoBarButton, 
@@ -257,14 +271,7 @@
                                                     declineBarButton,
                                                     acceptBarButton,
                                                     nil];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
-                                                     initWithCustomView:leftToolbar];
-
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
-                                              initWithCustomView:rightToolbar];
     self.navigationItem.title = @"";
-    [leftToolbar release];
-    [rightToolbar release];
     [infoBarButton release];
     [attachmentBarButton release];
     [fleaxBarButton1 release];
