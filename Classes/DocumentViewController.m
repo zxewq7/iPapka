@@ -14,12 +14,12 @@
 #import "ImageScrollView.h"
 #import "AttachmentsViewController.h"
 #import "DocumentInfoViewController.h"
+#import "UIButton+Additions.h"
 
 #define kAttachmentLabelTag 1
 
 @interface DocumentViewController(Private)
 - (void) createToolbar;
-- (UIButton *) createButton:(NSString *) aNormalImageName selectedState:(NSString *) aSelectedImageName action:(SEL) anAction;
 @end
 @implementation DocumentViewController
 
@@ -204,40 +204,35 @@
 @implementation DocumentViewController(Private)
 - (void) createToolbar
 {
-    infoButton = [UIButton buttonWithType:UIButtonTypeCustom];
-
-    
-    infoButton = [self createButton:@"ButtonInfo.png" selectedState:@"ButtonInfoSelected.png" action:@selector(showDocumentInfo:)];
+    infoButton = [UIButton imageButton:self
+                              selector:@selector(showDocumentInfo:)
+                                 imageName:@"ButtonInfo.png"
+                         imageNameSelected:@"ButtonInfoSelected.png"];
     [infoButton retain];
 
-    penButton = [self createButton:@"ButtonPen.png" selectedState:@"ButtonPenSelected.png" action:nil];
+    penButton = [UIButton imageButton:self
+                             selector:nil
+                            imageName:@"ButtonPen.png"
+                    imageNameSelected:@"ButtonPenSelected.png"];
     [penButton retain];
 
-    eraseButton = [self createButton:@"ButtonErase.png" selectedState:@"ButtonEraseSelected.png" action:nil];
+    eraseButton = [UIButton imageButton:self
+                               selector:nil
+                              imageName:@"ButtonErase.png"
+                      imageNameSelected:@"ButtonEraseSelected.png"];
     [eraseButton retain];
 
-    commentButton = [self createButton:@"ButtonComment.png" selectedState:@"ButtonCommentSelected.png" action:nil];
+    commentButton = [UIButton imageButton:self
+                                 selector:nil
+                                imageName:@"ButtonComment.png"
+                        imageNameSelected:@"ButtonCommentSelected.png"];
     [commentButton retain];
 
-        //attachment button with label
-#define kStdButtonWidth		106.0
-#define kStdButtonHeight	40.0
-
-    CGRect frame = CGRectMake(182.0, 5.0, kStdButtonWidth, kStdButtonHeight);
-    attachmentButton = [[UIButton alloc] initWithFrame:frame];
-        // or you can do this:
-        //		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	
-	attachmentButton.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	attachmentButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-    [attachmentButton setImage:[UIImage imageNamed:@"ButtonAttachment.png"] forState:UIControlStateNormal];
-    [attachmentButton setImage:[UIImage imageNamed:@"ButtonAttachmentSelected.png"] forState:UIControlStateSelected];
-    [attachmentButton setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-    [attachmentButton setTitleColor:[UIColor colorWithRed:0.000 green:0.596 blue:0.992 alpha:1.0] forState:UIControlStateSelected];
-    
-	[attachmentButton addTarget:self action:@selector(showAttachmentsList:) forControlEvents:UIControlEventTouchUpInside];
-    
-        // in case the parent view draws with a custom color or gradient, use a transparent color
+    attachmentButton = [UIButton imageButtonWithTitle:@""
+                                               target:self
+                                             selector:@selector(showAttachmentsList:)
+                                            imageName:@"ButtonAttachment.png"
+                                    imageNameSelected:@"ButtonAttachmentSelected.png"];
 	attachmentButton.backgroundColor = [UIColor clearColor];    
     
     
@@ -282,17 +277,5 @@
     [rotateCVBarButton release];
     [declineBarButton release];
     [acceptBarButton release];
-}
-- (UIButton *) createButton:(NSString *) aNormalImageName selectedState:(NSString *) aSelectedImageName action:(SEL) anAction;
-{
-    UIImage *normal = [UIImage imageNamed:aNormalImageName];
-    UIImage *selected = [UIImage imageNamed:aSelectedImageName];
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.bounds = CGRectMake( 0, 0, normal.size.width, normal.size.height );    
-    [button setImage:normal forState:UIControlStateNormal];
-    [button setImage:selected forState:UIControlStateSelected];
-	[button addTarget:self action:anAction forControlEvents:UIControlEventTouchUpInside];
-    
-    return button;
 }
 @end

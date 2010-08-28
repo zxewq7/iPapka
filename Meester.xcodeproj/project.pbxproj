@@ -42,6 +42,7 @@
 		8167366512283EEE00730FA6 /* ButtonAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 8167366312283EEE00730FA6 /* ButtonAttachment.png */; };
 		8167366612283EEE00730FA6 /* ButtonAttachmentSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */; };
 		816737861228F60600730FA6 /* DocumentLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816737851228F60600730FA6 /* DocumentLinkViewController.m */; };
+		81673E81122950F500730FA6 /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81673E80122950F500730FA6 /* UIButton+Additions.m */; };
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
 		8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B2BC121C327A00842F63 /* FoldersViewController.m */; };
 		8179B76E121D22D500842F63 /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B76D121D22D500842F63 /* Folder.m */; };
@@ -157,6 +158,8 @@
 		8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachmentSelected.png; sourceTree = "<group>"; };
 		816737841228F60600730FA6 /* DocumentLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentLinkViewController.h; sourceTree = "<group>"; };
 		816737851228F60600730FA6 /* DocumentLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentLinkViewController.m; sourceTree = "<group>"; };
+		81673E7F122950F500730FA6 /* UIButton+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Additions.h"; sourceTree = "<group>"; };
+		81673E80122950F500730FA6 /* UIButton+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Additions.m"; sourceTree = "<group>"; };
 		816FF802121708530083E7A4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		8179B2BB121C327A00842F63 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
@@ -232,6 +235,7 @@
 		8116FF7F121134E900DD537F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				81673E7312294F0F00730FA6 /* Additions */,
 				81399861121D2FB1009B0912 /* Controller */,
 				81399860121D2F98009B0912 /* View */,
 				8139985E121D2F7D009B0912 /* Model */,
@@ -347,6 +351,15 @@
 			);
 			name = TDBadgedCell;
 			path = thirdparty/TDBadgedCell;
+			sourceTree = "<group>";
+		};
+		81673E7312294F0F00730FA6 /* Additions */ = {
+			isa = PBXGroup;
+			children = (
+				81673E7F122950F500730FA6 /* UIButton+Additions.h */,
+				81673E80122950F500730FA6 /* UIButton+Additions.m */,
+			);
+			name = Additions;
 			sourceTree = "<group>";
 		};
 		81E703F31222CED7004FCF7E /* Document */ = {
@@ -567,6 +580,7 @@
 				810105B812259F3000076F33 /* _SignatureManaged.m in Sources */,
 				81F13BE11227A8EF00E5DED7 /* AttachmentPageViewController.m in Sources */,
 				816737861228F60600730FA6 /* DocumentLinkViewController.m in Sources */,
+				81673E81122950F500730FA6 /* UIButton+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
