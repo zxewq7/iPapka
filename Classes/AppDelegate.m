@@ -33,7 +33,7 @@
 
 #warning test default settings
 
-    [defaultValues setObject:@"http://127.0.0.1/~vovasty" forKey:@"serverHost"];
+    [defaultValues setObject:@"http://10.0.2.4/~vovasty" forKey:@"serverHost"];
         //    [defaultValues setObject:@"http://195.208.68.133/cm35" forKey:@"serverHost"];
     [defaultValues setObject:@"prvz.nsf" forKey:@"serverDatabase"];
     [defaultValues setObject:@"documents" forKey:@"serverDatabaseView"];
@@ -58,7 +58,8 @@
     [self.navigationController pushViewController:self.rootViewController animated:NO];
     [self.window addSubview:viewController.view];
     [self.window makeKeyAndVisible];
-    [[DataSource sharedDataSource] refreshDocuments];
+#warning disbled refresh on startup
+        //    [[DataSource sharedDataSource] refreshDocuments];
     return YES;
 }
 
