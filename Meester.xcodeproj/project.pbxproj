@@ -41,6 +41,7 @@
 		815651251222976A00CCCCFF /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 815651241222976A00CCCCFF /* TDBadgedCell.m */; };
 		8167366512283EEE00730FA6 /* ButtonAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 8167366312283EEE00730FA6 /* ButtonAttachment.png */; };
 		8167366612283EEE00730FA6 /* ButtonAttachmentSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */; };
+		816737861228F60600730FA6 /* DocumentLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816737851228F60600730FA6 /* DocumentLinkViewController.m */; };
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
 		8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B2BC121C327A00842F63 /* FoldersViewController.m */; };
 		8179B76E121D22D500842F63 /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B76D121D22D500842F63 /* Folder.m */; };
@@ -154,6 +155,8 @@
 		815651241222976A00CCCCFF /* TDBadgedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDBadgedCell.m; sourceTree = "<group>"; };
 		8167366312283EEE00730FA6 /* ButtonAttachment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachment.png; sourceTree = "<group>"; };
 		8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachmentSelected.png; sourceTree = "<group>"; };
+		816737841228F60600730FA6 /* DocumentLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentLinkViewController.h; sourceTree = "<group>"; };
+		816737851228F60600730FA6 /* DocumentLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentLinkViewController.m; sourceTree = "<group>"; };
 		816FF802121708530083E7A4 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
 		816FF803121708530083E7A4 /* RootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootViewController.m; sourceTree = "<group>"; };
 		8179B2BB121C327A00842F63 /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
@@ -330,6 +333,8 @@
 				81DBAEC01212DCCE00207D6E /* AttachmentsViewController.m */,
 				81F13BDF1227A8EF00E5DED7 /* AttachmentPageViewController.h */,
 				81F13BE01227A8EF00E5DED7 /* AttachmentPageViewController.m */,
+				816737841228F60600730FA6 /* DocumentLinkViewController.h */,
+				816737851228F60600730FA6 /* DocumentLinkViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -561,6 +566,7 @@
 				810105B612259F3000076F33 /* _ResolutionManaged.m in Sources */,
 				810105B812259F3000076F33 /* _SignatureManaged.m in Sources */,
 				81F13BE11227A8EF00E5DED7 /* AttachmentPageViewController.m in Sources */,
+				816737861228F60600730FA6 /* DocumentLinkViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

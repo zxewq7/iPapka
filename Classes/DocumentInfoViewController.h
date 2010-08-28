@@ -11,6 +11,7 @@
 @class DocumentManaged, Document;
 @interface DocumentInfoViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
+    UINavigationController       *navigationController;
     DocumentManaged *document;
     Document        *unmanagedDocument;
     UITableView     *tableView;
@@ -22,4 +23,5 @@
     CGFloat         cellWidth;
 }
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
+@property (nonatomic, retain) IBOutlet UINavigationController       *navigationController;
 @end

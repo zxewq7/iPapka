@@ -169,6 +169,7 @@
 	else
     {
         infoButton.selected = YES;
+        infoViewController.navigationController = self.navigationController;
 		[attachmentsViewController.view addSubview:infoViewController.view];
     }
     

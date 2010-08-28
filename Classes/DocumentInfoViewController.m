@@ -10,6 +10,7 @@
 #import "DocumentManaged.h"
 #import "Document.h"
 #import "Resolution.h"
+#import "DocumentLinkViewController.h"
 
 static NSString *ParentResolutionCell = @"ParentResolutionCell";
 static NSString *LinkCell = @"LinkCell";
@@ -55,7 +56,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 #pragma mark -
 #pragma mark Properties
-@synthesize document;
+@synthesize document, navigationController;
 
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -147,6 +148,20 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     documentTitle = nil;
     [dateFormatter release];
     dateFormatter = nil;
+    self.navigationController = nil;
+}
+#pragma mark -
+#pragma mark Table view selection
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSString *cellIdentifier = [[sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+    if (cellIdentifier == LinkCell)
+    {
+        Document *link = [document.document.links objectAtIndex:indexPath.row];
+        DocumentLinkViewController *linkController = [[DocumentLinkViewController alloc] init];
+        [self.navigationController pushViewController:linkController animated:YES];
+        [linkController release];
+    }
 }
 
 #pragma mark - UITableViewDataSource
@@ -426,6 +441,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     [dateFormatter release];
     [unmanagedDocument release];
     [sections release];
+    self.navigationController = nil;
     [super dealloc];
 }
 @end
