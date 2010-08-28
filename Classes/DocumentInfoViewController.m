@@ -48,7 +48,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
                  imagePressed:(UIImage *)imagePressed
                 darkTextColor:(BOOL)darkTextColor;
 -(UILabel *) createLabelWithText:(NSString *) text;
--(void) createTableView:(CGFloat) leftOffset rightOffset:(CGFloat) rightOffset;
+-(void) createTableView:(UIInterfaceOrientation) orientation;
 @end
 
 
@@ -115,25 +115,11 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocumentViewBackground.png"]];
     self.view.backgroundColor = backgroundColor;
     [backgroundColor release];
+    [self createTableView:[UIApplication sharedApplication].statusBarOrientation];    
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-        //recalc width
-    CGFloat rightOffset = 51.0f;
-    CGFloat leftOffset = -25.0f;
-    cellWidth = 730.0f;
-    switch (toInterfaceOrientation) 
-    {
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:
-            rightOffset = 4.0f;
-            leftOffset = -25.0f;
-            cellWidth = 665.0f;
-            break;
-    }
-    [self createTableView:leftOffset rightOffset:rightOffset];
-    
-    [tableView reloadData];
+    [self createTableView:toInterfaceOrientation];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -520,15 +506,28 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     [label sizeToFit];
     return label;
 }
--(void) createTableView:(CGFloat) leftOffset rightOffset:(CGFloat) rightOffset
+-(void) createTableView:(UIInterfaceOrientation) orientation
 {
+
+    CGFloat rightOffset = 27.0f;
+    CGFloat leftOffset = -25.0f;
+    cellWidth = 730.0f;
+    switch (orientation) 
+    {
+        case UIInterfaceOrientationLandscapeLeft:
+        case UIInterfaceOrientationLandscapeRight:
+            rightOffset = -21.0f;
+            leftOffset = -25.0f;
+            cellWidth = 662.0f;
+            break;
+    }
     [documentTitle removeFromSuperview];
     [documentTitle release];
     [tableView removeFromSuperview];
     [tableView release];
     
     CGRect viewRect = self.view.bounds;
-    CGRect tableViewRect = CGRectMake(leftOffset, 0, viewRect.size.width+rightOffset, viewRect.size.height);
+    CGRect tableViewRect = CGRectMake(leftOffset, 0, viewRect.size.width+rightOffset-leftOffset, viewRect.size.height);
     tableView = [[UITableView alloc] initWithFrame:tableViewRect style:UITableViewStyleGrouped];
         //clear table background
         //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
@@ -549,5 +548,8 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     
     tableView.delegate = self;
     tableView.dataSource = self;
-    [self.view addSubview:tableView];}
+    [self.view addSubview:tableView];
+    
+    [tableView reloadData];
+}
 @end
