@@ -7,7 +7,6 @@
 //
 
 #import "AttachmentPage.h"
-#import "UIColor-Expanded.h"
 
 @implementation AttachmentPage
 @synthesize name, drawings, isLoaded, hasError, path;
