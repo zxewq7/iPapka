@@ -24,8 +24,10 @@
 
 -(void)setDrawings:(UIImage *) aDrawings;
 {
-    if (aDrawings == nil) 
-        [self erase];
+    [self erase];
+
+        //set color to white
+    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     
     [EAGLContext setCurrentContext:context];
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
@@ -50,6 +52,9 @@
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
 
+        //restore color
+    [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
+    
     [self enableBrush];
 }
 
@@ -241,6 +246,7 @@
 	}
 	
 	[context release];
+    [currentColor release];
 	[super dealloc];
 }
 
@@ -321,6 +327,11 @@
     CGFloat g = green * kBrushOpacity;
     CGFloat b = blue  * kBrushOpacity;
 	glColor4f(r, g, b, kBrushOpacity);
+
+    [currentColor release];
+    currentColor = [UIColor colorWithRed:red green:green blue:blue alpha:kBrushOpacity];
+    [currentColor retain];
+    
 }
 @end
 
