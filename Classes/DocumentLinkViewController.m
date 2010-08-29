@@ -81,6 +81,7 @@
     [super viewDidLoad];
     UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocumentViewBackground.png"]];
     self.view.backgroundColor = backgroundColor;
+    [backgroundColor release];
 
     CGRect windowFrame = [[UIScreen mainScreen] bounds];
     self.view.frame = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
