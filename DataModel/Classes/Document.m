@@ -36,7 +36,8 @@
         self.uid = [coder decodeObjectForKey:@"uid"];
         self.dateModified = [coder decodeObjectForKey:@"dateModified"];
         self.links = [coder decodeObjectForKey:@"links"];
-
+        self.isLoaded = [[coder decodeObjectForKey:@"isLoaded"] boolValue];
+        self.hasError = [[coder decodeObjectForKey:@"hasError"] boolValue];
     }
     return self;
 }
@@ -50,5 +51,7 @@
     [coder encodeObject: self.uid forKey:@"uid"];
     [coder encodeObject: self.dateModified forKey:@"dateModified"];
     [coder encodeObject: self.links forKey:@"links"];
+    [coder encodeObject: [NSNumber numberWithBool:self.hasError] forKey:@"hasError"];
+    [coder encodeObject: [NSNumber numberWithBool:self.isLoaded] forKey:@"isLoaded"];
 }
 @end
