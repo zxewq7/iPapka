@@ -89,6 +89,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 - (void)dealloc
 {
     [imageView release];
+    [paintingView release];
     [super dealloc];
 }
 
@@ -116,7 +117,8 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     else
         frameToCenter.origin.y = 0;
     
-    imageView.frame = frameToCenter;    
+    imageView.frame = frameToCenter;
+    paintingView.frame = frameToCenter;
 }
 
 #pragma mark -
@@ -136,28 +138,30 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     [imageView removeFromSuperview];
     [imageView release];
     imageView = nil;
+
+    [paintingView removeFromSuperview];
+    [paintingView release];
+    paintingView = nil;
     
         // reset our zoomScale to 1.0 before doing any further calculations
     self.zoomScale = 1.0;
     
         // make a new UIImageView for the new image
-    imageView = [[PaintingView alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
-    
-    UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:image];
-    imageView.backgroundColor = [UIColor blackColor];
+    imageView = [[UIImageView alloc] initWithImage:image];
     imageView.userInteractionEnabled = NO;
-    [backgroundColor release];
+        // make a new PaintingView for the new image
+    paintingView = [[PaintingView alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
+    paintingView.backgroundColor = [UIColor clearColor];
+    
     
     CGFloat					components[3];
     
  	HSL2RGB((CGFloat)0 / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
         // Defer to the OpenGL view to set the brush color
-    components[0] = 1.4f;
-    components[1] = 7.9f;
-    components[2] = 1.4f;
-	[imageView setBrushColorWithRed:components[0] green:components[1] blue:components[2]];
+	[paintingView setBrushColorWithRed:components[0] green:components[1] blue:components[2]];
 
     [self addSubview:imageView];
+    [self addSubview:paintingView];
     
     self.contentSize = [image size];
     [self setMaxMinZoomScalesForCurrentBounds];
@@ -245,8 +249,8 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 }
 -(void) setCommenting:(BOOL) state
 {
-    imageView.userInteractionEnabled = state;
-    imageView.exclusiveTouch = state;
+    paintingView.userInteractionEnabled = state;
+    paintingView.exclusiveTouch = state;
     self.canCancelContentTouches = !state;
     self.delaysContentTouches = !state;
 }

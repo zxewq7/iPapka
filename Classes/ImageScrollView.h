@@ -50,7 +50,8 @@
 @class PaintingView;
 
 @interface ImageScrollView : UIScrollView <UIScrollViewDelegate> {
-    PaintingView        *imageView;
+    PaintingView        *paintingView;
+    PaintingView         *imageView;
     NSUInteger     index;
 }
 @property (assign) NSUInteger index;
