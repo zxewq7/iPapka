@@ -27,6 +27,7 @@
 		81334DC1122A5AFF0047C274 /* PaintingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81334DC0122A5AFF0047C274 /* PaintingView.m */; };
 		81334E11122A5C600047C274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81334E10122A5C5F0047C274 /* OpenGLES.framework */; };
 		81334E2F122A5E550047C274 /* Particle.png in Resources */ = {isa = PBXBuildFile; fileRef = 81334E2E122A5E550047C274 /* Particle.png */; };
+		8133527F122AA2A30047C274 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8133527E122AA2A30047C274 /* UIColor-Expanded.m */; };
 		8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC381214225E006C1416 /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC3C12142274006C1416 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3B12142274006C1416 /* CFNetwork.framework */; };
@@ -143,6 +144,8 @@
 		81334DC0122A5AFF0047C274 /* PaintingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingView.m; sourceTree = "<group>"; };
 		81334E10122A5C5F0047C274 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		81334E2E122A5E550047C274 /* Particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Particle.png; sourceTree = "<group>"; };
+		8133527D122AA2A30047C274 /* UIColor-Expanded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor-Expanded.h"; path = "thirdparty/UIColor-Expanded.h"; sourceTree = "<group>"; };
+		8133527E122AA2A30047C274 /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor-Expanded.m"; path = "thirdparty/UIColor-Expanded.m"; sourceTree = "<group>"; };
 		8137EC3512142239006C1416 /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = thirdparty/PLBlocks.framework; sourceTree = "<group>"; };
 		8137EC3B12142274006C1416 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
@@ -256,7 +259,6 @@
 		8116FF80121134E900DD537F /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				81549A9F122104B60043FFE7 /* SynthesizeSingleton.h */,
 				8116FF91121134E900DD537F /* Meester_Prefix.pch */,
 				8116FF95121134E900DD537F /* main.m */,
 			);
@@ -395,6 +397,9 @@
 		81F4C0AD12240124007E8E69 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				81549A9F122104B60043FFE7 /* SynthesizeSingleton.h */,
+				8133527D122AA2A30047C274 /* UIColor-Expanded.h */,
+				8133527E122AA2A30047C274 /* UIColor-Expanded.m */,
 				815651221222976A00CCCCFF /* TDBadgedCell */,
 				81FB943212211993008A1E15 /* ASIHTTPRequest.xcodeproj */,
 				81FB941B12211972008A1E15 /* LNDataSource.xcodeproj */,
@@ -595,6 +600,7 @@
 				816737861228F60600730FA6 /* DocumentLinkViewController.m in Sources */,
 				81673E81122950F500730FA6 /* UIButton+Additions.m in Sources */,
 				81334DC1122A5AFF0047C274 /* PaintingView.m in Sources */,
+				8133527F122AA2A30047C274 /* UIColor-Expanded.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

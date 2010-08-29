@@ -9,10 +9,11 @@
 #import "AttachmentPageViewController.h"
 #import "Attachment.h"
 #import "ImageScrollView.h"
+#import "AttachmentPage.h"
 
 
 @implementation AttachmentPageViewController
-@synthesize pageIndex, attachment;
+@synthesize pageIndex, attachment, curves;
 
 - (void)setPageIndex:(NSInteger)newPageIndex
 {
@@ -21,6 +22,7 @@
 	if (pageIndex >= 0 && pageIndex < [attachment.pages count])
 	{		
         [imageView displayImage:[attachment pageForIndex:pageIndex]];
+        
         CGPoint restorePoint = [imageView pointToCenterAfterRotation];
         CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
         [imageView setMaxMinZoomScalesForCurrentBounds];
@@ -93,5 +95,15 @@
 -(void) setCommenting:(BOOL) state
 {
     [imageView setCommenting:state];
+    if (state && pageIndex < [attachment.pages count]) 
+    {
+        AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
+        imageView.curves = page.curves;
+    }
+}
+
+-(NSArray *) curves
+{
+    return imageView.curves;
 }
 @end

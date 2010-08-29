@@ -1,56 +1,9 @@
-/*
-     File: PaintingView.m
- Abstract: The class responsible for the finger painting. The class wraps the 
- CAEAGLLayer from CoreAnimation into a convenient UIView subclass. The view 
- content is basically an EAGL surface you render your OpenGL scene into.
-  Version: 1.11
- 
- Disclaimer: IMPORTANT:  This Apple software is supplied to you by Apple
- Inc. ("Apple") in consideration of your agreement to the following
- terms, and your use, installation, modification or redistribution of
- this Apple software constitutes acceptance of these terms.  If you do
- not agree with these terms, please do not use, install, modify or
- redistribute this Apple software.
- 
- In consideration of your agreement to abide by the following terms, and
- subject to these terms, Apple grants you a personal, non-exclusive
- license, under Apple's copyrights in this original Apple software (the
- "Apple Software"), to use, reproduce, modify and redistribute the Apple
- Software, with or without modifications, in source and/or binary forms;
- provided that if you redistribute the Apple Software in its entirety and
- without modifications, you must retain this notice and the following
- text and disclaimers in all such redistributions of the Apple Software.
- Neither the name, trademarks, service marks or logos of Apple Inc. may
- be used to endorse or promote products derived from the Apple Software
- without specific prior written permission from Apple.  Except as
- expressly stated in this notice, no other rights or licenses, express or
- implied, are granted by Apple herein, including but not limited to any
- patent rights that may be infringed by your derivative works or by other
- works in which the Apple Software may be incorporated.
- 
- The Apple Software is provided by Apple on an "AS IS" basis.  APPLE
- MAKES NO WARRANTIES, EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION
- THE IMPLIED WARRANTIES OF NON-INFRINGEMENT, MERCHANTABILITY AND FITNESS
- FOR A PARTICULAR PURPOSE, REGARDING THE APPLE SOFTWARE OR ITS USE AND
- OPERATION ALONE OR IN COMBINATION WITH YOUR PRODUCTS.
- 
- IN NO EVENT SHALL APPLE BE LIABLE FOR ANY SPECIAL, INDIRECT, INCIDENTAL
- OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
- SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
- INTERRUPTION) ARISING IN ANY WAY OUT OF THE USE, REPRODUCTION,
- MODIFICATION AND/OR DISTRIBUTION OF THE APPLE SOFTWARE, HOWEVER CAUSED
- AND WHETHER UNDER THEORY OF CONTRACT, TORT (INCLUDING NEGLIGENCE),
- STRICT LIABILITY OR OTHERWISE, EVEN IF APPLE HAS BEEN ADVISED OF THE
- POSSIBILITY OF SUCH DAMAGE.
- 
- Copyright (C) 2010 Apple Inc. All Rights Reserved.
- 
-*/
 
 #import <QuartzCore/QuartzCore.h>
 #import <OpenGLES/EAGLDrawable.h>
 
 #import "PaintingView.h"
+#import "UIColor-Expanded.h"
 
 //CLASS IMPLEMENTATIONS:
 
@@ -59,6 +12,7 @@
 
 - (BOOL)createFramebuffer;
 - (void)destroyFramebuffer;
+- (void) renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end;
 
 @end
 
@@ -66,6 +20,50 @@
 
 @synthesize  location;
 @synthesize  previousLocation;
+@synthesize  curves;
+
+-(void)setCurves:(NSArray *) aCurves;
+{
+    UIColor *defautColor = nil;
+    if ([curves count])
+        defautColor = [curves objectAtIndex:0];
+    [curves dealloc];
+
+    curves = [[NSMutableArray alloc] initWithCapacity:[aCurves count]];
+
+    NSUInteger count = [aCurves count];
+
+    if (!count && defautColor) 
+        [curves addObject:defautColor];
+    NSValue *from = nil;
+    NSValue *to = nil;
+    for(NSUInteger i = 0; i < count; i++)
+    {
+        NSObject *object = [aCurves objectAtIndex:i];
+        
+        if ([object isKindOfClass:[UIColor class]]) 
+        {
+            UIColor *color = (UIColor *)object;
+            glColor4f(color.red, color.green, color.blue, color.alpha);
+            [curves addObject:color];
+            from = nil;
+            to = nil;
+            continue;
+        }
+        if (from == nil) 
+        {
+            from = (NSValue *)object;
+            continue;
+        }
+        
+        to = (NSValue *)object;
+
+        [self renderLineFromPoint:[from CGPointValue] toPoint:[to CGPointValue]];
+        from = nil;
+        to  = nil;
+    }
+    NSLog(@"%@", curves);
+}
 
 // Implement this to override the default layer class (which is [CALayer class]).
 // We do this so that our view will be backed by a layer that is capable of OpenGL ES rendering.
@@ -77,7 +75,6 @@
 - (id)initWithFrame:(CGRect)frame 
 {
 	
-	NSMutableArray*	recordedPaths;
 	CGImageRef		brushImage;
 	CGContextRef	brushContext;
 	GLubyte			*brushData;
@@ -161,11 +158,7 @@
 		
 		// Make sure to start with a cleared buffer
 		needsErase = YES;
-		
-		// Playback recorded path, which is "Shake Me"
-		recordedPaths = [NSMutableArray arrayWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Recording" ofType:@"data"]];
-		if([recordedPaths count])
-			[self performSelector:@selector(playback:) withObject:recordedPaths afterDelay:0.2];
+        curves = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -248,6 +241,7 @@
 	}
 	
 	[context release];
+    self.curves = nil;
 	[super dealloc];
 }
 
@@ -274,7 +268,10 @@
 	NSUInteger			vertexCount = 0,
 						count,
 						i;
-	
+
+    [curves addObject:[NSValue valueWithCGPoint:CGPointMake(start.x, start.y)]];
+    [curves addObject:[NSValue valueWithCGPoint:CGPointMake(end.x, end.y)]];
+
 	[EAGLContext setCurrentContext:context];
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 	
@@ -312,25 +309,6 @@
 	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
-
-// Reads previously recorded points and draws them onscreen. This is the Shake Me message that appears when the application launches.
-- (void) playback:(NSMutableArray*)recordedPaths
-{
-	NSData*				data = [recordedPaths objectAtIndex:0];
-	CGPoint*			point = (CGPoint*)[data bytes];
-	NSUInteger			count = [data length] / sizeof(CGPoint),
-						i;
-	
-	// Render the current path
-	for(i = 0; i < count - 1; ++i, ++point)
-		[self renderLineFromPoint:*point toPoint:*(point + 1)];
-	
-	// Render the next path after a short delay 
-	[recordedPaths removeObjectAtIndex:0];
-	if([recordedPaths count])
-		[self performSelector:@selector(playback:) withObject:recordedPaths afterDelay:0.01];
-}
-
 
 // Handles the start of a touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -389,10 +367,12 @@
 - (void)setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue
 {
 	// Set the brush color using premultiplied alpha values
-	glColor4f(red	* kBrushOpacity,
-			  green * kBrushOpacity,
-			  blue	* kBrushOpacity,
-			  kBrushOpacity);
+    CGFloat r = red   * kBrushOpacity;
+    CGFloat g = green * kBrushOpacity;
+    CGFloat b = blue  * kBrushOpacity;
+	glColor4f(r, g, b, kBrushOpacity);
+    
+    [curves addObject:[UIColor colorWithRed:r green:g blue:b alpha:kBrushOpacity]];
 }
 
 @end

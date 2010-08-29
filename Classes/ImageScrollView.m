@@ -72,7 +72,18 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 #define kPaletteSize			5
 
 @implementation ImageScrollView
-@synthesize index;
+@synthesize index, curves;
+
+-(NSArray *) curves
+{
+    NSArray *aCurves = paintingView.curves;
+    return aCurves;
+}
+
+-(void) setCurves:(NSArray *) aCurves
+{
+    paintingView.curves = aCurves;
+}
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -158,7 +169,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
  	HSL2RGB((CGFloat)0 / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
         // Defer to the OpenGL view to set the brush color
-	[paintingView setBrushColorWithRed:components[0] green:components[1] blue:components[2]];
+    [paintingView setBrushColorWithRed:components[0] green:components[1] blue:components[2]];
 
     [self addSubview:imageView];
     [self addSubview:paintingView];

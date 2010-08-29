@@ -6,7 +6,22 @@
 
 -(Document *) document
 {
-    return [[DataSource sharedDataSource] loadDocument:self];
+    if (!document)
+    {
+        document = [[DataSource sharedDataSource] loadDocument:self];
+        [document retain];
+    }
+    return document;
 }
 
+-(void) saveDocument
+{
+    [[DataSource sharedDataSource] saveDocument: self.document];
+}
+
+-(void) dealloc
+{
+    [document release];
+    [super dealloc];
+}
 @end

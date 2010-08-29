@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		81335148122A88870047C274 /* AttachmentPage.h in Headers */ = {isa = PBXBuildFile; fileRef = 81335146122A88870047C274 /* AttachmentPage.h */; };
+		81335149122A88870047C274 /* AttachmentPage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81335147122A88870047C274 /* AttachmentPage.m */; };
+		8133528E122AA6E00047C274 /* UIColor-Expanded.h in Headers */ = {isa = PBXBuildFile; fileRef = 8133528C122AA6E00047C274 /* UIColor-Expanded.h */; };
+		8133528F122AA6E00047C274 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8133528D122AA6E00047C274 /* UIColor-Expanded.m */; };
 		817868291213190B00D38BD3 /* Attachment.h in Headers */ = {isa = PBXBuildFile; fileRef = 817868231213190B00D38BD3 /* Attachment.h */; };
 		8178682A1213190B00D38BD3 /* Attachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 817868241213190B00D38BD3 /* Attachment.m */; };
 		8178682B1213190B00D38BD3 /* Comment.h in Headers */ = {isa = PBXBuildFile; fileRef = 817868251213190B00D38BD3 /* Comment.h */; };
@@ -22,6 +26,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		81335146122A88870047C274 /* AttachmentPage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentPage.h; sourceTree = "<group>"; };
+		81335147122A88870047C274 /* AttachmentPage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentPage.m; sourceTree = "<group>"; };
+		8133528C122AA6E00047C274 /* UIColor-Expanded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor-Expanded.h"; path = "../thirdparty/UIColor-Expanded.h"; sourceTree = SOURCE_ROOT; };
+		8133528D122AA6E00047C274 /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor-Expanded.m"; path = "../thirdparty/UIColor-Expanded.m"; sourceTree = SOURCE_ROOT; };
 		817868231213190B00D38BD3 /* Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Attachment.h; path = Classes/Attachment.h; sourceTree = "<group>"; };
 		817868241213190B00D38BD3 /* Attachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Attachment.m; path = Classes/Attachment.m; sourceTree = "<group>"; };
 		817868251213190B00D38BD3 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Comment.h; path = Classes/Comment.h; sourceTree = "<group>"; };
@@ -60,6 +68,7 @@
 		0867D691FE84028FC02AAC07 /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				8133528B122AA6CA0047C274 /* Library */,
 				08FB77AEFE84172EC02AAC07 /* Classes */,
 				32C88DFF0371C24200C91783 /* Other Sources */,
 				0867D69AFE84028FC02AAC07 /* Frameworks */,
@@ -89,6 +98,8 @@
 				81B33A3512159D5C00A06317 /* Resolution.m */,
 				81FB946A12211B44008A1E15 /* Signature.h */,
 				81FB946B12211B44008A1E15 /* Signature.m */,
+				81335146122A88870047C274 /* AttachmentPage.h */,
+				81335147122A88870047C274 /* AttachmentPage.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -99,6 +110,15 @@
 				AA747D9E0F9514B9006C5449 /* DataModel_Prefix.pch */,
 			);
 			name = "Other Sources";
+			sourceTree = "<group>";
+		};
+		8133528B122AA6CA0047C274 /* Library */ = {
+			isa = PBXGroup;
+			children = (
+				8133528C122AA6E00047C274 /* UIColor-Expanded.h */,
+				8133528D122AA6E00047C274 /* UIColor-Expanded.m */,
+			);
+			name = Library;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -114,6 +134,8 @@
 				8178682D1213190B00D38BD3 /* Document.h in Headers */,
 				81B33A3612159D5C00A06317 /* Resolution.h in Headers */,
 				81FB946C12211B44008A1E15 /* Signature.h in Headers */,
+				81335148122A88870047C274 /* AttachmentPage.h in Headers */,
+				8133528E122AA6E00047C274 /* UIColor-Expanded.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +187,8 @@
 				8178682E1213190B00D38BD3 /* Document.m in Sources */,
 				81B33A3712159D5C00A06317 /* Resolution.m in Sources */,
 				81FB946D12211B44008A1E15 /* Signature.m in Sources */,
+				81335149122A88870047C274 /* AttachmentPage.m in Sources */,
+				8133528F122AA6E00047C274 /* UIColor-Expanded.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

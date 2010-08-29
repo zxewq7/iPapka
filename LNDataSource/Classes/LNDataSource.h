@@ -45,4 +45,5 @@
 - (Document *) loadDocument:(NSString *) anUid;
 - (void)deleteDocument:(NSString *) anUid;
 - (void)purgeCache;
+- (void)saveDocument:(Document *) document;
 @end

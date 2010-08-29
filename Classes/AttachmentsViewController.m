@@ -10,11 +10,13 @@
 #import "ImageScrollView.h"
 #import "Attachment.h"
 #import "AttachmentPageViewController.h"
+#import "AttachmentPage.h"
 
 @interface AttachmentsViewController(Private)
-- (void)resizePagingScrollView;
-- (void)applyNewIndex:(NSInteger)newIndex pageController:(AttachmentPageViewController *)pageController;
+- (void) resizePagingScrollView;
+- (void) applyNewIndex:(NSInteger)newIndex pageController:(AttachmentPageViewController *)pageController;
 - (void) resizeScrollViewAndPages:(UIInterfaceOrientation) orientation;
+- (void) saveAttachment;
 @end
 
 @implementation AttachmentsViewController
@@ -94,6 +96,7 @@
     [attachment release];
     [currentPage release];
     [nextPage release];
+    [attachment release];
 
     [super dealloc];
 }
@@ -197,6 +200,8 @@
     pagingScrollView.delaysContentTouches = !state;
     [currentPage setCommenting:state];
     [nextPage setCommenting:state];
+    if (!state) 
+        [self saveAttachment];
 }
 @end
 
@@ -265,5 +270,10 @@
     [currentPage updateViews:NO];
     [nextPage updateViews:NO];
     [self resizePagingScrollView];
+}
+- (void) saveAttachment
+{
+    AttachmentPage *page = [currentPage.attachment.pages objectAtIndex: currentPage.pageIndex];
+    page.curves = currentPage.curves;
 }
 @end

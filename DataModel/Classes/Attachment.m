@@ -7,7 +7,7 @@
 //
 
 #import "Attachment.h"
-
+#import "AttachmentPage.h"
 
 @implementation Attachment
 @synthesize title, pages, isLoaded, hasError, path, uid;
@@ -45,13 +45,13 @@
 
 -(UIImage *) pageForIndex:(NSUInteger) anIndex
 {
-    NSString *imageName = [pages objectAtIndex:anIndex];
-    if ([imageName isEqualToString:@"error"]) 
+    AttachmentPage *page = [pages objectAtIndex:anIndex];
+    if (page.hasError) 
         return [UIImage imageNamed:@"PageError.png"];
-    else if ([imageName isEqualToString:@""]) 
+    else if (!page.isLoaded) 
         return [UIImage imageNamed:@"PageLoading.png"];
 
-    NSString *imagePath = [path stringByAppendingPathComponent:[pages objectAtIndex:anIndex]];
+    NSString *imagePath = [path stringByAppendingPathComponent:page.name];
     return [UIImage imageWithContentsOfFile:imagePath];
 }
 @end

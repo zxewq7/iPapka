@@ -225,6 +225,12 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 {
     return [lnDataSource loadDocument:aDocument.uid];
 }
+
+-(void) saveDocument:(Document *) aDocument
+{
+    [lnDataSource saveDocument:aDocument];
+}
+
 -(void) shutdown
 {
     [self commit];

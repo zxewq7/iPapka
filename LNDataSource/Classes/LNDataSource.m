@@ -15,6 +15,7 @@
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
 #import "SBJsonParser.h"
+#import "AttachmentPage.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -58,7 +59,6 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/%@/document/%@/link/%@/file/
 - (void)parseViewData:(NSString *) jsonFile;
 - (void)fetchDocument:(Document *) document isNew:(BOOL) isNew;
 - (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile;
-- (void)saveDocument:(Document *) document;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchAttachments:(Document *)document;
 - (void)fetchLinks:(Document *)document;
@@ -196,6 +196,18 @@ static NSString* OperationCount = @"OperationCount";
 {
     NSFileManager *df = [NSFileManager defaultManager];
     [df removeItemAtPath:_databaseDirectory error:NULL];
+}
+
+- (void)saveDocument:(Document *) document
+{
+    @synchronized(self) 
+    {
+        NSString * path = [self documentDirectory:document.uid];
+        
+        [NSKeyedArchiver archiveRootObject: document toFile: [path stringByAppendingPathComponent:@"index.object"]];
+        [cacheIndex addObject:document.uid];
+            //    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
+    }
 }
 @end
 
@@ -358,17 +370,6 @@ static NSString* OperationCount = @"OperationCount";
     NSString *directory = [_databaseDirectory stringByAppendingPathComponent: anUid];
     return directory;
 }
-- (void)saveDocument:(Document *) document
-{
-    @synchronized(self) 
-    {
-        NSString * path = [self documentDirectory:document.uid];
-        
-        [NSKeyedArchiver archiveRootObject: document toFile: [path stringByAppendingPathComponent:@"index.object"]];
-        [cacheIndex addObject:document.uid];
-            //    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
-    }
-}
 - (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile
 {
     NSString *jsonString = [NSString stringWithContentsOfFile:jsonFile encoding:NSUTF8StringEncoding error:NULL];
@@ -408,7 +409,11 @@ static NSString* OperationCount = @"OperationCount";
         
         NSMutableArray *pages = [NSMutableArray arrayWithCapacity:pageCount];
         for (NSUInteger i = 0; i < pageCount ; i++) //just empty array
-            [pages addObject:@""];
+        {
+            AttachmentPage *page = [[AttachmentPage alloc] init];
+            [pages addObject:page];
+            [page release];
+        }
 
         newAttachment.pages = pages;
         [documentAttachments addObject:newAttachment];
@@ -435,7 +440,11 @@ static NSString* OperationCount = @"OperationCount";
             
             NSMutableArray *pages = [NSMutableArray arrayWithCapacity:pageCount];
             for (NSUInteger i = 0; i < pageCount ; i++) //just empty array
-                [pages addObject:@""];
+            {
+                AttachmentPage *page = [[AttachmentPage alloc] init];
+                [pages addObject:page];
+                [page release];
+            }
             
             newAttachment.pages = pages;
             [documentLinkAttachments addObject:newAttachment];
@@ -542,11 +551,18 @@ static NSString* OperationCount = @"OperationCount";
             [request setDownloadDestinationPath:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", pageIndex]]];
             request.requestHandler = ^(ASIHTTPRequest *request) {
                 if ([request error] == nil  && [request responseStatusCode] == 200)
-                    [attachment.pages replaceObjectAtIndex:pageIndex withObject:[[request downloadDestinationPath] lastPathComponent]];
+                {
+                    AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
+                    page.name = [[request downloadDestinationPath] lastPathComponent];
+                    page.isLoaded = YES;
+                    page.hasError = NO;
+                }
                 else
                 {
                     attachment.hasError = YES;
-                    [attachment.pages replaceObjectAtIndex:pageIndex withObject:@"error"];
+                    AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
+                    page.isLoaded = YES;
+                    page.hasError = YES;
                         //remove bugged response
                     [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
                     NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
@@ -566,9 +582,9 @@ static NSString* OperationCount = @"OperationCount";
         if (attachment.isLoaded)
             continue;
         
-        for (NSString *fileName in attachment.pages) 
+        for (AttachmentPage *page in attachment.pages) 
         {
-            if ([fileName isEqualToString:@""])
+            if (!page.isLoaded)
             {
                 attachmentsLoaded = NO;
                 break;
@@ -590,9 +606,9 @@ static NSString* OperationCount = @"OperationCount";
             if (attachment.isLoaded)
                 continue;
             
-            for (NSString *fileName in attachment.pages) 
+            for (AttachmentPage *page in attachment.pages) 
             {
-                if ([fileName isEqualToString:@""])
+                if (!page.isLoaded)
                 {
                     linksLoaded = NO;
                     break;

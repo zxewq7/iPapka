@@ -55,7 +55,7 @@
     NSUInteger     index;
 }
 @property (assign) NSUInteger index;
-
+@property (nonatomic, retain, getter=curves, setter=setCurves:) NSArray *curves;
 - (void)displayImage:(UIImage *)image;
 - (void)setMaxMinZoomScalesForCurrentBounds;
 

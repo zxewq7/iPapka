@@ -61,7 +61,6 @@
     
     self.navigationItem.title  = link.title;
     attachmentsViewController.attachment = currentAttachment;
-    
 }
 
 #pragma mark -

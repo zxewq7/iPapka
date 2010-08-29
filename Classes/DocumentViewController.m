@@ -32,6 +32,8 @@
 {
     if (document == aDocument)
         return;
+        //[document saveDocument];
+    
     [document release];
     document = [aDocument retain];
     
@@ -174,8 +176,11 @@
 }
 - (void) showPen:(id) sender
 {
-    penButton.selected = !penButton.selected;
-    [attachmentsViewController setCommenting:penButton.selected];
+    BOOL isPainting = !penButton.selected;
+    penButton.selected = isPainting;
+    [attachmentsViewController setCommenting:isPainting];
+    if (!isPainting) 
+        [document saveDocument];
 }
 
 - (void) showDocumentInfo:(id) sender
