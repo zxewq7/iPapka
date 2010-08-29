@@ -20,7 +20,10 @@
 - (UIImage *) drawings
 {
     if (!drawings)
+    {
         drawings = [UIImage imageWithContentsOfFile: [self drawingsPath]];
+        [drawings retain];
+    }
     return drawings;
 }
 
