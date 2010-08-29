@@ -90,5 +90,8 @@
     [super dealloc];
 }
 
-
+-(void) setCommenting:(BOOL) state
+{
+    [imageView setCommenting:state];
+}
 @end

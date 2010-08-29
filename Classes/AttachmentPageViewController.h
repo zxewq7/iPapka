@@ -22,5 +22,5 @@
 @property (nonatomic, retain) Attachment    *attachment;
 
 - (void)updateViews:(BOOL)force;
-
+-(void) setCommenting:(BOOL) state;
 @end

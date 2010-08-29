@@ -172,6 +172,11 @@
 {
     attachmentButton.selected = !attachmentButton.selected;
 }
+- (void) showPen:(id) sender
+{
+    penButton.selected = !penButton.selected;
+    [attachmentsViewController setCommenting:penButton.selected];
+}
 
 - (void) showDocumentInfo:(id) sender
 {
@@ -211,7 +216,7 @@
     [infoButton retain];
 
     penButton = [UIButton imageButton:self
-                             selector:nil
+                             selector:@selector(showPen:)
                             imageName:@"ButtonPen.png"
                     imageNameSelected:@"ButtonPenSelected.png"];
     [penButton retain];

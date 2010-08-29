@@ -54,6 +54,7 @@
     pagingScrollView.showsVerticalScrollIndicator = NO;
     pagingScrollView.showsHorizontalScrollIndicator = NO;
     pagingScrollView.delegate = self;
+
     self.view = pagingScrollView;
 	currentPage = [[AttachmentPageViewController alloc] init];
 	nextPage = [[AttachmentPageViewController alloc] init];
@@ -186,6 +187,16 @@
     nextPage.attachment = attachment;
 	[self applyNewIndex:currentPage.pageIndex pageController:currentPage];
 	[self applyNewIndex:nextPage.pageIndex pageController:nextPage];
+}
+
+#pragma mark -
+#pragma mark methods
+-(void) setCommenting:(BOOL) state
+{
+    pagingScrollView.canCancelContentTouches = !state;
+    pagingScrollView.delaysContentTouches = !state;
+    [currentPage setCommenting:state];
+    [nextPage setCommenting:state];
 }
 @end
 

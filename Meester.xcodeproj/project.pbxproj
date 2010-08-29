@@ -24,6 +24,9 @@
 		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
 		812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 812AADB01218312400E3FBC8 /* DocumentCellView.m */; };
 		812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 812AAE8A1218433500E3FBC8 /* Localizable.strings */; };
+		81334DC1122A5AFF0047C274 /* PaintingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81334DC0122A5AFF0047C274 /* PaintingView.m */; };
+		81334E11122A5C600047C274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81334E10122A5C5F0047C274 /* OpenGLES.framework */; };
+		81334E2F122A5E550047C274 /* Particle.png in Resources */ = {isa = PBXBuildFile; fileRef = 81334E2E122A5E550047C274 /* Particle.png */; };
 		8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC381214225E006C1416 /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC3C12142274006C1416 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3B12142274006C1416 /* CFNetwork.framework */; };
@@ -136,6 +139,10 @@
 		812AADAF1218312400E3FBC8 /* DocumentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCellView.h; sourceTree = "<group>"; };
 		812AADB01218312400E3FBC8 /* DocumentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCellView.m; sourceTree = "<group>"; };
 		812AAE8B1218433500E3FBC8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		81334DBF122A5AFF0047C274 /* PaintingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingView.h; sourceTree = "<group>"; };
+		81334DC0122A5AFF0047C274 /* PaintingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingView.m; sourceTree = "<group>"; };
+		81334E10122A5C5F0047C274 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		81334E2E122A5E550047C274 /* Particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Particle.png; sourceTree = "<group>"; };
 		8137EC3512142239006C1416 /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = thirdparty/PLBlocks.framework; sourceTree = "<group>"; };
 		8137EC3B12142274006C1416 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
@@ -213,6 +220,7 @@
 				8137EC401214229D006C1416 /* SystemConfiguration.framework in Frameworks */,
 				8137EC42121422A6006C1416 /* MobileCoreServices.framework in Frameworks */,
 				81B74C62121E8306005117D4 /* CoreData.framework in Frameworks */,
+				81334E11122A5C600047C274 /* OpenGLES.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -282,6 +290,7 @@
 				8137EC3F1214229D006C1416 /* SystemConfiguration.framework */,
 				8137EC41121422A6006C1416 /* MobileCoreServices.framework */,
 				81B74C61121E8306005117D4 /* CoreData.framework */,
+				81334E10122A5C5F0047C274 /* OpenGLES.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -308,6 +317,8 @@
 		81399860121D2F98009B0912 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81334DBF122A5AFF0047C274 /* PaintingView.h */,
+				81334DC0122A5AFF0047C274 /* PaintingView.m */,
 				81F4C2E912241A24007E8E69 /* ImageScrollView.h */,
 				81F4C2EA12241A24007E8E69 /* ImageScrollView.m */,
 				81925244121BF4A800B2D9BE /* SegmentedLabel.h */,
@@ -419,6 +430,7 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81334E2E122A5E550047C274 /* Particle.png */,
 				8167366312283EEE00730FA6 /* ButtonAttachment.png */,
 				8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */,
 				81F1381B1226AAB600E5DED7 /* ButtonDate.png */,
@@ -546,6 +558,7 @@
 				81F1381C1226AAB600E5DED7 /* ButtonDate.png in Resources */,
 				8167366512283EEE00730FA6 /* ButtonAttachment.png in Resources */,
 				8167366612283EEE00730FA6 /* ButtonAttachmentSelected.png in Resources */,
+				81334E2F122A5E550047C274 /* Particle.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -581,6 +594,7 @@
 				81F13BE11227A8EF00E5DED7 /* AttachmentPageViewController.m in Sources */,
 				816737861228F60600730FA6 /* DocumentLinkViewController.m in Sources */,
 				81673E81122950F500730FA6 /* UIButton+Additions.m in Sources */,
+				81334DC1122A5AFF0047C274 /* PaintingView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

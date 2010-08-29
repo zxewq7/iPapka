@@ -24,4 +24,5 @@
 }
 
 @property (nonatomic, retain, setter=setAttachment:)   Attachment    *attachment;
+-(void) setCommenting:(BOOL) state;
 @end
