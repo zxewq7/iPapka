@@ -241,7 +241,6 @@
 	}
 	
 	[context release];
-    [currentColor release];
 	[super dealloc];
 }
 
@@ -322,10 +321,6 @@
     CGFloat g = green * kBrushOpacity;
     CGFloat b = blue  * kBrushOpacity;
 	glColor4f(r, g, b, kBrushOpacity);
-    
-    [currentColor release];
-    currentColor = [UIColor colorWithRed:r green:g blue:b alpha:kBrushOpacity];
-    [currentColor retain];
 }
 @end
 

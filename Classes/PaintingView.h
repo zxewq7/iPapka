@@ -82,7 +82,6 @@
 	CGPoint	previousLocation;
 	Boolean	firstTouch;
 	Boolean needsErase;
-    UIColor *currentColor;
 }
 
 @property(nonatomic, readwrite) CGPoint location;
