@@ -4,6 +4,7 @@
 
 #import "PaintingView.h"
 #import "UIColor-Expanded.h"
+#import "Texture2D.h"
 
 //CLASS IMPLEMENTATIONS:
 
@@ -22,44 +23,111 @@
 @synthesize  previousLocation;
 @synthesize  curves;
 
+//-(void)setCurves:(NSArray *) aCurves;
+//{
+//    [curves dealloc];
+//
+//    curves = [[NSMutableArray alloc] initWithCapacity:[aCurves count]];
+//
+//    NSUInteger count = [aCurves count];
+//
+//    if (!count && currentColor) 
+//        [curves addObject:currentColor];
+//    NSValue *from = nil;
+//    NSValue *to = nil;
+//    for(NSUInteger i = 0; i < count; i++)
+//    {
+//        NSObject *object = [aCurves objectAtIndex:i];
+//        
+//        if ([object isKindOfClass:[UIColor class]]) 
+//        {
+//            UIColor *color = (UIColor *)object;
+//            glColor4f(color.red, color.green, color.blue, color.alpha);
+//            [curves addObject:color];
+//            from = nil;
+//            to = nil;
+//            continue;
+//        }
+//        if (from == nil) 
+//        {
+//            from = (NSValue *)object;
+//            continue;
+//        }
+//        
+//        to = (NSValue *)object;
+//
+//        [self renderLineFromPoint:[from CGPointValue] toPoint:[to CGPointValue]];
+//        from = nil;
+//        to  = nil;
+//    }
+//    [self glToUIImage];
+//}
+
 -(void)setCurves:(NSArray *) aCurves;
 {
-    [curves dealloc];
 
-    curves = [[NSMutableArray alloc] initWithCapacity:[aCurves count]];
+    [EAGLContext setCurrentContext:context];
+	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 
-    NSUInteger count = [aCurves count];
+    CGRect	bounds = [self bounds];
 
-    if (!count && currentColor) 
-        [curves addObject:currentColor];
-    NSValue *from = nil;
-    NSValue *to = nil;
-    for(NSUInteger i = 0; i < count; i++)
-    {
-        NSObject *object = [aCurves objectAtIndex:i];
-        
-        if ([object isKindOfClass:[UIColor class]]) 
-        {
-            UIColor *color = (UIColor *)object;
-            glColor4f(color.red, color.green, color.blue, color.alpha);
-            [curves addObject:color];
-            from = nil;
-            to = nil;
-            continue;
-        }
-        if (from == nil) 
-        {
-            from = (NSValue *)object;
-            continue;
-        }
-        
-        to = (NSValue *)object;
+    
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
+    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
+    NSString *imagePathLocation = [documentsDirectoryPath stringByAppendingString:@"/image.png"];
+    
+    Texture2D *backgroundTex = [[Texture2D alloc] initWithImage:[UIImage imageWithContentsOfFile:imagePathLocation]];
+    
+    glDisable(GL_BLEND);
+    
+    [backgroundTex drawInRect:bounds];
+    
+    glEnable(GL_BLEND);
 
-        [self renderLineFromPoint:[from CGPointValue] toPoint:[to CGPointValue]];
-        from = nil;
-        to  = nil;
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    
+    
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
+	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
+    
+	CGImageRef		brushImage;
+	CGContextRef	brushContext;
+	GLubyte			*brushData;
+	size_t			width, height;
+    
+    brushImage = [UIImage imageNamed:@"Particle.png"].CGImage;
+    
+		// Get the width and height of the image
+    width = CGImageGetWidth(brushImage);
+    height = CGImageGetHeight(brushImage);
+    
+		// Texture dimensions must be a power of 2. If you write an application that allows users to supply an image,
+		// you'll want to add code that checks the dimensions and takes appropriate action if they are not a power of 2.
+    
+		// Make sure the image exists
+    if(brushImage) {
+			// Allocate  memory needed for the bitmap context
+        brushData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte));
+			// Use  the bitmatp creation function provided by the Core Graphics framework. 
+        brushContext = CGBitmapContextCreate(brushData, width, height, 8, width * 4, CGImageGetColorSpace(brushImage), kCGImageAlphaPremultipliedLast);
+			// After you create the context, you can draw the  image to the context.
+        CGContextDrawImage(brushContext, CGRectMake(0.0, 0.0, (CGFloat)width, (CGFloat)height), brushImage);
+			// You don't need the context at this point, so you need to release it to avoid memory leaks.
+        CGContextRelease(brushContext);
+			// Use OpenGL ES to generate a name for the texture.
+        glGenTextures(1, &brushTexture);
+			// Bind the texture name. 
+        glBindTexture(GL_TEXTURE_2D, brushTexture);
+			// Set the texture parameters to use a minifying filter and a linear filer (weighted average)
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+			// Specify a 2D texture image, providing the a pointer to the image data in memory
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, brushData);
+			// Release  the image data; it's no longer needed
+        free(brushData);
     }
-    [self glToUIImage];
 }
 
 // Implement this to override the default layer class (which is [CALayer class]).
