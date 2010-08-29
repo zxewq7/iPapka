@@ -341,7 +341,6 @@
 	// Convert touch point from UIView referential to OpenGL one (upside-down flip)
 	location = [touch locationInView:self];
 	location.y = bounds.size.height - location.y;
-    NSLog(@"begin");
 }
 
 // Handles the continuation of a touch.
@@ -365,7 +364,6 @@
 		
 	// Render the stroke
 	[self renderLineFromPoint:previousLocation toPoint:location];
-    NSLog(@"moved");
 }
 
 // Handles the end of a touch event when the touch is a tap.
@@ -379,13 +377,11 @@
 		previousLocation.y = bounds.size.height - previousLocation.y;
 		[self renderLineFromPoint:previousLocation toPoint:location];
 	}
-    NSLog(@"ended");
 }
 
 // Handles the end of a touch event.
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
-    NSLog(@"%@", event);
         // If appropriate, add code necessary to save the state of the application.
 	// This application is not saving state.
 }
