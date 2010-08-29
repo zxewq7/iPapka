@@ -23,6 +23,7 @@
 	{		
         AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
         [imageView displayImage: page.image];
+        imageView.drawings = page.drawings;
         
         CGPoint restorePoint = [imageView pointToCenterAfterRotation];
         CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
