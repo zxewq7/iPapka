@@ -145,6 +145,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
     UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:image];
     imageView.backgroundColor = [UIColor blackColor];
+    imageView.userInteractionEnabled = NO;
     [backgroundColor release];
     
     CGFloat					components[3];
