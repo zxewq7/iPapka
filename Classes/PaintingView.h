@@ -83,6 +83,7 @@
 	Boolean	firstTouch;
 	Boolean needsErase;
     NSMutableArray *curves;
+    UIColor *currentColor;
 }
 
 @property(nonatomic, readwrite) CGPoint location;

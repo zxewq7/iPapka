@@ -24,17 +24,14 @@
 
 -(void)setCurves:(NSArray *) aCurves;
 {
-    UIColor *defautColor = nil;
-    if ([curves count])
-        defautColor = [curves objectAtIndex:0];
     [curves dealloc];
 
     curves = [[NSMutableArray alloc] initWithCapacity:[aCurves count]];
 
     NSUInteger count = [aCurves count];
 
-    if (!count && defautColor) 
-        [curves addObject:defautColor];
+    if (!count && currentColor) 
+        [curves addObject:currentColor];
     NSValue *from = nil;
     NSValue *to = nil;
     for(NSUInteger i = 0; i < count; i++)
@@ -62,7 +59,7 @@
         from = nil;
         to  = nil;
     }
-    NSLog(@"%@", curves);
+    [self glToUIImage];
 }
 
 // Implement this to override the default layer class (which is [CALayer class]).
@@ -241,7 +238,8 @@
 	}
 	
 	[context release];
-    self.curves = nil;
+    [curves release];
+    [currentColor release];
 	[super dealloc];
 }
 
@@ -258,6 +256,9 @@
 	// Display the buffer
 	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
+
+    [curves dealloc];
+    curves = [[NSMutableArray alloc] init];
 }
 
 // Drawings a line onscreen based on where the user touches
@@ -372,7 +373,75 @@
     CGFloat b = blue  * kBrushOpacity;
 	glColor4f(r, g, b, kBrushOpacity);
     
-    [curves addObject:[UIColor colorWithRed:r green:g blue:b alpha:kBrushOpacity]];
+    [currentColor release];
+    currentColor = [UIColor colorWithRed:r green:g blue:b alpha:kBrushOpacity];
+}
+
+    //https://devforums.apple.com/message/260309#260309
+-(UIImage *) glToUIImage {
+    CGRect frame = self.bounds;
+    NSInteger height = frame.size.height;
+    NSInteger width = frame.size.width;
+    
+    NSInteger myDataLength = width * height * 4;
+    
+    
+        // Allocate array and read pixels into it:
+    
+    GLubyte *buffer = (GLubyte *) malloc(myDataLength);
+    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+    
+        // GL renders "upside down" so swap top to bottom into new array.
+        // There's gotta be a better way, but this works.
+    
+    GLubyte *buffer2 = (GLubyte *) malloc(myDataLength);
+    for(int y = 0; y < height; y++)
+    {
+        for(int x = 0; x < width * 4; x++)
+        {
+            buffer2[((height - 1) - y) * width * 4 + x] = buffer[y * 4 * width + x];
+        }
+    }
+    
+        // Make data provider with data.
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, buffer2, myDataLength, NULL);
+    
+        // Prep the ingredients
+    int bitsPerComponent = 8;
+    int bitsPerPixel = 32;
+    int bytesPerRow = 4 * width;
+    
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    
+        // CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault; // ----- DOES NOT HANDLE TRANSPARENCY
+    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast; //------------------------------------- Handles transparency
+    
+    
+    
+    
+    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+    
+        // Make the CGImage:
+    CGImageRef imageRef = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
+    
+        // Base the UIImage on the CGImage:
+    UIImage *myImage = [UIImage imageWithCGImage:imageRef];
+    
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
+    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
+    NSString *imagePathLocation = [documentsDirectoryPath stringByAppendingString:@"/image.png"];
+    
+    
+    NSLog(@"PV) Saving image using path:\n%@\n\n", imagePathLocation);
+    NSData *imageData = UIImagePNGRepresentation(myImage);
+    [imageData writeToFile:imagePathLocation atomically:YES];
+    
+    
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpaceRef);
+    CGImageRelease(imageRef);
+    return nil;
 }
 
 @end
