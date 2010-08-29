@@ -42,16 +42,4 @@
     [coder encodeObject: self.path forKey:@"path"];
     [coder encodeObject: self.uid forKey:@"uid"];
 }
-
--(UIImage *) pageForIndex:(NSUInteger) anIndex
-{
-    AttachmentPage *page = [pages objectAtIndex:anIndex];
-    if (page.hasError) 
-        return [UIImage imageNamed:@"PageError.png"];
-    else if (!page.isLoaded) 
-        return [UIImage imageNamed:@"PageLoading.png"];
-
-    NSString *imagePath = [path stringByAppendingPathComponent:page.name];
-    return [UIImage imageWithContentsOfFile:imagePath];
-}
 @end

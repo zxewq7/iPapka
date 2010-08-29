@@ -6,18 +6,22 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 
 @interface AttachmentPage : NSObject<NSCoding> 
 {
     NSString *name;
-    NSArray  *curves;
+    NSString *path;
+    UIImage  *drawings;
     BOOL     hasError;
     BOOL     isLoaded;
+    BOOL     removeDrawings;
 }
 @property (nonatomic, retain) NSString *name;
-@property (nonatomic, retain) NSArray  *curves;
+@property (nonatomic, retain) NSString *path;
+@property (nonatomic, retain, getter=drawings, setter=getDrawings:) UIImage  *drawings;
 @property (nonatomic, assign) BOOL    hasError;
 @property (nonatomic, assign) BOOL    isLoaded;
+@property (nonatomic, retain, readonly, getter=image) UIImage  *image;
 @end

@@ -72,17 +72,17 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 #define kPaletteSize			5
 
 @implementation ImageScrollView
-@synthesize index, curves;
+@synthesize index, drawings;
 
--(NSArray *) curves
+-(UIImage *) drawings
 {
-    NSArray *aCurves = paintingView.curves;
-    return aCurves;
+    UIImage *aDrawings = paintingView.drawings;
+    return aDrawings;
 }
 
--(void) setCurves:(NSArray *) aCurves
+-(void) setDrawings:(UIImage *) aDrawings
 {
-    paintingView.curves = aCurves;
+    paintingView.drawings = aDrawings;
 }
 
 - (id)initWithFrame:(CGRect)frame

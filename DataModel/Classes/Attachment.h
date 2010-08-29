@@ -24,6 +24,4 @@
 
 @property (nonatomic)         BOOL           isLoaded;
 @property (nonatomic)         BOOL           hasError;
-
--(UIImage *) pageForIndex:(NSUInteger) anIndex;
 @end

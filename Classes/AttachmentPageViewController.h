@@ -18,9 +18,9 @@
     ImageScrollView *imageView;
 }
 
-@property (nonatomic, setter=setPageIndex:)  NSInteger     pageIndex;
-@property (nonatomic, retain)                Attachment    *attachment;
-@property (nonatomic, retain, getter=curves) NSArray       *curves;
+@property (nonatomic, setter=setPageIndex:)              NSInteger     pageIndex;
+@property (nonatomic, retain)                            Attachment    *attachment;
+@property (nonatomic, retain, readonly, getter=drawings) UIImage       *drawings;
 
 - (void) updateViews:(BOOL)force;
 - (void) setCommenting:(BOOL) state;

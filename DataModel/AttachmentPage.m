@@ -10,10 +10,42 @@
 #import "UIColor-Expanded.h"
 
 @implementation AttachmentPage
-@synthesize name, curves, isLoaded, hasError;
+@synthesize name, drawings, isLoaded, hasError, path;
+
+- (NSString *) drawingsPath
+{
+    return [[path stringByAppendingPathComponent:self.name] stringByAppendingString:@".drawings.png"];
+}
+
+- (UIImage *) drawings
+{
+    if (!drawings)
+        drawings = [UIImage imageWithContentsOfFile: [self drawingsPath]];
+    return drawings;
+}
+
+- (void) setDrawings:(UIImage *) aDrawings;
+{
+    if (drawings == aDrawings) 
+        return;
+    removeDrawings = aDrawings == nil;
+    drawings = [aDrawings retain];
+}
+
+-(UIImage *) image
+{
+    if (hasError || !isLoaded) 
+        return nil;
+    
+    NSString *imagePath = [path stringByAppendingPathComponent:name];
+    return [UIImage imageWithContentsOfFile:imagePath];
+}
+
+
 - (void) dealloc
 {
-    self.curves = nil;
+    [drawings release];
+    self.path = nil;
     self.name = nil;
     [super dealloc];
 }
@@ -25,25 +57,8 @@
     if (self = [super init])
     {
         self.name = [coder decodeObjectForKey:@"name"];
-        NSArray *loadedCurves = [coder decodeObjectForKey:@"curves"];
-        NSMutableArray *xCurves = [NSMutableArray arrayWithCapacity:[loadedCurves count]];
-        for (NSString *string in loadedCurves) 
-        {
-            NSArray *splitted = [string componentsSeparatedByString: @":"];
-            NSObject *decodedObject = nil;
-            if ([splitted count] == 4) //color
-                decodedObject = [UIColor colorWithRed:[[splitted objectAtIndex:0] floatValue]
-                                                 green:[[splitted objectAtIndex:1] floatValue]
-                                                  blue:[[splitted objectAtIndex:2] floatValue] 
-                                                 alpha:[[splitted objectAtIndex:3] floatValue]];
-            else if ([splitted count] == 2) //point
-                decodedObject = [NSValue valueWithCGPoint:CGPointMake([[splitted objectAtIndex:0] floatValue], [[splitted objectAtIndex:1] floatValue])];
+        self.path = [coder decodeObjectForKey:@"path"];
 
-            if (decodedObject) 
-                [xCurves addObject:decodedObject];
-        }
-
-        self.curves = [NSArray arrayWithArray:xCurves];
         self.isLoaded = [[coder decodeObjectForKey:@"isLoaded"] boolValue];
         self.hasError = [[coder decodeObjectForKey:@"hasError"] boolValue];
     }
@@ -53,29 +68,19 @@
 - (void) encodeWithCoder: (NSCoder *)coder
 {
     [coder encodeObject: self.name forKey:@"name"];
-    
-    static NSString *pointFormat = @"%f:%f";
-    NSMutableArray *savedCurves = [NSMutableArray arrayWithCapacity:[curves count]];
-    for (NSObject *object in curves) 
+    [coder encodeObject: self.path forKey:@"path"];
+
+    if (removeDrawings)
     {
-        NSString *encodedObject = nil;
-        if ([object isKindOfClass:[UIColor class]])
-        {
-            UIColor *color = (UIColor *)object;
-            encodedObject = [[color arrayFromRGBAComponents] componentsJoinedByString:@":"];
-        }
-        else if ([object isKindOfClass:[NSValue class]])
-        {
-            NSValue *value = (NSValue *) object;
-            CGPoint point = [value CGPointValue];
-            encodedObject = [NSString stringWithFormat:pointFormat, point.x, point.y];
-        }
-        
-        if (encodedObject) 
-            [savedCurves addObject:encodedObject];
+        [[NSFileManager defaultManager] removeItemAtPath:[self drawingsPath] error:NULL];
+        removeDrawings = NO;
     }
-    
-    [coder encodeObject: savedCurves forKey:@"curves"];
+    else if (drawings)
+    {
+        NSData *imageData = UIImagePNGRepresentation(drawings);
+        [imageData writeToFile: [self drawingsPath] atomically:YES];
+    }
+
     [coder encodeObject: [NSNumber numberWithBool:self.hasError] forKey:@"hasError"];
     [coder encodeObject: [NSNumber numberWithBool:self.isLoaded] forKey:@"isLoaded"];
 }

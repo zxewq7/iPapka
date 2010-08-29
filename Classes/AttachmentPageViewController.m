@@ -13,7 +13,7 @@
 
 
 @implementation AttachmentPageViewController
-@synthesize pageIndex, attachment, curves;
+@synthesize pageIndex, attachment, drawings;
 
 - (void)setPageIndex:(NSInteger)newPageIndex
 {
@@ -21,7 +21,8 @@
 	
 	if (pageIndex >= 0 && pageIndex < [attachment.pages count])
 	{		
-        [imageView displayImage:[attachment pageForIndex:pageIndex]];
+        AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
+        [imageView displayImage: page.image];
         
         CGPoint restorePoint = [imageView pointToCenterAfterRotation];
         CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
@@ -98,12 +99,12 @@
     if (state && pageIndex < [attachment.pages count]) 
     {
         AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
-        imageView.curves = page.curves;
+        imageView.drawings = page.drawings;
     }
 }
 
--(NSArray *) curves
+-(UIImage *) drawings
 {
-    return imageView.curves;
+    return imageView.drawings;
 }
 @end

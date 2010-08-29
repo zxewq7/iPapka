@@ -10,62 +10,23 @@
 
 // A class extension to declare private methods
 @interface PaintingView (private)
-
-- (BOOL)createFramebuffer;
-- (void)destroyFramebuffer;
+- (BOOL) createFramebuffer;
+- (void) destroyFramebuffer;
 - (void) renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end;
-
+- (void) enableBrush;
 @end
 
 @implementation PaintingView
 
 @synthesize  location;
 @synthesize  previousLocation;
-@synthesize  curves;
+@synthesize  drawings;
 
-//-(void)setCurves:(NSArray *) aCurves;
-//{
-//    [curves dealloc];
-//
-//    curves = [[NSMutableArray alloc] initWithCapacity:[aCurves count]];
-//
-//    NSUInteger count = [aCurves count];
-//
-//    if (!count && currentColor) 
-//        [curves addObject:currentColor];
-//    NSValue *from = nil;
-//    NSValue *to = nil;
-//    for(NSUInteger i = 0; i < count; i++)
-//    {
-//        NSObject *object = [aCurves objectAtIndex:i];
-//        
-//        if ([object isKindOfClass:[UIColor class]]) 
-//        {
-//            UIColor *color = (UIColor *)object;
-//            glColor4f(color.red, color.green, color.blue, color.alpha);
-//            [curves addObject:color];
-//            from = nil;
-//            to = nil;
-//            continue;
-//        }
-//        if (from == nil) 
-//        {
-//            from = (NSValue *)object;
-//            continue;
-//        }
-//        
-//        to = (NSValue *)object;
-//
-//        [self renderLineFromPoint:[from CGPointValue] toPoint:[to CGPointValue]];
-//        from = nil;
-//        to  = nil;
-//    }
-//    [self glToUIImage];
-//}
-
--(void)setCurves:(NSArray *) aCurves;
+-(void)setDrawings:(UIImage *) aDrawings;
 {
-
+    if (aDrawings == nil) 
+        [self erase];
+    
     [EAGLContext setCurrentContext:context];
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 
@@ -75,11 +36,7 @@
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
-    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
-    NSString *imagePathLocation = [documentsDirectoryPath stringByAppendingString:@"/image.png"];
-    
-    Texture2D *backgroundTex = [[Texture2D alloc] initWithImage:[UIImage imageWithContentsOfFile:imagePathLocation]];
+    Texture2D *backgroundTex = [[Texture2D alloc] initWithImage:aDrawings];
     
     glDisable(GL_BLEND);
     
@@ -92,42 +49,65 @@
     
     glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
+
+    [self enableBrush];
+}
+
+    //https://devforums.apple.com/message/260309#260309
+-(UIImage *) drawings {
+    CGRect frame = self.bounds;
+    NSInteger height = frame.size.height;
+    NSInteger width = frame.size.width;
     
-	CGImageRef		brushImage;
-	CGContextRef	brushContext;
-	GLubyte			*brushData;
-	size_t			width, height;
+    NSInteger myDataLength = width * height * 4;
     
-    brushImage = [UIImage imageNamed:@"Particle.png"].CGImage;
     
-		// Get the width and height of the image
-    width = CGImageGetWidth(brushImage);
-    height = CGImageGetHeight(brushImage);
+        // Allocate array and read pixels into it:
     
-		// Texture dimensions must be a power of 2. If you write an application that allows users to supply an image,
-		// you'll want to add code that checks the dimensions and takes appropriate action if they are not a power of 2.
+    GLubyte *buffer = (GLubyte *) malloc(myDataLength);
+    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
     
-		// Make sure the image exists
-    if(brushImage) {
-			// Allocate  memory needed for the bitmap context
-        brushData = (GLubyte *) calloc(width * height * 4, sizeof(GLubyte));
-			// Use  the bitmatp creation function provided by the Core Graphics framework. 
-        brushContext = CGBitmapContextCreate(brushData, width, height, 8, width * 4, CGImageGetColorSpace(brushImage), kCGImageAlphaPremultipliedLast);
-			// After you create the context, you can draw the  image to the context.
-        CGContextDrawImage(brushContext, CGRectMake(0.0, 0.0, (CGFloat)width, (CGFloat)height), brushImage);
-			// You don't need the context at this point, so you need to release it to avoid memory leaks.
-        CGContextRelease(brushContext);
-			// Use OpenGL ES to generate a name for the texture.
-        glGenTextures(1, &brushTexture);
-			// Bind the texture name. 
-        glBindTexture(GL_TEXTURE_2D, brushTexture);
-			// Set the texture parameters to use a minifying filter and a linear filer (weighted average)
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			// Specify a 2D texture image, providing the a pointer to the image data in memory
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, brushData);
-			// Release  the image data; it's no longer needed
-        free(brushData);
+        // GL renders "upside down" so swap top to bottom into new array.
+        // There's gotta be a better way, but this works.
+    
+    GLubyte *buffer2 = (GLubyte *) malloc(myDataLength);
+    for(int y = 0; y < height; y++)
+    {
+        for(int x = 0; x < width * 4; x++)
+        {
+            buffer2[((height - 1) - y) * width * 4 + x] = buffer[y * 4 * width + x];
+        }
     }
+    
+        // Make data provider with data.
+    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, buffer2, myDataLength, NULL);
+    
+        // Prep the ingredients
+    int bitsPerComponent = 8;
+    int bitsPerPixel = 32;
+    int bytesPerRow = 4 * width;
+    
+    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+    
+        // CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault; // ----- DOES NOT HANDLE TRANSPARENCY
+    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast; //------------------------------------- Handles transparency
+    
+    
+    
+    
+    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
+    
+        // Make the CGImage:
+    CGImageRef imageRef = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
+    
+        // Base the UIImage on the CGImage:
+    UIImage *image = [UIImage imageWithCGImage:imageRef];
+    
+    
+    CGDataProviderRelease(provider);
+    CGColorSpaceRelease(colorSpaceRef);
+    CGImageRelease(imageRef);
+    return image;
 }
 
 // Implement this to override the default layer class (which is [CALayer class]).
@@ -223,7 +203,6 @@
 		
 		// Make sure to start with a cleared buffer
 		needsErase = YES;
-        curves = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -245,51 +224,7 @@
 	}
 }
 
-- (BOOL)createFramebuffer
-{
-	// Generate IDs for a framebuffer object and a color renderbuffer
-	glGenFramebuffersOES(1, &viewFramebuffer);
-	glGenRenderbuffersOES(1, &viewRenderbuffer);
-	
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
-	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
-	// This call associates the storage for the current render buffer with the EAGLDrawable (our CAEAGLLayer)
-	// allowing us to draw into a buffer that will later be rendered to screen wherever the layer is (which corresponds with our view).
-	[context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(id<EAGLDrawable>)self.layer];
-	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, viewRenderbuffer);
-	
-	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &backingWidth);
-	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &backingHeight);
-	
-	// For this sample, we also need a depth buffer, so we'll create and attach one via another renderbuffer.
-	glGenRenderbuffersOES(1, &depthRenderbuffer);
-	glBindRenderbufferOES(GL_RENDERBUFFER_OES, depthRenderbuffer);
-	glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, backingWidth, backingHeight);
-	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, depthRenderbuffer);
-	
-	if(glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES)
-	{
-		NSLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES));
-		return NO;
-	}
-	
-	return YES;
-}
 
-// Clean up any buffers we have allocated.
-- (void)destroyFramebuffer
-{
-	glDeleteFramebuffersOES(1, &viewFramebuffer);
-	viewFramebuffer = 0;
-	glDeleteRenderbuffersOES(1, &viewRenderbuffer);
-	viewRenderbuffer = 0;
-	
-	if(depthRenderbuffer)
-	{
-		glDeleteRenderbuffersOES(1, &depthRenderbuffer);
-		depthRenderbuffer = 0;
-	}
-}
 
 // Releases resources when they are not longer needed.
 - (void) dealloc
@@ -306,7 +241,6 @@
 	}
 	
 	[context release];
-    [curves release];
     [currentColor release];
 	[super dealloc];
 }
@@ -324,60 +258,8 @@
 	// Display the buffer
 	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
-
-    [curves dealloc];
-    curves = [[NSMutableArray alloc] init];
 }
 
-// Drawings a line onscreen based on where the user touches
-- (void) renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
-{
-	static GLfloat*		vertexBuffer = NULL;
-	static NSUInteger	vertexMax = 64;
-	NSUInteger			vertexCount = 0,
-						count,
-						i;
-
-    [curves addObject:[NSValue valueWithCGPoint:CGPointMake(start.x, start.y)]];
-    [curves addObject:[NSValue valueWithCGPoint:CGPointMake(end.x, end.y)]];
-
-	[EAGLContext setCurrentContext:context];
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
-	
-	// Convert locations from Points to Pixels
-#warning iOS 4 stuff
-    CGFloat scale = 1.0;
-        //	CGFloat scale = self.contentScaleFactor;
-	start.x *= scale;
-	start.y *= scale;
-	end.x *= scale;
-	end.y *= scale;
-	
-	// Allocate vertex array buffer
-	if(vertexBuffer == NULL)
-		vertexBuffer = malloc(vertexMax * 2 * sizeof(GLfloat));
-	
-	// Add points to the buffer so there are drawing points every X pixels
-	count = MAX(ceilf(sqrtf((end.x - start.x) * (end.x - start.x) + (end.y - start.y) * (end.y - start.y)) / kBrushPixelStep), 1);
-	for(i = 0; i < count; ++i) {
-		if(vertexCount == vertexMax) {
-			vertexMax = 2 * vertexMax;
-			vertexBuffer = realloc(vertexBuffer, vertexMax * 2 * sizeof(GLfloat));
-		}
-		
-		vertexBuffer[2 * vertexCount + 0] = start.x + (end.x - start.x) * ((GLfloat)i / (GLfloat)count);
-		vertexBuffer[2 * vertexCount + 1] = start.y + (end.y - start.y) * ((GLfloat)i / (GLfloat)count);
-		vertexCount += 1;
-	}
-	
-	// Render the vertex array
-	glVertexPointer(2, GL_FLOAT, 0, vertexBuffer);
-	glDrawArrays(GL_POINTS, 0, vertexCount);
-	
-	// Display the buffer
-	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
-	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
-}
 
 // Handles the start of a touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
@@ -443,73 +325,106 @@
     
     [currentColor release];
     currentColor = [UIColor colorWithRed:r green:g blue:b alpha:kBrushOpacity];
+    [currentColor retain];
+}
+@end
+
+@implementation PaintingView (Private)
+
+    // Drawings a line onscreen based on where the user touches
+- (void) renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
+{
+	static GLfloat*		vertexBuffer = NULL;
+	static NSUInteger	vertexMax = 64;
+	NSUInteger			vertexCount = 0,
+    count,
+    i;
+    
+	[EAGLContext setCurrentContext:context];
+	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+	
+        // Convert locations from Points to Pixels
+#warning iOS 4 stuff
+    CGFloat scale = 1.0;
+        //	CGFloat scale = self.contentScaleFactor;
+	start.x *= scale;
+	start.y *= scale;
+	end.x *= scale;
+	end.y *= scale;
+	
+        // Allocate vertex array buffer
+	if(vertexBuffer == NULL)
+		vertexBuffer = malloc(vertexMax * 2 * sizeof(GLfloat));
+	
+        // Add points to the buffer so there are drawing points every X pixels
+	count = MAX(ceilf(sqrtf((end.x - start.x) * (end.x - start.x) + (end.y - start.y) * (end.y - start.y)) / kBrushPixelStep), 1);
+	for(i = 0; i < count; ++i) {
+		if(vertexCount == vertexMax) {
+			vertexMax = 2 * vertexMax;
+			vertexBuffer = realloc(vertexBuffer, vertexMax * 2 * sizeof(GLfloat));
+		}
+		
+		vertexBuffer[2 * vertexCount + 0] = start.x + (end.x - start.x) * ((GLfloat)i / (GLfloat)count);
+		vertexBuffer[2 * vertexCount + 1] = start.y + (end.y - start.y) * ((GLfloat)i / (GLfloat)count);
+		vertexCount += 1;
+	}
+	
+        // Render the vertex array
+	glVertexPointer(2, GL_FLOAT, 0, vertexBuffer);
+	glDrawArrays(GL_POINTS, 0, vertexCount);
+	
+        // Display the buffer
+	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
+	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
-    //https://devforums.apple.com/message/260309#260309
--(UIImage *) glToUIImage {
-    CGRect frame = self.bounds;
-    NSInteger height = frame.size.height;
-    NSInteger width = frame.size.width;
-    
-    NSInteger myDataLength = width * height * 4;
-    
-    
-        // Allocate array and read pixels into it:
-    
-    GLubyte *buffer = (GLubyte *) malloc(myDataLength);
-    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
-    
-        // GL renders "upside down" so swap top to bottom into new array.
-        // There's gotta be a better way, but this works.
-    
-    GLubyte *buffer2 = (GLubyte *) malloc(myDataLength);
-    for(int y = 0; y < height; y++)
-    {
-        for(int x = 0; x < width * 4; x++)
-        {
-            buffer2[((height - 1) - y) * width * 4 + x] = buffer[y * 4 * width + x];
-        }
-    }
-    
-        // Make data provider with data.
-    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, buffer2, myDataLength, NULL);
-    
-        // Prep the ingredients
-    int bitsPerComponent = 8;
-    int bitsPerPixel = 32;
-    int bytesPerRow = 4 * width;
-    
-    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
-    
-        // CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault; // ----- DOES NOT HANDLE TRANSPARENCY
-    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast; //------------------------------------- Handles transparency
-    
-    
-    
-    
-    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-    
-        // Make the CGImage:
-    CGImageRef imageRef = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
-    
-        // Base the UIImage on the CGImage:
-    UIImage *myImage = [UIImage imageWithCGImage:imageRef];
-    
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES); 
-    NSString *documentsDirectoryPath = [paths objectAtIndex:0];
-    NSString *imagePathLocation = [documentsDirectoryPath stringByAppendingString:@"/image.png"];
-    
-    
-    NSLog(@"PV) Saving image using path:\n%@\n\n", imagePathLocation);
-    NSData *imageData = UIImagePNGRepresentation(myImage);
-    [imageData writeToFile:imagePathLocation atomically:YES];
-    
-    
-    CGDataProviderRelease(provider);
-    CGColorSpaceRelease(colorSpaceRef);
-    CGImageRelease(imageRef);
-    return nil;
+- (BOOL)createFramebuffer
+{
+        // Generate IDs for a framebuffer object and a color renderbuffer
+	glGenFramebuffersOES(1, &viewFramebuffer);
+	glGenRenderbuffersOES(1, &viewRenderbuffer);
+	
+	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+	glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
+        // This call associates the storage for the current render buffer with the EAGLDrawable (our CAEAGLLayer)
+        // allowing us to draw into a buffer that will later be rendered to screen wherever the layer is (which corresponds with our view).
+	[context renderbufferStorage:GL_RENDERBUFFER_OES fromDrawable:(id<EAGLDrawable>)self.layer];
+	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_COLOR_ATTACHMENT0_OES, GL_RENDERBUFFER_OES, viewRenderbuffer);
+	
+	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &backingWidth);
+	glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &backingHeight);
+	
+        // For this sample, we also need a depth buffer, so we'll create and attach one via another renderbuffer.
+	glGenRenderbuffersOES(1, &depthRenderbuffer);
+	glBindRenderbufferOES(GL_RENDERBUFFER_OES, depthRenderbuffer);
+	glRenderbufferStorageOES(GL_RENDERBUFFER_OES, GL_DEPTH_COMPONENT16_OES, backingWidth, backingHeight);
+	glFramebufferRenderbufferOES(GL_FRAMEBUFFER_OES, GL_DEPTH_ATTACHMENT_OES, GL_RENDERBUFFER_OES, depthRenderbuffer);
+	
+	if(glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES)
+	{
+		NSLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES));
+		return NO;
+	}
+	
+	return YES;
 }
 
+    // Clean up any buffers we have allocated.
+- (void)destroyFramebuffer
+{
+	glDeleteFramebuffersOES(1, &viewFramebuffer);
+	viewFramebuffer = 0;
+	glDeleteRenderbuffersOES(1, &viewRenderbuffer);
+	viewRenderbuffer = 0;
+	
+	if(depthRenderbuffer)
+	{
+		glDeleteRenderbuffersOES(1, &depthRenderbuffer);
+		depthRenderbuffer = 0;
+	}
+}
+- (void) enableBrush
+{
+    glBindTexture(GL_TEXTURE_2D, brushTexture);
+}
 @end

@@ -82,13 +82,12 @@
 	CGPoint	previousLocation;
 	Boolean	firstTouch;
 	Boolean needsErase;
-    NSMutableArray *curves;
     UIColor *currentColor;
 }
 
 @property(nonatomic, readwrite) CGPoint location;
 @property(nonatomic, readwrite) CGPoint previousLocation;
-@property(nonatomic, retain, readwrite, setter=setCurves:) NSArray *curves;
+@property(nonatomic, retain, readwrite, getter=drawings, setter=setDrawings:) UIImage *drawings;
 - (void)erase;
 - (void)setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
 

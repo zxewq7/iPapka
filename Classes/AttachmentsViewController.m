@@ -274,6 +274,6 @@
 - (void) saveAttachment
 {
     AttachmentPage *page = [currentPage.attachment.pages objectAtIndex: currentPage.pageIndex];
-    page.curves = currentPage.curves;
+    page.drawings = currentPage.drawings;
 }
 @end

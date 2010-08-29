@@ -549,18 +549,20 @@ static NSString* OperationCount = @"OperationCount";
             LNHttpRequest *request = [self makeRequestWithUrl: url];
             
             [request setDownloadDestinationPath:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", pageIndex]]];
-            request.requestHandler = ^(ASIHTTPRequest *request) {
+            request.requestHandler = ^(ASIHTTPRequest *request) 
+            {
+                AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
                 if ([request error] == nil  && [request responseStatusCode] == 200)
                 {
-                    AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
+                    
                     page.name = [[request downloadDestinationPath] lastPathComponent];
+                    page.path = attachment.path;
                     page.isLoaded = YES;
                     page.hasError = NO;
                 }
                 else
                 {
                     attachment.hasError = YES;
-                    AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
                     page.isLoaded = YES;
                     page.hasError = YES;
                         //remove bugged response
