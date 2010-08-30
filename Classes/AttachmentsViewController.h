@@ -21,6 +21,7 @@
     CGRect        viewFrame;
     CGFloat       originalHeight;
     CGFloat       originalWidth;
+    BOOL          isCommenting;
 }
 
 @property (nonatomic, retain, setter=setAttachment:)   Attachment    *attachment;

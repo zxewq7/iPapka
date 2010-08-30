@@ -155,6 +155,8 @@
 	}
     
     [currentPage updateViews:YES];
+    [currentPage setCommenting:isCommenting];
+    [nextPage setCommenting:NO];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)newScrollView
@@ -186,11 +188,11 @@
 #pragma mark methods
 -(void) setCommenting:(BOOL) state
 {
-    pagingScrollView.canCancelContentTouches = !state;
-    pagingScrollView.delaysContentTouches = !state;
-    [currentPage setCommenting:state];
-    [nextPage setCommenting:state];
-    if (!state) 
+    isCommenting = state;
+    pagingScrollView.canCancelContentTouches = !isCommenting;
+    pagingScrollView.delaysContentTouches = !isCommenting;
+    [currentPage setCommenting:isCommenting];
+    if (!isCommenting) 
         [currentPage saveContent];
 }
 @end
