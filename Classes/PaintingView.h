@@ -41,7 +41,7 @@
 @property(nonatomic, readwrite) CGPoint location;
 @property(nonatomic, readwrite) CGPoint previousLocation;
 
-@property(nonatomic, retain, readwrite, getter=drawings, setter=setDrawings:) UIImage *drawings;
+@property(nonatomic, retain, readwrite, getter=image, setter=setImage:) UIImage *image;
 - (void)erase;
 - (void)setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
 - (void)saveContent;

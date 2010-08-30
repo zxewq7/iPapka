@@ -20,9 +20,9 @@
 
 @synthesize  location;
 @synthesize  previousLocation;
-@synthesize  drawings;
+@synthesize  image;
 
--(void)setDrawings:(UIImage *) aDrawings;
+-(void)setImage:(UIImage *) aDrawings;
 {
     [self erase];
     if (savedContent != aDrawings) 
@@ -69,7 +69,7 @@
     [self enableBrush];
 }
     //https://devforums.apple.com/message/260309#260309
--(UIImage *) drawings {
+-(UIImage *) image {
     CGRect frame = self.bounds;
     NSInteger height = frame.size.height;
     NSInteger width = frame.size.width;
@@ -246,7 +246,7 @@
     if (modifiedContentSaved)
         return;
     [savedContent release];
-    savedContent = self.drawings;
+    savedContent = self.image;
     
     [savedContent retain];
     modifiedContentSaved = YES;
