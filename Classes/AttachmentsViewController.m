@@ -186,10 +186,6 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self resizeScrollViewAndPages:toInterfaceOrientation];
-    currentPage.attachment = attachment;
-    nextPage.attachment = attachment;
-	[self applyNewIndex:currentPage.pageIndex pageController:currentPage];
-	[self applyNewIndex:nextPage.pageIndex pageController:nextPage];
 }
 
 #pragma mark -

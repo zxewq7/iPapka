@@ -26,39 +26,44 @@
 {
     [self erase];
 
-        //set color to white
-    glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-    
-    [EAGLContext setCurrentContext:context];
-	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
-
-    CGRect	bounds = [self bounds];
-
-    
-    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-    
-    
-    Texture2D *backgroundTex = [[Texture2D alloc] initWithImage:aDrawings];
-    
-    glDisable(GL_BLEND);
-    
-    [backgroundTex drawInRect:bounds];
-    
-    glEnable(GL_BLEND);
-
-    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-    
-    
-    glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
-	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
-
-        //restore color
-    [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
-    
-    [self enableBrush];
-    [savedContent dealloc];
-    savedContent = aDrawings;
-    [savedContent retain];
+    if (aDrawings) 
+    {
+            //set color to white
+        glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        
+        [EAGLContext setCurrentContext:context];
+        glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+        
+        CGRect	bounds = [self bounds];
+        
+        
+        glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+        
+        
+        Texture2D *backgroundTex = [[Texture2D alloc] initWithImage:aDrawings];
+        
+        glDisable(GL_BLEND);
+        
+        [backgroundTex drawInRect:bounds];
+        
+        glEnable(GL_BLEND);
+        
+        glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+        
+        
+        glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
+        [context presentRenderbuffer:GL_RENDERBUFFER_OES];
+        
+            //restore color
+        [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
+        
+        [self enableBrush];
+    }
+    if (savedContent != aDrawings) 
+    {
+        [savedContent dealloc];
+        savedContent = [aDrawings retain];
+    }
 }
 
     //https://devforums.apple.com/message/260309#260309
@@ -230,6 +235,7 @@
 		[self erase];
 		needsErase = NO;
 	}
+
     self.drawings = savedContent;
     [savedContent release];
     savedContent = nil;
@@ -326,12 +332,6 @@
 		previousLocation.y = bounds.size.height - previousLocation.y;
 		[self renderLineFromPoint:previousLocation toPoint:location];
 	}
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *path = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    
-    NSData *imageData = UIImagePNGRepresentation(self.drawings);
-    [imageData writeToFile: [path stringByAppendingPathComponent:@"saved.png"] atomically:YES];
-    
 }
 
 // Handles the end of a touch event.
