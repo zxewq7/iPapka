@@ -56,6 +56,9 @@
     [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
     
     [self enableBrush];
+    [savedContent dealloc];
+    savedContent = aDrawings;
+    [savedContent retain];
 }
 
     //https://devforums.apple.com/message/260309#260309
@@ -218,7 +221,7 @@
 // the same size as our display area.
 -(void)layoutSubviews
 {
-	[EAGLContext setCurrentContext:context];
+    [EAGLContext setCurrentContext:context];
 	[self destroyFramebuffer];
 	[self createFramebuffer];
 	
@@ -227,8 +230,19 @@
 		[self erase];
 		needsErase = NO;
 	}
+    self.drawings = savedContent;
+    [savedContent release];
+    savedContent = nil;
 }
 
+- (void)saveContent
+{
+    if (savedContent)
+        return;
+    [savedContent release];
+    savedContent = self.drawings;
+    [savedContent retain];
+}
 
 
 // Releases resources when they are not longer needed.
@@ -247,6 +261,7 @@
 	
 	[context release];
     [currentColor release];
+    [savedContent release];
 	[super dealloc];
 }
 
@@ -311,6 +326,12 @@
 		previousLocation.y = bounds.size.height - previousLocation.y;
 		[self renderLineFromPoint:previousLocation toPoint:location];
 	}
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *path = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    
+    NSData *imageData = UIImagePNGRepresentation(self.drawings);
+    [imageData writeToFile: [path stringByAppendingPathComponent:@"saved.png"] atomically:YES];
+    
 }
 
 // Handles the end of a touch event.

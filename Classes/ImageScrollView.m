@@ -129,6 +129,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         frameToCenter.origin.y = 0;
     
     imageView.frame = frameToCenter;
+    [paintingView saveContent];
     paintingView.frame = frameToCenter;
 }
 

@@ -83,12 +83,15 @@
 	Boolean	firstTouch;
 	Boolean needsErase;
     UIColor *currentColor;
+    UIImage *savedContent;
 }
 
 @property(nonatomic, readwrite) CGPoint location;
 @property(nonatomic, readwrite) CGPoint previousLocation;
+
 @property(nonatomic, retain, readwrite, getter=drawings, setter=setDrawings:) UIImage *drawings;
 - (void)erase;
 - (void)setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
+- (void)saveContent;
 
 @end
