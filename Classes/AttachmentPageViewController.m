@@ -98,11 +98,6 @@
 -(void) setCommenting:(BOOL) state
 {
     [imageView setCommenting:state];
-    if (state && pageIndex < [attachment.pages count]) 
-    {
-        AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
-        imageView.drawings = page.drawings;
-    }
 }
 
 - (void) saveContent
