@@ -24,6 +24,7 @@
 
 -(void)setDrawings:(UIImage *) aDrawings;
 {
+    [self erase];
     if (savedContent != aDrawings) 
     {
         [self paintTexture:aDrawings];
