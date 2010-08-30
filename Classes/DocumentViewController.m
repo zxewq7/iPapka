@@ -32,7 +32,7 @@
 {
     if (document == aDocument)
         return;
-        //[document saveDocument];
+    [document saveDocument];
     
     [document release];
     document = [aDocument retain];

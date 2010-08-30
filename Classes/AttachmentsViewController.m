@@ -26,6 +26,8 @@
 {
     if (attachment != anAttachment) 
     {
+            //save previous attachment
+        [self saveAttachment];
         [attachment release];
         attachment = [anAttachment retain];
     }

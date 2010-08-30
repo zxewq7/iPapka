@@ -160,7 +160,10 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
         // make a new UIImageView for the new image
     imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.userInteractionEnabled = NO;
+    
+        //if view can not cancel touchs, than we in editing mode
+    imageView.userInteractionEnabled =  !self.canCancelContentTouches;
+
         // make a new PaintingView for the new image
     paintingView = [[PaintingView alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
     paintingView.backgroundColor = [UIColor clearColor];
