@@ -51,10 +51,11 @@
 
 @interface ImageScrollView : UIScrollView <UIScrollViewDelegate> {
     PaintingView        *paintingView;
-    PaintingView         *imageView;
-    NSUInteger     index;
+    UIImageView         *imageView;
+    UIImageView         *drawingsView;
+    BOOL                isCommenting;
+    CGSize              imageOriginalSize;
 }
-@property (assign) NSUInteger index;
 @property (nonatomic, retain, getter=drawings, setter=setDrawings:) UIImage *drawings;
 - (void)displayImage:(UIImage *)image;
 - (void)setMaxMinZoomScalesForCurrentBounds;

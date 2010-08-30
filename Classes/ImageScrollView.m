@@ -71,18 +71,34 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 }
 #define kPaletteSize			5
 
+@interface ImageScrollView (Private)
+- (void) createDrawingsView;
+- (void) createPaintingView;
+@end
+
+
 @implementation ImageScrollView
-@synthesize index, drawings;
+@synthesize drawings;
 
 -(UIImage *) drawings
 {
-    UIImage *aDrawings = paintingView.drawings;
-    return aDrawings;
+    return paintingView?paintingView.image:drawingsView.image;
 }
 
 -(void) setDrawings:(UIImage *) aDrawings
 {
-    paintingView.drawings = aDrawings;
+    if (!(paintingView || drawingsView)) 
+    {
+        if (isCommenting)
+            [self createPaintingView];
+        else
+            [self createDrawingsView];
+    }
+    
+    if (paintingView) 
+        paintingView.image = aDrawings;
+    else
+        drawingsView.image = aDrawings;
 }
 
 - (id)initWithFrame:(CGRect)frame
@@ -101,6 +117,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 {
     [imageView release];
     [paintingView release];
+    [drawingsView release];
     [super dealloc];
 }
 
@@ -131,6 +148,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     imageView.frame = frameToCenter;
     [paintingView saveContent];
     paintingView.frame = frameToCenter;
+    drawingsView.frame = frameToCenter;
 }
 
 #pragma mark -
@@ -151,6 +169,11 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     [imageView release];
     imageView = nil;
 
+    [drawingsView removeFromSuperview];
+    [drawingsView release];
+    drawingsView = nil;
+    
+    
     [paintingView removeFromSuperview];
     [paintingView release];
     paintingView = nil;
@@ -160,26 +183,13 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
         // make a new UIImageView for the new image
     imageView = [[UIImageView alloc] initWithImage:image];
-    imageView.userInteractionEnabled =  !self.canCancelContentTouches;
+    imageView.userInteractionEnabled =  !isCommenting;
     
-        // make a new PaintingView for the new image
-    paintingView = [[PaintingView alloc] initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
-    paintingView.backgroundColor = [UIColor clearColor];
-        //if view can not cancel touchs, than we in editing mode
-    paintingView.userInteractionEnabled =  !self.canCancelContentTouches;
-    paintingView.exclusiveTouch =  !self.canCancelContentTouches;
+    imageOriginalSize = image.size;
     
-    
-    CGFloat					components[3];
-    
- 	HSL2RGB((CGFloat)0 / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
-        // Defer to the OpenGL view to set the brush color
-    [paintingView setBrushColorWithRed:components[0] green:components[1] blue:components[2]];
-
     [self addSubview:imageView];
-    [self addSubview:paintingView];
     
-    self.contentSize = [image size];
+    self.contentSize = imageOriginalSize;
     [self setMaxMinZoomScalesForCurrentBounds];
     self.zoomScale = self.minimumZoomScale;
 }
@@ -265,9 +275,59 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 }
 -(void) setCommenting:(BOOL) state
 {
-    paintingView.userInteractionEnabled = state;
-    paintingView.exclusiveTouch = state;
-    self.canCancelContentTouches = !state;
-    self.delaysContentTouches = !state;
+    isCommenting = state;
+    
+    if (isCommenting)
+        [self createPaintingView];
+    else
+        [self createDrawingsView];
+
+    self.canCancelContentTouches = !isCommenting;
+    self.delaysContentTouches = !isCommenting;
+}
+@end
+
+@implementation ImageScrollView (Private)
+- (void) createDrawingsView
+{
+    UIImage *image = paintingView.image;
+
+    drawingsView = [[UIImageView alloc] initWithImage:image];
+    drawingsView.frame = self.frame;
+
+    [paintingView removeFromSuperview];
+    [paintingView release];
+    paintingView = nil;
+    
+    [self addSubview:drawingsView];
+}
+
+- (void) createPaintingView
+{
+    UIImage *image = drawingsView.image;
+    
+        // make a new PaintingView for the new image
+    CGRect f = CGRectMake(0, 0, imageOriginalSize.width, imageOriginalSize.height);
+    paintingView = [[PaintingView alloc] initWithFrame:f];
+    paintingView.frame = self.frame;
+    paintingView.backgroundColor = [UIColor clearColor];
+        //if view can not cancel touchs, than we in editing mode
+    paintingView.userInteractionEnabled =  YES;
+    paintingView.exclusiveTouch =  YES;
+    
+    CGFloat					components[3];
+    
+    HSL2RGB((CGFloat)0 / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
+        // Defer to the OpenGL view to set the brush color
+    [paintingView setBrushColorWithRed:components[0] green:components[1] blue:components[2]];
+    
+    paintingView.image = image;
+
+    [drawingsView removeFromSuperview];
+    [drawingsView release];
+    drawingsView = nil;
+    
+    [self addSubview:paintingView];
+
 }
 @end
