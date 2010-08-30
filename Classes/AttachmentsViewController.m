@@ -16,7 +16,6 @@
 - (void) resizePagingScrollView;
 - (void) applyNewIndex:(NSInteger)newIndex pageController:(AttachmentPageViewController *)pageController;
 - (void) resizeScrollViewAndPages:(UIInterfaceOrientation) orientation;
-- (void) saveAttachment;
 @end
 
 @implementation AttachmentsViewController
@@ -26,11 +25,10 @@
 {
     if (attachment != anAttachment) 
     {
-            //save previous attachment
-        [self saveAttachment];
         [attachment release];
         attachment = [anAttachment retain];
     }
+    [currentPage saveContent];
     currentPage.attachment = attachment;
     nextPage.attachment = attachment;
 	[self applyNewIndex:0 pageController:currentPage];
@@ -72,12 +70,6 @@
 {
     [super viewDidLoad];
 
-    currentPage.attachment = attachment;
-    nextPage.attachment = attachment;
-    currentPage.view.frame = CGRectMake(0, 0, originalWidth, originalHeight);
-    nextPage.view.frame = CGRectMake(0, 0, originalWidth, originalHeight);
-	[self applyNewIndex:0 pageController:currentPage];
-	[self applyNewIndex:1 pageController:nextPage];
     [self resizeScrollViewAndPages:[UIApplication sharedApplication].statusBarOrientation];
 }
 
@@ -162,7 +154,7 @@
 		nextPage = swapController;
 	}
     
-	[currentPage updateViews:YES];
+    [currentPage updateViews:YES];
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)newScrollView
@@ -199,7 +191,7 @@
     [currentPage setCommenting:state];
     [nextPage setCommenting:state];
     if (!state) 
-        [self saveAttachment];
+        [currentPage saveContent];
 }
 @end
 
@@ -223,7 +215,6 @@
 		pageFrame.origin.y = pagingScrollView.frame.size.height;
 		pageController.view.frame = pageFrame;
 	}
-    
 	pageController.pageIndex = newIndex;
 }
 
@@ -266,10 +257,5 @@
     currentPage.view.frame = CGRectMake(currentPage.view.frame.origin.x, 0, originalWidth+rightPageOffset, originalHeight+heightAdd);
     nextPage.view.frame = CGRectMake(nextPage.view.frame.origin.x, 0, originalWidth+rightPageOffset, originalHeight+heightAdd);
     [self resizePagingScrollView];
-}
-- (void) saveAttachment
-{
-    AttachmentPage *page = [currentPage.attachment.pages objectAtIndex: currentPage.pageIndex];
-    page.drawings = currentPage.drawings;
 }
 @end

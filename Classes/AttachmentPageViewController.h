@@ -20,8 +20,8 @@
 
 @property (nonatomic, setter=setPageIndex:)              NSInteger     pageIndex;
 @property (nonatomic, retain)                            Attachment    *attachment;
-@property (nonatomic, retain, readonly, getter=drawings) UIImage       *drawings;
 
 - (void) updateViews:(BOOL)force;
 - (void) setCommenting:(BOOL) state;
+- (void) saveContent;
 @end

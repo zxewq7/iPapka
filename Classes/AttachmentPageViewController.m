@@ -13,16 +13,17 @@
 
 
 @implementation AttachmentPageViewController
-@synthesize pageIndex, attachment, drawings;
+@synthesize pageIndex, attachment;
 
 - (void)setPageIndex:(NSInteger)newPageIndex
 {
-	pageIndex = newPageIndex;
-	
+    pageIndex = newPageIndex;
+    
 	if (pageIndex >= 0 && pageIndex < [attachment.pages count])
 	{		
         AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
         [imageView displayImage: page.image];
+        
         imageView.drawings = page.drawings;
         
         CGPoint restorePoint = [imageView pointToCenterAfterRotation];
@@ -44,7 +45,7 @@
 
 - (void)updateViews:(BOOL)force
 {
-	if (force ||
+    if (force ||
 		(viewNeedsUpdate &&
          self.view.window &&
          CGRectIntersectsRect(
@@ -54,10 +55,10 @@
                               [self.view.window bounds])))
 	{
 		
-            CGPoint restorePoint = [imageView pointToCenterAfterRotation];
-            CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
-            [imageView setMaxMinZoomScalesForCurrentBounds];
-            [imageView restoreCenterPoint:restorePoint scale:restoreScale];
+//        CGPoint restorePoint = [imageView pointToCenterAfterRotation];
+//        CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
+//        [imageView setMaxMinZoomScalesForCurrentBounds];
+//        [imageView restoreCenterPoint:restorePoint scale:restoreScale];
             
 		viewNeedsUpdate = NO;
 	}
@@ -104,8 +105,12 @@
     }
 }
 
--(UIImage *) drawings
+- (void) saveContent
 {
-    return imageView.drawings;
+    if (pageIndex >= 0 && pageIndex < [attachment.pages count])
+    {
+        AttachmentPage *prevPage = [attachment.pages objectAtIndex: pageIndex];
+        prevPage.drawings = imageView.drawings;
+    }
 }
 @end
