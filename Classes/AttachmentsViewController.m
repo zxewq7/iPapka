@@ -265,10 +265,8 @@
     }
     
     pagingScrollView.frame = CGRectMake(topOffset, topOffset, viewRect.size.width, originalHeight+heightAdd-topOffset-bottomOffset);    
-    currentPage.view.frame = CGRectMake(0, 0, originalWidth+rightPageOffset, originalHeight+heightAdd);
-    nextPage.view.frame = CGRectMake(0, 0, originalWidth+rightPageOffset, originalHeight+heightAdd);
-    [currentPage updateViews:NO];
-    [nextPage updateViews:NO];
+    currentPage.view.frame = CGRectMake(currentPage.view.frame.origin.x, 0, originalWidth+rightPageOffset, originalHeight+heightAdd);
+    nextPage.view.frame = CGRectMake(nextPage.view.frame.origin.x, 0, originalWidth+rightPageOffset, originalHeight+heightAdd);
     [self resizePagingScrollView];
 }
 - (void) saveAttachment
