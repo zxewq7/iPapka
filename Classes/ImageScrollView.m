@@ -167,6 +167,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     paintingView.backgroundColor = [UIColor clearColor];
         //if view can not cancel touchs, than we in editing mode
     paintingView.userInteractionEnabled =  !self.canCancelContentTouches;
+    paintingView.exclusiveTouch =  !self.canCancelContentTouches;
     
     
     CGFloat					components[3];
