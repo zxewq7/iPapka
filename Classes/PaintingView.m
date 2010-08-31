@@ -118,13 +118,13 @@
     CGImageRef imageRef = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
     
         // Base the UIImage on the CGImage:
-    UIImage *image = [UIImage imageWithCGImage:imageRef];
+    UIImage *imageResult = [UIImage imageWithCGImage:imageRef];
     
     
     CGDataProviderRelease(provider);
     CGColorSpaceRelease(colorSpaceRef);
     CGImageRelease(imageRef);
-    return image;
+    return imageResult;
 }
 
     // Implement this to override the default layer class (which is [CALayer class]).
