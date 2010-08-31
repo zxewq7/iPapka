@@ -55,6 +55,8 @@
     
     [backgroundTex drawInRect:bounds];
     
+    [backgroundTex dealloc];
+    
     glEnable(GL_BLEND);
     
     glDisableClientState(GL_TEXTURE_COORD_ARRAY);
