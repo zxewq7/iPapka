@@ -33,7 +33,7 @@
 
 #warning test default settings
 
-    [defaultValues setObject:@"http://10.0.2.4/~vovasty" forKey:@"serverHost"];
+    [defaultValues setObject:@"http://vovasty/~vovasty" forKey:@"serverHost"];
         //    [defaultValues setObject:@"http://195.208.68.133/cm35" forKey:@"serverHost"];
     [defaultValues setObject:@"prvz.nsf" forKey:@"serverDatabase"];
     [defaultValues setObject:@"documents" forKey:@"serverDatabaseView"];
