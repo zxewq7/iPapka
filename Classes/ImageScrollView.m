@@ -146,10 +146,12 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         frameToCenter.origin.y = 0;
     
     imageView.frame = frameToCenter;
-    [paintingView saveContent];
-//    CGRect subviewsFrame = CGRectMake(0, 0, frameToCenter.size.width, frameToCenter.size.height);
-//    paintingView.frame = subviewsFrame;
-//    drawingsView.frame = subviewsFrame;
+        //    [paintingView saveContent];
+        //    CGRect of = paintingView.frame;
+    paintingView.frame = CGRectMake(frameToCenter.origin.x, frameToCenter.origin.y, paintingView.frame.size.width, paintingView.frame.size.height);
+        //    paintingView.frame = CGRectMake(frameToCenter.origin.x, frameToCenter.origin.y, 398, frameToCenter.size.height);
+
+        drawingsView.frame = frameToCenter;
 }
 
 #pragma mark -
@@ -169,7 +171,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     [imageView removeFromSuperview];
     [imageView release];
     imageView = nil;
-
+    
     [drawingsView removeFromSuperview];
     [drawingsView release];
     drawingsView = nil;
@@ -282,7 +284,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         [self createPaintingView];
     else
         [self createDrawingsView];
-
+    
     self.canCancelContentTouches = !isCommenting;
     self.delaysContentTouches = !isCommenting;
 }
@@ -292,11 +294,10 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 - (void) createDrawingsView
 {
     UIImage *image = paintingView.image;
-
+    
     drawingsView = [[UIImageView alloc] initWithImage:image];
-    CGRect f = CGRectMake(0, 0, imageOriginalSize.width, imageOriginalSize.height);
-    drawingsView.frame = f;
-
+    drawingsView.frame = CGRectMake(0, 0, imageOriginalSize.width, imageOriginalSize.height);
+    
     [paintingView removeFromSuperview];
     [paintingView release];
     paintingView = nil;
@@ -309,13 +310,17 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     UIImage *image = drawingsView.image;
     
         // make a new PaintingView for the new image
-    CGRect f = CGRectMake(0, 0, imageOriginalSize.width, imageOriginalSize.height);
-    paintingView = [[PaintingView alloc] initWithFrame:f];
+        CGRect f = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
+        //    CGRect f = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, 768, 1024);
+        //CGRect f = CGRectMake(self.frame.origin.x+imageView.frame.origin.x, self.frame.origin.y+imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
+        //    CGRect f = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, 768, 1024);
+    paintingView = [[PaintingView alloc] initWithFrame: f];
+    paintingView.frame = self.frame;
     paintingView.backgroundColor = [UIColor clearColor];
         //if view can not cancel touchs, than we in editing mode
     paintingView.userInteractionEnabled =  YES;
     paintingView.exclusiveTouch =  YES;
-    
+
     CGFloat					components[3];
     
     HSL2RGB((CGFloat)0 / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
@@ -323,11 +328,12 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     [paintingView setBrushColorWithRed:components[0] green:components[1] blue:components[2]];
     
     paintingView.image = image;
-
+    
     [drawingsView removeFromSuperview];
     [drawingsView release];
     drawingsView = nil;
     
-    [imageView addSubview:paintingView];
+    [self addSubview:paintingView];
+    
 }
 @end
