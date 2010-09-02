@@ -70,61 +70,70 @@
         //restore brush
     [self enableBrush];
 }
-    //https://devforums.apple.com/message/260309#260309
--(UIImage *) image {
-    CGRect frame = self.bounds;
-    NSInteger height = frame.size.height;
-    NSInteger width = frame.size.width;
+
+    //http://www.iphonedevsdk.com/forum/iphone-sdk-development/57381-snapshot-problem.html
+- (UIImage*)image
+{
+        // Get the size of the backing CAEAGLLayer
+    glBindRenderbufferOES(GL_RENDERBUFFER_OES, viewRenderbuffer);
+    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_WIDTH_OES, &backingWidth);
+    glGetRenderbufferParameterivOES(GL_RENDERBUFFER_OES, GL_RENDERBUFFER_HEIGHT_OES, &backingHeight);
     
-    NSInteger myDataLength = width * height * 4;
+    NSInteger x = 0, y = 0, width = backingWidth, height = backingHeight;
+    NSInteger dataLength = width * height * 4;
+    GLubyte *data = (GLubyte*)malloc(dataLength * sizeof(GLubyte));
     
+        // Read pixel data from the framebuffer
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
+    glReadPixels(x, y, width, height, GL_RGBA, GL_UNSIGNED_BYTE, data);
     
-        // Allocate array and read pixels into it:
+        // Create a CGImage with the pixel data
+        // If your OpenGL ES content is opaque, use kCGImageAlphaNoneSkipLast to ignore the alpha channel
+        // otherwise, use kCGImageAlphaPremultipliedLast
+    CGDataProviderRef ref = CGDataProviderCreateWithData(NULL, data, dataLength, NULL);
+    CGColorSpaceRef colorspace = CGColorSpaceCreateDeviceRGB();
+    CGImageRef iref = CGImageCreate(width, height, 8, 32, width * 4, colorspace, kCGBitmapByteOrder32Big | kCGImageAlphaPremultipliedLast,
+                                    ref, NULL, true, kCGRenderingIntentDefault);
     
-    GLubyte *buffer = (GLubyte *) malloc(myDataLength);
-    glReadPixels(0, 0, width, height, GL_RGBA, GL_UNSIGNED_BYTE, buffer);
+        // OpenGL ES measures data in PIXELS
+        // Create a graphics context with the target size measured in POINTS
+    NSInteger widthInPoints, heightInPoints;
+        // if (NULL != UIGraphicsBeginImageContextWithOptions) {
+        // // On iOS 4 and later, use UIGraphicsBeginImageContextWithOptions to take the scale into consideration
+        // // Set the scale parameter to your OpenGL ES view's contentScaleFactor
+        // // so that you get a high-resolution snapshot when its value is greater than 1.0
+        // CGFloat scale = eaglview.contentScaleFactor;
+        // widthInPoints = width / scale;
+        // heightInPoints = height / scale;
+        // UIGraphicsBeginImageContextWithOptions(CGSizeMake( widthInPoints, heightInPoints), NO, scale);
+        // }
+        // else {
+        // On iOS prior to 4, fall back to use UIGraphicsBeginImageContext
+    widthInPoints = width;
+    heightInPoints = height;
+    UIGraphicsBeginImageContext(CGSizeMake(widthInPoints, heightInPoints));
+        // }
     
-        // GL renders "upside down" so swap top to bottom into new array.
-        // There's gotta be a better way, but this works.
+    CGContextRef cgcontext = UIGraphicsGetCurrentContext();
     
-    GLubyte *buffer2 = (GLubyte *) malloc(myDataLength);
-    for(int y = 0; y < height; y++)
-    {
-        for(int x = 0; x < width * 4; x++)
-        {
-            buffer2[((height - 1) - y) * width * 4 + x] = buffer[y * 4 * width + x];
-        }
-    }
+        // UIKit coordinate system is upside down to GL/Quartz coordinate system
+        // Flip the CGImage by rendering it to the flipped bitmap context
+        // The size of the destination area is measured in POINTS
+    CGContextSetBlendMode(cgcontext, kCGBlendModeCopy);
+    CGContextDrawImage(cgcontext, CGRectMake(0.0, 0.0, widthInPoints, heightInPoints), iref);
     
-        // Make data provider with data.
-    CGDataProviderRef provider = CGDataProviderCreateWithData(NULL, buffer2, myDataLength, NULL);
+        // Retrieve the UIImage from the current context
+    UIImage *image1 = UIGraphicsGetImageFromCurrentImageContext();
     
-        // Prep the ingredients
-    int bitsPerComponent = 8;
-    int bitsPerPixel = 32;
-    int bytesPerRow = 4 * width;
+    UIGraphicsEndImageContext();
     
-    CGColorSpaceRef colorSpaceRef = CGColorSpaceCreateDeviceRGB();
+        // Clean up
+    free(data);
+    CFRelease(ref);
+    CFRelease(colorspace);
+    CGImageRelease(iref);
     
-        // CGBitmapInfo bitmapInfo = kCGBitmapByteOrderDefault; // ----- DOES NOT HANDLE TRANSPARENCY
-    CGBitmapInfo bitmapInfo = kCGImageAlphaPremultipliedLast; //------------------------------------- Handles transparency
-    
-    
-    
-    
-    CGColorRenderingIntent renderingIntent = kCGRenderingIntentDefault;
-    
-        // Make the CGImage:
-    CGImageRef imageRef = CGImageCreate(width, height, bitsPerComponent, bitsPerPixel, bytesPerRow, colorSpaceRef, bitmapInfo, provider, NULL, NO, renderingIntent);
-    
-        // Base the UIImage on the CGImage:
-    UIImage *imageResult = [UIImage imageWithCGImage:imageRef];
-    
-    
-    CGDataProviderRelease(provider);
-    CGColorSpaceRelease(colorSpaceRef);
-    CGImageRelease(imageRef);
-    return imageResult;
+    return image1;
 }
 
     // Implement this to override the default layer class (which is [CALayer class]).
