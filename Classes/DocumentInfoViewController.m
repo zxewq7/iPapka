@@ -111,7 +111,8 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     [super viewDidLoad];
 
     dateFormatter = [[NSDateFormatter alloc] init];
-    [dateFormatter setDateFormat:@"dd MMMM yyyy"];
+    dateFormatter.dateStyle = NSDateFormatterLongStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
     
     UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocumentViewBackground.png"]];
     self.view.backgroundColor = backgroundColor;

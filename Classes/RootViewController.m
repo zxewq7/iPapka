@@ -64,7 +64,8 @@
     self.tableView.rowHeight = ROW_HEIGHT;
     
     self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [self.dateFormatter setDateFormat:@"dd MMMM yyyy"];
+    dateFormatter.dateStyle = NSDateFormatterLongStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
     
     self.sections = [NSMutableDictionary dictionaryWithCapacity:1];
     self.sectionsOrdered = [NSMutableArray arrayWithCapacity:1];
