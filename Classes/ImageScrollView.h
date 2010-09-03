@@ -55,6 +55,7 @@
     UIImageView         *drawingsView;
     BOOL                isCommenting;
     CGSize              imageOriginalSize;
+    NSRange             *minScaleRanges;
 }
 @property (nonatomic, retain, getter=drawings, setter=setDrawings:) UIImage *drawings;
 - (void)displayImage:(UIImage *)image;

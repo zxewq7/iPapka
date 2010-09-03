@@ -110,7 +110,11 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         self.showsHorizontalScrollIndicator = NO;
         self.bouncesZoom = YES;
         self.decelerationRate = UIScrollViewDecelerationRateFast;
-        self.delegate = self;        
+        self.delegate = self;
+        minScaleRanges = malloc(3 * sizeof(NSRange));
+        minScaleRanges[0] = NSMakeRange(320, 0);
+        minScaleRanges[1] = NSMakeRange(537, 7);
+        minScaleRanges[2] = NSMakeRange(1024, 0);
     }
     return self;
 }
@@ -120,6 +124,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     [imageView release];
     [paintingView release];
     [drawingsView release];
+    free(minScaleRanges);
     [super dealloc];
 }
 
@@ -200,13 +205,41 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
         //set image width equal to view bounds
         // calculate min/max zoomscale
-    CGFloat minScale = boundsSize.width / imageSize.width;    // the scale needed to perfectly fit the image width-wise
+    int rangesLength = sizeof(NSRange)/sizeof(minScaleRanges);
+    CGFloat minWidth = boundsSize.width;
+
+    NSUInteger imageWidth = imageSize.width;
+    NSRange maxRange = minScaleRanges[rangesLength];
+    NSUInteger maxWidth = maxRange.location + maxRange.length;
+
+    for (int i=0;i<=rangesLength;i++)
+    {
+        NSRange range = minScaleRanges[i];
+        if (NSLocationInRange(imageWidth, range)) 
+        {
+            minWidth = imageWidth;
+            maxWidth = range.location + range.length;
+            break;
+        }
+        
+        if (imageWidth<range.location) 
+        {
+            minWidth = range.location;
+            maxWidth = range.location + range.length;
+            break;
+        }
+    }
+    
+    if (minWidth>boundsSize.width)
+        minWidth = boundsSize.width;
+    
+    CGFloat minScale = minWidth / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     
         // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
         // maximum zoom scale to 0.5.
         //
         //due to odd behavoir fo grReadPixels we need exact width (checked 1024, 537-544, 320)
-    CGFloat maxScale = MAX_SCALE_WIDTH / imageSize.width;
+    CGFloat maxScale = maxWidth / imageSize.width;
     
         // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.) 
     if (minScale > maxScale) {
