@@ -114,7 +114,7 @@
 		 Draw the document date, right-aligned in the middle column.
 		 To ensure it is right-aligned, first find its width with the given font and minimum allowed font size. Then draw the string at the appropriate offset.
 		 */
-	NSString *dateString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Date approval", "Date approval"), [dateFormatter stringFromDate:document.dateModified]];
+	NSString *dateString = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Date of approval", "Date of approval"), [dateFormatter stringFromDate:document.dateModified]];
     
     /*
      Draw the document date, right-aligned in the middle column.

@@ -18,10 +18,8 @@
 		8116FF8B121134E900DD537F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8A121134E900DD537F /* UIKit.framework */; };
 		8116FF8D121134E900DD537F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8C121134E900DD537F /* Foundation.framework */; };
 		8116FF8F121134E900DD537F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8E121134E900DD537F /* CoreGraphics.framework */; };
-		8116FF94121134E900DD537F /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF92121134E900DD537F /* InfoPlist.strings */; };
 		8116FF96121134E900DD537F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF95121134E900DD537F /* main.m */; };
 		8116FF99121134E900DD537F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF98121134E900DD537F /* AppDelegate.m */; };
-		8116FF9C121134E900DD537F /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8116FF9A121134E900DD537F /* MainWindow.xib */; };
 		812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 812AADB01218312400E3FBC8 /* DocumentCellView.m */; };
 		812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 812AAE8A1218433500E3FBC8 /* Localizable.strings */; };
 		81334DC1122A5AFF0047C274 /* PaintingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81334DC0122A5AFF0047C274 /* PaintingView.m */; };
@@ -52,6 +50,8 @@
 		8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B2BC121C327A00842F63 /* FoldersViewController.m */; };
 		8179B76E121D22D500842F63 /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B76D121D22D500842F63 /* Folder.m */; };
 		8183861A123127F2008798D5 /* DatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81838619123127F2008798D5 /* DatePickerController.m */; };
+		8183886F12314CCD008798D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8183886D12314CCD008798D5 /* InfoPlist.strings */; };
+		8183887012314CCD008798D5 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8183886E12314CCD008798D5 /* MainWindow.xib */; };
 		81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81925245121BF4A800B2D9BE /* SegmentedLabel.m */; };
 		81B74BD6121E7DD0005117D4 /* Document.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */; };
 		81B74C62121E8306005117D4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B74C61121E8306005117D4 /* CoreData.framework */; };
@@ -134,14 +134,12 @@
 		8116FF8E121134E900DD537F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		8116FF90121134E900DD537F /* Meester-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Meester-Info.plist"; sourceTree = "<group>"; };
 		8116FF91121134E900DD537F /* Meester_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Meester_Prefix.pch; sourceTree = "<group>"; };
-		8116FF93121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8116FF95121134E900DD537F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8116FF97121134E900DD537F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8116FF98121134E900DD537F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
-		8116FF9B121134E900DD537F /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
 		812AADAF1218312400E3FBC8 /* DocumentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCellView.h; sourceTree = "<group>"; };
 		812AADB01218312400E3FBC8 /* DocumentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCellView.m; sourceTree = "<group>"; };
-		812AAE8B1218433500E3FBC8 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		812AAE8B1218433500E3FBC8 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		81334DBF122A5AFF0047C274 /* PaintingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingView.h; sourceTree = "<group>"; };
 		81334DC0122A5AFF0047C274 /* PaintingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingView.m; sourceTree = "<group>"; };
 		81334E10122A5C5F0047C274 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -182,6 +180,9 @@
 		8179B76D121D22D500842F63 /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
 		81838618123127F2008798D5 /* DatePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerController.h; sourceTree = "<group>"; };
 		81838619123127F2008798D5 /* DatePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerController.m; sourceTree = "<group>"; };
+		8183883112314B64008798D5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
+		8183886D12314CCD008798D5 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
+		8183886E12314CCD008798D5 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		81925244121BF4A800B2D9BE /* SegmentedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedLabel.h; sourceTree = "<group>"; };
 		81925245121BF4A800B2D9BE /* SegmentedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedLabel.m; sourceTree = "<group>"; };
 		81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */ = {isa = PBXFileReference; comments = xmod; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
@@ -274,11 +275,11 @@
 		8116FF81121134E900DD537F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8183886D12314CCD008798D5 /* InfoPlist.strings */,
+				8183886E12314CCD008798D5 /* MainWindow.xib */,
 				812AAE8A1218433500E3FBC8 /* Localizable.strings */,
 				81FEA54012119EE500A9ABD3 /* images */,
 				8116FF90121134E900DD537F /* Meester-Info.plist */,
-				8116FF92121134E900DD537F /* InfoPlist.strings */,
-				8116FF9A121134E900DD537F /* MainWindow.xib */,
 				81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */,
 				81E703F31222CED7004FCF7E /* Document */,
 			);
@@ -498,6 +499,8 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
+				ru,
+				Russian,
 			);
 			mainGroup = 8116FF78121134E900DD537F;
 			productRefGroup = 8116FF88121134E900DD537F /* Products */;
@@ -552,8 +555,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8116FF94121134E900DD537F /* InfoPlist.strings in Resources */,
-				8116FF9C121134E900DD537F /* MainWindow.xib in Resources */,
 				812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */,
 				81549ABD122105250043FFE7 /* Settings.bundle in Resources */,
 				81CAD11112217E5700E47930 /* DocumentViewBackground.png in Resources */,
@@ -574,6 +575,8 @@
 				8167366512283EEE00730FA6 /* ButtonAttachment.png in Resources */,
 				8167366612283EEE00730FA6 /* ButtonAttachmentSelected.png in Resources */,
 				81334E2F122A5E550047C274 /* Particle.png in Resources */,
+				8183886F12314CCD008798D5 /* InfoPlist.strings in Resources */,
+				8183887012314CCD008798D5 /* MainWindow.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -619,26 +622,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		8116FF92121134E900DD537F /* InfoPlist.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8116FF93121134E900DD537F /* en */,
-			);
-			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		8116FF9A121134E900DD537F /* MainWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				8116FF9B121134E900DD537F /* en */,
-			);
-			name = MainWindow.xib;
-			sourceTree = "<group>";
-		};
 		812AAE8A1218433500E3FBC8 /* Localizable.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
 				812AAE8B1218433500E3FBC8 /* en */,
+				8183883112314B64008798D5 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -660,6 +648,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.2;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "LNDataSource/** DataModel/**";
 				VALID_ARCHS = armv7;
@@ -679,6 +668,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.2;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "LNDataSource/** DataModel/**";
 				VALID_ARCHS = armv7;
