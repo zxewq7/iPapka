@@ -146,12 +146,6 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         frameToCenter.origin.y = 0;
     
     imageView.frame = frameToCenter;
-        //    [paintingView saveContent];
-        //    CGRect of = paintingView.frame;
-    paintingView.frame = CGRectMake(frameToCenter.origin.x, frameToCenter.origin.y, paintingView.frame.size.width, paintingView.frame.size.height);
-        //    paintingView.frame = CGRectMake(frameToCenter.origin.x, frameToCenter.origin.y, 398, frameToCenter.size.height);
-
-        drawingsView.frame = frameToCenter;
 }
 
 #pragma mark -
@@ -309,13 +303,8 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 {
     UIImage *image = drawingsView.image;
     
-        // make a new PaintingView for the new image
-        CGRect f = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
-        //    CGRect f = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, 768, 1024);
-        //CGRect f = CGRectMake(self.frame.origin.x+imageView.frame.origin.x, self.frame.origin.y+imageView.frame.origin.y, imageView.frame.size.width, imageView.frame.size.height);
-        //    CGRect f = CGRectMake(imageView.frame.origin.x, imageView.frame.origin.y, 768, 1024);
+    CGRect f = imageView.frame;
     paintingView = [[PaintingView alloc] initWithFrame: f];
-    paintingView.frame = self.frame;
     paintingView.backgroundColor = [UIColor clearColor];
         //if view can not cancel touchs, than we in editing mode
     paintingView.userInteractionEnabled =  YES;
