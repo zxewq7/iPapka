@@ -151,6 +151,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.uid = aDocument.uid;
     newDocument.isRead = [NSNumber numberWithBool:NO];
     newDocument.isArchived = [NSNumber numberWithBool:NO];
+    newDocument.dataSourceId = aDocument.dataSourceId;
     
     if (isResolution)
         ((ResolutionManaged *)newDocument).performers = ((Resolution *)aDocument).performers;
@@ -219,16 +220,19 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 
 -(void) refreshDocuments
 {
-    [lnDataSource refreshDocuments];
+    for (LNDataSource *ds in [dataSources allValues]) 
+        [ds refreshDocuments];
 }
 -(Document *) loadDocument:(DocumentManaged *) aDocument
 {
-    return [lnDataSource loadDocument:aDocument.uid];
+    LNDataSource *ds = [dataSources objectForKey:aDocument.dataSourceId];
+    return [ds loadDocument:aDocument.uid];
 }
 
 -(void) saveDocument:(Document *) aDocument
 {
-    [lnDataSource saveDocument:aDocument];
+    LNDataSource *ds = [dataSources objectForKey:aDocument.dataSourceId];
+    [ds saveDocument:aDocument];
 }
 
 -(void) shutdown
@@ -244,11 +248,17 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
             //remove documents from cache for consistency
         NSSet *insertedObjects  = [managedObjectContext insertedObjects];
         for (DocumentManaged *document in insertedObjects)
-            [lnDataSource deleteDocument:document.uid];
+        {
+            LNDataSource *ds = [dataSources objectForKey:document.dataSourceId];
+            [ds deleteDocument:document.uid];
+        }
         
         NSSet *updatedObjects  = [managedObjectContext updatedObjects];
         for (DocumentManaged *document in updatedObjects)
-            [lnDataSource deleteDocument:document.uid];
+        {
+            LNDataSource *ds = [dataSources objectForKey:document.dataSourceId];
+            [ds deleteDocument:document.uid];
+        }
         
         NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
     }
@@ -262,7 +272,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     [managedObjectContext release];
     [managedObjectModel release];
     [persistentStoreCoordinator release];
-    [lnDataSource release];
+    [dataSources release];
     [documentEntityDescription release];
     [documentUidPredicateTemplate release];
 
@@ -301,22 +311,38 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     NSString *serverHost = [currentDefaults objectForKey:@"serverHost"];
     NSString *serverDatabase = [currentDefaults objectForKey:@"serverDatabase"];
-    NSString *serverDatabaseView = [currentDefaults objectForKey:@"serverDatabaseView"];
+    NSString *serverDatabaseViewInbox = [currentDefaults objectForKey:@"serverDatabaseViewInbox"];
+    NSString *serverDatabaseViewArchive = [currentDefaults objectForKey:@"serverDatabaseViewArchive"];
     NSString *serverAuthLogin = [currentDefaults objectForKey:@"serverAuthLogin"];
     NSString *serverAuthPassword = [currentDefaults objectForKey:@"serverAuthPassword"];
+
+    [dataSources release];
+    dataSources = [NSMutableDictionary dictionaryWithCapacity:2];
+    [dataSources retain];
     
-    LNDataSource *ds = [[LNDataSource alloc] init];
-    ds.host = serverHost;
-    ds.databaseReplicaId = serverDatabase;
-    ds.viewReplicaId = serverDatabaseView;
-    ds.login = serverAuthLogin;
-    ds.password = serverAuthPassword;
-    [ds loadCache];
+    LNDataSource *dsInbox = [[LNDataSource alloc] init];
+    dsInbox.host = serverHost;
+    dsInbox.databaseReplicaId = serverDatabase;
+    dsInbox.viewReplicaId = serverDatabaseViewInbox;
+    dsInbox.login = serverAuthLogin;
+    dsInbox.password = serverAuthPassword;
+    dsInbox.dataSourceId = @"inbox";
+    [dsInbox loadCache];
+    dsInbox.delegate = self;
 
-    [lnDataSource release];
-    lnDataSource = ds;
+    [dataSources setObject:dsInbox forKey:@"inbox"];
+    
 
-    lnDataSource.delegate = self;
-
+    LNDataSource *dsArchive = [[LNDataSource alloc] init];
+    dsArchive.host = serverHost;
+    dsArchive.databaseReplicaId = serverDatabase;
+    dsArchive.viewReplicaId = serverDatabaseViewArchive;
+    dsArchive.login = serverAuthLogin;
+    dsArchive.password = serverAuthPassword;
+    dsArchive.dataSourceId = @"archive";
+    [dsArchive loadCache];
+    dsArchive.delegate = self;
+    
+    [dataSources setObject:dsArchive forKey:@"archive"];
 }
 @end

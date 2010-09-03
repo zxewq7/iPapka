@@ -208,7 +208,7 @@
     
     for (DocumentManaged *document in documents) 
     {
-        if (![document isMemberOfClass:entityClass] || (filter && ![filter evaluateWithObject:document]))
+        if (![document isKindOfClass:entityClass] || (filter && ![filter evaluateWithObject:document]))
             continue;
         
         NSDate *documentDate = document.dateModified;

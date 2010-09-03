@@ -29,28 +29,40 @@
 
 
 
-@dynamic author;
-
-
-
-
-
-
-@dynamic title;
-
-
-
-
-
-
-@dynamic dateModified;
-
-
-
-
-
-
 @dynamic uid;
+
+
+
+
+
+
+@dynamic isRead;
+
+
+
+- (BOOL)isReadValue {
+	NSNumber *result = [self isRead];
+	return [result boolValue];
+}
+
+- (void)setIsReadValue:(BOOL)value_ {
+	[self setIsRead:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsReadValue {
+	NSNumber *result = [self primitiveIsRead];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsReadValue:(BOOL)value_ {
+	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic dataSourceId;
 
 
 
@@ -83,27 +95,22 @@
 
 
 
-@dynamic isRead;
+@dynamic author;
 
 
 
-- (BOOL)isReadValue {
-	NSNumber *result = [self isRead];
-	return [result boolValue];
-}
 
-- (void)setIsReadValue:(BOOL)value_ {
-	[self setIsRead:[NSNumber numberWithBool:value_]];
-}
 
-- (BOOL)primitiveIsReadValue {
-	NSNumber *result = [self primitiveIsRead];
-	return [result boolValue];
-}
 
-- (void)setPrimitiveIsReadValue:(BOOL)value_ {
-	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
-}
+@dynamic dateModified;
+
+
+
+
+
+
+@dynamic title;
+
 
 
 

@@ -22,11 +22,11 @@
 	NSMutableDictionary* defaultValues = [NSMutableDictionary dictionary];
     
         //default folders
-    Folder *inbox = [Folder folderWith:@"Resolutions" predicateString:nil andEntityName:@"Resolution"];
+    Folder *inbox = [Folder folderWith:@"Resolutions" predicateString:@"dataSourceId = \"inbox\"" andEntityName:@"Resolution"];
     NSArray* defaultFolders = [NSArray arrayWithObjects:
                                     inbox,
-                                    [Folder folderWith:@"Signatures" predicateString:nil andEntityName:@"Signature"],
-                                    [Folder folderWith:@"Archive" predicateString:@"isArchived == YES" andEntityName:@"Document"],
+                                    [Folder folderWith:@"Signatures" predicateString:@"dataSourceId = \"inbox\"" andEntityName:@"Signature"],
+                                    [Folder folderWith:@"Archive" predicateString:@"dataSourceId = \"archive\"" andEntityName:@"Document"],
                                     nil];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
@@ -36,7 +36,8 @@
     [defaultValues setObject:@"http://vovasty/~vovasty" forKey:@"serverHost"];
         //    [defaultValues setObject:@"http://195.208.68.133/cm35" forKey:@"serverHost"];
     [defaultValues setObject:@"prvz.nsf" forKey:@"serverDatabase"];
-    [defaultValues setObject:@"documents" forKey:@"serverDatabaseView"];
+    [defaultValues setObject:@"ProcessedRest" forKey:@"serverDatabaseViewArchive"];
+    [defaultValues setObject:@"documents" forKey:@"serverDatabaseViewInbox"];
     [defaultValues setObject:@"Vasya V pupken/turumbay" forKey:@"serverAuthLogin"];
     [defaultValues setObject:@"1" forKey:@"serverAuthPassword"];
     

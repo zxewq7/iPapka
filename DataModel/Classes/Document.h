@@ -17,6 +17,7 @@
     NSDate       *dateModified;
     BOOL         isLoaded;
     BOOL         hasError;
+    NSString     *dataSourceId;
 }
 
 @property (nonatomic, retain) NSString     *title;
@@ -29,4 +30,5 @@
 @property (nonatomic, retain) NSDate       *dateModified;
 @property (nonatomic)         BOOL         isLoaded;
 @property (nonatomic)         BOOL         hasError;
+@property (nonatomic, retain) NSString     *dataSourceId;
 @end

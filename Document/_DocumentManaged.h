@@ -12,6 +12,7 @@
 
 
 
+
 @interface DocumentManagedID : NSManagedObjectID {}
 @end
 
@@ -23,37 +24,9 @@
 
 
 
-@property (nonatomic, retain) NSString *author;
-
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *title;
-
-//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *dateModified;
-
-//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSString *uid;
 
 //- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isArchived;
-
-@property BOOL isArchivedValue;
-- (BOOL)isArchivedValue;
-- (void)setIsArchivedValue:(BOOL)value_;
-
-//- (BOOL)validateIsArchived:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -67,6 +40,40 @@
 
 
 
+@property (nonatomic, retain) NSString *dataSourceId;
+
+//- (BOOL)validateDataSourceId:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSNumber *isArchived;
+
+@property BOOL isArchivedValue;
+- (BOOL)isArchivedValue;
+- (void)setIsArchivedValue:(BOOL)value_;
+
+//- (BOOL)validateIsArchived:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *author;
+
+//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *dateModified;
+
+//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *title;
+
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+
+
 
 @end
 
@@ -76,20 +83,19 @@
 
 @interface _DocumentManaged (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(NSString*)value;
-
-
-- (NSString*)primitiveTitle;
-- (void)setPrimitiveTitle:(NSString*)value;
-
-
-- (NSDate*)primitiveDateModified;
-- (void)setPrimitiveDateModified:(NSDate*)value;
-
-
 - (NSString*)primitiveUid;
 - (void)setPrimitiveUid:(NSString*)value;
+
+
+- (NSNumber*)primitiveIsRead;
+- (void)setPrimitiveIsRead:(NSNumber*)value;
+
+- (BOOL)primitiveIsReadValue;
+- (void)setPrimitiveIsReadValue:(BOOL)value_;
+
+
+- (NSString*)primitiveDataSourceId;
+- (void)setPrimitiveDataSourceId:(NSString*)value;
 
 
 - (NSNumber*)primitiveIsArchived;
@@ -99,11 +105,16 @@
 - (void)setPrimitiveIsArchivedValue:(BOOL)value_;
 
 
-- (NSNumber*)primitiveIsRead;
-- (void)setPrimitiveIsRead:(NSNumber*)value;
+- (NSString*)primitiveAuthor;
+- (void)setPrimitiveAuthor:(NSString*)value;
 
-- (BOOL)primitiveIsReadValue;
-- (void)setPrimitiveIsReadValue:(BOOL)value_;
+
+- (NSDate*)primitiveDateModified;
+- (void)setPrimitiveDateModified:(NSDate*)value;
+
+
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
 
 
 

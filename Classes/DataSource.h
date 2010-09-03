@@ -10,14 +10,14 @@
 #import <CoreData/CoreData.h>
 #import "LNDataSource.h"
 
-@class Folder, Document, DocumentManaged, LNDataSource;
+@class Folder, Document, DocumentManaged;
 
 @interface DataSource : NSObject<LNDataSourceDelegate>
 {
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel         *managedObjectModel;
     NSManagedObjectContext       *managedObjectContext;
-    LNDataSource                 *lnDataSource;
+    NSMutableDictionary          *dataSources;
     NSNotificationCenter         *notify;
     NSEntityDescription          *documentEntityDescription;
     NSPredicate                  *documentUidPredicateTemplate;

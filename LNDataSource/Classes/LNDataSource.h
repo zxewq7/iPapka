@@ -33,12 +33,14 @@
     NSDateFormatter                 *parseFormatterDst;
     NSDateFormatter                 *parseFormatterSimple;
     BOOL                            isSyncing;
+    NSString                        *dataSourceId;
 }
 @property (nonatomic, retain) NSString                        *databaseReplicaId;
 @property (nonatomic, retain) NSString                        *viewReplicaId;
 @property (nonatomic, retain) NSString                        *host;
 @property (nonatomic, retain) NSString                        *login;
 @property (nonatomic, retain) NSString                        *password;
+@property (nonatomic, retain) NSString                        *dataSourceId;
 @property (nonatomic, retain) NSObject<LNDataSourceDelegate>  *delegate;
 - (void) refreshDocuments;
 - (void) loadCache;

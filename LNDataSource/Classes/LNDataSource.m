@@ -71,7 +71,7 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/%@/document/%@/link/%@/file/
 static NSString* OperationCount = @"OperationCount";
 
 @implementation LNDataSource
-@synthesize viewReplicaId, databaseReplicaId, host, delegate, login, password;
+@synthesize viewReplicaId, databaseReplicaId, host, delegate, login, password, dataSourceId;
 -(id)init
 {
     if ((self = [super init])) {
@@ -123,6 +123,7 @@ static NSString* OperationCount = @"OperationCount";
     self.login = nil;
     self.password = nil;
     self.delegate = nil;
+    self.dataSourceId = nil;
     [parseFormatterDst release];
     [parseFormatterSimple release];
     
@@ -272,6 +273,7 @@ static NSString* OperationCount = @"OperationCount";
             }
             document.uid = uid;
             document.dateModified = dateModified;
+            document.dataSourceId = dataSourceId;
             [newDocuments addObject:document];
             [document release];
         }
