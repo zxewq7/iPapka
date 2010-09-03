@@ -239,7 +239,7 @@
 {
     CGRect viewRect= pagingScrollView.frame;
     CGFloat heightAdd = -65.0f;
-    CGFloat rightPageOffset = -21.0f;
+    CGFloat rightPageOffset = 0.0f;
     CGFloat topOffset = 0.0f;
     CGFloat bottomOffset = 0.0f;
     switch (orientation) 
