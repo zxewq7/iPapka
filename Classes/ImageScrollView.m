@@ -1,6 +1,8 @@
 #import "ImageScrollView.h"
 #import "PaintingView.h"
 
+#define MAX_SCALE_WIDTH 1024.0f
+
     //FUNCTIONS:
 /*
  HSL2RGB Converts hue, saturation, luminance values to the equivalent red, green and blue values.
@@ -196,14 +198,15 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     CGSize boundsSize = self.bounds.size;
     CGSize imageSize = imageView.bounds.size;
     
+        //set image width equal to view bounds
         // calculate min/max zoomscale
-    CGFloat xScale = boundsSize.width / imageSize.width;    // the scale needed to perfectly fit the image width-wise
-    CGFloat yScale = boundsSize.height / imageSize.height;  // the scale needed to perfectly fit the image height-wise
-    CGFloat minScale = MIN(xScale, yScale);                 // use minimum of these to allow the image to become fully visible
+    CGFloat minScale = boundsSize.width / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     
         // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
         // maximum zoom scale to 0.5.
-    CGFloat maxScale = 1.0;
+        //
+        //due to odd behavoir fo grReadPixels we need exact width (checked 1024, 537-544, 320)
+    CGFloat maxScale = MAX_SCALE_WIDTH / imageSize.width;
     
         // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.) 
     if (minScale > maxScale) {
