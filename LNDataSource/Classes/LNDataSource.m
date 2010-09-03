@@ -46,7 +46,7 @@ static NSString *field_LinkTitle = @"info";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
-static NSString *url_FetchView     = @"%@/%@/%@/";
+static NSString *url_FetchView     = @"%@/%@/%@?ReadViewEntries&OutputFormat=json";
 static NSString *url_FetchDocument = @"%@/%@/document/%@";
     //document/id/file/file.id/page/pagenum
 static NSString *url_AttachmentFetchPage = @"%@/%@/document/%@/file/%@/page/%@";
