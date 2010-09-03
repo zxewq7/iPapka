@@ -51,6 +51,7 @@
 		816FF804121708530083E7A4 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816FF803121708530083E7A4 /* RootViewController.m */; };
 		8179B2BD121C327A00842F63 /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B2BC121C327A00842F63 /* FoldersViewController.m */; };
 		8179B76E121D22D500842F63 /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 8179B76D121D22D500842F63 /* Folder.m */; };
+		8183861A123127F2008798D5 /* DatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81838619123127F2008798D5 /* DatePickerController.m */; };
 		81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81925245121BF4A800B2D9BE /* SegmentedLabel.m */; };
 		81B74BD6121E7DD0005117D4 /* Document.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */; };
 		81B74C62121E8306005117D4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B74C61121E8306005117D4 /* CoreData.framework */; };
@@ -179,6 +180,8 @@
 		8179B2BC121C327A00842F63 /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
 		8179B76C121D22D500842F63 /* Folder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder.h; sourceTree = "<group>"; };
 		8179B76D121D22D500842F63 /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
+		81838618123127F2008798D5 /* DatePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerController.h; sourceTree = "<group>"; };
+		81838619123127F2008798D5 /* DatePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerController.m; sourceTree = "<group>"; };
 		81925244121BF4A800B2D9BE /* SegmentedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedLabel.h; sourceTree = "<group>"; };
 		81925245121BF4A800B2D9BE /* SegmentedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedLabel.m; sourceTree = "<group>"; };
 		81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */ = {isa = PBXFileReference; comments = xmod; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
@@ -355,6 +358,8 @@
 				81F13BE01227A8EF00E5DED7 /* AttachmentPageViewController.m */,
 				816737841228F60600730FA6 /* DocumentLinkViewController.h */,
 				816737851228F60600730FA6 /* DocumentLinkViewController.m */,
+				81838618123127F2008798D5 /* DatePickerController.h */,
+				81838619123127F2008798D5 /* DatePickerController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -607,6 +612,7 @@
 				81334DC1122A5AFF0047C274 /* PaintingView.m in Sources */,
 				8133527F122AA2A30047C274 /* UIColor-Expanded.m in Sources */,
 				81335524122ACCD80047C274 /* Texture2D.m in Sources */,
+				8183861A123127F2008798D5 /* DatePickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

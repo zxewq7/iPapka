@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, Document;
+@class DocumentManaged, Document, DatePickerController;
 @interface DocumentInfoViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
     UINavigationController       *navigationController;
@@ -21,6 +21,9 @@
     NSMutableArray  *sections;
     NSDateFormatter *dateFormatter;
     CGFloat         cellWidth;
+    DatePickerController *datePickerController;
+    UIPopoverController  *popoverController;
+    UIButton        *deadlineButton;
 }
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
 @property (nonatomic, retain) IBOutlet UINavigationController       *navigationController;

@@ -11,6 +11,7 @@
 #import "Document.h"
 #import "Resolution.h"
 #import "DocumentLinkViewController.h"
+#import "DatePickerController.h"
 
 static NSString *ParentResolutionCell = @"ParentResolutionCell";
 static NSString *LinkCell = @"LinkCell";
@@ -135,6 +136,10 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     [dateFormatter release];
     dateFormatter = nil;
     self.navigationController = nil;
+    [datePickerController release];
+    datePickerController = nil;
+    [popoverController release];
+    popoverController = nil;
 }
 #pragma mark -
 #pragma mark Table view selection
@@ -150,6 +155,44 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     }
 }
 
+#pragma mark -
+#pragma mark actions
+-(void) pickDeadLine:(id) sender
+{
+    if (!datePickerController)
+    {
+        datePickerController = [[DatePickerController alloc] init];
+        datePickerController.target = self;
+        datePickerController.selector = @selector(setDeadLine:);
+    }
+    
+    if (!popoverController)
+        popoverController = [[UIPopoverController alloc] initWithContentViewController:datePickerController];
+
+    datePickerController.date = ((Resolution *)unmanagedDocument).deadline;
+    UIButton *button = (UIButton *)sender;
+	[popoverController presentPopoverFromRect:button.bounds inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+-(void) setDeadLine:(id) sender
+{
+    [popoverController dismissPopoverAnimated:YES];
+    
+    NSString *label = nil;
+    
+    NSDate *deadline = datePickerController.date;
+    ((Resolution *)unmanagedDocument).deadline = deadline;
+
+    if (deadline)
+        label = [dateFormatter stringFromDate:deadline];
+    else
+        label = NSLocalizedString(@"Date not set", "Date not set");
+    
+    [deadlineButton setTitle:label forState:UIControlStateNormal];
+    [document saveDocument];
+    
+}
+#pragma mark -
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView {
@@ -339,28 +382,31 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
             CGRect labelFrame = cell.textLabel.frame;
             CGRect cellFrame = cell.frame;
             
-            CGRect dateButtonFrame = CGRectMake(labelFrame.origin.y+labelSize.width+20, (cellFrame.size.height-DATE_BUTTON_HEIGHT)/2, 10, DATE_BUTTON_HEIGHT);
+            CGRect dateButtonFrame = CGRectMake(labelFrame.origin.y+labelSize.width+20, (cellFrame.size.height-DATE_BUTTON_HEIGHT)/2, 200, DATE_BUTTON_HEIGHT);
             
-            UIButton *dateButton = [self buttonWithTitle:@""
+            deadlineButton = [self buttonWithTitle:@""
                                              target:self
-                                           selector:nil
+                                           selector:@selector(pickDeadLine:)
                                               frame:dateButtonFrame
                                               image:[UIImage imageNamed:@"ButtonDate.png"]
                                        imagePressed:nil
                                            darkTextColor:YES];
-            dateButton.tag = kDateButtonTag;
-            [cell.contentView addSubview:dateButton];
+            deadlineButton.tag = kDateButtonTag;
+            [cell.contentView addSubview:deadlineButton];
 		}
         
         UIButton *button = (UIButton *)[cell.contentView viewWithTag:kDateButtonTag];
         if (button) 
         {
-            NSString *label  = @"11 august 2010 11 august 2010";
+            NSString *label  = nil;
+            Resolution *resolution = (Resolution *)unmanagedDocument;
+            
+            if (resolution.deadline)
+                label = [dateFormatter stringFromDate:resolution.deadline];
+            else
+                label = NSLocalizedString(@"Date not set", "Date not set");
+            
             [button setTitle:label forState:UIControlStateNormal];
-            CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
-            CGRect oldButtonFrame = button.frame;
-            CGRect newButtonFrame = CGRectMake(oldButtonFrame.origin.x, oldButtonFrame.origin.y,labelSize.width, DATE_BUTTON_HEIGHT);
-            button.frame = newButtonFrame;
         }
     }
     else if (cellIdentifier == ResolutionManagedCell)
@@ -428,6 +474,9 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     [unmanagedDocument release];
     [sections release];
     self.navigationController = nil;
+    [datePickerController release];
+    [popoverController release];
+    
     [super dealloc];
 }
 @end
