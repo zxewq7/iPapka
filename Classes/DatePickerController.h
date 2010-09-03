@@ -12,6 +12,8 @@
     UIDatePicker *datePickerView;
     NSDate *date;
     NSDate *maximumDate;
+    SEL selector;
+    id target;
 }
 @property (nonatomic, retain) NSDate* date;
 @property (nonatomic, retain) NSDate* maximumDate;

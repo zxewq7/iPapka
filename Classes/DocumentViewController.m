@@ -15,6 +15,7 @@
 #import "AttachmentsViewController.h"
 #import "DocumentInfoViewController.h"
 #import "UIButton+Additions.h"
+#import "AttachmentPickerController.h"
 
 #define kAttachmentLabelTag 1
 
@@ -127,6 +128,10 @@
     leftToolbar = nil;
     [rightToolbar release];
     rightToolbar = nil;
+    [attachmentPickerController release];
+    attachmentPickerController = nil;
+    [popoverController release];
+    popoverController = nil;
 }
 
 #pragma mark -
@@ -165,15 +170,51 @@
     self.navigationController = nil;
     [leftToolbar release];
     [rightToolbar release];
+    [attachmentPickerController release];
+    [popoverController release];
     [super dealloc];
+}
+#pragma mark -
+#pragma mark UIPopoverControllerDelegate
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
+{
+    if (pc == popoverController) 
+        attachmentButton.selected = NO;
 }
 
 #pragma mark -
 #pragma mark Actions
 - (void) showAttachmentsList:(id) sender
 {
-    attachmentButton.selected = !attachmentButton.selected;
+    if (!attachmentPickerController)
+    {
+        attachmentPickerController = [[AttachmentPickerController alloc] init];
+        attachmentPickerController.target = self;
+        attachmentPickerController.selector = @selector(setAttachment:);
+    }
+    
+    if (!popoverController)
+    {
+        popoverController = [[UIPopoverController alloc] initWithContentViewController:attachmentPickerController];
+        popoverController.delegate = self;
+    }
+    
+    attachmentPickerController.document = document.document;
+
+    UIView *button = (UIView *)sender;
+	[popoverController presentPopoverFromRect:button.bounds inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    
+    attachmentButton.selected = YES;
 }
+
+-(void) setAttachment:(id) sender
+{
+    [popoverController dismissPopoverAnimated:YES];
+    attachmentButton.selected = NO;
+    attachmentsViewController.attachment = attachmentPickerController.attachment;
+}
+
 - (void) showPen:(id) sender
 {
     BOOL isPainting = !penButton.selected;

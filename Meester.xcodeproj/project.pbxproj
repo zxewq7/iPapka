@@ -52,6 +52,7 @@
 		8183861A123127F2008798D5 /* DatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81838619123127F2008798D5 /* DatePickerController.m */; };
 		8183886F12314CCD008798D5 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8183886D12314CCD008798D5 /* InfoPlist.strings */; };
 		8183887012314CCD008798D5 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8183886E12314CCD008798D5 /* MainWindow.xib */; };
+		818388A012314FE5008798D5 /* AttachmentPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8183889F12314FE5008798D5 /* AttachmentPickerController.m */; };
 		81925246121BF4A800B2D9BE /* SegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81925245121BF4A800B2D9BE /* SegmentedLabel.m */; };
 		81B74BD6121E7DD0005117D4 /* Document.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */; };
 		81B74C62121E8306005117D4 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81B74C61121E8306005117D4 /* CoreData.framework */; };
@@ -183,6 +184,8 @@
 		8183883112314B64008798D5 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8183886D12314CCD008798D5 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		8183886E12314CCD008798D5 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
+		8183889E12314FE5008798D5 /* AttachmentPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentPickerController.h; sourceTree = "<group>"; };
+		8183889F12314FE5008798D5 /* AttachmentPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentPickerController.m; sourceTree = "<group>"; };
 		81925244121BF4A800B2D9BE /* SegmentedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedLabel.h; sourceTree = "<group>"; };
 		81925245121BF4A800B2D9BE /* SegmentedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedLabel.m; sourceTree = "<group>"; };
 		81B74BD5121E7DD0005117D4 /* Document.xcdatamodel */ = {isa = PBXFileReference; comments = xmod; fileEncoding = 4; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
@@ -361,6 +364,8 @@
 				816737851228F60600730FA6 /* DocumentLinkViewController.m */,
 				81838618123127F2008798D5 /* DatePickerController.h */,
 				81838619123127F2008798D5 /* DatePickerController.m */,
+				8183889E12314FE5008798D5 /* AttachmentPickerController.h */,
+				8183889F12314FE5008798D5 /* AttachmentPickerController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -616,6 +621,7 @@
 				8133527F122AA2A30047C274 /* UIColor-Expanded.m in Sources */,
 				81335524122ACCD80047C274 /* Texture2D.m in Sources */,
 				8183861A123127F2008798D5 /* DatePickerController.m in Sources */,
+				818388A012314FE5008798D5 /* AttachmentPickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,9 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, AttachmentsViewController, DocumentInfoViewController;
+@class DocumentManaged, AttachmentsViewController, DocumentInfoViewController, AttachmentPickerController;
 
-@interface DocumentViewController : UIViewController
+@interface DocumentViewController : UIViewController<UIPopoverControllerDelegate>
 {
     UINavigationController       *navigationController;
     DocumentManaged *document;
@@ -23,6 +23,8 @@
     UIButton                   *attachmentButton;
     UIToolbar                  *leftToolbar;
     UIToolbar                  *rightToolbar;
+    AttachmentPickerController *attachmentPickerController;
+    UIPopoverController        *popoverController;
 }
 
 @property (nonatomic, retain) IBOutlet UINavigationController       *navigationController;
