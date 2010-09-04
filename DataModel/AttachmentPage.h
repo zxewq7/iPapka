@@ -17,6 +17,7 @@
     BOOL     hasError;
     BOOL     isLoaded;
     BOOL     removeDrawings;
+    CGFloat  rotationAngle;
 }
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *path;
@@ -24,4 +25,5 @@
 @property (nonatomic, assign) BOOL    hasError;
 @property (nonatomic, assign) BOOL    isLoaded;
 @property (nonatomic, retain, readonly, getter=image) UIImage  *image;
+@property (nonatomic, assign) CGFloat  rotationAngle;
 @end

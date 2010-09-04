@@ -224,6 +224,18 @@
         [document saveDocument];
 }
 
+- (void) rotateCCV:(id) sender
+{
+    [attachmentsViewController rotate: -90];
+    [document saveDocument];
+}
+
+- (void) rotateCV:(id) sender
+{
+    [attachmentsViewController rotate: 90];
+    [document saveDocument];
+}
+
 - (void) showDocumentInfo:(id) sender
 {
 	[UIView beginAnimations:nil context:nil];
@@ -292,8 +304,8 @@
     UIBarButtonItem *penBarButton = [[UIBarButtonItem alloc] initWithCustomView:penButton];
     UIBarButtonItem *eraseBarButton = [[UIBarButtonItem alloc] initWithCustomView:eraseButton];
     UIBarButtonItem *commentBarButton = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
-    UIBarButtonItem *rotateCCVBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRotateCCV.png"] style:UIBarButtonItemStylePlain target:self action:nil];
-    UIBarButtonItem *rotateCVBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRotateCV.png"] style:UIBarButtonItemStylePlain target:self action:nil];
+    UIBarButtonItem *rotateCCVBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRotateCCV.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rotateCCV:)];
+    UIBarButtonItem *rotateCVBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRotateCV.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rotateCV:)];
     UIBarButtonItem *declineBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:nil];
     declineBarButton.style = UIBarButtonItemStyleBordered;
     UIBarButtonItem *acceptBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style:UIBarButtonItemStyleBordered target:self action:nil];

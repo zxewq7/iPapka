@@ -166,7 +166,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 #pragma mark -
 #pragma mark Configure scrollView to display new image (tiled or not)
 
-- (void)displayImage:(UIImage *)image
+- (void)displayImage:(UIImage *)image angle:(CGFloat) anAngle
 {
         // clear the previous imageView
     [imageView removeFromSuperview];
@@ -196,6 +196,12 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     self.contentSize = imageOriginalSize;
     [self setMaxMinZoomScalesForCurrentBounds];
     self.zoomScale = self.minimumZoomScale;
+    if (currentAngle != anAngle) 
+    {
+        currentAngle = anAngle;
+        self.transform = CGAffineTransformMakeRotation(0);
+        self.transform = CGAffineTransformMakeRotation(currentAngle);
+    }
 }
 
 - (void)setMaxMinZoomScalesForCurrentBounds
@@ -317,6 +323,22 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
     self.canCancelContentTouches = !isCommenting;
     self.delaysContentTouches = !isCommenting;
+}
+
+- (void) rotate:(CGFloat) radiansAngle
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+    [UIView setAnimationBeginsFromCurrentState:YES];
+    
+        // The transform matrix
+    CGAffineTransform transform = CGAffineTransformMakeRotation(radiansAngle);
+    self.transform = transform;
+    
+        // Commit the changes
+    [UIView commitAnimations];
+    currentAngle = radiansAngle;
 }
 @end
 

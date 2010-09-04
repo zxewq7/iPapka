@@ -26,4 +26,5 @@
 
 @property (nonatomic, retain, setter=setAttachment:)   Attachment    *attachment;
 -(void) setCommenting:(BOOL) state;
+-(void) rotate:(CGFloat) degreesAngle;
 @end

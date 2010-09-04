@@ -195,6 +195,11 @@
     if (!isCommenting) 
         [currentPage saveContent];
 }
+
+-(void) rotate:(CGFloat) degreesAngle
+{
+    [currentPage rotate:degreesAngle];
+}
 @end
 
 @implementation AttachmentsViewController(Private)

@@ -11,6 +11,12 @@
 #import "ImageScrollView.h"
 #import "AttachmentPage.h"
 
+    // This is defined in Math.h
+#define M_PI   3.14159265358979323846264338327950288   /* pi */
+
+    // Our conversion definition
+#define DEGREES_TO_RADIANS(angle) ((angle / 180.0) * M_PI)
+
 
 @implementation AttachmentPageViewController
 @synthesize pageIndex, attachment;
@@ -22,7 +28,7 @@
 	if (pageIndex >= 0 && pageIndex < [attachment.pages count])
 	{		
         AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
-        [imageView displayImage: page.image];
+        [imageView displayImage: page.image angle: DEGREES_TO_RADIANS(page.rotationAngle)];
         
         imageView.drawings = page.drawings;
         
@@ -107,5 +113,13 @@
         AttachmentPage *prevPage = [attachment.pages objectAtIndex: pageIndex];
         prevPage.drawings = imageView.drawings;
     }
+}
+
+-(void) rotate:(CGFloat) degressAngle
+{
+    AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
+    CGFloat angle = page.rotationAngle + degressAngle;
+    [imageView rotate: DEGREES_TO_RADIANS(angle)];
+    page.rotationAngle = angle;
 }
 @end

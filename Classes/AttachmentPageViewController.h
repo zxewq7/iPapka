@@ -24,4 +24,5 @@
 - (void) updateViews:(BOOL)force;
 - (void) setCommenting:(BOOL) state;
 - (void) saveContent;
+-(void) rotate:(CGFloat) degressAngle;
 @end

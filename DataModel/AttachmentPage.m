@@ -9,7 +9,7 @@
 #import "AttachmentPage.h"
 
 @implementation AttachmentPage
-@synthesize name, drawings, isLoaded, hasError, path;
+@synthesize name, drawings, isLoaded, hasError, path, rotationAngle;
 
 - (NSString *) drawingsPath
 {
@@ -63,6 +63,8 @@
 
         self.isLoaded = [[coder decodeObjectForKey:@"isLoaded"] boolValue];
         self.hasError = [[coder decodeObjectForKey:@"hasError"] boolValue];
+        
+        self.rotationAngle = [[coder decodeObjectForKey:@"rotationAngle"] floatValue];
     }
     return self;
 }
@@ -85,6 +87,7 @@
 
     [coder encodeObject: [NSNumber numberWithBool:self.hasError] forKey:@"hasError"];
     [coder encodeObject: [NSNumber numberWithBool:self.isLoaded] forKey:@"isLoaded"];
+    [coder encodeObject: [NSNumber numberWithFloat:self.rotationAngle] forKey:@"rotationAngle"];
 }
 
 @end

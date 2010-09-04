@@ -56,13 +56,15 @@
     BOOL                isCommenting;
     CGSize              imageOriginalSize;
     NSRange             *minScaleRanges;
+    CGFloat             currentAngle;
 }
 @property (nonatomic, retain, getter=drawings, setter=setDrawings:) UIImage *drawings;
-- (void)displayImage:(UIImage *)image;
+- (void)displayImage:(UIImage *)image angle:(CGFloat) anAngle;
 - (void)setMaxMinZoomScalesForCurrentBounds;
 
-- (CGPoint)pointToCenterAfterRotation;
-- (CGFloat)scaleToRestoreAfterRotation;
-- (void)restoreCenterPoint:(CGPoint)oldCenter scale:(CGFloat)oldScale;
--(void) setCommenting:(BOOL) state;
+- (CGPoint) pointToCenterAfterRotation;
+- (CGFloat) scaleToRestoreAfterRotation;
+- (void) restoreCenterPoint:(CGPoint)oldCenter scale:(CGFloat)oldScale;
+- (void) setCommenting:(BOOL) state;
+- (void) rotate:(CGFloat) radiansAngle;
 @end
