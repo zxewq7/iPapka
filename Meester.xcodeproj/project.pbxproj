@@ -43,6 +43,7 @@
 		81530B651224571D002245B3 /* ButtonRotateCV.png in Resources */ = {isa = PBXBuildFile; fileRef = 81530B631224571D002245B3 /* ButtonRotateCV.png */; };
 		81549ABD122105250043FFE7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 81549ABC122105250043FFE7 /* Settings.bundle */; };
 		815651251222976A00CCCCFF /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 815651241222976A00CCCCFF /* TDBadgedCell.m */; };
+		815A45631233EFEC00474FC7 /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 815A45621233EFEC00474FC7 /* NSUserDefaults+Additions.m */; };
 		8167366512283EEE00730FA6 /* ButtonAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 8167366312283EEE00730FA6 /* ButtonAttachment.png */; };
 		8167366612283EEE00730FA6 /* ButtonAttachmentSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */; };
 		816737861228F60600730FA6 /* DocumentLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816737851228F60600730FA6 /* DocumentLinkViewController.m */; };
@@ -169,6 +170,8 @@
 		81549ABC122105250043FFE7 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		815651231222976A00CCCCFF /* TDBadgedCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TDBadgedCell.h; sourceTree = "<group>"; };
 		815651241222976A00CCCCFF /* TDBadgedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDBadgedCell.m; sourceTree = "<group>"; };
+		815A45611233EFEC00474FC7 /* NSUserDefaults+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Additions.h"; sourceTree = "<group>"; };
+		815A45621233EFEC00474FC7 /* NSUserDefaults+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Additions.m"; sourceTree = "<group>"; };
 		8167366312283EEE00730FA6 /* ButtonAttachment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachment.png; sourceTree = "<group>"; };
 		8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachmentSelected.png; sourceTree = "<group>"; };
 		816737841228F60600730FA6 /* DocumentLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentLinkViewController.h; sourceTree = "<group>"; };
@@ -387,6 +390,8 @@
 			children = (
 				81673E7F122950F500730FA6 /* UIButton+Additions.h */,
 				81673E80122950F500730FA6 /* UIButton+Additions.m */,
+				815A45611233EFEC00474FC7 /* NSUserDefaults+Additions.h */,
+				815A45621233EFEC00474FC7 /* NSUserDefaults+Additions.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -626,6 +631,7 @@
 				81335524122ACCD80047C274 /* Texture2D.m in Sources */,
 				8183861A123127F2008798D5 /* DatePickerController.m in Sources */,
 				818388A012314FE5008798D5 /* AttachmentPickerController.m in Sources */,
+				815A45631233EFEC00474FC7 /* NSUserDefaults+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

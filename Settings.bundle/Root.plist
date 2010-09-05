@@ -16,11 +16,11 @@
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
-			<string>Host</string>
+			<string>Server URL</string>
 			<key>Key</key>
-			<string>serverHost</string>
+			<string>serverUrl</string>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>http://vovasty/~vovasty/prvz.nsf</string>
 			<key>KeyboardType</key>
 			<string>URL</string>
 			<key>AutocapitalizationType</key>
@@ -32,51 +32,13 @@
 			<key>Type</key>
 			<string>PSTextFieldSpecifier</string>
 			<key>Title</key>
-			<string>Database</string>
-			<key>Key</key>
-			<string>serverDatabase</string>
-			<key>DefaultValue</key>
-			<string></string>
-			<key>KeyboardType</key>
-			<string>ASCIICapable</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-			<key>Title</key>
-			<string>Authentication</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
 			<string>Login</string>
 			<key>Key</key>
 			<string>serverAuthLogin</string>
 			<key>DefaultValue</key>
-			<string></string>
+			<string>Vasya V pupken/turumbay</string>
 			<key>KeyboardType</key>
 			<string>ASCIICapable</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Password</string>
-			<key>Key</key>
-			<string>serverAuthPassword</string>
-			<key>DefaultValue</key>
-			<string></string>
-			<key>IsSecure</key>
-			<true/>
 			<key>AutocapitalizationType</key>
 			<string>None</string>
 			<key>AutocorrectionType</key>
