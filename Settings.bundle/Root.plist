@@ -46,22 +46,6 @@
 		</dict>
 		<dict>
 			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Databse view</string>
-			<key>Key</key>
-			<string>serverDatabaseView</string>
-			<key>DefaultValue</key>
-			<string></string>
-			<key>KeyboardType</key>
-			<string>ASCIICapable</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-		</dict>
-		<dict>
-			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 			<key>Title</key>
 			<string>Authentication</string>
@@ -90,7 +74,7 @@
 			<key>Key</key>
 			<string>serverAuthPassword</string>
 			<key>DefaultValue</key>
-			<integer>0</integer>
+			<string></string>
 			<key>IsSecure</key>
 			<true/>
 			<key>AutocapitalizationType</key>
