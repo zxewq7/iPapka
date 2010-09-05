@@ -28,6 +28,12 @@
 		81334E11122A5C600047C274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81334E10122A5C5F0047C274 /* OpenGLES.framework */; };
 		8133527F122AA2A30047C274 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8133527E122AA2A30047C274 /* UIColor-Expanded.m */; };
 		81335524122ACCD80047C274 /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 81335523122ACCD80047C274 /* Texture2D.m */; };
+		8135B01612341F4100214A83 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 8135B01012341F4100214A83 /* Icon-72.png */; };
+		8135B01712341F4100214A83 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 8135B01112341F4100214A83 /* Icon-Small-50.png */; };
+		8135B01812341F4100214A83 /* Icon-Small.png in Resources */ = {isa = PBXBuildFile; fileRef = 8135B01212341F4100214A83 /* Icon-Small.png */; };
+		8135B01912341F4100214A83 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8135B01312341F4100214A83 /* Icon-Small@2x.png */; };
+		8135B01A12341F4100214A83 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 8135B01412341F4100214A83 /* Icon.png */; };
+		8135B01B12341F4100214A83 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 8135B01512341F4100214A83 /* Icon@2x.png */; };
 		8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC381214225E006C1416 /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
 		8137EC3C12142274006C1416 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3B12142274006C1416 /* CFNetwork.framework */; };
@@ -154,6 +160,12 @@
 		8133527E122AA2A30047C274 /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor-Expanded.m"; path = "thirdparty/UIColor-Expanded.m"; sourceTree = "<group>"; };
 		81335522122ACCD80047C274 /* Texture2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture2D.h; path = thirdparty/Texture2D.h; sourceTree = "<group>"; };
 		81335523122ACCD80047C274 /* Texture2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Texture2D.m; path = thirdparty/Texture2D.m; sourceTree = "<group>"; };
+		8135B01012341F4100214A83 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-72.png"; sourceTree = "<group>"; };
+		8135B01112341F4100214A83 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small-50.png"; sourceTree = "<group>"; };
+		8135B01212341F4100214A83 /* Icon-Small.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small.png"; sourceTree = "<group>"; };
+		8135B01312341F4100214A83 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
+		8135B01412341F4100214A83 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
+		8135B01512341F4100214A83 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
 		8137EC3512142239006C1416 /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = thirdparty/PLBlocks.framework; sourceTree = "<group>"; };
 		8137EC3B12142274006C1416 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		8137EC3D1214228F006C1416 /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
@@ -467,6 +479,12 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8135B01012341F4100214A83 /* Icon-72.png */,
+				8135B01112341F4100214A83 /* Icon-Small-50.png */,
+				8135B01212341F4100214A83 /* Icon-Small.png */,
+				8135B01312341F4100214A83 /* Icon-Small@2x.png */,
+				8135B01412341F4100214A83 /* Icon.png */,
+				8135B01512341F4100214A83 /* Icon@2x.png */,
 				8119B5D21232E3EA000CBAD5 /* BrushErase.png */,
 				8119B5D31232E3EA000CBAD5 /* BrushMarker.png */,
 				8167366312283EEE00730FA6 /* ButtonAttachment.png */,
@@ -600,6 +618,12 @@
 				8183887012314CCD008798D5 /* MainWindow.xib in Resources */,
 				8119B5D41232E3EA000CBAD5 /* BrushErase.png in Resources */,
 				8119B5D51232E3EA000CBAD5 /* BrushMarker.png in Resources */,
+				8135B01612341F4100214A83 /* Icon-72.png in Resources */,
+				8135B01712341F4100214A83 /* Icon-Small-50.png in Resources */,
+				8135B01812341F4100214A83 /* Icon-Small.png in Resources */,
+				8135B01912341F4100214A83 /* Icon-Small@2x.png in Resources */,
+				8135B01A12341F4100214A83 /* Icon.png in Resources */,
+				8135B01B12341F4100214A83 /* Icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
