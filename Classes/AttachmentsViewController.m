@@ -241,7 +241,7 @@
     CGSizeMake(
                pagingScrollView.frame.size.width * widthCount,
                pagingScrollView.frame.size.height);
-	pagingScrollView.contentOffset = CGPointMake(0, 0);
+	pagingScrollView.contentOffset = CGPointMake(currentPage.pageIndex * pagingScrollView.frame.size.width, 0);
 }
 
 - (void) resizeScrollViewAndPages:(UIInterfaceOrientation) orientation
