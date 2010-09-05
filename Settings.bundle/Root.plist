@@ -28,22 +28,6 @@
 			<key>AutocorrectionType</key>
 			<string>No</string>
 		</dict>
-		<dict>
-			<key>Type</key>
-			<string>PSTextFieldSpecifier</string>
-			<key>Title</key>
-			<string>Login</string>
-			<key>Key</key>
-			<string>serverAuthLogin</string>
-			<key>DefaultValue</key>
-			<string>Vasya V pupken/turumbay</string>
-			<key>KeyboardType</key>
-			<string>ASCIICapable</string>
-			<key>AutocapitalizationType</key>
-			<string>None</string>
-			<key>AutocorrectionType</key>
-			<string>No</string>
-		</dict>
 	</array>
 </dict>
 </plist>

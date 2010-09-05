@@ -44,6 +44,8 @@
 		81549ABD122105250043FFE7 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 81549ABC122105250043FFE7 /* Settings.bundle */; };
 		815651251222976A00CCCCFF /* TDBadgedCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 815651241222976A00CCCCFF /* TDBadgedCell.m */; };
 		815A45631233EFEC00474FC7 /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 815A45621233EFEC00474FC7 /* NSUserDefaults+Additions.m */; };
+		815A46AB1234058A00474FC7 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 815A46AA1234058A00474FC7 /* Security.framework */; };
+		815A46B1123405B600474FC7 /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 815A46B0123405B600474FC7 /* KeychainItemWrapper.m */; };
 		8167366512283EEE00730FA6 /* ButtonAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 8167366312283EEE00730FA6 /* ButtonAttachment.png */; };
 		8167366612283EEE00730FA6 /* ButtonAttachmentSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */; };
 		816737861228F60600730FA6 /* DocumentLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816737851228F60600730FA6 /* DocumentLinkViewController.m */; };
@@ -172,6 +174,9 @@
 		815651241222976A00CCCCFF /* TDBadgedCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TDBadgedCell.m; sourceTree = "<group>"; };
 		815A45611233EFEC00474FC7 /* NSUserDefaults+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Additions.h"; sourceTree = "<group>"; };
 		815A45621233EFEC00474FC7 /* NSUserDefaults+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Additions.m"; sourceTree = "<group>"; };
+		815A46AA1234058A00474FC7 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		815A46AF123405B600474FC7 /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = thirdparty/KeychainItemWrapper.h; sourceTree = "<group>"; };
+		815A46B0123405B600474FC7 /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = thirdparty/KeychainItemWrapper.m; sourceTree = "<group>"; };
 		8167366312283EEE00730FA6 /* ButtonAttachment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachment.png; sourceTree = "<group>"; };
 		8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachmentSelected.png; sourceTree = "<group>"; };
 		816737841228F60600730FA6 /* DocumentLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentLinkViewController.h; sourceTree = "<group>"; };
@@ -239,6 +244,7 @@
 				8137EC42121422A6006C1416 /* MobileCoreServices.framework in Frameworks */,
 				81B74C62121E8306005117D4 /* CoreData.framework in Frameworks */,
 				81334E11122A5C600047C274 /* OpenGLES.framework in Frameworks */,
+				815A46AB1234058A00474FC7 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -308,6 +314,7 @@
 				8137EC41121422A6006C1416 /* MobileCoreServices.framework */,
 				81B74C61121E8306005117D4 /* CoreData.framework */,
 				81334E10122A5C5F0047C274 /* OpenGLES.framework */,
+				815A46AA1234058A00474FC7 /* Security.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -418,6 +425,8 @@
 		81F4C0AD12240124007E8E69 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				815A46AF123405B600474FC7 /* KeychainItemWrapper.h */,
+				815A46B0123405B600474FC7 /* KeychainItemWrapper.m */,
 				81335522122ACCD80047C274 /* Texture2D.h */,
 				81335523122ACCD80047C274 /* Texture2D.m */,
 				81549A9F122104B60043FFE7 /* SynthesizeSingleton.h */,
@@ -632,6 +641,7 @@
 				8183861A123127F2008798D5 /* DatePickerController.m in Sources */,
 				818388A012314FE5008798D5 /* AttachmentPickerController.m in Sources */,
 				815A45631233EFEC00474FC7 /* NSUserDefaults+Additions.m in Sources */,
+				815A46B1123405B600474FC7 /* KeychainItemWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
