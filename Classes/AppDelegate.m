@@ -47,6 +47,7 @@
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     
 	[currentDefaults registerDefaults:defaultValues];
+    [currentDefaults synchronize];
     
     
     
