@@ -182,6 +182,10 @@
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
     [self resizeScrollViewAndPages:toInterfaceOrientation];
+    if ([currentPage respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) 
+        [currentPage willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    if ([nextPage respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) 
+        [nextPage willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 #pragma mark -

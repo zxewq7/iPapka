@@ -86,6 +86,13 @@
     return YES;
 }
 
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    CGPoint restorePoint = [imageView pointToCenterAfterRotation];
+    CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
+    [imageView setMaxMinZoomScalesForCurrentBounds];
+    [imageView restoreCenterPoint:restorePoint scale:restoreScale];
+}
 
 - (void)viewDidUnload {
     [super viewDidUnload];
