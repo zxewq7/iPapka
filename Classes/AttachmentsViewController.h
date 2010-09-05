@@ -21,10 +21,11 @@
     CGRect        viewFrame;
     CGFloat       originalHeight;
     CGFloat       originalWidth;
-    BOOL          isCommenting;
+    BOOL          commenting;
 }
 
-@property (nonatomic, retain, setter=setAttachment:)   Attachment    *attachment;
--(void) setCommenting:(BOOL) state;
+@property (nonatomic, retain, setter=setAttachment:)   Attachment                   *attachment;
+@property (nonatomic, retain, readonly)                AttachmentPageViewController *currentPage;
+@property (nonatomic, assign, setter=setCommenting:)   BOOL                           commenting;
 -(void) rotate:(CGFloat) degreesAngle;
 @end

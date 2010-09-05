@@ -13,6 +13,12 @@
 
 //CLASS INTERFACES:
 
+typedef enum
+{
+    kToolTypeMarker = 0,
+    kToolTypeEraser = 1
+} ToolType;
+
 @interface PaintingView : UIView
 {
 @private
@@ -28,7 +34,8 @@
 	// OpenGL name for the depth buffer that is attached to viewFramebuffer, if it exists (0 if it does not exist)
 	GLuint depthRenderbuffer;
 	
-	GLuint	brushTexture;
+	GLuint	markerTexture;
+    GLuint	eraserTexture;
 	CGPoint	location;
 	CGPoint	previousLocation;
 	Boolean	firstTouch;
@@ -36,14 +43,18 @@
     UIColor *currentColor;
     UIImage *savedContent;
     BOOL    modifiedContentSaved;
+    CGFloat markerWidth;
+    CGFloat eraserWidth;
+    ToolType currentTool;
 }
 
 @property(nonatomic, readwrite) CGPoint location;
 @property(nonatomic, readwrite) CGPoint previousLocation;
 
 @property(nonatomic, retain, readwrite, getter=image, setter=setImage:) UIImage *image;
-- (void)erase;
-- (void)setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
-- (void)saveContent;
-
+- (void) erase;
+- (void) setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
+- (void) saveContent;
+- (void) enableMarker:(BOOL) enabled;
+- (void) enableEraser:(BOOL) enabled;
 @end

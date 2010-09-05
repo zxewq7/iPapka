@@ -19,7 +19,7 @@
 @end
 
 @implementation AttachmentsViewController
-@synthesize attachment;
+@synthesize attachment, currentPage, commenting;
 
 -(void) setAttachment:(Attachment*) anAttachment
 {
@@ -155,7 +155,7 @@
 	}
     
     [currentPage updateViews:YES];
-    [currentPage setCommenting:isCommenting];
+    [currentPage setCommenting:commenting];
     [nextPage setCommenting:NO];
 }
 
@@ -188,11 +188,11 @@
 #pragma mark methods
 -(void) setCommenting:(BOOL) state
 {
-    isCommenting = state;
-    pagingScrollView.canCancelContentTouches = !isCommenting;
-    pagingScrollView.delaysContentTouches = !isCommenting;
-    [currentPage setCommenting:isCommenting];
-    if (!isCommenting) 
+    commenting = state;
+    pagingScrollView.canCancelContentTouches = !commenting;
+    pagingScrollView.delaysContentTouches = !commenting;
+    [currentPage setCommenting:commenting];
+    if (!commenting) 
         [currentPage saveContent];
 }
 

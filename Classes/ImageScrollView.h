@@ -67,4 +67,6 @@
 - (void) restoreCenterPoint:(CGPoint)oldCenter scale:(CGFloat)oldScale;
 - (void) setCommenting:(BOOL) state;
 - (void) rotate:(CGFloat) radiansAngle;
+- (void) enableMarker:(BOOL) enabled;
+- (void) enableEraser:(BOOL) enabled;
 @end

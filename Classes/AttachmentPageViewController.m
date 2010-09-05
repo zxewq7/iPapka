@@ -122,4 +122,14 @@
     [imageView rotate: DEGREES_TO_RADIANS(angle)];
     page.rotationAngle = angle;
 }
+
+- (void) enableMarker:(BOOL) enabled
+{
+    [imageView enableMarker:enabled];
+}
+- (void) enableEraser:(BOOL) enabled
+{
+    [imageView enableEraser:enabled];
+}
+
 @end

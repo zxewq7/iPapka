@@ -314,6 +314,9 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 }
 -(void) setCommenting:(BOOL) state
 {
+    if (isCommenting == state)
+        return;
+    
     isCommenting = state;
     
     if (isCommenting)
@@ -339,6 +342,15 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         // Commit the changes
     [UIView commitAnimations];
     currentAngle = radiansAngle;
+}
+
+- (void) enableMarker:(BOOL) enabled
+{
+    [paintingView enableMarker:enabled];
+}
+- (void) enableEraser:(BOOL) enabled
+{
+    [paintingView enableEraser:enabled];
 }
 @end
 

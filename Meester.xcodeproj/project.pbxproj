@@ -20,11 +20,12 @@
 		8116FF8F121134E900DD537F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8116FF8E121134E900DD537F /* CoreGraphics.framework */; };
 		8116FF96121134E900DD537F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF95121134E900DD537F /* main.m */; };
 		8116FF99121134E900DD537F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8116FF98121134E900DD537F /* AppDelegate.m */; };
+		8119B5D41232E3EA000CBAD5 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 8119B5D21232E3EA000CBAD5 /* BrushErase.png */; };
+		8119B5D51232E3EA000CBAD5 /* BrushMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 8119B5D31232E3EA000CBAD5 /* BrushMarker.png */; };
 		812AADB11218312400E3FBC8 /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 812AADB01218312400E3FBC8 /* DocumentCellView.m */; };
 		812AAE8C1218433500E3FBC8 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 812AAE8A1218433500E3FBC8 /* Localizable.strings */; };
 		81334DC1122A5AFF0047C274 /* PaintingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81334DC0122A5AFF0047C274 /* PaintingView.m */; };
 		81334E11122A5C600047C274 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81334E10122A5C5F0047C274 /* OpenGLES.framework */; };
-		81334E2F122A5E550047C274 /* Particle.png in Resources */ = {isa = PBXBuildFile; fileRef = 81334E2E122A5E550047C274 /* Particle.png */; };
 		8133527F122AA2A30047C274 /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8133527E122AA2A30047C274 /* UIColor-Expanded.m */; };
 		81335524122ACCD80047C274 /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 81335523122ACCD80047C274 /* Texture2D.m */; };
 		8137EC3612142239006C1416 /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8137EC3512142239006C1416 /* PLBlocks.framework */; };
@@ -138,13 +139,14 @@
 		8116FF95121134E900DD537F /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		8116FF97121134E900DD537F /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		8116FF98121134E900DD537F /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8119B5D21232E3EA000CBAD5 /* BrushErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushErase.png; sourceTree = "<group>"; };
+		8119B5D31232E3EA000CBAD5 /* BrushMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushMarker.png; sourceTree = "<group>"; };
 		812AADAF1218312400E3FBC8 /* DocumentCellView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentCellView.h; sourceTree = "<group>"; };
 		812AADB01218312400E3FBC8 /* DocumentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCellView.m; sourceTree = "<group>"; };
 		812AAE8B1218433500E3FBC8 /* en */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		81334DBF122A5AFF0047C274 /* PaintingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingView.h; sourceTree = "<group>"; };
 		81334DC0122A5AFF0047C274 /* PaintingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingView.m; sourceTree = "<group>"; };
 		81334E10122A5C5F0047C274 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
-		81334E2E122A5E550047C274 /* Particle.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Particle.png; sourceTree = "<group>"; };
 		8133527D122AA2A30047C274 /* UIColor-Expanded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor-Expanded.h"; path = "thirdparty/UIColor-Expanded.h"; sourceTree = "<group>"; };
 		8133527E122AA2A30047C274 /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor-Expanded.m"; path = "thirdparty/UIColor-Expanded.m"; sourceTree = "<group>"; };
 		81335522122ACCD80047C274 /* Texture2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture2D.h; path = thirdparty/Texture2D.h; sourceTree = "<group>"; };
@@ -451,7 +453,8 @@
 		81FEA54012119EE500A9ABD3 /* images */ = {
 			isa = PBXGroup;
 			children = (
-				81334E2E122A5E550047C274 /* Particle.png */,
+				8119B5D21232E3EA000CBAD5 /* BrushErase.png */,
+				8119B5D31232E3EA000CBAD5 /* BrushMarker.png */,
 				8167366312283EEE00730FA6 /* ButtonAttachment.png */,
 				8167366412283EEE00730FA6 /* ButtonAttachmentSelected.png */,
 				81F1381B1226AAB600E5DED7 /* ButtonDate.png */,
@@ -579,9 +582,10 @@
 				81F1381C1226AAB600E5DED7 /* ButtonDate.png in Resources */,
 				8167366512283EEE00730FA6 /* ButtonAttachment.png in Resources */,
 				8167366612283EEE00730FA6 /* ButtonAttachmentSelected.png in Resources */,
-				81334E2F122A5E550047C274 /* Particle.png in Resources */,
 				8183886F12314CCD008798D5 /* InfoPlist.strings in Resources */,
 				8183887012314CCD008798D5 /* MainWindow.xib in Resources */,
+				8119B5D41232E3EA000CBAD5 /* BrushErase.png in Resources */,
+				8119B5D51232E3EA000CBAD5 /* BrushMarker.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,6 +16,7 @@
 #import "DocumentInfoViewController.h"
 #import "UIButton+Additions.h"
 #import "AttachmentPickerController.h"
+#import "AttachmentPageViewController.h"
 
 #define kAttachmentLabelTag 1
 
@@ -215,14 +216,28 @@
     attachmentsViewController.attachment = attachmentPickerController.attachment;
 }
 
-- (void) showPen:(id) sender
+- (void) enableMarker:(id) sender
 {
     BOOL isPainting = !penButton.selected;
     penButton.selected = isPainting;
-    [attachmentsViewController setCommenting:isPainting];
+    eraseButton.selected = NO;
+    attachmentsViewController.commenting = penButton.selected || eraseButton.selected;
+    [attachmentsViewController.currentPage enableMarker:isPainting];
     if (!isPainting) 
         [document saveDocument];
 }
+
+- (void) enableEraser:(id) sender
+{
+    BOOL isPainting = !eraseButton.selected;
+    eraseButton.selected = isPainting;
+    penButton.selected = NO;
+    attachmentsViewController.commenting = penButton.selected || eraseButton.selected;
+    [attachmentsViewController.currentPage enableEraser:isPainting];
+    if (!isPainting) 
+        [document saveDocument];
+}
+
 
 - (void) rotateCCV:(id) sender
 {
@@ -272,13 +287,13 @@
     [infoButton retain];
 
     penButton = [UIButton imageButton:self
-                             selector:@selector(showPen:)
+                             selector:@selector(enableMarker:)
                             imageName:@"ButtonPen.png"
                     imageNameSelected:@"ButtonPenSelected.png"];
     [penButton retain];
 
     eraseButton = [UIButton imageButton:self
-                               selector:nil
+                               selector:@selector(enableEraser:)
                               imageName:@"ButtonErase.png"
                       imageNameSelected:@"ButtonEraseSelected.png"];
     [eraseButton retain];
