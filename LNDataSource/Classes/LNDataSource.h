@@ -24,28 +24,32 @@
     NSMutableSet                    *cacheIndex;
     ASINetworkQueue                 *_networkQueue;
     NSString                        *_databaseDirectory;
-    NSString                        *databaseReplicaId;
-    NSString                        *viewReplicaId;
+    NSString                        *url;
+    NSString                        *viewId;
     NSString                        *login;
     NSString                        *password;
-    NSString                        *host;
     NSObject<LNDataSourceDelegate>  *delegate;
     NSDateFormatter                 *parseFormatterDst;
     NSDateFormatter                 *parseFormatterSimple;
     BOOL                            isSyncing;
     NSString                        *dataSourceId;
+    
+    NSString                        *urlFetchView;
+    NSString                        *urlFetchDocumentFormat;
+    NSString                        *urlAttachmentFetchPageFormat;
+    NSString                        *urlLinkAttachmentFetchPageFormat;
 }
-@property (nonatomic, retain) NSString                        *databaseReplicaId;
-@property (nonatomic, retain) NSString                        *viewReplicaId;
-@property (nonatomic, retain) NSString                        *host;
+@property (nonatomic, retain, readonly) NSString              *url;
+@property (nonatomic, retain, readonly) NSString              *viewId;
+@property (nonatomic, retain, readonly) NSString              *dataSourceId;
 @property (nonatomic, retain) NSString                        *login;
 @property (nonatomic, retain) NSString                        *password;
-@property (nonatomic, retain) NSString                        *dataSourceId;
 @property (nonatomic, retain) NSObject<LNDataSourceDelegate>  *delegate;
 - (void) refreshDocuments;
 - (void) loadCache;
 - (Document *) loadDocument:(NSString *) anUid;
-- (void)deleteDocument:(NSString *) anUid;
-- (void)purgeCache;
-- (void)saveDocument:(Document *) document;
+- (void) deleteDocument:(NSString *) anUid;
+- (void) purgeCache;
+- (void) saveDocument:(Document *) document;
+- (id) initWithId:(NSString *) aDataSourceId viewId:(NSString *) aViewId andUrl:(NSString*) anUrl;
 @end

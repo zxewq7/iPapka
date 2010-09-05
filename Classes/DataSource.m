@@ -309,37 +309,27 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 -(void) createLNDatasourceFromDefaults
 {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *serverHost = [currentDefaults objectForKey:@"serverHost"];
-    NSString *serverDatabase = [currentDefaults objectForKey:@"serverDatabase"];
+    NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
     NSString *serverDatabaseViewInbox = [currentDefaults objectForKey:@"serverDatabaseViewInbox"];
     NSString *serverDatabaseViewArchive = [currentDefaults objectForKey:@"serverDatabaseViewArchive"];
     NSString *serverAuthLogin = [currentDefaults objectForKey:@"serverAuthLogin"];
-    NSString *serverAuthPassword = [currentDefaults objectForKey:@"serverAuthPassword"];
 
     [dataSources release];
     dataSources = [NSMutableDictionary dictionaryWithCapacity:2];
     [dataSources retain];
     
-    LNDataSource *dsInbox = [[LNDataSource alloc] init];
-    dsInbox.host = serverHost;
-    dsInbox.databaseReplicaId = serverDatabase;
-    dsInbox.viewReplicaId = serverDatabaseViewInbox;
+    LNDataSource *dsInbox = [[LNDataSource alloc] initWithId: @"inbox" viewId:serverDatabaseViewInbox andUrl:serverUrl];
     dsInbox.login = serverAuthLogin;
-    dsInbox.password = serverAuthPassword;
-    dsInbox.dataSourceId = @"inbox";
+    dsInbox.password = @"";
     [dsInbox loadCache];
     dsInbox.delegate = self;
 
     [dataSources setObject:dsInbox forKey:@"inbox"];
     
 
-    LNDataSource *dsArchive = [[LNDataSource alloc] init];
-    dsArchive.host = serverHost;
-    dsArchive.databaseReplicaId = serverDatabase;
-    dsArchive.viewReplicaId = serverDatabaseViewArchive;
+    LNDataSource *dsArchive = [[LNDataSource alloc] initWithId: @"archive" viewId:serverDatabaseViewArchive andUrl:serverUrl];
     dsArchive.login = serverAuthLogin;
-    dsArchive.password = serverAuthPassword;
-    dsArchive.dataSourceId = @"archive";
+    dsArchive.password = @"";
     [dsArchive loadCache];
     dsArchive.delegate = self;
     

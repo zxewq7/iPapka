@@ -46,12 +46,12 @@ static NSString *field_LinkTitle = @"info";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
-static NSString *url_FetchView     = @"%@/%@/%@?ReadViewEntries&OutputFormat=json";
-static NSString *url_FetchDocument = @"%@/%@/document/%@";
+static NSString *url_FetchViewFormat     = @"%@/%@?ReadViewEntries&OutputFormat=json";
+static NSString *url_FetchDocumentFormat = @"%@/document/%@";
     //document/id/file/file.id/page/pagenum
-static NSString *url_AttachmentFetchPage = @"%@/%@/document/%@/file/%@/page/%@";
+static NSString *url_AttachmentFetchPageFormat = @"%@/document/%@/file/%@/page/%@";
     //document/id/link/link.id/file/file.id/page/pagenum
-static NSString *url_LinkAttachmentFetchPage = @"%@/%@/document/%@/link/%@/file/%@/page/%@";
+static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/file/%@/page/%@";
 
 @interface LNDataSource(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -71,19 +71,18 @@ static NSString *url_LinkAttachmentFetchPage = @"%@/%@/document/%@/link/%@/file/
 static NSString* OperationCount = @"OperationCount";
 
 @implementation LNDataSource
-@synthesize viewReplicaId, databaseReplicaId, host, delegate, login, password, dataSourceId;
--(id)init
+@synthesize viewId, url, delegate, login, password, dataSourceId;
+
+- (id) initWithId:(NSString *) aDataSourceId viewId:(NSString *) aViewId andUrl:(NSString*) anUrl
 {
     if ((self = [super init])) {
-        _networkQueue = [[ASINetworkQueue alloc] init];
-        [_networkQueue setRequestDidFinishSelector:@selector(fetchComplete:)];
-        [_networkQueue setRequestDidFailSelector:@selector(fetchFailed:)];
-        [_networkQueue setDelegate:self];
-        [_networkQueue go];
+        url = [anUrl retain];
+        dataSourceId = [aDataSourceId retain];
+        viewId = [aViewId retain];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _databaseDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-        _databaseDirectory = [[_databaseDirectory stringByAppendingPathComponent:@"Cache"] stringByAppendingPathComponent:self.databaseReplicaId];
+        _databaseDirectory = [[_databaseDirectory stringByAppendingPathComponent:@"Cache"] stringByAppendingPathComponent:self.dataSourceId];
         [_databaseDirectory retain];
 
         [[NSFileManager defaultManager] createDirectoryAtPath:_databaseDirectory withIntermediateDirectories:TRUE 
@@ -98,12 +97,21 @@ static NSString* OperationCount = @"OperationCount";
             //20100811
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
         
+        urlFetchView = [[NSString alloc] initWithFormat:url_FetchViewFormat, self.url, self.viewId];
+        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, self.url, @"%@"];
+        urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, self.url, @"%@", @"%@", @"%@"];
+        urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, self.url, @"%@", @"%@", @"%@", @"%@"];
+
+        _networkQueue = [[ASINetworkQueue alloc] init];
+        [_networkQueue setRequestDidFinishSelector:@selector(fetchComplete:)];
+        [_networkQueue setRequestDidFailSelector:@selector(fetchFailed:)];
+        [_networkQueue setDelegate:self];
+        [_networkQueue go];
+        
         [_networkQueue addObserver:self
                         forKeyPath:@"requestsCount"
                         options:0
                         context:&OperationCount];
-        
-        
     }
     return self;
 }
@@ -117,15 +125,19 @@ static NSString* OperationCount = @"OperationCount";
 	[_networkQueue release];
     [_databaseDirectory release];
 	[cacheIndex release];
-    self.viewReplicaId = nil;
-    self.databaseReplicaId = nil;
-    self.host = nil;
+    [viewId release];
+    [url release];
     self.login = nil;
     self.password = nil;
     self.delegate = nil;
-    self.dataSourceId = nil;
+    [dataSourceId release];
     [parseFormatterDst release];
     [parseFormatterSimple release];
+
+    [urlFetchDocumentFormat release];
+    [urlAttachmentFetchPageFormat release];
+    [urlLinkAttachmentFetchPageFormat release];
+    [urlFetchView release];
     
     [super dealloc];
 }
@@ -137,8 +149,7 @@ static NSString* OperationCount = @"OperationCount";
     if (isSyncing) //prevent spam syncing requests
         return;
     
-    NSString *url = [NSString stringWithFormat:url_FetchView, self.host, self.databaseReplicaId, self.viewReplicaId];
-    LNHttpRequest *request = [self makeRequestWithUrl: url];
+    LNHttpRequest *request = [self makeRequestWithUrl: urlFetchView];
 	[request setDownloadDestinationPath:[_databaseDirectory stringByAppendingPathComponent:@"index.xml"]];
     __block LNDataSource *blockSelf = self;
     request.requestHandler = ^(ASIHTTPRequest *request) {
@@ -324,8 +335,8 @@ static NSString* OperationCount = @"OperationCount";
 
 - (void)fetchDocument:(Document *) document isNew:(BOOL) isNew
 {
-    NSString *url = [NSString stringWithFormat:url_FetchDocument, self.host, self.databaseReplicaId, document.uid];
-    LNHttpRequest *request = [self makeRequestWithUrl: url];
+    NSString *anUrl = [NSString stringWithFormat:urlFetchDocumentFormat, document.uid];
+    LNHttpRequest *request = [self makeRequestWithUrl: anUrl];
     NSString *directory = [self documentDirectory:document.uid];
     NSFileManager *df = [NSFileManager defaultManager];
     if (isNew)
@@ -362,7 +373,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     NSString *path = [[self documentDirectory:document.uid] stringByAppendingPathComponent:@"attachments"];
 
-    NSString *urlPattern = [NSString stringWithFormat:url_AttachmentFetchPage, host, databaseReplicaId, document.uid, @"%@", @"%d"];
+    NSString *urlPattern = [NSString stringWithFormat:urlAttachmentFetchPageFormat, document.uid, @"%@", @"%d"];
     
     [self fetchAttachments:document rootDocument:document urlPattern:urlPattern basePath:path];
 }
@@ -461,9 +472,9 @@ static NSString* OperationCount = @"OperationCount";
     document.hasError = NO;
     return document;
 }
-- (LNHttpRequest *) makeRequestWithUrl:(NSString *) url
+- (LNHttpRequest *) makeRequestWithUrl:(NSString *) anUrl
 {
-    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString:url]];
+    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: anUrl]];
     request.username = self.login;
     request.password = self.password;
     return request;
@@ -547,8 +558,8 @@ static NSString* OperationCount = @"OperationCount";
         
         for (NSUInteger pageIndex = 0 ; pageIndex < pageCount; pageIndex++)
         {
-            NSString *url = [NSString stringWithFormat:anUrlPattern, attachment.uid, pageIndex];
-            LNHttpRequest *request = [self makeRequestWithUrl: url];
+            NSString *anUrl = [NSString stringWithFormat:anUrlPattern, attachment.uid, pageIndex];
+            LNHttpRequest *request = [self makeRequestWithUrl: anUrl];
             
             [request setDownloadDestinationPath:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", pageIndex]]];
             request.requestHandler = ^(ASIHTTPRequest *request) 
@@ -631,7 +642,7 @@ static NSString* OperationCount = @"OperationCount";
     NSString *path = [[self documentDirectory:document.uid] stringByAppendingPathComponent:@"links"];
     for (Document *link in document.links) 
     {
-        NSString *urlPattern = [NSString stringWithFormat:url_LinkAttachmentFetchPage, host, databaseReplicaId, document.uid, link.uid, @"%@", @"%d"];
+        NSString *urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, document.uid, link.uid, @"%@", @"%d"];
         
         [self fetchAttachments:link rootDocument:document urlPattern:urlPattern basePath:[path stringByAppendingPathComponent:link.uid]];
     }
