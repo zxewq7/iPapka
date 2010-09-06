@@ -69,4 +69,5 @@
 - (void) rotate:(CGFloat) radiansAngle;
 - (void) enableMarker:(BOOL) enabled;
 - (void) enableEraser:(BOOL) enabled;
+- (void) enableStamper:(BOOL) enabled;
 @end

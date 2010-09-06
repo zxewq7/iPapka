@@ -28,7 +28,7 @@
     if (savedContent != aDrawings) 
     {
         [self paintTexture:aDrawings];
-        [savedContent dealloc];
+        [savedContent release];
         savedContent = [aDrawings retain];
     }
     modifiedContentSaved = YES;
@@ -55,7 +55,7 @@
     
     [backgroundTex drawInRect:bounds];
     
-    [backgroundTex dealloc];
+    [backgroundTex release];
     
     glEnable(GL_BLEND);
     
@@ -71,6 +71,11 @@
             break;
         case kToolTypeMarker:
             [self enableMarker:YES];
+            break;
+        case kToolTypeStamper:
+            [self enableStamper:YES];
+            break;
+        case kToolTypeNone:
             break;
         default:
             NSAssert1(NO, @"Unknown tool: %d", currentTool);
@@ -246,6 +251,12 @@
 		eraserTexture = 0;
 	}
     
+    if (stamperTexture)
+	{
+		glDeleteTextures(1, &stamperTexture);
+		stamperTexture = 0;
+	}
+    
 	if([EAGLContext currentContext] == context)
 	{
 		[EAGLContext setCurrentContext:nil];
@@ -254,6 +265,7 @@
 	[context release];
     [currentColor release];
     [savedContent release];
+    [tapRecognizer release];
 	[super dealloc];
 }
 
@@ -272,10 +284,12 @@
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
-
     // Handles the start of a touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if (currentTool == kToolTypeStamper) 
+        return;
+
 	CGRect				bounds = [self bounds];
     UITouch*	touch = [[event touchesForView:self] anyObject];
 	firstTouch = YES;
@@ -288,6 +302,8 @@
     // Handles the continuation of a touch.
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {  
+    if (currentTool == kToolTypeStamper) 
+        return;
     
 	CGRect				bounds = [self bounds];
 	UITouch*			touch = [[event touchesForView:self] anyObject];
@@ -311,6 +327,9 @@
     // Handles the end of a touch event when the touch is a tap.
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    if (currentTool == kToolTypeStamper) 
+        return;
+
 	CGRect				bounds = [self bounds];
     UITouch*	touch = [[event touchesForView:self] anyObject];
 	if (firstTouch) {
@@ -319,6 +338,24 @@
 		previousLocation.y = bounds.size.height - previousLocation.y;
 		[self renderLineFromPoint:previousLocation toPoint:location];
 	}
+}
+
+#pragma mark -
+#pragma mark UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if (currentTool != kToolTypeStamper) 
+        return NO;
+    
+    CGPoint touchPoint = [touch locationInView:self];
+    
+    CGRect				bounds = [self bounds];
+	touchPoint.y = bounds.size.height - touchPoint.y;
+    
+    [self renderLineFromPoint:CGPointMake(touchPoint.x, touchPoint.y) toPoint: CGPointMake(touchPoint.x, touchPoint.y)];
+    
+    return NO;
 }
 
     // Handles the end of a touch event.
@@ -370,6 +407,35 @@
     glBindTexture(GL_TEXTURE_2D, eraserTexture);
     glPointSize(eraserWidth / kBrushScale);
     currentTool = kToolTypeEraser;
+}
+- (void) enableStamper:(BOOL) enabled
+{
+    if (enabled)
+    {
+        tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+        [self addGestureRecognizer:tapRecognizer];
+        tapRecognizer.delegate = self;
+        
+        if (!stamperTexture)
+        {
+            UIImage *stamperImage = [UIImage imageNamed:@"BrushComment.png"];
+            stamperWidth = stamperImage.size.width;
+            [self createTexture:&stamperTexture withImage:stamperImage];
+        }
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_BLEND);
+        [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
+        glBindTexture(GL_TEXTURE_2D, stamperTexture);
+        glPointSize(stamperWidth);
+        currentTool = kToolTypeStamper;
+    }
+    else
+    {
+        [self removeGestureRecognizer: tapRecognizer];
+        [tapRecognizer release];
+        currentTool = kToolTypeNone;
+    }
+
 }
 @end
 

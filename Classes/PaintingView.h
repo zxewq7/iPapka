@@ -15,11 +15,13 @@
 
 typedef enum
 {
-    kToolTypeMarker = 0,
-    kToolTypeEraser = 1
+    kToolTypeNone = 0,
+    kToolTypeMarker = 1,
+    kToolTypeEraser = 2,
+    kToolTypeStamper = 3
 } ToolType;
 
-@interface PaintingView : UIView
+@interface PaintingView : UIView<UIGestureRecognizerDelegate>
 {
 @private
 	// The pixel dimensions of the backbuffer
@@ -36,6 +38,7 @@ typedef enum
 	
 	GLuint	markerTexture;
     GLuint	eraserTexture;
+    GLuint  stamperTexture;
 	CGPoint	location;
 	CGPoint	previousLocation;
 	Boolean	firstTouch;
@@ -45,7 +48,9 @@ typedef enum
     BOOL    modifiedContentSaved;
     CGFloat markerWidth;
     CGFloat eraserWidth;
+    CGFloat stamperWidth;
     ToolType currentTool;
+    UITapGestureRecognizer *tapRecognizer;
 }
 
 @property(nonatomic, readwrite) CGPoint location;
@@ -57,4 +62,5 @@ typedef enum
 - (void) saveContent;
 - (void) enableMarker:(BOOL) enabled;
 - (void) enableEraser:(BOOL) enabled;
+- (void) enableStamper:(BOOL) enabled;
 @end

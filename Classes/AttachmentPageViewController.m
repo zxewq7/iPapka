@@ -134,9 +134,14 @@
 {
     [imageView enableMarker:enabled];
 }
+
 - (void) enableEraser:(BOOL) enabled
 {
     [imageView enableEraser:enabled];
 }
 
+- (void) enableStamper:(BOOL) enabled
+{
+    [imageView enableStamper:enabled];
+}
 @end

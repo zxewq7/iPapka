@@ -219,9 +219,10 @@
 - (void) enableMarker:(id) sender
 {
     BOOL isPainting = !penButton.selected;
+    commentButton.selected = NO;
     penButton.selected = isPainting;
     eraseButton.selected = NO;
-    attachmentsViewController.commenting = penButton.selected || eraseButton.selected;
+    attachmentsViewController.commenting = penButton.selected || eraseButton.selected || commentButton.selected;
     [attachmentsViewController.currentPage enableMarker:isPainting];
     if (!isPainting) 
         [document saveDocument];
@@ -230,10 +231,23 @@
 - (void) enableEraser:(id) sender
 {
     BOOL isPainting = !eraseButton.selected;
-    eraseButton.selected = isPainting;
+    commentButton.selected = NO;
     penButton.selected = NO;
-    attachmentsViewController.commenting = penButton.selected || eraseButton.selected;
+    eraseButton.selected = isPainting;
+    attachmentsViewController.commenting = penButton.selected || eraseButton.selected || commentButton.selected;
     [attachmentsViewController.currentPage enableEraser:isPainting];
+    if (!isPainting) 
+        [document saveDocument];
+}
+
+- (void) enableComment:(id) sender
+{
+    BOOL isPainting = !commentButton.selected;
+    commentButton.selected = isPainting;
+    penButton.selected = NO;
+    eraseButton.selected = NO;
+    attachmentsViewController.commenting = penButton.selected || eraseButton.selected || commentButton.selected;
+    [attachmentsViewController.currentPage enableStamper:isPainting];
     if (!isPainting) 
         [document saveDocument];
 }
@@ -299,7 +313,7 @@
     [eraseButton retain];
 
     commentButton = [UIButton imageButton:self
-                                 selector:nil
+                                 selector:@selector(enableComment:)
                                 imageName:@"ButtonComment.png"
                         imageNameSelected:@"ButtonCommentSelected.png"];
     [commentButton retain];

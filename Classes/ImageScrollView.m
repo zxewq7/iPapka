@@ -352,6 +352,11 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 {
     [paintingView enableEraser:enabled];
 }
+
+- (void) enableStamper:(BOOL) enabled
+{
+    [paintingView enableStamper:enabled];
+}
 @end
 
 @implementation ImageScrollView (Private)

@@ -27,4 +27,5 @@
 - (void) rotate:(CGFloat) degressAngle;
 - (void) enableMarker:(BOOL) enabled;
 - (void) enableEraser:(BOOL) enabled;
+- (void) enableStamper:(BOOL) enabled;
 @end
