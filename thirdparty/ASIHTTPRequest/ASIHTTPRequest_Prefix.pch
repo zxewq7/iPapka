@@ -1,5 +1,5 @@
 //
-// Prefix header for all source files of the 'CocoaTouchStaticLibrary' target in the 'CocoaTouchStaticLibrary' project.
+// Prefix header for all source files of the 'ASIHTTPRequest' target in the 'ASIHTTPRequest' project
 //
 
 #ifdef __OBJC__
