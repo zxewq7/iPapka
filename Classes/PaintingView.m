@@ -21,6 +21,8 @@
 @synthesize  location;
 @synthesize  previousLocation;
 @synthesize  image;
+@synthesize paintingDelegate;
+@synthesize stamps;
 
 -(void)setImage:(UIImage *) aDrawings;
 {
@@ -201,6 +203,8 @@
 		
             // Make sure to start with a cleared buffer
 		needsErase = YES;
+        
+        stamps = [[NSMutableArray alloc] init];
 	}
 	
 	return self;
@@ -262,6 +266,8 @@
 		[EAGLContext setCurrentContext:nil];
 	}
 	
+    self.stamps = nil;
+    self.paintingDelegate = nil;
 	[context release];
     [currentColor release];
     [savedContent release];
@@ -348,16 +354,46 @@
     if (currentTool != kToolTypeStamper) 
         return NO;
     
+    return YES;
+}
+
+-(void) handleTapFrom:(UITouch *)touch
+{
     CGPoint touchPoint = [touch locationInView:self];
     
     CGRect				bounds = [self bounds];
 	touchPoint.y = bounds.size.height - touchPoint.y;
     
-    [self renderLineFromPoint:CGPointMake(touchPoint.x, touchPoint.y) toPoint: CGPointMake(touchPoint.x, touchPoint.y)];
-    
-    return NO;
+    NSUInteger stampIndex = NSNotFound;
+    NSUInteger count = [stamps count];
+    for(NSUInteger i=0;i<count;i++)
+    {
+        CGRect stampRect = [[stamps objectAtIndex:i] CGRectValue];
+        if (CGRectContainsPoint(stampRect, touchPoint))
+        {
+            stampIndex = i;
+            break;
+        }
+        
+    }
+    if(stampIndex == NSNotFound)
+    {
+        
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+        [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
+        [self renderLineFromPoint:CGPointMake(touchPoint.x, touchPoint.y) toPoint: CGPointMake(touchPoint.x, touchPoint.y)];
+        glFlush();
+        [stamps addObject:[NSValue valueWithCGRect:CGRectMake(touchPoint.x, touchPoint.y, stamperWidth, stamperWidth)]];
+    }
+    else
+    {
+        CGRect stampRect = [[stamps objectAtIndex:stampIndex] CGRectValue];
+        glBlendFunc(GL_ONE, GL_ONE_MINUS_DST_ALPHA);
+        glColor4f(0.0, 0.0, 0.0, 0.0);
+        [self renderLineFromPoint:CGPointMake(stampRect.origin.x, stampRect.origin.y) toPoint: CGPointMake(stampRect.origin.x, stampRect.origin.y)];
+        glFlush();
+    }    
 }
-
     // Handles the end of a touch event.
 - (void)touchesCancelled:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -423,7 +459,7 @@
             [self createTexture:&stamperTexture withImage:stamperImage];
         }
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        glDisable(GL_BLEND);
+        glEnable(GL_BLEND);
         [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
         glBindTexture(GL_TEXTURE_2D, stamperTexture);
         glPointSize(stamperWidth);

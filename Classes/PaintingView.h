@@ -21,6 +21,14 @@ typedef enum
     kToolTypeStamper = 3
 } ToolType;
 
+@class PaintingView;
+@protocol PaintingViewDelegate <NSObject>
+
+-(void) stampAdded:(PaintingView *) sender index:(NSUInteger) anIndex;
+-(void) stampTouched:(PaintingView *) sender index:(NSUInteger) anIndex;
+
+@end
+
 @interface PaintingView : UIView<UIGestureRecognizerDelegate>
 {
 @private
@@ -51,12 +59,16 @@ typedef enum
     CGFloat stamperWidth;
     ToolType currentTool;
     UITapGestureRecognizer *tapRecognizer;
+    NSMutableArray *stamps;
+    id<PaintingViewDelegate> paintingDelegate;
 }
 
 @property(nonatomic, readwrite) CGPoint location;
 @property(nonatomic, readwrite) CGPoint previousLocation;
 
 @property(nonatomic, retain, readwrite, getter=image, setter=setImage:) UIImage *image;
+@property(nonatomic, retain, readwrite) NSMutableArray *stamps;
+@property(nonatomic, retain, readwrite) id<PaintingViewDelegate> paintingDelegate;
 - (void) erase;
 - (void) setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
 - (void) saveContent;
