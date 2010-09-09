@@ -7,9 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "PaintingView.h"
 
 @class Attachment, ImageScrollView;
-@interface AttachmentPageViewController : UIViewController 
+@interface AttachmentPageViewController : UIViewController<PaintingViewDelegate>
 {
 	NSInteger       pageIndex;
 	BOOL            viewNeedsUpdate;

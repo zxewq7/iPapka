@@ -80,7 +80,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
 
 @implementation ImageScrollView
-@synthesize drawings;
+@synthesize drawings, paintingDelegate;
 
 -(UIImage *) drawings
 {
@@ -102,6 +102,22 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     else
         drawingsView.image = aDrawings;
 }
+
+
+- (id<PaintingViewDelegate>) paintingDelegate
+{
+    return paintingDelegate;
+}
+
+-(void) setPaintingDelegate:(id<PaintingViewDelegate>) delegate
+{
+    if (paintingDelegate == delegate)
+        return;
+    [paintingDelegate release];
+    paintingDelegate = [delegate retain];
+    paintingView.paintingDelegate = paintingDelegate;
+}
+
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -125,6 +141,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     [paintingView release];
     [drawingsView release];
     free(minScaleRanges);
+    self.paintingDelegate = nil;
     [super dealloc];
 }
 
@@ -381,6 +398,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     CGRect f = imageView.frame;
     paintingView = [[PaintingView alloc] initWithFrame: f];
     paintingView.backgroundColor = [UIColor clearColor];
+    paintingView.paintingDelegate = paintingDelegate;
         //if view can not cancel touchs, than we in editing mode
     paintingView.userInteractionEnabled =  YES;
     paintingView.exclusiveTouch =  YES;

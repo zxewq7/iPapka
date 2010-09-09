@@ -383,14 +383,14 @@
         [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
         [self renderLineFromPoint:CGPointMake(touchPoint.x, touchPoint.y) toPoint: CGPointMake(touchPoint.x, touchPoint.y)];
         [stamps addObject:[NSValue valueWithCGRect:CGRectMake(touchPoint.x, touchPoint.y, stamperWidth, stamperWidth)]];
-        if ([paintingDelegate respondsToSelector:@selector(stampTouched:index:)]) 
-            [paintingDelegate stampTouched:self index:stampIndex];
+        if ([paintingDelegate respondsToSelector:@selector(stampAdded:index:)]) 
+            [paintingDelegate stampAdded:self index:[stamps count]-1];
 
     }
     else
     {
-        if ([paintingDelegate respondsToSelector:@selector(stampAdded:index:)]) 
-            [paintingDelegate stampAdded:self index:stampIndex];
+        if ([paintingDelegate respondsToSelector:@selector(stampTouched:index:)]) 
+            [paintingDelegate stampTouched:self index:stampIndex];
     }    
 }
     // Handles the end of a touch event.

@@ -73,7 +73,7 @@
 - (void)loadView 
 {    
     imageView = [[ImageScrollView alloc] init];
-    
+    imageView.paintingDelegate = self;
     self.view = imageView;
 }
 - (void)viewDidLoad {
@@ -106,6 +106,44 @@
     [imageView release];
     self.attachment = nil;
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark PaintingViewDelegate
+
+-(void) stampAdded:(PaintingView *) sender index:(NSUInteger) anIndex
+{
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    UIMenuItem *textualMenuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Textual", "Comment->textual") action:@selector(resetPiece:)];
+    UIMenuItem *voiceMenuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Voice", "Comment->voice") action:@selector(resetPiece:)];
+
+    CGRect commentRect = [[sender.stamps objectAtIndex:anIndex] CGRectValue];
+    
+    [self becomeFirstResponder];
+    [menuController setMenuItems:[NSArray arrayWithObjects:textualMenuItem, voiceMenuItem, nil]];
+    [menuController setTargetRect:commentRect inView:sender];
+    [menuController setMenuVisible:YES animated:YES];
+    
+    [textualMenuItem release];
+    [voiceMenuItem release];
+}
+
+-(void) stampTouched:(PaintingView *) sender index:(NSUInteger) anIndex
+{
+    
+    UIMenuController *menuController = [UIMenuController sharedMenuController];
+    UIMenuItem *textualMenuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Textual", "Comment->textual") action:@selector(resetPiece:)];
+    UIMenuItem *voiceMenuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Voice", "Comment->voice") action:@selector(resetPiece:)];
+    
+    CGRect commentRect = [[sender.stamps objectAtIndex:anIndex] CGRectValue];
+    
+    [self becomeFirstResponder];
+    [menuController setMenuItems:[NSArray arrayWithObjects:textualMenuItem, voiceMenuItem, nil]];
+    [menuController setTargetRect:commentRect inView:sender];
+    [menuController setMenuVisible:YES animated:YES];
+    
+    [textualMenuItem release];
+    [voiceMenuItem release];
 }
 
 -(void) setCommenting:(BOOL) state

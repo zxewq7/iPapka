@@ -1,6 +1,5 @@
 #import <UIKit/UIKit.h>
-
-@class PaintingView;
+#import "PaintingView.h"
 
 @interface ImageScrollView : UIScrollView <UIScrollViewDelegate> {
     PaintingView        *paintingView;
@@ -10,8 +9,11 @@
     CGSize              imageOriginalSize;
     NSRange             *minScaleRanges;
     CGFloat             currentAngle;
+    id<PaintingViewDelegate> paintingDelegate;
 }
 @property (nonatomic, retain, getter=drawings, setter=setDrawings:) UIImage *drawings;
+@property(nonatomic, retain, getter=paintingDelegate, setter=setPaintingDelegate:) id<PaintingViewDelegate> paintingDelegate;
+
 - (void)displayImage:(UIImage *)image angle:(CGFloat) anAngle;
 - (void)setMaxMinZoomScalesForCurrentBounds;
 
