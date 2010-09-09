@@ -382,16 +382,15 @@
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
         [self renderLineFromPoint:CGPointMake(touchPoint.x, touchPoint.y) toPoint: CGPointMake(touchPoint.x, touchPoint.y)];
-        glFlush();
         [stamps addObject:[NSValue valueWithCGRect:CGRectMake(touchPoint.x, touchPoint.y, stamperWidth, stamperWidth)]];
+        if ([paintingDelegate respondsToSelector:@selector(stampTouched:index:)]) 
+            [paintingDelegate stampTouched:self index:stampIndex];
+
     }
     else
     {
-        CGRect stampRect = [[stamps objectAtIndex:stampIndex] CGRectValue];
-        glBlendFunc(GL_ONE, GL_ONE_MINUS_DST_ALPHA);
-        glColor4f(0.0, 0.0, 0.0, 0.0);
-        [self renderLineFromPoint:CGPointMake(stampRect.origin.x, stampRect.origin.y) toPoint: CGPointMake(stampRect.origin.x, stampRect.origin.y)];
-        glFlush();
+        if ([paintingDelegate respondsToSelector:@selector(stampAdded:index:)]) 
+            [paintingDelegate stampAdded:self index:stampIndex];
     }    
 }
     // Handles the end of a touch event.
