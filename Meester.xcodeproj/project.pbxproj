@@ -80,6 +80,8 @@
 		8165429012379CC7008FC80F /* DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165428812379CC7008FC80F /* DocumentManaged.m */; };
 		8165429112379CC7008FC80F /* ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165428A12379CC7008FC80F /* ResolutionManaged.m */; };
 		8165429212379CC7008FC80F /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165428C12379CC7008FC80F /* SignatureManaged.m */; };
+		816CD7841239466C006BC92F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
+		816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7BD12394AA0006BC92F /* Default-Landscape.png */; };
 		8193B63612379E09000F05B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63512379E09000F05B6 /* CoreData.framework */; };
 		8193B63C12379E13000F05B6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63B12379E13000F05B6 /* Security.framework */; };
 		8193B64412379E28000F05B6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B64312379E28000F05B6 /* OpenGLES.framework */; };
@@ -233,6 +235,8 @@
 		8165428A12379CC7008FC80F /* ResolutionManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionManaged.m; sourceTree = "<group>"; };
 		8165428B12379CC7008FC80F /* SignatureManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureManaged.h; sourceTree = "<group>"; };
 		8165428C12379CC7008FC80F /* SignatureManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureManaged.m; sourceTree = "<group>"; };
+		816CD7831239466C006BC92F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		816CD7BD12394AA0006BC92F /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		8193B63512379E09000F05B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8193B63B12379E13000F05B6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8193B64312379E28000F05B6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -268,6 +272,8 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				816CD7BD12394AA0006BC92F /* Default-Landscape.png */,
+				816CD7831239466C006BC92F /* Default.png */,
 				811DF42D1237A11300903D30 /* BrushComment.png */,
 				811DF42E1237A11300903D30 /* BrushErase.png */,
 				811DF42F1237A11300903D30 /* BrushMarker.png */,
@@ -630,6 +636,8 @@
 				811DF4681237A11E00903D30 /* Settings.bundle in Resources */,
 				8107AAB41237A1AF00F0C71F /* Localizable.strings in Resources */,
 				815EAB4F1237DF810093CF38 /* InfoPlist.strings in Resources */,
+				816CD7841239466C006BC92F /* Default.png in Resources */,
+				816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
