@@ -18,6 +18,7 @@
 #import "AttachmentPickerController.h"
 #import "AttachmentPageViewController.h"
 #import "UIToolbarWithCustomBackground.h"
+#import "ClipperViewController.h"
 
 #define kAttachmentLabelTag 1
 
@@ -85,19 +86,23 @@
     
     [self createToolbar];
     
-    UIImage *backgroungImage = [UIImage imageNamed:@"RootBackground.png"];
-    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:backgroungImage];
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
     
     CGRect toolbarFrame = toolbar.bounds;
     CGFloat backgroundImageHeight = windowFrame.size.height-toolbarFrame.size.height-20;
     backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, windowFrame.size.width, backgroundImageHeight);
     [self.view addSubview:backgroundView];
     [backgroundView release];
-    self.navigationItem;
 
-//    CGRect scrollViewRect = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
-//    attachmentsViewController = [[AttachmentsViewController alloc] initWithFrame:scrollViewRect];
-    [self.view addSubview:attachmentsViewController.view];
+    clipperViewController = [[ClipperViewController alloc] init];
+    CGSize clipperSize = clipperViewController.view.frame.size;
+    CGRect viewBounds = self.view.bounds;
+    CGRect newClipperFrame = CGRectMake((viewBounds.size.width-clipperSize.width)/2, 0,clipperSize.width, clipperSize.height);
+    clipperViewController.view.frame = newClipperFrame;
+    
+    [self.view addSubview:clipperViewController.view];
+    
+//    [self.view addSubview:attachmentsViewController.view];
 
     
 }
