@@ -117,17 +117,37 @@
 
 -(void) handleTapFrom:(UITouch *)touch
 {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.75f];
-    [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp
-                                forView:self.view cache:YES];
-    if (page1.superview)
-        [page1 removeFromSuperview];
-    else if (page2.superview)
-        [page2 removeFromSuperview];
-
-    // Commit the changes
-    [UIView commitAnimations];
+    CGPoint location = [touch locationInView:self.view];
+    
+    CGSize size = self.view.bounds.size;
+    
+    BOOL tapBottom = (size.height - location.y)<100.0f;
+    
+    BOOL tapTop = location.y<100.0f;
+    
+    if (tapTop || tapBottom)
+    {
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.75f];
+        [UIView setAnimationTransition:tapTop?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp
+                               forView:self.view cache:YES];
+        if (tapTop)
+        {
+            if (!page2.superview)
+                [self.view addSubview:page2];
+            else if (!page1.superview)
+                [self.view addSubview:page1];
+        }
+        else if (tapBottom)
+        {
+            if (page1.superview)
+                [page1 removeFromSuperview];
+            else if (page2.superview)
+                [page2 removeFromSuperview];
+        }
+        // Commit the changes
+        [UIView commitAnimations];
+    }
 }
 #pragma mark -
 #pragma mark ScrollView delegate methods
