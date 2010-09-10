@@ -62,7 +62,6 @@
 		816541CA12379AA3008FC80F /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541C912379AA3008FC80F /* main.m */; };
 		8165421012379B3B008FC80F /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541E912379B3B008FC80F /* AppDelegate.m */; };
 		8165421112379B3B008FC80F /* AttachmentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541EB12379B3B008FC80F /* AttachmentPageViewController.m */; };
-		8165421212379B3B008FC80F /* AttachmentPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541ED12379B3B008FC80F /* AttachmentPickerController.m */; };
 		8165421312379B3B008FC80F /* AttachmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541EF12379B3B008FC80F /* AttachmentsViewController.m */; };
 		8165421412379B3B008FC80F /* DataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541F112379B3B008FC80F /* DataSource.m */; };
 		8165421512379B3B008FC80F /* DatePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541F312379B3B008FC80F /* DatePickerController.m */; };
@@ -95,6 +94,7 @@
 		8193B64412379E28000F05B6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B64312379E28000F05B6 /* OpenGLES.framework */; };
 		8193B66D12379E7B000F05B6 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8165426B12379BE3008FC80F /* libDataModel.a */; };
 		8193B66E12379E7B000F05B6 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8165423B12379B79008FC80F /* libLNDataSource.a */; };
+		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,8 +198,6 @@
 		816541E912379B3B008FC80F /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		816541EA12379B3B008FC80F /* AttachmentPageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentPageViewController.h; sourceTree = "<group>"; };
 		816541EB12379B3B008FC80F /* AttachmentPageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentPageViewController.m; sourceTree = "<group>"; };
-		816541EC12379B3B008FC80F /* AttachmentPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentPickerController.h; sourceTree = "<group>"; };
-		816541ED12379B3B008FC80F /* AttachmentPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentPickerController.m; sourceTree = "<group>"; };
 		816541EE12379B3B008FC80F /* AttachmentsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentsViewController.h; sourceTree = "<group>"; };
 		816541EF12379B3B008FC80F /* AttachmentsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentsViewController.m; sourceTree = "<group>"; };
 		816541F012379B3B008FC80F /* DataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DataSource.h; sourceTree = "<group>"; };
@@ -259,6 +257,7 @@
 		8193B63B12379E13000F05B6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8193B64312379E28000F05B6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
+		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -290,6 +289,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */,
 				8148EF8B123A7C76000E9762 /* ClipperOpened.png */,
 				8148ED23123A4996000E9762 /* Paper.png */,
 				8148EC95123A3C7A000E9762 /* PaperBack.png */,
@@ -370,8 +370,6 @@
 				8165420112379B3B008FC80F /* FoldersViewController.m */,
 				8165420412379B3B008FC80F /* MasterViewController.h */,
 				8165420512379B3B008FC80F /* MasterViewController.m */,
-				816541EC12379B3B008FC80F /* AttachmentPickerController.h */,
-				816541ED12379B3B008FC80F /* AttachmentPickerController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -672,6 +670,7 @@
 				8148EC96123A3C7A000E9762 /* PaperBack.png in Resources */,
 				8148ED24123A4996000E9762 /* Paper.png in Resources */,
 				8148EF8C123A7C76000E9762 /* ClipperOpened.png in Resources */,
+				81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -685,7 +684,6 @@
 				816541CA12379AA3008FC80F /* main.m in Sources */,
 				8165421012379B3B008FC80F /* AppDelegate.m in Sources */,
 				8165421112379B3B008FC80F /* AttachmentPageViewController.m in Sources */,
-				8165421212379B3B008FC80F /* AttachmentPickerController.m in Sources */,
 				8165421312379B3B008FC80F /* AttachmentsViewController.m in Sources */,
 				8165421412379B3B008FC80F /* DataSource.m in Sources */,
 				8165421512379B3B008FC80F /* DatePickerController.m in Sources */,

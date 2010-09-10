@@ -13,7 +13,7 @@
 #import "Attachment.h"
 #import "AttachmentsViewController.h"
 #import "UIButton+Additions.h"
-#import "AttachmentPickerController.h"
+#import "DocumentInfoViewController.h"
 #import "UIToolbarWithCustomBackground.h"
 #import "ClipperViewController.h"
 
@@ -115,7 +115,7 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     CGSize contentViewSize = contentView.frame.size;
     
     contentView.frame = CGRectMake((viewBounds.size.width-contentViewSize.width)/2, contentHeightOffset, contentViewSize.width, contentViewSize.height);
-    contentView.backgroundColor = [UIColor redColor];
+    contentView.userInteractionEnabled = YES;
     contentViewSize.width-=5;
 
     //attachments view
@@ -124,29 +124,28 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     attachmentsViewController.view.frame = attachmentsViewFrame;
     
     //attachmentPicker view
-    attachmentPickerController = [[AttachmentPickerController alloc] init];
-    CGRect attachmentPickerFrame = CGRectMake(0, 5, contentViewSize.width, 300);
-    attachmentPickerController.view.frame = attachmentPickerFrame;
+    documentInfoViewController = [[DocumentInfoViewController alloc] init];
+    CGRect documentInfoViewControllerFrame = CGRectMake(0, 5, contentViewSize.width, 300);
+    documentInfoViewController.view.frame = documentInfoViewControllerFrame;
     
-    [contentView addSubview: attachmentPickerController.view];
+    [contentView addSubview: documentInfoViewController.view];
     [contentView addSubview: attachmentsViewController.view];
 
     [self.view addSubview:contentView];
     [self.view addSubview:clipperViewController.view];
-    
+
     if (self.document)
     {
+        documentInfoViewController.document = self.document;
+        
         NSArray *attachments = document.document.attachments;
         NSUInteger numberOfAttachments = [attachments count];
         if (numberOfAttachments) 
         {
             Attachment *firstAttachment = [attachments objectAtIndex:0];
             attachmentsViewController.attachment = firstAttachment;
-            attachmentPickerController.document = self.document.document;
-            attachmentPickerController.attachment = firstAttachment;
         }
     }
-
 }
 
     // Override to allow orientations other than the default portrait orientation.
@@ -158,11 +157,11 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     [super viewDidUnload];
     [attachmentsViewController release];
     attachmentsViewController = nil;
+    [clipperViewController removeObserver:self forKeyPath:@"opened"];
     [clipperViewController release];
     clipperViewController = nil;
-    [attachmentPickerController removeObserver:self forKeyPath:@"opened"];
-    [attachmentPickerController release];
-    attachmentPickerController = nil;
+    [documentInfoViewController release];
+    documentInfoViewController = nil;
     [contentView release];
     contentView = nil;
     [toolbar release];
@@ -173,11 +172,11 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 {
     [attachmentsViewController release];
     attachmentsViewController = nil;
+    [clipperViewController removeObserver:self forKeyPath:@"opened"];
     [clipperViewController release];
     clipperViewController = nil;
-    [attachmentPickerController removeObserver:self forKeyPath:@"opened"];
-    [attachmentPickerController release];
-    attachmentPickerController = nil;
+    [documentInfoViewController release];
+    documentInfoViewController = nil;
     [contentView release];
     contentView = nil;
     [toolbar release];
@@ -202,10 +201,10 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:.75];
 
-        CGSize attachmentPickerSize = attachmentPickerController.view.frame.size;
+        CGSize documentInfoViewControllerSize = documentInfoViewController.view.frame.size;
         
         CGRect attachmentsViewOldFrame = attachmentsViewController.view.frame;
-        CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*attachmentPickerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
+        CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*documentInfoViewControllerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
         attachmentsViewController.view.frame = attachmentsViewFrame;
         [UIView commitAnimations];
     }

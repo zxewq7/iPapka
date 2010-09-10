@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, AttachmentPickerController;
+@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController;
 
 @interface RootViewController : UIViewController
 {
@@ -17,7 +17,7 @@
     UIToolbar                  *toolbar;
     ClipperViewController      *clipperViewController;
     Folder                     *folder;
-    AttachmentPickerController *attachmentPickerController;
+    DocumentInfoViewController *documentInfoViewController;
     CGFloat                    contentHeightOffset;
     UIImageView                *contentView;
 }

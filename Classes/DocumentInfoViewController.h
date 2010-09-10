@@ -16,6 +16,8 @@
     Document        *unmanagedDocument;
     UITableView     *tableView;
     UILabel         *documentTitle;
+    UILabel         *documentDetails;
+    UISegmentedControl *filter;
     BOOL            isResolution;
     BOOL            hasParentResolution;
     NSMutableArray  *sections;
