@@ -52,6 +52,8 @@
 		8144AECE123A29BA006B2AD7 /* UIToolbarWithCustomBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144AECD123A29BA006B2AD7 /* UIToolbarWithCustomBackground.m */; };
 		8148EC2E123A323A000E9762 /* ClipperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8148EC2D123A323A000E9762 /* ClipperViewController.m */; };
 		8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC33123A3378000E9762 /* ClipperClosed.png */; };
+		8148EC96123A3C7A000E9762 /* PaperBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC95123A3C7A000E9762 /* PaperBack.png */; };
+		8148ED24123A4996000E9762 /* Paper.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148ED23123A4996000E9762 /* Paper.png */; };
 		815EAB4F1237DF810093CF38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 815EAB4E1237DF810093CF38 /* InfoPlist.strings */; };
 		816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541BE12379AA3008FC80F /* UIKit.framework */; };
 		816541C112379AA3008FC80F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541C012379AA3008FC80F /* Foundation.framework */; };
@@ -181,6 +183,8 @@
 		8148EC2C123A323A000E9762 /* ClipperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClipperViewController.h; sourceTree = "<group>"; };
 		8148EC2D123A323A000E9762 /* ClipperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClipperViewController.m; sourceTree = "<group>"; };
 		8148EC33123A3378000E9762 /* ClipperClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperClosed.png; sourceTree = "<group>"; };
+		8148EC95123A3C7A000E9762 /* PaperBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaperBack.png; sourceTree = "<group>"; };
+		8148ED23123A4996000E9762 /* Paper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Paper.png; sourceTree = "<group>"; };
 		815EAB4E1237DF810093CF38 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		816541BB12379AA3008FC80F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		816541BE12379AA3008FC80F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -284,6 +288,8 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8148ED23123A4996000E9762 /* Paper.png */,
+				8148EC95123A3C7A000E9762 /* PaperBack.png */,
 				8148EC33123A3378000E9762 /* ClipperClosed.png */,
 				8144AD80123A143B006B2AD7 /* ButtonArchive.png */,
 				8144AD81123A143B006B2AD7 /* ButtonDocuments.png */,
@@ -660,6 +666,8 @@
 				8144AD84123A143B006B2AD7 /* ButtonDocuments.png in Resources */,
 				8144AD85123A143B006B2AD7 /* RootBackground.png in Resources */,
 				8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */,
+				8148EC96123A3C7A000E9762 /* PaperBack.png in Resources */,
+				8148ED24123A4996000E9762 /* Paper.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -36,41 +36,50 @@
     [self resizePagingScrollView];
 }
 
--(id)initWithFrame:(CGRect) aFrame
-{
-    if ((self = [super init])) 
-    {
-        viewFrame = aFrame;
-    }
-    return self;
-}
 #pragma mark -
 #pragma mark View loading and unloading
 
-- (void)loadView 
-{    
-        // Step 1: make the outer paging scroll view
-    pagingScrollView = [[UIScrollView alloc] initWithFrame:viewFrame];
-    pagingScrollView.pagingEnabled = YES;
-    pagingScrollView.backgroundColor = [UIColor clearColor];
-    pagingScrollView.showsVerticalScrollIndicator = NO;
-    pagingScrollView.showsHorizontalScrollIndicator = NO;
-    pagingScrollView.delegate = self;
+- (void)loadView
+{
+    UIImage *backgroundImage = [UIImage imageNamed:@"PaperBack.png"];
+    
+    CGSize imageSize = backgroundImage.size;
+    CGRect frame = CGRectMake(0, 0, imageSize.width, imageSize.height);
+    
+    UIView *v = [[UIView alloc] initWithFrame:frame];
+    
+    self.view = v;
+    
+    [v release];
+    
+    UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:backgroundImage];
+    self.view.backgroundColor = backgroundColor;
+    [backgroundColor release];
 
-    self.view = pagingScrollView;
-	currentPage = [[AttachmentPageViewController alloc] init];
-	nextPage = [[AttachmentPageViewController alloc] init];
-	[pagingScrollView addSubview:currentPage.view];
-	[pagingScrollView addSubview:nextPage.view];
-    originalHeight = pagingScrollView.frame.size.height;
-    originalWidth = pagingScrollView.frame.size.width;
+    //prevent black corners 
+    //http://stackoverflow.com/questions/1557856/black-corners-on-uitableview-group-style/1559534#1559534
+    [self.view setOpaque: NO];
+
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    [self resizeScrollViewAndPages:[UIApplication sharedApplication].statusBarOrientation];
+    page1 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Paper.png"]];
+    //page1 = [[UIView alloc] initWithFrame: CGRectZero];
+    page2 = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"Default.png"]];
+    
+    page2.frame = CGRectMake(0, 0, self.view.frame.size.width-10, self.view.frame.size.height-10);
+    page1.frame = CGRectMake(0, 0, self.view.frame.size.width-10, self.view.frame.size.height-10);
+    
+    [self.view addSubview: page2];
+    [self.view addSubview: page1];
+    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+    [self.view addGestureRecognizer:tapRecognizer];
+    tapRecognizer.delegate = self;
+
+//    [self resizeScrollViewAndPages:[UIApplication sharedApplication].statusBarOrientation];
 }
 
 - (void)viewDidUnload
@@ -82,6 +91,8 @@
     currentPage = nil;
     [nextPage release];
     nextPage = nil;
+    [tapRecognizer release];
+    tapRecognizer = nil;
 }
 
 - (void)dealloc
@@ -91,10 +102,33 @@
     [currentPage release];
     [nextPage release];
     [attachment release];
-
+    [tapRecognizer release];
     [super dealloc];
 }
 
+
+#pragma mark -
+#pragma mark UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    return YES;
+}
+
+-(void) handleTapFrom:(UITouch *)touch
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.75f];
+    [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp
+                                forView:self.view cache:YES];
+    if (page1.superview)
+        [page1 removeFromSuperview];
+    else if (page2.superview)
+        [page2 removeFromSuperview];
+
+    // Commit the changes
+    [UIView commitAnimations];
+}
 #pragma mark -
 #pragma mark ScrollView delegate methods
 
@@ -181,6 +215,7 @@
 
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
+    return;
     [self resizeScrollViewAndPages:toInterfaceOrientation];
     if ([currentPage respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) 
         [currentPage willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
