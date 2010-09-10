@@ -47,7 +47,7 @@
     if (lastFolderData != nil)
         lastFolder = [NSKeyedUnarchiver unarchiveObjectWithData:lastFolderData];
     
-//    self.rootViewController.folder = lastFolder;
+    self.rootViewController.folder = lastFolder;
     [self.window addSubview:rootViewController.view];
     [self.window makeKeyAndVisible];
 #warning disbled refresh on startup
