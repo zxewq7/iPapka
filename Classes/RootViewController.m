@@ -1,351 +1,372 @@
     //
-    //  MainViewController.m
+    //  DocumentViewController.m
     //  Meester
     //
-    //  Created by Vladimir Solomenchuk on 14.08.10.
+    //  Created by Vladimir Solomenchuk on 10.08.10.
     //  Copyright 2010 __MyCompanyName__. All rights reserved.
     //
 
 #import "RootViewController.h"
-#import "DocumentViewController.h"
-#import "DataSource.h"
 #import "DocumentManaged.h"
-#import "DocumentCell.h"
-#import "Folder.h";
+#import "DataSource.h"
+#import "Document.h"
+#import "Attachment.h"
+#import "ImageScrollView.h"
+#import "AttachmentsViewController.h"
+#import "DocumentInfoViewController.h"
+#import "UIButton+Additions.h"
+#import "AttachmentPickerController.h"
+#import "AttachmentPageViewController.h"
 
-#define ROW_HEIGHT 94
+#define kAttachmentLabelTag 1
 
 @interface RootViewController(Private)
-- (void)documentAdded:(NSNotification *)notification;
-- (void)documentsRemoved:(NSNotification *)notification;
-- (void)documentUpdated:(NSNotification *)notification;
-- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
+- (void) createToolbar;
 @end
-
 
 @implementation RootViewController
 
 #pragma mark -
-#pragma mark properties
-@synthesize popoverController, 
-            rootPopoverButtonItem, 
-            sections, 
-            sectionsOrdered, 
-            sectionsOrderedLabels, 
-            dateFormatter, 
-            sortDescriptors, 
-            folder,
-            splitViewController;
+#pragma mark Properties
+@synthesize navigationController, document;
 
-- (void) setFolder:(Folder *)aFolder
+
+-(void) setDocument:(DocumentManaged *) aDocument
 {
-    if (folder == aFolder)
+    if (document == aDocument)
         return;
-    [folder release];
-    folder = [aFolder retain];
+    [document saveDocument];
     
-        //deselect selected row
-    NSIndexPath *selectedPath = [self.tableView indexPathForSelectedRow];
-    if (selectedPath)
-        [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
+    [document release];
+    document = [aDocument retain];
     
-    self.title = folder.localizedName;
-    [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO isDelta:NO];
-    self.rootPopoverButtonItem.title = folder.localizedName;
-}
+    if (![document.isRead boolValue])
+        document.isRead = [NSNumber numberWithBool:YES];
+    [[DataSource sharedDataSource] commit];
 
-#pragma mark -
-#pragma mark View lifecycle
-
-- (void)viewDidLoad {
+    infoViewController.document = document;
     
-    [super viewDidLoad];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.tableView.rowHeight = ROW_HEIGHT;
-    
-    self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    dateFormatter.dateStyle = NSDateFormatterLongStyle;
-    dateFormatter.timeStyle = NSDateFormatterNoStyle;
-    
-    self.sections = [NSMutableDictionary dictionaryWithCapacity:1];
-    self.sectionsOrdered = [NSMutableArray arrayWithCapacity:1];
-    self.sectionsOrderedLabels = [NSMutableArray arrayWithCapacity:1];
-                                  
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentAdded:)
-                                                 name:@"DocumentAdded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsRemoved:)
-                                                 name:@"DocumentsRemoved" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentUpdated:)
-                                                 name:@"DocumentUpdated" object:nil];
-}
-
--(void) viewDidUnload {
-	[super viewDidUnload];
-	
-	self.rootPopoverButtonItem = nil;
-}
-
-- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
-    
-        // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
-    barButtonItem.title = folder.localizedName;
-    self.popoverController = pc;
-    self.rootPopoverButtonItem = barButtonItem;
-    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
-    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
-    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
-}
-
-
-- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    
-        // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
-    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
-    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
-    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
-    barButtonItem.title = folder.localizedName;
-    self.popoverController = nil;
-    self.rootPopoverButtonItem = nil;
-}
-
-
-#pragma mark -
-#pragma mark Table view data source
-
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView {
-	return [self.sectionsOrderedLabels count];
-}
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section {
-        // Number of rows is the number of time zones in the region for the specified section
-    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:section]];
-	return [documentSection count];
-}
-
-- (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section {
-        // Section title is the region name
-	NSString *documentSectionLabel = [self.sectionsOrderedLabels objectAtIndex:section];
-	return documentSectionLabel;
-}
-
-
-- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    static NSString *CellIdentifier = @"DocumentCellIdentifier";
-    
-        // Dequeue or create a cell of the appropriate type.
-    DocumentCell *cell = (DocumentCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-	if (cell == nil) {
-		cell = [[[DocumentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		cell.frame = CGRectMake(0.0, 0.0, 320.0, ROW_HEIGHT);
-	}
-    
-        // Set appropriate labels for the cells.
-    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
-    DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
-    [cell setDocument: document];
-    return cell;
-}
-
-
-#pragma mark -
-#pragma mark Table view selection
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    /*
-     Create and configure a new detail view controller appropriate for the selection.
-     */
-    
-    UINavigationController *navogationController = [splitViewController.viewControllers objectAtIndex:1];
-    DocumentViewController *detailViewController = [navogationController.viewControllers objectAtIndex:0];
-    
-    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
-    DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
-
-    detailViewController.document = document;
-
-        // Dismiss the popover if it's present.
-    if (popoverController != nil) {
-        [popoverController dismissPopoverAnimated:YES];
+    NSArray *attachments = document.document.attachments;
+    NSUInteger numberOfAttachments = [attachments count];
+    if (numberOfAttachments) 
+    {
+        Attachment *firstAttachment = [attachments objectAtIndex:0];
+        attachmentsViewController.attachment = firstAttachment;
+        NSString *attachmentTitle = [NSString stringWithFormat:@"%d %@ %d", 1, NSLocalizedString(@"of", "of"), numberOfAttachments];
+        [attachmentButton setTitle:attachmentTitle forState:UIControlStateNormal];
+        attachmentButton.enabled = YES;
     }
+    else
+        attachmentButton.enabled = NO;
+}
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if ([attachmentsViewController respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) 
+        [attachmentsViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+         
+    if ([infoViewController respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) 
+         [infoViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
+}
+
+- (void)loadView
+{
+    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,768,1024)];
+    
+    self.view = v;
+    
+    [v release];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+
+    CGRect windowFrame = [[UIScreen mainScreen] bounds];
+    self.view.frame = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
+    CGRect scrollViewRect = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
+    attachmentsViewController = [[AttachmentsViewController alloc] initWithFrame:scrollViewRect];
+
+    [self.view addSubview: attachmentsViewController.view];
+    UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:[UIImage imageNamed:@"DocumentViewBackground.png"]];
+    self.view.backgroundColor = backgroundColor;
+    [backgroundColor release];
+    [self.view addSubview:attachmentsViewController.view];
+    infoViewController = [[DocumentInfoViewController alloc] init];
+    infoViewController.view.frame = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
+    if (!(leftToolbar && rightToolbar))
+        [self createToolbar];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc]
+                                             initWithCustomView:leftToolbar];
+    
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc]
+                                              initWithCustomView:rightToolbar];
+    
+}
+
+    // Override to allow orientations other than the default portrait orientation.
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+        // Return YES for supported orientations
+    return YES;
+}
+
+- (void)viewDidUnload {
+    [super viewDidUnload];
+    [attachmentsViewController release];
+    attachmentsViewController = nil;
+    [infoViewController release];
+    infoViewController = nil;
+    [infoButton release];
+    infoButton = nil;
+    [penButton release];
+    penButton = nil;
+    [eraseButton release];
+    eraseButton = nil;
+    [commentButton release];
+    commentButton = nil;
+    [attachmentButton release];
+    attachmentButton = nil;
+    self.navigationController = nil;
+    [leftToolbar release];
+    leftToolbar = nil;
+    [rightToolbar release];
+    rightToolbar = nil;
+    [attachmentPickerController release];
+    attachmentPickerController = nil;
+    [popoverController release];
+    popoverController = nil;
 }
 
 #pragma mark -
-#pragma mark Memory management
+#pragma mark Managing the popover
+
+- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+    if (!(leftToolbar && rightToolbar)) // for some reason this method called before any object initialization
+        [self createToolbar];
+
+        // Add the popover button to the toolbar.
+    NSMutableArray *itemsArray = [leftToolbar.items mutableCopy];
+    [itemsArray insertObject:barButtonItem atIndex:0];
+    [leftToolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
+
+
+- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem {
+    
+        // Remove the popover button from the toolbar.
+    NSMutableArray *itemsArray = [leftToolbar.items mutableCopy];
+    [itemsArray removeObject:barButtonItem];
+    [leftToolbar setItems:itemsArray animated:NO];
+    [itemsArray release];
+}
 
 - (void)dealloc {
-    self.popoverController = nil;
-    self.rootPopoverButtonItem = nil;
-    self.splitViewController = nil;
-    
-    self.sections = nil;
-    self.sectionsOrdered = nil;
-    self.sectionsOrderedLabels = nil;
-    self.dateFormatter = nil;
-    self.sortDescriptors = nil;
-    self.folder = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.document = nil;
+    [attachmentsViewController release];
+    [infoViewController release];
+    [penButton release];
+    [eraseButton release];
+    [commentButton release];
+    [attachmentButton release];
+    self.navigationController = nil;
+    [leftToolbar release];
+    [rightToolbar release];
+    [attachmentPickerController release];
+    [popoverController release];
     [super dealloc];
+}
+#pragma mark -
+#pragma mark UIPopoverControllerDelegate
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
+{
+    if (pc == popoverController) 
+        attachmentButton.selected = NO;
+}
+
+#pragma mark -
+#pragma mark Actions
+- (void) showAttachmentsList:(id) sender
+{
+    if (!attachmentPickerController)
+    {
+        attachmentPickerController = [[AttachmentPickerController alloc] init];
+        attachmentPickerController.target = self;
+        attachmentPickerController.selector = @selector(setAttachment:);
+    }
+    
+    if (!popoverController)
+    {
+        popoverController = [[UIPopoverController alloc] initWithContentViewController:attachmentPickerController];
+        popoverController.delegate = self;
+    }
+    
+    attachmentPickerController.document = document.document;
+
+    UIView *button = (UIView *)sender;
+	[popoverController presentPopoverFromRect:button.bounds inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    
+    attachmentButton.selected = YES;
+}
+
+-(void) setAttachment:(id) sender
+{
+    [popoverController dismissPopoverAnimated:YES];
+    attachmentButton.selected = NO;
+    attachmentsViewController.attachment = attachmentPickerController.attachment;
+}
+
+- (void) enableMarker:(id) sender
+{
+    BOOL isPainting = !penButton.selected;
+    commentButton.selected = NO;
+    penButton.selected = isPainting;
+    eraseButton.selected = NO;
+    attachmentsViewController.commenting = penButton.selected || eraseButton.selected || commentButton.selected;
+    [attachmentsViewController.currentPage enableMarker:isPainting];
+    if (!isPainting) 
+        [document saveDocument];
+}
+
+- (void) enableEraser:(id) sender
+{
+    BOOL isPainting = !eraseButton.selected;
+    commentButton.selected = NO;
+    penButton.selected = NO;
+    eraseButton.selected = isPainting;
+    attachmentsViewController.commenting = penButton.selected || eraseButton.selected || commentButton.selected;
+    [attachmentsViewController.currentPage enableEraser:isPainting];
+    if (!isPainting) 
+        [document saveDocument];
+}
+
+- (void) enableComment:(id) sender
+{
+    BOOL isPainting = !commentButton.selected;
+    commentButton.selected = isPainting;
+    penButton.selected = NO;
+    eraseButton.selected = NO;
+    attachmentsViewController.commenting = penButton.selected || eraseButton.selected || commentButton.selected;
+    [attachmentsViewController.currentPage enableStamper:isPainting];
+    if (!isPainting) 
+        [document saveDocument];
+}
+
+
+- (void) rotateCCV:(id) sender
+{
+    [attachmentsViewController rotate: -90];
+    [document saveDocument];
+}
+
+- (void) rotateCV:(id) sender
+{
+    [attachmentsViewController rotate: 90];
+    [document saveDocument];
+}
+
+- (void) showDocumentInfo:(id) sender
+{
+	[UIView beginAnimations:nil context:nil];
+	[UIView setAnimationDuration:0.75];
+	
+	[UIView setAnimationTransition:(infoButton.selected ?
+									UIViewAnimationTransitionFlipFromRight:UIViewAnimationTransitionFlipFromLeft)
+                           forView:attachmentsViewController.view cache:YES];
+	
+	if ([infoViewController.view superview])
+    {
+		[infoViewController.view removeFromSuperview];
+        infoButton.selected = NO;
+    }
+	else
+    {
+        infoButton.selected = YES;
+        infoViewController.navigationController = self.navigationController;
+		[attachmentsViewController.view addSubview:infoViewController.view];
+    }
+    
+	[UIView commitAnimations];
+	
 }
 @end
 
 @implementation RootViewController(Private)
-- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
+- (void) createToolbar
 {
-    if (!isDelta) //just clear all
-    {
-        NSUInteger length = [sections count];
-        [sections removeAllObjects];
-        [sectionsOrdered removeAllObjects];
-        [sectionsOrderedLabels removeAllObjects];
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange: NSMakeRange(0, length)] withRowAnimation:UITableViewRowAnimationTop];
-    }
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-    NSPredicate *filter = folder.predicate;
-    Class entityClass = folder.entityClass;
+    infoButton = [UIButton imageButton:self
+                              selector:@selector(showDocumentInfo:)
+                                 imageName:@"ButtonInfo.png"
+                         imageNameSelected:@"ButtonInfoSelected.png"];
+    [infoButton retain];
+
+    penButton = [UIButton imageButton:self
+                             selector:@selector(enableMarker:)
+                            imageName:@"ButtonPen.png"
+                    imageNameSelected:@"ButtonPenSelected.png"];
+    [penButton retain];
+
+    eraseButton = [UIButton imageButton:self
+                               selector:@selector(enableEraser:)
+                              imageName:@"ButtonErase.png"
+                      imageNameSelected:@"ButtonEraseSelected.png"];
+    [eraseButton retain];
+
+    commentButton = [UIButton imageButton:self
+                                 selector:@selector(enableComment:)
+                                imageName:@"ButtonComment.png"
+                        imageNameSelected:@"ButtonCommentSelected.png"];
+    [commentButton retain];
+
+    attachmentButton = [UIButton imageButtonWithTitle:@""
+                                               target:self
+                                             selector:@selector(showAttachmentsList:)
+                                            imageName:@"ButtonAttachment.png"
+                                    imageNameSelected:@"ButtonAttachmentSelected.png"];
+	attachmentButton.backgroundColor = [UIColor clearColor];    
     
-    for (DocumentManaged *document in documents) 
-    {
-        if (![document isKindOfClass:entityClass] || (filter && ![filter evaluateWithObject:document]))
-            continue;
-        
-        NSDate *documentDate = document.dateModified;
-        NSDateComponents *comps = [calendar components:unitFlags fromDate:documentDate];
-        NSDate *documentSection = [calendar dateFromComponents:comps];
-        NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:documentSection];
-        
-        if (isDeleteDocuments)
-        {
-            if (sectionIndex != NSNotFound) 
-            {
-                NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
-                NSUInteger documentIndex = [sectionDocuments indexOfObject:document];
-                if (documentIndex != NSNotFound) 
-                {
-                    if ([sectionDocuments count] == 1) //remove empty section
-                    {
-                        [self.sections removeObjectForKey:documentSection];
-                        [self.sectionsOrdered removeObject:documentSection];
-                        [self.sectionsOrderedLabels removeObject:[self.dateFormatter stringFromDate:documentSection]];
-                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
-                    }
-                    else
-                    {
-                        NSIndexPath *path = [NSIndexPath indexPathForRow:documentIndex inSection:sectionIndex];
-                        [sectionDocuments removeObjectAtIndex:documentIndex];
-                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-                    }
-                }
-            }
-        }
-        else
-        {
-            if (sectionIndex == NSNotFound) //new section
-            {
-                NSUInteger length = [self.sectionsOrdered count];
-                NSUInteger insertIndex = NSNotFound;
-                for (NSUInteger i=0; i < length; i++) 
-                {
-                    NSDate *section = [self.sectionsOrdered objectAtIndex:i];
-                    if ([documentSection earlierDate:section]) 
-                    {
-                        insertIndex = i;
-                        break;
-                    }
-                }
-                if (insertIndex == NSNotFound)
-                {
-                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
-                    [self.sectionsOrdered addObject:documentSection];
-                    [self.sectionsOrderedLabels addObject: [self.dateFormatter stringFromDate:documentSection]];
-                    insertIndex = [self.sectionsOrdered count]-1;
-                }
-                else 
-                {
-                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
-                    [self.sectionsOrdered insertObject:documentSection atIndex:insertIndex];
-                    [self.sectionsOrderedLabels insertObject: [self.dateFormatter stringFromDate:documentSection] atIndex:insertIndex];
-                }
-                [self.tableView insertSections:[NSIndexSet indexSetWithIndex: insertIndex] withRowAnimation:UITableViewRowAnimationFade];
-                sectionIndex = insertIndex;
-            }
-            else //update section documents
-            {
-                NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
-                NSUInteger length = [sectionDocuments count];
-                NSUInteger possibleInsertIndex = NSNotFound;
-                BOOL updated = NO;
-                for (NSUInteger i=0; i < length; i++) 
-                {
-                    DocumentManaged *doc = [sectionDocuments objectAtIndex:i];
-                    if ([document isEqual:doc]) 
-                    {
-                        [sectionDocuments replaceObjectAtIndex:i withObject:document];
+    
+	UIBarButtonItem *infoBarButton = [[UIBarButtonItem alloc] initWithCustomView:infoButton];
+    UIBarButtonItem *attachmentBarButton = [[UIBarButtonItem alloc] initWithCustomView:attachmentButton];
+    
+    UIBarButtonItem *fleaxBarButton1 = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil];
+    UIBarButtonItem *penBarButton = [[UIBarButtonItem alloc] initWithCustomView:penButton];
+    UIBarButtonItem *eraseBarButton = [[UIBarButtonItem alloc] initWithCustomView:eraseButton];
+    UIBarButtonItem *commentBarButton = [[UIBarButtonItem alloc] initWithCustomView:commentButton];
+    UIBarButtonItem *rotateCCVBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRotateCCV.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rotateCCV:)];
+    UIBarButtonItem *rotateCVBarButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"ButtonRotateCV.png"] style:UIBarButtonItemStylePlain target:self action:@selector(rotateCV:)];
+    UIBarButtonItem *declineBarButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemReply target:self action:nil];
+    declineBarButton.style = UIBarButtonItemStyleBordered;
+    UIBarButtonItem *acceptBarButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style:UIBarButtonItemStyleBordered target:self action:nil];
 
-                        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:sectionIndex];
-                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-                        updated = YES;
-                        break;
-                    }
-                    else if (possibleInsertIndex == NSNotFound && [document.dateModified earlierDate:doc.dateModified])
-                        possibleInsertIndex = i;
-                }
-                if (!updated && possibleInsertIndex != NSNotFound) //insert document
-                {
-                    [sectionDocuments insertObject: document atIndex:possibleInsertIndex];
-                    NSIndexPath *path = [NSIndexPath indexPathForRow:possibleInsertIndex inSection:sectionIndex];
-                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-                }
-            }
-                //remove possible dublicates
-                NSUInteger length = [self.sectionsOrdered count];
-                for (NSUInteger i=0;i < length; i++) 
-                {
-                    if (sectionIndex == i) //skip updated section
-                        continue;
-                    NSDate *section = [self.sectionsOrdered objectAtIndex:i];
-                    NSMutableArray *sectionDocuments = [self.sections objectForKey:section];
-                    NSUInteger docIndex = [sectionDocuments indexOfObject: document];
-                    if (docIndex != NSNotFound)
-                    {
-                        if ([sectionDocuments count] == 1) //remove section
-                        {
-                            NSDate *docSection = [self.sectionsOrdered objectAtIndex:i];
-                            [self.sections removeObjectForKey:docSection];
-                            [self.sectionsOrderedLabels removeObjectAtIndex:i];
-                            [self.sectionsOrdered removeObjectAtIndex:i];
-                            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: i] withRowAnimation:UITableViewRowAnimationFade];
-                        }
-                        else
-                        {
-                            [sectionDocuments removeObjectAtIndex:docIndex];
-                            NSIndexPath *path = [NSIndexPath indexPathForRow:docIndex inSection:i];
-                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
-                        }
-                        break;
-                    }
-            }
-        }
-    }
-}
-- (void)documentAdded:(NSNotification *)notification
-{
-    Document *document = notification.object;
-    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO isDelta:YES];
-}
+    leftToolbar = [[UIToolbar alloc]
+                               initWithFrame:CGRectMake(0, 0, 300, 44)];
+    rightToolbar = [[UIToolbar alloc]
+                               initWithFrame:CGRectMake(0, 0, 500, 44)];
 
-- (void)documentsRemoved:(NSNotification *)notification
-{
-    NSArray *documents = notification.object;
-    [self updateDocuments: documents isDeleteDocuments:YES isDelta:YES];
-}
-
-- (void)documentUpdated:(NSNotification *)notification
-{
-    Document *document = notification.object;
-    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO isDelta:YES];
+    leftToolbar.items = [NSArray arrayWithObjects:infoBarButton, 
+                          attachmentBarButton,
+                          nil];
+    rightToolbar.items = [NSArray arrayWithObjects: penBarButton, 
+                                                    eraseBarButton, 
+                                                    commentBarButton, 
+                                                    rotateCCVBarButton, 
+                                                    rotateCVBarButton,
+                                                    fleaxBarButton1,
+                                                    declineBarButton,
+                                                    acceptBarButton,
+                                                    nil];
+    self.navigationItem.title = @"";
+    [infoBarButton release];
+    [attachmentBarButton release];
+    [fleaxBarButton1 release];
+    [penBarButton release];
+    [eraseBarButton release];
+    [commentBarButton release];
+    [rotateCCVBarButton release];
+    [rotateCVBarButton release];
+    [declineBarButton release];
+    [acceptBarButton release];
 }
 @end

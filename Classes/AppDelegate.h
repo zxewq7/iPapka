@@ -15,10 +15,6 @@
 
     UIWindow                *window;
 
-    UIViewController        *viewController;
-    
-    UINavigationController  *navigationController;
-    
     RootViewController      *rootViewController;
     
     UIImageView *splashView;
@@ -28,10 +24,6 @@
 
 @property (nonatomic, retain) IBOutlet UIViewController         *viewController;
 
-@property (nonatomic, retain) IBOutlet UINavigationController   *navigationController;
-
 @property (nonatomic, retain) IBOutlet RootViewController       *rootViewController;
-
-- (void)startupAnimationDone:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context;
 @end
 

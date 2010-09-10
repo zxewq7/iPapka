@@ -14,7 +14,7 @@
 #import "NSUserDefaults+Additions.h"
 
 @implementation AppDelegate
-@synthesize viewController, window, navigationController, rootViewController;
+@synthesize window, rootViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
@@ -47,14 +47,13 @@
     if (lastFolderData != nil)
         lastFolder = [NSKeyedUnarchiver unarchiveObjectWithData:lastFolderData];
     
-    self.rootViewController.folder = lastFolder;
-    [self.navigationController pushViewController:self.rootViewController animated:NO];
-    [self.window addSubview:viewController.view];
+//    self.rootViewController.folder = lastFolder;
+    [self.window addSubview:rootViewController.view];
     [self.window makeKeyAndVisible];
 #warning disbled refresh on startup
     //    [[DataSource sharedDataSource] refreshDocuments];
     
-    //splash screen
+    //fade out splash screen
     //http://michael.burford.net/2008/11/fading-defaultpng-when-iphone-app.html
     switch ([UIApplication sharedApplication].statusBarOrientation) 
     {
@@ -104,8 +103,6 @@
 - (void)dealloc {
 
     self.window = nil;
-    self.viewController = nil;
-    self.navigationController = nil;
     self.rootViewController = nil;
     [super dealloc];
 }

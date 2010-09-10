@@ -8,7 +8,7 @@
 
 #import "FoldersViewController.h"
 #import "RootViewController.h"
-#import "DocumentViewController.h"
+//#import "DocumentViewController.h"
 #import "Folder.h"
 #import "TDBadgedCell.h"
 #import "DataSource.h"
@@ -76,7 +76,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Folder *folder = [self.folders objectAtIndex:indexPath.row];
-    self.rootViewController.folder = folder;
+//    self.rootViewController.folder = folder;
     [self.navigationController pushViewController:self.rootViewController animated:YES];
 }
 
