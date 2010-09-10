@@ -191,6 +191,16 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     NSPredicate *filter = folder.predicate;
     if (filter)
         [fetchRequest setPredicate:folder.predicate];
+    
+    NSSortDescriptor *sortDescriptor = 
+    [[NSSortDescriptor alloc] initWithKey:@"dateModified" 
+                                ascending:NO];
+    
+    NSArray *sortDescriptors = [[NSArray alloc] 
+                                initWithObjects:sortDescriptor, nil];  
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    [sortDescriptors release];
+    [sortDescriptor release];
 	
 	NSError *error = nil;
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
