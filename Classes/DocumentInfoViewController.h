@@ -8,25 +8,20 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, Document, DatePickerController;
+@class DocumentManaged, Document, Attachment;
 @interface DocumentInfoViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
-    UINavigationController       *navigationController;
     DocumentManaged *document;
     Document        *unmanagedDocument;
     UITableView     *tableView;
     UILabel         *documentTitle;
     UILabel         *documentDetails;
     UISegmentedControl *filter;
-    BOOL            isResolution;
-    BOOL            hasParentResolution;
-    NSMutableArray  *sections;
     NSDateFormatter *dateFormatter;
-    CGFloat         cellWidth;
-    DatePickerController *datePickerController;
-    UIPopoverController  *popoverController;
-    UIButton        *deadlineButton;
+    NSArray         *currentItems;
+    Attachment      *attachment;
 }
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
-@property (nonatomic, retain) IBOutlet UINavigationController       *navigationController;
+@property (nonatomic, retain)                      Attachment       *attachment;
+
 @end

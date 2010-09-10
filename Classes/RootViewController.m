@@ -18,7 +18,7 @@
 #import "ClipperViewController.h"
 
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
-
+static NSString* AttachmentContext    = @"AttachmentContext";
 @interface RootViewController(Private)
 - (void) createToolbar;
 @end
@@ -54,13 +54,7 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
         document.isRead = [NSNumber numberWithBool:YES];
     [[DataSource sharedDataSource] commit];
     
-    NSArray *attachments = document.document.attachments;
-    NSUInteger numberOfAttachments = [attachments count];
-    if (numberOfAttachments) 
-    {
-        Attachment *firstAttachment = [attachments objectAtIndex:0];
-        attachmentsViewController.attachment = firstAttachment;
-    }
+   documentInfoViewController.document = self.document;
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -127,6 +121,11 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
     CGRect documentInfoViewControllerFrame = CGRectMake(0, 5, contentViewSize.width, 300);
     documentInfoViewController.view.frame = documentInfoViewControllerFrame;
+    [documentInfoViewController addObserver:self
+                            forKeyPath:@"attachment"
+                               options:0
+                               context:&AttachmentContext];
+
     
     [contentView addSubview: documentInfoViewController.view];
     [contentView addSubview: attachmentsViewController.view];
@@ -134,18 +133,7 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     [self.view addSubview:contentView];
     [self.view addSubview:clipperViewController.view];
 
-    if (self.document)
-    {
-        documentInfoViewController.document = self.document;
-        
-        NSArray *attachments = document.document.attachments;
-        NSUInteger numberOfAttachments = [attachments count];
-        if (numberOfAttachments) 
-        {
-            Attachment *firstAttachment = [attachments objectAtIndex:0];
-            attachmentsViewController.attachment = firstAttachment;
-        }
-    }
+    documentInfoViewController.document = self.document;
 }
 
     // Override to allow orientations other than the default portrait orientation.
@@ -160,6 +148,7 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     [clipperViewController removeObserver:self forKeyPath:@"opened"];
     [clipperViewController release];
     clipperViewController = nil;
+    [documentInfoViewController removeObserver:self forKeyPath:@"attachment"];
     [documentInfoViewController release];
     documentInfoViewController = nil;
     [contentView release];
@@ -175,6 +164,7 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     [clipperViewController removeObserver:self forKeyPath:@"opened"];
     [clipperViewController release];
     clipperViewController = nil;
+    [documentInfoViewController removeObserver:self forKeyPath:@"attachment"];
     [documentInfoViewController release];
     documentInfoViewController = nil;
     [contentView release];
@@ -207,6 +197,12 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
         CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*documentInfoViewControllerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
         attachmentsViewController.view.frame = attachmentsViewFrame;
         [UIView commitAnimations];
+    }
+    else if (context == &AttachmentContext)
+    {
+        if (clipperViewController.opened)
+            clipperViewController.opened = NO;
+        attachmentsViewController.attachment = documentInfoViewController.attachment;
     }
     else
     {

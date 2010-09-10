@@ -9,46 +9,9 @@
 #import "DocumentInfoViewController.h"
 #import "DocumentManaged.h"
 #import "Document.h"
-#import "Resolution.h"
-#import "DocumentLinkViewController.h"
-#import "DatePickerController.h"
-
-static NSString *ParentResolutionCell = @"ParentResolutionCell";
-static NSString *LinkCell = @"LinkCell";
-static NSString *ResolutionCell = @"ResolutionCell";
-static NSString *ResolutionAuthorCell = @"ResolutionAuthorCell";
-static NSString *ResolutionDateCell = @"ResolutionDateCell";
-static NSString *ResolutionPerformersCell = @"ResolutionPerformersCell";
-static NSString *ResolutionDeadlineCell = @"ResolutionDeadlineCell";
-static NSString *ResolutionManagedCell = @"ResolutionManagedCell";
-static NSString *ResolutionTextCell = @"ResolutionTextCell";
-
-#define kPerformersFieldTag 1
-#define kDetailLabelTag 2
-#define kDateButtonTag 3
-#define kSwitchTag 4
-#define kTextTag 5
-#define TEXT_FIELD_HEIGHT  25
-#define DETAIL_LABEL_HEIGHT  20
-#define DATE_BUTTON_HEIGHT  25
-#define SWITCH_HEIGHT  27
-#define SWITCH_WIDTH  94
-#define CELL_RIGHT_OFFSET  7.0f
-#define CELL_LEFT_OFFSET  13.0f
-#define CELL_HEIGHT 44
-#define CELL_TOP_OFFSET 10.0f
-#define CELL_BOTTOM_OFFSET 10.0f
+#import "Attachment.h"
 
 @interface  DocumentInfoViewController(Private)
--(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier;
-- (UIButton *)buttonWithTitle:(NSString *)title
-                       target:(id)target
-                     selector:(SEL)selector
-                        frame:(CGRect)frame
-                        image:(UIImage *)image
-                 imagePressed:(UIImage *)imagePressed
-                darkTextColor:(BOOL)darkTextColor;
--(UILabel *) createLabelWithText:(NSString *) text;
 -(void) recalcSize;
 @end
 
@@ -57,7 +20,7 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 #pragma mark -
 #pragma mark Properties
-@synthesize document, navigationController;
+@synthesize document, attachment;
 
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -74,10 +37,19 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
         [unmanagedDocument release];
         unmanagedDocument = [doc retain];
     }
+    
+    currentItems = unmanagedDocument.attachments;
+    
     documentTitle.text = document.title;
     documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.dateModified]];
     [self recalcSize];
     [tableView reloadData];
+    NSArray *attachments = unmanagedDocument.attachments;
+    if ([attachments count]) 
+    {
+        Attachment *firstAttachment = [attachments objectAtIndex:0];
+        self.attachment = firstAttachment;
+    }
 }
 
 - (void)loadView
@@ -143,26 +115,16 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
     documentTitle = nil;
     [documentDetails release];
     documentDetails = nil;
+    [filter release];
+    filter = nil;
     [dateFormatter release];
     dateFormatter = nil;
-    self.navigationController = nil;
-    [datePickerController release];
-    datePickerController = nil;
-    [popoverController release];
-    popoverController = nil;
 }
 #pragma mark -
 #pragma mark Table view selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    NSString *cellIdentifier = [[sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-//    if (cellIdentifier == LinkCell)
-//    {
-//        DocumentLinkViewController *linkController = [[DocumentLinkViewController alloc] init];
-//        [linkController setDocument:document linkIndex:0 attachmentIndex:0];
-//        [self.navigationController pushViewController:linkController animated:YES];
-//        [linkController release];
-//    }
+    self.attachment = [currentItems objectAtIndex:indexPath.row];
 }
 
 
@@ -171,359 +133,48 @@ static NSString *ResolutionTextCell = @"ResolutionTextCell";
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return 1;
+    return [currentItems count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
     UITableViewCell *cell = nil;
+    
+    static NSString *cellIdentifier = @"AttachmentCell";
 
-    cell = [tableView dequeueReusableCellWithIdentifier:ParentResolutionCell];
+    cell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier];
     if (cell == nil)
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:LinkCell] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier: cellIdentifier] autorelease];
         UIImageView *selectedRowBackground = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"DocumentInfoSelectedCell.png"]];
         cell.selectedBackgroundView = selectedRowBackground;
     }
-    cell.textLabel.text = NSLocalizedString(@"Resolution project", "Resolution project");
+    Attachment *a = [currentItems objectAtIndex:indexPath.row];
+    cell.textLabel.text = a.title;
     return cell;
-
-    NSString *cellIdentifier = [[sections objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
-
-    if (cellIdentifier == ParentResolutionCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:ParentResolutionCell];
-        if (cell == nil)
-        {
-            cell = [self createDetailsCell:NSLocalizedString(@"Parent project", "Resolution project") identifier:ParentResolutionCell];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        
-        Resolution *parentResolution = ((Resolution *)unmanagedDocument).parentResolution;
-
-        NSMutableString *detailString = [NSMutableString stringWithString: NSLocalizedString(@"Author", "Author")];
-        [detailString appendString:@": "];
-        [detailString appendString:parentResolution.author]; 
-        NSDate *date = parentResolution.date;
-        if (detailString && ![detailString isEqualToString:@""] && date != nil)
-            [detailString appendString:@", "];
-        
-        if (date != nil)
-            [detailString appendString:[dateFormatter stringFromDate:date]];
-        
-        
-        UILabel *field = (UILabel *)[cell.contentView viewWithTag:kDetailLabelTag];
-        if (field) 
-        {
-            field.text = detailString;
-            [field sizeToFit];
-        }
-        
-        cell.detailTextLabel.text=NSLocalizedString(@"Expand", "Expand");
-
-    }
-    else if (cellIdentifier == LinkCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:LinkCell];
-        if (cell == nil)
-        {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:LinkCell] autorelease];
-            cell.backgroundColor  =[UIColor whiteColor];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        }
-        
-        NSUInteger linkIndex = indexPath.row;
-        Document *link = [unmanagedDocument.links objectAtIndex:linkIndex];
-        cell.textLabel.text = link.title;
-        cell.detailTextLabel.text = NSLocalizedString(@"Document", "Document");
-        cell.imageView.image = [UIImage imageNamed:@"LinkedDocumentIcon.png"];
-    }
-    else if (cellIdentifier == ResolutionCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionCell];
-        if (cell == nil)
-        {
-            cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionCell] autorelease];
-            cell.backgroundColor  =[UIColor whiteColor];
-            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-            cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.textLabel.text = NSLocalizedString(@"Resolution project", "Resolution project");
-        }
-    }
-    else if (cellIdentifier == ResolutionAuthorCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionAuthorCell];
-        if (cell == nil)
-            cell = [self createDetailsCell:NSLocalizedString(@"Author", "Author") identifier:ResolutionAuthorCell];
-        
-        UILabel *field = (UILabel *)[cell.contentView viewWithTag:kDetailLabelTag];
-        if (field) 
-        {
-            field.text = document.author;
-            [field sizeToFit];
-        }
-    }    
-    else if (cellIdentifier == ResolutionDateCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionDateCell];
-        if (cell == nil)
-            cell = [self createDetailsCell:NSLocalizedString(@"Date of approval", "Date of approval") identifier:ResolutionDateCell];
-
-        UILabel *field = (UILabel *)[cell.contentView viewWithTag:kDetailLabelTag];
-        if (field) 
-        {
-            field.text = [dateFormatter stringFromDate:document.dateModified];
-            [field sizeToFit];
-        }
-    }
-    else if (cellIdentifier == ResolutionPerformersCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionPerformersCell];
-		if (cell == nil)
-		{
-                // a new cell needs to be created
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionPerformersCell] autorelease];
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor  =[UIColor whiteColor];
-            
-                //create performers field
-            NSString *label = NSLocalizedString(@"Performers", "Performers");
-            CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
-            cell.textLabel.text = label;
-            
-            CGRect labelFrame = cell.textLabel.frame;
-            CGRect cellFrame = cell.frame;
-            
-            CGRect performersFieldFrame = CGRectMake(labelFrame.origin.y+labelSize.width+20, (cellFrame.size.height-TEXT_FIELD_HEIGHT)/2, 450, TEXT_FIELD_HEIGHT);
-
-            UITextField *performersField = [[UITextField alloc] initWithFrame:performersFieldFrame];
-            
-            performersField.borderStyle = UITextBorderStyleNone;
-            performersField.textColor = [UIColor blackColor];
-                //            performersField.font = [UIFont systemFontOfSize:17.0];
-            performersField.backgroundColor = [UIColor whiteColor];
-            performersField.autocorrectionType = UITextAutocorrectionTypeNo;	// no auto correction support
-            performersField.tag = kPerformersFieldTag;
-            
-            performersField.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
-            performersField.returnKeyType = UIReturnKeyDone;
-            
-            performersField.clearButtonMode = UITextFieldViewModeWhileEditing;	// has a clear 'x' button to the right
-            
-            performersField.delegate = self;	// let us be the delegate so we know when the keyboard's "Done" button is pressed
-            
-                // Add an accessibility label that describes what the text field is for.
-            [performersField setAccessibilityLabel:NSLocalizedString(@"NormalTextField", @"")];
-            [cell.contentView addSubview:performersField];
-            
-            UIButton* addPerformerButton = [UIButton buttonWithType:UIButtonTypeContactAdd];
-            [addPerformerButton addTarget:self action:nil forControlEvents:UIControlEventTouchUpInside];
-            CGSize addPerformerButtonSize = addPerformerButton.frame.size;
-            CGRect addPerformerButtonFrame = CGRectMake(cellWidth-CELL_RIGHT_OFFSET-addPerformerButtonSize.width, (cellFrame.size.height-addPerformerButtonSize.height)/2, addPerformerButtonSize.height, addPerformerButtonSize.width);
-            addPerformerButton.frame = addPerformerButtonFrame;
-            [cell.contentView addSubview:addPerformerButton];
-		}
-        
-        UITextField *field = (UITextField *)[cell.contentView viewWithTag:kPerformersFieldTag];
-        if (field) 
-            field.text = [((Resolution *)unmanagedDocument).performers componentsJoinedByString: @", "];
-    }
-    else if (cellIdentifier == ResolutionDeadlineCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionDeadlineCell];
-		if (cell == nil)
-		{
-                // a new cell needs to be created
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionDeadlineCell] autorelease];
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor  =[UIColor whiteColor];
-            
-                //create date button
-            NSString *label = NSLocalizedString(@"Deadline", "Deadline");
-            CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
-            cell.textLabel.text = label;
-            
-            CGRect labelFrame = cell.textLabel.frame;
-            CGRect cellFrame = cell.frame;
-            
-            CGRect dateButtonFrame = CGRectMake(labelFrame.origin.y+labelSize.width+20, (cellFrame.size.height-DATE_BUTTON_HEIGHT)/2, 200, DATE_BUTTON_HEIGHT);
-            
-            deadlineButton = [self buttonWithTitle:@""
-                                             target:self
-                                           selector:@selector(pickDeadLine:)
-                                              frame:dateButtonFrame
-                                              image:[UIImage imageNamed:@"ButtonDate.png"]
-                                       imagePressed:nil
-                                           darkTextColor:YES];
-            deadlineButton.tag = kDateButtonTag;
-            [cell.contentView addSubview:deadlineButton];
-		}
-        
-        UIButton *button = (UIButton *)[cell.contentView viewWithTag:kDateButtonTag];
-        if (button) 
-        {
-            NSString *label  = nil;
-            Resolution *resolution = (Resolution *)unmanagedDocument;
-            
-            if (resolution.deadline)
-                label = [dateFormatter stringFromDate:resolution.deadline];
-            else
-                label = NSLocalizedString(@"Date not set", "Date not set");
-            
-            [button setTitle:label forState:UIControlStateNormal];
-        }
-    }
-    else if (cellIdentifier == ResolutionManagedCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionManagedCell];
-		if (cell == nil)
-		{
-                // a new cell needs to be created
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionManagedCell] autorelease];
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor  =[UIColor whiteColor];
-            
-                //create managed switch
-            NSString *label = NSLocalizedString(@"Managed", "Managed");
-            cell.textLabel.text = label;
-            
-            CGRect cellFrame = cell.frame;
-            
-            CGRect switchFrame = CGRectMake(cellWidth-CELL_RIGHT_OFFSET-SWITCH_WIDTH, (cellFrame.size.height-SWITCH_HEIGHT)/2, SWITCH_HEIGHT, SWITCH_WIDTH);
-            
-            UISwitch* switchButton = [[[UISwitch alloc] initWithFrame:switchFrame] autorelease];
-            [switchButton addTarget:self action:nil forControlEvents:UIControlEventValueChanged];
-            switchButton.tag = kSwitchTag;
-            [cell.contentView addSubview:switchButton];
-		}
-        
-        UISwitch *button = (UISwitch *)[cell.contentView viewWithTag:kSwitchTag];
-        if (button) 
-            [button setOn: ((Resolution *)unmanagedDocument).managed animated:NO];
-    }    
-    else if (cellIdentifier == ResolutionTextCell)
-    {
-        cell = [tableView dequeueReusableCellWithIdentifier:ResolutionTextCell];
-		if (cell == nil)
-		{
-                // a new cell needs to be created
-			cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:ResolutionTextCell] autorelease];
-			cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            cell.backgroundColor  =[UIColor whiteColor];
-                //create managed switch
-            UILabel* text = [self createLabelWithText:@""];
-            text.tag = kTextTag;
-            text.numberOfLines=0;
-            [cell.contentView addSubview:text];
-		}
-        
-        UILabel *label = (UILabel *)[cell.contentView viewWithTag:kTextTag];
-        if (label)
-        {
-            label.text=((Resolution *)unmanagedDocument).text;
-            CGRect labelFrame = label.frame;
-            labelFrame.size.width = cellWidth-CELL_RIGHT_OFFSET-CELL_LEFT_OFFSET;
-            label.frame = labelFrame;
-            [label sizeToFit];
-        }
-    }      
-	return cell;
 }
 
 - (void)dealloc {
     self.document = nil;
-    [tableView release];
-    [documentTitle release];
-    [documentDetails release];
-    [dateFormatter release];
     [unmanagedDocument release];
-    [sections release];
-    self.navigationController = nil;
-    [datePickerController release];
-    [popoverController release];
-    
+
+    [tableView release];
+    tableView = nil;
+    [documentTitle release];
+    documentTitle = nil;
+    [documentDetails release];
+    documentDetails = nil;
+    [filter release];
+    filter = nil;
+    [dateFormatter release];
+    dateFormatter = nil;
+    self.attachment = nil;
     [super dealloc];
 }
 @end
 
 @implementation  DocumentInfoViewController(Private)
--(UITableViewCell *) createDetailsCell:(NSString *) label identifier:(NSString *) identifier
-{
-    UITableViewCell *cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier] autorelease];
-    
-    CGSize labelSize = [label sizeWithFont:[UIFont boldSystemFontOfSize: 17]];
-    cell.textLabel.text = label;
-    CGRect detailFrame = CGRectMake(labelSize.width+20, (cell.frame.size.height-DETAIL_LABEL_HEIGHT)/2, 10, DETAIL_LABEL_HEIGHT);
-    
-    UILabel *detailLabel = [[[UILabel alloc] initWithFrame:detailFrame] autorelease];
-    detailLabel.backgroundColor = [UIColor clearColor];
-    detailLabel.textColor =[UIColor darkGrayColor];
-    detailLabel.font = [UIFont systemFontOfSize:16];
-    detailLabel.textAlignment = UITextAlignmentRight;
-    detailLabel.tag = kDetailLabelTag;
-    [cell.contentView addSubview: detailLabel];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.backgroundColor  =[UIColor whiteColor];
-    return cell;
-}
-
-- (UIButton *)buttonWithTitle:(NSString *)title
-                          target:(id)target
-                        selector:(SEL)selector
-                           frame:(CGRect)frame
-                           image:(UIImage *)image
-                    imagePressed:(UIImage *)imagePressed
-                   darkTextColor:(BOOL)darkTextColor
-{	
-	UIButton *button = [[UIButton alloc] initWithFrame:frame];
-        // or you can do this:
-        //		UIButton *button = [[UIButton buttonWithType:UIButtonTypeCustom] retain];
-	
-	button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-	button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
-	
-	[button setTitle:title forState:UIControlStateNormal];	
-	if (darkTextColor)
-	{
-		[button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-	}
-	else
-	{
-		[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-	}
-	
-	UIImage *newImage = [image stretchableImageWithLeftCapWidth:12.0 topCapHeight:0.0];
-	[button setBackgroundImage:newImage forState:UIControlStateNormal];
-	
-	UIImage *newPressedImage = [imagePressed stretchableImageWithLeftCapWidth:12.0 topCapHeight:0.0];
-	[button setBackgroundImage:newPressedImage forState:UIControlStateHighlighted];
-	
-	[button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
-	
-        // in case the parent view draws with a custom color or gradient, use a transparent color
-	button.backgroundColor = [UIColor clearColor];
-	
-	return button;
-}
-
--(UILabel *) createLabelWithText:(NSString *) text
-{
-    UILabel* label = [[[UILabel alloc] initWithFrame:CGRectZero] autorelease];
-    label.numberOfLines=0;
-
-    label.text=text;
-    CGRect labelFrame = label.frame;
-    labelFrame.origin.x = CELL_LEFT_OFFSET;
-    labelFrame.origin.y = CELL_TOP_OFFSET;
-    labelFrame.size.width = cellWidth-CELL_RIGHT_OFFSET-CELL_LEFT_OFFSET;
-    label.frame = labelFrame;
-    [label sizeToFit];
-    return label;
-}
-
 -(void) recalcSize
 {
     NSUInteger numberOfRows = MAX([unmanagedDocument.attachments count], [unmanagedDocument.links count]);
