@@ -81,15 +81,17 @@
 
     CGRect windowFrame = [[UIScreen mainScreen] bounds];
     self.view.frame = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
-    self.view.backgroundColor = [UIColor redColor];
+    self.view.backgroundColor = [UIColor blackColor];
     
     [self createToolbar];
     
-    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
+    UIImage *backgroungImage = [UIImage imageNamed:@"RootBackground.png"];
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:backgroungImage];
     
     CGRect toolbarFrame = toolbar.bounds;
-    backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, windowFrame.size.width, windowFrame.size.height-toolbarFrame.size.height);
-    //[self.view addSubview:backgroundView];
+    CGFloat backgroundImageHeight = windowFrame.size.height-toolbarFrame.size.height-20;
+    backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, windowFrame.size.width, backgroundImageHeight);
+    [self.view addSubview:backgroundView];
     [backgroundView release];
     self.navigationItem;
 
