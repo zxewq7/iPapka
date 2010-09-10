@@ -11,16 +11,13 @@
 #import "DataSource.h"
 #import "Document.h"
 #import "Attachment.h"
-#import "ImageScrollView.h"
 #import "AttachmentsViewController.h"
-#import "DocumentInfoViewController.h"
 #import "UIButton+Additions.h"
 #import "AttachmentPickerController.h"
-#import "AttachmentPageViewController.h"
 #import "UIToolbarWithCustomBackground.h"
 #import "ClipperViewController.h"
 
-#define kAttachmentLabelTag 1
+static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 
 @interface RootViewController(Private)
 - (void) createToolbar;
@@ -105,13 +102,25 @@
     CGSize clipperSize = clipperViewController.view.frame.size;
     CGRect clipperFrame = CGRectMake((viewBounds.size.width-clipperSize.width)/2, 0,clipperSize.width, clipperSize.height);
     clipperViewController.view.frame = clipperFrame;
+    [clipperViewController addObserver:self
+                                 forKeyPath:@"opened"
+                                    options:0
+                                    context:&ClipperOpenedContext];
     
+    contentHeightOffset = toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset];
+
     //attachments view
     attachmentsViewController = [[AttachmentsViewController alloc] init];
     CGSize attachmentSize = attachmentsViewController.view.frame.size;
-    CGRect attachmentFrame = CGRectMake((viewBounds.size.width-attachmentSize.width)/2, toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset], attachmentSize.width, attachmentSize.height);
+    CGRect attachmentFrame = CGRectMake((viewBounds.size.width-attachmentSize.width)/2, contentHeightOffset, attachmentSize.width, attachmentSize.height);
     attachmentsViewController.view.frame = attachmentFrame;
     
+    //attachmentPicker view
+    attachmentPickerController = [[AttachmentPickerController alloc] init];
+    CGRect attachmentPickerFrame = CGRectMake(attachmentFrame.origin.x, attachmentFrame.origin.y, attachmentFrame.size.width, 300);
+    attachmentPickerController.view.frame = attachmentPickerFrame;
+    
+    [self.view addSubview: attachmentPickerController.view];
     [self.view addSubview: attachmentsViewController.view];
     [self.view addSubview:clipperViewController.view];
     
@@ -123,6 +132,8 @@
         {
             Attachment *firstAttachment = [attachments objectAtIndex:0];
             attachmentsViewController.attachment = firstAttachment;
+            attachmentPickerController.document = self.document.document;
+            attachmentPickerController.attachment = firstAttachment;
         }
     }
 
@@ -139,6 +150,9 @@
     attachmentsViewController = nil;
     [clipperViewController release];
     clipperViewController = nil;
+    [attachmentPickerController removeObserver:self forKeyPath:@"opened"];
+    [attachmentPickerController release];
+    attachmentPickerController = nil;
     [toolbar release];
     toolbar = nil;
 }
@@ -149,6 +163,9 @@
     attachmentsViewController = nil;
     [clipperViewController release];
     clipperViewController = nil;
+    [attachmentPickerController removeObserver:self forKeyPath:@"opened"];
+    [attachmentPickerController release];
+    attachmentPickerController = nil;
     [toolbar release];
     toolbar = nil;
     self.document = nil;
@@ -158,6 +175,34 @@
 #pragma mark -
 #pragma mark Actions
 
+#pragma mark -
+#pragma mark Observer
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &ClipperOpenedContext)
+    {
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:.75];
+
+        CGSize attachmentPickerSize = attachmentPickerController.view.frame.size;
+        
+        CGRect attachmentsViewOldFrame = attachmentsViewController.view.frame;
+        CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*attachmentPickerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
+        attachmentsViewController.view.frame = attachmentsViewFrame;
+        [UIView commitAnimations];
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
+}
 @end
 
 @implementation RootViewController(Private)
