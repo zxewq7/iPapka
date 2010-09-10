@@ -6,7 +6,7 @@
     //  Copyright 2010 __MyCompanyName__. All rights reserved.
     //
 
-#import "RootViewController.h"
+#import "DocumentsListViewController.h"
 #import "DocumentViewController.h"
 #import "DataSource.h"
 #import "DocumentManaged.h"
@@ -15,7 +15,7 @@
 
 #define ROW_HEIGHT 94
 
-@interface RootViewController(Private)
+@interface DocumentsListViewController(Private)
 - (void)documentAdded:(NSNotification *)notification;
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentUpdated:(NSNotification *)notification;
@@ -23,7 +23,7 @@
 @end
 
 
-@implementation RootViewController
+@implementation DocumentsListViewController
 
 #pragma mark -
 #pragma mark properties
@@ -191,7 +191,7 @@
 }
 @end
 
-@implementation RootViewController(Private)
+@implementation DocumentsListViewController(Private)
 - (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
 {
     if (!isDelta) //just clear all

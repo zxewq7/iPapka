@@ -11,7 +11,7 @@
 
 @class FoldersViewController, Folder;
 
-@interface RootViewController : MasterViewController <UISplitViewControllerDelegate> {
+@interface DocumentsListViewController : MasterViewController <UISplitViewControllerDelegate> {
 	
     UIPopoverController     *popoverController;    
     UIBarButtonItem         *rootPopoverButtonItem;
