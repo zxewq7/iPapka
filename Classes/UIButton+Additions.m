@@ -12,18 +12,16 @@
 @implementation UIButton (Button_Additions)
 + (UIButton *) imageButton:(id)target
                   selector:(SEL)selector
-                 imageName:(NSString *)anImageName
-         imageNameSelected:(NSString *)anImageNameSelected
+                     image:(UIImage *)anImage
+             imageSelected:(UIImage *)anImageSelected
 
 {
-    UIImage *normal = [UIImage imageNamed:anImageName];
-    UIImage *selected = [UIImage imageNamed:anImageNameSelected];
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     
-    button.bounds = CGRectMake( 0, 0, normal.size.width, normal.size.height );    
+    button.bounds = CGRectMake( 0, 0, anImage.size.width, anImage.size.height );    
     
-    [button setImage:normal forState:UIControlStateNormal];
-    [button setImage:selected forState:UIControlStateSelected];
+    [button setImage:anImage forState:UIControlStateNormal];
+    [button setImage:anImageSelected forState:UIControlStateSelected];
     
     [button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
     
@@ -33,17 +31,18 @@
 +(UIButton *) imageButtonWithTitle:(NSString *) title
                             target:(id)target
                           selector:(SEL)selector
-                             imageName:(NSString *)anImageName
-                     imageNameSelected:(NSString *)anImageNameSelected
+                             image:(UIImage *)anImage
+                     imageSelected:(UIImage *)anImageSelected
 {
 #define kStdButtonWidth		106.0
 #define kStdButtonHeight	40.0
     
     UIButton *button = [UIButton imageButton:target
                                     selector:selector
-                                   imageName:anImageName
-                           imageNameSelected:anImageNameSelected];
-	button.frame = CGRectMake(182.0, 5.0, kStdButtonWidth, kStdButtonHeight);
+                                       image:anImage
+                               imageSelected:anImageSelected];
+    CGFloat width = button.frame.size.width + [title sizeWithFont:[UIFont boldSystemFontOfSize: 17]].width;
+	button.frame = CGRectMake(182.0, 5.0, width, kStdButtonHeight);
 	button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 	button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
 

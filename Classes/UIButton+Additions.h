@@ -12,13 +12,13 @@
 @interface UIButton (Button_Additions)
 + (UIButton *) imageButton:(id)target
                   selector:(SEL)selector
-                 imageName:(NSString *)anImageName
-         imageNameSelected:(NSString *)anImageNameSelected;
+                 image:(UIImage *)anImage
+         imageSelected:(UIImage *)anImageSelected;
 
 +(UIButton *) imageButtonWithTitle:(NSString *) title
                             target:(id)target
                           selector:(SEL)selector
-                         imageName:(NSString *)anImageName
-                 imageNameSelected:(NSString *)anImageNameSelected;
+                             image:(UIImage *)anImage
+                     imageSelected:(UIImage *)anImageSelected;
 
 @end

@@ -8,34 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, AttachmentsViewController, DocumentInfoViewController, AttachmentPickerController;
+@class DocumentManaged, AttachmentsViewController;
 
-@interface RootViewController : UIViewController<UIPopoverControllerDelegate>
+@interface RootViewController : UIViewController
 {
-    UINavigationController       *navigationController;
-    DocumentManaged *document;
-    AttachmentsViewController    *attachmentsViewController;
-    DocumentInfoViewController *infoViewController;
-    UIButton                   *infoButton;
-    UIButton                   *penButton;
-    UIButton                   *eraseButton;
-    UIButton                   *commentButton;
-    UIButton                   *attachmentButton;
-    UIToolbar                  *leftToolbar;
-    UIToolbar                  *rightToolbar;
-    AttachmentPickerController *attachmentPickerController;
-    UIPopoverController        *popoverController;
+    DocumentManaged            *document;
+    AttachmentsViewController  *attachmentsViewController;
+    UIToolbar                  *toolbar;
 }
 
-@property (nonatomic, retain) IBOutlet UINavigationController       *navigationController;
-
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;
-
-- (void)showRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
-
-- (void)invalidateRootPopoverButtonItem:(UIBarButtonItem *)barButtonItem;
-
-- (void) showDocumentInfo:(id) sender;
-
--(void) showAttachmentsList:(id) sender;
 @end
