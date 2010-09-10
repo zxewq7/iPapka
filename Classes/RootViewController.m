@@ -68,7 +68,7 @@
 
 - (void)loadView
 {
-    UIView *v = [[UIView alloc] initWithFrame:CGRectMake(0,0,768,1024)];
+    UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
     
     self.view = v;
     
