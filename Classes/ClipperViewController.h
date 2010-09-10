@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ClipperViewController : UIViewController 
+@interface ClipperViewController : UIViewController<UIGestureRecognizerDelegate> 
 {
     UIImageView *clipperImageView;
+    UITapGestureRecognizer *tapRecognizer;
+    BOOL opened;
 }
 - (CGFloat) contentOffset;
+@property (nonatomic, assign, setter = setOpened:) BOOL opened;
 @end

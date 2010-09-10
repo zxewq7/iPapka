@@ -54,6 +54,7 @@
 		8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC33123A3378000E9762 /* ClipperClosed.png */; };
 		8148EC96123A3C7A000E9762 /* PaperBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC95123A3C7A000E9762 /* PaperBack.png */; };
 		8148ED24123A4996000E9762 /* Paper.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148ED23123A4996000E9762 /* Paper.png */; };
+		8148EF8C123A7C76000E9762 /* ClipperOpened.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EF8B123A7C76000E9762 /* ClipperOpened.png */; };
 		815EAB4F1237DF810093CF38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 815EAB4E1237DF810093CF38 /* InfoPlist.strings */; };
 		816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541BE12379AA3008FC80F /* UIKit.framework */; };
 		816541C112379AA3008FC80F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541C012379AA3008FC80F /* Foundation.framework */; };
@@ -185,6 +186,7 @@
 		8148EC33123A3378000E9762 /* ClipperClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperClosed.png; sourceTree = "<group>"; };
 		8148EC95123A3C7A000E9762 /* PaperBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaperBack.png; sourceTree = "<group>"; };
 		8148ED23123A4996000E9762 /* Paper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Paper.png; sourceTree = "<group>"; };
+		8148EF8B123A7C76000E9762 /* ClipperOpened.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperOpened.png; sourceTree = "<group>"; };
 		815EAB4E1237DF810093CF38 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		816541BB12379AA3008FC80F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		816541BE12379AA3008FC80F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -288,6 +290,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8148EF8B123A7C76000E9762 /* ClipperOpened.png */,
 				8148ED23123A4996000E9762 /* Paper.png */,
 				8148EC95123A3C7A000E9762 /* PaperBack.png */,
 				8148EC33123A3378000E9762 /* ClipperClosed.png */,
@@ -668,6 +671,7 @@
 				8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */,
 				8148EC96123A3C7A000E9762 /* PaperBack.png in Resources */,
 				8148ED24123A4996000E9762 /* Paper.png in Resources */,
+				8148EF8C123A7C76000E9762 /* ClipperOpened.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

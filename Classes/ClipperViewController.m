@@ -10,10 +10,17 @@
 
 
 @implementation ClipperViewController
+@synthesize opened;
+
+- (void) setOpened:(BOOL)anOpened
+{
+    opened = anOpened;
+    ((UIImageView *)self.view).image = [UIImage imageNamed:opened?@"ClipperOpened.png":@"ClipperClosed.png"];
+}
 
 - (void)loadView
 {
-    UIView *v = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"ClipperClosed.png"]];
+    UIView *v = [[UIImageView alloc] initWithImage: [UIImage imageNamed:opened?@"ClipperOpened.png":@"ClipperClosed.png"]];
     
     self.view = v;
     
@@ -23,10 +30,16 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+    [self.view addGestureRecognizer:tapRecognizer];
+    tapRecognizer.delegate = self;
+    self.view.userInteractionEnabled = YES;
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
+    [tapRecognizer release];
+    tapRecognizer = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -34,12 +47,27 @@
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    [tapRecognizer release];
     [super dealloc];
 }
 
 - (CGFloat) contentOffset
 {
     return 42.0f;
+}
+
+#pragma mark -
+#pragma mark UIGestureRecognizerDelegate
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    return YES;
+}
+
+-(void) handleTapFrom:(UITouch *)touch
+{
+    self.opened = !self.opened;
 }
 @end
