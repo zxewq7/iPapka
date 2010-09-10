@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, AttachmentsViewController, ClipperViewController;
+@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder;
 
 @interface RootViewController : UIViewController
 {
@@ -16,7 +16,9 @@
     AttachmentsViewController  *attachmentsViewController;
     UIToolbar                  *toolbar;
     ClipperViewController      *clipperViewController;
+    Folder                     *folder;
 }
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;
+@property (nonatomic, retain, setter=setFolder:)   Folder          *folder;
 @end

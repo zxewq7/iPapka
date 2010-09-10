@@ -30,8 +30,19 @@
 
 #pragma mark -
 #pragma mark Properties
-@synthesize document;
+@synthesize document, folder;
 
+-(void) setFolder:(Folder *) aFolder
+{
+    if (folder == aFolder)
+        return;
+    [folder release];
+    folder = [aFolder retain];
+    
+    NSArray *documents = [[DataSource sharedDataSource] documentsForFolder:aFolder];
+    if ([documents count])
+        self.document = [documents objectAtIndex:0];
+}
 
 -(void) setDocument:(DocumentManaged *) aDocument
 {
@@ -42,24 +53,17 @@
     [document release];
     document = [aDocument retain];
     
-//    if (![document.isRead boolValue])
-//        document.isRead = [NSNumber numberWithBool:YES];
-//    [[DataSource sharedDataSource] commit];
-//
-//    infoViewController.document = document;
-//    
-//    NSArray *attachments = document.document.attachments;
-//    NSUInteger numberOfAttachments = [attachments count];
-//    if (numberOfAttachments) 
-//    {
-//        Attachment *firstAttachment = [attachments objectAtIndex:0];
-//        attachmentsViewController.attachment = firstAttachment;
-//        NSString *attachmentTitle = [NSString stringWithFormat:@"%d %@ %d", 1, NSLocalizedString(@"of", "of"), numberOfAttachments];
-//        [attachmentButton setTitle:attachmentTitle forState:UIControlStateNormal];
-//        attachmentButton.enabled = YES;
-//    }
-//    else
-//        attachmentButton.enabled = NO;
+    if (![document.isRead boolValue])
+        document.isRead = [NSNumber numberWithBool:YES];
+    [[DataSource sharedDataSource] commit];
+    
+    NSArray *attachments = document.document.attachments;
+    NSUInteger numberOfAttachments = [attachments count];
+    if (numberOfAttachments) 
+    {
+        Attachment *firstAttachment = [attachments objectAtIndex:0];
+        attachmentsViewController.attachment = firstAttachment;
+    }
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -110,6 +114,17 @@
     
     [self.view addSubview: attachmentsViewController.view];
     [self.view addSubview:clipperViewController.view];
+    
+    if (self.document)
+    {
+        NSArray *attachments = document.document.attachments;
+        NSUInteger numberOfAttachments = [attachments count];
+        if (numberOfAttachments) 
+        {
+            Attachment *firstAttachment = [attachments objectAtIndex:0];
+            attachmentsViewController.attachment = firstAttachment;
+        }
+    }
 
 }
 
@@ -136,6 +151,8 @@
     clipperViewController = nil;
     [toolbar release];
     toolbar = nil;
+    self.document = nil;
+    self.folder = nil;
 	[super dealloc];
 }
 #pragma mark -
