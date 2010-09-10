@@ -109,19 +109,29 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     
     contentHeightOffset = toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset];
 
+    //contentView
+    contentView = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"PaperBack.png"]];
+    
+    CGSize contentViewSize = contentView.frame.size;
+    
+    contentView.frame = CGRectMake((viewBounds.size.width-contentViewSize.width)/2, contentHeightOffset, contentViewSize.width, contentViewSize.height);
+    contentView.backgroundColor = [UIColor redColor];
+    contentViewSize.width-=5;
+
     //attachments view
+    CGRect attachmentsViewFrame = CGRectMake(0, 5, contentViewSize.width, contentViewSize.height);
     attachmentsViewController = [[AttachmentsViewController alloc] init];
-    CGSize attachmentSize = attachmentsViewController.view.frame.size;
-    CGRect attachmentFrame = CGRectMake((viewBounds.size.width-attachmentSize.width)/2, contentHeightOffset, attachmentSize.width, attachmentSize.height);
-    attachmentsViewController.view.frame = attachmentFrame;
+    attachmentsViewController.view.frame = attachmentsViewFrame;
     
     //attachmentPicker view
     attachmentPickerController = [[AttachmentPickerController alloc] init];
-    CGRect attachmentPickerFrame = CGRectMake(attachmentFrame.origin.x, attachmentFrame.origin.y, attachmentFrame.size.width, 300);
+    CGRect attachmentPickerFrame = CGRectMake(0, 5, contentViewSize.width, 300);
     attachmentPickerController.view.frame = attachmentPickerFrame;
     
-    [self.view addSubview: attachmentPickerController.view];
-    [self.view addSubview: attachmentsViewController.view];
+    [contentView addSubview: attachmentPickerController.view];
+    [contentView addSubview: attachmentsViewController.view];
+
+    [self.view addSubview:contentView];
     [self.view addSubview:clipperViewController.view];
     
     if (self.document)
@@ -153,6 +163,8 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     [attachmentPickerController removeObserver:self forKeyPath:@"opened"];
     [attachmentPickerController release];
     attachmentPickerController = nil;
+    [contentView release];
+    contentView = nil;
     [toolbar release];
     toolbar = nil;
 }
@@ -166,6 +178,8 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
     [attachmentPickerController removeObserver:self forKeyPath:@"opened"];
     [attachmentPickerController release];
     attachmentPickerController = nil;
+    [contentView release];
+    contentView = nil;
     [toolbar release];
     toolbar = nil;
     self.document = nil;

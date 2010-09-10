@@ -19,6 +19,7 @@
     Folder                     *folder;
     AttachmentPickerController *attachmentPickerController;
     CGFloat                    contentHeightOffset;
+    UIImageView                *contentView;
 }
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;

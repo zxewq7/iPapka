@@ -34,26 +34,11 @@
 
 - (void)loadView
 {
-    UIImage *backgroundImage = [UIImage imageNamed:@"PaperBack.png"];
-    
-    CGSize imageSize = backgroundImage.size;
-    CGRect frame = CGRectMake(0, 0, imageSize.width, imageSize.height);
-    
-    UIView *v = [[UIView alloc] initWithFrame:frame];
+    UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
     
     self.view = v;
     
     [v release];
-    
-    UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage:backgroundImage];
-    self.view.backgroundColor = backgroundColor;
-    [backgroundColor release];
-
-//    self.view.backgroundColor = [UIColor redColor];
-    //prevent black corners 
-    //http://stackoverflow.com/questions/1557856/black-corners-on-uitableview-group-style/1559534#1559534
-    [self.view setOpaque: NO];
-
 }
 
 - (void)viewDidLoad
