@@ -86,14 +86,15 @@
     
     [self createToolbar];
     
+    //background image
     UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
-    
     CGRect toolbarFrame = toolbar.bounds;
     CGFloat backgroundImageHeight = windowFrame.size.height-toolbarFrame.size.height-20;
     backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, windowFrame.size.width, backgroundImageHeight);
     [self.view addSubview:backgroundView];
     [backgroundView release];
 
+    //clipper
     clipperViewController = [[ClipperViewController alloc] init];
     CGSize clipperSize = clipperViewController.view.frame.size;
     CGRect viewBounds = self.view.bounds;
@@ -109,7 +110,6 @@
 
     // Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-        // Return YES for supported orientations
     return YES;
 }
 
@@ -117,8 +117,21 @@
     [super viewDidUnload];
     [attachmentsViewController release];
     attachmentsViewController = nil;
+    [clipperViewController release];
+    clipperViewController = nil;
     [toolbar release];
     toolbar = nil;
+}
+
+- (void) dealloc
+{
+    [attachmentsViewController release];
+    attachmentsViewController = nil;
+    [clipperViewController release];
+    clipperViewController = nil;
+    [toolbar release];
+    toolbar = nil;
+	[super dealloc];
 }
 #pragma mark -
 #pragma mark Actions
