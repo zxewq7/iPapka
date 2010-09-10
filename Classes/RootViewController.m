@@ -93,19 +93,24 @@
     backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, windowFrame.size.width, backgroundImageHeight);
     [self.view addSubview:backgroundView];
     [backgroundView release];
+    
+    CGRect viewBounds = self.view.bounds;
 
     //clipper
     clipperViewController = [[ClipperViewController alloc] init];
     CGSize clipperSize = clipperViewController.view.frame.size;
-    CGRect viewBounds = self.view.bounds;
-    CGRect newClipperFrame = CGRectMake((viewBounds.size.width-clipperSize.width)/2, 0,clipperSize.width, clipperSize.height);
-    clipperViewController.view.frame = newClipperFrame;
+    CGRect clipperFrame = CGRectMake((viewBounds.size.width-clipperSize.width)/2, 0,clipperSize.width, clipperSize.height);
+    clipperViewController.view.frame = clipperFrame;
     
+    //attachments view
+    attachmentsViewController = [[AttachmentsViewController alloc] init];
+    CGSize attachmentSize = attachmentsViewController.view.frame.size;
+    CGRect attachmentFrame = CGRectMake((viewBounds.size.width-attachmentSize.width)/2, toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset], attachmentSize.width, attachmentSize.height);
+    attachmentsViewController.view.frame = attachmentFrame;
+    
+    [self.view addSubview: attachmentsViewController.view];
     [self.view addSubview:clipperViewController.view];
-    
-//    [self.view addSubview:attachmentsViewController.view];
 
-    
 }
 
     // Override to allow orientations other than the default portrait orientation.

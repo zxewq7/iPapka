@@ -37,4 +37,9 @@
 - (void)dealloc {
     [super dealloc];
 }
+
+- (CGFloat) contentOffset
+{
+    return 42.0f;
+}
 @end

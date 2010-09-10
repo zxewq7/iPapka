@@ -13,4 +13,5 @@
 {
     UIImageView *clipperImageView;
 }
+- (CGFloat) contentOffset;
 @end
