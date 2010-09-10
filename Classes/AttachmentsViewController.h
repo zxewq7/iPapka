@@ -9,10 +9,8 @@
 #import <Foundation/Foundation.h>
 
 @class AttachmentPageViewController, Attachment;
-@interface AttachmentsViewController : UIViewController<UIScrollViewDelegate, UIGestureRecognizerDelegate> 
+@interface AttachmentsViewController : UIViewController<UIGestureRecognizerDelegate> 
 {
-    UIScrollView *pagingScrollView;
-    
     AttachmentPageViewController *currentPage;
     AttachmentPageViewController *nextPage;
 
@@ -22,10 +20,6 @@
     CGFloat       originalWidth;
     BOOL          commenting;
     UITapGestureRecognizer *tapRecognizer;
-    
-    UIView *page1;
-    UIView *page2;
-
 }
 
 @property (nonatomic, retain, setter=setAttachment:)   Attachment                   *attachment;
