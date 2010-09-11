@@ -141,12 +141,19 @@
     cell = [self.tableView dequeueReusableCellWithIdentifier: cellIdentifier];
     if (cell == nil)
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier: cellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier: cellIdentifier] autorelease];
         UIImageView *selectedRowBackground = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"DocumentInfoSelectedCell.png"]];
         cell.selectedBackgroundView = selectedRowBackground;
+        [selectedRowBackground release];
+        cell.textLabel.highlightedTextColor = [UIColor blackColor];
+        cell.detailTextLabel.highlightedTextColor = [UIColor blackColor];
+        cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     }
     Attachment *a = [currentItems objectAtIndex:indexPath.row];
     cell.textLabel.text = a.title;
+    NSUInteger count = [a.pages count];
+    NSString *pageLabel = count==1?NSLocalizedString(@"page", "page"):(count < 5?NSLocalizedString(@"pages_genetivus", "pages in genetivus"):NSLocalizedString(@"pages", "pages"));
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %@", [a.pages count], pageLabel];
     return cell;
 }
 

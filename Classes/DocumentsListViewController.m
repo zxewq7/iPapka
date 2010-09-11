@@ -63,6 +63,10 @@
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.rowHeight = ROW_HEIGHT;
     
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
+    self.tableView.backgroundView = backgroundView;
+    [backgroundView release];
+    
     self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     dateFormatter.dateStyle = NSDateFormatterLongStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
@@ -142,14 +146,20 @@
         // Dequeue or create a cell of the appropriate type.
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-		cell.frame = CGRectMake(0.0, 0.0, 320.0, ROW_HEIGHT);
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
+        UIImageView *selectedRowBackground = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"DocumentInfoSelectedCell.png"]];
+        cell.selectedBackgroundView = selectedRowBackground;
+        [selectedRowBackground release];
+        cell.textLabel.highlightedTextColor = [UIColor blackColor];
+        cell.detailTextLabel.highlightedTextColor = [UIColor blackColor];
+        cell.detailTextLabel.textColor = [UIColor darkGrayColor];
 	}
     
         // Set appropriate labels for the cells.
     NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
     DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
     cell.textLabel.text = document.title;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), document.author];
     return cell;
 }
 
