@@ -14,7 +14,6 @@
 #import "AttachmentsViewController.h"
 #import "UIButton+Additions.h"
 #import "DocumentInfoViewController.h"
-#import "UIToolbarWithCustomBackground.h"
 #import "ClipperViewController.h"
 #import "PaintingToolsViewController.h"
 #import "DocumentsListViewController.h"
@@ -305,7 +304,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [items addObject: acceptButton];
     [acceptButton release];
 
-    toolbar = [[UIToolbarWithCustomBackground alloc]
+    toolbar = [[UIToolbar alloc]
                                initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
 
     toolbar.barStyle = UIBarStyleBlack;

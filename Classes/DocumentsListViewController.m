@@ -408,24 +408,22 @@
     NSArray *filters = folder.filters;
     NSUInteger filtersCount = [filters count];
     NSMutableArray *toolbarItems = [NSMutableArray arrayWithCapacity: filtersCount];
+    UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, 0, 516, 44)];
+    DataSource *ds = [DataSource sharedDataSource];
     for (NSUInteger i=0; i < filtersCount; i++)
     {
         Folder *f = [filters objectAtIndex:i];
-//        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-//        [button setImage: f.icon forState:UIControlStateNormal];
-//        [button setTitle: f.localizedName forState:UIControlStateNormal];
-//        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView: button];
-//        button.tag = i;
-//        [toolbarItems addObject: barButton];
-//        [barButton release];
-        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:f.icon style:UIBarButtonItemStylePlain target:self action:@selector(setFilter:)];
-        barButton.title=f.localizedName;
-        [toolbarItems addObject:barButton];
-        [barButton release];
+        UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:f.localizedName image:f.icon tag:i];
+        NSInteger count = [ds countUnreadDocumentsForFolder: f];
+        item.badgeValue = count>0?[NSString stringWithFormat:@"%d", count]:nil;
+        [toolbarItems addObject:item];
+        [item release];
     }
-    
-    [self setToolbarItems:toolbarItems animated:NO];
-
+    tabBar.items = toolbarItems;
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:tabBar];
+    [self setToolbarItems:[NSArray arrayWithObject:barButton] animated:NO];
+    [barButton release];
+    [tabBar release];
 }
 
 - (void)updateSyncStatus
