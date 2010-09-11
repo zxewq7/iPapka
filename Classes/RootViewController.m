@@ -18,11 +18,14 @@
 #import "ClipperViewController.h"
 #import "PaintingToolsViewController.h"
 #import "DocumentsListViewController.h"
+#import "Folder.h"
 
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
 @interface RootViewController(Private)
 - (void) createToolbar;
+- (Folder *) findFolder:(NSString *) name;
+-(void) showDocumentsListWithFolderName:(NSString *) name;
 @end
 
 @implementation RootViewController
@@ -186,34 +189,14 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 }
 #pragma mark -
 #pragma mark Actions
--(void) showDocumentsList:(id) sender
+-(void) showDocuments:(id) sender
 {
-    // Create the modal view controller
-    DocumentsListViewController *viewController = [[DocumentsListViewController alloc] init];
-    viewController.folder = self.folder;
-    
-    // We are the delegate responsible for dismissing the modal view 
-//    viewController.delegate = self;
-    
-    // Create a Navigation controller
-    UINavigationController *navController = [[UINavigationController alloc]
-                                             initWithRootViewController:viewController];
+    [self showDocumentsListWithFolderName: @"Documents"];
+}
 
-    //paint navbar background - works only here!
-    UINavigationBar *bar = navController.navigationBar;
-    UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage: [UIImage imageNamed:@"DocumentsListNavigationbarBackground.png"]];
-    bar.backgroundColor = backgroundColor;
-    [backgroundColor release];
-
-    navController.modalPresentationStyle = UIModalPresentationFormSheet;
-    
-    // show the navigation controller modally
-    [self presentModalViewController:navController animated:YES];
-    
-    // Clean up resources
-    [navController release];
-    [viewController release];    
-    
+-(void) showArchive:(id) sender
+{
+    [self showDocumentsListWithFolderName: @"Archive"];
 }
 
 #pragma mark -
@@ -259,7 +242,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
     UIButton *documentsButton = [UIButton imageButtonWithTitle:[@" " stringByAppendingString: NSLocalizedString(@"Documents", "Documents")]
                                                target:self
-                                                      selector:@selector(showDocumentsList:)
+                                                      selector:@selector(showDocuments:)
                                                 image:[UIImage imageNamed:@"ButtonDocuments.png"]
                                         imageSelected:[UIImage imageNamed:@"ButtonDocuments.png"]];
     [documentsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -267,7 +250,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 
     UIButton *archiveButton = [UIButton imageButtonWithTitle:[@" " stringByAppendingString: NSLocalizedString(@"Archive", "Archive")]
                                                         target:self
-                                                      selector:nil
+                                                      selector:@selector(showArchive:)
                                                          image:[UIImage imageNamed:@"ButtonArchive.png"]
                                                  imageSelected:[UIImage imageNamed:@"ButtonArchive.png"]];
     [archiveButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -298,5 +281,50 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [declineButton release];
     [acceptButton release];
     [self.view addSubview: toolbar];
+}
+- (Folder *) findFolder:(NSString *) name
+{
+    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *foldersData = [currentDefaults objectForKey:@"folders"];
+    
+    if (foldersData == nil)
+        return nil;
+    
+    NSArray *folders = [NSKeyedUnarchiver unarchiveObjectWithData:foldersData];
+    for (Folder *f in folders)
+    {
+        if ([f.name isEqualToString:name])
+             return f;
+    }
+    return nil;
+}
+-(void) showDocumentsListWithFolderName:(NSString *) name
+{
+    // Create the modal view controller
+    DocumentsListViewController *viewController = [[DocumentsListViewController alloc] init];
+    
+    viewController.folder = [self findFolder:name];
+    
+    // We are the delegate responsible for dismissing the modal view 
+    //    viewController.delegate = self;
+    
+    // Create a Navigation controller
+    UINavigationController *navController = [[UINavigationController alloc]
+                                             initWithRootViewController:viewController];
+    
+    //paint navbar background - works only here!
+    UINavigationBar *bar = navController.navigationBar;
+    UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage: [UIImage imageNamed:@"DocumentsListNavigationbarBackground.png"]];
+    bar.backgroundColor = backgroundColor;
+    [backgroundColor release];
+    
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    // show the navigation controller modally
+    [self presentModalViewController:navController animated:YES];
+    
+    // Clean up resources
+    [navController release];
+    [viewController release];      
 }
 @end
