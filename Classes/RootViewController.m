@@ -215,6 +215,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     bar.backgroundColor = backgroundColor;
     [backgroundColor release];
     
+    navController.toolbar.barStyle = UIBarStyleBlack;
+    
     navController.modalPresentationStyle = UIModalPresentationFormSheet;
     
     // show the navigation controller modally
