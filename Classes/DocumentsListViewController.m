@@ -7,10 +7,8 @@
     //
 
 #import "DocumentsListViewController.h"
-//#import "DocumentViewController.h"
 #import "DataSource.h"
 #import "DocumentManaged.h"
-#import "DocumentCell.h"
 #import "Folder.h";
 
 #define ROW_HEIGHT 94
@@ -142,16 +140,16 @@
     static NSString *CellIdentifier = @"DocumentCellIdentifier";
     
         // Dequeue or create a cell of the appropriate type.
-    DocumentCell *cell = (DocumentCell *)[self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[[DocumentCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 		cell.frame = CGRectMake(0.0, 0.0, 320.0, ROW_HEIGHT);
 	}
     
         // Set appropriate labels for the cells.
     NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
     DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
-    [cell setDocument: document];
+    cell.textLabel.text = document.title;
     return cell;
 }
 
