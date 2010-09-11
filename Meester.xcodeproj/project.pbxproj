@@ -22,15 +22,11 @@
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
 		811DF44B1237A11300903D30 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42E1237A11300903D30 /* BrushErase.png */; };
 		811DF44C1237A11300903D30 /* BrushMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42F1237A11300903D30 /* BrushMarker.png */; };
-		811DF44D1237A11300903D30 /* ButtonAttachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4301237A11300903D30 /* ButtonAttachment.png */; };
-		811DF44E1237A11300903D30 /* ButtonAttachmentSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4311237A11300903D30 /* ButtonAttachmentSelected.png */; };
 		811DF44F1237A11300903D30 /* ButtonComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4321237A11300903D30 /* ButtonComment.png */; };
 		811DF4501237A11300903D30 /* ButtonCommentSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4331237A11300903D30 /* ButtonCommentSelected.png */; };
 		811DF4511237A11300903D30 /* ButtonDate.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4341237A11300903D30 /* ButtonDate.png */; };
 		811DF4521237A11300903D30 /* ButtonErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4351237A11300903D30 /* ButtonErase.png */; };
 		811DF4531237A11300903D30 /* ButtonEraseSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4361237A11300903D30 /* ButtonEraseSelected.png */; };
-		811DF4541237A11300903D30 /* ButtonInfo.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4371237A11300903D30 /* ButtonInfo.png */; };
-		811DF4551237A11300903D30 /* ButtonInfoSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4381237A11300903D30 /* ButtonInfoSelected.png */; };
 		811DF4561237A11300903D30 /* ButtonPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4391237A11300903D30 /* ButtonPen.png */; };
 		811DF4571237A11300903D30 /* ButtonPenSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF43A1237A11300903D30 /* ButtonPenSelected.png */; };
 		811DF4581237A11300903D30 /* ButtonRotateCCV.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF43B1237A11300903D30 /* ButtonRotateCCV.png */; };
@@ -157,15 +153,11 @@
 		811DF42D1237A11300903D30 /* BrushComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushComment.png; sourceTree = "<group>"; };
 		811DF42E1237A11300903D30 /* BrushErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushErase.png; sourceTree = "<group>"; };
 		811DF42F1237A11300903D30 /* BrushMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushMarker.png; sourceTree = "<group>"; };
-		811DF4301237A11300903D30 /* ButtonAttachment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachment.png; sourceTree = "<group>"; };
-		811DF4311237A11300903D30 /* ButtonAttachmentSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAttachmentSelected.png; sourceTree = "<group>"; };
 		811DF4321237A11300903D30 /* ButtonComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonComment.png; sourceTree = "<group>"; };
 		811DF4331237A11300903D30 /* ButtonCommentSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonCommentSelected.png; sourceTree = "<group>"; };
 		811DF4341237A11300903D30 /* ButtonDate.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonDate.png; sourceTree = "<group>"; };
 		811DF4351237A11300903D30 /* ButtonErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonErase.png; sourceTree = "<group>"; };
 		811DF4361237A11300903D30 /* ButtonEraseSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonEraseSelected.png; sourceTree = "<group>"; };
-		811DF4371237A11300903D30 /* ButtonInfo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonInfo.png; sourceTree = "<group>"; };
-		811DF4381237A11300903D30 /* ButtonInfoSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonInfoSelected.png; sourceTree = "<group>"; };
 		811DF4391237A11300903D30 /* ButtonPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPen.png; sourceTree = "<group>"; };
 		811DF43A1237A11300903D30 /* ButtonPenSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPenSelected.png; sourceTree = "<group>"; };
 		811DF43B1237A11300903D30 /* ButtonRotateCCV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRotateCCV.png; sourceTree = "<group>"; };
@@ -323,15 +315,11 @@
 				811DF42D1237A11300903D30 /* BrushComment.png */,
 				811DF42E1237A11300903D30 /* BrushErase.png */,
 				811DF42F1237A11300903D30 /* BrushMarker.png */,
-				811DF4301237A11300903D30 /* ButtonAttachment.png */,
-				811DF4311237A11300903D30 /* ButtonAttachmentSelected.png */,
 				811DF4321237A11300903D30 /* ButtonComment.png */,
 				811DF4331237A11300903D30 /* ButtonCommentSelected.png */,
 				811DF4341237A11300903D30 /* ButtonDate.png */,
 				811DF4351237A11300903D30 /* ButtonErase.png */,
 				811DF4361237A11300903D30 /* ButtonEraseSelected.png */,
-				811DF4371237A11300903D30 /* ButtonInfo.png */,
-				811DF4381237A11300903D30 /* ButtonInfoSelected.png */,
 				811DF4391237A11300903D30 /* ButtonPen.png */,
 				811DF43A1237A11300903D30 /* ButtonPenSelected.png */,
 				811DF43B1237A11300903D30 /* ButtonRotateCCV.png */,
@@ -658,15 +646,11 @@
 				811DF44A1237A11300903D30 /* BrushComment.png in Resources */,
 				811DF44B1237A11300903D30 /* BrushErase.png in Resources */,
 				811DF44C1237A11300903D30 /* BrushMarker.png in Resources */,
-				811DF44D1237A11300903D30 /* ButtonAttachment.png in Resources */,
-				811DF44E1237A11300903D30 /* ButtonAttachmentSelected.png in Resources */,
 				811DF44F1237A11300903D30 /* ButtonComment.png in Resources */,
 				811DF4501237A11300903D30 /* ButtonCommentSelected.png in Resources */,
 				811DF4511237A11300903D30 /* ButtonDate.png in Resources */,
 				811DF4521237A11300903D30 /* ButtonErase.png in Resources */,
 				811DF4531237A11300903D30 /* ButtonEraseSelected.png in Resources */,
-				811DF4541237A11300903D30 /* ButtonInfo.png in Resources */,
-				811DF4551237A11300903D30 /* ButtonInfoSelected.png in Resources */,
 				811DF4561237A11300903D30 /* ButtonPen.png in Resources */,
 				811DF4571237A11300903D30 /* ButtonPenSelected.png in Resources */,
 				811DF4581237A11300903D30 /* ButtonRotateCCV.png in Resources */,
