@@ -77,7 +77,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [super viewDidLoad];
 
     CGRect windowFrame = [[UIScreen mainScreen] bounds];
-    self.view.frame = CGRectMake(0, 0, windowFrame.size.width, windowFrame.size.height);
+    self.view.frame = CGRectMake(0, 20, windowFrame.size.width, windowFrame.size.height-20);
     self.view.backgroundColor = [UIColor blackColor];
     
     [self createToolbar];
@@ -85,7 +85,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     //background image
     UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
     CGRect toolbarFrame = toolbar.bounds;
-    CGFloat backgroundImageHeight = windowFrame.size.height-toolbarFrame.size.height-20;
+    CGFloat backgroundImageHeight = windowFrame.size.height-toolbarFrame.size.height;
     backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, windowFrame.size.width, backgroundImageHeight);
     [self.view addSubview:backgroundView];
     [backgroundView release];
