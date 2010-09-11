@@ -27,15 +27,12 @@
 
 #pragma mark -
 #pragma mark properties
-@synthesize popoverController, 
-            rootPopoverButtonItem, 
-            sections, 
+@synthesize sections, 
             sectionsOrdered, 
             sectionsOrderedLabels, 
             dateFormatter, 
             sortDescriptors, 
-            folder,
-            splitViewController;
+            folder;
 
 - (void) setFolder:(Folder *)aFolder
 {
@@ -51,7 +48,6 @@
     
     self.title = folder.localizedName;
     [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO isDelta:NO];
-    self.rootPopoverButtonItem.title = folder.localizedName;
 }
 
 #pragma mark -
@@ -79,13 +75,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentUpdated:)
                                                  name:@"DocumentUpdated" object:nil];
-    self.contentSizeForViewInPopover = CGSizeMake(300,300+44);
 }
 
 -(void) viewDidUnload {
 	[super viewDidUnload];
 	
-	self.rootPopoverButtonItem = nil;
 }
 
 #pragma mark -
@@ -152,10 +146,6 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-    self.popoverController = nil;
-    self.rootPopoverButtonItem = nil;
-    self.splitViewController = nil;
-    
     self.sections = nil;
     self.sectionsOrdered = nil;
     self.sectionsOrderedLabels = nil;
