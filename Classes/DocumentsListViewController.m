@@ -7,7 +7,7 @@
     //
 
 #import "DocumentsListViewController.h"
-#import "DocumentViewController.h"
+//#import "DocumentViewController.h"
 #import "DataSource.h"
 #import "DocumentManaged.h"
 #import "DocumentCell.h"
@@ -91,24 +91,24 @@
 - (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
     
         // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
-    barButtonItem.title = folder.localizedName;
-    self.popoverController = pc;
-    self.rootPopoverButtonItem = barButtonItem;
-    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
-    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
-    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
+//    barButtonItem.title = folder.localizedName;
+//    self.popoverController = pc;
+//    self.rootPopoverButtonItem = barButtonItem;
+//    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
+//    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
+//    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
 }
 
 
 - (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
     
         // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
-    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
-    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
-    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
-    barButtonItem.title = folder.localizedName;
-    self.popoverController = nil;
-    self.rootPopoverButtonItem = nil;
+//    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
+//    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
+//    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
+//    barButtonItem.title = folder.localizedName;
+//    self.popoverController = nil;
+//    self.rootPopoverButtonItem = nil;
 }
 
 
@@ -154,22 +154,22 @@
 #pragma mark Table view selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    /*
-     Create and configure a new detail view controller appropriate for the selection.
-     */
-    
-    UINavigationController *navogationController = [splitViewController.viewControllers objectAtIndex:1];
-    DocumentViewController *detailViewController = [navogationController.viewControllers objectAtIndex:0];
-    
-    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
-    DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
-
-    detailViewController.document = document;
-
-        // Dismiss the popover if it's present.
-    if (popoverController != nil) {
-        [popoverController dismissPopoverAnimated:YES];
-    }
+//    /*
+//     Create and configure a new detail view controller appropriate for the selection.
+//     */
+//    
+//    UINavigationController *navogationController = [splitViewController.viewControllers objectAtIndex:1];
+//    DocumentViewController *detailViewController = [navogationController.viewControllers objectAtIndex:0];
+//    
+//    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
+//    DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
+//
+//    detailViewController.document = document;
+//
+//        // Dismiss the popover if it's present.
+//    if (popoverController != nil) {
+//        [popoverController dismissPopoverAnimated:YES];
+//    }
 }
 
 #pragma mark -
