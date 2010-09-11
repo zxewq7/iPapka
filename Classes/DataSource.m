@@ -322,6 +322,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     [documentEntityDescription release];
     [documentUidPredicateTemplate release];
 
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 	[super dealloc];
 }
 @end
