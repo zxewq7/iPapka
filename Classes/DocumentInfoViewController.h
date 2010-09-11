@@ -9,11 +9,10 @@
 #import <UIKit/UIKit.h>
 
 @class DocumentManaged, Document, Attachment;
-@interface DocumentInfoViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
+@interface DocumentInfoViewController : UITableViewController
 {
     DocumentManaged *document;
     Document        *unmanagedDocument;
-    UITableView     *tableView;
     UILabel         *documentTitle;
     UILabel         *documentDetails;
     UISegmentedControl *filter;

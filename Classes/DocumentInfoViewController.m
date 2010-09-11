@@ -43,7 +43,7 @@
     documentTitle.text = document.title;
     documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.dateModified]];
     [self recalcSize];
-    [tableView reloadData];
+    [self.tableView reloadData];
     NSArray *attachments = unmanagedDocument.attachments;
     if ([attachments count]) 
     {
@@ -52,20 +52,21 @@
     }
 }
 
-- (void)loadView
+- (void)viewDidLoad
 {
-    tableView = [[UITableView alloc] initWithFrame:CGRectZero style:UITableViewStylePlain];
+    [super viewDidLoad];
+
     //clear table background
     //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
     UIImageView *bg = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"Paper.png"]];
-    tableView.backgroundView = bg;
+    self.tableView.backgroundView = bg;
     [bg release];
-//    tableView.backgroundColor = [UIColor clearColor];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    tableView.rowHeight = 60.0f;
+    //    self.tableView.backgroundColor = [UIColor clearColor];
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    self.tableView.rowHeight = 60.0f;
     
     //create table header
-    //http://cocoawithlove.com/2009/04/easy-custom-uitableview-drawing.html
+    //http://cocoawithlove.com/2009/04/easy-custom-uiself.tableView-drawing.html
     UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 157)];
     documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 300, 48)];
     documentTitle.textColor = [UIColor blackColor];
@@ -73,31 +74,27 @@
     documentTitle.font = [UIFont boldSystemFontOfSize:24];
     documentTitle.backgroundColor = [UIColor clearColor];
     [containerView addSubview:documentTitle];
-
+    
     documentDetails = [[UILabel alloc] initWithFrame:CGRectMake(10, 20+48, 300, 48)];
     documentDetails.textColor = [UIColor darkGrayColor];
     documentDetails.textAlignment = UITextAlignmentCenter;
     documentDetails.font = [UIFont boldSystemFontOfSize:14];
     documentDetails.backgroundColor = [UIColor clearColor];
     [containerView addSubview:documentDetails];
-
+    
     filter = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Files", "Files"),
-                                                                             NSLocalizedString(@"Linked files", "Linked files"),
-                                                                             nil]];
+                                                         NSLocalizedString(@"Linked files", "Linked files"),
+                                                         nil]];
     CGRect filterFrame = filter.frame;
     filter.frame = CGRectMake(10, 20+48+48, filterFrame.size.width, 30);
     [containerView addSubview:filter];
-    tableView.tableHeaderView = containerView;
+    self.tableView.tableHeaderView = containerView;
     [containerView release];
     
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    self.view = tableView;
-}
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.view = self.tableView;    
+    
     dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterLongStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
@@ -109,8 +106,6 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    [tableView release];
-    tableView = nil;
     [documentTitle release];
     documentTitle = nil;
     [documentDetails release];
@@ -129,21 +124,21 @@
 
 
 #pragma mark -
-#pragma mark - UITableViewDataSource
+#pragma mark - UIself.tableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return [currentItems count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell *)tableView:(UITableView*)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
 
     UITableViewCell *cell = nil;
     
     static NSString *cellIdentifier = @"AttachmentCell";
 
-    cell = [tableView dequeueReusableCellWithIdentifier: cellIdentifier];
+    cell = [self.tableView dequeueReusableCellWithIdentifier: cellIdentifier];
     if (cell == nil)
     {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier: cellIdentifier] autorelease];
@@ -159,8 +154,6 @@
     self.document = nil;
     [unmanagedDocument release];
 
-    [tableView release];
-    tableView = nil;
     [documentTitle release];
     documentTitle = nil;
     [documentDetails release];
@@ -182,13 +175,13 @@
     if (!numberOfRows)
         numberOfRows = 1;
     
-    CGRect headerFrame = tableView.tableHeaderView.frame;
+    CGRect headerFrame = self.tableView.tableHeaderView.frame;
     
-    CGFloat height = headerFrame.size.height+numberOfRows*tableView.rowHeight;
+    CGFloat height = headerFrame.size.height+numberOfRows*self.tableView.rowHeight;
     CGRect viewFrame = self.view.frame;
     self.view.frame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, height);
     
-    tableView.tableHeaderView.frame = CGRectMake(headerFrame.origin.x, headerFrame.origin.y, viewFrame.size.width, headerFrame.size.height);
+    self.tableView.tableHeaderView.frame = CGRectMake(headerFrame.origin.x, headerFrame.origin.y, viewFrame.size.width, headerFrame.size.height);
     
     CGRect titleFrame = documentTitle.frame;
     documentTitle.frame = CGRectMake(titleFrame.origin.x, titleFrame.origin.y, viewFrame.size.width, titleFrame.size.height);
