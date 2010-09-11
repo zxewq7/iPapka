@@ -16,12 +16,16 @@
     NSPredicate  *predicate;
     NSString     *entityName;
     Class        entityClass;
+    UIImage      *icon;
+    NSString     *iconName;
 }
-+(id)folderWith:(NSString *) aName predicateString:(NSString *) aPredicateString andEntityName:(NSString *) anEntityName;
++(id)folderWithName:(NSString *) aName predicateString:(NSString *) aPredicateString entityName:(NSString *) anEntityName iconName:(NSString *) anIconName;
 @property (nonatomic, retain, setter=setName:)              NSString     *name;
 @property (nonatomic, readonly, getter=localizedName)       NSString     *localizedName;
 @property (nonatomic, retain, setter=setPredicateString:)   NSString     *predicateString;
 @property (nonatomic, readonly, getter=predicate)           NSPredicate  *predicate;
 @property (nonatomic, retain, setter=setEntityName:)        NSString     *entityName;
 @property (nonatomic, readonly, getter=entityClass)         Class        entityClass;
+@property (nonatomic, readonly, getter=icon)                UIImage      *icon;
+@property (nonatomic, retain, setter=setIconName:)          NSString     *iconName;
 @end

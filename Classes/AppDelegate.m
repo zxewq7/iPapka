@@ -22,10 +22,16 @@
 	NSMutableDictionary* defaultValues = [NSUserDefaults defaultsFromSettingsBundle];
     
     //default folders
-    Folder *inbox = [Folder folderWith:@"Documents" predicateString:@"dataSourceId = \"inbox\"" andEntityName:@"Document"];
+    Folder *inbox = [Folder folderWithName:@"Documents" 
+                           predicateString:@"dataSourceId = \"inbox\"" 
+                                entityName:@"Document"
+                                  iconName:@"ButtonDocuments.png"];
     NSArray* defaultFolders = [NSArray arrayWithObjects:
                                inbox,
-                               [Folder folderWith:@"Archive" predicateString:@"dataSourceId = \"archive\"" andEntityName:@"Document"],
+                               [Folder folderWithName:@"Archive" 
+                                      predicateString:@"dataSourceId = \"archive\"" 
+                                           entityName:@"Document"
+                                             iconName:@"ButtonArchive.png"],
                                nil];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
