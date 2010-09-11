@@ -76,7 +76,6 @@
 		8165421812379B3B008FC80F /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541F912379B3B008FC80F /* DocumentInfoViewController.m */; };
 		8165421912379B3B008FC80F /* DocumentLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541FB12379B3B008FC80F /* DocumentLinkViewController.m */; };
 		8165421B12379B3B008FC80F /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541FF12379B3B008FC80F /* Folder.m */; };
-		8165421C12379B3B008FC80F /* FoldersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420112379B3B008FC80F /* FoldersViewController.m */; };
 		8165421D12379B3B008FC80F /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420312379B3B008FC80F /* ImageScrollView.m */; };
 		8165421E12379B3B008FC80F /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420512379B3B008FC80F /* MasterViewController.m */; };
 		8165421F12379B3B008FC80F /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420712379B3B008FC80F /* NSUserDefaults+Additions.m */; };
@@ -229,8 +228,6 @@
 		816541FB12379B3B008FC80F /* DocumentLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentLinkViewController.m; sourceTree = "<group>"; };
 		816541FE12379B3B008FC80F /* Folder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder.h; sourceTree = "<group>"; };
 		816541FF12379B3B008FC80F /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
-		8165420012379B3B008FC80F /* FoldersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldersViewController.h; sourceTree = "<group>"; };
-		8165420112379B3B008FC80F /* FoldersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldersViewController.m; sourceTree = "<group>"; };
 		8165420212379B3B008FC80F /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
 		8165420312379B3B008FC80F /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
 		8165420412379B3B008FC80F /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
@@ -392,8 +389,6 @@
 				816541F912379B3B008FC80F /* DocumentInfoViewController.m */,
 				816541FA12379B3B008FC80F /* DocumentLinkViewController.h */,
 				816541FB12379B3B008FC80F /* DocumentLinkViewController.m */,
-				8165420012379B3B008FC80F /* FoldersViewController.h */,
-				8165420112379B3B008FC80F /* FoldersViewController.m */,
 				8165420412379B3B008FC80F /* MasterViewController.h */,
 				8165420512379B3B008FC80F /* MasterViewController.m */,
 			);
@@ -726,7 +721,6 @@
 				8165421812379B3B008FC80F /* DocumentInfoViewController.m in Sources */,
 				8165421912379B3B008FC80F /* DocumentLinkViewController.m in Sources */,
 				8165421B12379B3B008FC80F /* Folder.m in Sources */,
-				8165421C12379B3B008FC80F /* FoldersViewController.m in Sources */,
 				8165421D12379B3B008FC80F /* ImageScrollView.m in Sources */,
 				8165421E12379B3B008FC80F /* MasterViewController.m in Sources */,
 				8165421F12379B3B008FC80F /* NSUserDefaults+Additions.m in Sources */,
