@@ -18,34 +18,61 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    //Create dictionary
-	NSMutableDictionary* defaultValues = [NSUserDefaults defaultsFromSettingsBundle];
-    
-    //default folders
-    Folder *inbox = [Folder folderWithName:@"Documents" 
-                           predicateString:@"dataSourceId = \"inbox\"" 
-                                entityName:@"Document"
-                                  iconName:@"ButtonDocuments.png"];
-    NSArray* defaultFolders = [NSArray arrayWithObjects:
-                               inbox,
-                               [Folder folderWithName:@"Archive" 
-                                      predicateString:@"dataSourceId = \"archive\"" 
-                                           entityName:@"Document"
-                                             iconName:@"ButtonArchive.png"],
-                               nil];
-    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
-    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
-    
-    [defaultValues setObject:@"ProcessedRest" forKey:@"serverDatabaseViewArchive"];
-    [defaultValues setObject:@"documents" forKey:@"serverDatabaseViewInbox"];
-    
-    //Register the dictionary of defaults
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     
-	[currentDefaults registerDefaults:defaultValues];
-    [currentDefaults synchronize];
-    
-    
+    if (![currentDefaults objectForKey:@"lastFolder"])
+    {
+        //Create dictionary
+        NSMutableDictionary* defaultValues = [NSUserDefaults defaultsFromSettingsBundle];
+        
+        //default folders
+        Folder *inbox = [Folder folderWithName:@"Documents" 
+                               predicateString:@"dataSourceId = \"inbox\"" 
+                                    entityName:@"Document"
+                                      iconName:@"ButtonDocuments.png"];
+        inbox.filters = [NSArray arrayWithObjects: 
+                         [Folder folderWithName:@"Resolutions" 
+                                predicateString:@"dataSourceId = \"inbox\"" 
+                                     entityName:@"Resolution"
+                                       iconName:@"ButtonResolution.png"], 
+                         [Folder folderWithName:@"Signatures" 
+                                predicateString:@"dataSourceId = \"inbox\"" 
+                                     entityName:@"Signature"
+                                       iconName:@"ButtonSignature.png"],
+                         nil];
+        
+        Folder *archive = [Folder folderWithName:@"Archive" 
+                                 predicateString:@"dataSourceId = \"archive\"" 
+                                      entityName:@"Document"
+                                        iconName:@"ButtonArchive.png"];
+        
+        archive.filters = [NSArray arrayWithObjects: 
+                           [Folder folderWithName:@"Resolutions" 
+                                  predicateString:@"dataSourceId = \"archive\"" 
+                                       entityName:@"Resolution"
+                                         iconName:@"ButtonResolution.png"], 
+                           [Folder folderWithName:@"Signatures" 
+                                  predicateString:@"dataSourceId = \"archive\"" 
+                                       entityName:@"Signature"
+                                         iconName:@"ButtonSignature.png"],
+                           nil];
+        
+        NSArray* defaultFolders = [NSArray arrayWithObjects:
+                                   inbox,
+                                   archive,
+                                   nil];
+        [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
+        [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
+        
+        [defaultValues setObject:@"ProcessedRest" forKey:@"serverDatabaseViewArchive"];
+        [defaultValues setObject:@"documents" forKey:@"serverDatabaseViewInbox"];
+        
+        //Register the dictionary of defaults
+        
+        
+        [currentDefaults registerDefaults:defaultValues];
+        [currentDefaults synchronize];
+    }
     
     NSData *lastFolderData = [currentDefaults objectForKey:@"lastFolder"];
     Folder *lastFolder;

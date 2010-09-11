@@ -18,6 +18,7 @@
     Class        entityClass;
     UIImage      *icon;
     NSString     *iconName;
+    NSArray      *filters;
 }
 +(id)folderWithName:(NSString *) aName predicateString:(NSString *) aPredicateString entityName:(NSString *) anEntityName iconName:(NSString *) anIconName;
 @property (nonatomic, retain, setter=setName:)              NSString     *name;
@@ -28,4 +29,5 @@
 @property (nonatomic, readonly, getter=entityClass)         Class        entityClass;
 @property (nonatomic, readonly, getter=icon)                UIImage      *icon;
 @property (nonatomic, retain, setter=setIconName:)          NSString     *iconName;
+@property (nonatomic, retain)                               NSArray      *filters;
 @end

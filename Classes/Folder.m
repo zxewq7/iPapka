@@ -12,7 +12,7 @@
 #import "SignatureManaged.h"
 
 @implementation Folder
-@synthesize name, predicateString, entityName, icon, iconName;
+@synthesize name, predicateString, entityName, icon, iconName, filters;
 
 +(id)folderWithName:(NSString *) aName predicateString:(NSString *) aPredicateString entityName:(NSString *) anEntityName iconName:(NSString *) anIconName
 {
@@ -46,6 +46,7 @@
         self.predicateString = [coder decodeObjectForKey:@"predicateString"];
         self.entityName = [coder decodeObjectForKey:@"entityName"];
         self.iconName = [coder decodeObjectForKey:@"iconName"];
+        self.filters = [coder decodeObjectForKey:@"filters"];
     }
     return self;
 }
@@ -56,6 +57,7 @@
     [coder encodeObject: self.predicateString forKey:@"predicateString"];
     [coder encodeObject: self.entityName forKey:@"entityName"];
     [coder encodeObject: self.iconName forKey:@"iconName"];
+    [coder encodeObject: self.filters forKey:@"filters"];
 }
 
 -(void)setName:(NSString *)aName
