@@ -276,7 +276,7 @@
                 for (NSUInteger i=0; i < length; i++) 
                 {
                     NSDate *section = [self.sectionsOrdered objectAtIndex:i];
-                    if ([documentSection earlierDate:section]) 
+                    if ([documentSection compare: section] == NSOrderedDescending) 
                     {
                         insertIndex = i;
                         break;
@@ -316,12 +316,19 @@
                         updated = YES;
                         break;
                     }
-                    else if (possibleInsertIndex == NSNotFound && [document.dateModified earlierDate:doc.dateModified])
+                    else if ([document.dateModified compare:doc.dateModified] == NSOrderedDescending)
                         possibleInsertIndex = i;
                 }
-                if (!updated && possibleInsertIndex != NSNotFound) //insert document
+                if (!updated) //insert document
                 {
-                    [sectionDocuments insertObject: document atIndex:possibleInsertIndex];
+                    if (possibleInsertIndex == NSNotFound)
+                    {
+                        [sectionDocuments addObject: document];
+                        possibleInsertIndex = [sectionDocuments count]-1;
+                    }
+                    else
+                        [sectionDocuments insertObject: document atIndex:possibleInsertIndex];
+                    
                     NSIndexPath *path = [NSIndexPath indexPathForRow:possibleInsertIndex inSection:sectionIndex];
                     [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
                 }
