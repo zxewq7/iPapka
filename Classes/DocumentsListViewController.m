@@ -56,7 +56,6 @@
 
 #pragma mark -
 #pragma mark View lifecycle
-
 - (void)viewDidLoad {
     
     [super viewDidLoad];
@@ -80,6 +79,7 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentUpdated:)
                                                  name:@"DocumentUpdated" object:nil];
+    self.contentSizeForViewInPopover = CGSizeMake(300,300+44);
 }
 
 -(void) viewDidUnload {
@@ -87,30 +87,6 @@
 	
 	self.rootPopoverButtonItem = nil;
 }
-
-- (void)splitViewController:(UISplitViewController*)svc willHideViewController:(UIViewController *)aViewController withBarButtonItem:(UIBarButtonItem*)barButtonItem forPopoverController:(UIPopoverController*)pc {
-    
-        // Keep references to the popover controller and the popover button, and tell the detail view controller to show the button.
-//    barButtonItem.title = folder.localizedName;
-//    self.popoverController = pc;
-//    self.rootPopoverButtonItem = barButtonItem;
-//    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
-//    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
-//    [detailViewController showRootPopoverButtonItem:rootPopoverButtonItem];
-}
-
-
-- (void)splitViewController:(UISplitViewController*)svc willShowViewController:(UIViewController *)aViewController invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem {
-    
-        // Nil out references to the popover controller and the popover button, and tell the detail view controller to hide the button.
-//    UINavigationController *detailNavigationController = [svc.viewControllers objectAtIndex:1];
-//    DocumentViewController *detailViewController = (DocumentViewController *)detailNavigationController.topViewController;
-//    [detailViewController invalidateRootPopoverButtonItem:rootPopoverButtonItem];
-//    barButtonItem.title = folder.localizedName;
-//    self.popoverController = nil;
-//    self.rootPopoverButtonItem = nil;
-}
-
 
 #pragma mark -
 #pragma mark Table view data source

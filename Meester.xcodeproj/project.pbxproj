@@ -16,6 +16,8 @@
 		8107AC221237A5A900F0C71F /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8107AC211237A5A900F0C71F /* QuartzCore.framework */; };
 		8107AC2A1237A5D900F0C71F /* PLBlocks.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8107AC291237A5D900F0C71F /* PLBlocks.framework */; };
 		8107AC481237A69700F0C71F /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8107AC291237A5D900F0C71F /* PLBlocks.framework */; };
+		8109477A123B629D009B3B1E /* UINavigationBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81094779123B629D009B3B1E /* UINavigationBar+Additions.m */; };
+		81094788123B6582009B3B1E /* DocumentsListNavigationbarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */; };
 		811DF42B1237A0E700903D30 /* Document.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 811DF4281237A0E700903D30 /* Document.xcdatamodel */; };
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
 		811DF44B1237A11300903D30 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42E1237A11300903D30 /* BrushErase.png */; };
@@ -149,6 +151,9 @@
 		8107ABD01237A59200F0C71F /* libz.1.2.3.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.1.2.3.dylib; path = usr/lib/libz.1.2.3.dylib; sourceTree = SDKROOT; };
 		8107AC211237A5A900F0C71F /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		8107AC291237A5D900F0C71F /* PLBlocks.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PLBlocks.framework; path = thirdparty/PLBlocks.framework; sourceTree = "<group>"; };
+		81094778123B629D009B3B1E /* UINavigationBar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Additions.h"; sourceTree = "<group>"; };
+		81094779123B629D009B3B1E /* UINavigationBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Additions.m"; sourceTree = "<group>"; };
+		81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentsListNavigationbarBackground.png; sourceTree = "<group>"; };
 		811DF4281237A0E700903D30 /* Document.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
 		811DF42D1237A11300903D30 /* BrushComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushComment.png; sourceTree = "<group>"; };
 		811DF42E1237A11300903D30 /* BrushErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushErase.png; sourceTree = "<group>"; };
@@ -302,6 +307,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */,
 				813A3D40123B4D5C00E6C382 /* ButtonPalette.png */,
 				813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */,
 				813A3CDC123B477F00E6C382 /* ButtonMarker.png */,
@@ -408,6 +414,8 @@
 		8155A5F71237AFB500A15FE5 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				81094778123B629D009B3B1E /* UINavigationBar+Additions.h */,
+				81094779123B629D009B3B1E /* UINavigationBar+Additions.m */,
 				8165420612379B3B008FC80F /* NSUserDefaults+Additions.h */,
 				8165420712379B3B008FC80F /* NSUserDefaults+Additions.m */,
 				8165420E12379B3B008FC80F /* UIButton+Additions.h */,
@@ -696,6 +704,7 @@
 				813A3CDF123B477F00E6C382 /* ButtonMarkerSelected.png in Resources */,
 				813A3D41123B4D5C00E6C382 /* ButtonPalette.png in Resources */,
 				813A3D4B123B4F1400E6C382 /* ButtonPaletteSelected.png in Resources */,
+				81094788123B6582009B3B1E /* DocumentsListNavigationbarBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -740,6 +749,7 @@
 				8144AECE123A29BA006B2AD7 /* UIToolbarWithCustomBackground.m in Sources */,
 				8148EC2E123A323A000E9762 /* ClipperViewController.m in Sources */,
 				81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */,
+				8109477A123B629D009B3B1E /* UINavigationBar+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

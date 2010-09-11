@@ -17,6 +17,7 @@
 #import "UIToolbarWithCustomBackground.h"
 #import "ClipperViewController.h"
 #import "PaintingToolsViewController.h"
+#import "DocumentsListViewController.h"
 
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
@@ -185,6 +186,35 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 }
 #pragma mark -
 #pragma mark Actions
+-(void) showDocumentsList:(id) sender
+{
+    // Create the modal view controller
+    DocumentsListViewController *viewController = [[DocumentsListViewController alloc] init];
+    viewController.folder = self.folder;
+    
+    // We are the delegate responsible for dismissing the modal view 
+//    viewController.delegate = self;
+    
+    // Create a Navigation controller
+    UINavigationController *navController = [[UINavigationController alloc]
+                                             initWithRootViewController:viewController];
+
+    //paint navbar background - works only here!
+    UINavigationBar *bar = navController.navigationBar;
+    UIColor *backgroundColor = [[UIColor alloc] initWithPatternImage: [UIImage imageNamed:@"DocumentsListNavigationbarBackground.png"]];
+    bar.backgroundColor = backgroundColor;
+    [backgroundColor release];
+
+    navController.modalPresentationStyle = UIModalPresentationFormSheet;
+    
+    // show the navigation controller modally
+    [self presentModalViewController:navController animated:YES];
+    
+    // Clean up resources
+    [navController release];
+    [viewController release];    
+    
+}
 
 #pragma mark -
 #pragma mark Observer
@@ -229,7 +259,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
     UIButton *documentsButton = [UIButton imageButtonWithTitle:[@" " stringByAppendingString: NSLocalizedString(@"Documents", "Documents")]
                                                target:self
-                                             selector:nil
+                                                      selector:@selector(showDocumentsList:)
                                                 image:[UIImage imageNamed:@"ButtonDocuments.png"]
                                         imageSelected:[UIImage imageNamed:@"ButtonDocuments.png"]];
     [documentsButton setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
