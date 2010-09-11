@@ -8,18 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController;
+@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController;
 
 @interface RootViewController : UIViewController
 {
-    DocumentManaged            *document;
-    AttachmentsViewController  *attachmentsViewController;
-    UIToolbar                  *toolbar;
-    ClipperViewController      *clipperViewController;
-    Folder                     *folder;
-    DocumentInfoViewController *documentInfoViewController;
-    CGFloat                    contentHeightOffset;
-    UIImageView                *contentView;
+    DocumentManaged             *document;
+    AttachmentsViewController   *attachmentsViewController;
+    UIToolbar                   *toolbar;
+    ClipperViewController       *clipperViewController;
+    Folder                      *folder;
+    DocumentInfoViewController  *documentInfoViewController;
+    PaintingToolsViewController *paintingToolsViewController;
+    CGFloat                     contentHeightOffset;
+    UIImageView                 *contentView;
 }
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;

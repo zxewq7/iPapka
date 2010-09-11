@@ -16,6 +16,7 @@
 #import "DocumentInfoViewController.h"
 #import "UIToolbarWithCustomBackground.h"
 #import "ClipperViewController.h"
+#import "PaintingToolsViewController.h"
 
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
@@ -126,10 +127,17 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                options:0
                                context:&AttachmentContext];
 
+    paintingToolsViewController = [[PaintingToolsViewController alloc] init];
+    CGSize paintingSize = paintingToolsViewController.view.frame.size;
+    CGFloat paintingToolsOffsetFromLeftEdge = paintingSize.width - contentView.frame.origin.x;
+    paintingToolsOffsetFromLeftEdge = paintingToolsOffsetFromLeftEdge<0?0:paintingToolsOffsetFromLeftEdge;
+    CGRect paintingToolsFrame = CGRectMake(contentView.frame.origin.x-paintingSize.width+paintingToolsOffsetFromLeftEdge, contentHeightOffset+(contentViewSize.height - paintingSize.height)/2, paintingSize.width, paintingSize.height);
+    paintingToolsViewController.view.frame = paintingToolsFrame;
     
     [contentView addSubview: documentInfoViewController.view];
     [contentView addSubview: attachmentsViewController.view];
 
+    [self.view addSubview:paintingToolsViewController.view];
     [self.view addSubview:contentView];
     [self.view addSubview:clipperViewController.view];
 
