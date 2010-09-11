@@ -70,10 +70,8 @@
 		8165421612379B3B008FC80F /* DocumentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541F512379B3B008FC80F /* DocumentCell.m */; };
 		8165421712379B3B008FC80F /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541F712379B3B008FC80F /* DocumentCellView.m */; };
 		8165421812379B3B008FC80F /* DocumentInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541F912379B3B008FC80F /* DocumentInfoViewController.m */; };
-		8165421912379B3B008FC80F /* DocumentLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541FB12379B3B008FC80F /* DocumentLinkViewController.m */; };
 		8165421B12379B3B008FC80F /* Folder.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541FF12379B3B008FC80F /* Folder.m */; };
 		8165421D12379B3B008FC80F /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420312379B3B008FC80F /* ImageScrollView.m */; };
-		8165421E12379B3B008FC80F /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420512379B3B008FC80F /* MasterViewController.m */; };
 		8165421F12379B3B008FC80F /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420712379B3B008FC80F /* NSUserDefaults+Additions.m */; };
 		8165422012379B3B008FC80F /* PaintingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420912379B3B008FC80F /* PaintingView.m */; };
 		8165422212379B3B008FC80F /* SegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420D12379B3B008FC80F /* SegmentedLabel.m */; };
@@ -219,14 +217,10 @@
 		816541F712379B3B008FC80F /* DocumentCellView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentCellView.m; sourceTree = "<group>"; };
 		816541F812379B3B008FC80F /* DocumentInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoViewController.h; sourceTree = "<group>"; };
 		816541F912379B3B008FC80F /* DocumentInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoViewController.m; sourceTree = "<group>"; };
-		816541FA12379B3B008FC80F /* DocumentLinkViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentLinkViewController.h; sourceTree = "<group>"; };
-		816541FB12379B3B008FC80F /* DocumentLinkViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentLinkViewController.m; sourceTree = "<group>"; };
 		816541FE12379B3B008FC80F /* Folder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Folder.h; sourceTree = "<group>"; };
 		816541FF12379B3B008FC80F /* Folder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Folder.m; sourceTree = "<group>"; };
 		8165420212379B3B008FC80F /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
 		8165420312379B3B008FC80F /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
-		8165420412379B3B008FC80F /* MasterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
-		8165420512379B3B008FC80F /* MasterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
 		8165420612379B3B008FC80F /* NSUserDefaults+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Additions.h"; sourceTree = "<group>"; };
 		8165420712379B3B008FC80F /* NSUserDefaults+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Additions.m"; sourceTree = "<group>"; };
 		8165420812379B3B008FC80F /* PaintingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingView.h; sourceTree = "<group>"; };
@@ -379,10 +373,6 @@
 				816541F312379B3B008FC80F /* DatePickerController.m */,
 				816541F812379B3B008FC80F /* DocumentInfoViewController.h */,
 				816541F912379B3B008FC80F /* DocumentInfoViewController.m */,
-				816541FA12379B3B008FC80F /* DocumentLinkViewController.h */,
-				816541FB12379B3B008FC80F /* DocumentLinkViewController.m */,
-				8165420412379B3B008FC80F /* MasterViewController.h */,
-				8165420512379B3B008FC80F /* MasterViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -712,10 +702,8 @@
 				8165421612379B3B008FC80F /* DocumentCell.m in Sources */,
 				8165421712379B3B008FC80F /* DocumentCellView.m in Sources */,
 				8165421812379B3B008FC80F /* DocumentInfoViewController.m in Sources */,
-				8165421912379B3B008FC80F /* DocumentLinkViewController.m in Sources */,
 				8165421B12379B3B008FC80F /* Folder.m in Sources */,
 				8165421D12379B3B008FC80F /* ImageScrollView.m in Sources */,
-				8165421E12379B3B008FC80F /* MasterViewController.m in Sources */,
 				8165421F12379B3B008FC80F /* NSUserDefaults+Additions.m in Sources */,
 				8165422012379B3B008FC80F /* PaintingView.m in Sources */,
 				8165422212379B3B008FC80F /* SegmentedLabel.m in Sources */,
