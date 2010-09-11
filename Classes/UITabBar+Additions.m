@@ -12,6 +12,9 @@
 @implementation UITabBar (FlatTabBar)
 - (void)drawRect:(CGRect)rect {
     UIColor *color = self.backgroundColor;
+    if (!color)
+        color = [UIColor blackColor];
+        
     CGContextRef context = UIGraphicsGetCurrentContext();
     CGContextSetFillColor(context, CGColorGetComponents( [color CGColor]));
     CGContextFillRect(context, rect);

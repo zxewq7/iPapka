@@ -9,6 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface UINavigationBar (UINavigationBarCategory) 
+@interface UINavigationBar (FlatUINavigationBar) 
 
 @end

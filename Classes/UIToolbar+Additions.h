@@ -9,5 +9,5 @@
 #import <Foundation/Foundation.h>
 
 
-@interface UIToolbar (UIToolbarBarCategory)
+@interface UIToolbar (FlatUIToolbarBar)
 @end
