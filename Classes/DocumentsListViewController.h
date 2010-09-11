@@ -18,6 +18,10 @@
     NSDateFormatter         *dateFormatter;
     NSArray                 *sortDescriptors;
     Folder                  *folder;
+    UILabel                 *titleLabel;
+    UILabel                 *detailsLabel;
+    NSDateFormatter         *activityDateFormatter;
+    NSDateFormatter         *activityTimeFormatter;
 }
 @property (nonatomic, retain) NSMutableDictionary       *sections;
 @property (nonatomic, retain) NSMutableArray            *sectionsOrdered;
@@ -25,4 +29,7 @@
 @property (nonatomic, retain) NSDateFormatter           *dateFormatter;
 @property (nonatomic, retain) NSArray                   *sortDescriptors;
 @property (nonatomic, retain, setter=setFolder:) Folder *folder;
+
+@property (nonatomic, retain) NSDateFormatter           *activityDateFormatter;
+@property (nonatomic, retain) NSDateFormatter           *activityTimeFormatter;
 @end

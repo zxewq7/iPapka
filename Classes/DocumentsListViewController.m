@@ -20,6 +20,8 @@
 - (void)documentsRemoved:(NSNotification *)notification;
 - (void)documentUpdated:(NSNotification *)notification;
 - (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
+- (void) createToolbars;
+- (void)updateSyncStatus;
 @end
 
 
@@ -32,7 +34,9 @@
             sectionsOrderedLabels, 
             dateFormatter, 
             sortDescriptors, 
-            folder;
+            folder,
+            activityDateFormatter, 
+            activityTimeFormatter;
 
 - (void) setFolder:(Folder *)aFolder
 {
@@ -42,12 +46,15 @@
     folder = [aFolder retain];
     
         //deselect selected row
-    NSIndexPath *selectedPath = [self.tableView indexPathForSelectedRow];
-    if (selectedPath)
-        [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
-    
-    self.title = folder.localizedName;
-    [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO isDelta:NO];
+    if (folder)
+    {
+        NSIndexPath *selectedPath = [self.tableView indexPathForSelectedRow];
+        if (selectedPath)
+            [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
+        
+        titleLabel.text = folder.localizedName;
+        [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO isDelta:NO];
+    }
 }
 
 #pragma mark -
@@ -61,6 +68,14 @@
     self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
     dateFormatter.dateStyle = NSDateFormatterLongStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
+
+    self.activityDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [self.activityDateFormatter setDateStyle:NSDateFormatterShortStyle];
+    [self.activityDateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    
+    self.activityTimeFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    [self.activityTimeFormatter setDateStyle:NSDateFormatterNoStyle];
+    [self.activityTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
     
     self.sections = [NSMutableDictionary dictionaryWithCapacity:1];
     self.sectionsOrdered = [NSMutableArray arrayWithCapacity:1];
@@ -75,11 +90,32 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentUpdated:)
                                                  name:@"DocumentUpdated" object:nil];
+    [self createToolbars];
+    [self updateSyncStatus];
 }
 
 -(void) viewDidUnload {
 	[super viewDidUnload];
-	
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.dateFormatter = nil;
+    self.sections = nil;
+    self.sectionsOrdered = nil;
+    self.sectionsOrderedLabels = nil;
+    [titleLabel release];
+    titleLabel = nil;
+    [detailsLabel release];
+    detailsLabel = nil;
+    self.activityDateFormatter = nil;
+    self.activityTimeFormatter = nil;
+}
+
+/*
+ http://stackoverflow.com/questions/2339721/hiding-a-uinavigationcontrollers-uitoolbar-during-viewwilldisappear
+ only way to avlid back strips around uitableview
+ */
+- (void)viewDidAppear:(BOOL)animated
+{
+    [self.navigationController setToolbarHidden:NO];
 }
 
 #pragma mark -
@@ -119,6 +155,16 @@
     return cell;
 }
 
+#pragma mark -
+#pragma mark actions
+-(void)refreshDocuments:(id)sender
+{
+    [[DataSource sharedDataSource] refreshDocuments];
+}
+-(void)closeSelf:(id)sender
+{
+    [self dismissModalViewControllerAnimated:YES];
+}
 
 #pragma mark -
 #pragma mark Table view selection
@@ -152,7 +198,13 @@
     self.dateFormatter = nil;
     self.sortDescriptors = nil;
     self.folder = nil;
+    [titleLabel release];
+    titleLabel = nil;
+    [detailsLabel release];
+    detailsLabel = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    self.activityDateFormatter = nil;
+    self.activityTimeFormatter = nil;
     [super dealloc];
 }
 @end
@@ -313,5 +365,80 @@
 {
     Document *document = notification.object;
     [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO isDelta:YES];
+}
+
+- (void) createToolbars;
+{
+    //create bottom toolbar
+    //http://stackoverflow.com/questions/1072604/whats-the-right-way-to-add-a-toolbar-to-a-uitableview
+    
+    //Create a button 
+    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshDocuments:)];
+    self.navigationItem.rightBarButtonItem = refreshButton;
+    [refreshButton release];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(closeSelf:)];
+    self.navigationItem.leftBarButtonItem = cancelButton;
+    [cancelButton release];
+    //http://www.developers-life.com/customizing-uinavigationbar.html
+    UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 170, 300, 44)];
+    
+    CGSize containerSize = containerView.frame.size;
+    
+    CGRect titleFrame = CGRectMake(0, 5.0, containerSize.width, 20);
+    titleLabel = [[UILabel alloc] initWithFrame:titleFrame];
+    titleLabel.backgroundColor = [UIColor clearColor];
+    titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    titleLabel.textAlignment = UITextAlignmentCenter;
+    titleLabel.textColor = [UIColor whiteColor];
+    
+    CGRect detailsFrame = CGRectMake(0, 25.0, containerSize.width, 20);
+    detailsLabel = [[UILabel alloc] initWithFrame: detailsFrame];
+    detailsLabel.backgroundColor = [UIColor clearColor];
+    detailsLabel.font = [UIFont boldSystemFontOfSize:12.0];
+    detailsLabel.textAlignment = UITextAlignmentCenter;
+    detailsLabel.textColor = [UIColor whiteColor];
+
+    [containerView addSubview: titleLabel];
+    [containerView addSubview: detailsLabel];
+    
+    self.navigationItem.titleView = containerView;
+    
+    [containerView release];
+    
+    NSArray *filters = folder.filters;
+    NSUInteger filtersCount = [filters count];
+    NSMutableArray *toolbarItems = [NSMutableArray arrayWithCapacity: filtersCount];
+    for (NSUInteger i=0; i < filtersCount; i++)
+    {
+        Folder *f = [filters objectAtIndex:i];
+//        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+//        [button setImage: f.icon forState:UIControlStateNormal];
+//        [button setTitle: f.localizedName forState:UIControlStateNormal];
+//        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView: button];
+//        button.tag = i;
+//        [toolbarItems addObject: barButton];
+//        [barButton release];
+        UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithImage:f.icon style:UIBarButtonItemStylePlain target:self action:@selector(setFilter:)];
+        barButton.title=f.localizedName;
+        [toolbarItems addObject:barButton];
+        [barButton release];
+    }
+    
+    [self setToolbarItems:toolbarItems animated:NO];
+
+}
+
+- (void)updateSyncStatus
+{
+    DataSource *ds = [DataSource sharedDataSource];
+    if (ds.isSyncing) 
+        detailsLabel.text = NSLocalizedString(@"Synchronizing", "Synchronizing");
+    else
+    {
+        NSDate *lastSynced = ds.lastSynced;
+        if (lastSynced)
+            detailsLabel.text = [NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Synchronized", "Synchronized"), [self.activityTimeFormatter stringFromDate:lastSynced], [self.activityDateFormatter stringFromDate:lastSynced]];
+    }
+    
 }
 @end

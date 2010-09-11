@@ -37,7 +37,6 @@
 		811DF45E1237A11300903D30 /* Icon-Small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4411237A11300903D30 /* Icon-Small@2x.png */; };
 		811DF45F1237A11300903D30 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4421237A11300903D30 /* Icon.png */; };
 		811DF4601237A11300903D30 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4431237A11300903D30 /* Icon@2x.png */; };
-		811DF4611237A11300903D30 /* LinkedDocumentIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4441237A11300903D30 /* LinkedDocumentIcon.png */; };
 		811DF4621237A11300903D30 /* PageLoading.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4451237A11300903D30 /* PageLoading.png */; };
 		811DF4631237A11300903D30 /* UnreadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4461237A11300903D30 /* UnreadMark.png */; };
 		811DF4651237A11300903D30 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4481237A11300903D30 /* MainWindow.xib */; };
@@ -98,6 +97,8 @@
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
+		81E5B49B123BB3900068617E /* ButtonResolution.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5B499123BB3900068617E /* ButtonResolution.png */; };
+		81E5B49C123BB3900068617E /* ButtonSignature.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5B49A123BB3900068617E /* ButtonSignature.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -168,7 +169,6 @@
 		811DF4411237A11300903D30 /* Icon-Small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-Small@2x.png"; sourceTree = "<group>"; };
 		811DF4421237A11300903D30 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
 		811DF4431237A11300903D30 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon@2x.png"; sourceTree = "<group>"; };
-		811DF4441237A11300903D30 /* LinkedDocumentIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = LinkedDocumentIcon.png; sourceTree = "<group>"; };
 		811DF4451237A11300903D30 /* PageLoading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageLoading.png; sourceTree = "<group>"; };
 		811DF4461237A11300903D30 /* UnreadMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnreadMark.png; sourceTree = "<group>"; };
 		811DF4481237A11300903D30 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
@@ -265,6 +265,8 @@
 		81D60425123ACBC400CEAF75 /* PaintingTools.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaintingTools.png; sourceTree = "<group>"; };
 		81D60427123ACBEA00CEAF75 /* PaintingToolsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingToolsViewController.h; sourceTree = "<group>"; };
 		81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingToolsViewController.m; sourceTree = "<group>"; };
+		81E5B499123BB3900068617E /* ButtonResolution.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonResolution.png; sourceTree = "<group>"; };
+		81E5B49A123BB3900068617E /* ButtonSignature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSignature.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -296,6 +298,8 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81E5B499123BB3900068617E /* ButtonResolution.png */,
+				81E5B49A123BB3900068617E /* ButtonSignature.png */,
 				81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */,
 				813A3D40123B4D5C00E6C382 /* ButtonPalette.png */,
 				813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */,
@@ -330,7 +334,6 @@
 				811DF4411237A11300903D30 /* Icon-Small@2x.png */,
 				811DF4421237A11300903D30 /* Icon.png */,
 				811DF4431237A11300903D30 /* Icon@2x.png */,
-				811DF4441237A11300903D30 /* LinkedDocumentIcon.png */,
 				811DF4451237A11300903D30 /* PageLoading.png */,
 				811DF4461237A11300903D30 /* UnreadMark.png */,
 			);
@@ -661,7 +664,6 @@
 				811DF45E1237A11300903D30 /* Icon-Small@2x.png in Resources */,
 				811DF45F1237A11300903D30 /* Icon.png in Resources */,
 				811DF4601237A11300903D30 /* Icon@2x.png in Resources */,
-				811DF4611237A11300903D30 /* LinkedDocumentIcon.png in Resources */,
 				811DF4621237A11300903D30 /* PageLoading.png in Resources */,
 				811DF4631237A11300903D30 /* UnreadMark.png in Resources */,
 				811DF4651237A11300903D30 /* MainWindow.xib in Resources */,
@@ -684,6 +686,8 @@
 				813A3D41123B4D5C00E6C382 /* ButtonPalette.png in Resources */,
 				813A3D4B123B4F1400E6C382 /* ButtonPaletteSelected.png in Resources */,
 				81094788123B6582009B3B1E /* DocumentsListNavigationbarBackground.png in Resources */,
+				81E5B49B123BB3900068617E /* ButtonResolution.png in Resources */,
+				81E5B49C123BB3900068617E /* ButtonSignature.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
