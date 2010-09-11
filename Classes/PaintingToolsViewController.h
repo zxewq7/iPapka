@@ -9,8 +9,16 @@
 #import <UIKit/UIKit.h>
 
 
-@interface PaintingToolsViewController : UIViewController {
+@interface PaintingToolsViewController : UIViewController 
+{
+    UIButton *commentButton;
+    UIButton *penButton;
+    UIButton *markerButton;
+    UIButton *eraserButton;
     
+    UIButton *paletteButton;
+    UIButton *rotateCCVButton;
+    UIButton *rotateCVButton;
 }
 
 @end

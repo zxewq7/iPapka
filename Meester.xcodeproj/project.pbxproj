@@ -44,6 +44,10 @@
 		811DF4631237A11300903D30 /* UnreadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4461237A11300903D30 /* UnreadMark.png */; };
 		811DF4651237A11300903D30 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4481237A11300903D30 /* MainWindow.xib */; };
 		811DF4681237A11E00903D30 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4671237A11E00903D30 /* Settings.bundle */; };
+		813A3CDE123B477F00E6C382 /* ButtonMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDC123B477F00E6C382 /* ButtonMarker.png */; };
+		813A3CDF123B477F00E6C382 /* ButtonMarkerSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */; };
+		813A3D41123B4D5C00E6C382 /* ButtonPalette.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3D40123B4D5C00E6C382 /* ButtonPalette.png */; };
+		813A3D4B123B4F1400E6C382 /* ButtonPaletteSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */; };
 		8144AD3112395B82006B2AD7 /* DocumentsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144AD3012395B82006B2AD7 /* DocumentsListViewController.m */; };
 		8144AD4F12395DA8006B2AD7 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144AD4E12395DA8006B2AD7 /* RootViewController.m */; };
 		8144AD83123A143B006B2AD7 /* ButtonArchive.png in Resources */ = {isa = PBXBuildFile; fileRef = 8144AD80123A143B006B2AD7 /* ButtonArchive.png */; };
@@ -174,6 +178,10 @@
 		811DF4481237A11300903D30 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		811DF4491237A11300903D30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		811DF4671237A11E00903D30 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
+		813A3CDC123B477F00E6C382 /* ButtonMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMarker.png; sourceTree = "<group>"; };
+		813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMarkerSelected.png; sourceTree = "<group>"; };
+		813A3D40123B4D5C00E6C382 /* ButtonPalette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPalette.png; sourceTree = "<group>"; };
+		813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPaletteSelected.png; sourceTree = "<group>"; };
 		8144AD2F12395B82006B2AD7 /* DocumentsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentsListViewController.h; sourceTree = "<group>"; };
 		8144AD3012395B82006B2AD7 /* DocumentsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentsListViewController.m; sourceTree = "<group>"; };
 		8144AD4D12395DA8006B2AD7 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -294,6 +302,10 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				813A3D40123B4D5C00E6C382 /* ButtonPalette.png */,
+				813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */,
+				813A3CDC123B477F00E6C382 /* ButtonMarker.png */,
+				813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */,
 				81D60425123ACBC400CEAF75 /* PaintingTools.png */,
 				81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */,
 				8148EF8B123A7C76000E9762 /* ClipperOpened.png */,
@@ -680,6 +692,10 @@
 				8148EF8C123A7C76000E9762 /* ClipperOpened.png in Resources */,
 				81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */,
 				81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */,
+				813A3CDE123B477F00E6C382 /* ButtonMarker.png in Resources */,
+				813A3CDF123B477F00E6C382 /* ButtonMarkerSelected.png in Resources */,
+				813A3D41123B4D5C00E6C382 /* ButtonPalette.png in Resources */,
+				813A3D4B123B4F1400E6C382 /* ButtonPaletteSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
