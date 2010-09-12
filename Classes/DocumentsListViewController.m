@@ -123,7 +123,7 @@
 {
     [self.navigationController setToolbarHidden:NO];
     if (selectedDocumentIndexPath)
-        [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionTop];
+        [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 #pragma mark -
