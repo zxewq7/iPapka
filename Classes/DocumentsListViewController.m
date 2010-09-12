@@ -48,10 +48,6 @@
         //deselect selected row
     if (folder)
     {
-        NSIndexPath *selectedPath = [self.tableView indexPathForSelectedRow];
-        if (selectedPath)
-            [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
-        
         titleLabel.text = folder.localizedName;
         [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO isDelta:NO];
     }
@@ -218,6 +214,10 @@
 @implementation DocumentsListViewController(Private)
 - (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
 {
+    NSIndexPath *selectedPath = [self.tableView indexPathForSelectedRow];
+    if (selectedPath)
+        [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
+
     if (!isDelta) //just clear all
     {
         NSUInteger length = [sections count];
