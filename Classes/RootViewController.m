@@ -141,6 +141,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [self.view addSubview:paintingToolsViewController.view];
     [self.view addSubview:contentView];
     [self.view addSubview:clipperViewController.view];
+    [self.view bringSubviewToFront:toolbar];
 
     documentInfoViewController.document = self.document;
 }
@@ -319,11 +320,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     toolbar = [[UIToolbar alloc]
                                initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
 
-    toolbar.barStyle = UIBarStyleBlack;
-    
-    toolbar.tintColor = [UIColor blackColor];
-    
-    toolbar.backgroundColor = [UIColor blackColor];
+    toolbar.backgroundColor = [UIColor clearColor];
     
     toolbar.items = items;
     [self.view addSubview: toolbar];
