@@ -33,6 +33,7 @@
     NSDateFormatter         *activityTimeFormatter;
     id<DocumentsListDelegate> delegate;
     DocumentManaged         *document;
+    NSIndexPath             *selectedDocumentIndexPath;
 }
 @property (nonatomic, retain) NSMutableDictionary       *sections;
 @property (nonatomic, retain) NSMutableArray            *sectionsOrdered;

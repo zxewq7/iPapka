@@ -111,6 +111,8 @@
     detailsLabel = nil;
     self.activityDateFormatter = nil;
     self.activityTimeFormatter = nil;
+    [selectedDocumentIndexPath release];
+    selectedDocumentIndexPath = nil;
 }
 
 /*
@@ -120,6 +122,8 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO];
+    if (selectedDocumentIndexPath)
+        [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionTop];
 }
 
 #pragma mark -
@@ -205,6 +209,8 @@
     self.activityTimeFormatter = nil;
     self.delegate = nil;
     self.document =  nil;
+    [selectedDocumentIndexPath release];
+    selectedDocumentIndexPath = nil;
     [super dealloc];
 }
 @end
@@ -224,6 +230,8 @@
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
     NSPredicate *filter = folder.predicate;
     Class entityClass = folder.entityClass;
+    [selectedDocumentIndexPath release];
+    selectedDocumentIndexPath = nil;
     
     for (DocumentManaged *doc in documents) 
     {
@@ -356,6 +364,8 @@
                     }
             }
         }
+        if (!selectedDocumentIndexPath && [self.document isEqual: doc] )
+            selectedDocumentIndexPath = [documentIndexPath retain];
     }
 }
 - (void)documentAdded:(NSNotification *)notification
