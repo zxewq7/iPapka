@@ -120,26 +120,24 @@
                                forView:self.view cache:YES];
         if (tapTop) //page up
         {
-            [currentPage.view removeFromSuperview];
             AttachmentPageViewController *swapController = currentPage;
             currentPage = nextPage;
             nextPage = swapController;
             if (currentPage.pageIndex != currentPageIndex)
                 currentPage.pageIndex = currentPageIndex;
             nextPage.pageIndex = nextPageIndex;
-            [self.view addSubview: currentPage.view];
         }
         else if (tapBottom) //page down
         {
-            [currentPage.view removeFromSuperview];
             AttachmentPageViewController *swapController = currentPage;
             currentPage = nextPage;
             nextPage = swapController;
             if (currentPage.pageIndex != currentPageIndex)
                 currentPage.pageIndex = currentPageIndex;
             nextPage.pageIndex = nextPageIndex;
-            [self.view addSubview: currentPage.view];
         }
+        nextPage.view.hidden = YES;
+        currentPage.view.hidden = NO;
         // Commit the changes
         [UIView commitAnimations];
     }
