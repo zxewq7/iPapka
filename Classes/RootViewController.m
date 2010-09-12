@@ -357,7 +357,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(archivingAnimationDidStopped:finished:context:)];
-    
+
+#warning inaccurate positioning when move to archive
     contentView.transform = CGAffineTransformScale (
                                                     CGAffineTransformMakeTranslation(-200.0, -475.0),
                                                     0.1,
