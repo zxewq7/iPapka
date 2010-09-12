@@ -25,6 +25,7 @@
     BOOL                        canEdit;
     UIBarButtonItem             *declineButton;
     UIBarButtonItem             *acceptButton;
+    UIButton                    *infoButton;
 }
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;

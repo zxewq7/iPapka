@@ -137,13 +137,27 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGRect paintingToolsFrame = CGRectMake(contentView.frame.origin.x-paintingSize.width+paintingToolsOffsetFromLeftEdge, contentHeightOffset+33, paintingSize.width, paintingSize.height);
     paintingToolsViewController.view.frame = paintingToolsFrame;
     
+    infoButton = [UIButton buttonWithType:101]; 
+    // left-pointing shape!
+    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
+    [infoButton setTitle:NSLocalizedString(@"Information", "Information") forState:UIControlStateNormal];
+    
+    CGSize infoButtonSize = infoButton.frame.size;
+    CGRect infoButtonFrame = CGRectMake(contentView.frame.origin.x + contentView.frame.size.width - infoButtonSize.width, contentHeightOffset - infoButtonSize.height, infoButtonSize.width, infoButtonSize.height);
+    infoButton.frame = infoButtonFrame;
+    
     [contentView addSubview: documentInfoViewController.view];
     [contentView addSubview: attachmentsViewController.view];
 
     [self.view addSubview:paintingToolsViewController.view];
     [self.view addSubview:contentView];
     [self.view addSubview:clipperViewController.view];
+    [self.view addSubview:infoButton];
+
+    
+    //to make it over clipper
     [self.view bringSubviewToFront:toolbar];
+    
 
     documentInfoViewController.document = self.document;
     [self setCanEdit: [self.document.isEditable boolValue]];
@@ -172,6 +186,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     declineButton = nil;
     [acceptButton release];
     acceptButton = nil;
+    [infoButton release];
+    infoButton = nil;
 }
 
 - (void) dealloc
@@ -194,11 +210,19 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     declineButton = nil;
     [acceptButton release];
     acceptButton = nil;
+    [infoButton release];
+    infoButton = nil;
     
 	[super dealloc];
 }
 #pragma mark -
 #pragma mark Actions
+
+-(void) showInfo: (id) sender
+{
+    clipperViewController.opened = !clipperViewController.opened;
+}
+
 -(void) showDocuments:(id) sender
 {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
@@ -279,6 +303,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*documentInfoViewControllerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
         attachmentsViewController.view.frame = attachmentsViewFrame;
         [UIView commitAnimations];
+        infoButton.highlighted = clipperViewController.opened;
+
     }
     else if (context == &AttachmentContext)
     {
