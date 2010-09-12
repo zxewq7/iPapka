@@ -277,6 +277,14 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
     }
 }
+-(void) archiveDocument:(DocumentManaged *) aDocument
+{
+    LNDataSource *inbox = [dataSources objectForKey: @"inbox"];
+    LNDataSource *archive = [dataSources objectForKey: @"archive"];
+    [inbox moveDocument: aDocument.uid destination: archive];
+    aDocument.dataSourceId = archive.dataSourceId;
+    [self commit];
+}
 #pragma mark -
 #pragma mark UIAlertViewDelegate
 

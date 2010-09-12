@@ -23,6 +23,7 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
 @interface RootViewController(Private)
 - (void) createToolbar;
+- (void) moveToArchive;
 @end
 
 @implementation RootViewController
@@ -231,6 +232,16 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [viewController release];  
 }
 
+- (void) declineDocument:(id) sender
+{
+    [self moveToArchive];
+}
+
+- (void) acceptDocument:(id) sender
+{
+    [self moveToArchive];
+}
+
 #pragma mark - 
 #pragma mark DocumentsListDelegate
 -(void) documentDidChanged:(DocumentsListViewController *) sender
@@ -310,11 +321,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [items addObject: flexBarButton1];
     [flexBarButton1 release];
 
-    UIBarButtonItem *declineButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Decline", "Decline") style: UIBarButtonItemStyleBordered target:self action:nil];
+    UIBarButtonItem *declineButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Decline", "Decline") style: UIBarButtonItemStyleBordered target:self action: @selector(declineDocument:)];
     [items addObject: declineButton];
     [declineButton release];
 
-    UIBarButtonItem *acceptButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style: UIBarButtonItemStyleBordered target:self action:nil];
+    UIBarButtonItem *acceptButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style: UIBarButtonItemStyleBordered target:self action:@selector(acceptDocument:)];
     
     [items addObject: acceptButton];
     [acceptButton release];
@@ -328,5 +339,45 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
     toolbar.items = items;
     [self.view addSubview: toolbar];
+}
+- (void) moveToArchive
+{
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.75f];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(archivingAnimationDidStopped:finished:context:)];
+    
+    contentView.transform = CGAffineTransformScale (
+                                                    CGAffineTransformMakeTranslation(-200.0, -475.0),
+                                                    0.1,
+                                                    0.1
+                                                    );
+    //http://ameyashetti.wordpress.com/2009/08/17/view-animation-tutorial/
+    //    attachmentsViewController.view.transform = CGAffineTransformConcat(
+    //                                                                       
+    //                                                                       CGAffineTransformConcat(
+    //                                                                                               
+    //                                                                                               CGAffineTransformConcat(
+    //                                                                                                                        CGAffineTransformMakeTranslation(-12,0),CGAffineTransformMakeScale(3,3)),
+    //                                                                                               
+    //                                                                                               CGAffineTransformMakeRotation(3.14)),
+    //                                                                       
+    //                                                                       CGAffineTransformMake(1,2,3,4,5,6));
+    //CGAffineTransformConcat(CGAffineTransformMakeScale(0,0), CGAffineTransformMakeTranslation(-1000.0, -1000.0))
+    
+    //    attachmentsViewController.view.frame = CGRectZero;
+    
+    [UIView commitAnimations];    
+}
+- (void)archivingAnimationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+{
+    contentView.hidden = YES;
+    contentView.transform = CGAffineTransformIdentity;
+    contentView.hidden = NO;
+    [UIView setAnimationDelegate:nil];
+    [UIView setAnimationDidStopSelector:nil];
+    [[DataSource sharedDataSource] archiveDocument:self.document];
+    self.document = nil;
 }
 @end

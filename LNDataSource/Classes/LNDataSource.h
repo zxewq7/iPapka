@@ -52,4 +52,6 @@
 - (void) purgeCache;
 - (void) saveDocument:(Document *) document;
 - (id) initWithId:(NSString *) aDataSourceId viewId:(NSString *) aViewId andUrl:(NSString*) anUrl;
+- (void) moveDocument:(NSString *) documentUid destination:(LNDataSource *) destination;
+- (void) addDocument:(NSString *) uid path:(NSString *) path moveSource:(BOOL) moveSource;
 @end

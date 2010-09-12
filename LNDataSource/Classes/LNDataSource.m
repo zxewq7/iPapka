@@ -221,6 +221,28 @@ static NSString* OperationCount = @"OperationCount";
             //    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
     }
 }
+
+- (void) moveDocument:(NSString *) documentUid destination:(LNDataSource *) destination
+{
+    [destination addDocument:documentUid path:[self documentDirectory:documentUid] moveSource:YES];
+    [self deleteDocument:documentUid];
+}
+
+- (void) addDocument:(NSString *)uid path:(NSString *) path moveSource:(BOOL) moveSource
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    NSString *dstPath = [self documentDirectory: uid];
+    NSError *error = nil;
+    if (moveSource)
+        [df moveItemAtPath:path toPath:dstPath error:&error];
+    else
+        [df copyItemAtPath:path toPath:dstPath error:&error];
+    
+    NSAssert3(error == nil, @"Unable to move from \"%@\" to \"%@\", error: %@", path, dstPath, error);
+    
+    [cacheIndex addObject: uid];
+}
+
 @end
 
 @implementation LNDataSource(Private)

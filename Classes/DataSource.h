@@ -37,4 +37,5 @@
 -(void) shutdown;
 -(void) commit;
 -(void) saveDocument:(Document *) aDocument;
+-(void) archiveDocument:(DocumentManaged *) aDocument;
 @end
