@@ -22,6 +22,9 @@
     PaintingToolsViewController *paintingToolsViewController;
     CGFloat                     contentHeightOffset;
     UIImageView                 *contentView;
+    BOOL                        canEdit;
+    UIBarButtonItem             *declineButton;
+    UIBarButtonItem             *acceptButton;
 }
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;

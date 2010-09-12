@@ -156,6 +156,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.isRead = [NSNumber numberWithBool:NO];
     newDocument.isArchived = [NSNumber numberWithBool:NO];
     newDocument.dataSourceId = aDocument.dataSourceId;
+    newDocument.isEditable = [NSNumber numberWithBool: [@"inbox" isEqualToString:aDocument.dataSourceId]];
     
     if (isResolution)
         ((ResolutionManaged *)newDocument).performers = ((Resolution *)aDocument).performers;
@@ -283,6 +284,7 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     LNDataSource *archive = [dataSources objectForKey: @"archive"];
     [inbox moveDocument: aDocument.uid destination: archive];
     aDocument.dataSourceId = archive.dataSourceId;
+    aDocument.isEditable = [NSNumber numberWithBool: NO];
     [self commit];
 }
 #pragma mark -

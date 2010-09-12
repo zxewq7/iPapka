@@ -24,6 +24,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 @interface RootViewController(Private)
 - (void) createToolbar;
 - (void) moveToArchive;
+-(void) setCanEdit:(BOOL) value;
 @end
 
 @implementation RootViewController
@@ -57,6 +58,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [[DataSource sharedDataSource] commit];
     
    documentInfoViewController.document = self.document;
+   [self setCanEdit: [self.document.isEditable boolValue]];
 }
 - (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
@@ -144,6 +146,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [self.view bringSubviewToFront:toolbar];
 
     documentInfoViewController.document = self.document;
+    [self setCanEdit: [self.document.isEditable boolValue]];
 }
 
     // Override to allow orientations other than the default portrait orientation.
@@ -165,6 +168,10 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     contentView = nil;
     [toolbar release];
     toolbar = nil;
+    [declineButton release];
+    declineButton = nil;
+    [acceptButton release];
+    acceptButton = nil;
 }
 
 - (void) dealloc
@@ -183,6 +190,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     toolbar = nil;
     self.document = nil;
     self.folder = nil;
+    [declineButton release];
+    declineButton = nil;
+    [acceptButton release];
+    acceptButton = nil;
+    
 	[super dealloc];
 }
 #pragma mark -
@@ -320,14 +332,12 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [items addObject: flexBarButton1];
     [flexBarButton1 release];
 
-    UIBarButtonItem *declineButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Decline", "Decline") style: UIBarButtonItemStyleBordered target:self action: @selector(declineDocument:)];
+    declineButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Decline", "Decline") style: UIBarButtonItemStyleBordered target:self action: @selector(declineDocument:)];
     [items addObject: declineButton];
-    [declineButton release];
 
-    UIBarButtonItem *acceptButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style: UIBarButtonItemStyleBordered target:self action:@selector(acceptDocument:)];
+    acceptButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style: UIBarButtonItemStyleBordered target:self action:@selector(acceptDocument:)];
     
     [items addObject: acceptButton];
-    [acceptButton release];
 
     toolbar = [[UIToolbar alloc]
                                initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
@@ -341,6 +351,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 }
 - (void) moveToArchive
 {
+    [self setCanEdit:NO];
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.75f];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
@@ -378,5 +389,37 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [UIView setAnimationDidStopSelector:nil];
     [[DataSource sharedDataSource] archiveDocument:self.document];
     self.document = nil;
+}
+-(void) setCanEdit:(BOOL) value
+{
+    if (canEdit == value)
+        return;
+    canEdit = value;
+    if (canEdit)
+    {
+        [acceptButton setTitle:NSLocalizedString(@"Accept", "Accept")];
+        [acceptButton setStyle:UIBarButtonItemStyleBordered];
+        [acceptButton setEnabled:YES];
+        
+        [declineButton setTitle:NSLocalizedString(@"Decline", "Decline")];
+        [declineButton setStyle:UIBarButtonItemStyleBordered];
+        [declineButton setEnabled:YES];
+        
+        paintingToolsViewController.view.hidden = NO;
+        paintingToolsViewController.view.userInteractionEnabled = YES;
+    }
+    else
+    {
+        [acceptButton setStyle:UIBarButtonItemStylePlain];
+        [acceptButton setEnabled:NO];
+        [acceptButton setTitle:@""];
+        
+        [declineButton setStyle:UIBarButtonItemStylePlain];
+        [declineButton setEnabled:NO];
+        [declineButton setTitle:@""];
+
+        paintingToolsViewController.view.hidden = YES;
+        paintingToolsViewController.view.userInteractionEnabled = NO;
+    }
 }
 @end

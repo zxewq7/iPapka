@@ -13,6 +13,7 @@
 
 
 
+
 @interface DocumentManagedID : NSManagedObjectID {}
 @end
 
@@ -24,19 +25,19 @@
 
 
 
+@property (nonatomic, retain) NSNumber *isEditable;
+
+@property BOOL isEditableValue;
+- (BOOL)isEditableValue;
+- (void)setIsEditableValue:(BOOL)value_;
+
+//- (BOOL)validateIsEditable:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSString *uid;
 
 //- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isRead;
-
-@property BOOL isReadValue;
-- (BOOL)isReadValue;
-- (void)setIsReadValue:(BOOL)value_;
-
-//- (BOOL)validateIsRead:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -62,6 +63,16 @@
 
 
 
+@property (nonatomic, retain) NSNumber *isRead;
+
+@property BOOL isReadValue;
+- (BOOL)isReadValue;
+- (void)setIsReadValue:(BOOL)value_;
+
+//- (BOOL)validateIsRead:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSDate *dateModified;
 
 //- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
@@ -83,15 +94,15 @@
 
 @interface _DocumentManaged (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSNumber*)primitiveIsEditable;
+- (void)setPrimitiveIsEditable:(NSNumber*)value;
+
+- (BOOL)primitiveIsEditableValue;
+- (void)setPrimitiveIsEditableValue:(BOOL)value_;
+
+
 - (NSString*)primitiveUid;
 - (void)setPrimitiveUid:(NSString*)value;
-
-
-- (NSNumber*)primitiveIsRead;
-- (void)setPrimitiveIsRead:(NSNumber*)value;
-
-- (BOOL)primitiveIsReadValue;
-- (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
 - (NSString*)primitiveDataSourceId;
@@ -107,6 +118,13 @@
 
 - (NSString*)primitiveAuthor;
 - (void)setPrimitiveAuthor:(NSString*)value;
+
+
+- (NSNumber*)primitiveIsRead;
+- (void)setPrimitiveIsRead:(NSNumber*)value;
+
+- (BOOL)primitiveIsReadValue;
+- (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
 - (NSDate*)primitiveDateModified;
