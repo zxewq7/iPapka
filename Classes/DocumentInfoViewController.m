@@ -50,6 +50,8 @@
         Attachment *firstAttachment = [attachments objectAtIndex:0];
         self.attachment = firstAttachment;
     }
+    else
+        self.attachment = nil;
 }
 
 - (void)viewDidLoad

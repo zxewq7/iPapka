@@ -47,6 +47,11 @@
 			viewNeedsUpdate = YES;
 		}
 	}
+    else
+    {
+        [imageView displayImage: nil angle: 0];
+        imageView.drawings = nil;
+    }
 }
 
 - (void)updateViews:(BOOL)force
