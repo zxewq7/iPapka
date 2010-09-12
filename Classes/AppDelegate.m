@@ -82,7 +82,8 @@
     self.rootViewController.folder = lastFolder;
     [self.window addSubview:rootViewController.view];
     [self.window makeKeyAndVisible];
-    [[DataSource sharedDataSource] refreshDocuments];
+#warning disabled refresh at startup
+//    [[DataSource sharedDataSource] refreshDocuments];
     
     //fade out splash screen
     //http://michael.burford.net/2008/11/fading-defaultpng-when-iphone-app.html
