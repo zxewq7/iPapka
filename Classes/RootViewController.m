@@ -199,7 +199,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     // Create the modal view controller
     DocumentsListViewController *viewController = [[DocumentsListViewController alloc] init];
     
+    viewController.document = self.document;
+
     viewController.folder = f;
+    
+    viewController.delegate = self;
     
     // We are the delegate responsible for dismissing the modal view 
     //    viewController.delegate = self;
@@ -224,6 +228,14 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     // Clean up resources
     [navController release];
     [viewController release];  
+}
+
+#pragma mark - 
+#pragma mark DocumentsListDelegate
+-(void) documentDidChanged:(DocumentsListViewController *) sender
+{
+    self.document = sender.document;
+    [sender dismiss:nil];
 }
 #pragma mark -
 #pragma mark Observer

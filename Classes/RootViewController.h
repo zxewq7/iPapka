@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DocumentsListViewController.h"
 
 @class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController;
 
-@interface RootViewController : UIViewController
+@interface RootViewController : UIViewController<DocumentsListDelegate>
 {
     DocumentManaged             *document;
     AttachmentsViewController   *attachmentsViewController;

@@ -27,14 +27,16 @@
 
 #pragma mark -
 #pragma mark properties
-@synthesize sections, 
-            sectionsOrdered, 
-            sectionsOrderedLabels, 
-            dateFormatter, 
-            sortDescriptors, 
-            folder,
-            activityDateFormatter, 
-            activityTimeFormatter;
+@synthesize sections; 
+@synthesize sectionsOrdered;
+@synthesize sectionsOrderedLabels;
+@synthesize dateFormatter;
+@synthesize sortDescriptors;
+@synthesize folder;
+@synthesize activityDateFormatter; 
+@synthesize activityTimeFormatter;
+@synthesize delegate;
+@synthesize document;
 
 - (void) setFolder:(Folder *)aFolder
 {
@@ -157,9 +159,9 @@
     
         // Set appropriate labels for the cells.
     NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
-    DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
-    cell.textLabel.text = document.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), document.author];
+    DocumentManaged *doc = [documentSection objectAtIndex:indexPath.row];
+    cell.textLabel.text = doc.title;
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author];
     return cell;
 }
 
@@ -169,7 +171,7 @@
 {
     [[DataSource sharedDataSource] refreshDocuments];
 }
--(void)closeSelf:(id)sender
+-(void)dismiss:(id)sender
 {
     [self dismissModalViewControllerAnimated:YES];
 }
@@ -178,22 +180,10 @@
 #pragma mark Table view selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//    /*
-//     Create and configure a new detail view controller appropriate for the selection.
-//     */
-//    
-//    UINavigationController *navogationController = [splitViewController.viewControllers objectAtIndex:1];
-//    DocumentViewController *detailViewController = [navogationController.viewControllers objectAtIndex:0];
-//    
-//    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
-//    DocumentManaged *document = [documentSection objectAtIndex:indexPath.row];
-//
-//    detailViewController.document = document;
-//
-//        // Dismiss the popover if it's present.
-//    if (popoverController != nil) {
-//        [popoverController dismissPopoverAnimated:YES];
-//    }
+    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
+    self.document = [documentSection objectAtIndex:indexPath.row];
+    if ([delegate respondsToSelector:@selector(documentDidChanged:)]) 
+        [delegate documentDidChanged:self];
 }
 
 #pragma mark -
@@ -213,6 +203,8 @@
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.activityDateFormatter = nil;
     self.activityTimeFormatter = nil;
+    self.delegate = nil;
+    self.document =  nil;
     [super dealloc];
 }
 @end
@@ -233,22 +225,23 @@
     NSPredicate *filter = folder.predicate;
     Class entityClass = folder.entityClass;
     
-    for (DocumentManaged *document in documents) 
+    for (DocumentManaged *doc in documents) 
     {
-        if (![document isKindOfClass:entityClass] || (filter && ![filter evaluateWithObject:document]))
+        if (![doc isKindOfClass:entityClass] || (filter && ![filter evaluateWithObject:doc]))
             continue;
         
-        NSDate *documentDate = document.dateModified;
+        NSDate *documentDate = doc.dateModified;
         NSDateComponents *comps = [calendar components:unitFlags fromDate:documentDate];
         NSDate *documentSection = [calendar dateFromComponents:comps];
         NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:documentSection];
+        NSIndexPath *documentIndexPath = nil;
         
         if (isDeleteDocuments)
         {
             if (sectionIndex != NSNotFound) 
             {
                 NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
-                NSUInteger documentIndex = [sectionDocuments indexOfObject:document];
+                NSUInteger documentIndex = [sectionDocuments indexOfObject: doc];
                 if (documentIndex != NSNotFound) 
                 {
                     if ([sectionDocuments count] == 1) //remove empty section
@@ -284,19 +277,20 @@
                 }
                 if (insertIndex == NSNotFound)
                 {
-                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
+                    [self.sections setObject:[NSMutableArray arrayWithObject: doc] forKey:documentSection];
                     [self.sectionsOrdered addObject:documentSection];
                     [self.sectionsOrderedLabels addObject: [self.dateFormatter stringFromDate:documentSection]];
                     insertIndex = [self.sectionsOrdered count]-1;
                 }
                 else 
                 {
-                    [self.sections setObject:[NSMutableArray arrayWithObject:document] forKey:documentSection];
+                    [self.sections setObject:[NSMutableArray arrayWithObject: doc] forKey:documentSection];
                     [self.sectionsOrdered insertObject:documentSection atIndex:insertIndex];
                     [self.sectionsOrderedLabels insertObject: [self.dateFormatter stringFromDate:documentSection] atIndex:insertIndex];
                 }
                 [self.tableView insertSections:[NSIndexSet indexSetWithIndex: insertIndex] withRowAnimation:UITableViewRowAnimationFade];
                 sectionIndex = insertIndex;
+                documentIndexPath = [NSIndexPath indexPathForRow:0 inSection:sectionIndex];
             }
             else //update section documents
             {
@@ -306,31 +300,31 @@
                 BOOL updated = NO;
                 for (NSUInteger i=0; i < length; i++) 
                 {
-                    DocumentManaged *doc = [sectionDocuments objectAtIndex:i];
-                    if ([document isEqual:doc]) 
+                    DocumentManaged *docUpdated = [sectionDocuments objectAtIndex:i];
+                    if ([doc isEqual: docUpdated]) 
                     {
-                        [sectionDocuments replaceObjectAtIndex:i withObject:document];
+                        [sectionDocuments replaceObjectAtIndex:i withObject:doc];
 
-                        NSIndexPath *path = [NSIndexPath indexPathForRow:i inSection:sectionIndex];
-                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+                        documentIndexPath = [NSIndexPath indexPathForRow:i inSection:sectionIndex];
+                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject: documentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
                         updated = YES;
                         break;
                     }
-                    else if ([document.dateModified compare:doc.dateModified] == NSOrderedDescending)
+                    else if ([doc.dateModified compare: docUpdated.dateModified] == NSOrderedDescending)
                         possibleInsertIndex = i;
                 }
                 if (!updated) //insert document
                 {
                     if (possibleInsertIndex == NSNotFound)
                     {
-                        [sectionDocuments addObject: document];
+                        [sectionDocuments addObject: doc];
                         possibleInsertIndex = [sectionDocuments count]-1;
                     }
                     else
-                        [sectionDocuments insertObject: document atIndex:possibleInsertIndex];
+                        [sectionDocuments insertObject: doc atIndex:possibleInsertIndex];
                     
-                    NSIndexPath *path = [NSIndexPath indexPathForRow:possibleInsertIndex inSection:sectionIndex];
-                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+                    documentIndexPath = [NSIndexPath indexPathForRow:possibleInsertIndex inSection:sectionIndex];
+                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject: documentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
                 }
             }
                 //remove possible dublicates
@@ -341,7 +335,7 @@
                         continue;
                     NSDate *section = [self.sectionsOrdered objectAtIndex:i];
                     NSMutableArray *sectionDocuments = [self.sections objectForKey:section];
-                    NSUInteger docIndex = [sectionDocuments indexOfObject: document];
+                    NSUInteger docIndex = [sectionDocuments indexOfObject: doc];
                     if (docIndex != NSNotFound)
                     {
                         if ([sectionDocuments count] == 1) //remove section
@@ -366,8 +360,8 @@
 }
 - (void)documentAdded:(NSNotification *)notification
 {
-    Document *document = notification.object;
-    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO isDelta:YES];
+    Document *doc = notification.object;
+    [self updateDocuments: [NSArray arrayWithObject: doc] isDeleteDocuments:NO isDelta:YES];
 }
 
 - (void)documentsRemoved:(NSNotification *)notification
@@ -378,8 +372,8 @@
 
 - (void)documentUpdated:(NSNotification *)notification
 {
-    Document *document = notification.object;
-    [self updateDocuments: [NSArray arrayWithObject:document] isDeleteDocuments:NO isDelta:YES];
+    Document *doc = notification.object;
+    [self updateDocuments: [NSArray arrayWithObject: doc] isDeleteDocuments:NO isDelta:YES];
 }
 
 - (void) createToolbars;
@@ -391,7 +385,7 @@
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshDocuments:)];
     self.navigationItem.rightBarButtonItem = refreshButton;
     [refreshButton release];
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(closeSelf:)];
+    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismiss:)];
     self.navigationItem.leftBarButtonItem = cancelButton;
     [cancelButton release];
     //http://www.developers-life.com/customizing-uinavigationbar.html

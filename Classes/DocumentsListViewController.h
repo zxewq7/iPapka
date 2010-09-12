@@ -10,6 +10,15 @@
 
 @class FoldersViewController, Folder;
 
+@class DocumentsListViewController, DocumentManaged;
+
+@protocol DocumentsListDelegate <NSObject>
+
+-(void) documentDidChanged:(DocumentsListViewController *) sender;
+
+@end
+    
+
 @interface DocumentsListViewController : UITableViewController {
 	
     NSMutableDictionary     *sections;
@@ -22,6 +31,8 @@
     UILabel                 *detailsLabel;
     NSDateFormatter         *activityDateFormatter;
     NSDateFormatter         *activityTimeFormatter;
+    id<DocumentsListDelegate> delegate;
+    DocumentManaged         *document;
 }
 @property (nonatomic, retain) NSMutableDictionary       *sections;
 @property (nonatomic, retain) NSMutableArray            *sectionsOrdered;
@@ -32,4 +43,7 @@
 
 @property (nonatomic, retain) NSDateFormatter           *activityDateFormatter;
 @property (nonatomic, retain) NSDateFormatter           *activityTimeFormatter;
+@property (nonatomic, retain) id<DocumentsListDelegate> delegate;
+@property (nonatomic, retain) DocumentManaged           *document;
+-(void)dismiss:(id)sender;
 @end
