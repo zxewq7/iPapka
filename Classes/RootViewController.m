@@ -48,7 +48,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 {
     if (document == aDocument)
         return;
-    [document saveDocument];
     
     [document release];
     document = [aDocument retain];
