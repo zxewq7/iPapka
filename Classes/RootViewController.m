@@ -299,6 +299,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                                              image:f.icon
                                                      imageSelected:f.icon];
         [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont boldSystemFontOfSize: 14];
         UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView: button];
         button.tag = i;
         [items addObject: barButton];
@@ -314,12 +315,15 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [declineButton release];
 
     UIBarButtonItem *acceptButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style: UIBarButtonItemStyleBordered target:self action:nil];
+    
     [items addObject: acceptButton];
     [acceptButton release];
 
     toolbar = [[UIToolbar alloc]
                                initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
 
+    toolbar.barStyle = UIBarStyleBlack;
+    toolbar.translucent = YES;
     toolbar.backgroundColor = [UIColor clearColor];
     
     toolbar.items = items;
