@@ -115,7 +115,7 @@
         NSInteger nextPageIndex = currentPageIndex+(tapTop?-1:1);
         
         [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.75f];
+        [UIView setAnimationDuration:0.5f];
         [UIView setAnimationTransition:tapTop?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp
                                forView:self.view cache:YES];
         if (tapTop) //page up
