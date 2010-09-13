@@ -52,6 +52,22 @@
     }
     else
         self.attachment = nil;
+    
+    if ([unmanagedDocument.links count])
+    {
+        if (filter.numberOfSegments == 1)
+            [filter insertSegmentWithTitle:NSLocalizedString(@"Linked files", "Linked files") atIndex:1 animated:NO];
+    }
+    else
+    {
+        if (filter.numberOfSegments == 2)
+            [filter removeSegmentAtIndex:1 animated:NO];
+    }
+
+    filter.selectedSegmentIndex = 0;
+    [filter sizeToFit];
+    CGRect filterFrame = filter.frame;
+    filter.frame = CGRectMake((documentTitle.frame.size.width - filterFrame.size.width)/2, 99, filterFrame.size.width, filterFrame.size.height);
 }
 
 - (void)viewDidLoad
@@ -70,14 +86,14 @@
     //create table header
     //http://cocoawithlove.com/2009/04/easy-custom-uiself.tableView-drawing.html
     UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 157)];
-    documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 33, 300, 48)];
+    documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 33, 300, 48)];
     documentTitle.textColor = [UIColor blackColor];
     documentTitle.textAlignment = UITextAlignmentCenter;
     documentTitle.font = [UIFont fontWithName:@"CharterC" size:24];
     documentTitle.backgroundColor = [UIColor clearColor];
     [containerView addSubview:documentTitle];
     
-    documentDetails = [[UILabel alloc] initWithFrame:CGRectMake(10, 57, 300, 48)];
+    documentDetails = [[UILabel alloc] initWithFrame:CGRectMake(0, 57, 300, 48)];
     documentDetails.textColor = [UIColor darkGrayColor];
     documentDetails.textAlignment = UITextAlignmentCenter;
     documentDetails.font = [UIFont fontWithName:@"CharterC" size:14];
@@ -85,11 +101,17 @@
     [containerView addSubview:documentDetails];
     
     filter = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Files", "Files"),
-                                                         NSLocalizedString(@"Linked files", "Linked files"),
                                                          nil]];
+    if ([unmanagedDocument.links count])
+        [filter insertSegmentWithTitle:NSLocalizedString(@"Linked files", "Linked files") atIndex:1 animated:NO];
+
+    [filter sizeToFit];
+
+    filter.selectedSegmentIndex = 0;
+    [filter addTarget:self action:@selector(switchFilter:) forControlEvents:UIControlEventValueChanged];
     filter.segmentedControlStyle = UISegmentedControlStyleBar;
     CGRect filterFrame = filter.frame;
-    filter.frame = CGRectMake(10, 99, filterFrame.size.width, filterFrame.size.height);
+    filter.frame = CGRectMake((documentTitle.frame.size.width - filterFrame.size.width)/2, 99, filterFrame.size.width, filterFrame.size.height);
     [containerView addSubview:filter];
     self.tableView.tableHeaderView = containerView;
     [containerView release];
@@ -101,6 +123,7 @@
     dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterLongStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -127,7 +150,7 @@
 
 
 #pragma mark -
-#pragma mark - UIself.tableViewDataSource
+#pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -174,6 +197,24 @@
     dateFormatter = nil;
     self.attachment = nil;
     [super dealloc];
+}
+
+#pragma mark - 
+#pragma mark actions
+-(void) switchFilter:(id) sender
+{
+    switch(filter.selectedSegmentIndex)
+    {
+        case 0:
+            currentItems = unmanagedDocument.attachments;
+            break;
+        case 1:
+            currentItems = unmanagedDocument.links;
+            break;
+        default:
+            NSAssert1 (NO, @"Invalid filter value: %d", filter.selectedSegmentIndex);
+    }
+    [self.tableView reloadData];
 }
 @end
 
