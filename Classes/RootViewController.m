@@ -137,14 +137,20 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGRect paintingToolsFrame = CGRectMake(contentView.frame.origin.x-paintingSize.width+paintingToolsOffsetFromLeftEdge, contentHeightOffset+33, paintingSize.width, paintingSize.height);
     paintingToolsViewController.view.frame = paintingToolsFrame;
     
-    infoButton = [UIButton buttonWithType:101]; 
-    // left-pointing shape!
-    [infoButton addTarget:self action:@selector(showInfo:) forControlEvents:UIControlEventTouchUpInside];
-    [infoButton setTitle:NSLocalizedString(@"Information", "Information") forState:UIControlStateNormal];
-    
+    infoButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Information", "Information")
+                                              titleFont:[UIFont boldSystemFontOfSize:14]
+                                                 target:self
+                                               selector:@selector(showInfo:)
+                                                  frame:CGRectMake(0, 0, 31, 30)
+                                          addLabelWidth:YES
+                                                  image:[UIImage imageNamed:@"BackBarButton.png"]
+                                           imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
+                                          darkTextColor:NO];
+
     CGSize infoButtonSize = infoButton.frame.size;
     CGRect infoButtonFrame = CGRectMake(contentView.frame.origin.x + contentView.frame.size.width - infoButtonSize.width, contentHeightOffset - infoButtonSize.height, infoButtonSize.width, infoButtonSize.height);
     infoButton.frame = infoButtonFrame;
+    [infoButton retain];
     
     [contentView addSubview: documentInfoViewController.view];
     [contentView addSubview: attachmentsViewController.view];
@@ -303,7 +309,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*documentInfoViewControllerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
         attachmentsViewController.view.frame = attachmentsViewFrame;
         [UIView commitAnimations];
-        infoButton.highlighted = clipperViewController.opened;
+        infoButton.selected = clipperViewController.opened;
 
     }
     else if (context == &AttachmentContext)
