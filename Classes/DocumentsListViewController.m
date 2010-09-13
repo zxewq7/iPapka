@@ -49,8 +49,19 @@
     if (folder)
     {
         titleLabel.text = folder.localizedName;
-        [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:folder] isDeleteDocuments:NO isDelta:NO];
+        Folder *filter;
+        if ([folder.filters count])
+        {
+            filterIndex = 0;
+            filter = [folder.filters objectAtIndex: filterIndex];
+        }
+        else
+            filter = folder;
+        
+        [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:filter] isDeleteDocuments:NO isDelta:NO];
     }
+    else
+        filterIndex = NSNotFound;
 }
 
 #pragma mark -
@@ -161,6 +172,24 @@
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author];
     cell.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
     return cell;
+}
+#pragma mark - 
+#pragma mark UITabBarDelegate
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item
+{
+    filterIndex = item.tag;
+    Folder *filter;
+    if (filterIndex != NSNotFound && [folder.filters count]>filterIndex)
+    {
+        filterIndex = filterIndex;
+        filter = [folder.filters objectAtIndex: filterIndex];
+    }
+    
+    [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:filter] isDeleteDocuments:NO isDelta:NO];
+    if (selectedDocumentIndexPath)
+        [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+
 }
 
 #pragma mark -
@@ -433,10 +462,13 @@
         UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:f.localizedName image:f.icon tag:i];
         NSInteger count = [ds countUnreadDocumentsForFolder: f];
         item.badgeValue = count>0?[NSString stringWithFormat:@"%d", count]:nil;
+        item.tag = i;
         [toolbarItems addObject:item];
         [item release];
     }
     tabBar.items = toolbarItems;
+    tabBar.selectedItem = filterIndex == NSNotFound?nil:[toolbarItems objectAtIndex: filterIndex];
+    [tabBar setDelegate:self];
     UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:tabBar];
     [self setToolbarItems:[NSArray arrayWithObject:barButton] animated:NO];
     [barButton release];

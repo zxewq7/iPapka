@@ -19,7 +19,8 @@
 @end
     
 
-@interface DocumentsListViewController : UITableViewController {
+@interface DocumentsListViewController : UITableViewController<UITabBarDelegate>
+{
 	
     NSMutableDictionary     *sections;
     NSMutableArray          *sectionsOrdered;
@@ -27,6 +28,7 @@
     NSDateFormatter         *dateFormatter;
     NSArray                 *sortDescriptors;
     Folder                  *folder;
+    NSUInteger              filterIndex;
     UILabel                 *titleLabel;
     UILabel                 *detailsLabel;
     NSDateFormatter         *activityDateFormatter;
