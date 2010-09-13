@@ -73,14 +73,14 @@
     documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 300, 48)];
     documentTitle.textColor = [UIColor blackColor];
     documentTitle.textAlignment = UITextAlignmentCenter;
-    documentTitle.font = [UIFont boldSystemFontOfSize:24];
+    documentTitle.font = [UIFont fontWithName:@"CharterC" size:24];
     documentTitle.backgroundColor = [UIColor clearColor];
     [containerView addSubview:documentTitle];
     
     documentDetails = [[UILabel alloc] initWithFrame:CGRectMake(10, 20+48, 300, 48)];
     documentDetails.textColor = [UIColor darkGrayColor];
     documentDetails.textAlignment = UITextAlignmentCenter;
-    documentDetails.font = [UIFont boldSystemFontOfSize:14];
+    documentDetails.font = [UIFont fontWithName:@"CharterC" size:14];
     documentDetails.backgroundColor = [UIColor clearColor];
     [containerView addSubview:documentDetails];
     

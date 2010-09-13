@@ -84,6 +84,10 @@
 		8165429212379CC7008FC80F /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165428C12379CC7008FC80F /* SignatureManaged.m */; };
 		816CD7841239466C006BC92F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
 		816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7BD12394AA0006BC92F /* Default-Landscape.png */; };
+		818E90FE123E0496006FCE06 /* CHARTCBI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FA123E0496006FCE06 /* CHARTCBI.TTF */; };
+		818E90FF123E0496006FCE06 /* CHARTECB.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FB123E0496006FCE06 /* CHARTECB.TTF */; };
+		818E9100123E0496006FCE06 /* CHARTECI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FC123E0496006FCE06 /* CHARTECI.TTF */; };
+		818E9101123E0496006FCE06 /* CHARTERC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FD123E0496006FCE06 /* CHARTERC.TTF */; };
 		8193B63612379E09000F05B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63512379E09000F05B6 /* CoreData.framework */; };
 		8193B63C12379E13000F05B6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63B12379E13000F05B6 /* Security.framework */; };
 		8193B64412379E28000F05B6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B64312379E28000F05B6 /* OpenGLES.framework */; };
@@ -243,6 +247,10 @@
 		8165428C12379CC7008FC80F /* SignatureManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureManaged.m; sourceTree = "<group>"; };
 		816CD7831239466C006BC92F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		816CD7BD12394AA0006BC92F /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
+		818E90FA123E0496006FCE06 /* CHARTCBI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTCBI.TTF; sourceTree = "<group>"; };
+		818E90FB123E0496006FCE06 /* CHARTECB.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTECB.TTF; sourceTree = "<group>"; };
+		818E90FC123E0496006FCE06 /* CHARTECI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTECI.TTF; sourceTree = "<group>"; };
+		818E90FD123E0496006FCE06 /* CHARTERC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTERC.TTF; sourceTree = "<group>"; };
 		8193B63512379E09000F05B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8193B63B12379E13000F05B6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8193B64312379E28000F05B6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -427,6 +435,7 @@
 		816541B512379AA3008FC80F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				818E90F9123E0496006FCE06 /* Fonts */,
 				819D8082123DFD8B00483E10 /* Entitlements.plist */,
 				815EAB4E1237DF810093CF38 /* InfoPlist.strings */,
 				8107AAB31237A1AF00F0C71F /* Localizable.strings */,
@@ -516,6 +525,17 @@
 				8165428C12379CC7008FC80F /* SignatureManaged.m */,
 			);
 			path = DataModelManaged;
+			sourceTree = "<group>";
+		};
+		818E90F9123E0496006FCE06 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				818E90FA123E0496006FCE06 /* CHARTCBI.TTF */,
+				818E90FB123E0496006FCE06 /* CHARTECB.TTF */,
+				818E90FC123E0496006FCE06 /* CHARTECI.TTF */,
+				818E90FD123E0496006FCE06 /* CHARTERC.TTF */,
+			);
+			path = Fonts;
 			sourceTree = "<group>";
 		};
 		81ADD4191237A02E001E830A /* Products */ = {
@@ -658,6 +678,10 @@
 				81E5B49B123BB3900068617E /* ButtonResolution.png in Resources */,
 				81E5B49C123BB3900068617E /* ButtonSignature.png in Resources */,
 				819D8083123DFD8B00483E10 /* Entitlements.plist in Resources */,
+				818E90FE123E0496006FCE06 /* CHARTCBI.TTF in Resources */,
+				818E90FF123E0496006FCE06 /* CHARTECB.TTF in Resources */,
+				818E9100123E0496006FCE06 /* CHARTECI.TTF in Resources */,
+				818E9101123E0496006FCE06 /* CHARTERC.TTF in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
