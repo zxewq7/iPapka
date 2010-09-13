@@ -87,8 +87,9 @@
     filter = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Files", "Files"),
                                                          NSLocalizedString(@"Linked files", "Linked files"),
                                                          nil]];
+    filter.segmentedControlStyle = UISegmentedControlStyleBar;
     CGRect filterFrame = filter.frame;
-    filter.frame = CGRectMake(10, 99, filterFrame.size.width, 30);
+    filter.frame = CGRectMake(10, 99, filterFrame.size.width, filterFrame.size.height);
     [containerView addSubview:filter];
     self.tableView.tableHeaderView = containerView;
     [containerView release];
