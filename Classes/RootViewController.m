@@ -136,6 +136,22 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     paintingToolsOffsetFromLeftEdge = paintingToolsOffsetFromLeftEdge<0?0:paintingToolsOffsetFromLeftEdge;
     CGRect paintingToolsFrame = CGRectMake(contentView.frame.origin.x-paintingSize.width+paintingToolsOffsetFromLeftEdge, contentHeightOffset+33, paintingSize.width, paintingSize.height);
     paintingToolsViewController.view.frame = paintingToolsFrame;
+
+    resolutionButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Resolution", "Resolution")
+                                              titleFont:[UIFont boldSystemFontOfSize:14]
+                                                 target:self
+                                               selector:@selector(showResolution:)
+                                                  frame:CGRectMake(0, 0, 31, 30)
+                                          addLabelWidth:YES
+                                                  image:[UIImage imageNamed:@"ButtonSquare.png"]
+                                           imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
+                                          darkTextColor:NO];
+    
+    CGSize resolutionButtonSize = resolutionButton.frame.size;
+    CGRect resolutionButtonFrame = CGRectMake(contentView.frame.origin.x, contentHeightOffset - resolutionButtonSize.height, resolutionButtonSize.width, resolutionButtonSize.height);
+    resolutionButton.frame = resolutionButtonFrame;
+    [resolutionButton retain];
+
     
     infoButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Information", "Information")
                                               titleFont:[UIFont boldSystemFontOfSize:14]
@@ -159,6 +175,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [self.view addSubview:contentView];
     [self.view addSubview:clipperViewController.view];
     [self.view addSubview:infoButton];
+    [self.view addSubview:resolutionButton];
 
     
     //to make it over clipper
@@ -194,6 +211,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     acceptButton = nil;
     [infoButton release];
     infoButton = nil;
+    [resolutionButton release];
+    resolutionButton = nil;
 }
 
 - (void) dealloc
@@ -218,6 +237,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     acceptButton = nil;
     [infoButton release];
     infoButton = nil;
+    [resolutionButton release];
+    resolutionButton = nil;
     
 	[super dealloc];
 }
@@ -227,6 +248,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 -(void) showInfo: (id) sender
 {
     clipperViewController.opened = !clipperViewController.opened;
+}
+
+-(void) showResolution:(id) sender
+{
+    
 }
 
 -(void) showDocuments:(id) sender

@@ -26,6 +26,7 @@
     UIButton                    *declineButton;
     UIButton                    *acceptButton;
     UIButton                    *infoButton;
+    UIButton                    *resolutionButton;
 }
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;
