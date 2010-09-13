@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DocumentsListViewController.h"
 
-@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController;
+@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController;
 
 @interface RootViewController : UIViewController<DocumentsListDelegate>
 {
@@ -27,6 +27,7 @@
     UIButton                    *acceptButton;
     UIButton                    *infoButton;
     UIButton                    *resolutionButton;
+    ResolutionViewController    *resolutionViewController;
 }
 
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;

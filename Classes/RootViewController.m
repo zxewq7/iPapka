@@ -18,6 +18,7 @@
 #import "PaintingToolsViewController.h"
 #import "DocumentsListViewController.h"
 #import "Folder.h"
+#import "ResolutionViewController.h"
 
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
@@ -252,7 +253,30 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 
 -(void) showResolution:(id) sender
 {
+    resolutionButton.selected = !resolutionButton.selected;
+
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationTransition:resolutionButton.selected?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp
+                           forView:contentView cache:YES];
     
+    if (resolutionButton.selected)
+    {
+        if (!resolutionViewController)
+        {
+            resolutionViewController = [[ResolutionViewController alloc] init];
+            CGSize resolutionSize = resolutionViewController.view.frame.size;
+            CGRect resolutionFrame = CGRectMake((contentView.frame.size.width-resolutionSize.width)/2, 0, resolutionSize.width, resolutionSize.height);
+            resolutionViewController.view.frame = resolutionFrame;
+            [contentView addSubview: resolutionViewController.view];
+        }
+        resolutionViewController.view.hidden = NO;
+    }
+    else
+        resolutionViewController.view.hidden = YES;
+    
+    [UIView commitAnimations];
+        
 }
 
 -(void) showDocuments:(id) sender
