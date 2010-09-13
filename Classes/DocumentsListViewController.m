@@ -149,11 +149,8 @@
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-        UIImageView *selectedRowBackground = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"DocumentInfoSelectedCell.png"]];
-        cell.selectedBackgroundView = selectedRowBackground;
-        [selectedRowBackground release];
-        cell.textLabel.highlightedTextColor = [UIColor blackColor];
-        cell.detailTextLabel.highlightedTextColor = [UIColor blackColor];
+        cell.textLabel.highlightedTextColor = [UIColor whiteColor];
+        cell.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
         cell.detailTextLabel.textColor = [UIColor darkGrayColor];
 	}
     
@@ -162,6 +159,7 @@
     DocumentManaged *doc = [documentSection objectAtIndex:indexPath.row];
     cell.textLabel.text = doc.title;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author];
+    cell.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
     return cell;
 }
 
