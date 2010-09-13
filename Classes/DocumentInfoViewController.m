@@ -70,14 +70,14 @@
     //create table header
     //http://cocoawithlove.com/2009/04/easy-custom-uiself.tableView-drawing.html
     UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 157)];
-    documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 20, 300, 48)];
+    documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(10, 33, 300, 48)];
     documentTitle.textColor = [UIColor blackColor];
     documentTitle.textAlignment = UITextAlignmentCenter;
     documentTitle.font = [UIFont fontWithName:@"CharterC" size:24];
     documentTitle.backgroundColor = [UIColor clearColor];
     [containerView addSubview:documentTitle];
     
-    documentDetails = [[UILabel alloc] initWithFrame:CGRectMake(10, 20+48, 300, 48)];
+    documentDetails = [[UILabel alloc] initWithFrame:CGRectMake(10, 57, 300, 48)];
     documentDetails.textColor = [UIColor darkGrayColor];
     documentDetails.textAlignment = UITextAlignmentCenter;
     documentDetails.font = [UIFont fontWithName:@"CharterC" size:14];
@@ -88,7 +88,7 @@
                                                          NSLocalizedString(@"Linked files", "Linked files"),
                                                          nil]];
     CGRect filterFrame = filter.frame;
-    filter.frame = CGRectMake(10, 20+48+48, filterFrame.size.width, 30);
+    filter.frame = CGRectMake(10, 99, filterFrame.size.width, 30);
     [containerView addSubview:filter];
     self.tableView.tableHeaderView = containerView;
     [containerView release];
