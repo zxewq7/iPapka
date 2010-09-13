@@ -23,8 +23,8 @@
     CGFloat                     contentHeightOffset;
     UIImageView                 *contentView;
     BOOL                        canEdit;
-    UIBarButtonItem             *declineButton;
-    UIBarButtonItem             *acceptButton;
+    UIButton                    *declineButton;
+    UIButton                    *acceptButton;
     UIButton                    *infoButton;
 }
 

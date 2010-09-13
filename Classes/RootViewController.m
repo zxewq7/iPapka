@@ -126,9 +126,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGRect documentInfoViewControllerFrame = CGRectMake(0, 5, contentViewSize.width, 300);
     documentInfoViewController.view.frame = documentInfoViewControllerFrame;
     [documentInfoViewController addObserver:self
-                            forKeyPath:@"attachment"
-                               options:0
-                               context:&AttachmentContext];
+                                 forKeyPath:@"attachment"
+                                    options:0
+                                    context:&AttachmentContext];
 
     paintingToolsViewController = [[PaintingToolsViewController alloc] init];
     CGSize paintingSize = paintingToolsViewController.view.frame.size;
@@ -364,12 +364,34 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [items addObject: flexBarButton1];
     [flexBarButton1 release];
 
-    declineButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Decline", "Decline") style: UIBarButtonItemStyleBordered target:self action: @selector(declineDocument:)];
-    [items addObject: declineButton];
-
-    acceptButton = [[UIBarButtonItem alloc] initWithTitle:NSLocalizedString(@"Accept", "Accept") style: UIBarButtonItemStyleBordered target:self action:@selector(acceptDocument:)];
+    declineButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Decline", "Decline")
+                                                 titleFont:[UIFont boldSystemFontOfSize:14]
+                                                    target:self
+                                                  selector:@selector(declineDocument:)
+                                                     frame:CGRectMake(0, 0, 15, 30)
+                                             addLabelWidth:YES
+                                                     image:[UIImage imageNamed:@"ButtonSquareBlack.png"]
+                                              imagePressed:[UIImage imageNamed:@"ButtonSquareBlackSelected.png"]
+                                             darkTextColor:NO];
+    [declineButton retain];
     
-    [items addObject: acceptButton];
+    UIBarButtonItem *declineBarButton = [[UIBarButtonItem alloc] initWithCustomView:declineButton];
+    [items addObject: declineBarButton];
+    [declineBarButton release];
+
+    acceptButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Accept", "Accept")
+                                                titleFont:[UIFont boldSystemFontOfSize:14]
+                                                   target:self
+                                                 selector:@selector(acceptDocument:)
+                                                    frame:CGRectMake(0, 0, 15, 30)
+                                            addLabelWidth:YES
+                                                    image:[UIImage imageNamed:@"ButtonSquareBlack.png"]
+                                             imagePressed:[UIImage imageNamed:@"ButtonSquareBlackSelected.png"]
+                                            darkTextColor:NO];
+    
+    UIBarButtonItem *acceptBarButton = [[UIBarButtonItem alloc] initWithCustomView:acceptButton];
+    [items addObject: acceptBarButton];
+    [acceptBarButton release];
 
     toolbar = [[UIToolbar alloc]
                                initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, 44)];
@@ -430,26 +452,22 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     canEdit = value;
     if (canEdit)
     {
-        [acceptButton setTitle:NSLocalizedString(@"Accept", "Accept")];
-        [acceptButton setStyle:UIBarButtonItemStyleBordered];
-        [acceptButton setEnabled:YES];
-        
-        [declineButton setTitle:NSLocalizedString(@"Decline", "Decline")];
-        [declineButton setStyle:UIBarButtonItemStyleBordered];
-        [declineButton setEnabled:YES];
+        acceptButton.hidden = NO;
+        acceptButton.enabled = YES;
+
+        declineButton.hidden = NO;
+        declineButton.enabled = YES;
         
         paintingToolsViewController.view.hidden = NO;
         paintingToolsViewController.view.userInteractionEnabled = YES;
     }
     else
     {
-        [acceptButton setStyle:UIBarButtonItemStylePlain];
-        [acceptButton setEnabled:NO];
-        [acceptButton setTitle:@""];
-        
-        [declineButton setStyle:UIBarButtonItemStylePlain];
-        [declineButton setEnabled:NO];
-        [declineButton setTitle:@""];
+        acceptButton.hidden = YES;
+        acceptButton.enabled = NO;
+
+        declineButton.hidden = YES;
+        declineButton.enabled = NO;
 
         paintingToolsViewController.view.hidden = YES;
         paintingToolsViewController.view.userInteractionEnabled = NO;
