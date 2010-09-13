@@ -89,6 +89,7 @@
 		8193B64412379E28000F05B6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B64312379E28000F05B6 /* OpenGLES.framework */; };
 		8193B66D12379E7B000F05B6 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8165426B12379BE3008FC80F /* libDataModel.a */; };
 		8193B66E12379E7B000F05B6 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8165423B12379B79008FC80F /* libLNDataSource.a */; };
+		819D8083123DFD8B00483E10 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 819D8082123DFD8B00483E10 /* Entitlements.plist */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
@@ -245,6 +246,7 @@
 		8193B63512379E09000F05B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8193B63B12379E13000F05B6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8193B64312379E28000F05B6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		819D8082123DFD8B00483E10 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
 		81D60425123ACBC400CEAF75 /* PaintingTools.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaintingTools.png; sourceTree = "<group>"; };
@@ -425,6 +427,7 @@
 		816541B512379AA3008FC80F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				819D8082123DFD8B00483E10 /* Entitlements.plist */,
 				815EAB4E1237DF810093CF38 /* InfoPlist.strings */,
 				8107AAB31237A1AF00F0C71F /* Localizable.strings */,
 				811DF4671237A11E00903D30 /* Settings.bundle */,
@@ -654,6 +657,7 @@
 				81094788123B6582009B3B1E /* DocumentsListNavigationbarBackground.png in Resources */,
 				81E5B49B123BB3900068617E /* ButtonResolution.png in Resources */,
 				81E5B49C123BB3900068617E /* ButtonSignature.png in Resources */,
+				819D8083123DFD8B00483E10 /* Entitlements.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -784,6 +788,43 @@
 			};
 			name = Release;
 		};
+		81E557BC123DFED800312E79 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_UNIVERSAL_IPHONE_OS)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Vladimir Solomenchuk";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = coop.plausible.blocks.compilers.gcc.4_2;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				PREBINDING = NO;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "41B42303-9740-416C-AA79-36B5678D4C49";
+				SDKROOT = iphoneos3.2;
+				TARGETED_DEVICE_FAMILY = 2;
+				USER_HEADER_SEARCH_PATHS = "DataModel/** LNDataSource/** thirdparty/ASIHTTPRequest/**";
+			};
+			name = Distribution;
+		};
+		81E557BD123DFED800312E79 /* Distribution */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/thirdparty\"",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = Meester_Prefix.pch;
+				INFOPLIST_FILE = Info.plist;
+				PRODUCT_NAME = Meester;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = app;
+			};
+			name = Distribution;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -792,6 +833,7 @@
 			buildConfigurations = (
 				816541DA12379AA4008FC80F /* Debug */,
 				816541DB12379AA4008FC80F /* Release */,
+				81E557BC123DFED800312E79 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -801,6 +843,7 @@
 			buildConfigurations = (
 				816541DD12379AA4008FC80F /* Debug */,
 				816541DE12379AA4008FC80F /* Release */,
+				81E557BD123DFED800312E79 /* Distribution */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
