@@ -10,6 +10,7 @@
 #import "DataSource.h"
 #import "DocumentManaged.h"
 #import "Folder.h";
+#import "UIButton+Additions.h"
 
 #define ROW_HEIGHT 94
 
@@ -211,6 +212,11 @@
     self.document = [documentSection objectAtIndex:indexPath.row];
     if ([delegate respondsToSelector:@selector(documentDidChanged:)]) 
         [delegate documentDidChanged:self];
+}
+
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
 }
 
 #pragma mark -
@@ -422,8 +428,18 @@
     UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshDocuments:)];
     self.navigationItem.rightBarButtonItem = refreshButton;
     [refreshButton release];
-    UIBarButtonItem *cancelButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemCancel target:self action:@selector(dismiss:)];
-    self.navigationItem.leftBarButtonItem = cancelButton;
+    
+    UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Cancel", "Cancel")
+                                                          titleFont:[UIFont boldSystemFontOfSize:14]
+                                                             target:self
+                                                           selector:@selector(dismiss:)
+                                                              frame:CGRectMake(0, 0, 31, 30)
+                                                      addLabelWidth:YES
+                                                              image:[UIImage imageNamed:@"BackBarButton.png"]
+                                                       imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
+                                                      darkTextColor:NO];
+    UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
+    self.navigationItem.leftBarButtonItem = cancelBarButton;
     [cancelButton release];
     //http://www.developers-life.com/customizing-uinavigationbar.html
     UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 170, 300, 44)];

@@ -89,6 +89,8 @@
 		818E9100123E0496006FCE06 /* CHARTECI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FC123E0496006FCE06 /* CHARTECI.TTF */; };
 		818E9101123E0496006FCE06 /* CHARTERC.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FD123E0496006FCE06 /* CHARTERC.TTF */; };
 		818E9147123E23CF006FCE06 /* ReadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 818E9146123E23CF006FCE06 /* ReadMark.png */; };
+		818E91AC123E2F0C006FCE06 /* BackBarButton.png in Resources */ = {isa = PBXBuildFile; fileRef = 818E91AA123E2F0C006FCE06 /* BackBarButton.png */; };
+		818E91AD123E2F0C006FCE06 /* BackBarButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 818E91AB123E2F0C006FCE06 /* BackBarButtonSelected.png */; };
 		8193B63612379E09000F05B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63512379E09000F05B6 /* CoreData.framework */; };
 		8193B63C12379E13000F05B6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63B12379E13000F05B6 /* Security.framework */; };
 		8193B64412379E28000F05B6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B64312379E28000F05B6 /* OpenGLES.framework */; };
@@ -253,6 +255,8 @@
 		818E90FC123E0496006FCE06 /* CHARTECI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTECI.TTF; sourceTree = "<group>"; };
 		818E90FD123E0496006FCE06 /* CHARTERC.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTERC.TTF; sourceTree = "<group>"; };
 		818E9146123E23CF006FCE06 /* ReadMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ReadMark.png; sourceTree = "<group>"; };
+		818E91AA123E2F0C006FCE06 /* BackBarButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackBarButton.png; sourceTree = "<group>"; };
+		818E91AB123E2F0C006FCE06 /* BackBarButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BackBarButtonSelected.png; sourceTree = "<group>"; };
 		8193B63512379E09000F05B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8193B63B12379E13000F05B6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8193B64312379E28000F05B6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -295,6 +299,8 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				818E91AA123E2F0C006FCE06 /* BackBarButton.png */,
+				818E91AB123E2F0C006FCE06 /* BackBarButtonSelected.png */,
 				818E9146123E23CF006FCE06 /* ReadMark.png */,
 				81E5B499123BB3900068617E /* ButtonResolution.png */,
 				81E5B49A123BB3900068617E /* ButtonSignature.png */,
@@ -686,6 +692,8 @@
 				818E9100123E0496006FCE06 /* CHARTECI.TTF in Resources */,
 				818E9101123E0496006FCE06 /* CHARTERC.TTF in Resources */,
 				818E9147123E23CF006FCE06 /* ReadMark.png in Resources */,
+				818E91AC123E2F0C006FCE06 /* BackBarButton.png in Resources */,
+				818E91AD123E2F0C006FCE06 /* BackBarButtonSelected.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

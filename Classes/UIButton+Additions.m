@@ -55,4 +55,40 @@
 	button.backgroundColor = [UIColor clearColor]; 
     return button;
 }
+
++ (UIButton *)buttonWithBackgroundAndTitle:(NSString *)title
+                                 titleFont:(UIFont *) titleFont
+                                    target:(id)target
+                                  selector:(SEL)selector
+                                     frame:(CGRect)frame
+                             addLabelWidth:(BOOL)addLabelWidth
+                                     image:(UIImage *)image
+                              imagePressed:(UIImage *)imagePressed
+                             darkTextColor:(BOOL)darkTextColor
+{	
+    CGFloat width = addLabelWidth?[title sizeWithFont:titleFont].width:0;
+	UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.x, frame.size.width + width, frame.size.height)];
+	
+	button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+	button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
+	
+    button.titleLabel.font = titleFont;
+    
+	[button setTitle:title forState:UIControlStateNormal];	
+    [button setTitleColor: darkTextColor?[UIColor blackColor]:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+	UIImage *newImage = [image stretchableImageWithLeftCapWidth:12.0 topCapHeight:0.0];
+	[button setBackgroundImage:newImage forState:UIControlStateNormal];
+	
+	UIImage *newPressedImage = [imagePressed stretchableImageWithLeftCapWidth:12.0 topCapHeight:0.0];
+	[button setBackgroundImage:newPressedImage forState:UIControlStateSelected];
+    [button setBackgroundImage:newPressedImage forState:UIControlStateHighlighted];
+	
+	[button addTarget:target action:selector forControlEvents:UIControlEventTouchUpInside];
+	
+    // in case the parent view draws with a custom color or gradient, use a transparent color
+	button.backgroundColor = [UIColor clearColor];
+	
+	return button;
+}
 @end

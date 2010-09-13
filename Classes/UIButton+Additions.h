@@ -20,5 +20,13 @@
                           selector:(SEL)selector
                              image:(UIImage *)anImage
                      imageSelected:(UIImage *)anImageSelected;
-
++ (UIButton *)buttonWithBackgroundAndTitle:(NSString *)title
+                                 titleFont:(UIFont *) titleFont
+                                    target:(id)target
+                                  selector:(SEL)selector
+                                     frame:(CGRect)frame
+                             addLabelWidth:(BOOL)addLabelWidth
+                                     image:(UIImage *)image
+                              imagePressed:(UIImage *)imagePressed
+                             darkTextColor:(BOOL)darkTextColor;
 @end
