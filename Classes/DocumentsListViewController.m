@@ -425,8 +425,21 @@
     //http://stackoverflow.com/questions/1072604/whats-the-right-way-to-add-a-toolbar-to-a-uitableview
     
     //Create a button 
-    UIBarButtonItem *refreshButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(refreshDocuments:)];
-    self.navigationItem.rightBarButtonItem = refreshButton;
+    UIButton *refreshButton = [UIButton buttonWithBackgroundAndTitle:@""
+                                                          titleFont:nil
+                                                             target:self
+                                                           selector:@selector(refreshDocuments:)
+                                                              frame:CGRectMake(0, 0, 30, 30)
+                                                      addLabelWidth:NO
+                                                              image:[UIImage imageNamed:@"ButtonSquare.png"]
+                                                       imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
+                                                      darkTextColor:NO];
+
+	[refreshButton setImage:[UIImage imageNamed:@"ButtonRefresh.png"] forState:UIControlStateNormal];
+
+    UIBarButtonItem *refreshBarButton = [[UIBarButtonItem alloc] initWithCustomView:refreshButton];
+    
+    self.navigationItem.rightBarButtonItem = refreshBarButton;
     [refreshButton release];
     
     UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Cancel", "Cancel")

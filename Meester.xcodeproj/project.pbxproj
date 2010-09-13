@@ -97,6 +97,9 @@
 		8193B66D12379E7B000F05B6 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8165426B12379BE3008FC80F /* libDataModel.a */; };
 		8193B66E12379E7B000F05B6 /* libLNDataSource.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8165423B12379B79008FC80F /* libLNDataSource.a */; };
 		819D8083123DFD8B00483E10 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 819D8082123DFD8B00483E10 /* Entitlements.plist */; };
+		81A1B66C123E3DC70089C988 /* ButtonSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B66B123E3DC70089C988 /* ButtonSquare.png */; };
+		81A1B676123E3E930089C988 /* ButtonSquareSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B675123E3E930089C988 /* ButtonSquareSelected.png */; };
+		81A1B678123E3EA00089C988 /* ButtonRefresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B677123E3EA00089C988 /* ButtonRefresh.png */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
@@ -261,6 +264,9 @@
 		8193B63B12379E13000F05B6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8193B64312379E28000F05B6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
 		819D8082123DFD8B00483E10 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		81A1B66B123E3DC70089C988 /* ButtonSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSquare.png; sourceTree = "<group>"; };
+		81A1B675123E3E930089C988 /* ButtonSquareSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSquareSelected.png; sourceTree = "<group>"; };
+		81A1B677123E3EA00089C988 /* ButtonRefresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRefresh.png; sourceTree = "<group>"; };
 		81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
 		81D60425123ACBC400CEAF75 /* PaintingTools.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaintingTools.png; sourceTree = "<group>"; };
@@ -299,6 +305,9 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81A1B677123E3EA00089C988 /* ButtonRefresh.png */,
+				81A1B675123E3E930089C988 /* ButtonSquareSelected.png */,
+				81A1B66B123E3DC70089C988 /* ButtonSquare.png */,
 				818E91AA123E2F0C006FCE06 /* BackBarButton.png */,
 				818E91AB123E2F0C006FCE06 /* BackBarButtonSelected.png */,
 				818E9146123E23CF006FCE06 /* ReadMark.png */,
@@ -694,6 +703,9 @@
 				818E9147123E23CF006FCE06 /* ReadMark.png in Resources */,
 				818E91AC123E2F0C006FCE06 /* BackBarButton.png in Resources */,
 				818E91AD123E2F0C006FCE06 /* BackBarButtonSelected.png in Resources */,
+				81A1B66C123E3DC70089C988 /* ButtonSquare.png in Resources */,
+				81A1B676123E3E930089C988 /* ButtonSquareSelected.png in Resources */,
+				81A1B678123E3EA00089C988 /* ButtonRefresh.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
