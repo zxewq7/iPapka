@@ -169,11 +169,18 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     infoButton.frame = infoButtonFrame;
     [infoButton retain];
     
+    resolutionViewController = [[ResolutionViewController alloc] init];
+    CGSize resolutionSize = resolutionViewController.view.frame.size;
+    CGRect resolutionFrame = CGRectMake((contentView.frame.size.width-resolutionSize.width)/2, 0, resolutionSize.width, resolutionSize.height);
+    resolutionViewController.view.frame = resolutionFrame;
+    resolutionViewController.view.hidden = YES;
+    
     [contentView addSubview: documentInfoViewController.view];
     [contentView addSubview: attachmentsViewController.view];
 
     [self.view addSubview:paintingToolsViewController.view];
     [self.view addSubview:contentView];
+    [contentView addSubview: resolutionViewController.view];
     [self.view addSubview:clipperViewController.view];
     [self.view addSubview:infoButton];
     [self.view addSubview:resolutionButton];
@@ -258,22 +265,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.5f];
     [UIView setAnimationTransition:resolutionButton.selected?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp
-                           forView:contentView cache:YES];
+                           forView:resolutionViewController.view cache:YES];
     
-    if (resolutionButton.selected)
-    {
-        if (!resolutionViewController)
-        {
-            resolutionViewController = [[ResolutionViewController alloc] init];
-            CGSize resolutionSize = resolutionViewController.view.frame.size;
-            CGRect resolutionFrame = CGRectMake((contentView.frame.size.width-resolutionSize.width)/2, 0, resolutionSize.width, resolutionSize.height);
-            resolutionViewController.view.frame = resolutionFrame;
-            [contentView addSubview: resolutionViewController.view];
-        }
-        resolutionViewController.view.hidden = NO;
-    }
-    else
-        resolutionViewController.view.hidden = YES;
+    resolutionViewController.view.hidden = !resolutionButton.selected;
     
     [UIView commitAnimations];
         
