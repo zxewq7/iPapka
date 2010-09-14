@@ -142,7 +142,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                               titleFont:[UIFont boldSystemFontOfSize:14]
                                                  target:self
                                                selector:@selector(showResolution:)
-                                                  frame:CGRectMake(0, 0, 31, 30)
+                                                  frame:CGRectMake(0, 0, 20, 30)
                                           addLabelWidth:YES
                                                   image:[UIImage imageNamed:@"ButtonSquare.png"]
                                            imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
@@ -153,12 +153,12 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     resolutionButton.frame = resolutionButtonFrame;
     [resolutionButton retain];
 
-    
-    infoButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Information", "Information")
+    //add extra spaces to front of label, cause of button with left arrow
+    infoButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString: NSLocalizedString(@"Information", "Information")]
                                               titleFont:[UIFont boldSystemFontOfSize:14]
                                                  target:self
                                                selector:@selector(showInfo:)
-                                                  frame:CGRectMake(0, 0, 31, 30)
+                                                  frame:CGRectMake(0, 0, 25, 30)
                                           addLabelWidth:YES
                                                   image:[UIImage imageNamed:@"BackBarButton.png"]
                                            imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]

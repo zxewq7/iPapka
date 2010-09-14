@@ -480,12 +480,13 @@
     
     self.navigationItem.rightBarButtonItem = refreshBarButton;
     [refreshButton release];
-    
-    UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Cancel", "Cancel")
+
+    //add extra spaces to front of label, cause of button with left arrow
+    UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString:NSLocalizedString(@"Cancel", "Cancel")]
                                                           titleFont:[UIFont boldSystemFontOfSize:14]
                                                              target:self
                                                            selector:@selector(dismiss:)
-                                                              frame:CGRectMake(0, 0, 31, 30)
+                                                              frame:CGRectMake(0, 0, 25, 30)
                                                       addLabelWidth:YES
                                                               image:[UIImage imageNamed:@"BackBarButton.png"]
                                                        imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
