@@ -75,7 +75,7 @@
             filter = folder;
         
         [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:filter] isDeleteDocuments:NO isDelta:NO];
-        filtersBar.selectedItem = filterIndex;
+        filtersBar.selectedItem = [filtersBar.items objectAtIndex: filterIndex];
     }
     else
         filterIndex = NSNotFound;
