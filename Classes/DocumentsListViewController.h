@@ -36,6 +36,7 @@
     id<DocumentsListDelegate> delegate;
     DocumentManaged         *document;
     NSIndexPath             *selectedDocumentIndexPath;
+    UITabBar                *filtersBar;
 }
 @property (nonatomic, retain) NSMutableDictionary       *sections;
 @property (nonatomic, retain) NSMutableArray            *sectionsOrdered;

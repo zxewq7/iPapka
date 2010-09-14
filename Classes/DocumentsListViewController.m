@@ -51,15 +51,31 @@
     {
         titleLabel.text = folder.localizedName;
         Folder *filter;
-        if ([folder.filters count])
+        
+        //find filter for document
+        NSArray *filters = folder.filters;
+        NSUInteger filtersCount = [folder.filters count];
+        
+        if (filtersCount)
         {
             filterIndex = 0;
-            filter = [folder.filters objectAtIndex: filterIndex];
+            for (NSUInteger i=0; i < filtersCount; i++)
+            {
+                Folder *f = [filters objectAtIndex: i];
+                if ([document isKindOfClass: f.entityClass] && [f.predicate evaluateWithObject: document])
+                {
+                    filterIndex = i;
+                    break;
+                }
+            }
+            
+            filter = [filters objectAtIndex: filterIndex];
         }
         else
             filter = folder;
         
         [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:filter] isDeleteDocuments:NO isDelta:NO];
+        filtersBar.selectedItem = filterIndex;
     }
     else
         filterIndex = NSNotFound;
@@ -106,6 +122,7 @@
     [self updateSyncStatus];
 }
 
+
 -(void) viewDidUnload {
 	[super viewDidUnload];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -121,6 +138,8 @@
     self.activityTimeFormatter = nil;
     [selectedDocumentIndexPath release];
     selectedDocumentIndexPath = nil;
+    [filtersBar release];
+    filtersBar = nil;
 }
 
 /*
@@ -132,6 +151,23 @@
     [self.navigationController setToolbarHidden:NO];
     if (selectedDocumentIndexPath)
         [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+    
+    NSArray *filters = folder.filters;
+    NSUInteger filtersCount = [filters count];
+    NSMutableArray *toolbarItems = [NSMutableArray arrayWithCapacity: filtersCount];
+    DataSource *ds = [DataSource sharedDataSource];
+    for (NSUInteger i=0; i < filtersCount; i++)
+    {
+        Folder *f = [filters objectAtIndex:i];
+        UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:f.localizedName image:f.icon tag:i];
+        NSInteger count = [ds countUnreadDocumentsForFolder: f];
+        item.badgeValue = count>0?[NSString stringWithFormat:@"%d", count]:nil;
+        item.tag = i;
+        [toolbarItems addObject:item];
+        [item release];
+    }
+    filtersBar.items = toolbarItems;
+    filtersBar.selectedItem = filterIndex == NSNotFound?nil:[toolbarItems objectAtIndex: filterIndex];  
 }
 
 #pragma mark -
@@ -240,6 +276,9 @@
     self.document =  nil;
     [selectedDocumentIndexPath release];
     selectedDocumentIndexPath = nil;
+    [filtersBar release];
+    filtersBar = nil;
+    
     [super dealloc];
 }
 @end
@@ -479,29 +518,12 @@
     self.navigationItem.titleView = containerView;
     
     [containerView release];
-    
-    NSArray *filters = folder.filters;
-    NSUInteger filtersCount = [filters count];
-    NSMutableArray *toolbarItems = [NSMutableArray arrayWithCapacity: filtersCount];
-    UITabBar *tabBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, 0, 516, 44)];
-    DataSource *ds = [DataSource sharedDataSource];
-    for (NSUInteger i=0; i < filtersCount; i++)
-    {
-        Folder *f = [filters objectAtIndex:i];
-        UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:f.localizedName image:f.icon tag:i];
-        NSInteger count = [ds countUnreadDocumentsForFolder: f];
-        item.badgeValue = count>0?[NSString stringWithFormat:@"%d", count]:nil;
-        item.tag = i;
-        [toolbarItems addObject:item];
-        [item release];
-    }
-    tabBar.items = toolbarItems;
-    tabBar.selectedItem = filterIndex == NSNotFound?nil:[toolbarItems objectAtIndex: filterIndex];
-    [tabBar setDelegate:self];
-    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:tabBar];
+
+    filtersBar = [[UITabBar alloc] initWithFrame:CGRectMake(0, 0, 516, 44)];
+    [filtersBar setDelegate:self];
+    UIBarButtonItem *barButton = [[UIBarButtonItem alloc] initWithCustomView:filtersBar];
     [self setToolbarItems:[NSArray arrayWithObject:barButton] animated:NO];
     [barButton release];
-    [tabBar release];
 }
 
 - (void)updateSyncStatus
