@@ -463,7 +463,7 @@
     //create bottom toolbar
     //http://stackoverflow.com/questions/1072604/whats-the-right-way-to-add-a-toolbar-to-a-uitableview
     
-    //Create a button 
+    //Create a refresh button
     UIButton *refreshButton = [UIButton buttonWithBackgroundAndTitle:@""
                                                           titleFont:nil
                                                              target:self
@@ -479,12 +479,12 @@
 
     UIBarButtonItem *refreshBarButton = [[UIBarButtonItem alloc] initWithCustomView:refreshButton];
     
-    self.navigationItem.rightBarButtonItem = refreshBarButton;
+    self.navigationItem.leftBarButtonItem = refreshBarButton;
     [refreshButton release];
 
     //add extra spaces to front of label, cause of button with left arrow
-    UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString:NSLocalizedString(@"Cancel", "Cancel")]
-                                                          titleFont:[UIFont boldSystemFontOfSize:14]
+    UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString:NSLocalizedString(@"Close", "Close")]
+                                                          titleFont:[UIFont boldSystemFontOfSize:12]
                                                              target:self
                                                            selector:@selector(dismiss:)
                                                               frame:CGRectMake(0, 0, 25, 30)
@@ -494,7 +494,7 @@
                                                        leftCapWidth:20.0f
                                                       darkTextColor:NO];
     UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
-    self.navigationItem.leftBarButtonItem = cancelBarButton;
+    self.navigationItem.rightBarButtonItem = cancelBarButton;
     [cancelButton release];
     //http://www.developers-life.com/customizing-uinavigationbar.html
     UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 170, 300, 44)];
