@@ -21,6 +21,12 @@
 #import "ResolutionViewController.h"
 #import "RotateableImageView.h"
 
+#define LEFT_CONTENT_MARGIN 5.0f
+#define RIGHT_CONTENT_MARGIN 5.0f
+
+#define TOP_CONTENT_MARGIN 5.0f
+#define BOTTOM_CONTENT_MARGIN 10.0f
+
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
 @interface RootViewController(Private)
@@ -122,15 +128,16 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     contentViewSize.width-=5;
 
     //attachments view
-    CGRect attachmentsViewFrame = CGRectMake(0, 5, contentViewSize.width, contentViewSize.height);
+    CGRect attachmentsViewFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, contentViewSize.height - TOP_CONTENT_MARGIN - BOTTOM_CONTENT_MARGIN);
     attachmentsViewController = [[AttachmentsViewController alloc] init];
     attachmentsViewController.view.frame = attachmentsViewFrame;
+    attachmentsViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight);
     
     //attachmentPicker view
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
-    CGRect documentInfoViewControllerFrame = CGRectMake(0, 5, contentViewSize.width, 300);
+    CGRect documentInfoViewControllerFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, 300);
     documentInfoViewController.view.frame = documentInfoViewControllerFrame;
-    documentInfoViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    documentInfoViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth);
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"attachment"
                                     options:0
@@ -186,7 +193,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     resolutionViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
     
     [contentView addSubview: documentInfoViewController.view];
-//    [contentView addSubview: attachmentsViewController.view];
+    [contentView addSubview: attachmentsViewController.view];
 
     [self.view addSubview:paintingToolsViewController.view];
     [self.view addSubview:contentView];
