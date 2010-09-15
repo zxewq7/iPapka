@@ -28,5 +28,6 @@
                              addLabelWidth:(BOOL)addLabelWidth
                                      image:(UIImage *)image
                               imagePressed:(UIImage *)imagePressed
+                              leftCapWidth:(CGFloat) leftCapWidth
                              darkTextColor:(BOOL)darkTextColor;
 @end

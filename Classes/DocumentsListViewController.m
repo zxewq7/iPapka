@@ -472,6 +472,7 @@
                                                       addLabelWidth:NO
                                                               image:[UIImage imageNamed:@"ButtonSquare.png"]
                                                        imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
+                                                       leftCapWidth:10.0f
                                                       darkTextColor:NO];
 
 	[refreshButton setImage:[UIImage imageNamed:@"ButtonRefresh.png"] forState:UIControlStateNormal];
@@ -490,6 +491,7 @@
                                                       addLabelWidth:YES
                                                               image:[UIImage imageNamed:@"BackBarButton.png"]
                                                        imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
+                                                       leftCapWidth:20.0f
                                                       darkTextColor:NO];
     UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
     self.navigationItem.leftBarButtonItem = cancelBarButton;

@@ -135,6 +135,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                           addLabelWidth:YES
                                                   image:[UIImage imageNamed:@"ButtonSquare.png"]
                                            imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
+                                           leftCapWidth:10.0f
                                           darkTextColor:NO];
     
     CGSize resolutionButtonSize = resolutionButton.frame.size;
@@ -151,6 +152,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                           addLabelWidth:YES
                                                   image:[UIImage imageNamed:@"BackBarButton.png"]
                                            imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
+                                           leftCapWidth:20.0f
                                           darkTextColor:NO];
 
     CGSize infoButtonSize = infoButton.frame.size;
@@ -405,6 +407,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                              addLabelWidth:YES
                                                      image:[UIImage imageNamed:@"ButtonSquareBlack.png"]
                                               imagePressed:[UIImage imageNamed:@"ButtonSquareBlackSelected.png"]
+                                              leftCapWidth:10.0f
                                              darkTextColor:NO];
     [declineButton retain];
     
@@ -420,6 +423,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                             addLabelWidth:YES
                                                     image:[UIImage imageNamed:@"ButtonSquareBlack.png"]
                                              imagePressed:[UIImage imageNamed:@"ButtonSquareBlackSelected.png"]
+                                             leftCapWidth:10.0f
                                             darkTextColor:NO];
     
     UIBarButtonItem *acceptBarButton = [[UIBarButtonItem alloc] initWithCustomView:acceptButton];

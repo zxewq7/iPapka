@@ -64,6 +64,7 @@
                              addLabelWidth:(BOOL)addLabelWidth
                                      image:(UIImage *)image
                               imagePressed:(UIImage *)imagePressed
+                              leftCapWidth:(CGFloat) leftCapWidth
                              darkTextColor:(BOOL)darkTextColor
 {	
     CGFloat width = addLabelWidth?[title sizeWithFont:titleFont].width:0;
@@ -77,7 +78,7 @@
 	[button setTitle:title forState:UIControlStateNormal];	
     [button setTitleColor: darkTextColor?[UIColor blackColor]:[UIColor whiteColor] forState:UIControlStateNormal];
     
-	UIImage *newImage = [image stretchableImageWithLeftCapWidth:12.0 topCapHeight:0.0];
+	UIImage *newImage = [image stretchableImageWithLeftCapWidth:leftCapWidth topCapHeight:0.0];
 	[button setBackgroundImage:newImage forState:UIControlStateNormal];
 	
 	UIImage *newPressedImage = [imagePressed stretchableImageWithLeftCapWidth:12.0 topCapHeight:0.0];
