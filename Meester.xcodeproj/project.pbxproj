@@ -52,7 +52,6 @@
 		8144AD85123A143B006B2AD7 /* RootBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 8144AD82123A143B006B2AD7 /* RootBackground.png */; };
 		8148EC2E123A323A000E9762 /* ClipperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8148EC2D123A323A000E9762 /* ClipperViewController.m */; };
 		8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC33123A3378000E9762 /* ClipperClosed.png */; };
-		8148EC96123A3C7A000E9762 /* PaperBack.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC95123A3C7A000E9762 /* PaperBack.png */; };
 		8148ED24123A4996000E9762 /* Paper.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148ED23123A4996000E9762 /* Paper.png */; };
 		8148EF8C123A7C76000E9762 /* ClipperOpened.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EF8B123A7C76000E9762 /* ClipperOpened.png */; };
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
@@ -107,8 +106,12 @@
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
+		81E5002A1241616A00D697EA /* RotateableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E500291241616A00D697EA /* RotateableImageView.m */; };
+		81E500641241656800D697EA /* RootBackground-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E500631241656700D697EA /* RootBackground-Landscape.png */; };
 		81E5B49B123BB3900068617E /* ButtonResolution.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5B499123BB3900068617E /* ButtonResolution.png */; };
 		81E5B49C123BB3900068617E /* ButtonSignature.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5B49A123BB3900068617E /* ButtonSignature.png */; };
+		81E5FE7B1240EEBA00D697EA /* Papers-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE791240EEBA00D697EA /* Papers-Landscape.png */; };
+		81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE7A1240EEBA00D697EA /* Papers.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -198,7 +201,6 @@
 		8148EC2C123A323A000E9762 /* ClipperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClipperViewController.h; sourceTree = "<group>"; };
 		8148EC2D123A323A000E9762 /* ClipperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClipperViewController.m; sourceTree = "<group>"; };
 		8148EC33123A3378000E9762 /* ClipperClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperClosed.png; sourceTree = "<group>"; };
-		8148EC95123A3C7A000E9762 /* PaperBack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaperBack.png; sourceTree = "<group>"; };
 		8148ED23123A4996000E9762 /* Paper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Paper.png; sourceTree = "<group>"; };
 		8148EF8B123A7C76000E9762 /* ClipperOpened.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperOpened.png; sourceTree = "<group>"; };
 		81585473123BC24000A827E6 /* UIToolbar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIToolbar+Additions.h"; sourceTree = "<group>"; };
@@ -281,8 +283,13 @@
 		81D60425123ACBC400CEAF75 /* PaintingTools.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaintingTools.png; sourceTree = "<group>"; };
 		81D60427123ACBEA00CEAF75 /* PaintingToolsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingToolsViewController.h; sourceTree = "<group>"; };
 		81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingToolsViewController.m; sourceTree = "<group>"; };
+		81E500281241616A00D697EA /* RotateableImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotateableImageView.h; sourceTree = "<group>"; };
+		81E500291241616A00D697EA /* RotateableImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotateableImageView.m; sourceTree = "<group>"; };
+		81E500631241656700D697EA /* RootBackground-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RootBackground-Landscape.png"; sourceTree = "<group>"; };
 		81E5B499123BB3900068617E /* ButtonResolution.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonResolution.png; sourceTree = "<group>"; };
 		81E5B49A123BB3900068617E /* ButtonSignature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSignature.png; sourceTree = "<group>"; };
+		81E5FE791240EEBA00D697EA /* Papers-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Papers-Landscape.png"; sourceTree = "<group>"; };
+		81E5FE7A1240EEBA00D697EA /* Papers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Papers.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -314,6 +321,9 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81E500631241656700D697EA /* RootBackground-Landscape.png */,
+				81E5FE791240EEBA00D697EA /* Papers-Landscape.png */,
+				81E5FE7A1240EEBA00D697EA /* Papers.png */,
 				81A1B75D123E554D0089C988 /* ResolutionBackground.png */,
 				81A1B735123E52810089C988 /* ButtonSquareBlack.png */,
 				81A1B736123E52810089C988 /* ButtonSquareBlackSelected.png */,
@@ -334,7 +344,6 @@
 				81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */,
 				8148EF8B123A7C76000E9762 /* ClipperOpened.png */,
 				8148ED23123A4996000E9762 /* Paper.png */,
-				8148EC95123A3C7A000E9762 /* PaperBack.png */,
 				8148EC33123A3378000E9762 /* ClipperClosed.png */,
 				8144AD80123A143B006B2AD7 /* ButtonArchive.png */,
 				8144AD81123A143B006B2AD7 /* ButtonDocuments.png */,
@@ -368,6 +377,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81E500281241616A00D697EA /* RotateableImageView.h */,
+				81E500291241616A00D697EA /* RotateableImageView.m */,
 				8165420212379B3B008FC80F /* ImageScrollView.h */,
 				8165420312379B3B008FC80F /* ImageScrollView.m */,
 				8165420812379B3B008FC80F /* PaintingView.h */,
@@ -697,7 +708,6 @@
 				8144AD84123A143B006B2AD7 /* ButtonDocuments.png in Resources */,
 				8144AD85123A143B006B2AD7 /* RootBackground.png in Resources */,
 				8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */,
-				8148EC96123A3C7A000E9762 /* PaperBack.png in Resources */,
 				8148ED24123A4996000E9762 /* Paper.png in Resources */,
 				8148EF8C123A7C76000E9762 /* ClipperOpened.png in Resources */,
 				81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */,
@@ -723,6 +733,9 @@
 				81A1B737123E52810089C988 /* ButtonSquareBlack.png in Resources */,
 				81A1B738123E52810089C988 /* ButtonSquareBlackSelected.png in Resources */,
 				81A1B75E123E554D0089C988 /* ResolutionBackground.png in Resources */,
+				81E5FE7B1240EEBA00D697EA /* Papers-Landscape.png in Resources */,
+				81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */,
+				81E500641241656800D697EA /* RootBackground-Landscape.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -763,6 +776,7 @@
 				81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */,
 				81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */,
 				81A1B761123E557C0089C988 /* ResolutionViewController.m in Sources */,
+				81E5002A1241616A00D697EA /* RotateableImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

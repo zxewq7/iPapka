@@ -32,15 +32,6 @@
 #pragma mark -
 #pragma mark View loading and unloading
 
-- (void)loadView
-{
-    UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
-    
-    self.view = v;
-    
-    [v release];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -53,13 +44,26 @@
     //create pages
     currentPage = [[AttachmentPageViewController alloc] init];
 	nextPage = [[AttachmentPageViewController alloc] init];
+
+    CGSize size = self.view.frame.size;
+    CGRect pageFrame = CGRectMake(0, 0, size.width, size.height);
+    currentPage.view.frame = pageFrame;
+    nextPage.view.frame = pageFrame;
     
+    currentPage.view.autoresizingMask = (UIViewAutoresizingFlexibleHeight |
+                                         UIViewAutoresizingFlexibleWidth);
+    nextPage.view.autoresizingMask = (UIViewAutoresizingFlexibleHeight |
+                                      UIViewAutoresizingFlexibleWidth);
+
     currentPage.attachment = attachment;
     nextPage.attachment = attachment;
 
     currentPage.pageIndex = 0;
     nextPage.pageIndex = 1;
+    
 
+    self.view.autoresizesSubviews = YES;
+    
     [self.view addSubview:nextPage.view];
 	[self.view addSubview:currentPage.view];
 }

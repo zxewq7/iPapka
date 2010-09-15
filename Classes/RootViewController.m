@@ -19,6 +19,7 @@
 #import "DocumentsListViewController.h"
 #import "Folder.h"
 #import "ResolutionViewController.h"
+#import "RotateableImageView.h"
 
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
@@ -26,6 +27,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 - (void) createToolbar;
 - (void) moveToArchive;
 -(void) setCanEdit:(BOOL) value;
+- (void) setBackground:(BOOL) force;
 @end
 
 @implementation RootViewController
@@ -77,8 +79,15 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [self createToolbar];
     
     //background image
-    UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
+    
     CGRect toolbarFrame = toolbar.bounds;
+
+    RotateableImageView *backgroundView = [[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
+    backgroundView.portraitImage = [UIImage imageNamed: @"RootBackground.png"];
+    backgroundView.landscapeImage = [UIImage imageNamed: @"RootBackground-Landscape.png"];
+    backgroundView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
+                                       UIViewAutoresizingFlexibleHeight);
+
     backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, viewFrame.size.width, backgroundView.frame.size.height);
     [self.view addSubview:backgroundView];
     [backgroundView release];
@@ -90,6 +99,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGSize clipperSize = clipperViewController.view.frame.size;
     CGRect clipperFrame = CGRectMake((viewBounds.size.width-clipperSize.width)/2, 0,clipperSize.width, clipperSize.height);
     clipperViewController.view.frame = clipperFrame;
+    clipperViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
+    
     [clipperViewController addObserver:self
                                  forKeyPath:@"opened"
                                     options:0
@@ -98,7 +109,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     contentHeightOffset = toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset];
 
     //contentView
-    contentView = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"PaperBack.png"]];
+    contentView = [[RotateableImageView alloc] initWithImage: [UIImage imageNamed: @"Papers.png"]];
+    contentView.portraitImage = [UIImage imageNamed: @"Papers.png"];
+    contentView.landscapeImage = [UIImage imageNamed: @"Papers-Landscape.png"];
+    contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
+                                    UIViewAutoresizingFlexibleHeight);
     
     CGSize contentViewSize = contentView.frame.size;
     
@@ -141,6 +156,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGSize resolutionButtonSize = resolutionButton.frame.size;
     CGRect resolutionButtonFrame = CGRectMake(contentView.frame.origin.x, contentHeightOffset - resolutionButtonSize.height, resolutionButtonSize.width, resolutionButtonSize.height);
     resolutionButton.frame = resolutionButtonFrame;
+    resolutionButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [resolutionButton retain];
 
     //add extra spaces to front of label, cause of button with left arrow
@@ -158,6 +174,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGSize infoButtonSize = infoButton.frame.size;
     CGRect infoButtonFrame = CGRectMake(contentView.frame.origin.x + contentView.frame.size.width - infoButtonSize.width, contentHeightOffset - infoButtonSize.height, infoButtonSize.width, infoButtonSize.height);
     infoButton.frame = infoButtonFrame;
+    infoButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [infoButton retain];
     
     resolutionViewController = [[ResolutionViewController alloc] init];
@@ -166,8 +183,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     resolutionViewController.view.frame = resolutionFrame;
     resolutionViewController.view.hidden = YES;
     
-    [contentView addSubview: documentInfoViewController.view];
-    [contentView addSubview: attachmentsViewController.view];
+//    [contentView addSubview: documentInfoViewController.view];
+//    [contentView addSubview: attachmentsViewController.view];
 
     [self.view addSubview:paintingToolsViewController.view];
     [self.view addSubview:contentView];
