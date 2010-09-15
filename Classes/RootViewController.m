@@ -67,30 +67,19 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         [attachmentsViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
-- (void)loadView
-{
-    UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
-    
-    self.view = v;
-    
-    [v release];
-}
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 
-    CGRect windowFrame = [[UIScreen mainScreen] bounds];
-    self.view.frame = CGRectMake(0, 20, windowFrame.size.width, windowFrame.size.height-20);
     self.view.backgroundColor = [UIColor blackColor];
+    CGRect viewFrame = self.view.frame;
     
     [self createToolbar];
     
     //background image
     UIImageView *backgroundView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
     CGRect toolbarFrame = toolbar.bounds;
-    CGFloat backgroundImageHeight = windowFrame.size.height-toolbarFrame.size.height;
-    backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, windowFrame.size.width, backgroundImageHeight);
+    backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, viewFrame.size.width, backgroundView.frame.size.height);
     [self.view addSubview:backgroundView];
     [backgroundView release];
     
