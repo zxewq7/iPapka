@@ -398,7 +398,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [flexBarButton1 release];
 
     declineButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Decline", "Decline")
-                                                 titleFont:[UIFont boldSystemFontOfSize:14]
+                                                 titleFont:[UIFont boldSystemFontOfSize:12]
                                                     target:self
                                                   selector:@selector(declineDocument:)
                                                      frame:CGRectMake(0, 0, 15, 30)
@@ -413,7 +413,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [declineBarButton release];
 
     acceptButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Accept", "Accept")
-                                                titleFont:[UIFont boldSystemFontOfSize:14]
+                                                titleFont:[UIFont boldSystemFontOfSize:12]
                                                    target:self
                                                  selector:@selector(acceptDocument:)
                                                     frame:CGRectMake(0, 0, 15, 30)
