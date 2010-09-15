@@ -128,7 +128,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     paintingToolsViewController.view.frame = paintingToolsFrame;
 
     resolutionButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Resolution", "Resolution")
-                                              titleFont:[UIFont boldSystemFontOfSize:14]
+                                              titleFont:[UIFont boldSystemFontOfSize:12]
                                                  target:self
                                                selector:@selector(showResolution:)
                                                   frame:CGRectMake(0, 0, 20, 30)
@@ -144,7 +144,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 
     //add extra spaces to front of label, cause of button with left arrow
     infoButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString: NSLocalizedString(@"Information", "Information")]
-                                              titleFont:[UIFont boldSystemFontOfSize:14]
+                                              titleFont:[UIFont boldSystemFontOfSize:12]
                                                  target:self
                                                selector:@selector(showInfo:)
                                                   frame:CGRectMake(0, 0, 25, 30)
