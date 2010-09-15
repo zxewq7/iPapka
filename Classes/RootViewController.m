@@ -20,6 +20,7 @@
 #import "Folder.h"
 #import "ResolutionViewController.h"
 #import "RotateableImageView.h"
+#import <QuartzCore/CALayer.h>
 
 #define LEFT_CONTENT_MARGIN 5.0f
 #define RIGHT_CONTENT_MARGIN 5.0f
@@ -138,6 +139,13 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGRect documentInfoViewControllerFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, 300);
     documentInfoViewController.view.frame = documentInfoViewControllerFrame;
     documentInfoViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth);
+    
+    documentInfoViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    documentInfoViewController.view.layer.shadowOpacity = 1.0f;
+    documentInfoViewController.view.layer.shadowRadius = 5.0f;
+    documentInfoViewController.view.layer.shadowOffset = CGSizeMake(0, 3);
+    documentInfoViewController.view.clipsToBounds = NO;
+    
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"attachment"
                                     options:0
