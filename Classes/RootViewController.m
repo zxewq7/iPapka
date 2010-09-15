@@ -130,6 +130,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
     CGRect documentInfoViewControllerFrame = CGRectMake(0, 5, contentViewSize.width, 300);
     documentInfoViewController.view.frame = documentInfoViewControllerFrame;
+    documentInfoViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"attachment"
                                     options:0
@@ -184,7 +185,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     resolutionViewController.view.hidden = YES;
     resolutionViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
     
-//    [contentView addSubview: documentInfoViewController.view];
+    [contentView addSubview: documentInfoViewController.view];
 //    [contentView addSubview: attachmentsViewController.view];
 
     [self.view addSubview:paintingToolsViewController.view];
