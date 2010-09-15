@@ -182,6 +182,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGRect resolutionFrame = CGRectMake((contentView.frame.size.width-resolutionSize.width)/2, 0, resolutionSize.width, resolutionSize.height);
     resolutionViewController.view.frame = resolutionFrame;
     resolutionViewController.view.hidden = YES;
+    resolutionViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
     
 //    [contentView addSubview: documentInfoViewController.view];
 //    [contentView addSubview: attachmentsViewController.view];
