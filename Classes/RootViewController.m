@@ -28,6 +28,9 @@
 #define TOP_CONTENT_MARGIN 5.0f
 #define BOTTOM_CONTENT_MARGIN 10.0f
 
+static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
+static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
+
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
 @interface RootViewController(Private)
@@ -151,6 +154,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     documentInfoViewController.view.layer.shadowRadius = 3.0f;
     documentInfoViewController.view.layer.shadowOffset = CGSizeMake(0, 2);
     documentInfoViewController.view.clipsToBounds = NO;
+    
+    documentInfoViewController.view.hidden = YES;
     
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"attachment"
@@ -375,14 +380,20 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 {
     if (context == &ClipperOpenedContext)
     {
-        [UIView beginAnimations:nil context:NULL];
+        [UIView beginAnimations:OpenClipperAnimationId context:NULL];
         [UIView setAnimationDuration:.75];
+        [UIView setAnimationDelegate:self];
+        [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
 
         CGSize documentInfoViewControllerSize = documentInfoViewController.view.frame.size;
         
         CGRect attachmentsViewOldFrame = attachmentsViewController.view.frame;
         CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*documentInfoViewControllerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
         attachmentsViewController.view.frame = attachmentsViewFrame;
+
+        if (clipperViewController.opened)
+            documentInfoViewController.view.hidden = NO;
+        
         [UIView commitAnimations];
         infoButton.selected = clipperViewController.opened;
 
@@ -483,11 +494,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 - (void) moveToArchive
 {
     [self setCanEdit:NO];
-    [UIView beginAnimations:nil context:NULL];
+    [UIView beginAnimations:ArchiveAnimationId context:NULL];
     [UIView setAnimationDuration:0.75f];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDelegate:self];
-    [UIView setAnimationDidStopSelector:@selector(archivingAnimationDidStopped:finished:context:)];
+    [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
 
 #warning inaccurate positioning when move to archive
     contentView.transform = CGAffineTransformScale (
@@ -512,15 +523,22 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
     [UIView commitAnimations];    
 }
-- (void)archivingAnimationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+- (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
-    contentView.hidden = YES;
-    contentView.transform = CGAffineTransformIdentity;
-    contentView.hidden = NO;
-    [UIView setAnimationDelegate:nil];
-    [UIView setAnimationDidStopSelector:nil];
-    [[DataSource sharedDataSource] archiveDocument:self.document];
-    self.document = nil;
+    if (animationID == ArchiveAnimationId)
+    {
+        contentView.hidden = YES;
+        contentView.transform = CGAffineTransformIdentity;
+        contentView.hidden = NO;
+        [UIView setAnimationDelegate:nil];
+        [UIView setAnimationDidStopSelector:nil];
+        [[DataSource sharedDataSource] archiveDocument:self.document];
+        self.document = nil;
+    }
+    else if (animationID == OpenClipperAnimationId)
+    {
+        documentInfoViewController.view.hidden = !clipperViewController.opened;
+    }
 }
 -(void) setCanEdit:(BOOL) value
 {
