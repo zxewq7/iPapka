@@ -179,7 +179,10 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                            imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
                                            leftCapWidth:10.0f
                                           darkTextColor:NO];
-    
+
+    [resolutionButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    resolutionButton.titleLabel.shadowOffset = CGSizeMake(0.1, -1.0);
+
     CGSize resolutionButtonSize = resolutionButton.frame.size;
     CGRect resolutionButtonFrame = CGRectMake(contentView.frame.origin.x, contentHeightOffset - resolutionButtonSize.height, resolutionButtonSize.width, resolutionButtonSize.height);
     resolutionButton.frame = resolutionButtonFrame;
@@ -198,6 +201,10 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                            leftCapWidth:20.0f
                                           darkTextColor:NO];
 
+    [infoButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
+    infoButton.titleLabel.shadowOffset = CGSizeMake(0.1, -1.0);
+
+    
     CGSize infoButtonSize = infoButton.frame.size;
     CGRect infoButtonFrame = CGRectMake(contentView.frame.origin.x + contentView.frame.size.width - infoButtonSize.width, contentHeightOffset - infoButtonSize.height, infoButtonSize.width, infoButtonSize.height);
     infoButton.frame = infoButtonFrame;
