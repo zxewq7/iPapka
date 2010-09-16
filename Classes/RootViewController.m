@@ -28,6 +28,9 @@
 #define TOP_CONTENT_MARGIN 5.0f
 #define BOTTOM_CONTENT_MARGIN 10.0f
 
+#define PAINTING_TOOLS_LEFT_OFFSET 2
+#define PAINTING_TOOLS_TOP_OFFSET 33
+
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
 static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
 
@@ -145,9 +148,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 
     paintingToolsViewController = [[PaintingToolsViewController alloc] init];
     CGSize paintingSize = paintingToolsViewController.view.frame.size;
-    CGFloat paintingToolsOffsetFromLeftEdge = paintingSize.width - contentView.frame.origin.x;
+    CGFloat paintingToolsOffsetFromLeftEdge = paintingSize.width - contentView.frame.origin.x+PAINTING_TOOLS_LEFT_OFFSET;
     paintingToolsOffsetFromLeftEdge = paintingToolsOffsetFromLeftEdge<0?0:paintingToolsOffsetFromLeftEdge;
-    CGRect paintingToolsFrame = CGRectMake(contentView.frame.origin.x-paintingSize.width+paintingToolsOffsetFromLeftEdge, contentHeightOffset+33, paintingSize.width, paintingSize.height);
+    CGRect paintingToolsFrame = CGRectMake(contentView.frame.origin.x-paintingSize.width+paintingToolsOffsetFromLeftEdge, contentHeightOffset+PAINTING_TOOLS_TOP_OFFSET, paintingSize.width, paintingSize.height);
     paintingToolsViewController.view.frame = paintingToolsFrame;
 
     paintingToolsViewController.delegate = attachmentsViewController;
