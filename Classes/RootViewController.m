@@ -130,24 +130,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     attachmentsViewController.view.frame = attachmentsViewFrame;
     attachmentsViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight);
 
-    //http://bynomial.com/blog/?p=52
-    attachmentsViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    attachmentsViewController.view.layer.shadowOpacity = 1.0f;
-    attachmentsViewController.view.layer.shadowRadius = 3.0f;
-    attachmentsViewController.view.layer.shadowOffset = CGSizeMake(0, 2);
-    attachmentsViewController.view.clipsToBounds = NO;
-    
     //attachmentPicker view
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
     CGRect documentInfoViewControllerFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, 300);
     documentInfoViewController.view.frame = documentInfoViewControllerFrame;
     documentInfoViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth);
-    
-    documentInfoViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
-    documentInfoViewController.view.layer.shadowOpacity = 1.0f;
-    documentInfoViewController.view.layer.shadowRadius = 3.0f;
-    documentInfoViewController.view.layer.shadowOffset = CGSizeMake(0, 2);
-    documentInfoViewController.view.clipsToBounds = NO;
     
     documentInfoViewController.view.alpha = 0.0;
     
