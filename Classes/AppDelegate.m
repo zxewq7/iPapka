@@ -84,35 +84,6 @@
     [self.window makeKeyAndVisible];
 #warning disabled refresh at startup
 //    [[DataSource sharedDataSource] refreshDocuments];
-    
-    //fade out splash screen
-    //http://michael.burford.net/2008/11/fading-defaultpng-when-iphone-app.html
-    switch ([UIApplication sharedApplication].statusBarOrientation) 
-    {
-        case UIInterfaceOrientationLandscapeLeft:
-        case UIInterfaceOrientationLandscapeRight:
-            splashView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0, 1024, 768)];
-            splashView.image = [UIImage imageNamed:@"Default-Landscape.png"];
-            break;
-        default:
-            splashView = [[UIImageView alloc] initWithFrame:CGRectMake(0,0, 768, 1024)];
-            splashView.image = [UIImage imageNamed:@"Default.png"];
-            break;
-    }
-    [window addSubview:splashView];
-    [window bringSubviewToFront:splashView];
-    [UIView beginAnimations:nil context:nil];
-    [UIView setAnimationDuration:0.5];
-    [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:window cache:YES];
-    [UIView setAnimationDelegate:self]; 
-    [UIView setAnimationDidStopSelector:@selector(startupAnimationDone:finished:context:)];
-    splashView.alpha = 0.0;
-    [UIView commitAnimations];
-}
-
-- (void)startupAnimationDone:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context {
-    [splashView removeFromSuperview];
-    [splashView release];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
