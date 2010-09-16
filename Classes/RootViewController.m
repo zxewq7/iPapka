@@ -149,7 +149,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     documentInfoViewController.view.layer.shadowOffset = CGSizeMake(0, 2);
     documentInfoViewController.view.clipsToBounds = NO;
     
-    documentInfoViewController.view.hidden = YES;
+    documentInfoViewController.view.alpha = 0.0;
     
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"attachment"
@@ -543,7 +543,13 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     }
     else if (animationID == OpenClipperAnimationId)
     {
-        documentInfoViewController.view.hidden = !clipperViewController.opened;
+        [UIView beginAnimations:nil context:nil];
+        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:contentView cache:YES];
+        documentInfoViewController.view.alpha = clipperViewController.opened?1.0:0.0;
+        [UIView commitAnimations];
+
+        //documentInfoViewController.view.hidden = !clipperViewController.opened;
     }
 }
 -(void) setCanEdit:(BOOL) value
