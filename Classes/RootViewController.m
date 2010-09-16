@@ -37,7 +37,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 - (void) createToolbar;
 - (void) moveToArchive;
 -(void) setCanEdit:(BOOL) value;
-- (void) setBackground:(BOOL) force;
 @end
 
 @implementation RootViewController
