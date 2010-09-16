@@ -548,8 +548,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:contentView cache:YES];
         documentInfoViewController.view.alpha = clipperViewController.opened?1.0:0.0;
         [UIView commitAnimations];
-
-        //documentInfoViewController.view.hidden = !clipperViewController.opened;
     }
 }
 -(void) setCanEdit:(BOOL) value
