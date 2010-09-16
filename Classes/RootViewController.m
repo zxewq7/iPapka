@@ -493,6 +493,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     toolbar.backgroundColor = [UIColor clearColor];
     
     toolbar.items = items;
+    toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth; 
     [self.view addSubview: toolbar];
 }
 - (void) moveToArchive
