@@ -1,7 +1,7 @@
 #import "ImageScrollView.h"
 #import "PaintingView.h"
 
-#define MAX_SCALE_WIDTH 1024.0f
+#define NUM_MIN_SCALE_RANGES  5
 
     //FUNCTIONS:
 /*
@@ -127,10 +127,12 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         self.bouncesZoom = YES;
         self.decelerationRate = UIScrollViewDecelerationRateFast;
         self.delegate = self;
-        minScaleRanges = malloc(3 * sizeof(NSRange));
+        minScaleRanges = malloc(NUM_MIN_SCALE_RANGES * sizeof(struct _NSRange));
         minScaleRanges[0] = NSMakeRange(320, 0);
         minScaleRanges[1] = NSMakeRange(537, 7);
-        minScaleRanges[2] = NSMakeRange(1024, 0);
+        minScaleRanges[2] = NSMakeRange(672, 0);
+        minScaleRanges[3] = NSMakeRange(697, 0);
+        minScaleRanges[4] = NSMakeRange(1024, 0);
     }
     return self;
 }
@@ -228,7 +230,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
         //set image width equal to view bounds
         // calculate min/max zoomscale
-    int rangesLength = sizeof(NSRange)/sizeof(minScaleRanges);
+    int rangesLength = NUM_MIN_SCALE_RANGES - 1;
     CGFloat minWidth = boundsSize.width;
 
     NSUInteger imageWidth = imageSize.width;
