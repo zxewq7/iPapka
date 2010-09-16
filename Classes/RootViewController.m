@@ -23,7 +23,7 @@
 #import <QuartzCore/CALayer.h>
 
 #define LEFT_CONTENT_MARGIN 5.0f
-#define RIGHT_CONTENT_MARGIN 5.0f
+#define RIGHT_CONTENT_MARGIN 2.0f
 
 #define TOP_CONTENT_MARGIN 5.0f
 #define BOTTOM_CONTENT_MARGIN 10.0f
@@ -133,6 +133,12 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     attachmentsViewController = [[AttachmentsViewController alloc] init];
     attachmentsViewController.view.frame = attachmentsViewFrame;
     attachmentsViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight);
+
+    attachmentsViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
+    attachmentsViewController.view.layer.shadowOpacity = 1.0f;
+    attachmentsViewController.view.layer.shadowRadius = 3.0f;
+    attachmentsViewController.view.layer.shadowOffset = CGSizeMake(0, 2);
+    attachmentsViewController.view.clipsToBounds = NO;
     
     //attachmentPicker view
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
@@ -142,8 +148,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
     documentInfoViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
     documentInfoViewController.view.layer.shadowOpacity = 1.0f;
-    documentInfoViewController.view.layer.shadowRadius = 5.0f;
-    documentInfoViewController.view.layer.shadowOffset = CGSizeMake(0, 3);
+    documentInfoViewController.view.layer.shadowRadius = 3.0f;
+    documentInfoViewController.view.layer.shadowOffset = CGSizeMake(0, 2);
     documentInfoViewController.view.clipsToBounds = NO;
     
     [documentInfoViewController addObserver:self
