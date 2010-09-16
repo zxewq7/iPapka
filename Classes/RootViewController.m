@@ -150,6 +150,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGRect paintingToolsFrame = CGRectMake(contentView.frame.origin.x-paintingSize.width+paintingToolsOffsetFromLeftEdge, contentHeightOffset+33, paintingSize.width, paintingSize.height);
     paintingToolsViewController.view.frame = paintingToolsFrame;
 
+    paintingToolsViewController.delegate = attachmentsViewController;
+
     resolutionButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Resolution", "Resolution")
                                               titleFont:[UIFont boldSystemFontOfSize:12]
                                                  target:self

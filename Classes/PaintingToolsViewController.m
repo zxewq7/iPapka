@@ -17,6 +17,7 @@
 @end
 
 @implementation PaintingToolsViewController
+@synthesize delegate, color, tool;
 
 - (void)loadView 
 {
@@ -38,33 +39,38 @@
     CGSize contentSize = self.view.frame.size;
 
     commentButton = [UIButton imageButton:self
-                                 selector:nil
+                                 selector:@selector(selectTool:)
                                     image:[UIImage imageNamed:@"ButtonComment.png"]
                             imageSelected:[UIImage imageNamed:@"ButtonCommentSelected.png"]];
+    commentButton.tag = PaintingToolComment;
+    
     [commentButton retain];
     
     penButton = [UIButton imageButton:self
-                                 selector:nil
-                                    image:[UIImage imageNamed:@"ButtonPen.png"]
-                            imageSelected:[UIImage imageNamed:@"ButtonPenSelected.png"]];
-    [penButton retain];
-
-    penButton = [UIButton imageButton:self
-                             selector:nil
+                             selector:@selector(selectTool:)
                                 image:[UIImage imageNamed:@"ButtonPen.png"]
                         imageSelected:[UIImage imageNamed:@"ButtonPenSelected.png"]];
+    
+    penButton.tag = PaintingToolPen;
+    
     [penButton retain];
 
     markerButton = [UIButton imageButton:self
-                             selector:nil
-                                image:[UIImage imageNamed:@"ButtonMarker.png"]
-                        imageSelected:[UIImage imageNamed:@"ButtonMarkerSelected.png"]];
+                                selector:@selector(selectTool:)
+                                   image:[UIImage imageNamed:@"ButtonMarker.png"]
+                           imageSelected:[UIImage imageNamed:@"ButtonMarkerSelected.png"]];
+
+    markerButton.tag = PaintingToolMarker;
+    
     [markerButton retain];
 
     eraserButton = [UIButton imageButton:self
-                                selector:nil
+                                selector:@selector(selectTool:)
                                    image:[UIImage imageNamed:@"ButtonErase.png"]
                            imageSelected:[UIImage imageNamed:@"ButtonEraseSelected.png"]];
+
+    eraserButton.tag = PaintingToolEraser;
+    
     [eraserButton retain];
 
     [self alignButtons:[NSArray arrayWithObjects:commentButton, penButton, markerButton, eraserButton, nil] 
@@ -82,12 +88,14 @@
                                  selector:nil
                                     image:[UIImage imageNamed:@"ButtonRotateCCV.png"]
                             imageSelected:[UIImage imageNamed:@"ButtonRotateCCV.png"]];
+
     [rotateCCVButton retain];
 
     rotateCVButton = [UIButton imageButton:self
                                    selector:nil
                                       image:[UIImage imageNamed:@"ButtonRotateCV.png"]
                               imageSelected:[UIImage imageNamed:@"ButtonRotateCV.png"]];
+
     [rotateCVButton retain];
 
     [self alignButtons:[NSArray arrayWithObjects:paletteButton, rotateCCVButton, rotateCVButton, nil] 
@@ -105,15 +113,31 @@
     [self.view addSubview: rotateCVButton];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
+-(void) selectTool:(id) sender
+{
+    UIButton *toolButton = (UIButton *)sender;
+    toolButton.selected = !toolButton.selected;
+
+    //deselect previous button
+    if (self.tool != PaintingToolNone)
+    {
+        UIButton *button = (UIButton *)[self.view viewWithTag:self.tool];
+        button.selected = NO;
+    }
+    
+    
+    if (toolButton.selected)
+        self.tool = ((UIButton *)sender).tag;
+    else
+        self.tool = PaintingToolNone;
+    
+    if ([delegate respondsToSelector:@selector(paintingView:tool:)])
+        [delegate paintingView:self tool:self.tool];
 }
 
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
+    return YES;
 }
 
 - (void)viewDidUnload {
@@ -149,6 +173,8 @@
     rotateCCVButton = nil;
     [rotateCVButton release];
     rotateCVButton = nil;
+    self.delegate = nil;
+    self.color = nil;
 }
 
 

@@ -91,6 +91,32 @@
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark PaintingToolsDelegate
+
+-(void) paintingView: (PaintingToolsViewController *) sender color:(UIColor *) aColor
+{
+    
+}
+
+-(void) paintingView: (PaintingToolsViewController *) sender tool: (PaintingTool) aTool
+{
+    self.commenting = (aTool != PaintingToolNone);
+    switch (aTool)
+    {
+        case PaintingToolComment:
+            [currentPage enableStamper:YES];
+            break;
+        case PaintingToolEraser:
+            [currentPage enableEraser:YES];
+            break;
+        case PaintingToolMarker:
+            [currentPage enableMarker:YES];
+            break;
+        case PaintingToolPen:
+            break;
+    }
+}
 
 #pragma mark -
 #pragma mark UIGestureRecognizerDelegate
