@@ -23,7 +23,7 @@
 #import <QuartzCore/CALayer.h>
 
 #define LEFT_CONTENT_MARGIN 5.0f
-#define RIGHT_CONTENT_MARGIN 2.0f
+#define RIGHT_CONTENT_MARGIN 5.0f
 
 #define TOP_CONTENT_MARGIN 5.0f
 #define BOTTOM_CONTENT_MARGIN 10.0f
@@ -129,7 +129,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
     contentView.frame = CGRectMake((viewBounds.size.width-contentViewSize.width)/2, contentHeightOffset, contentViewSize.width, contentViewSize.height);
     contentView.userInteractionEnabled = YES;
-    contentViewSize.width-=5;
 
     //attachments view
     CGRect attachmentsViewFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, contentViewSize.height - TOP_CONTENT_MARGIN - BOTTOM_CONTENT_MARGIN);
@@ -137,6 +136,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     attachmentsViewController.view.frame = attachmentsViewFrame;
     attachmentsViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight);
 
+    //http://bynomial.com/blog/?p=52
     attachmentsViewController.view.layer.shadowColor = [UIColor blackColor].CGColor;
     attachmentsViewController.view.layer.shadowOpacity = 1.0f;
     attachmentsViewController.view.layer.shadowRadius = 3.0f;
@@ -391,9 +391,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*documentInfoViewControllerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
         attachmentsViewController.view.frame = attachmentsViewFrame;
 
-        if (clipperViewController.opened)
-            documentInfoViewController.view.hidden = NO;
-        
         [UIView commitAnimations];
         infoButton.selected = clipperViewController.opened;
 
