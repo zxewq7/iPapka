@@ -381,7 +381,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     if (context == &ClipperOpenedContext)
     {
         [UIView beginAnimations:OpenClipperAnimationId context:NULL];
-        [UIView setAnimationDuration:.75];
+        [UIView setAnimationDuration:.5];
         [UIView setAnimationDelegate:self];
         [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
 
