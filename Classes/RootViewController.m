@@ -73,11 +73,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
    documentInfoViewController.document = self.document;
    [self setCanEdit: [self.document.isEditable boolValue]];
 }
-- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
-{
-    if ([attachmentsViewController respondsToSelector:@selector(willRotateToInterfaceOrientation:duration:)]) 
-        [attachmentsViewController willRotateToInterfaceOrientation:toInterfaceOrientation duration:duration];
-}
 
 - (void)viewDidLoad
 {
@@ -237,9 +232,16 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [self setCanEdit: [self.document.isEditable boolValue]];
 }
 
-    // Override to allow orientations other than the default portrait orientation.
+#pragma mark - 
+#pragma mark Rotation
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
+}
+
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if ([attachmentsViewController respondsToSelector:@selector(willAnimateRotationToInterfaceOrientation:duration:)]) 
+        [attachmentsViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
 
 - (void)viewDidUnload {

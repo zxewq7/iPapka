@@ -156,6 +156,14 @@
     return YES;
 }
 
+- (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+    if ([currentPage respondsToSelector:@selector(willAnimateRotationToInterfaceOrientation:duration:)])
+    {
+        [currentPage willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+        [nextPage willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
+    }
+}
 #pragma mark -
 #pragma mark methods
 -(void) setCommenting:(BOOL) state
