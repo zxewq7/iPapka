@@ -45,6 +45,8 @@
     currentPage = [[AttachmentPageViewController alloc] init];
 	nextPage = [[AttachmentPageViewController alloc] init];
 
+    nextPage.view.hidden = YES;
+    
     CGSize size = self.view.frame.size;
     CGRect pageFrame = CGRectMake(0, 0, size.width, size.height);
     currentPage.view.frame = pageFrame;
