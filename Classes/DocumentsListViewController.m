@@ -218,10 +218,12 @@
     filterIndex = item.tag;
     Folder *filter;
     if (filterIndex != NSNotFound && [folder.filters count]>filterIndex)
-    {
-        filterIndex = filterIndex;
         filter = [folder.filters objectAtIndex: filterIndex];
-    }
+    else if ([folder.filters count])
+        filter = [folder.filters objectAtIndex: 0];
+    else
+        filter = folder;
+
     
     [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:filter] isDeleteDocuments:NO isDelta:NO];
     if (selectedDocumentIndexPath)

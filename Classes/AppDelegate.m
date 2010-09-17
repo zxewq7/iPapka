@@ -75,7 +75,7 @@
     }
     
     NSData *lastFolderData = [currentDefaults objectForKey:@"lastFolder"];
-    Folder *lastFolder;
+    Folder *lastFolder = nil;
     if (lastFolderData != nil)
         lastFolder = [NSKeyedUnarchiver unarchiveObjectWithData:lastFolderData];
     
