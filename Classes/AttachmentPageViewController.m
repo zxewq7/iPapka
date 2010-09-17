@@ -130,6 +130,7 @@
     UIMenuItem *voiceMenuItem = [[UIMenuItem alloc] initWithTitle:NSLocalizedString(@"Voice", "Comment->voice") action:@selector(resetPiece:)];
 
     CGRect commentRect = [[sender.stamps objectAtIndex:anIndex] CGRectValue];
+    commentRect.origin.y = 10;
     
     [self becomeFirstResponder];
     [menuController setMenuItems:[NSArray arrayWithObjects:textualMenuItem, voiceMenuItem, nil]];
@@ -140,6 +141,15 @@
     [voiceMenuItem release];
 }
 
+// UIMenuController requires that we can become first responder or it won't display
+- (BOOL)canBecomeFirstResponder
+{
+    return YES;
+}
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+    return action == @selector(resetPiece:);
+}
 -(void) stampTouched:(PaintingView *) sender index:(NSUInteger) anIndex
 {
     
