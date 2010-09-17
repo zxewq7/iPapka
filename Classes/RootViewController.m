@@ -137,6 +137,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     CGRect pageControlFrame = CGRectMake(0, viewFrame.size.height - 37, viewFrame.size.width, 37);
     PageControlWithMenu *pageControl = [[PageControlWithMenu alloc] initWithFrame: pageControlFrame];
     
+    pageControl.dotNormal = [UIImage imageNamed: @"DotNormal.png"];
+    pageControl.dotCurrent = [UIImage imageNamed: @"DotCurrent.png"];
+    
     pageControl.backgroundColor = [UIColor clearColor];
     pageControl.backgroundView.image = [UIImage imageNamed: @"PageControlBackground.png"];
     pageControl.backgroundView.frame = CGRectMake(0, 0, pageControlFrame.size.width, 40);

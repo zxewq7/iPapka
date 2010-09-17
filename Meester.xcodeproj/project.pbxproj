@@ -106,6 +106,8 @@
 		81A1B738123E52810089C988 /* ButtonSquareBlackSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B736123E52810089C988 /* ButtonSquareBlackSelected.png */; };
 		81A1B75E123E554D0089C988 /* ResolutionBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B75D123E554D0089C988 /* ResolutionBackground.png */; };
 		81A1B761123E557C0089C988 /* ResolutionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A1B760123E557C0089C988 /* ResolutionViewController.m */; };
+		81B104BB1243AD2100AFB109 /* DotCurrent.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104B91243AD2100AFB109 /* DotCurrent.png */; };
+		81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104BA1243AD2100AFB109 /* DotNormal.png */; };
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
@@ -288,6 +290,8 @@
 		81A1B75F123E557C0089C988 /* ResolutionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionViewController.h; sourceTree = "<group>"; };
 		81A1B760123E557C0089C988 /* ResolutionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionViewController.m; sourceTree = "<group>"; };
 		81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
+		81B104B91243AD2100AFB109 /* DotCurrent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotCurrent.png; sourceTree = "<group>"; };
+		81B104BA1243AD2100AFB109 /* DotNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotNormal.png; sourceTree = "<group>"; };
 		81B5C1131242792200B8E9B8 /* Paper-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper-Landscape.png"; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
 		81D60425123ACBC400CEAF75 /* PaintingTools.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaintingTools.png; sourceTree = "<group>"; };
@@ -331,6 +335,8 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81B104B91243AD2100AFB109 /* DotCurrent.png */,
+				81B104BA1243AD2100AFB109 /* DotNormal.png */,
 				8136E05E12439120008D68AB /* PageControlBackground.png */,
 				81B5C1131242792200B8E9B8 /* Paper-Landscape.png */,
 				81E500631241656700D697EA /* RootBackground-Landscape.png */,
@@ -754,6 +760,8 @@
 				81E500641241656800D697EA /* RootBackground-Landscape.png in Resources */,
 				81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */,
 				8136E05F12439120008D68AB /* PageControlBackground.png in Resources */,
+				81B104BB1243AD2100AFB109 /* DotCurrent.png in Resources */,
+				81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
