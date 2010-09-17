@@ -21,6 +21,7 @@
 #import "ResolutionViewController.h"
 #import "RotateableImageView.h"
 #import "PageControlWithMenu.h"
+#import "ResolutionManaged.h"
 
 #define LEFT_CONTENT_MARGIN 5.0f
 #define RIGHT_CONTENT_MARGIN 5.0f
@@ -39,7 +40,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 @interface RootViewController(Private)
 - (void) createToolbar;
 - (void) moveToArchive;
--(void) setCanEdit:(BOOL) value;
+- (void) setCanEdit:(BOOL) value;
+- (void) updateContent;
+- (void) showResolution:(id) sender;
 @end
 
 @implementation RootViewController
@@ -58,6 +61,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     NSArray *documents = [[DataSource sharedDataSource] documentsForFolder:aFolder];
     if ([documents count])
         self.document = [documents objectAtIndex:0];
+    else
+        self.document = nil;
 }
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -72,10 +77,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         document.isRead = [NSNumber numberWithBool:YES];
     [[DataSource sharedDataSource] commit];
     
-   documentInfoViewController.document = self.document;
-   resolutionViewController.document = self.document;
-
-   [self setCanEdit: [self.document.isEditable boolValue]];
+    [self updateContent];
 }
 
 - (void)viewDidLoad
@@ -248,10 +250,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     //to make it over clipper
     [self.view bringSubviewToFront:toolbar];
     
-
-    documentInfoViewController.document = self.document;
-    resolutionViewController.document = self.document;
-    [self setCanEdit: [self.document.isEditable boolValue]];
+    [self updateContent];
 }
 
 #pragma mark - 
@@ -325,23 +324,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     clipperViewController.opened = !clipperViewController.opened;
 }
 
--(void) showResolution:(id) sender
-{
-    resolutionButton.selected = !resolutionButton.selected;
-    
-    attachmentsViewController.view.userInteractionEnabled = !resolutionButton.selected;
-
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5f];
-    [UIView setAnimationTransition:resolutionButton.selected?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp
-                           forView:resolutionViewController.view cache:YES];
-    
-    resolutionViewController.view.hidden = !resolutionButton.selected;
-    
-    [UIView commitAnimations];
-        
-}
-
 -(void) showDocuments:(id) sender
 {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
@@ -413,6 +395,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 {
     if (context == &ClipperOpenedContext)
     {
+        if (resolutionButton.selected) //hide resolution
+            [self showResolution:resolutionButton];
+
         [UIView beginAnimations:OpenClipperAnimationId context:NULL];
         [UIView setAnimationDuration:.5];
         [UIView setAnimationDelegate:self];
@@ -442,9 +427,27 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                               context:context];
     }
 }
-@end
 
-@implementation RootViewController(Private)
+#pragma Private
+
+-(void) showResolution:(id) sender
+{
+    resolutionButton.selected = !resolutionButton.selected;
+    
+    attachmentsViewController.view.userInteractionEnabled = !resolutionButton.selected;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationTransition:resolutionButton.selected?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp
+                           forView:resolutionViewController.view cache:YES];
+    
+    resolutionViewController.view.hidden = !resolutionButton.selected;
+    
+    [UIView commitAnimations];
+    
+}
+
+
 - (void) createToolbar
 {
     [toolbar release];
@@ -602,5 +605,25 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         paintingToolsViewController.view.hidden = YES;
         paintingToolsViewController.view.userInteractionEnabled = NO;
     }
+}
+-(void) updateContent
+{
+    documentInfoViewController.document = self.document;
+
+    if (resolutionButton.selected) //hide resolution
+        [self showResolution:resolutionButton];
+    
+    if ([self.document isKindOfClass: [ResolutionManaged class]])
+    {
+        resolutionViewController.document = self.document;
+        resolutionButton.hidden = NO;
+    }
+    else
+    {
+        resolutionViewController.document = nil;
+        resolutionButton.hidden = YES;
+    }
+    
+    [self setCanEdit: [self.document.isEditable boolValue]];
 }
 @end
