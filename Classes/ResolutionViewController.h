@@ -9,8 +9,14 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ResolutionViewController : UIViewController {
-    
+@interface ResolutionViewController : UIViewController <UITextViewDelegate>
+{
+    UISegmentedControl *resolutionSwitcher;
+    UIImageView        *logo;
+    UIButton           *deadlineButton;
+    UITextView         *resolutionText;
+    UILabel            *authorLabel;
+    UILabel            *dateLabel;
 }
 
 @end

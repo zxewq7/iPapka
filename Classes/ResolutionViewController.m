@@ -7,57 +7,239 @@
 //
 
 #import "ResolutionViewController.h"
+#import "PerformersViewController.h"
+#import "UIButton+Additions.h"
+#import "TextViewWithPlaceholder.h"
 
+#define RIGHT_MARGIN 24.0f
+#define LEFT_MARGIN 24.0f
+#define MIN_RESOLUTION_TEXT_HEIGHT 100.0f
 
 @implementation ResolutionViewController
 
-/*
- // The designated initializer.  Override if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if ((self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil])) {
-        // Custom initialization
-    }
-    return self;
-}
-*/
-
 - (void)loadView
 {
-    UIImageView *backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"ResolutionBackground.png"]];
+    UIImage *image = [[UIImage imageNamed: @"ResolutionBackground.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:100.0];
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage: image];
     
     self.view = backgroundView;
-    
+
     [backgroundView release];
+
+    self.view.userInteractionEnabled = YES;
+    self.view.autoresizesSubviews = YES;
+
 }
 
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
 - (void)viewDidLoad {
     [super viewDidLoad];
-}
-*/
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    return YES;
-}
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
     
-    // Release any cached data, images, etc that aren't in use.
+    CGSize viewSize = self.view.frame.size;
+
+    //visible image width
+    viewSize.width = 562.0;
+
+    
+    //filter
+    resolutionSwitcher = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Resolution", "Resolution"),
+                                                         NSLocalizedString(@"Parent resolution", "Parent resolution"),
+                                                         nil]];
+    resolutionSwitcher.segmentedControlStyle = UISegmentedControlStyleBar;
+    
+    [resolutionSwitcher sizeToFit];
+    CGSize switcherSize = resolutionSwitcher.frame.size;
+    resolutionSwitcher.frame = CGRectMake((viewSize.width - switcherSize.width)/2, 44, switcherSize.width, switcherSize.height);
+    
+    [resolutionSwitcher addTarget:self action:nil forControlEvents:UIControlEventValueChanged];
+    
+    resolutionSwitcher.selectedSegmentIndex = 0;
+    
+    [self.view addSubview: resolutionSwitcher];
+    
+    logo = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"ResolutionLogo.png"]];
+    
+    CGSize logoSize = logo.frame.size;
+    CGRect logFrame = CGRectMake((viewSize.width - logoSize.width)/2, 83, logoSize.width, logoSize.height);
+    logo.frame = logFrame;
+    
+    [self.view addSubview: logo];
+    
+    PerformersViewController *performersViewController = [[PerformersViewController alloc] init];
+    performersViewController.view.backgroundColor = [UIColor redColor];
+    CGRect performersFrame = CGRectMake(0, logFrame.origin.y + logFrame.size.height+18, viewSize.width, 100);
+    performersViewController.view.frame = performersFrame;
+    
+    performersViewController.view.autoresizingMask = UIViewAutoresizingNone;
+    
+    [self.view addSubview: performersViewController.view];
+    [performersViewController release];
+    
+    //deadline phrase
+    UILabel *deadlinePhrase = [[UILabel alloc] initWithFrame: CGRectZero];
+    deadlinePhrase.text = NSLocalizedString(@"Perform resolution till date", "Perform resolution till date");
+    deadlinePhrase.textColor = [UIColor blackColor];
+    deadlinePhrase.textAlignment = UITextAlignmentLeft;
+    deadlinePhrase.font = [UIFont fontWithName:@"CharterC" size:18];
+    deadlinePhrase.backgroundColor = [UIColor clearColor];
+    
+    [deadlinePhrase sizeToFit];
+    
+    CGSize deadlineSize = deadlinePhrase.frame.size;
+    
+    CGRect deadlinePhraseFrame = CGRectMake(LEFT_MARGIN, performersFrame.origin.y + performersFrame.size.height + 26, deadlineSize.width, deadlineSize.height);
+    deadlinePhrase.frame = deadlinePhraseFrame;
+    
+    [self.view addSubview: deadlinePhrase];
+    [deadlinePhrase release];
+    
+    //deadline button
+    deadlineButton = [UIButton buttonWithBackgroundAndTitle:@" 12 August 2010 "
+                                                  titleFont:[UIFont fontWithName:@"CharterC" size:18]
+                                                     target:self
+                                                   selector:nil
+                                                      frame:CGRectMake(0, 0, 28, 25)
+                                              addLabelWidth:YES
+                                                      image:[UIImage imageNamed:@"ButtonDate.png"]
+                                               imagePressed:[UIImage imageNamed:@"ButtonDate.png"]
+                                               leftCapWidth:10.0f
+                                              darkTextColor:YES];
+    CGSize deadlineButtonSize = deadlineButton.frame.size;
+    CGRect dateButtonFrame = CGRectMake(deadlinePhraseFrame.origin.x + deadlinePhraseFrame.size.width + 10, deadlinePhraseFrame.origin.y - (deadlineButtonSize.height - deadlinePhraseFrame.size.height), deadlineButtonSize.width, deadlineButtonSize.height);
+    
+    deadlineButton.frame = dateButtonFrame;
+    
+    [self.view addSubview: deadlineButton];
+    
+    //resolution text
+    CGRect resolutionTextFrame = CGRectMake(LEFT_MARGIN, deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + 23, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, MIN_RESOLUTION_TEXT_HEIGHT);
+    resolutionText = [[TextViewWithPlaceholder alloc] initWithFrame: resolutionTextFrame];
+    
+	resolutionText.textColor = [UIColor blackColor];
+	resolutionText.font = [UIFont fontWithName:@"CharterC" size:16];
+	resolutionText.delegate = self;
+	resolutionText.backgroundColor = [UIColor redColor];
+    
+    ((TextViewWithPlaceholder *)resolutionText).placeholder = NSLocalizedString(@"Enter resolution text", "Enter resolution text");
+    ((TextViewWithPlaceholder *)resolutionText).placeholderColor = [UIColor lightGrayColor];
+    
+	resolutionText.returnKeyType = UIReturnKeyDefault;
+	resolutionText.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
+	resolutionText.scrollEnabled = YES;
+    
+    resolutionText.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
+
+    [self.view addSubview: resolutionText];
+    
+    //author
+    authorLabel = [[UILabel alloc] initWithFrame: CGRectZero];
+    authorLabel.text = @"Author";
+    authorLabel.textColor = [UIColor blackColor];
+    authorLabel.textAlignment = UITextAlignmentRight;
+    authorLabel.font = [UIFont fontWithName:@"CharterC" size:24];
+    authorLabel.backgroundColor = [UIColor clearColor];
+    
+    [authorLabel sizeToFit];
+    
+    CGSize authorSize = authorLabel.frame.size;
+    
+    CGRect authorFrame = CGRectMake(0, resolutionTextFrame.origin.y + resolutionTextFrame.size.height + 20, viewSize.width - RIGHT_MARGIN, authorSize.height);
+    authorLabel.frame = authorFrame;
+    
+    authorLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    
+    [self.view addSubview: authorLabel];
+    
+    //date
+    dateLabel = [[UILabel alloc] initWithFrame: CGRectZero];
+    dateLabel.text = @"12 August 2010";
+    dateLabel.textColor = [UIColor blackColor];
+    dateLabel.textAlignment = UITextAlignmentCenter;
+    dateLabel.font = [UIFont fontWithName:@"CharterC" size:18];
+    dateLabel.backgroundColor = [UIColor clearColor];
+    
+    [dateLabel sizeToFit];
+    
+    CGSize dateSize = dateLabel.frame.size;
+    
+    CGRect dateFrame = CGRectMake(0, authorFrame.origin.y + authorFrame.size.height + 20, viewSize.width, dateSize.height);
+    dateLabel.frame = dateFrame;
+    
+    dateLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    
+    [self.view addSubview: dateLabel];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
+{
+    return YES;
 }
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+    [resolutionSwitcher release];
+    resolutionSwitcher = nil;
+    
+    [logo release];
+    logo = nil;
+    
+    [deadlineButton release];
+    deadlineButton = nil;
+    
+    [resolutionText release];
+    resolutionText = nil;
+    
+    [authorLabel release];
+    authorLabel =nil;
+    
+    [dateLabel release];
+    dateLabel = nil;
 }
 
 
 - (void)dealloc {
+    [resolutionSwitcher release];
+    resolutionSwitcher = nil;
+
+    [logo release];
+    logo = nil;
+    
+    [deadlineButton release];
+    deadlineButton = nil;
+
+    [resolutionText release];
+    resolutionText = nil;
+
+    [authorLabel release];
+    authorLabel =nil;
+    
+    [dateLabel release];
+    dateLabel = nil;
+
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark UITextViewDelegate
+
+- (BOOL)textViewShouldEndEditing:(UITextView *)textView
+{
+    CGRect textViewFrame = textView.frame;
+    UILabel *label = [[UILabel alloc] initWithFrame: textViewFrame];
+    label.numberOfLines = 0;
+    label.font = textView.font;
+    label.text = textView.text;
+    [label sizeToFit];
+    CGFloat heightDelta = label.frame.size.height - textViewFrame.size.height;
+    [label release];
+
+    CGRect viewFrame = self.view.frame;
+    if (MIN_RESOLUTION_TEXT_HEIGHT < (textViewFrame.size.height + heightDelta))
+    {
+        viewFrame.size.height += heightDelta;
+        self.view.frame = viewFrame;
+        [textView scrollRangeToVisible: NSMakeRange(0, 1)];
+    }
+    return YES;
+}
 
 @end
