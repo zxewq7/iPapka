@@ -20,6 +20,7 @@
 
 @interface ResolutionViewController (Private)
 -(void) updateContent;
+-(void) updateHeight;
 @end
 
 @implementation ResolutionViewController
@@ -199,6 +200,7 @@
     [self.view addSubview: dateLabel];
     
     [self updateContent];
+    [self updateHeight];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -262,22 +264,7 @@
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    CGRect textViewFrame = textView.frame;
-    UILabel *label = [[UILabel alloc] initWithFrame: textViewFrame];
-    label.numberOfLines = 0;
-    label.font = textView.font;
-    label.text = textView.text;
-    [label sizeToFit];
-    CGFloat heightDelta = label.frame.size.height - textViewFrame.size.height;
-    [label release];
-
-    CGRect viewFrame = self.view.frame;
-    if (MIN_RESOLUTION_TEXT_HEIGHT < (textViewFrame.size.height + heightDelta))
-    {
-        viewFrame.size.height += heightDelta;
-        self.view.frame = viewFrame;
-        [textView scrollRangeToVisible: NSMakeRange(0, 1)];
-    }
+    [self updateHeight];
     return YES;
 }
 
@@ -290,5 +277,29 @@
     resolutionText.text = resolution.text;
     dateLabel.text = [dateFormatter stringFromDate: document.dateModified];
     deadlineButton.titleLabel.text = resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil;
+}
+
+-(void) updateHeight;
+{
+    CGRect textViewFrame = resolutionText.frame;
+    UILabel *label = [[UILabel alloc] initWithFrame: textViewFrame];
+    label.numberOfLines = 0;
+    label.font = resolutionText.font;
+    label.text = resolutionText.text;
+    [label sizeToFit];
+    CGFloat heightDelta = label.frame.size.height - textViewFrame.size.height;
+    [label release];
+    
+    CGRect viewFrame = self.view.frame;
+    if (MIN_RESOLUTION_TEXT_HEIGHT < (textViewFrame.size.height + heightDelta))
+    {
+        viewFrame.size.height += heightDelta;
+        CGFloat maxHeight = self.view.superview.frame.size.height + viewFrame.origin.y;
+        if (viewFrame.size.height > maxHeight)
+            viewFrame.size.height = maxHeight;
+        self.view.frame = viewFrame;
+        [resolutionText scrollRangeToVisible: NSMakeRange(0, 1)];
+    }
+    
 }
 @end
