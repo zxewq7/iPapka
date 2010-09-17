@@ -10,13 +10,38 @@
 #import "PerformersViewController.h"
 #import "UIButton+Additions.h"
 #import "TextViewWithPlaceholder.h"
+#import "DocumentManaged.h"
+#import "Resolution.h"
+#import "ResolutionManaged.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
 #define MIN_RESOLUTION_TEXT_HEIGHT 100.0f
 
-@implementation ResolutionViewController
+@interface ResolutionViewController (Private)
+-(void) updateContent;
+@end
 
+@implementation ResolutionViewController
+@synthesize document;
+
+-(void) setDocument:(DocumentManaged *) aDocument
+{
+    if (document == aDocument)
+    return;
+    
+    if ([aDocument isKindOfClass: [ResolutionManaged class]])
+    {
+        [document release];
+        document = [aDocument retain];
+    }
+    else
+    {
+        [document release];
+        document = nil;
+    }
+    [self updateContent];
+}
 - (void)loadView
 {
     UIImage *image = [[UIImage imageNamed: @"ResolutionBackground.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:100.0];
@@ -33,6 +58,11 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterLongStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+
     
     CGSize viewSize = self.view.frame.size;
 
@@ -167,6 +197,8 @@
     dateLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
     [self.view addSubview: dateLabel];
+    
+    [self updateContent];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -193,6 +225,9 @@
     
     [dateLabel release];
     dateLabel = nil;
+
+    [dateFormatter release];
+    dateFormatter = nil;
 }
 
 
@@ -215,7 +250,11 @@
     [dateLabel release];
     dateLabel = nil;
 
+    self.document = nil;
     [super dealloc];
+    
+    [dateFormatter release];
+    dateFormatter = nil;
 }
 
 #pragma mark -
@@ -242,4 +281,14 @@
     return YES;
 }
 
+#pragma Privare
+
+-(void) updateContent
+{
+    Resolution *resolution = (Resolution *)document.document;
+    authorLabel.text = document.author;
+    resolutionText.text = resolution.text;
+    dateLabel.text = [dateFormatter stringFromDate: document.dateModified];
+    deadlineButton.titleLabel.text = resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil;
+}
 @end

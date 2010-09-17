@@ -73,6 +73,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [[DataSource sharedDataSource] commit];
     
    documentInfoViewController.document = self.document;
+   resolutionViewController.document = self.document;
+
    [self setCanEdit: [self.document.isEditable boolValue]];
 }
 
@@ -248,6 +250,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
 
     documentInfoViewController.document = self.document;
+    resolutionViewController.document = self.document;
     [self setCanEdit: [self.document.isEditable boolValue]];
 }
 

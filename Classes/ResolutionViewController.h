@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-
+@class DocumentManaged;
 @interface ResolutionViewController : UIViewController <UITextViewDelegate>
 {
     UISegmentedControl *resolutionSwitcher;
@@ -17,6 +17,9 @@
     UITextView         *resolutionText;
     UILabel            *authorLabel;
     UILabel            *dateLabel;
+    DocumentManaged    *document;
+    NSDateFormatter    *dateFormatter;
 }
 
+@property (nonatomic, retain) DocumentManaged    *document;
 @end
