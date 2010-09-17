@@ -96,19 +96,25 @@
     documentDetails.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [containerView addSubview:documentDetails];
     
+    //filter
     filter = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Files", "Files"),
                                                         NSLocalizedString(@"Linked files", "Linked files"),
                                                          nil]];
-    [filter sizeToFit];
-    filter.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
-
-    filter.selectedSegmentIndex = 0;
-    [filter addTarget:self action:@selector(switchFilter:) forControlEvents:UIControlEventValueChanged];
     filter.segmentedControlStyle = UISegmentedControlStyleBar;
+
+    [filter sizeToFit];
     CGRect filterFrame = filter.frame;
     filter.frame = CGRectMake((documentTitle.frame.size.width - filterFrame.size.width)/2, 99, filterFrame.size.width, filterFrame.size.height);
+    filter.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
+
+    [filter addTarget:self action:@selector(switchFilter:) forControlEvents:UIControlEventValueChanged];
+
+    filter.selectedSegmentIndex = 0;
+
     [containerView addSubview:filter];
+
     self.tableView.tableHeaderView = containerView;
+
     [containerView release];
     
     self.tableView.delegate = self;
