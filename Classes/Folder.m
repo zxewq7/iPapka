@@ -33,6 +33,7 @@
     [localizedName release];
     self.iconName = nil;
     [icon release];
+    self.filters = nil;
     [super dealloc];
 }
 
