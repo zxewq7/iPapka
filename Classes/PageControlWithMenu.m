@@ -8,31 +8,50 @@
 
 #import "PageControlWithMenu.h"
 
-#define BACKGROUND_VIEW_TAG 1001
+#define BACKGROUNDVIEW_TAG 1001
+#define LABEL_TAG 1002
 
 @interface PageControlWithMenu (Private)
 - (void) updateDots;
 @end
 
 @implementation PageControlWithMenu
-@synthesize bubbleView, backgroundView, dotNormal, dotCurrent;
+@synthesize bubbleView, backgroundView, dotNormal, dotCurrent, label;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
         backgroundView = [[UIImageView alloc] initWithFrame: frame];
-        backgroundView.tag = BACKGROUND_VIEW_TAG;
+        backgroundView.tag = BACKGROUNDVIEW_TAG;
         [self addSubview: backgroundView];
     }
     return self;
 }
 
+-(void) setLabel:(UILabel *) aLabel
+{
+    if (label == aLabel)
+        return;
+    
+    label = [aLabel retain];
+    
+    CGRect frame = self.frame;
+    label.text = @"999 of 999";
+    [label sizeToFit];
+    
+    CGSize labelSize = label.frame.size;
+    
+    label.frame = CGRectMake(frame.size.width - labelSize.width, (frame.size.height - labelSize.height)/2, labelSize.width, labelSize.height);
+    label.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+
+    label.tag = LABEL_TAG;
+    
+    label.text = nil;
+    [self addSubview: label];
+}
+
 -(void) showBubble
 {
     bubbleView.hidden = NO;
-}
-
-}
-
 }
 
 - (void)dealloc 
@@ -108,7 +127,7 @@
         NSUInteger i = 0;
         for (UIImageView* dot in dotViews)
         {
-            if (dot.tag == BACKGROUND_VIEW_TAG)
+            if (dot.tag == BACKGROUNDVIEW_TAG || dot.tag == LABEL_TAG)
                 continue;
             // Set image
             dot.image = (i == self.currentPage) ? dotCurrent : dotNormal;
@@ -116,5 +135,7 @@
             i++;
         }
     }
+    
+    label.text = [NSString stringWithFormat: @"%d %@ %d", self.currentPage + 1, NSLocalizedString(@"of", "of"), self.numberOfPages];
 }
 @end

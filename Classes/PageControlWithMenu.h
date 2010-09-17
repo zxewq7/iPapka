@@ -16,9 +16,11 @@
     UIImage* dotNormal;
     UIImage* dotCurrent;
     CGSize dotSize;
+    UILabel* pagesCounter;
 }
 @property (nonatomic, retain) UIView *bubbleView;
 @property (nonatomic, retain, readonly) UIImageView *backgroundView;
 @property (nonatomic, readwrite, retain) UIImage* dotNormal;
 @property (nonatomic, readwrite, retain) UIImage* dotCurrent;
+@property (nonatomic, readwrite, retain) UILabel* label;
 @end
