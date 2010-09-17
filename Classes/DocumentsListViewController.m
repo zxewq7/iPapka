@@ -482,7 +482,7 @@
     UIBarButtonItem *refreshBarButton = [[UIBarButtonItem alloc] initWithCustomView:refreshButton];
     
     self.navigationItem.leftBarButtonItem = refreshBarButton;
-    [refreshButton release];
+    [refreshBarButton release];
 
     //add extra spaces to front of label, cause of button with left arrow
     UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString:NSLocalizedString(@"Close", "Close")]
@@ -497,7 +497,7 @@
                                                       darkTextColor:NO];
     UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
     self.navigationItem.rightBarButtonItem = cancelBarButton;
-    [cancelButton release];
+    [cancelBarButton release];
     //http://www.developers-life.com/customizing-uinavigationbar.html
     UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 170, 300, 44)];
     
