@@ -325,6 +325,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 -(void) showResolution:(id) sender
 {
     resolutionButton.selected = !resolutionButton.selected;
+    
+    attachmentsViewController.view.userInteractionEnabled = !resolutionButton.selected;
 
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:0.5f];
