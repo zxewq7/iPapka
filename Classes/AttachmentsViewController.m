@@ -11,9 +11,34 @@
 #import "Attachment.h"
 #import "AttachmentPageViewController.h"
 #import "AttachmentPage.h"
+#import "PageControlWithMenu.h"
+#import "AZZBubbleView.h"
+#import <QuartzCore/CALayer.h>
+
+typedef enum _TapPosition{
+    TapPositionTop = 0,
+    TapPositionMiddle = 1,
+    TapPositionBottom = 2
+} TapPosition;
+
+@interface AttachmentsViewController(Private)
+- (TapPosition) tapPosition:(UITouch *)touch;
+@end
 
 @implementation AttachmentsViewController
-@synthesize attachment, currentPage, commenting;
+@synthesize attachment, currentPage, commenting, pageControl;
+
+-(void) setPageControl:(PageControlWithMenu *) aPageControl
+{
+    if (pageControl == aPageControl)
+        return;
+    [pageControl removeTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
+    [pageControl release];
+    pageControl = [aPageControl retain];
+    [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
+    pageControl.numberOfPages = [attachment.pages count];
+    pageControl.hidden = YES;
+}
 
 -(void) setAttachment:(Attachment*) anAttachment
 {
@@ -27,6 +52,7 @@
     nextPage.attachment = attachment;
     currentPage.pageIndex = 0;
     nextPage.pageIndex = 1;
+    pageControl.numberOfPages = [attachment.pages count];
 }
 
 #pragma mark -
@@ -63,9 +89,6 @@
     currentPage.pageIndex = 0;
     nextPage.pageIndex = 1;
     
-
-    self.view.autoresizesSubviews = YES;
-    
     [self.view addSubview:nextPage.view];
 	[self.view addSubview:currentPage.view];
 }
@@ -88,7 +111,49 @@
     [nextPage release];
     [attachment release];
     [tapRecognizer release];
+    self.pageControl = nil;
     [super dealloc];
+}
+
+-(void)pageAction:(id) sender
+{
+    pageControl.currentPageBypass = pageControl.currentPage;
+    
+    NSUInteger currentPageIndex = pageControl.currentPage;
+    
+    if (currentPageIndex != currentPage.pageIndex)
+    {
+        BOOL nextPrev = currentPageIndex < currentPage.pageIndex;
+        
+        NSInteger nextPageIndex = currentPageIndex+(nextPrev?-1:1);
+        
+        [UIView beginAnimations:nil context:NULL];
+        [UIView setAnimationDuration:0.5f];
+        [UIView setAnimationTransition: (nextPrev?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp)
+                               forView:self.view cache:YES];
+        if (nextPrev) //page up
+        {
+            AttachmentPageViewController *swapController = currentPage;
+            currentPage = nextPage;
+            nextPage = swapController;
+            if (currentPage.pageIndex != currentPageIndex)
+                currentPage.pageIndex = currentPageIndex;
+            nextPage.pageIndex = nextPageIndex;
+        }
+        else //page down
+        {
+            AttachmentPageViewController *swapController = currentPage;
+            currentPage = nextPage;
+            nextPage = swapController;
+            if (currentPage.pageIndex != currentPageIndex)
+                currentPage.pageIndex = currentPageIndex;
+            nextPage.pageIndex = nextPageIndex;
+        }
+        nextPage.view.hidden = YES;
+        currentPage.view.hidden = NO;
+        // Commit the changes
+        [UIView commitAnimations];
+    }
 }
 
 #pragma mark -
@@ -123,55 +188,35 @@
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    return YES;
+    TapPosition tapPosition = [self tapPosition:touch];
+    
+    if (tapPosition == TapPositionMiddle)
+        return YES;
+    
+    if (pageControl.hidden)
+        return YES;
+    
+    return NO;
 }
 
 -(void) handleTapFrom:(UITouch *)touch
 {
-    CGPoint location = [touch locationInView:self.view];
+    TapPosition tapPosition = [self tapPosition:touch];
     
-    CGSize size = self.view.bounds.size;
-    
-    BOOL tapBottom = (size.height - location.y)<100.0f;
-    
-    BOOL tapTop = location.y<100.0f;
-    
-    if (tapTop || tapBottom)
+    if (tapPosition == TapPositionMiddle)
+        pageControl.hidden = !pageControl.hidden;
+    else if (tapPosition == TapPositionTop || tapPosition == TapPositionBottom)
     {
-        NSInteger currentPageIndex = [currentPage pageIndex]+(tapTop?-1:1);
+        NSInteger currentPageIndex = [currentPage pageIndex]+(tapPosition == TapPositionTop?-1:1);
 
         NSUInteger numberOfPages = [attachment.pages count]-1;
         
         if (currentPageIndex<0 || currentPageIndex>numberOfPages) //out of bounds
             return;
-        NSInteger nextPageIndex = currentPageIndex+(tapTop?-1:1);
+        pageControl.currentPage = currentPageIndex;
         
-        [UIView beginAnimations:nil context:NULL];
-        [UIView setAnimationDuration:0.5f];
-        [UIView setAnimationTransition:tapTop?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp
-                               forView:self.view cache:YES];
-        if (tapTop) //page up
-        {
-            AttachmentPageViewController *swapController = currentPage;
-            currentPage = nextPage;
-            nextPage = swapController;
-            if (currentPage.pageIndex != currentPageIndex)
-                currentPage.pageIndex = currentPageIndex;
-            nextPage.pageIndex = nextPageIndex;
-        }
-        else if (tapBottom) //page down
-        {
-            AttachmentPageViewController *swapController = currentPage;
-            currentPage = nextPage;
-            nextPage = swapController;
-            if (currentPage.pageIndex != currentPageIndex)
-                currentPage.pageIndex = currentPageIndex;
-            nextPage.pageIndex = nextPageIndex;
-        }
-        nextPage.view.hidden = YES;
-        currentPage.view.hidden = NO;
-        // Commit the changes
-        [UIView commitAnimations];
+        //emulate pager tap
+        [self pageAction:pageControl];
     }
 }
 #pragma mark -
@@ -205,5 +250,21 @@
 -(void) rotate:(CGFloat) degreesAngle
 {
     [currentPage rotate:degreesAngle];
+}
+@end
+
+@implementation AttachmentsViewController(Private)
+- (TapPosition) tapPosition:(UITouch *)touch
+{
+    CGSize size = self.view.frame.size;
+    CGPoint location = [touch locationInView:self.view];
+    
+    if ((size.height - location.y)<100.0f)
+        return TapPositionBottom;
+    
+    if (location.y<100.0f)
+        return TapPositionTop;
+
+    return TapPositionMiddle;
 }
 @end

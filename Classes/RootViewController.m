@@ -20,7 +20,7 @@
 #import "Folder.h"
 #import "ResolutionViewController.h"
 #import "RotateableImageView.h"
-#import <QuartzCore/CALayer.h>
+#import "PageControlWithMenu.h"
 
 #define LEFT_CONTENT_MARGIN 5.0f
 #define RIGHT_CONTENT_MARGIN 5.0f
@@ -133,6 +133,20 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     attachmentsViewController.view.frame = attachmentsViewFrame;
     attachmentsViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight);
 
+    //page control
+    CGRect pageControlFrame = CGRectMake(0, viewFrame.size.height - 37, viewFrame.size.width, 37);
+    PageControlWithMenu *pageControl = [[PageControlWithMenu alloc] initWithFrame: pageControlFrame];
+    
+    pageControl.backgroundColor = [UIColor clearColor];
+    pageControl.backgroundView.image = [UIImage imageNamed: @"PageControlBackground.png"];
+    pageControl.backgroundView.frame = CGRectMake(0, 0, pageControlFrame.size.width, 40);
+    pageControl.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    pageControl.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);
+
+    attachmentsViewController.pageControl = pageControl;
+    [pageControl release];
+
     //attachmentPicker view
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
     CGRect documentInfoViewControllerFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, 300);
@@ -213,7 +227,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [self.view addSubview:clipperViewController.view];
     [self.view addSubview:infoButton];
     [self.view addSubview:resolutionButton];
-
+    [self.view addSubview: attachmentsViewController.pageControl];
     
     //to make it over clipper
     [self.view bringSubviewToFront:toolbar];
