@@ -56,6 +56,7 @@ typedef enum _TapPosition{
     currentPage.pageIndex = 0;
     nextPage.pageIndex = 1;
     pageControl.numberOfPages = [attachment.pages count];
+    pageControl.currentPage = 0;
 }
 
 #pragma mark -
