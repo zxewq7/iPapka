@@ -16,7 +16,6 @@
 
 @implementation PageControlWithMenu
 @synthesize bubbleView, backgroundView, dotNormal, dotCurrent;
-@dynamic currentPageBypass;
 
 - (id)initWithFrame:(CGRect)frame {
     if ((self = [super initWithFrame:frame])) {
@@ -32,14 +31,8 @@
     bubbleView.hidden = NO;
 }
 
-- (void)setCurrentPageBypass:(NSInteger)aPage {
-	[self setCurrentPage:aPage];
-	[self setNeedsDisplay];
-    [self showBubble];
 }
 
-- (NSInteger)currentPageBypass {
-	return self.currentPage;
 }
 
 - (void)dealloc 

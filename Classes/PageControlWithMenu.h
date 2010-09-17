@@ -21,5 +21,4 @@
 @property (nonatomic, retain, readonly) UIImageView *backgroundView;
 @property (nonatomic, readwrite, retain) UIImage* dotNormal;
 @property (nonatomic, readwrite, retain) UIImage* dotCurrent;
-@property NSInteger currentPageBypass;
 @end

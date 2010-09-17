@@ -121,8 +121,6 @@ typedef enum _TapPosition{
 
 -(void)pageAction:(id) sender
 {
-    pageControl.currentPageBypass = pageControl.currentPage;
-    
     NSUInteger currentPageIndex = pageControl.currentPage;
     
     if (currentPageIndex != currentPage.pageIndex)
