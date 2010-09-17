@@ -15,6 +15,8 @@
 #import "AZZBubbleView.h"
 #import <QuartzCore/CALayer.h>
 
+static NSString *HidePageControlAnimationId = @"HidePageControlAnimationId";
+
 typedef enum _TapPosition{
     TapPositionTop = 0,
     TapPositionMiddle = 1,
@@ -38,6 +40,7 @@ typedef enum _TapPosition{
     [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
     pageControl.numberOfPages = [attachment.pages count];
     pageControl.hidden = YES;
+    pageControl.alpha = 0.0;
 }
 
 -(void) setAttachment:(Attachment*) anAttachment
@@ -193,10 +196,7 @@ typedef enum _TapPosition{
     if (tapPosition == TapPositionMiddle)
         return YES;
     
-    if (pageControl.hidden)
-        return YES;
-    
-    return NO;
+    return pageControl.hidden;
 }
 
 -(void) handleTapFrom:(UITouch *)touch
@@ -204,7 +204,20 @@ typedef enum _TapPosition{
     TapPosition tapPosition = [self tapPosition:touch];
     
     if (tapPosition == TapPositionMiddle)
-        pageControl.hidden = !pageControl.hidden;
+    {
+        //fade in/out pageControl
+        [UIView beginAnimations:HidePageControlAnimationId context:nil];
+        [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
+        [UIView setAnimationDuration:0.5];
+        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view.window cache:YES];
+        [UIView setAnimationDelegate:self]; 
+        [UIView setAnimationDidStopSelector:@selector(startupAnimationDone:finished:context:)];
+        if (pageControl.hidden)
+            pageControl.hidden = NO;
+        pageControl.alpha = pageControl.alpha == 0.0?1.0:0.0;
+        [UIView commitAnimations];
+
+    }
     else if (tapPosition == TapPositionTop || tapPosition == TapPositionBottom)
     {
         NSInteger currentPageIndex = [currentPage pageIndex]+(tapPosition == TapPositionTop?-1:1);
@@ -218,6 +231,12 @@ typedef enum _TapPosition{
         //emulate pager tap
         [self pageAction:pageControl];
     }
+}
+
+- (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+{
+    if (animationID == HidePageControlAnimationId)
+        pageControl.hidden = !pageControl.hidden;
 }
 #pragma mark -
 #pragma mark View controller rotation methods
