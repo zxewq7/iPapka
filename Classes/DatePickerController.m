@@ -18,7 +18,7 @@
 
  - (void)viewDidLoad 
 {
- [super viewDidLoad];
+    [super viewDidLoad];
     self.contentSizeForViewInPopover = CGSizeMake(300,300);
                           
     datePickerView = [[UIDatePicker alloc] initWithFrame:CGRectZero];
@@ -40,15 +40,6 @@
 
  }
 
-- (void)viewDidUnload {
-    [super viewDidUnload];
-    [datePickerView release];
-    datePickerView = nil;
-        // Release any retained subviews of the main view.
-        // e.g. self.myOutlet = nil;
-}
-
-
 #pragma mark -
 #pragma mark actions
 
@@ -57,6 +48,17 @@
     self.date = datePickerView.date;
     if( [target respondsToSelector:selector] )
         [target performSelector:selector withObject:self];
+}
+
+#pragma mark -
+#pragma Memory management
+
+- (void)viewDidUnload 
+{
+    [super viewDidUnload];
+    
+    [datePickerView release];
+    datePickerView = nil;
 }
 
 - (void)dealloc {
