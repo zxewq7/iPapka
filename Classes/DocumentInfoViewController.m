@@ -21,7 +21,7 @@
 
 #pragma mark -
 #pragma mark Properties
-@synthesize document, attachment;
+@synthesize document, attachmentIndex;
 
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -47,12 +47,9 @@
     [self.tableView reloadData];
     NSArray *attachments = unmanagedDocument.attachments;
     if ([attachments count]) 
-    {
-        Attachment *firstAttachment = [attachments objectAtIndex:0];
-        self.attachment = firstAttachment;
-    }
+        attachmentIndex = 0;
     else
-        self.attachment = nil;
+        attachmentIndex = NSNotFound;
     
     if (![unmanagedDocument.links count])
         filter.hidden = YES;
@@ -151,7 +148,7 @@
 #pragma mark Table view selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.attachment = [currentItems objectAtIndex:indexPath.row];
+    self.attachmentIndex = indexPath.row;
 }
 
 
@@ -201,7 +198,6 @@
     filter = nil;
     [dateFormatter release];
     dateFormatter = nil;
-    self.attachment = nil;
     [super dealloc];
 }
 

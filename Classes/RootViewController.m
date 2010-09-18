@@ -174,7 +174,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     documentInfoViewController.view.alpha = 0.0;
     
     [documentInfoViewController addObserver:self
-                                 forKeyPath:@"attachment"
+                                 forKeyPath:@"attachmentIndex"
                                     options:0
                                     context:&AttachmentContext];
 
@@ -417,7 +417,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     {
         if (clipperViewController.opened)
             clipperViewController.opened = NO;
-        attachmentsViewController.attachment = documentInfoViewController.attachment;
+        attachmentsViewController.attachmentIndex = documentInfoViewController.attachmentIndex;
     }
     else
     {
@@ -616,6 +616,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 -(void) updateContent
 {
     documentInfoViewController.document = self.document;
+    attachmentsViewController.document = self.document;
 
     if (resolutionButton.selected) //hide resolution
         [self showResolution:resolutionButton];

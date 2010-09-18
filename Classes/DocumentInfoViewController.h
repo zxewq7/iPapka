@@ -18,9 +18,9 @@
     UISegmentedControl *filter;
     NSDateFormatter *dateFormatter;
     NSArray         *currentItems;
-    Attachment      *attachment;
+    NSUInteger       attachmentIndex;
 }
 @property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
-@property (nonatomic, retain)                      Attachment       *attachment;
+@property (nonatomic, assign)                      NSUInteger       attachmentIndex;
 
 @end

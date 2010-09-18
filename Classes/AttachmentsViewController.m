@@ -14,6 +14,8 @@
 #import "PageControlWithMenu.h"
 #import "AZZBubbleView.h"
 #import <QuartzCore/CALayer.h>
+#import "DocumentManaged.h"
+#import "Document.h"
 
 static NSString *HidePageControlAnimationId = @"HidePageControlAnimationId";
 
@@ -28,7 +30,7 @@ typedef enum _TapPosition{
 @end
 
 @implementation AttachmentsViewController
-@synthesize attachment, currentPage, commenting, pageControl;
+@synthesize currentPage, commenting, pageControl, document, attachmentIndex;
 
 -(void) setPageControl:(PageControlWithMenu *) aPageControl
 {
@@ -43,8 +45,31 @@ typedef enum _TapPosition{
     pageControl.alpha = 0.0;
 }
 
--(void) setAttachment:(Attachment*) anAttachment
+-(void) setDocument:(DocumentManaged*) aDocument
 {
+    if (document == aDocument)
+        return;
+    
+    [document release];
+    document = [aDocument retain];
+    self.attachmentIndex = 0;
+}
+
+-(void) setAttachmentIndex:(NSUInteger) anAttachmentIndex
+{
+    Document *documentUnmanaged = document.document;
+    
+    if ([document.document.attachments count] <= anAttachmentIndex)
+    {
+        [attachment release];
+        attachment = nil;
+        attachmentIndex = 0;
+        return;
+    }
+    
+    attachmentIndex = anAttachmentIndex;
+    
+    Attachment *anAttachment = [documentUnmanaged.attachments objectAtIndex: attachmentIndex];
     if (attachment != anAttachment) 
     {
         [attachment release];
@@ -111,11 +136,21 @@ typedef enum _TapPosition{
 - (void)dealloc
 {
     [attachment release];
+    attachment = nil;
+    
     [currentPage release];
+    currentPage = nil;
+    
     [nextPage release];
-    [attachment release];
+    nextPage = nil;
+    
     [tapRecognizer release];
+    tapRecognizer = nil;
+    
     self.pageControl = nil;
+    
+    self.document = nil;
+    
     [super dealloc];
 }
 
@@ -261,8 +296,11 @@ typedef enum _TapPosition{
 //    pagingScrollView.canCancelContentTouches = !commenting;
 //    pagingScrollView.delaysContentTouches = !commenting;
     [currentPage setCommenting:commenting];
-    if (!commenting) 
+    if (!commenting)
+    {
         [currentPage saveContent];
+        [document saveDocument];
+    }
 }
 
 -(void) rotate:(CGFloat) degreesAngle
