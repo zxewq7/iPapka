@@ -622,7 +622,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
     if ([self.document isKindOfClass: [ResolutionManaged class]])
     {
-        resolutionViewController.document = self.document;
+        resolutionViewController.document = (ResolutionManaged *)self.document;
         resolutionButton.hidden = NO;
     }
     else

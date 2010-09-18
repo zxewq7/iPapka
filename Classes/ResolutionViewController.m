@@ -10,7 +10,6 @@
 #import "PerformersViewController.h"
 #import "UIButton+Additions.h"
 #import "TextViewWithPlaceholder.h"
-#import "DocumentManaged.h"
 #import "Resolution.h"
 #import "ResolutionManaged.h"
 #import "DatePickerController.h"
@@ -27,21 +26,14 @@
 @implementation ResolutionViewController
 @synthesize document;
 
--(void) setDocument:(DocumentManaged *) aDocument
+-(void) setDocument:(ResolutionManaged *) aDocument
 {
     if (document == aDocument)
     return;
     
-    if ([aDocument isKindOfClass: [ResolutionManaged class]])
-    {
-        [document release];
-        document = [aDocument retain];
-    }
-    else
-    {
-        [document release];
-        document = nil;
-    }
+    [document release];
+    document = [aDocument retain];
+    
     [self updateContent];
 }
 - (void)loadView

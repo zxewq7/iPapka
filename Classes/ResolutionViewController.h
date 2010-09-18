@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged, DatePickerController;
+@class ResolutionManaged, DatePickerController, PerformersViewController;
 @interface ResolutionViewController : UIViewController <UITextViewDelegate, UIPopoverControllerDelegate>
 {
     UISegmentedControl *resolutionSwitcher;
@@ -17,11 +17,11 @@
     UITextView         *resolutionText;
     UILabel            *authorLabel;
     UILabel            *dateLabel;
-    DocumentManaged    *document;
+    ResolutionManaged   *document;
     NSDateFormatter    *dateFormatter;
     DatePickerController *datePickerController;
     UIPopoverController *popoverController;
 }
 
-@property (nonatomic, retain) DocumentManaged    *document;
+@property (nonatomic, retain) ResolutionManaged    *document;
 @end
