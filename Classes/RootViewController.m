@@ -198,8 +198,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                            leftCapWidth:10.0f
                                           darkTextColor:NO];
 
-    [resolutionButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    resolutionButton.titleLabel.shadowOffset = CGSizeMake(0.1, -1.0);
+    [resolutionButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
+    resolutionButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 
     CGSize resolutionButtonSize = resolutionButton.frame.size;
     CGRect resolutionButtonFrame = CGRectMake(contentView.frame.origin.x, contentHeightOffset - resolutionButtonSize.height, resolutionButtonSize.width, resolutionButtonSize.height);
@@ -216,11 +216,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                           addLabelWidth:YES
                                                   image:[UIImage imageNamed:@"BackBarButton.png"]
                                            imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
-                                           leftCapWidth:20.0f
+                                           leftCapWidth:15.0f
                                           darkTextColor:NO];
 
-    [infoButton setTitleShadowColor:[UIColor darkGrayColor] forState:UIControlStateNormal];
-    infoButton.titleLabel.shadowOffset = CGSizeMake(0.1, -1.0);
+    [infoButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
+    infoButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 
     
     CGSize infoButtonSize = infoButton.frame.size;
