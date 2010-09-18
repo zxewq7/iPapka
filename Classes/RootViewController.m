@@ -528,6 +528,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 - (void) moveToArchive
 {
     [self setCanEdit:NO];
+    if (clipperViewController.opened)
+        clipperViewController.opened = NO;
+    
     [UIView beginAnimations:ArchiveAnimationId context:NULL];
     [UIView setAnimationDuration:0.75f];
     [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
