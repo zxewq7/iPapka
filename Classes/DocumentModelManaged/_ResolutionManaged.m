@@ -31,10 +31,14 @@
 
 @dynamic performers;
 
-
-
-
-
+	
+- (NSMutableSet*)performersSet {
+	[self willAccessValueForKey:@"performers"];
+	NSMutableSet *result = [self mutableSetValueForKey:@"performers"];
+	[self didAccessValueForKey:@"performers"];
+	return result;
+}
+	
 
 
 

@@ -18,6 +18,8 @@
 		8107AC481237A69700F0C71F /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8107AC291237A5D900F0C71F /* PLBlocks.framework */; };
 		8109477A123B629D009B3B1E /* UINavigationBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81094779123B629D009B3B1E /* UINavigationBar+Additions.m */; };
 		81094788123B6582009B3B1E /* DocumentsListNavigationbarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */; };
+		8110847A1244EF66008FBDE3 /* _PersonManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 811084771244EF66008FBDE3 /* _PersonManaged.m */; };
+		8110847B1244EF66008FBDE3 /* PersonManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 811084791244EF66008FBDE3 /* PersonManaged.m */; };
 		811DF42B1237A0E700903D30 /* Document.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 811DF4281237A0E700903D30 /* Document.xcdatamodel */; };
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
 		811DF44B1237A11300903D30 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42E1237A11300903D30 /* BrushErase.png */; };
@@ -174,6 +176,10 @@
 		81094778123B629D009B3B1E /* UINavigationBar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Additions.h"; sourceTree = "<group>"; };
 		81094779123B629D009B3B1E /* UINavigationBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Additions.m"; sourceTree = "<group>"; };
 		81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentsListNavigationbarBackground.png; sourceTree = "<group>"; };
+		811084761244EF66008FBDE3 /* _PersonManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _PersonManaged.h; sourceTree = "<group>"; };
+		811084771244EF66008FBDE3 /* _PersonManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _PersonManaged.m; sourceTree = "<group>"; };
+		811084781244EF66008FBDE3 /* PersonManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PersonManaged.h; path = DocumentModelManaged/PersonManaged.h; sourceTree = "<group>"; };
+		811084791244EF66008FBDE3 /* PersonManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PersonManaged.m; path = DocumentModelManaged/PersonManaged.m; sourceTree = "<group>"; };
 		811DF4281237A0E700903D30 /* Document.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
 		811DF42D1237A11300903D30 /* BrushComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushComment.png; sourceTree = "<group>"; };
 		811DF42E1237A11300903D30 /* BrushErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushErase.png; sourceTree = "<group>"; };
@@ -410,6 +416,8 @@
 		8149BB581244EBDB00D028EE /* DocumentModelManaged */ = {
 			isa = PBXGroup;
 			children = (
+				811084761244EF66008FBDE3 /* _PersonManaged.h */,
+				811084771244EF66008FBDE3 /* _PersonManaged.m */,
 				8149BB591244EBDB00D028EE /* _DocumentManaged.h */,
 				8149BB5A1244EBDB00D028EE /* _DocumentManaged.m */,
 				8149BB5B1244EBDB00D028EE /* _ResolutionManaged.h */,
@@ -482,6 +490,8 @@
 				8149BB621244EBDB00D028EE /* ResolutionManaged.m */,
 				8149BB631244EBDB00D028EE /* SignatureManaged.h */,
 				8149BB641244EBDB00D028EE /* SignatureManaged.m */,
+				811084781244EF66008FBDE3 /* PersonManaged.h */,
+				811084791244EF66008FBDE3 /* PersonManaged.m */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -831,6 +841,8 @@
 				8149BB681244EBDB00D028EE /* DocumentManaged.m in Sources */,
 				8149BB691244EBDB00D028EE /* ResolutionManaged.m in Sources */,
 				8149BB6A1244EBDB00D028EE /* SignatureManaged.m in Sources */,
+				8110847A1244EF66008FBDE3 /* _PersonManaged.m in Sources */,
+				8110847B1244EF66008FBDE3 /* PersonManaged.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -17,14 +17,17 @@
 #import "Resolution.h"
 #import "Signature.h"
 #import "KeychainItemWrapper.h"
+#import "PersonManaged.h"
 
 #define kLoginFieldTag 1001
 #define kPasswordFieldTag 1002
 
 @interface DataSource(Private)
 - (DocumentManaged *) findDocumentByUid:(NSString *) anUid;
+- (PersonManaged *) findPersonByUid:(NSString *) anUid;
 - (void) createLNDatasourceFromDefaults;
 - (void) askLoginAndPassword:(NSString*) login;
+- (void) updatePerformers:(NSArray *) uids resolution:(ResolutionManaged *) resolution;
 @end
 
 @implementation DataSource
@@ -41,6 +44,13 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DataSource);
     return documentEntityDescription;
 }
 
+- (NSEntityDescription *)personEntityDescription {
+    if (documentEntityDescription == nil) {
+        documentEntityDescription = [[NSEntityDescription entityForName:@"Person" inManagedObjectContext:managedObjectContext] retain];
+    }
+    return documentEntityDescription;
+}
+
 static NSString * const kDocumentUidSubstitutionVariable = @"UID";
 
 - (NSPredicate *)documentUidPredicateTemplate {
@@ -50,6 +60,17 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         documentUidPredicateTemplate = [[NSComparisonPredicate alloc] initWithLeftExpression:leftHand rightExpression:rightHand modifier:NSDirectPredicateModifier type:NSLikePredicateOperatorType options:0];
     }
     return documentUidPredicateTemplate;
+}
+
+static NSString * const kPersonUidSubstitutionVariable = @"UID";
+
+- (NSPredicate *)personUidPredicateTemplate {
+    if (personUidPredicateTemplate == nil) {
+        NSExpression *leftHand = [NSExpression expressionForKeyPath:@"uid"];
+        NSExpression *rightHand = [NSExpression expressionForVariable:kPersonUidSubstitutionVariable];
+        personUidPredicateTemplate = [[NSComparisonPredicate alloc] initWithLeftExpression:leftHand rightExpression:rightHand modifier:NSDirectPredicateModifier type:NSLikePredicateOperatorType options:0];
+    }
+    return personUidPredicateTemplate;
 }
 
 -(NSDate *) lastSynced
@@ -109,11 +130,15 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         foundDocument.author = aDocument.author;
         foundDocument.title = aDocument.title;
         foundDocument.isRead = [NSNumber numberWithBool:NO];
-        if ([aDocument isKindOfClass:[Signature class]])
+        if ([aDocument isKindOfClass:[Resolution class]])
         {
+            ResolutionManaged *resolution = (ResolutionManaged *)aDocument;
             
+            NSArray *performers = ((Resolution *)aDocument).performers;
+            
+            [self updatePerformers:performers resolution: resolution];
         }
-        
+
         [self commit];
         
         [notify postNotificationName:@"DocumentUpdated" object:foundDocument];
@@ -159,7 +184,13 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     newDocument.isEditable = [NSNumber numberWithBool: [@"inbox" isEqualToString:aDocument.dataSourceId]];
     
     if (isResolution)
-        ((ResolutionManaged *)newDocument).performers = ((Resolution *)aDocument).performers;
+    {
+        ResolutionManaged *resolution = (ResolutionManaged *)newDocument;
+        
+        NSArray *performers = ((Resolution *)aDocument).performers;
+        
+        [self updatePerformers:performers resolution: resolution];
+    }
     
 	[self commit];
     
@@ -347,7 +378,24 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
     NSError *error = nil;
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
     [fetchRequest release];
-    NSAssert1(fetchResults != nil, @"Unhandled error executing document update: %@", [error localizedDescription]);
+    NSAssert1(fetchResults != nil, @"Unhandled error executing document fetch: %@", [error localizedDescription]);
+    
+    if ([fetchResults count] > 0)
+        return [fetchResults objectAtIndex:0];
+    
+    return nil;
+}
+
+-(PersonManaged *) findPersonByUid:(NSString *) anUid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:self.personEntityDescription];
+    NSPredicate *predicate = [self.personUidPredicateTemplate predicateWithSubstitutionVariables:[NSDictionary dictionaryWithObject:anUid forKey:kPersonUidSubstitutionVariable]];
+    [fetchRequest setPredicate:predicate];
+    NSError *error = nil;
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    NSAssert1(fetchResults != nil, @"Unhandled error executing person fetch: %@", [error localizedDescription]);
     
     if ([fetchResults count] > 0)
         return [fetchResults objectAtIndex:0];
@@ -441,5 +489,25 @@ static NSString * const kDocumentUidSubstitutionVariable = @"UID";
         [textField2 becomeFirstResponder];
     else
         [textField becomeFirstResponder];
+}
+- (void) updatePerformers:(NSArray *) uids resolution:(ResolutionManaged *) resolution
+{
+    [resolution removePerformers: resolution.performers]; //clean all performers
+    
+    for (NSString *uid in uids)
+    {
+        PersonManaged *performer = [self findPersonByUid: uid];
+        if (performer)
+            [resolution addPerformersObject: performer];
+        else
+        {
+            performer = [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:managedObjectContext];
+            performer.uid = uid;
+            performer.first = uid;
+            performer.middle = uid;
+            performer.last = uid;
+            NSLog(@"Unknown person: %@", uid);
+        }
+    }
 }
 @end

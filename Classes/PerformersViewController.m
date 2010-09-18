@@ -11,6 +11,7 @@
 #import "UIButton+Additions.h"
 #import "ResolutionManaged.h"
 #import "Resolution.h"
+#import "PersonManaged.h"
 
 @interface PerformersViewController (Private)
 - (void) updateContent;
@@ -29,7 +30,14 @@
     document = [aDocument retain];
     
     if (document)
-        performers = [[NSMutableArray alloc] initWithArray: ((Resolution *)document.document).performers];
+    {
+        NSSet *ps = document.performers;
+        performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
+        for (PersonManaged *p in ps)
+            [performers addObject: p];
+        
+        [performers sortedArrayUsingDescriptors: sortByLastDescriptors];
+    }
     else
         performers = nil;
     
@@ -39,6 +47,15 @@
 - (void)viewDidLoad 
 {
     [super viewDidLoad];
+    
+    NSSortDescriptor *sortDescriptor = 
+    [[NSSortDescriptor alloc] initWithKey:@"last" 
+                                ascending:YES];
+    
+    sortByLastDescriptors = [[NSArray alloc] 
+                                initWithObjects:sortDescriptor, nil];  
+    [sortDescriptor release];
+    
     CGSize viewSize = self.view.bounds.size;
     
     performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - 50, viewSize.height)];
@@ -59,18 +76,28 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
+
     [performersView release];
     performersView = nil;
+
+    [sortByLastDescriptors release];
+    sortByLastDescriptors = nil;
 }
 
 
 - (void)dealloc 
 {
     self.document = nil;
+
     [performers release];
     performers = nil;
+
     [performersView release];
     performersView = nil;
+
+    [sortByLastDescriptors release];
+    sortByLastDescriptors = nil;
+
     [super dealloc];
 }
 
@@ -80,9 +107,9 @@
 {
     NSMutableArray *performerButtons = [NSMutableArray arrayWithCapacity: [performers count]];
     
-    for (NSString *performer in performers)
+    for (PersonManaged *performer in performers)
     {
-        [performerButtons addObject: [UIButton buttonWithBackgroundAndTitle:performer
+        [performerButtons addObject: [UIButton buttonWithBackgroundAndTitle:performer.fullName
                                                                   titleFont:[UIFont fontWithName:@"CharterC" size:16]
                                                                      target:self
                                                                    selector:nil

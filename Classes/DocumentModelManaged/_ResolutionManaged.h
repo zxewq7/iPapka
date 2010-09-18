@@ -4,8 +4,8 @@
 #import <CoreData/CoreData.h>
 #import "DocumentManaged.h"
 
+@class PersonManaged;
 
-@class NSObject;
 
 @interface ResolutionManagedID : NSManagedObjectID {}
 @end
@@ -18,10 +18,9 @@
 
 
 
-@property (nonatomic, retain) NSObject *performers;
 
-//- (BOOL)validatePerformers:(id*)value_ error:(NSError**)error_;
-
+@property (nonatomic, retain) NSSet* performers;
+- (NSMutableSet*)performersSet;
 
 
 
@@ -29,13 +28,19 @@
 
 @interface _ResolutionManaged (CoreDataGeneratedAccessors)
 
+- (void)addPerformers:(NSSet*)value_;
+- (void)removePerformers:(NSSet*)value_;
+- (void)addPerformersObject:(PersonManaged*)value_;
+- (void)removePerformersObject:(PersonManaged*)value_;
+
 @end
 
 @interface _ResolutionManaged (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSObject*)primitivePerformers;
-- (void)setPrimitivePerformers:(NSObject*)value;
 
+
+- (NSMutableSet*)primitivePerformers;
+- (void)setPrimitivePerformers:(NSMutableSet*)value;
 
 
 @end

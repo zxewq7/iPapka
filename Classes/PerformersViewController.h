@@ -15,6 +15,8 @@
     NSMutableArray *performers;
     ViewWithButtons *performersView;
     ResolutionManaged *document;
+    NSArray *sortByLastDescriptors;  
+
 }
 
 @property (nonatomic, retain) ResolutionManaged *document;
