@@ -149,7 +149,7 @@
 	resolutionText.textColor = [UIColor blackColor];
 	resolutionText.font = [UIFont fontWithName:@"CharterC" size:16];
 	resolutionText.delegate = self;
-	resolutionText.backgroundColor = [UIColor redColor];
+	resolutionText.backgroundColor = [UIColor clearColor];
     
     ((TextViewWithPlaceholder *)resolutionText).placeholder = NSLocalizedString(@"Enter resolution text", "Enter resolution text");
     ((TextViewWithPlaceholder *)resolutionText).placeholderColor = [UIColor lightGrayColor];
@@ -278,7 +278,19 @@
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
     [self updateHeight];
+    
+    Resolution *resolution = (Resolution *)document.document;
+    resolution.text = resolutionText.text;
+    
+    [self.document saveDocument];
     return YES;
+}
+#pragma mark -
+#pragma mark UIPopoverControllerDelegate
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
+{
+    if (popoverController == pc)
+        [self.document saveDocument];
 }
 
 #pragma Privare
@@ -330,9 +342,13 @@
     }
     
     if (!popoverController)
+    {
         popoverController = [[UIPopoverController alloc] initWithContentViewController:datePickerController];
+        popoverController.delegate = self;
+    }
     
-    datePickerController.date = (((Resolution *)document.document)).deadline;
+    Resolution *resolution = (Resolution *)document.document;
+    datePickerController.date = resolution.deadline;
     UIView *button = (UIView *)sender;
     CGRect targetRect = button.bounds;
 	[popoverController presentPopoverFromRect: targetRect inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
@@ -343,7 +359,9 @@
     NSString *label;
     
     NSDate *deadline = datePickerController.date;
-    (((Resolution *)document.document)).deadline = deadline;
+
+    Resolution *resolution = (Resolution *)document.document;
+    resolution.deadline = deadline;
     
     if (deadline)
         label = [dateFormatter stringFromDate:deadline];

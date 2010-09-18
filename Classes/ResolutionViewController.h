@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class DocumentManaged, DatePickerController;
-@interface ResolutionViewController : UIViewController <UITextViewDelegate>
+@interface ResolutionViewController : UIViewController <UITextViewDelegate, UIPopoverControllerDelegate>
 {
     UISegmentedControl *resolutionSwitcher;
     UIImageView        *logo;
