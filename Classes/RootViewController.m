@@ -212,11 +212,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                               titleFont:[UIFont boldSystemFontOfSize:12]
                                                  target:self
                                                selector:@selector(showInfo:)
-                                                  frame:CGRectMake(0, 0, 25, 30)
+                                                  frame:CGRectMake(0, 0, 20, 30)
                                           addLabelWidth:YES
-                                                  image:[UIImage imageNamed:@"BackBarButton.png"]
-                                           imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
-                                           leftCapWidth:15.0f
+                                                  image:[UIImage imageNamed:@"ButtonSquare.png"]
+                                           imagePressed:[UIImage imageNamed:@"ButtonSquare.png"]
+                                           leftCapWidth:10.0f
                                           darkTextColor:NO];
 
     [infoButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
