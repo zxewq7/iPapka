@@ -120,6 +120,12 @@
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(documentUpdated:)
                                                  name:@"DocumentUpdated" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(documentsListWillRefreshed:)
+                                                 name:@"DocumentsListWillRefreshed" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(documentsListDidRefreshed:)
+                                                 name:@"DocumentsListDidRefreshed" object:nil];
     [self createToolbars];
     [self updateSyncStatus];
 }
@@ -460,6 +466,16 @@
 {
     Document *doc = notification.object;
     [self updateDocuments: [NSArray arrayWithObject: doc] isDeleteDocuments:NO isDelta:YES];
+}
+
+- (void)documentsListDidRefreshed:(NSNotification *)notification
+{
+    [self updateSyncStatus];
+}
+
+- (void)documentsListWillRefreshed:(NSNotification *)notification
+{
+    [self updateSyncStatus];
 }
 
 - (void) createToolbars;
