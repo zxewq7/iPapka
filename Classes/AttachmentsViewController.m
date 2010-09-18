@@ -229,7 +229,7 @@ typedef enum _TapPosition{
     
     if (tapPosition == TapPositionMiddle)
         return YES;
-    
+
     return pageControl.hidden;
 }
 
@@ -241,11 +241,10 @@ typedef enum _TapPosition{
     {
         //fade in/out pageControl
         [UIView beginAnimations:HidePageControlAnimationId context:nil];
-        [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
         [UIView setAnimationDuration:0.5];
         [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view.window cache:YES];
         [UIView setAnimationDelegate:self]; 
-        [UIView setAnimationDidStopSelector:@selector(startupAnimationDone:finished:context:)];
+        [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
         if (pageControl.hidden)
             pageControl.hidden = NO;
         pageControl.alpha = pageControl.alpha == 0.0?1.0:0.0;
@@ -270,7 +269,7 @@ typedef enum _TapPosition{
 - (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
     if (animationID == HidePageControlAnimationId)
-        pageControl.hidden = !pageControl.hidden;
+        pageControl.hidden = (pageControl.alpha == 0.0);
 }
 #pragma mark -
 #pragma mark View controller rotation methods
