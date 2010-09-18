@@ -13,6 +13,7 @@
 #import "DocumentManaged.h"
 #import "Resolution.h"
 #import "ResolutionManaged.h"
+#import "DatePickerController.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
@@ -127,7 +128,7 @@
     deadlineButton = [UIButton buttonWithBackgroundAndTitle:@" 12 August 2010 "
                                                   titleFont:[UIFont fontWithName:@"CharterC" size:18]
                                                      target:self
-                                                   selector:nil
+                                                   selector:@selector(pickDeadline:)
                                                       frame:CGRectMake(0, 0, 28, 25)
                                               addLabelWidth:YES
                                                       image:[UIImage imageNamed:@"ButtonDate.png"]
@@ -182,7 +183,7 @@
     
     //date
     dateLabel = [[UILabel alloc] initWithFrame: CGRectZero];
-    dateLabel.text = @"12 August 2010";
+    dateLabel.text = @"12 12345678910 2010";
     dateLabel.textColor = [UIColor blackColor];
     dateLabel.textAlignment = UITextAlignmentCenter;
     dateLabel.font = [UIFont fontWithName:@"CharterC" size:18];
@@ -230,6 +231,12 @@
 
     [dateFormatter release];
     dateFormatter = nil;
+    
+    [datePickerController release];
+    datePickerController = nil;
+    
+    [popoverController release];
+    popoverController = nil;
 }
 
 
@@ -257,6 +264,12 @@
     
     [dateFormatter release];
     dateFormatter = nil;
+    
+    [datePickerController release];
+    datePickerController = nil;
+    
+    [popoverController release];
+    popoverController = nil;
 }
 
 #pragma mark -
@@ -276,7 +289,9 @@
     authorLabel.text = document.author;
     resolutionText.text = resolution.text;
     dateLabel.text = [dateFormatter stringFromDate: document.dateModified];
-    deadlineButton.titleLabel.text = resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil;
+    
+    NSString *label = (resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil);
+    [deadlineButton setTitle:label forState:UIControlStateNormal];
 }
 
 -(void) updateHeight;
@@ -301,5 +316,40 @@
         [resolutionText scrollRangeToVisible: NSMakeRange(0, 1)];
     }
     
+}
+
+#pragma mark -
+#pragma mark actions
+-(void) pickDeadline:(id) sender
+{
+    if (!datePickerController)
+    {
+        datePickerController = [[DatePickerController alloc] init];
+        datePickerController.target = self;
+        datePickerController.selector = @selector(setDeadLine:);
+    }
+    
+    if (!popoverController)
+        popoverController = [[UIPopoverController alloc] initWithContentViewController:datePickerController];
+    
+    datePickerController.date = (((Resolution *)document.document)).deadline;
+    UIView *button = (UIView *)sender;
+    CGRect targetRect = button.bounds;
+	[popoverController presentPopoverFromRect: targetRect inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+-(void) setDeadLine:(id) sender
+{
+    NSString *label;
+    
+    NSDate *deadline = datePickerController.date;
+    (((Resolution *)document.document)).deadline = deadline;
+    
+    if (deadline)
+        label = [dateFormatter stringFromDate:deadline];
+    else
+        label = nil;
+    
+    [deadlineButton setTitle:label forState:UIControlStateNormal];
 }
 @end
