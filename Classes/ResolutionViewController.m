@@ -90,7 +90,7 @@
     [self.view addSubview: logo];
     
     performersViewController = [[PerformersViewController alloc] init];
-    performersViewController.view.backgroundColor = [UIColor redColor];
+    performersViewController.view.backgroundColor = [UIColor clearColor];
     CGRect performersFrame = CGRectMake(0, logFrame.origin.y + logFrame.size.height+18, viewSize.width, (26 + 2)* 3); //3 rows
     performersViewController.view.frame = performersFrame;
     
