@@ -427,6 +427,12 @@
     currentColor = [UIColor colorWithRed:red green:green blue:blue alpha:kBrushOpacity];
     [currentColor retain];
 }
+
+- (void) enablePen:(BOOL) enabled
+{
+    [self enableMarker: enabled];
+}
+
 - (void) enableMarker:(BOOL) enabled
 {
     if (!markerTexture)

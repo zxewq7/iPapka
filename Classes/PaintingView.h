@@ -73,6 +73,7 @@ typedef enum
 - (void) setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
 - (void) saveContent;
 - (void) enableMarker:(BOOL) enabled;
+- (void) enablePen:(BOOL) enabled;
 - (void) enableEraser:(BOOL) enabled;
 - (void) enableStamper:(BOOL) enabled;
 @end

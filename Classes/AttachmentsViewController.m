@@ -216,6 +216,7 @@ typedef enum _TapPosition{
             [currentPage enableMarker:YES];
             break;
         case PaintingToolPen:
+            [currentPage enablePen:YES];
             break;
     }
 }

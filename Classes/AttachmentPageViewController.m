@@ -190,6 +190,11 @@
     page.rotationAngle = angle;
 }
 
+- (void) enablePen:(BOOL) enabled
+{
+    [imageView enablePen:enabled];
+}
+
 - (void) enableMarker:(BOOL) enabled
 {
     [imageView enableMarker:enabled];

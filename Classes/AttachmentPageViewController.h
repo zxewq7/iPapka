@@ -26,6 +26,7 @@
 - (void) setCommenting:(BOOL) state;
 - (void) saveContent;
 - (void) rotate:(CGFloat) degressAngle;
+- (void) enablePen:(BOOL) enabled;
 - (void) enableMarker:(BOOL) enabled;
 - (void) enableEraser:(BOOL) enabled;
 - (void) enableStamper:(BOOL) enabled;

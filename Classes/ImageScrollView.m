@@ -363,6 +363,11 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     currentAngle = radiansAngle;
 }
 
+- (void) enablePen:(BOOL) enabled
+{
+    [paintingView enablePen:enabled];
+}
+
 - (void) enableMarker:(BOOL) enabled
 {
     [paintingView enableMarker:enabled];

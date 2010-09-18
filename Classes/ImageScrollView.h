@@ -23,6 +23,7 @@
 - (void) setCommenting:(BOOL) state;
 - (void) rotate:(CGFloat) radiansAngle;
 - (void) enableMarker:(BOOL) enabled;
+- (void) enablePen:(BOOL) enabled;
 - (void) enableEraser:(BOOL) enabled;
 - (void) enableStamper:(BOOL) enabled;
 @end
