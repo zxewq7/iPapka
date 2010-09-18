@@ -15,7 +15,7 @@ typedef enum _PaintingTool {
 	PaintingToolEraser = 4
 } PaintingTool;
 
-@class PaintingToolsViewController;
+@class PaintingToolsViewController, ColorPicker;
 
 @protocol PaintingToolsDelegate <NSObject>
 -(void) paintingView: (PaintingToolsViewController *) sender color:(UIColor *) aColor;
@@ -23,7 +23,7 @@ typedef enum _PaintingTool {
 @end
     
 
-@interface PaintingToolsViewController : UIViewController 
+@interface PaintingToolsViewController : UIViewController<UIPopoverControllerDelegate> 
 {
     UIButton                  *commentButton;
     UIButton                  *penButton;
@@ -37,6 +37,8 @@ typedef enum _PaintingTool {
     id<PaintingToolsDelegate> delegate;
     PaintingTool              tool;
     UIColor                   *color;
+    UIPopoverController       *popoverController;
+    ColorPicker               *colorPicker;
 }
 @property (nonatomic, retain) id<PaintingToolsDelegate> delegate;
 @property (nonatomic, assign) PaintingTool              tool;

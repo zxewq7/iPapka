@@ -20,6 +20,7 @@
 		81094788123B6582009B3B1E /* DocumentsListNavigationbarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */; };
 		8110847A1244EF66008FBDE3 /* _PersonManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 811084771244EF66008FBDE3 /* _PersonManaged.m */; };
 		8110847B1244EF66008FBDE3 /* PersonManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 811084791244EF66008FBDE3 /* PersonManaged.m */; };
+		811B583412454D1000BEB158 /* ColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B583312454D1000BEB158 /* ColorPicker.m */; };
 		811DF42B1237A0E700903D30 /* Document.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 811DF4281237A0E700903D30 /* Document.xcdatamodel */; };
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
 		811DF44B1237A11300903D30 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42E1237A11300903D30 /* BrushErase.png */; };
@@ -182,6 +183,8 @@
 		811084771244EF66008FBDE3 /* _PersonManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _PersonManaged.m; sourceTree = "<group>"; };
 		811084781244EF66008FBDE3 /* PersonManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PersonManaged.h; path = DocumentModelManaged/PersonManaged.h; sourceTree = "<group>"; };
 		811084791244EF66008FBDE3 /* PersonManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PersonManaged.m; path = DocumentModelManaged/PersonManaged.m; sourceTree = "<group>"; };
+		811B583212454D1000BEB158 /* ColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPicker.h; sourceTree = "<group>"; };
+		811B583312454D1000BEB158 /* ColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorPicker.m; sourceTree = "<group>"; };
 		811DF4281237A0E700903D30 /* Document.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
 		811DF42D1237A11300903D30 /* BrushComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushComment.png; sourceTree = "<group>"; };
 		811DF42E1237A11300903D30 /* BrushErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushErase.png; sourceTree = "<group>"; };
@@ -480,6 +483,8 @@
 				816541F912379B3B008FC80F /* DocumentInfoViewController.m */,
 				815DDC5412450C3F00F72600 /* PersonPickerViewController.h */,
 				815DDC5512450C3F00F72600 /* PersonPickerViewController.m */,
+				811B583212454D1000BEB158 /* ColorPicker.h */,
+				811B583312454D1000BEB158 /* ColorPicker.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -853,6 +858,7 @@
 				8110847A1244EF66008FBDE3 /* _PersonManaged.m in Sources */,
 				8110847B1244EF66008FBDE3 /* PersonManaged.m in Sources */,
 				815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */,
+				811B583412454D1000BEB158 /* ColorPicker.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

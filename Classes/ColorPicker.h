@@ -9,8 +9,16 @@
 #import <UIKit/UIKit.h>
 
 
-@interface ColorPicker : UITableViewController {
-
+@interface ColorPicker : UITableViewController 
+{
+    UIColor *color;
+    SEL selector;
+    id target;
+    
 }
+
+@property (nonatomic, retain) UIColor *color;
+@property (nonatomic, assign) SEL selector;
+@property (nonatomic, retain) id target;
 
 @end

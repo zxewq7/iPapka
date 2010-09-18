@@ -8,62 +8,103 @@
 
 #import "ColorPicker.h"
 
+//FUNCTIONS:
+/*
+ HSL2RGB Converts hue, saturation, luminance values to the equivalent red, green and blue values.
+ For details on this conversion, see Fundamentals of Interactive Computer Graphics by Foley and van Dam (1982, Addison and Wesley)
+ You can also find HSL to RGB conversion algorithms by searching the Internet.
+ See also http://en.wikipedia.org/wiki/HSV_color_space for a theoretical explanation
+ */
+static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* outB)
+{
+	float			temp1,
+    temp2;
+	float			temp[3];
+	int				i;
+	
+    // Check for saturation. If there isn't any just return the luminance value for each, which results in gray.
+	if(s == 0.0) {
+		if(outR)
+			*outR = l;
+		if(outG)
+			*outG = l;
+		if(outB)
+			*outB = l;
+		return;
+	}
+	
+    // Test for luminance and compute temporary values based on luminance and saturation 
+	if(l < 0.5)
+		temp2 = l * (1.0 + s);
+	else
+		temp2 = l + s - l * s;
+    temp1 = 2.0 * l - temp2;
+	
+    // Compute intermediate values based on hue
+	temp[0] = h + 1.0 / 3.0;
+	temp[1] = h;
+	temp[2] = h - 1.0 / 3.0;
+    
+	for(i = 0; i < 3; ++i) {
+		
+        // Adjust the range
+		if(temp[i] < 0.0)
+			temp[i] += 1.0;
+		if(temp[i] > 1.0)
+			temp[i] -= 1.0;
+		
+		
+		if(6.0 * temp[i] < 1.0)
+			temp[i] = temp1 + (temp2 - temp1) * 6.0 * temp[i];
+		else {
+			if(2.0 * temp[i] < 1.0)
+				temp[i] = temp2;
+			else {
+				if(3.0 * temp[i] < 2.0)
+					temp[i] = temp1 + (temp2 - temp1) * ((2.0 / 3.0) - temp[i]) * 6.0;
+				else
+					temp[i] = temp1;
+			}
+		}
+	}
+	
+    // Assign temporary values to R, G, B
+	if(outR)
+		*outR = temp[0];
+	if(outG)
+		*outG = temp[1];
+	if(outB)
+		*outB = temp[2];
+}
+#define kPaletteSize			5
+
+#define kLuminosity			0.75
+#define kSaturation			1.0
+
+#define kColorViewLeftMargin  36.0f
+#define kColorViewRightMargin  36.0f
+#define kColorViewTopMargin  5.0f
+#define kColorViewBottomMargin  5.0f
+
+#define kColorViewTag  1001
+
+#define kTableWidth  240
 
 @implementation ColorPicker
-
-
-#pragma mark -
-#pragma mark Initialization
-
-/*
-- (id)initWithStyle:(UITableViewStyle)style {
-    // Override initWithStyle: if you create the controller programmatically and want to perform customization that is not appropriate for viewDidLoad.
-    if ((self = [super initWithStyle:style])) {
-    }
-    return self;
-}
-*/
-
+@synthesize color, target, selector;
 
 #pragma mark -
 #pragma mark View lifecycle
 
-/*
-- (void)viewDidLoad {
+
+- (void)viewDidLoad 
+{
     [super viewDidLoad];
-
-    // Uncomment the following line to preserve selection between presentations.
-    self.clearsSelectionOnViewWillAppear = NO;
- 
-    // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    self.contentSizeForViewInPopover = CGSizeMake(kTableWidth, self.tableView.rowHeight * kPaletteSize);
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
 }
-*/
-
-/*
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-*/
-/*
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-*/
-/*
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-*/
-/*
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-*/
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Override to allow orientations other than the default portrait orientation.
     return YES;
 }
 
@@ -71,109 +112,79 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    // Return the number of sections.
-    return <#number of sections#>;
-}
-
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    // Return the number of rows in the section.
-    return <#number of rows in section#>;
+    return 5;
 }
 
 
-// Customize the appearance of table view cells.
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    static NSString *CellIdentifier = @"Cell";
+    static NSString *CellIdentifier = @"ColorCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        
+        CGRect frame = CGRectMake(kColorViewLeftMargin, kColorViewTopMargin, kTableWidth - kColorViewLeftMargin - kColorViewRightMargin, tableView.rowHeight - kColorViewTopMargin - kColorViewBottomMargin);
+        UIView *colorView = [[UIView alloc] initWithFrame: frame];
+        colorView.tag = kColorViewTag;
+
+        [cell addSubview: colorView];
+
+        [colorView release];
+        
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-    
-    // Configure the cell...
-    
+    UIView *colorView = [cell viewWithTag: kColorViewTag];
+    switch (indexPath.row)
+    {
+        case 0:
+            colorView.backgroundColor = [UIColor redColor];
+            break;
+        case 1:
+            colorView.backgroundColor = [UIColor yellowColor];
+            break;
+        case 2:
+            colorView.backgroundColor = [UIColor greenColor];
+            break;
+        case 3:
+            colorView.backgroundColor = [UIColor blueColor];
+            break;
+        case 4:
+            colorView.backgroundColor = [UIColor purpleColor];
+            break;
+    }
     return cell;
 }
-
-
-/*
-// Override to support conditional editing of the table view.
-- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the specified item to be editable.
-    return YES;
-}
-*/
-
-
-/*
-// Override to support editing the table view.
-- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    if (editingStyle == UITableViewCellEditingStyleDelete) {
-        // Delete the row from the data source
-        [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
-    }   
-    else if (editingStyle == UITableViewCellEditingStyleInsert) {
-        // Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view
-    }   
-}
-*/
-
-
-/*
-// Override to support rearranging the table view.
-- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath {
-}
-*/
-
-
-/*
-// Override to support conditional rearranging of the table view.
-- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Return NO if you do not want the item to be re-orderable.
-    return YES;
-}
-*/
-
 
 #pragma mark -
 #pragma mark Table view delegate
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    // Navigation logic may go here. Create and push another view controller.
-	/*
-	 <#DetailViewController#> *detailViewController = [[<#DetailViewController#> alloc] initWithNibName:@"<#Nib name#>" bundle:nil];
-     // ...
-     // Pass the selected object to the new view controller.
-	 [self.navigationController pushViewController:detailViewController animated:YES];
-	 [detailViewController release];
-	 */
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    CGFloat components[3];
+    HSL2RGB((CGFloat)indexPath.row / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
+    self.color = [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:0];
 }
 
 
 #pragma mark -
 #pragma mark Memory management
-
-- (void)didReceiveMemoryWarning {
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
+- (void)viewDidUnload 
+{
+    [super viewDidUnload];
     
-    // Relinquish ownership any cached data, images, etc that aren't in use.
-}
-
-- (void)viewDidUnload {
-    // Relinquish ownership of anything that can be recreated in viewDidLoad or on demand.
-    // For example: self.myOutlet = nil;
+    self.color = nil;
 }
 
 
-- (void)dealloc {
+- (void)dealloc 
+{
+    self.color = nil;
+
+    self.target = nil;
+    
     [super dealloc];
 }
-
-
 @end
 

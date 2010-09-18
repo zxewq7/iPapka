@@ -8,6 +8,7 @@
 
 #import "PaintingToolsViewController.h"
 #import "UIButton+Additions.h"
+#import "ColorPicker.h"
 
 @interface PaintingToolsViewController(Private)
 -(void) alignButtons:(NSArray *) buttons
@@ -79,9 +80,9 @@
    spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
 
     paletteButton = [UIButton imageButton:self
-                                selector:nil
-                                   image:[UIImage imageNamed:@"ButtonPalette.png"]
-                           imageSelected:[UIImage imageNamed:@"ButtonPaletteSelected.png"]];
+                                 selector:@selector(pickColor:)
+                                    image:[UIImage imageNamed:@"ButtonPalette.png"]
+                            imageSelected:[UIImage imageNamed:@"ButtonPaletteSelected.png"]];
     [paletteButton retain];
 
     rotateCCVButton = [UIButton imageButton:self
@@ -136,6 +137,40 @@
 }
 
 
+-(void) pickColor:(id) sender
+{
+    paletteButton.selected = YES;
+    if (!colorPicker)
+    {
+        colorPicker = [[ColorPicker alloc] init];
+        colorPicker.target = self;
+        colorPicker.selector = @selector(selectColor:);
+    }
+    
+    if (!popoverController)
+    {
+        popoverController = [[UIPopoverController alloc] initWithContentViewController:colorPicker];
+        popoverController.delegate = self;
+    }
+    
+    colorPicker.color = self.color;
+    UIView *button = (UIView *)sender;
+    CGRect targetRect = button.bounds;
+	[popoverController presentPopoverFromRect: targetRect inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+-(void) selectColor:(id) sender
+{
+    self.color = colorPicker.color;
+}
+
+#pragma mark -
+#pragma mark UIPopoverControllerDelegate
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
+{
+    paletteButton.selected = NO;
+}
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
@@ -155,6 +190,10 @@
     rotateCCVButton = nil;
     [rotateCVButton release];
     rotateCVButton = nil;
+    [colorPicker release];
+    colorPicker = nil;
+    [popoverController release];
+    popoverController = nil;
 }
 
 
@@ -175,6 +214,10 @@
     rotateCVButton = nil;
     self.delegate = nil;
     self.color = nil;
+    [colorPicker release];
+    colorPicker = nil;
+    [popoverController release];
+    popoverController = nil;
 }
 
 
