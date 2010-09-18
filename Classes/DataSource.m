@@ -216,6 +216,29 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 #pragma mark -
 #pragma mark methods
+-(NSArray *) persons
+{
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:[NSEntityDescription entityForName:@"Person" inManagedObjectContext:managedObjectContext]];
+	
+    NSSortDescriptor *sortDescriptor = 
+    [[NSSortDescriptor alloc] initWithKey:@"last" 
+                                ascending:YES];
+    
+    NSArray *sortDescriptors = [[NSArray alloc] 
+                                initWithObjects:sortDescriptor, nil];  
+    [fetchRequest setSortDescriptors:sortDescriptors];
+    [sortDescriptors release];
+    [sortDescriptor release];
+	
+	NSError *error = nil;
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
+    
+    return fetchResults;    
+}
+
 -(NSArray *) documentsForFolder:(Folder *) folder
 {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];

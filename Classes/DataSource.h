@@ -42,4 +42,5 @@
 -(void) commit;
 -(void) saveDocument:(Document *) aDocument;
 -(void) archiveDocument:(DocumentManaged *) aDocument;
+-(NSArray *) persons;
 @end
