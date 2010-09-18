@@ -58,7 +58,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [folder release];
     folder = [aFolder retain];
     
-    NSArray *documents = [[DataSource sharedDataSource] documentsForFolder:aFolder];
+    NSArray *documents = [[DataSource sharedDataSource] documentsForFolder: folder];
     if ([documents count])
         self.document = [documents objectAtIndex:0];
     else
@@ -567,7 +567,14 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         [UIView setAnimationDelegate:nil];
         [UIView setAnimationDidStopSelector:nil];
         [[DataSource sharedDataSource] archiveDocument:self.document];
-        self.document = nil;
+        
+        //set first document in current folder
+        NSArray *documents = [[DataSource sharedDataSource] documentsForFolder: folder];
+        if ([documents count])
+            self.document = [documents objectAtIndex:0];
+        else
+            self.document = nil;
+        
     }
     else if (animationID == OpenClipperAnimationId)
     {
