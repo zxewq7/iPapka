@@ -23,13 +23,13 @@
 #import "PageControlWithMenu.h"
 #import "ResolutionManaged.h"
 
-#define LEFT_CONTENT_MARGIN 5.0f
-#define RIGHT_CONTENT_MARGIN 5.0f
+#define LEFT_CONTENT_MARGIN 6.0f
+#define RIGHT_CONTENT_MARGIN 6.0f
 
 #define TOP_CONTENT_MARGIN 5.0f
 #define BOTTOM_CONTENT_MARGIN 10.0f
 
-#define PAINTING_TOOLS_LEFT_OFFSET 2
+#define PAINTING_TOOLS_LEFT_OFFSET 3
 #define PAINTING_TOOLS_TOP_OFFSET 33
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
@@ -107,8 +107,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 
     //clipper
     clipperViewController = [[ClipperViewController alloc] init];
-    CGSize clipperSize = clipperViewController.view.frame.size;
-    CGRect clipperFrame = CGRectMake((viewBounds.size.width-clipperSize.width)/2, 0,clipperSize.width, clipperSize.height);
+    CGRect clipperFrame = clipperViewController.view.frame;
+    clipperFrame.origin.x = (viewBounds.size.width - clipperFrame.size.width)/2;
+    clipperFrame.origin.y = 0;
     clipperViewController.view.frame = clipperFrame;
     clipperViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
     
@@ -120,9 +121,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     contentHeightOffset = toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset];
 
     //contentView
-    contentView = [[RotateableImageView alloc] initWithImage: [UIImage imageNamed: @"Papers.png"]];
-    contentView.portraitImage = [UIImage imageNamed: @"Papers.png"];
-    contentView.landscapeImage = [UIImage imageNamed: @"Papers-Landscape.png"];
+    contentView = [[RotateableImageView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
+    contentView.portraitImage = [UIImage imageNamed: @"Paper.png"];
+    contentView.landscapeImage = [UIImage imageNamed: @"Paper-Landscape.png"];
     contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
                                     UIViewAutoresizingFlexibleHeight);
     
@@ -179,12 +180,12 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                     context:&AttachmentContext];
 
     paintingToolsViewController = [[PaintingToolsViewController alloc] init];
-    CGSize paintingSize = paintingToolsViewController.view.frame.size;
-    CGFloat paintingToolsOffsetFromLeftEdge = paintingSize.width - contentView.frame.origin.x+PAINTING_TOOLS_LEFT_OFFSET;
-    paintingToolsOffsetFromLeftEdge = paintingToolsOffsetFromLeftEdge<0?0:paintingToolsOffsetFromLeftEdge;
-    CGRect paintingToolsFrame = CGRectMake(contentView.frame.origin.x-paintingSize.width+paintingToolsOffsetFromLeftEdge, contentHeightOffset+PAINTING_TOOLS_TOP_OFFSET, paintingSize.width, paintingSize.height);
+    CGRect paintingToolsFrame = paintingToolsViewController.view.frame;
+    CGFloat paintingToolsOffsetFromLeftEdge = paintingToolsFrame.size.width - contentView.frame.origin.x+PAINTING_TOOLS_LEFT_OFFSET;
+    paintingToolsFrame.origin.x = contentView.frame.origin.x-paintingToolsFrame.size.width+paintingToolsOffsetFromLeftEdge;
+    paintingToolsFrame.origin.y = contentHeightOffset+PAINTING_TOOLS_TOP_OFFSET;
     paintingToolsViewController.view.frame = paintingToolsFrame;
-
+    
     paintingToolsViewController.delegate = attachmentsViewController;
 
     resolutionButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Resolution", "Resolution")
@@ -201,8 +202,9 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [resolutionButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
     resolutionButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 
-    CGSize resolutionButtonSize = resolutionButton.frame.size;
-    CGRect resolutionButtonFrame = CGRectMake(contentView.frame.origin.x, contentHeightOffset - resolutionButtonSize.height, resolutionButtonSize.width, resolutionButtonSize.height);
+    CGRect resolutionButtonFrame = resolutionButton.frame;
+    resolutionButtonFrame.origin.x = contentView.frame.origin.x;
+    resolutionButtonFrame.origin.y = contentHeightOffset - resolutionButtonFrame.size.height;
     resolutionButton.frame = resolutionButtonFrame;
     resolutionButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [resolutionButton retain];
@@ -223,15 +225,17 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     infoButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 
     
-    CGSize infoButtonSize = infoButton.frame.size;
-    CGRect infoButtonFrame = CGRectMake(contentView.frame.origin.x + contentView.frame.size.width - infoButtonSize.width, contentHeightOffset - infoButtonSize.height, infoButtonSize.width, infoButtonSize.height);
+    CGRect infoButtonFrame = infoButton.frame;
+    infoButtonFrame.origin.x = contentView.frame.origin.x + contentView.frame.size.width - infoButtonFrame.size.width;
+    infoButtonFrame.origin.y = contentHeightOffset - infoButtonFrame.size.height;
     infoButton.frame = infoButtonFrame;
     infoButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [infoButton retain];
     
     resolutionViewController = [[ResolutionViewController alloc] init];
-    CGSize resolutionSize = resolutionViewController.view.frame.size;
-    CGRect resolutionFrame = CGRectMake((contentView.frame.size.width-resolutionSize.width)/2, 0, resolutionSize.width, resolutionSize.height);
+    CGRect resolutionFrame = resolutionViewController.view.frame;
+    resolutionFrame.origin.x = (contentView.frame.size.width-resolutionFrame.size.width)/2;
+    resolutionFrame.origin.y = 0;
     resolutionViewController.view.frame = resolutionFrame;
     resolutionViewController.view.hidden = YES;
     resolutionViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
@@ -239,8 +243,22 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [contentView addSubview: documentInfoViewController.view];
     [contentView addSubview: attachmentsViewController.view];
 
+    //paper
+    RotateableImageView *paperView = [[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"Papers.png"]];
+    paperView.portraitImage = [UIImage imageNamed: @"Papers.png"];
+    paperView.landscapeImage = [UIImage imageNamed: @"Papers-Landscape.png"];
+    paperView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
+                                  UIViewAutoresizingFlexibleHeight);
+
+    paperView.frame = contentView.frame;
+    paperView.userInteractionEnabled = YES;
+    [self.view addSubview: paperView];
+    [paperView release];
+
     [self.view addSubview:paintingToolsViewController.view];
     [self.view addSubview:contentView];
+
+
     [contentView addSubview: resolutionViewController.view];
     [self.view addSubview:clipperViewController.view];
     [self.view addSubview:infoButton];
