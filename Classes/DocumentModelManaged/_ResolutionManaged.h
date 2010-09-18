@@ -16,9 +16,6 @@
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (ResolutionManagedID*)objectID;
 
-
-
-
 @property (nonatomic, retain) NSSet* performers;
 - (NSMutableSet*)performersSet;
 

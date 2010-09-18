@@ -69,6 +69,8 @@
 		8149BB6A1244EBDB00D028EE /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 8149BB641244EBDB00D028EE /* SignatureManaged.m */; };
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
 		81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585487123BC2F100A827E6 /* UITabBar+Additions.m */; };
+		815DDC3B124509A200F72600 /* ButtonAdd.png in Resources */ = {isa = PBXBuildFile; fileRef = 815DDC3A124509A200F72600 /* ButtonAdd.png */; };
+		815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DDC5512450C3F00F72600 /* PersonPickerViewController.m */; };
 		815EAB4F1237DF810093CF38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 815EAB4E1237DF810093CF38 /* InfoPlist.strings */; };
 		816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541BE12379AA3008FC80F /* UIKit.framework */; };
 		816541C112379AA3008FC80F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541C012379AA3008FC80F /* Foundation.framework */; };
@@ -244,6 +246,9 @@
 		81585474123BC24000A827E6 /* UIToolbar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIToolbar+Additions.m"; sourceTree = "<group>"; };
 		81585486123BC2F100A827E6 /* UITabBar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+Additions.h"; sourceTree = "<group>"; };
 		81585487123BC2F100A827E6 /* UITabBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Additions.m"; sourceTree = "<group>"; };
+		815DDC3A124509A200F72600 /* ButtonAdd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAdd.png; sourceTree = "<group>"; };
+		815DDC5412450C3F00F72600 /* PersonPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonPickerViewController.h; sourceTree = "<group>"; };
+		815DDC5512450C3F00F72600 /* PersonPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonPickerViewController.m; sourceTree = "<group>"; };
 		815EAB4E1237DF810093CF38 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		816541BB12379AA3008FC80F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		816541BE12379AA3008FC80F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -354,6 +359,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				815DDC3A124509A200F72600 /* ButtonAdd.png */,
 				8149BA8A1244D77700D028EE /* ButtonPerformer.png */,
 				81B105AD1243C28F00AFB109 /* ResolutionLogo.png */,
 				81B104B91243AD2100AFB109 /* DotCurrent.png */,
@@ -452,12 +458,12 @@
 		8155A5F51237AF6F00A15FE5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				81B105BF1243C44700AFB109 /* PerformersViewController.h */,
-				81B105C01243C44700AFB109 /* PerformersViewController.m */,
 				8144AD4D12395DA8006B2AD7 /* RootViewController.h */,
 				8144AD4E12395DA8006B2AD7 /* RootViewController.m */,
 				8148EC2C123A323A000E9762 /* ClipperViewController.h */,
 				8148EC2D123A323A000E9762 /* ClipperViewController.m */,
+				81B105BF1243C44700AFB109 /* PerformersViewController.h */,
+				81B105C01243C44700AFB109 /* PerformersViewController.m */,
 				81A1B75F123E557C0089C988 /* ResolutionViewController.h */,
 				81A1B760123E557C0089C988 /* ResolutionViewController.m */,
 				81D60427123ACBEA00CEAF75 /* PaintingToolsViewController.h */,
@@ -472,6 +478,8 @@
 				816541F312379B3B008FC80F /* DatePickerController.m */,
 				816541F812379B3B008FC80F /* DocumentInfoViewController.h */,
 				816541F912379B3B008FC80F /* DocumentInfoViewController.m */,
+				815DDC5412450C3F00F72600 /* PersonPickerViewController.h */,
+				815DDC5512450C3F00F72600 /* PersonPickerViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -795,6 +803,7 @@
 				81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */,
 				81B105AE1243C28F00AFB109 /* ResolutionLogo.png in Resources */,
 				8149BA8B1244D77700D028EE /* ButtonPerformer.png in Resources */,
+				815DDC3B124509A200F72600 /* ButtonAdd.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -843,6 +852,7 @@
 				8149BB6A1244EBDB00D028EE /* SignatureManaged.m in Sources */,
 				8110847A1244EF66008FBDE3 /* _PersonManaged.m in Sources */,
 				8110847B1244EF66008FBDE3 /* PersonManaged.m in Sources */,
+				815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

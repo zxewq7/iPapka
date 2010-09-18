@@ -12,6 +12,7 @@
 #import "ResolutionManaged.h"
 #import "Resolution.h"
 #import "PersonManaged.h"
+#import "PersonPickerViewController.h"
 
 @interface PerformersViewController (Private)
 - (void) updateContent;
@@ -28,18 +29,6 @@
     [document release];
     
     document = [aDocument retain];
-    
-    if (document)
-    {
-        NSSet *ps = document.performers;
-        performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
-        for (PersonManaged *p in ps)
-            [performers addObject: p];
-        
-        [performers sortedArrayUsingDescriptors: sortByLastDescriptors];
-    }
-    else
-        performers = nil;
     
     [self updateContent];
 }
@@ -58,21 +47,71 @@
     
     CGSize viewSize = self.view.bounds.size;
     
-    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - 50, viewSize.height)];
+    UIButton *buttonAdd = [UIButton imageButton:self
+                                       selector:@selector(pickPerformer:)
+                                          image:[UIImage imageNamed: @"ButtonAdd.png"]
+                                  imageSelected:[UIImage imageNamed: @"ButtonAdd.png"]];
+    
+    CGRect buttonAddFrame = buttonAdd.frame;
+    buttonAddFrame.origin.y = 0;
+    buttonAddFrame.origin.x = viewSize.width - buttonAddFrame.size.width - 5;
+    buttonAdd.frame = buttonAddFrame;
+    
+    buttonAdd.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin);
+    [self.view addSubview: buttonAdd];
+    
+    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - buttonAddFrame.size.width - 5, viewSize.height)];
     
     performersView.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-    performersView.spaceBetweenButtons = 1.0f;
-    performersView.spaceBetweenRows = 1.0f;
+    performersView.spaceBetweenButtons = 5.0f;
+    performersView.spaceBetweenRows = 5.0f;
     
     performersView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     [self.view addSubview: performersView];
 }
 
+#pragma mark -
+#pragma mark actions
+-(void) pickPerformer:(id) sender
+{
+    if (!personPickerViewController)
+    {
+        personPickerViewController = [[PersonPickerViewController alloc] init];
+        personPickerViewController.target = self;
+        personPickerViewController.selector = @selector(setPerformer:);
+    }
+    
+    if (!popoverController)
+        popoverController = [[UIPopoverController alloc] initWithContentViewController: personPickerViewController];
+    
+    UIView *button = (UIView *)sender;
+    CGRect targetRect = button.bounds;
+	[popoverController presentPopoverFromRect: targetRect inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+}
+
+-(void) setPerformer:(id) sender
+{
+    [popoverController dismissPopoverAnimated:YES];
+
+    PersonManaged *p = personPickerViewController.person;
+    if (p)
+    {
+        [document addPerformersObject: p];
+        [self.document saveDocument];
+        [self updateContent];
+        
+    }
+}
+
+#pragma mark -
+#pragma mark Rotation support
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
 
+#pragma mark -
+#pragma mark Memory management
 
 - (void)viewDidUnload {
     [super viewDidUnload];
@@ -82,6 +121,9 @@
 
     [sortByLastDescriptors release];
     sortByLastDescriptors = nil;
+    
+    [popoverController release];
+    personPickerViewController = nil;
 }
 
 
@@ -98,6 +140,9 @@
     [sortByLastDescriptors release];
     sortByLastDescriptors = nil;
 
+    [popoverController release];
+    personPickerViewController = nil;
+
     [super dealloc];
 }
 
@@ -105,6 +150,18 @@
 
 - (void) updateContent
 {
+    if (document)
+    {
+        NSSet *ps = document.performers;
+        performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
+        for (PersonManaged *p in ps)
+            [performers addObject: p];
+        
+        [performers sortedArrayUsingDescriptors: sortByLastDescriptors];
+    }
+    else
+        performers = nil;
+
     NSMutableArray *performerButtons = [NSMutableArray arrayWithCapacity: [performers count]];
     
     for (PersonManaged *performer in performers)
