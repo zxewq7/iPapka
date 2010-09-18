@@ -27,6 +27,10 @@
     else
         buttons = nil;
     
+    NSArray *svs = self.subviews;
+    for (UIView * sv in svs)
+        [sv removeFromSuperview];
+    
     for (UIView *button in buttons)
         [self addSubview: button];
     
