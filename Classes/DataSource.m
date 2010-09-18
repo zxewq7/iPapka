@@ -28,6 +28,7 @@
 - (void) createLNDatasourceFromDefaults;
 - (void) askLoginAndPassword:(NSString*) login;
 - (void) updatePerformers:(NSArray *) uids resolution:(ResolutionManaged *) resolution;
+- (void) updateAuthor:(NSString *) uid document:(DocumentManaged *) document;
 @end
 
 @implementation DataSource
@@ -127,7 +128,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     if (foundDocument) 
     {
         foundDocument.dateModified = aDocument.dateModified;
-        foundDocument.author = [self findPersonByUid: aDocument.author];
+        [self updateAuthor:aDocument.author document:foundDocument];
         foundDocument.title = aDocument.title;
         foundDocument.isRead = [NSNumber numberWithBool:NO];
         if ([aDocument isKindOfClass:[Resolution class]])
@@ -175,7 +176,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         NSAssert1(NO,@"Unknown entity: %@", [[aDocument class] name]);
     
     newDocument.dateModified = aDocument.dateModified;
-    newDocument.author = [self findPersonByUid: aDocument.author];
+    [self updateAuthor:aDocument.author document:newDocument];
     newDocument.title = aDocument.title;
     newDocument.uid = aDocument.uid;
     newDocument.isRead = [NSNumber numberWithBool: [aDocument.dataSourceId isEqualToString: @"archive"]];
@@ -507,9 +508,17 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     {
         PersonManaged *performer = [self findPersonByUid: uid];
         if (performer)
+        {
             [resolution addPerformersObject: performer];
+            [performer addResolutionsObject: resolution];
+        }
         else
             NSLog(@"Unknown person: %@", uid);
     }
+}
+- (void) updateAuthor:(NSString *) uid document:(DocumentManaged *) document
+{
+    document.author = [self findPersonByUid: uid];
+    [document.author addDocumentsObject: document];
 }
 @end
