@@ -283,12 +283,12 @@
     [self.document saveDocument];
     return YES;
 }
+
 #pragma mark -
 #pragma mark UIPopoverControllerDelegate
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
 {
-    if (popoverController == pc)
-        [self.document saveDocument];
+   [self.document saveDocument];
 }
 
 #pragma Privare
