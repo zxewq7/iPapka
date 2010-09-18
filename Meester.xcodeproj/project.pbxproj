@@ -57,6 +57,8 @@
 		8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC33123A3378000E9762 /* ClipperClosed.png */; };
 		8148ED24123A4996000E9762 /* Paper.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148ED23123A4996000E9762 /* Paper.png */; };
 		8148EF8C123A7C76000E9762 /* ClipperOpened.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EF8B123A7C76000E9762 /* ClipperOpened.png */; };
+		8149BA5D1244BA3B00D028EE /* ViewWithButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */; };
+		8149BA8B1244D77700D028EE /* ButtonPerformer.png in Resources */ = {isa = PBXBuildFile; fileRef = 8149BA8A1244D77700D028EE /* ButtonPerformer.png */; };
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
 		81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585487123BC2F100A827E6 /* UITabBar+Additions.m */; };
 		815EAB4F1237DF810093CF38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 815EAB4E1237DF810093CF38 /* InfoPlist.strings */; };
@@ -217,6 +219,9 @@
 		8148EC33123A3378000E9762 /* ClipperClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperClosed.png; sourceTree = "<group>"; };
 		8148ED23123A4996000E9762 /* Paper.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Paper.png; sourceTree = "<group>"; };
 		8148EF8B123A7C76000E9762 /* ClipperOpened.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperOpened.png; sourceTree = "<group>"; };
+		8149BA5B1244BA3B00D028EE /* ViewWithButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewWithButtons.h; sourceTree = "<group>"; };
+		8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewWithButtons.m; sourceTree = "<group>"; };
+		8149BA8A1244D77700D028EE /* ButtonPerformer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPerformer.png; sourceTree = "<group>"; };
 		81585473123BC24000A827E6 /* UIToolbar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIToolbar+Additions.h"; sourceTree = "<group>"; };
 		81585474123BC24000A827E6 /* UIToolbar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIToolbar+Additions.m"; sourceTree = "<group>"; };
 		81585486123BC2F100A827E6 /* UITabBar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+Additions.h"; sourceTree = "<group>"; };
@@ -343,6 +348,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8149BA8A1244D77700D028EE /* ButtonPerformer.png */,
 				81B105AD1243C28F00AFB109 /* ResolutionLogo.png */,
 				81B104B91243AD2100AFB109 /* DotCurrent.png */,
 				81B104BA1243AD2100AFB109 /* DotNormal.png */,
@@ -404,6 +410,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8149BA5B1244BA3B00D028EE /* ViewWithButtons.h */,
+				8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */,
 				81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */,
 				81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */,
 				8136DF7B12437A5D008D68AB /* AZZBubbleView.h */,
@@ -776,6 +784,7 @@
 				81B104BB1243AD2100AFB109 /* DotCurrent.png in Resources */,
 				81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */,
 				81B105AE1243C28F00AFB109 /* ResolutionLogo.png in Resources */,
+				8149BA8B1244D77700D028EE /* ButtonPerformer.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -821,6 +830,7 @@
 				8136DF7D12437A5D008D68AB /* AZZBubbleView.m in Sources */,
 				81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */,
 				81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */,
+				8149BA5D1244BA3B00D028EE /* ViewWithButtons.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

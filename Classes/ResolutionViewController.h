@@ -21,6 +21,7 @@
     NSDateFormatter    *dateFormatter;
     DatePickerController *datePickerController;
     UIPopoverController *popoverController;
+    PerformersViewController *performersViewController;
 }
 
 @property (nonatomic, retain) ResolutionManaged    *document;

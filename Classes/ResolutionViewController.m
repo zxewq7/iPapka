@@ -88,15 +88,14 @@
     
     [self.view addSubview: logo];
     
-    PerformersViewController *performersViewController = [[PerformersViewController alloc] init];
+    performersViewController = [[PerformersViewController alloc] init];
     performersViewController.view.backgroundColor = [UIColor redColor];
-    CGRect performersFrame = CGRectMake(0, logFrame.origin.y + logFrame.size.height+18, viewSize.width, 100);
+    CGRect performersFrame = CGRectMake(0, logFrame.origin.y + logFrame.size.height+18, viewSize.width, (26 + 2)* 3); //3 rows
     performersViewController.view.frame = performersFrame;
     
     performersViewController.view.autoresizingMask = UIViewAutoresizingNone;
     
     [self.view addSubview: performersViewController.view];
-    [performersViewController release];
     
     //deadline phrase
     UILabel *deadlinePhrase = [[UILabel alloc] initWithFrame: CGRectZero];
@@ -175,7 +174,7 @@
     
     //date
     dateLabel = [[UILabel alloc] initWithFrame: CGRectZero];
-    dateLabel.text = @"12 12345678910 2010";
+    dateLabel.text = @"12 12345678910 2010"; //fixed width
     dateLabel.textColor = [UIColor blackColor];
     dateLabel.textAlignment = UITextAlignmentCenter;
     dateLabel.font = [UIFont fontWithName:@"CharterC" size:18];
@@ -229,6 +228,9 @@
     
     [popoverController release];
     popoverController = nil;
+    
+    [performersViewController release];
+    performersViewController = nil;
 }
 
 
@@ -262,6 +264,9 @@
     
     [popoverController release];
     popoverController = nil;
+    
+    [performersViewController release];
+    performersViewController = nil;
 }
 
 #pragma mark -
@@ -296,6 +301,7 @@
     
     NSString *label = (resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil);
     [deadlineButton setTitle:label forState:UIControlStateNormal];
+    performersViewController.document = document;
 }
 
 -(void) updateHeight;

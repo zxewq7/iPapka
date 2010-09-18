@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+@class ViewWithButtons, ResolutionManaged;
 
 @interface PerformersViewController : UIViewController 
 {
-
+    NSMutableArray *performers;
+    ViewWithButtons *performersView;
+    ResolutionManaged *document;
 }
 
+@property (nonatomic, retain) ResolutionManaged *document;
 @end
