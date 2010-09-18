@@ -304,7 +304,7 @@
         [sections removeAllObjects];
         [sectionsOrdered removeAllObjects];
         [sectionsOrderedLabels removeAllObjects];
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange: NSMakeRange(0, length)] withRowAnimation:UITableViewRowAnimationTop];
+        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange: NSMakeRange(0, length)] withRowAnimation:UITableViewRowAnimationNone];
     }
     NSCalendar *calendar = [NSCalendar currentCalendar];
     unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
@@ -337,13 +337,13 @@
                         [self.sections removeObjectForKey:documentSection];
                         [self.sectionsOrdered removeObject:documentSection];
                         [self.sectionsOrderedLabels removeObject:[self.dateFormatter stringFromDate:documentSection]];
-                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
                     }
                     else
                     {
                         NSIndexPath *path = [NSIndexPath indexPathForRow:documentIndex inSection:sectionIndex];
                         [sectionDocuments removeObjectAtIndex:documentIndex];
-                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
                     }
                 }
             }
@@ -376,7 +376,7 @@
                     [self.sectionsOrdered insertObject:documentSection atIndex:insertIndex];
                     [self.sectionsOrderedLabels insertObject: [self.dateFormatter stringFromDate:documentSection] atIndex:insertIndex];
                 }
-                [self.tableView insertSections:[NSIndexSet indexSetWithIndex: insertIndex] withRowAnimation:UITableViewRowAnimationFade];
+                [self.tableView insertSections:[NSIndexSet indexSetWithIndex: insertIndex] withRowAnimation:UITableViewRowAnimationNone];
                 sectionIndex = insertIndex;
                 documentIndexPath = [NSIndexPath indexPathForRow:0 inSection:sectionIndex];
             }
@@ -394,7 +394,7 @@
                         [sectionDocuments replaceObjectAtIndex:i withObject:doc];
 
                         documentIndexPath = [NSIndexPath indexPathForRow:i inSection:sectionIndex];
-                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject: documentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject: documentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
                         updated = YES;
                         break;
                     }
@@ -412,7 +412,7 @@
                         [sectionDocuments insertObject: doc atIndex:possibleInsertIndex];
                     
                     documentIndexPath = [NSIndexPath indexPathForRow:possibleInsertIndex inSection:sectionIndex];
-                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject: documentIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject: documentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
                 }
             }
                 //remove possible dublicates
@@ -432,13 +432,13 @@
                             [self.sections removeObjectForKey:docSection];
                             [self.sectionsOrderedLabels removeObjectAtIndex:i];
                             [self.sectionsOrdered removeObjectAtIndex:i];
-                            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: i] withRowAnimation:UITableViewRowAnimationFade];
+                            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: i] withRowAnimation:UITableViewRowAnimationNone];
                         }
                         else
                         {
                             [sectionDocuments removeObjectAtIndex:docIndex];
                             NSIndexPath *path = [NSIndexPath indexPathForRow:docIndex inSection:i];
-                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationFade];
+                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
                         }
                         break;
                     }
