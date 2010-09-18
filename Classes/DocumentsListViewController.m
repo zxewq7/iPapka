@@ -79,6 +79,8 @@
     }
     else
         filterIndex = NSNotFound;
+    
+    titleLabel.text = folder.localizedName;
 }
 
 #pragma mark -
