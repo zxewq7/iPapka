@@ -79,6 +79,8 @@
     persons = nil;
     
     self.person = nil;
+    
+    self.target = nil;
 
     [super dealloc];
 }
