@@ -213,7 +213,6 @@
 			isa = PBXProject;
 			buildConfigurationList = 816541431237951B008FC80F /* Build configuration list for PBXProject "LNDataSource" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
