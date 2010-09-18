@@ -127,7 +127,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     if (foundDocument) 
     {
         foundDocument.dateModified = aDocument.dateModified;
-        foundDocument.author = aDocument.author;
+        foundDocument.author = [self findPersonByUid: aDocument.author];
         foundDocument.title = aDocument.title;
         foundDocument.isRead = [NSNumber numberWithBool:NO];
         if ([aDocument isKindOfClass:[Resolution class]])
@@ -175,7 +175,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         NSAssert1(NO,@"Unknown entity: %@", [[aDocument class] name]);
     
     newDocument.dateModified = aDocument.dateModified;
-    newDocument.author = aDocument.author;
+    newDocument.author = [self findPersonByUid: aDocument.author];
     newDocument.title = aDocument.title;
     newDocument.uid = aDocument.uid;
     newDocument.isRead = [NSNumber numberWithBool: [aDocument.dataSourceId isEqualToString: @"archive"]];
@@ -399,8 +399,17 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     
     if ([fetchResults count] > 0)
         return [fetchResults objectAtIndex:0];
-    
-    return nil;
+#warning fake or incorrect data
+    else
+    {
+        PersonManaged *person = [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:managedObjectContext];
+        person.uid = anUid;
+        person.first = anUid;
+        person.middle = anUid;
+        person.last = anUid;
+        NSLog(@"Created person: %@", anUid);
+        return person;
+    }
 }
 
 - (void)defaultsChanged:(NSNotification *)notif
@@ -500,14 +509,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         if (performer)
             [resolution addPerformersObject: performer];
         else
-        {
-            performer = [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:managedObjectContext];
-            performer.uid = uid;
-            performer.first = uid;
-            performer.middle = uid;
-            performer.last = uid;
             NSLog(@"Unknown person: %@", uid);
-        }
     }
 }
 @end

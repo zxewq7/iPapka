@@ -4,7 +4,7 @@
 #import <CoreData/CoreData.h>
 
 
-
+@class PersonManaged;
 
 
 
@@ -57,12 +57,6 @@
 
 
 
-@property (nonatomic, retain) NSString *author;
-
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSNumber *isRead;
 
 @property BOOL isReadValue;
@@ -83,6 +77,11 @@
 
 //- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
 
+
+
+
+@property (nonatomic, retain) PersonManaged* author;
+//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -116,10 +115,6 @@
 - (void)setPrimitiveIsArchivedValue:(BOOL)value_;
 
 
-- (NSString*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(NSString*)value;
-
-
 - (NSNumber*)primitiveIsRead;
 - (void)setPrimitiveIsRead:(NSNumber*)value;
 
@@ -134,6 +129,11 @@
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;
 
+
+
+
+- (PersonManaged*)primitiveAuthor;
+- (void)setPrimitiveAuthor:(PersonManaged*)value;
 
 
 @end

@@ -12,6 +12,7 @@
 #import "TextViewWithPlaceholder.h"
 #import "Resolution.h"
 #import "ResolutionManaged.h"
+#import "PersonManaged.h"
 #import "DatePickerController.h"
 
 #define RIGHT_MARGIN 24.0f
@@ -295,7 +296,7 @@
 -(void) updateContent
 {
     Resolution *resolution = (Resolution *)document.document;
-    authorLabel.text = document.author;
+    authorLabel.text = document.author.fullName;
     resolutionText.text = resolution.text;
     dateLabel.text = [dateFormatter stringFromDate: document.dateModified];
     

@@ -68,6 +68,17 @@
 }
 	
 
+@dynamic documents;
+
+	
+- (NSMutableSet*)documentsSet {
+	[self willAccessValueForKey:@"documents"];
+	NSMutableSet *result = [self mutableSetValueForKey:@"documents"];
+	[self didAccessValueForKey:@"documents"];
+	return result;
+}
+	
+
 
 
 @end

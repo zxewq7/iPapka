@@ -5,6 +5,7 @@
 
 
 @class ResolutionManaged;
+@class DocumentManaged;
 
 
 
@@ -52,6 +53,11 @@
 
 
 
+@property (nonatomic, retain) NSSet* documents;
+- (NSMutableSet*)documentsSet;
+
+
+
 @end
 
 @interface _PersonManaged (CoreDataGeneratedAccessors)
@@ -60,6 +66,11 @@
 - (void)removeResolutions:(NSSet*)value_;
 - (void)addResolutionsObject:(ResolutionManaged*)value_;
 - (void)removeResolutionsObject:(ResolutionManaged*)value_;
+
+- (void)addDocuments:(NSSet*)value_;
+- (void)removeDocuments:(NSSet*)value_;
+- (void)addDocumentsObject:(DocumentManaged*)value_;
+- (void)removeDocumentsObject:(DocumentManaged*)value_;
 
 @end
 
@@ -85,6 +96,11 @@
 
 - (NSMutableSet*)primitiveResolutions;
 - (void)setPrimitiveResolutions:(NSMutableSet*)value;
+
+
+
+- (NSMutableSet*)primitiveDocuments;
+- (void)setPrimitiveDocuments:(NSMutableSet*)value;
 
 
 @end

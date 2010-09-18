@@ -10,6 +10,7 @@
 #import "DocumentManaged.h"
 #import "Document.h"
 #import "Attachment.h"
+#import "PersonManaged.h"
 
 @interface  DocumentInfoViewController(Private)
 -(void) recalcSize;
@@ -41,7 +42,7 @@
     currentItems = unmanagedDocument.attachments;
     
     documentTitle.text = document.title;
-    documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.dateModified]];
+    documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author.fullName, [dateFormatter stringFromDate: document.dateModified]];
     [self recalcSize];
     [self.tableView reloadData];
     NSArray *attachments = unmanagedDocument.attachments;

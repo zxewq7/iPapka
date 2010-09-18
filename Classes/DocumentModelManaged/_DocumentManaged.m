@@ -95,13 +95,6 @@
 
 
 
-@dynamic author;
-
-
-
-
-
-
 @dynamic isRead;
 
 
@@ -141,6 +134,10 @@
 
 
 
+
+@dynamic author;
+
+	
 
 
 

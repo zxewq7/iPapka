@@ -11,6 +11,7 @@
 #import "DocumentManaged.h"
 #import "Folder.h";
 #import "UIButton+Additions.h"
+#import "PersonManaged.h"
 
 #define ROW_HEIGHT 94
 
@@ -211,7 +212,7 @@
     NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
     DocumentManaged *doc = [documentSection objectAtIndex:indexPath.row];
     cell.textLabel.text = doc.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author.fullName];
     cell.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
     return cell;
 }
