@@ -265,9 +265,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [self.view addSubview:resolutionButton];
     [self.view addSubview: attachmentsViewController.pageControl];
     
-    //to make it over clipper
-    [self.view bringSubviewToFront:toolbar];
-    
+    [self.view bringSubviewToFront: clipperViewController.view];
+    [clipperViewController counfigureTapzones];
     [self updateContent];
 }
 
@@ -537,7 +536,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 
     toolbar.barStyle = UIBarStyleBlack;
     toolbar.translucent = YES;
-    toolbar.backgroundColor = [UIColor clearColor];
+    toolbar.backgroundColor = [UIColor blackColor];
     
     toolbar.items = items;
     toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth; 
