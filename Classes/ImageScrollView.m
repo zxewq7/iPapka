@@ -1,7 +1,7 @@
 #import "ImageScrollView.h"
 #import "PaintingView.h"
 
-#define NUM_MIN_SCALE_RANGES  5
+#define NUM_MIN_SCALE_RANGES  6
 
     //FUNCTIONS:
 /*
@@ -132,6 +132,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         minScaleRanges[1] = NSMakeRange(537, 7);
         minScaleRanges[2] = NSMakeRange(672, 0);
         minScaleRanges[3] = NSMakeRange(697, 0);
+        minScaleRanges[3] = NSMakeRange(924, 4);
         minScaleRanges[4] = NSMakeRange(1024, 0);
     }
     return self;
@@ -273,6 +274,8 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
     self.maximumZoomScale = maxScale;
     self.minimumZoomScale = minScale;
+    
+    //NSLog(@"%f %f", minWidth, maxWidth);
 }
 
 #pragma mark -
