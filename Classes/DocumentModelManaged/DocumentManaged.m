@@ -14,6 +14,12 @@
     return document;
 }
 
+-(void) resetCachedDocument
+{
+    [document release];
+    document = nil;
+}
+
 -(void) saveDocument
 {
     [[DataSource sharedDataSource] saveDocument: self.document];

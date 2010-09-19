@@ -67,6 +67,7 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) fixDocumentPath:(Document *) document path:(NSString *) newPath isLink:(BOOL) isLink;
 @end
 static NSString* OperationCount = @"OperationCount";
 
@@ -241,6 +242,13 @@ static NSString* OperationCount = @"OperationCount";
     NSAssert3(error == nil, @"Unable to move from \"%@\" to \"%@\", error: %@", path, dstPath, error);
     
     [cacheIndex addObject: uid];
+    
+    Document *doc = [self loadDocument: uid];
+    NSString *newPath = [self documentDirectory: uid];
+    
+    [self fixDocumentPath:doc path:newPath isLink: NO];
+    
+    [self saveDocument:doc];
 }
 
 @end
@@ -575,7 +583,6 @@ static NSString* OperationCount = @"OperationCount";
         NSString *path = [[aBasePath stringByAppendingPathComponent: attachment.uid] stringByAppendingPathComponent: @"pages"];
         [df createDirectoryAtPath:path withIntermediateDirectories:TRUE 
                                                    attributes:nil error:nil];
-        attachment.path = path;
         NSUInteger pageCount = [attachment.pages count];
         
         for (NSUInteger pageIndex = 0 ; pageIndex < pageCount; pageIndex++)
@@ -591,7 +598,6 @@ static NSString* OperationCount = @"OperationCount";
                 {
                     
                     page.name = [[request downloadDestinationPath] lastPathComponent];
-                    page.path = attachment.path;
                     page.isLoaded = YES;
                     page.hasError = NO;
                 }
@@ -606,6 +612,7 @@ static NSString* OperationCount = @"OperationCount";
                 }
                 [self checkDocumentIsLoaded:aRootDocument];
             };
+            attachment.path = path;
             [_networkQueue addOperation:request];
         }        
     }
@@ -693,5 +700,20 @@ static NSString* OperationCount = @"OperationCount";
         resolution.parentResolution = parentResolution;
         [parentResolution release];
     }
+}
+- (void) fixDocumentPath:(Document *) document path:(NSString *) newPath isLink:(BOOL) isLink
+{
+    NSArray *attachments = document.attachments;
+    
+    NSString *path = [newPath stringByAppendingPathComponent: (isLink?[@"links" stringByAppendingPathComponent: document.uid]:@"attachments")];
+    
+    for (Attachment *attachment in attachments)
+        attachment.path = [[path stringByAppendingPathComponent: attachment.uid] stringByAppendingPathComponent: @"pages"];
+    
+    
+    NSArray *links = document.links;
+    
+    for (Document *link in links)
+        [self fixDocumentPath:link path:newPath isLink:YES];
 }
 @end

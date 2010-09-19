@@ -338,6 +338,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     LNDataSource *inbox = [dataSources objectForKey: @"inbox"];
     LNDataSource *archive = [dataSources objectForKey: @"archive"];
     [inbox moveDocument: aDocument.uid destination: archive];
+    [aDocument resetCachedDocument];
     aDocument.dataSourceId = archive.dataSourceId;
     aDocument.isEditable = [NSNumber numberWithBool: NO];
     [self commit];

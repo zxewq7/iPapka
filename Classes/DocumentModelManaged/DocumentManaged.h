@@ -9,4 +9,5 @@
 
 @property (nonatomic, readonly, getter=document) Document *document;
 -(void) saveDocument;
+-(void) resetCachedDocument;
 @end
