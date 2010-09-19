@@ -217,7 +217,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                                   frame:CGRectMake(0, 0, 20, 30)
                                           addLabelWidth:YES
                                                   image:[UIImage imageNamed:@"ButtonSquare.png"]
-                                           imagePressed:[UIImage imageNamed:@"ButtonSquare.png"]
+                                           imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
                                            leftCapWidth:10.0f
                                           darkTextColor:NO];
 
