@@ -636,11 +636,22 @@ static NSString* LinkContext          = @"LinkContext";
     [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
 
 #warning inaccurate positioning when move to archive
-    contentView.transform = CGAffineTransformScale (
-                                                    CGAffineTransformMakeTranslation(-200.0, -475.0),
-                                                    0.1,
-                                                    0.1
-                                                    );
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+        attachmentsViewController.view.transform = CGAffineTransformScale (
+                                                                           CGAffineTransformMakeTranslation(-200.0, -475.0),
+                                                                           0.1,
+                                                                           0.1
+                                                                           );
+        
+    else
+        attachmentsViewController.view.transform = CGAffineTransformScale (
+                                                                           CGAffineTransformMakeTranslation(-300.0, -375.0),
+                                                                           0.1,
+                                                                           0.1
+                                                                           );
+
     //http://ameyashetti.wordpress.com/2009/08/17/view-animation-tutorial/
     //    attachmentsViewController.view.transform = CGAffineTransformConcat(
     //                                                                       
@@ -662,9 +673,9 @@ static NSString* LinkContext          = @"LinkContext";
 {
     if (animationID == ArchiveAnimationId)
     {
-        contentView.hidden = YES;
-        contentView.transform = CGAffineTransformIdentity;
-        contentView.hidden = NO;
+        attachmentsViewController.view.hidden = YES;
+        attachmentsViewController.view.transform = CGAffineTransformIdentity;
+        attachmentsViewController.view.hidden = NO;
         [UIView setAnimationDelegate:nil];
         [UIView setAnimationDidStopSelector:nil];
         [[DataSource sharedDataSource] archiveDocument:self.document];
