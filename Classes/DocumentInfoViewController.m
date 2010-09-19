@@ -14,6 +14,7 @@
 #import <QuartzCore/CALayer.h>
 
 #define kMinTableRows 4
+#define kTableRowHeight 60.0f
 
 @interface  DocumentInfoViewController(Private)
 -(void) updateSize;
@@ -131,7 +132,7 @@
     tableView.backgroundView = nil;
     tableView.backgroundColor = [UIColor clearColor];
     tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    tableView.rowHeight = 60.0f;
+    tableView.rowHeight = kTableRowHeight;
 
     [self.view addSubview: tableView];
     
@@ -262,15 +263,9 @@
 @implementation  DocumentInfoViewController(Private)
 -(void) updateSize
 {
-    NSUInteger numberOfRows = MAX([document.attachments count], [document.links count]);
-    
-    if (numberOfRows < kMinTableRows)
-        numberOfRows = kMinTableRows;
-
     CGRect tableViewFrame = tableView.frame;
-    
     CGRect viewFrame = self.view.frame;
-    viewFrame.size.height = tableViewFrame.origin.y + numberOfRows * tableView.rowHeight;
+    viewFrame.size.height = tableViewFrame.origin.y + kMinTableRows * kTableRowHeight;
     self.view.frame = viewFrame;
 }
 
