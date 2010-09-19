@@ -170,7 +170,13 @@ static NSString* LinkContext          = @"LinkContext";
 
     //attachmentPicker view
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
-    CGRect documentInfoViewControllerFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, 300);
+    
+    CGRect documentInfoViewControllerFrame = documentInfoViewController.view.frame;
+    documentInfoViewControllerFrame.origin.x = LEFT_CONTENT_MARGIN;
+    documentInfoViewControllerFrame.origin.y = TOP_CONTENT_MARGIN;
+    documentInfoViewControllerFrame.size.width = contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN;
+    documentInfoViewControllerFrame.size.height += TOP_CONTENT_MARGIN;
+
     documentInfoViewController.view.frame = documentInfoViewControllerFrame;
     documentInfoViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth);
     

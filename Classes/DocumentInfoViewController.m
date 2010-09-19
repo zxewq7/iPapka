@@ -17,7 +17,6 @@
 #define kTableRowHeight 60.0f
 
 @interface  DocumentInfoViewController(Private)
--(void) updateSize;
 -(void) updateContent;
 @end
 
@@ -121,7 +120,7 @@
     tableView = [[UITableView alloc] initWithFrame:tableViewFrame style: UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
-    tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight);
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     tableView.layer.borderWidth = 1.0f;
     tableView.layer.borderColor = [UIColor colorWithRed:0.878 green:0.878 blue:0.878 alpha:1.0].CGColor;
     
@@ -136,6 +135,10 @@
 
     [self.view addSubview: tableView];
     
+    CGRect viewFrame = self.view.frame;
+    viewFrame.size.height = tableView.frame.origin.y + kMinTableRows * kTableRowHeight - 5.0f;
+    self.view.frame = viewFrame;
+
     [self updateContent];
 }
 
@@ -261,14 +264,6 @@
 @end
 
 @implementation  DocumentInfoViewController(Private)
--(void) updateSize
-{
-    CGRect tableViewFrame = tableView.frame;
-    CGRect viewFrame = self.view.frame;
-    viewFrame.size.height = tableViewFrame.origin.y + kMinTableRows * kTableRowHeight;
-    self.view.frame = viewFrame;
-}
-
 -(void) updateContent;
 {
     currentItems = document.attachments;
@@ -288,7 +283,6 @@
     
     filter.selectedSegmentIndex = 0;
     
-    [self updateSize];
     [tableView reloadData];
 }
 @end
