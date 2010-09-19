@@ -634,6 +634,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 {
     documentInfoViewController.document = self.document;
     attachmentsViewController.document = self.document;
+    documentInfoViewController.document = self.document.document;
 
     if ([self.document isKindOfClass: [ResolutionManaged class]])
     {

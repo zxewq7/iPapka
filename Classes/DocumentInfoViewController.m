@@ -12,8 +12,12 @@
 #import "Attachment.h"
 #import "PersonManaged.h"
 
+
+#define kMinTableRows 4
+
 @interface  DocumentInfoViewController(Private)
--(void) recalcSize;
+-(void) updateSize;
+-(void) updateContent;
 @end
 
 
@@ -21,76 +25,69 @@
 
 #pragma mark -
 #pragma mark Properties
-@synthesize document, attachmentIndex;
+@synthesize document, attachmentIndex, linkIndex;
 
 
--(void) setDocument:(DocumentManaged *) aDocument
+-(void) setDocument:(Document *) aDocument
 {
     if (document == aDocument)
         return;
     [document release];
     document = [aDocument retain];
-    documentTitle.text = document.title;
     
-    Document *doc = document.document;
-    if (doc != unmanagedDocument) 
-    {
-        [unmanagedDocument release];
-        unmanagedDocument = [doc retain];
-    }
-    
-    currentItems = unmanagedDocument.attachments;
-    
-    documentTitle.text = document.title;
-    documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author.fullName, [dateFormatter stringFromDate: document.dateModified]];
-    [self recalcSize];
-    [self.tableView reloadData];
-    NSArray *attachments = unmanagedDocument.attachments;
-    if ([attachments count]) 
-        attachmentIndex = 0;
-    else
-        attachmentIndex = NSNotFound;
-    
-    if (![unmanagedDocument.links count])
-        filter.hidden = YES;
-    else
-        filter.hidden = NO;
-
-    filter.selectedSegmentIndex = 0;
-    [filter sizeToFit];
-    CGRect filterFrame = filter.frame;
-    filter.frame = CGRectMake((documentTitle.frame.size.width - filterFrame.size.width)/2, 99, filterFrame.size.width, filterFrame.size.height);
+    [self updateContent];
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
-    //clear table background
-    //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
-    UIImageView *bg = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"Paper.png"]];
-    self.tableView.backgroundView = bg;
-    [bg release];
-    //    self.tableView.backgroundColor = [UIColor clearColor];
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    self.tableView.rowHeight = 60.0f;
+    dateFormatter = [[NSDateFormatter alloc] init];
+    dateFormatter.dateStyle = NSDateFormatterLongStyle;
+    dateFormatter.timeStyle = NSDateFormatterNoStyle;
     
-    //create table header
-    //http://cocoawithlove.com/2009/04/easy-custom-uiself.tableView-drawing.html
-    UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 0, 300, 157)];
-    documentTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 33, 0, 48)];
+    CGSize viewSize = self.view.bounds.size;
+    
+    //create header
+    CGRect containerViewFrame = CGRectMake(0, 0, viewSize.width, 157);
+    UIView *containerView =[[UIView alloc] initWithFrame: containerViewFrame];
+    containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    containerView.userInteractionEnabled = YES;
+    
+    documentTitle = [[UILabel alloc] initWithFrame: CGRectZero];
+    documentTitle.text = @"Test";
     documentTitle.textColor = [UIColor blackColor];
     documentTitle.textAlignment = UITextAlignmentCenter;
     documentTitle.font = [UIFont fontWithName:@"CharterC" size:24];
     documentTitle.backgroundColor = [UIColor clearColor];
+    
     documentTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    [documentTitle sizeToFit];
+
+    CGRect documentTitleFrame = documentTitle.frame;
+
+    documentTitleFrame.origin.x = 0;
+    documentTitleFrame.origin.y = 48.0f;
+    documentTitleFrame.size.width = containerViewFrame.size.width;
+    
+    documentTitle.frame = documentTitleFrame;
+    
     [containerView addSubview:documentTitle];
     
-    documentDetails = [[UILabel alloc] initWithFrame:CGRectMake(0, 57, 300, 48)];
+    documentDetails = [[UILabel alloc] initWithFrame:CGRectZero];
+    documentDetails.text = @"Test";
     documentDetails.textColor = [UIColor darkGrayColor];
     documentDetails.textAlignment = UITextAlignmentCenter;
     documentDetails.font = [UIFont fontWithName:@"CharterC" size:14];
     documentDetails.backgroundColor = [UIColor clearColor];
+    
+    [documentDetails sizeToFit];
+    
+    CGRect documentDetailsFrame = documentDetails.frame;
+    documentDetailsFrame.origin.x = 0;
+    documentDetailsFrame.origin.y = documentTitleFrame.origin.y + documentTitleFrame.size.height + 8.0f;
+    documentDetailsFrame.size.width = containerViewFrame.size.width;
+    documentDetails.frame = documentDetailsFrame;
+    
     documentDetails.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     [containerView addSubview:documentDetails];
     
@@ -99,34 +96,42 @@
                                                         NSLocalizedString(@"Linked files", "Linked files"),
                                                          nil]];
     filter.segmentedControlStyle = UISegmentedControlStyleBar;
+    
+    filter.userInteractionEnabled = YES;
 
     [filter sizeToFit];
     CGRect filterFrame = filter.frame;
-    filter.frame = CGRectMake((documentTitle.frame.size.width - filterFrame.size.width)/2, 99, filterFrame.size.width, filterFrame.size.height);
+    filterFrame.origin.x = (documentTitle.frame.size.width - filterFrame.size.width)/2;
+    filterFrame.origin.y = documentDetailsFrame.origin.y + documentDetailsFrame.size.height + 20.0f;
+    filter.frame = filterFrame;
     filter.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
 
     [filter addTarget:self action:@selector(switchFilter:) forControlEvents:UIControlEventValueChanged];
 
     filter.selectedSegmentIndex = 0;
-
-    [containerView addSubview:filter];
-
-    self.tableView.tableHeaderView = containerView;
+    
+    [containerView addSubview: filter];
+    
+    [self.view addSubview: containerView];
 
     [containerView release];
     
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.view = self.tableView;    
+    CGRect tableViewFrame = CGRectMake(containerViewFrame.origin.x, containerViewFrame.size.height + containerViewFrame.origin.y, containerViewFrame.size.width, viewSize.height);
+    tableView = [[UITableView alloc] initWithFrame:tableViewFrame style: UITableViewStylePlain];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight);
     
-    dateFormatter = [[NSDateFormatter alloc] init];
-    dateFormatter.dateStyle = NSDateFormatterLongStyle;
-    dateFormatter.timeStyle = NSDateFormatterNoStyle;
+    //clear table background
+    //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
+    tableView.backgroundView = nil;
+    tableView.backgroundColor = [UIColor clearColor];
+    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+    tableView.rowHeight = 60.0f;
+
+    [self.view addSubview: tableView];
     
-    if (![unmanagedDocument.links count])
-        filter.hidden = YES;
-    else
-        filter.hidden = NO;
+    [self updateContent];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -143,12 +148,24 @@
     filter = nil;
     [dateFormatter release];
     dateFormatter = nil;
+    [tableView release];
+    tableView = nil;
 }
 #pragma mark -
 #pragma mark Table view selection
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.attachmentIndex = indexPath.row;
+    NSObject  *file = [currentItems objectAtIndex:indexPath.row];
+    if ([file isKindOfClass: [Attachment class]])
+    {
+        self.attachmentIndex = indexPath.row;
+        linkIndex = NSNotFound;
+    }
+    else
+    {
+        self.linkIndex = indexPath.row;
+        attachmentIndex = NSNotFound;
+    }
 }
 
 
@@ -162,15 +179,22 @@
 
 - (UITableViewCell *)tableView:(UITableView*)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
+    NSObject  *file = [currentItems objectAtIndex:indexPath.row];
+    
+    BOOL isAttachment = [file isKindOfClass: [Attachment class]];
+    
     UITableViewCell *cell = nil;
     
-    static NSString *cellIdentifier = @"AttachmentCell";
+    static NSString *attachmentIdentifier = @"AttachmentCell";
+    
+    static NSString *linkIdentifier = @"LinkCell";
+    
+    NSString *cellIdentifier = isAttachment?attachmentIdentifier:linkIdentifier;
 
-    cell = [self.tableView dequeueReusableCellWithIdentifier: cellIdentifier];
+    cell = [tv dequeueReusableCellWithIdentifier: cellIdentifier];
     if (cell == nil)
     {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier: cellIdentifier] autorelease];
+        cell = [[[UITableViewCell alloc] initWithStyle: (isAttachment?UITableViewCellStyleSubtitle:UITableViewCellStyleDefault) reuseIdentifier: cellIdentifier] autorelease];
         UIImageView *selectedRowBackground = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"DocumentInfoSelectedCell.png"]];
         cell.selectedBackgroundView = selectedRowBackground;
         [selectedRowBackground release];
@@ -178,17 +202,24 @@
         cell.detailTextLabel.highlightedTextColor = [UIColor blackColor];
         cell.detailTextLabel.textColor = [UIColor darkGrayColor];
     }
-    Attachment *a = [currentItems objectAtIndex:indexPath.row];
-    cell.textLabel.text = a.title;
-    NSUInteger count = [a.pages count];
-    NSString *pageLabel = count==1?NSLocalizedString(@"page", "page"):(count < 5?NSLocalizedString(@"pages_genetivus", "pages in genetivus"):NSLocalizedString(@"pages", "pages"));
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %@", [a.pages count], pageLabel];
+    if (isAttachment)
+    {
+        Attachment *a = (Attachment *) file;
+        cell.textLabel.text = a.title;
+        NSUInteger count = [a.pages count];
+        NSString *pageLabel = count==1?NSLocalizedString(@"page", "page"):(count < 5?NSLocalizedString(@"pages_genetivus", "pages in genetivus"):NSLocalizedString(@"pages", "pages"));
+        cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %@", [a.pages count], pageLabel];
+    }
+    else
+    {
+        Document *d = (Document *) file;
+        cell.textLabel.text = d.title;
+    }
     return cell;
 }
 
 - (void)dealloc {
     self.document = nil;
-    [unmanagedDocument release];
 
     [documentTitle release];
     documentTitle = nil;
@@ -198,6 +229,10 @@
     filter = nil;
     [dateFormatter release];
     dateFormatter = nil;
+    
+    [tableView release];
+    tableView = nil;
+
     [super dealloc];
 }
 
@@ -208,41 +243,53 @@
     switch(filter.selectedSegmentIndex)
     {
         case 0:
-            currentItems = unmanagedDocument.attachments;
+            currentItems = document.attachments;
             break;
         case 1:
-            currentItems = unmanagedDocument.links;
+            currentItems = document.links;
             break;
         default:
             NSAssert1 (NO, @"Invalid filter value: %d", filter.selectedSegmentIndex);
     }
-    [self.tableView reloadData];
+    [tableView reloadData];
 }
 @end
 
 @implementation  DocumentInfoViewController(Private)
--(void) recalcSize
+-(void) updateSize
 {
-    NSUInteger numberOfRows = MAX([unmanagedDocument.attachments count], [unmanagedDocument.links count]);
+    NSUInteger numberOfRows = MAX([document.attachments count], [document.links count]);
     
-    if (!numberOfRows)
-        numberOfRows = 1;
-    
-    CGRect headerFrame = self.tableView.tableHeaderView.frame;
-    
-    CGFloat height = headerFrame.size.height+numberOfRows*self.tableView.rowHeight;
-    CGRect viewFrame = self.view.frame;
-    self.view.frame = CGRectMake(viewFrame.origin.x, viewFrame.origin.y, viewFrame.size.width, height);
-    
-    self.tableView.tableHeaderView.frame = CGRectMake(headerFrame.origin.x, headerFrame.origin.y, viewFrame.size.width, headerFrame.size.height);
-    
-    CGRect titleFrame = documentTitle.frame;
-    documentTitle.frame = CGRectMake(titleFrame.origin.x, titleFrame.origin.y, viewFrame.size.width, titleFrame.size.height);
+    if (numberOfRows < kMinTableRows)
+        numberOfRows = kMinTableRows;
 
-    CGRect detailsFrame = documentDetails.frame;
-    documentDetails.frame = CGRectMake(detailsFrame.origin.x, detailsFrame.origin.y, viewFrame.size.width, detailsFrame.size.height);
+    CGRect tableViewFrame = tableView.frame;
     
-    CGRect filterFrame = filter.frame;
-    filter.frame = CGRectMake((viewFrame.size.width-filterFrame.size.width)/2, filterFrame.origin.y, filterFrame.size.width, filterFrame.size.height);
+    CGRect viewFrame = self.view.frame;
+    viewFrame.size.height = tableViewFrame.origin.y + numberOfRows * tableView.rowHeight;
+    self.view.frame = viewFrame;
+}
+
+-(void) updateContent;
+{
+    currentItems = document.attachments;
+    
+    documentTitle.text = document.title;
+    documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.dateModified]];
+    NSArray *attachments = document.attachments;
+    if ([attachments count]) 
+        attachmentIndex = 0;
+    else
+        attachmentIndex = NSNotFound;
+    
+    if (![document.links count])
+        filter.hidden = YES;
+    else
+        filter.hidden = NO;
+    
+    filter.selectedSegmentIndex = 0;
+    
+    [self updateSize];
+    [tableView reloadData];
 }
 @end
