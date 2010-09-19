@@ -412,9 +412,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 {
     if (context == &ClipperOpenedContext)
     {
-        if (resolutionButton.selected) //hide resolution
-            [self showResolution:resolutionButton];
-
         [UIView beginAnimations:OpenClipperAnimationId context:NULL];
         [UIView setAnimationDuration:.5];
         [UIView setAnimationDelegate:self];
@@ -638,9 +635,6 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     documentInfoViewController.document = self.document;
     attachmentsViewController.document = self.document;
 
-    if (resolutionButton.selected) //hide resolution
-        [self showResolution:resolutionButton];
-    
     if ([self.document isKindOfClass: [ResolutionManaged class]])
     {
         resolutionViewController.document = (ResolutionManaged *)self.document;
