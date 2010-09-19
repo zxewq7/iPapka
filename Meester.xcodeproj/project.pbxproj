@@ -63,6 +63,8 @@
 		8149BB681244EBDB00D028EE /* DocumentManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 8149BB601244EBDB00D028EE /* DocumentManaged.m */; };
 		8149BB691244EBDB00D028EE /* ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 8149BB621244EBDB00D028EE /* ResolutionManaged.m */; };
 		8149BB6A1244EBDB00D028EE /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 8149BB641244EBDB00D028EE /* SignatureManaged.m */; };
+		8157959C1246802B002A42C0 /* TwoRows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959B1246802B002A42C0 /* TwoRows.png */; };
+		8157959E12468130002A42C0 /* ButtonRecord.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959D12468130002A42C0 /* ButtonRecord.png */; };
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
 		81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585487123BC2F100A827E6 /* UITabBar+Additions.m */; };
 		815DDC3B124509A200F72600 /* ButtonAdd.png in Resources */ = {isa = PBXBuildFile; fileRef = 815DDC3A124509A200F72600 /* ButtonAdd.png */; };
@@ -114,6 +116,7 @@
 		81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B105C01243C44700AFB109 /* PerformersViewController.m */; };
 		81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */; };
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
+		81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CA24E912469DB900A50613 /* RootBackgroundView.m */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
@@ -235,6 +238,8 @@
 		8149BB621244EBDB00D028EE /* ResolutionManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ResolutionManaged.m; path = DocumentModelManaged/ResolutionManaged.m; sourceTree = "<group>"; };
 		8149BB631244EBDB00D028EE /* SignatureManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SignatureManaged.h; path = DocumentModelManaged/SignatureManaged.h; sourceTree = "<group>"; };
 		8149BB641244EBDB00D028EE /* SignatureManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SignatureManaged.m; path = DocumentModelManaged/SignatureManaged.m; sourceTree = "<group>"; };
+		8157959B1246802B002A42C0 /* TwoRows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TwoRows.png; sourceTree = "<group>"; };
+		8157959D12468130002A42C0 /* ButtonRecord.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecord.png; sourceTree = "<group>"; };
 		81585473123BC24000A827E6 /* UIToolbar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIToolbar+Additions.h"; sourceTree = "<group>"; };
 		81585474123BC24000A827E6 /* UIToolbar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIToolbar+Additions.m"; sourceTree = "<group>"; };
 		81585486123BC2F100A827E6 /* UITabBar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+Additions.h"; sourceTree = "<group>"; };
@@ -310,6 +315,8 @@
 		81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewWithPlaceholder.h; sourceTree = "<group>"; };
 		81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewWithPlaceholder.m; sourceTree = "<group>"; };
 		81B5C1131242792200B8E9B8 /* Paper-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper-Landscape.png"; sourceTree = "<group>"; };
+		81CA24E812469DB900A50613 /* RootBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootBackgroundView.h; sourceTree = "<group>"; };
+		81CA24E912469DB900A50613 /* RootBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootBackgroundView.m; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
 		81D60425123ACBC400CEAF75 /* PaintingTools.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaintingTools.png; sourceTree = "<group>"; };
 		81D60427123ACBEA00CEAF75 /* PaintingToolsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingToolsViewController.h; sourceTree = "<group>"; };
@@ -352,6 +359,8 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8157959D12468130002A42C0 /* ButtonRecord.png */,
+				8157959B1246802B002A42C0 /* TwoRows.png */,
 				815DDC3A124509A200F72600 /* ButtonAdd.png */,
 				8149BA8A1244D77700D028EE /* ButtonPerformer.png */,
 				81B105AD1243C28F00AFB109 /* ResolutionLogo.png */,
@@ -425,6 +434,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81CA24E812469DB900A50613 /* RootBackgroundView.h */,
+				81CA24E912469DB900A50613 /* RootBackgroundView.m */,
 				8149BA5B1244BA3B00D028EE /* ViewWithButtons.h */,
 				8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */,
 				81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */,
@@ -789,6 +800,8 @@
 				81B105AE1243C28F00AFB109 /* ResolutionLogo.png in Resources */,
 				8149BA8B1244D77700D028EE /* ButtonPerformer.png in Resources */,
 				815DDC3B124509A200F72600 /* ButtonAdd.png in Resources */,
+				8157959C1246802B002A42C0 /* TwoRows.png in Resources */,
+				8157959E12468130002A42C0 /* ButtonRecord.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -839,6 +852,7 @@
 				8110847B1244EF66008FBDE3 /* PersonManaged.m in Sources */,
 				815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */,
 				811B583412454D1000BEB158 /* ColorPicker.m in Sources */,
+				81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

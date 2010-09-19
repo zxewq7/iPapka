@@ -22,15 +22,21 @@
 #import "RotateableImageView.h"
 #import "PageControlWithMenu.h"
 #import "ResolutionManaged.h"
-
-#define LEFT_CONTENT_MARGIN 6.0f
-#define RIGHT_CONTENT_MARGIN 6.0f
-
-#define TOP_CONTENT_MARGIN 5.0f
-#define BOTTOM_CONTENT_MARGIN 10.0f
+#import "RootBackgroundView.h"
 
 #define PAINTING_TOOLS_LEFT_OFFSET 3
 #define PAINTING_TOOLS_TOP_OFFSET 33
+
+//#define LEFT_CONTENT_MARGIN 6.0f
+//#define RIGHT_CONTENT_MARGIN 6.0f
+
+#define RIGHT_CONTENT_MARGIN 5.0f
+#define LEFT_CONTENT_MARGIN 5.0f
+
+//#define TOP_CONTENT_MARGIN 5.0f
+#define TOP_CONTENT_MARGIN 6.0f
+#define BOTTOM_CONTENT_MARGIN 10.0f
+
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
 static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
@@ -95,15 +101,18 @@ static NSString* LinkContext          = @"LinkContext";
     
     CGRect toolbarFrame = toolbar.bounds;
 
-    RotateableImageView *backgroundView = [[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
+    RootBackgroundView *backgroundView = [[RootBackgroundView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
     backgroundView.portraitImage = [UIImage imageNamed: @"RootBackground.png"];
     backgroundView.landscapeImage = [UIImage imageNamed: @"RootBackground-Landscape.png"];
     backgroundView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
                                        UIViewAutoresizingFlexibleHeight);
 
-    backgroundView.frame = CGRectMake(0, toolbarFrame.origin.y+toolbarFrame.size.height, viewFrame.size.width, backgroundView.frame.size.height);
+    CGRect backgroundViewFrame = backgroundView.frame;
+    backgroundViewFrame.origin.x = 0;
+    backgroundViewFrame.origin.y = toolbarFrame.origin.y+toolbarFrame.size.height;
+    backgroundView.frame = backgroundViewFrame;
+    backgroundView.userInteractionEnabled = YES;
     [self.view addSubview:backgroundView];
-    [backgroundView release];
     
     CGRect viewBounds = self.view.bounds;
 
@@ -126,19 +135,17 @@ static NSString* LinkContext          = @"LinkContext";
     contentView = [[RotateableImageView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
     contentView.portraitImage = [UIImage imageNamed: @"Paper.png"];
     contentView.landscapeImage = [UIImage imageNamed: @"Paper-Landscape.png"];
-    contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                    UIViewAutoresizingFlexibleHeight);
-    
-    CGSize contentViewSize = contentView.frame.size;
-    
-    contentView.frame = CGRectMake((viewBounds.size.width-contentViewSize.width)/2, contentHeightOffset, contentViewSize.width, contentViewSize.height);
     contentView.userInteractionEnabled = YES;
 
+    CGSize contentViewSize = contentView.frame.size;
+
     //attachments view
-    CGRect attachmentsViewFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, contentViewSize.height - TOP_CONTENT_MARGIN - BOTTOM_CONTENT_MARGIN);
     attachmentsViewController = [[AttachmentsViewController alloc] init];
+
+    CGRect attachmentsViewFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, contentViewSize.height - TOP_CONTENT_MARGIN - BOTTOM_CONTENT_MARGIN);
+
     attachmentsViewController.view.frame = attachmentsViewFrame;
-    attachmentsViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight);
+    attachmentsViewController.view.autoresizingMask = ( UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight);
 
     //page control
     CGRect pageControlFrame = CGRectMake(0, viewFrame.size.height - 37, viewFrame.size.width, 37);
@@ -193,12 +200,7 @@ static NSString* LinkContext          = @"LinkContext";
                                     context:&LinkContext];
 
     paintingToolsViewController = [[PaintingToolsViewController alloc] init];
-    CGRect paintingToolsFrame = paintingToolsViewController.view.frame;
-    CGFloat paintingToolsOffsetFromLeftEdge = paintingToolsFrame.size.width - contentView.frame.origin.x+PAINTING_TOOLS_LEFT_OFFSET;
-    paintingToolsFrame.origin.x = contentView.frame.origin.x-paintingToolsFrame.size.width+paintingToolsOffsetFromLeftEdge;
-    paintingToolsFrame.origin.y = contentHeightOffset+PAINTING_TOOLS_TOP_OFFSET;
-    paintingToolsViewController.view.frame = paintingToolsFrame;
-    
+
     paintingToolsViewController.delegate = attachmentsViewController;
 
     //back button
@@ -217,12 +219,6 @@ static NSString* LinkContext          = @"LinkContext";
     [backButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
     backButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
     
-    
-    CGRect backButtonFrame = backButton.frame;
-    backButtonFrame.origin.x = contentView.frame.origin.x;
-    backButtonFrame.origin.y = contentHeightOffset - backButtonFrame.size.height;
-    backButton.frame = backButtonFrame;
-    backButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [backButton retain];
     
     //resolution button
@@ -240,11 +236,6 @@ static NSString* LinkContext          = @"LinkContext";
     [resolutionButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
     resolutionButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 
-    CGRect resolutionButtonFrame = resolutionButton.frame;
-    resolutionButtonFrame.origin.x = contentView.frame.origin.x;
-    resolutionButtonFrame.origin.y = contentHeightOffset - resolutionButtonFrame.size.height;
-    resolutionButton.frame = resolutionButtonFrame;
-    resolutionButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [resolutionButton retain];
 
     //info button
@@ -263,11 +254,6 @@ static NSString* LinkContext          = @"LinkContext";
     infoButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 
     
-    CGRect infoButtonFrame = infoButton.frame;
-    infoButtonFrame.origin.x = contentView.frame.origin.x + contentView.frame.size.width - infoButtonFrame.size.width;
-    infoButtonFrame.origin.y = contentHeightOffset - infoButtonFrame.size.height;
-    infoButton.frame = infoButtonFrame;
-    infoButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     [infoButton retain];
     
     resolutionViewController = [[ResolutionViewController alloc] init];
@@ -285,28 +271,26 @@ static NSString* LinkContext          = @"LinkContext";
     RotateableImageView *paperView = [[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"Papers.png"]];
     paperView.portraitImage = [UIImage imageNamed: @"Papers.png"];
     paperView.landscapeImage = [UIImage imageNamed: @"Papers-Landscape.png"];
-    paperView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
-                                  UIViewAutoresizingFlexibleHeight);
 
-    paperView.frame = contentView.frame;
-    paperView.userInteractionEnabled = YES;
-    [self.view addSubview: paperView];
+    backgroundView.paper = paperView;
+    backgroundView.paintingTools = paintingToolsViewController.view;
+    backgroundView.content = contentView;
+    backgroundView.resolutionButton = resolutionButton;
+    backgroundView.infoButton = infoButton;
+    backgroundView.backButton = backButton;
+
     [paperView release];
-
-    [self.view addSubview:paintingToolsViewController.view];
-    [self.view addSubview:contentView];
-
 
     [contentView addSubview: resolutionViewController.view];
     [self.view addSubview:clipperViewController.view];
-    [self.view addSubview:infoButton];
-    [self.view addSubview:resolutionButton];
-    [self.view addSubview: backButton];
     [self.view addSubview: attachmentsViewController.pageControl];
     
     [self.view bringSubviewToFront: clipperViewController.view];
     [clipperViewController counfigureTapzones];
     [self updateContent];
+    
+    [backgroundView release];
+
 }
 
 #pragma mark - 
