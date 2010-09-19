@@ -13,7 +13,6 @@
 #import "AttachmentPage.h"
 #import "PageControlWithMenu.h"
 #import "AZZBubbleView.h"
-#import <QuartzCore/CALayer.h>
 #import "DocumentManaged.h"
 #import "Document.h"
 #import "DataSource.h"
