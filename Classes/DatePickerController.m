@@ -66,6 +66,7 @@
     self.date = nil;
     self.maximumDate = nil;
     self.target = nil;
+    self.selector = nil;
     [super dealloc];
 }
 

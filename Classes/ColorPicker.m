@@ -184,6 +184,8 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
     self.target = nil;
     
+    self.selector = nil;
+    
     [super dealloc];
 }
 @end

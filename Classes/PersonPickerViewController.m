@@ -81,6 +81,8 @@
     self.person = nil;
     
     self.target = nil;
+    
+    self.selector = nil;
 
     [super dealloc];
 }
