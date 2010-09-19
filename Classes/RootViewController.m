@@ -474,6 +474,9 @@ static NSString* LinkContext          = @"LinkContext";
 {
     if (context == &ClipperOpenedContext)
     {
+        if (resolutionButton.selected) //hide resolution
+            [self showResolution:resolutionButton];
+        
         [UIView beginAnimations:OpenClipperAnimationId context:NULL];
         [UIView setAnimationDuration:.5];
         [UIView setAnimationDelegate:self];
