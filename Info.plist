@@ -42,5 +42,7 @@
 		<string>CHARTECI.TTF</string>
 		<string>CHARTERC.TTF</string>
 	</array>
+	<key>UIPrerenderedIcon</key>
+	<true/>
 </dict>
 </plist>
