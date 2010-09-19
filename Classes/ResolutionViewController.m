@@ -35,6 +35,7 @@
     [document release];
     document = [aDocument retain];
     
+    resolutionSwitcher.selectedSegmentIndex = 0;
     [self updateContent];
 }
 - (void)loadView
@@ -75,9 +76,7 @@
     CGSize switcherSize = resolutionSwitcher.frame.size;
     resolutionSwitcher.frame = CGRectMake((viewSize.width - switcherSize.width)/2, 44, switcherSize.width, switcherSize.height);
     
-    [resolutionSwitcher addTarget:self action:nil forControlEvents:UIControlEventValueChanged];
-    
-    resolutionSwitcher.selectedSegmentIndex = 0;
+    [resolutionSwitcher addTarget:self action:@selector(showParentResolution:) forControlEvents:UIControlEventValueChanged];
     
     [self.view addSubview: resolutionSwitcher];
     
@@ -193,7 +192,6 @@
     [self.view addSubview: dateLabel];
     
     [self updateContent];
-    [self updateHeight];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
@@ -296,13 +294,39 @@
 -(void) updateContent
 {
     Resolution *resolution = (Resolution *)document.document;
-    authorLabel.text = document.author.fullName;
+    Resolution *parentResolution = resolution.parentResolution;
+    
+    resolutionSwitcher.hidden = (parentResolution == nil);
+    
+    if (resolutionSwitcher.selectedSegmentIndex == 0) //resolution
+    {
+        deadlineButton.userInteractionEnabled = YES;
+        performersViewController.view.hidden = NO;
+    }
+    else //parent resolution
+    {
+        resolution = parentResolution;
+        deadlineButton.userInteractionEnabled = NO;
+        performersViewController.view.userInteractionEnabled = NO;
+        performersViewController.view.hidden = YES;
+    }
+        
+    authorLabel.text = resolution.author;
+    
     resolutionText.text = resolution.text;
-    dateLabel.text = [dateFormatter stringFromDate: document.dateModified];
+    dateLabel.text = [dateFormatter stringFromDate: resolution.dateModified];
     
     NSString *label = (resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil);
     [deadlineButton setTitle:label forState:UIControlStateNormal];
+    
     performersViewController.document = document;
+    
+    [self updateHeight];
+}
+
+- (void) showParentResolution:(id) sender
+{
+    [self updateContent];
 }
 
 -(void) updateHeight;
