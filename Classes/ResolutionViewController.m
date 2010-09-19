@@ -191,6 +191,57 @@
     
     [self.view addSubview: dateLabel];
     
+    UIImage *twoRowsImage = [UIImage imageNamed: @"TwoRows.png"];
+    UIImageView *twoRows = [[UIImageView alloc] initWithImage: [twoRowsImage stretchableImageWithLeftCapWidth:12.0f topCapHeight:0.0f]];
+    
+    twoRows.userInteractionEnabled = YES;
+    
+    CGRect twoRowsFrame = CGRectMake(LEFT_MARGIN, dateFrame.origin.y + 35, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, twoRows.frame.size.height);
+
+    twoRows.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+
+    twoRows.frame = twoRowsFrame;
+    
+    UILabel *labelRecord = [[UILabel alloc] initWithFrame: CGRectZero];
+    
+    labelRecord.text = NSLocalizedString(@"Record", "Record");
+    labelRecord.textColor = [UIColor blackColor];
+    labelRecord.font = [UIFont boldSystemFontOfSize: 17];
+    labelRecord.backgroundColor = [UIColor clearColor];
+    
+    [labelRecord sizeToFit];
+    
+    CGRect labelRecordFrame = labelRecord.frame;
+    
+    labelRecordFrame.origin.x = 10.0f;
+    
+    labelRecordFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - labelRecordFrame.size.height)/2;
+    
+    labelRecord.frame = labelRecordFrame;
+
+    [twoRows addSubview: labelRecord];
+    
+    [labelRecord release];
+    
+    UIButton *recordButton = [UIButton imageButton:self
+                                          selector:nil
+                                             image:[UIImage imageNamed:@"ButtonRecord.png"]
+                                     imageSelected:[UIImage imageNamed:@"ButtonRecord.png"]];
+    
+    CGRect recordButtonFrame = recordButton.frame;
+    
+    recordButtonFrame.origin.x = twoRowsFrame.size.width - recordButtonFrame.size.width - 10.0f;
+    
+    recordButtonFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - recordButtonFrame.size.height)/2;
+    
+    recordButton.frame = recordButtonFrame;
+    
+    [twoRows addSubview: recordButton];
+    
+    [self.view addSubview: twoRows];
+
+    [twoRows release];
+
     [self updateContent];
 }
 
