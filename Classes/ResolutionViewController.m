@@ -352,6 +352,7 @@
     if (resolutionSwitcher.selectedSegmentIndex == 0) //resolution
     {
         deadlineButton.userInteractionEnabled = YES;
+        performersViewController.view.userInteractionEnabled = YES;
         performersViewController.view.hidden = NO;
     }
     else //parent resolution
