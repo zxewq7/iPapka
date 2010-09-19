@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "PaintingToolsViewController.h"
 
-@class AttachmentPageViewController, Attachment, PageControlWithMenu, DocumentManaged;
+@class AttachmentPageViewController, Attachment, PageControlWithMenu, Document;
 @interface AttachmentsViewController : UIViewController<UIGestureRecognizerDelegate, PaintingToolsDelegate>
 {
     AttachmentPageViewController *currentPage;
@@ -22,10 +22,10 @@
     BOOL          commenting;
     UITapGestureRecognizer *tapRecognizer;
     PageControlWithMenu *pageControl;
-    DocumentManaged              *document;
+    Document              *document;
 }
 
-@property (nonatomic, retain)           DocumentManaged              *document;
+@property (nonatomic, retain)           Document              *document;
 @property (nonatomic, assign)           NSUInteger                   attachmentIndex;
 @property (nonatomic, retain, readonly) AttachmentPageViewController *currentPage;
 @property (nonatomic, assign)           BOOL                         commenting;

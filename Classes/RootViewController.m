@@ -37,6 +37,8 @@ static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
 
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
+static NSString* LinkContext          = @"LinkContext";
+
 @interface RootViewController(Private)
 - (void) createToolbar;
 - (void) moveToArchive;
@@ -179,6 +181,11 @@ static NSString* AttachmentContext    = @"AttachmentContext";
                                     options:0
                                     context:&AttachmentContext];
 
+    [documentInfoViewController addObserver:self
+                                 forKeyPath:@"linkIndex"
+                                    options:0
+                                    context:&LinkContext];
+
     paintingToolsViewController = [[PaintingToolsViewController alloc] init];
     CGRect paintingToolsFrame = paintingToolsViewController.view.frame;
     CGFloat paintingToolsOffsetFromLeftEdge = paintingToolsFrame.size.width - contentView.frame.origin.x+PAINTING_TOOLS_LEFT_OFFSET;
@@ -188,6 +195,31 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     
     paintingToolsViewController.delegate = attachmentsViewController;
 
+    //back button
+    //add extra spaces to front of label, cause of button with left arrow
+    backButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString: NSLocalizedString(@"Back", "Back")]
+                                              titleFont:[UIFont boldSystemFontOfSize:12]
+                                                 target:self
+                                               selector:@selector(backFromLink:)
+                                                  frame:CGRectMake(0, 0, 25, 30)
+                                          addLabelWidth:YES
+                                                  image:[UIImage imageNamed:@"BackBarButton.png"]
+                                           imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
+                                           leftCapWidth:15.0f
+                                          darkTextColor:NO];
+    
+    [backButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
+    backButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+    
+    
+    CGRect backButtonFrame = backButton.frame;
+    backButtonFrame.origin.x = contentView.frame.origin.x;
+    backButtonFrame.origin.y = contentHeightOffset - backButtonFrame.size.height;
+    backButton.frame = backButtonFrame;
+    backButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+    [backButton retain];
+    
+    //resolution button
     resolutionButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Resolution", "Resolution")
                                               titleFont:[UIFont boldSystemFontOfSize:12]
                                                  target:self
@@ -209,8 +241,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     resolutionButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     [resolutionButton retain];
 
-    //add extra spaces to front of label, cause of button with left arrow
-    infoButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString: NSLocalizedString(@"Information", "Information")]
+    //info button
+    infoButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Information", "Information")
                                               titleFont:[UIFont boldSystemFontOfSize:12]
                                                  target:self
                                                selector:@selector(showInfo:)
@@ -263,6 +295,7 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     [self.view addSubview:clipperViewController.view];
     [self.view addSubview:infoButton];
     [self.view addSubview:resolutionButton];
+    [self.view addSubview: backButton];
     [self.view addSubview: attachmentsViewController.pageControl];
     
     [self.view bringSubviewToFront: clipperViewController.view];
@@ -304,6 +337,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     infoButton = nil;
     [resolutionButton release];
     resolutionButton = nil;
+    [backButton release];
+    backButton = nil;
 }
 
 - (void) dealloc
@@ -330,15 +365,36 @@ static NSString* AttachmentContext    = @"AttachmentContext";
     infoButton = nil;
     [resolutionButton release];
     resolutionButton = nil;
+    [backButton release];
+    backButton = nil;
     
 	[super dealloc];
 }
 #pragma mark -
 #pragma mark Actions
 
--(void) showInfo: (id) sender
+-(void) showInfo:(id) sender
 {
     clipperViewController.opened = !clipperViewController.opened;
+}
+
+-(void) backFromLink :(id) sender
+{
+    resolutionButton.hidden = NO;
+    backButton.hidden = YES;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:.5];
+    [UIView setAnimationDelegate:nil];
+    [UIView setAnimationDidStopSelector:nil];
+    
+    [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp
+                           forView:contentView cache:YES];
+    
+    attachmentsViewController.document = self.document.document;
+    documentInfoViewController.document = self.document.document;
+    
+    [UIView commitAnimations];    
 }
 
 -(void) showDocuments:(id) sender
@@ -432,6 +488,41 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         if (clipperViewController.opened)
             clipperViewController.opened = NO;
         attachmentsViewController.attachmentIndex = documentInfoViewController.attachmentIndex;
+    } 
+    else if (context == &LinkContext)
+    {
+        if (documentInfoViewController.linkIndex != NSNotFound)
+        {
+            if (clipperViewController.opened)
+                clipperViewController.opened = NO;
+            
+            Document *linkedDocument = [document.document.links objectAtIndex: documentInfoViewController.linkIndex];
+
+            if (backButton.hidden)
+            {
+                
+                resolutionButton.hidden = YES;
+                backButton.hidden = NO;
+                
+                [UIView beginAnimations:nil context:NULL];
+                [UIView setAnimationDuration:.5];
+                [UIView setAnimationDelegate:nil];
+                [UIView setAnimationDidStopSelector:nil];
+                
+                [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown
+                                       forView:contentView cache:YES];
+                
+                attachmentsViewController.document = linkedDocument;
+                documentInfoViewController.document = linkedDocument;
+                
+                [UIView commitAnimations];
+            }
+            else
+            {
+                attachmentsViewController.document = linkedDocument;
+                documentInfoViewController.document = linkedDocument;
+            }
+        }
     }
     else
     {
@@ -632,9 +723,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 }
 -(void) updateContent
 {
-    documentInfoViewController.document = self.document;
-    attachmentsViewController.document = self.document;
     documentInfoViewController.document = self.document.document;
+    attachmentsViewController.document = self.document.document;
 
     if ([self.document isKindOfClass: [ResolutionManaged class]])
     {
@@ -646,6 +736,8 @@ static NSString* AttachmentContext    = @"AttachmentContext";
         resolutionViewController.document = nil;
         resolutionButton.hidden = YES;
     }
+    
+    backButton.hidden = YES;
     
     [self setCanEdit: [self.document.isEditable boolValue]];
 }

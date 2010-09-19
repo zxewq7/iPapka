@@ -27,6 +27,7 @@
     UIButton                    *acceptButton;
     UIButton                    *infoButton;
     UIButton                    *resolutionButton;
+    UIButton                    *backButton;
     ResolutionViewController    *resolutionViewController;
 }
 

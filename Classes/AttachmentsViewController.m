@@ -16,6 +16,7 @@
 #import <QuartzCore/CALayer.h>
 #import "DocumentManaged.h"
 #import "Document.h"
+#import "DataSource.h"
 
 static NSString *HidePageControlAnimationId = @"HidePageControlAnimationId";
 
@@ -45,7 +46,7 @@ typedef enum _TapPosition{
     pageControl.alpha = 0.0;
 }
 
--(void) setDocument:(DocumentManaged*) aDocument
+-(void) setDocument:(Document*) aDocument
 {
     if (document == aDocument)
         return;
@@ -57,9 +58,7 @@ typedef enum _TapPosition{
 
 -(void) setAttachmentIndex:(NSUInteger) anAttachmentIndex
 {
-    Document *documentUnmanaged = document.document;
-    
-    if ([document.document.attachments count] <= anAttachmentIndex)
+    if ([document.attachments count] <= anAttachmentIndex)
     {
         [attachment release];
         attachment = nil;
@@ -69,7 +68,7 @@ typedef enum _TapPosition{
     
     attachmentIndex = anAttachmentIndex;
     
-    Attachment *anAttachment = [documentUnmanaged.attachments objectAtIndex: attachmentIndex];
+    Attachment *anAttachment = [document.attachments objectAtIndex: attachmentIndex];
     if (attachment != anAttachment) 
     {
         [attachment release];
@@ -299,7 +298,7 @@ typedef enum _TapPosition{
     if (!commenting)
     {
         [currentPage saveContent];
-        [document saveDocument];
+        [[DataSource sharedDataSource] saveDocument: document];
     }
 }
 
