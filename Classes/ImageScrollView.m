@@ -1,7 +1,7 @@
 #import "ImageScrollView.h"
 #import "PaintingView.h"
 
-#define NUM_MIN_SCALE_RANGES  6
+#define MAX_WIDTH 1088.0f
 
     //FUNCTIONS:
 /*
@@ -127,13 +127,6 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         self.bouncesZoom = YES;
         self.decelerationRate = UIScrollViewDecelerationRateFast;
         self.delegate = self;
-        minScaleRanges = malloc(NUM_MIN_SCALE_RANGES * sizeof(struct _NSRange));
-        minScaleRanges[0] = NSMakeRange(320, 0);
-        minScaleRanges[1] = NSMakeRange(537, 7);
-        minScaleRanges[2] = NSMakeRange(672, 0);
-        minScaleRanges[3] = NSMakeRange(697, 0);
-        minScaleRanges[4] = NSMakeRange(924, 4);
-        minScaleRanges[5] = NSMakeRange(1024, 0);
     }
     return self;
 }
@@ -143,7 +136,6 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     [imageView release];
     [paintingView release];
     [drawingsView release];
-    free(minScaleRanges);
     self.paintingDelegate = nil;
     [super dealloc];
 }
@@ -229,34 +221,16 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     CGSize boundsSize = self.bounds.size;
     CGSize imageSize = imageView.bounds.size;
     
-        //set image width equal to view bounds
-        // calculate min/max zoomscale
-    CGFloat minWidth = boundsSize.width;
-
     NSUInteger imageWidth = imageSize.width;
-    NSRange maxRange = minScaleRanges[NUM_MIN_SCALE_RANGES - 1];
-    NSUInteger maxWidth = maxRange.location + maxRange.length;
 
-    for (int i = 0;i < NUM_MIN_SCALE_RANGES;i++)
-    {
-        NSRange range = minScaleRanges[i];
-        if (NSLocationInRange(imageWidth, range)) 
-        {
-            minWidth = imageWidth;
-            maxWidth = range.location + range.length;
-            break;
-        }
-        
-        if (imageWidth<range.location) 
-        {
-            minWidth = range.location;
-            maxWidth = range.location + range.length;
-            break;
-        }
-    }
-    
-    if (minWidth>boundsSize.width)
-        minWidth = boundsSize.width;
+    NSUInteger minWidth = (boundsSize.width/32)*32;
+    NSUInteger maxWidth = (imageWidth/32)*32;
+
+    if (maxWidth>MAX_WIDTH)
+        maxWidth = MAX_WIDTH;
+
+    if (minWidth > maxWidth)
+        maxWidth = minWidth;
     
     CGFloat minScale = minWidth / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     
@@ -273,8 +247,6 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
     self.maximumZoomScale = maxScale;
     self.minimumZoomScale = minScale;
-    
-    //NSLog(@"%f %f", minWidth, maxWidth);
 }
 
 #pragma mark -

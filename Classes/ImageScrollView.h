@@ -7,7 +7,6 @@
     UIImageView         *drawingsView;
     BOOL                isCommenting;
     CGSize              imageOriginalSize;
-    NSRange             *minScaleRanges;
     CGFloat             currentAngle;
     id<PaintingViewDelegate> paintingDelegate;
 }
