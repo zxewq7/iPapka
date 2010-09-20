@@ -132,8 +132,8 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
         minScaleRanges[1] = NSMakeRange(537, 7);
         minScaleRanges[2] = NSMakeRange(672, 0);
         minScaleRanges[3] = NSMakeRange(697, 0);
-        minScaleRanges[3] = NSMakeRange(924, 4);
-        minScaleRanges[4] = NSMakeRange(1024, 0);
+        minScaleRanges[4] = NSMakeRange(924, 4);
+        minScaleRanges[5] = NSMakeRange(1024, 0);
     }
     return self;
 }
@@ -231,14 +231,13 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     
         //set image width equal to view bounds
         // calculate min/max zoomscale
-    int rangesLength = NUM_MIN_SCALE_RANGES - 1;
     CGFloat minWidth = boundsSize.width;
 
     NSUInteger imageWidth = imageSize.width;
-    NSRange maxRange = minScaleRanges[rangesLength];
+    NSRange maxRange = minScaleRanges[NUM_MIN_SCALE_RANGES - 1];
     NSUInteger maxWidth = maxRange.location + maxRange.length;
 
-    for (int i=0;i<=rangesLength;i++)
+    for (int i = 0;i < NUM_MIN_SCALE_RANGES;i++)
     {
         NSRange range = minScaleRanges[i];
         if (NSLocationInRange(imageWidth, range)) 
