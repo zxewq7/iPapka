@@ -30,7 +30,17 @@ typedef enum _TapPosition{
 @end
 
 @implementation AttachmentsViewController
-@synthesize currentPage, commenting, pageControl, document, attachmentIndex;
+@synthesize currentPage, commenting, pageControl, document, attachmentIndex, paintingTools;
+
+-(void) setPaintingTools: (PaintingToolsViewController *) aPaintingTools
+{
+    if (aPaintingTools == paintingTools)
+        return;
+    
+    [paintingTools release];
+    paintingTools = [aPaintingTools retain];
+    paintingTools.delegate = self;
+}
 
 -(void) setPageControl:(PageControlWithMenu *) aPageControl
 {
@@ -110,6 +120,9 @@ typedef enum _TapPosition{
     nextPage.view.autoresizingMask = (UIViewAutoresizingFlexibleHeight |
                                       UIViewAutoresizingFlexibleWidth);
 
+    currentPage.color = paintingTools.color;
+    nextPage.color = paintingTools.color;
+    
     currentPage.attachment = attachment;
     nextPage.attachment = attachment;
 
@@ -148,6 +161,8 @@ typedef enum _TapPosition{
     self.pageControl = nil;
     
     self.document = nil;
+    
+    self.paintingTools = nil;
     
     [super dealloc];
 }

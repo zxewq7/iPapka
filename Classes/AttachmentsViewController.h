@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "PaintingToolsViewController.h"
 
-@class AttachmentPageViewController, Attachment, PageControlWithMenu, Document;
+@class AttachmentPageViewController, Attachment, PageControlWithMenu, Document, PaintingToolsViewController;
 @interface AttachmentsViewController : UIViewController<UIGestureRecognizerDelegate, PaintingToolsDelegate>
 {
     AttachmentPageViewController *currentPage;
@@ -23,6 +23,7 @@
     UITapGestureRecognizer *tapRecognizer;
     PageControlWithMenu *pageControl;
     Document              *document;
+    PaintingToolsViewController   *paintingTools;
 }
 
 @property (nonatomic, retain)           Document                     *document;
@@ -30,5 +31,7 @@
 @property (nonatomic, retain, readonly) AttachmentPageViewController *currentPage;
 @property (nonatomic, assign)           BOOL                         commenting;
 @property (nonatomic, retain)           PageControlWithMenu          *pageControl;
+@property (nonatomic, retain)           PaintingToolsViewController  *paintingTools;
+
 -(void) rotate:(CGFloat) degreesAngle;
 @end
