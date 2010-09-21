@@ -15,17 +15,8 @@
 #define kResolutionButton 1005
 #define kBackButton 1006
 
-#define kMargin 6.0f
-
-#define kMarginLandscape 5.0f
-
-#define kTopMargin 5.0f
-
-#define kTopMarginLandscape 6.0f
-
 @interface RootBackgroundView(Private)
 -(void) setView:(UIView *) view withTag:(int) tag;
--(UIView *) getView:(int) tag;
 @end
 
 @implementation RootBackgroundView
@@ -95,28 +86,10 @@
 {
     [super layoutSubviews];
 
-    CGFloat margin;
-    
-    CGFloat topMargin;
-    
-    CGSize size = self.frame.size;
-
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    
-    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) //portrait
-    {
-        margin = kMargin;
-        topMargin = kTopMargin;
-
-    }
-    else
-    {
-        margin = kMarginLandscape;
-        topMargin = kTopMarginLandscape;
-    }
+    CGSize size = self.bounds.size;
 
     //content
-    UIView *content = [self viewWithTag: kContent];
+    UIView *content = self.content;
     
     [content layoutSubviews];
     
@@ -126,7 +99,7 @@
     content.frame = contentFrame;
 
     //paper
-    UIView *paper = [self viewWithTag: kPaper];
+    UIView *paper = self.paper;
     
     [paper layoutSubviews];
     
@@ -136,7 +109,7 @@
     paper.frame = paperFrame;
     
     //paintingTools
-    UIView *paintingTools = [self viewWithTag: kPaintingTools];
+    UIView *paintingTools = self.paintingTools;
     
     CGRect paintingToolsFrame = paintingTools.frame;
     paintingToolsFrame.origin.x = contentFrame.origin.x - paintingToolsFrame.size.width + 8.0f;
@@ -144,7 +117,7 @@
     paintingTools.frame = paintingToolsFrame;
 
     //resolutionButton
-    UIView *resolutionButton = [self viewWithTag: kResolutionButton];
+    UIView *resolutionButton = self.resolutionButton;
 
     CGRect resolutionButtonFrame = resolutionButton.frame;
     resolutionButtonFrame.origin.x = contentFrame.origin.x + 1;
@@ -154,7 +127,7 @@
     resolutionButton.frame = resolutionButtonFrame;
 
     //backButton
-    UIView *backButton = [self viewWithTag: kBackButton];
+    UIView *backButton = self.backButton;
     CGRect backButtonFrame = backButton.frame;
     backButtonFrame.origin.x = contentFrame.origin.x + 1;
     backButtonFrame.origin.y = 12.0f;
@@ -162,7 +135,7 @@
 
     
     //infoButton
-    UIView *infoButton = [self viewWithTag: kInfoButton];
+    UIView *infoButton = self.infoButton;
     CGRect infoButtonFrame = infoButton.frame;
     infoButtonFrame.origin.x = contentFrame.origin.x + contentFrame.size.width - infoButtonFrame.size.width;
     infoButtonFrame.origin.y = 12.0f;
@@ -190,5 +163,4 @@
     }
         
 }
-
 @end
