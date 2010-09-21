@@ -10,7 +10,7 @@
 
 
 @implementation Resolution
-@synthesize text, performers, managed, parentResolution, deadline, audioComment;
+@synthesize text, performers, managed, parentResolution, deadline, audioComment, hasAudioComment;
 
 -(NSString *) audioComment
 {
@@ -37,6 +37,7 @@
         self.performers = [coder decodeObjectForKey:@"performers"];
         self.parentResolution = [coder decodeObjectForKey:@"parentResolution"];
         self.deadline = [coder decodeObjectForKey:@"deadline"];
+        self.hasAudioComment = [[coder decodeObjectForKey:@"hasAudioComment"] boolValue];
     }
     return self;
 }
@@ -49,5 +50,6 @@
     [coder encodeObject: [NSNumber numberWithBool:self.managed] forKey:@"managed"];
     [coder encodeObject: parentResolution forKey:@"parentResolution"];
     [coder encodeObject: deadline forKey:@"deadline"];
+    [coder encodeObject: [NSNumber numberWithBool:self.hasAudioComment] forKey:@"hasAudioComment"];
 }
 @end

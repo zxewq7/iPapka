@@ -14,6 +14,7 @@
     BOOL       managed;
     Resolution *parentResolution;
     NSDate     *deadline;
+    BOOL       hasAudioComment;
 }
 @property (nonatomic, retain) NSString   *text;
 @property (nonatomic, retain) NSArray    *performers;
@@ -21,4 +22,5 @@
 @property (nonatomic)         BOOL       managed;
 @property (nonatomic, retain) Resolution *parentResolution;
 @property (nonatomic, retain, readonly) NSString *audioComment;
+@property (nonatomic)         BOOL       hasAudioComment;
 @end
