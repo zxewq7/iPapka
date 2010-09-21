@@ -20,6 +20,13 @@
 @implementation PaintingToolsViewController
 @synthesize delegate, color, tool;
 
+- (id)init {
+    if ((self = [super init])) {
+        self.color = [ColorPicker defaultColor];
+    }
+    return self;
+}
+
 - (void)loadView 
 {
     UIView *v = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"PaintingTools.png"]];
@@ -27,6 +34,7 @@
     self.view = v;
     
     [v release];
+    
     self.view.userInteractionEnabled = YES;
 }
 
@@ -163,8 +171,6 @@
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
 {
     paletteButton.selected = NO;
-    
-    [popoverController dismissPopoverAnimated: YES];
     
     self.color = colorPicker.color;
     

@@ -90,8 +90,18 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
 #define kTableWidth  240
 
+@interface ColorPicker (Private)
++ (UIColor *) colorForIndex:(NSUInteger) index;
+@end
+
 @implementation ColorPicker
-@synthesize color, target, selector;
+@synthesize color;
+
+
++(UIColor *) defaultColor
+{
+    return [ColorPicker colorForIndex:0];
+}
 
 #pragma mark -
 #pragma mark View lifecycle
@@ -162,9 +172,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    CGFloat components[3];
-    HSL2RGB((CGFloat)indexPath.row / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
-    self.color = [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:0];
+    self.color = [ColorPicker colorForIndex: indexPath.row];
 }
 
 
@@ -182,11 +190,16 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 {
     self.color = nil;
 
-    self.target = nil;
-    
-    self.selector = nil;
-    
     [super dealloc];
+}
+
+#pragma Private
+
++ (UIColor *) colorForIndex:(NSUInteger) index
+{
+    CGFloat components[3];
+    HSL2RGB((CGFloat)index / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
+    return [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:0];
 }
 @end
 

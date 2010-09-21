@@ -11,14 +11,10 @@
 
 @interface ColorPicker : UITableViewController 
 {
-    UIColor *color;
-    SEL selector;
-    id target;
-    
+    UIColor *color;    
 }
 
 @property (nonatomic, retain) UIColor *color;
-@property (nonatomic, assign) SEL selector;
-@property (nonatomic, retain) id target;
 
++(UIColor *) defaultColor;
 @end

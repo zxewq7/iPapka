@@ -202,6 +202,9 @@ static NSString* LinkContext          = @"LinkContext";
     paintingToolsViewController = [[PaintingToolsViewController alloc] init];
 
     paintingToolsViewController.delegate = attachmentsViewController;
+    
+    //default color for attachmentView
+    [attachmentsViewController paintingView:paintingToolsViewController color:paintingToolsViewController.color];
 
     //back button
     //add extra spaces to front of label, cause of button with left arrow
