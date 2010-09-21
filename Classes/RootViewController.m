@@ -347,7 +347,7 @@ static NSString* LinkContext          = @"LinkContext";
     [UIView setAnimationDelegate:nil];
     [UIView setAnimationDidStopSelector:nil];
     
-    [UIView setAnimationTransition:UIViewAnimationTransitionCurlUp
+    [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
                            forView:contentView cache:YES];
     
     attachmentsViewController.document = self.document.document;
@@ -471,7 +471,7 @@ static NSString* LinkContext          = @"LinkContext";
                 [UIView setAnimationDelegate:nil];
                 [UIView setAnimationDidStopSelector:nil];
                 
-                [UIView setAnimationTransition:UIViewAnimationTransitionCurlDown
+                [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
                                        forView:contentView cache:YES];
                 
                 attachmentsViewController.document = linkedDocument;
