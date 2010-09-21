@@ -8,9 +8,9 @@
 
 #import "RootContentView.h"
 
-#define kDocumentInfo 1011
-#define kAttachments 1012
-#define kResolution 1013
+#define kDocumentInfo 1021
+#define kAttachments 1022
+#define kResolution 1023
 
 
 #define kMargin 6.0f
@@ -91,7 +91,6 @@
     documentInfoFrame.origin.x = kMargin;
     documentInfoFrame.origin.y = kTopMargin;
     documentInfoFrame.size.width = size.width - 2 * kMargin;
-    documentInfoFrame.size.height += kTopMargin;
     
     documentInfo.frame = documentInfoFrame;
     
@@ -116,6 +115,7 @@
 -(void) setView:(UIView *) view withTag:(int) tag
 {
     view.tag = tag;
+    view.autoresizingMask = UIViewAutoresizingNone;
     
     if (view)
         [self addSubview: view];

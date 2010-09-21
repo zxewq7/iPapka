@@ -152,6 +152,8 @@
 
 -(void) setView:(UIView *) view withTag:(int) tag
 {
+    view.autoresizingMask = UIViewAutoresizingNone;
+    
     view.tag = tag;
     
     if (view)
