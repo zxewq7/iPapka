@@ -164,6 +164,8 @@
 {
     paletteButton.selected = NO;
     
+    [popoverController dismissPopoverAnimated: YES];
+    
     self.color = colorPicker.color;
     
     if ([delegate respondsToSelector:@selector(paintingView:color:)])
