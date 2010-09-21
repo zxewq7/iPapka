@@ -597,29 +597,38 @@ static NSString* LinkContext          = @"LinkContext";
     [self setCanEdit:NO];
     if (clipperViewController.opened)
         clipperViewController.opened = NO;
-    
+
     [UIView beginAnimations:ArchiveAnimationId context:NULL];
-    [UIView setAnimationDuration:0.75f];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+    [UIView setAnimationDuration:0.5f];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
-
-#warning inaccurate positioning when move to archive
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
-    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
-        attachmentsViewController.view.transform = CGAffineTransformScale (
-                                                                           CGAffineTransformMakeTranslation(-200.0, -475.0),
-                                                                           0.1,
-                                                                           0.1
-                                                                           );
-        
-    else
-        attachmentsViewController.view.transform = CGAffineTransformScale (
-                                                                           CGAffineTransformMakeTranslation(-300.0, -375.0),
-                                                                           0.1,
-                                                                           0.1
-                                                                           );
+    attachmentsViewController.view.alpha = 0.0;
+    
+    [UIView commitAnimations];
+
+//    [UIView beginAnimations:ArchiveAnimationId context:NULL];
+//    [UIView setAnimationDuration:0.75f];
+//    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
+//    [UIView setAnimationDelegate:self];
+//    [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
+
+//#warning inaccurate positioning when move to archive
+//    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+//    
+//    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+//        attachmentsViewController.view.transform = CGAffineTransformScale (
+//                                                                           CGAffineTransformMakeTranslation(-200.0, -475.0),
+//                                                                           0.1,
+//                                                                           0.1
+//                                                                           );
+//        
+//    else
+//        attachmentsViewController.view.transform = CGAffineTransformScale (
+//                                                                           CGAffineTransformMakeTranslation(-300.0, -375.0),
+//                                                                           0.1,
+//                                                                           0.1
+//                                                                           );
 
     //http://ameyashetti.wordpress.com/2009/08/17/view-animation-tutorial/
     //    attachmentsViewController.view.transform = CGAffineTransformConcat(
@@ -636,17 +645,20 @@ static NSString* LinkContext          = @"LinkContext";
     
     //    attachmentsViewController.view.frame = CGRectZero;
     
-    [UIView commitAnimations];    
+//    [UIView commitAnimations];    
 }
 - (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
     if (animationID == ArchiveAnimationId)
     {
-        attachmentsViewController.view.hidden = YES;
-        attachmentsViewController.view.transform = CGAffineTransformIdentity;
-        attachmentsViewController.view.hidden = NO;
-        [UIView setAnimationDelegate:nil];
-        [UIView setAnimationDidStopSelector:nil];
+//        attachmentsViewController.view.hidden = YES;
+//        attachmentsViewController.view.transform = CGAffineTransformIdentity;
+//        attachmentsViewController.view.hidden = NO;
+//        [UIView setAnimationDelegate:nil];
+//        [UIView setAnimationDidStopSelector:nil];
+        
+        attachmentsViewController.view.alpha = 1.0;
+        
         [[DataSource sharedDataSource] archiveDocument:self.document];
         
         //set first document in current folder
