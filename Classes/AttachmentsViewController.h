@@ -25,7 +25,7 @@
     Document              *document;
 }
 
-@property (nonatomic, retain)           Document              *document;
+@property (nonatomic, retain)           Document                     *document;
 @property (nonatomic, assign)           NSUInteger                   attachmentIndex;
 @property (nonatomic, retain, readonly) AttachmentPageViewController *currentPage;
 @property (nonatomic, assign)           BOOL                         commenting;
