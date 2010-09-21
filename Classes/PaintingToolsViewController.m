@@ -22,7 +22,8 @@
 
 - (id)init {
     if ((self = [super init])) {
-        self.color = [ColorPicker defaultColor];
+        color = [ColorPicker defaultColor];
+        [color retain];
     }
     return self;
 }
@@ -149,10 +150,7 @@
 {
     paletteButton.selected = YES;
     if (!colorPicker)
-    {
         colorPicker = [[ColorPicker alloc] init];
-        colorPicker.color = self.color;
-    }
     
     if (!popoverController)
     {
