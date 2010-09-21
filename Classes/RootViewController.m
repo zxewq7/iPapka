@@ -23,20 +23,7 @@
 #import "PageControlWithMenu.h"
 #import "ResolutionManaged.h"
 #import "RootBackgroundView.h"
-
-#define PAINTING_TOOLS_LEFT_OFFSET 3
-#define PAINTING_TOOLS_TOP_OFFSET 33
-
-//#define LEFT_CONTENT_MARGIN 6.0f
-//#define RIGHT_CONTENT_MARGIN 6.0f
-
-#define RIGHT_CONTENT_MARGIN 5.0f
-#define LEFT_CONTENT_MARGIN 5.0f
-
-//#define TOP_CONTENT_MARGIN 5.0f
-#define TOP_CONTENT_MARGIN 6.0f
-#define BOTTOM_CONTENT_MARGIN 10.0f
-
+#import "RootContentView.h"
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
 static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
@@ -132,20 +119,13 @@ static NSString* LinkContext          = @"LinkContext";
     contentHeightOffset = toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset];
 
     //contentView
-    contentView = [[RotateableImageView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
+    contentView = [[RootContentView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
     contentView.portraitImage = [UIImage imageNamed: @"Paper.png"];
     contentView.landscapeImage = [UIImage imageNamed: @"Paper-Landscape.png"];
     contentView.userInteractionEnabled = YES;
 
-    CGSize contentViewSize = contentView.frame.size;
-
     //attachments view
     attachmentsViewController = [[AttachmentsViewController alloc] init];
-
-    CGRect attachmentsViewFrame = CGRectMake(LEFT_CONTENT_MARGIN, TOP_CONTENT_MARGIN, contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN, contentViewSize.height - TOP_CONTENT_MARGIN - BOTTOM_CONTENT_MARGIN);
-
-    attachmentsViewController.view.frame = attachmentsViewFrame;
-    attachmentsViewController.view.autoresizingMask = ( UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleHeight);
 
     //page control
     CGRect pageControlFrame = CGRectMake(0, viewFrame.size.height - 37, viewFrame.size.width, 37);
@@ -177,15 +157,6 @@ static NSString* LinkContext          = @"LinkContext";
 
     //attachmentPicker view
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
-    
-    CGRect documentInfoViewControllerFrame = documentInfoViewController.view.frame;
-    documentInfoViewControllerFrame.origin.x = LEFT_CONTENT_MARGIN;
-    documentInfoViewControllerFrame.origin.y = TOP_CONTENT_MARGIN;
-    documentInfoViewControllerFrame.size.width = contentViewSize.width - LEFT_CONTENT_MARGIN - RIGHT_CONTENT_MARGIN;
-    documentInfoViewControllerFrame.size.height += TOP_CONTENT_MARGIN;
-
-    documentInfoViewController.view.frame = documentInfoViewControllerFrame;
-    documentInfoViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleWidth);
     
     documentInfoViewController.view.alpha = 0.0;
     
@@ -260,15 +231,11 @@ static NSString* LinkContext          = @"LinkContext";
     [infoButton retain];
     
     resolutionViewController = [[ResolutionViewController alloc] init];
-    CGRect resolutionFrame = resolutionViewController.view.frame;
-    resolutionFrame.origin.x = (contentView.frame.size.width-resolutionFrame.size.width)/2;
-    resolutionFrame.origin.y = 0;
-    resolutionViewController.view.frame = resolutionFrame;
     resolutionViewController.view.hidden = YES;
-    resolutionViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
     
-    [contentView addSubview: documentInfoViewController.view];
-    [contentView addSubview: attachmentsViewController.view];
+    contentView.documentInfo = documentInfoViewController.view;
+    contentView.attachments = attachmentsViewController.view;
+    contentView.resolution = resolutionViewController.view;
 
     //paper
     RotateableImageView *paperView = [[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"Papers.png"]];
@@ -284,7 +251,6 @@ static NSString* LinkContext          = @"LinkContext";
 
     [paperView release];
 
-    [contentView addSubview: resolutionViewController.view];
     [self.view addSubview:clipperViewController.view];
     [self.view addSubview: attachmentsViewController.pageControl];
     

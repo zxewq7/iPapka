@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DocumentsListViewController.h"
 
-@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController, RotateableImageView;
+@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController, RootContentView;
 
 @interface RootViewController : UIViewController<DocumentsListDelegate>
 {
@@ -21,7 +21,7 @@
     DocumentInfoViewController  *documentInfoViewController;
     PaintingToolsViewController *paintingToolsViewController;
     CGFloat                     contentHeightOffset;
-    RotateableImageView         *contentView;
+    RootContentView             *contentView;
     BOOL                        canEdit;
     UIButton                    *declineButton;
     UIButton                    *acceptButton;

@@ -116,6 +116,7 @@
 		81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B105C01243C44700AFB109 /* PerformersViewController.m */; };
 		81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */; };
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
+		81C674911248BDFC002C272D /* RootContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C674901248BDFC002C272D /* RootContentView.m */; };
 		81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CA24E912469DB900A50613 /* RootBackgroundView.m */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
@@ -315,6 +316,8 @@
 		81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewWithPlaceholder.h; sourceTree = "<group>"; };
 		81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewWithPlaceholder.m; sourceTree = "<group>"; };
 		81B5C1131242792200B8E9B8 /* Paper-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper-Landscape.png"; sourceTree = "<group>"; };
+		81C6748F1248BDFC002C272D /* RootContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootContentView.h; sourceTree = "<group>"; };
+		81C674901248BDFC002C272D /* RootContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootContentView.m; sourceTree = "<group>"; };
 		81CA24E812469DB900A50613 /* RootBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootBackgroundView.h; sourceTree = "<group>"; };
 		81CA24E912469DB900A50613 /* RootBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootBackgroundView.m; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
@@ -436,6 +439,8 @@
 			children = (
 				81CA24E812469DB900A50613 /* RootBackgroundView.h */,
 				81CA24E912469DB900A50613 /* RootBackgroundView.m */,
+				81C6748F1248BDFC002C272D /* RootContentView.h */,
+				81C674901248BDFC002C272D /* RootContentView.m */,
 				8149BA5B1244BA3B00D028EE /* ViewWithButtons.h */,
 				8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */,
 				81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */,
@@ -853,6 +858,7 @@
 				815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */,
 				811B583412454D1000BEB158 /* ColorPicker.m in Sources */,
 				81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */,
+				81C674911248BDFC002C272D /* RootContentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
