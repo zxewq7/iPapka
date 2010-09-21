@@ -206,6 +206,49 @@ static NSString *AudioContext = @"AudioContext";
 
     twoRows.frame = twoRowsFrame;
     
+    //label Managed
+    UILabel *labelManaged = [[UILabel alloc] initWithFrame: CGRectZero];
+    
+    labelManaged.text = NSLocalizedString(@"Managed", "Managed");
+    labelManaged.textColor = [UIColor blackColor];
+    labelManaged.font = [UIFont boldSystemFontOfSize: 17];
+    labelManaged.backgroundColor = [UIColor clearColor];
+    
+    [labelManaged sizeToFit];
+    
+    CGRect labelManagedFrame = labelManaged.frame;
+    
+    labelManagedFrame.origin.x = 10.0f;
+    
+    labelManagedFrame.origin.y = (twoRowsFrame.size.height/2 - labelManagedFrame.size.height)/2;
+    
+    labelManaged.frame = labelManagedFrame;
+    
+    [twoRows addSubview: labelManaged];
+    
+    [labelManaged release];
+    
+    //managed button
+    
+    managedButton = [[UISwitch alloc] initWithFrame:CGRectZero];
+    [managedButton addTarget:self 
+                      action:@selector(setManaged:) 
+            forControlEvents:UIControlEventValueChanged];
+    [managedButton sizeToFit];
+    
+    CGRect managedButtonFrame = managedButton.frame;
+    
+    managedButtonFrame.origin.x = twoRowsFrame.size.width - managedButtonFrame.size.width - 12.0f;;
+    
+    managedButtonFrame.origin.y = (twoRowsFrame.size.height/2 - labelManagedFrame.size.height)/2;
+    
+    managedButton.frame = managedButtonFrame;
+    
+    [twoRows addSubview: managedButton];
+
+
+    
+    //label comment
     UILabel *labelComment = [[UILabel alloc] initWithFrame: CGRectZero];
     
     labelComment.text = NSLocalizedString(@"Comment", "Comment");
@@ -227,6 +270,7 @@ static NSString *AudioContext = @"AudioContext";
     
     [labelComment release];
     
+    //label record
     UILabel *labelRecord = [[UILabel alloc] initWithFrame: CGRectZero];
     
     labelRecord.text = NSLocalizedString(@"Record", "Record");
@@ -236,6 +280,8 @@ static NSString *AudioContext = @"AudioContext";
     
     [labelRecord sizeToFit];
     
+    
+    //label record
     CGRect labelRecordFrame = labelRecord.frame;
     
     labelRecordFrame.origin.x = twoRowsFrame.size.width - labelRecordFrame.size.width - 52.0f;
@@ -335,6 +381,9 @@ static NSString *AudioContext = @"AudioContext";
     
     [playButton release];
     playButton = nil;
+    
+    [managedButton release];
+    managedButton = nil;
 }
 
 
@@ -383,6 +432,8 @@ static NSString *AudioContext = @"AudioContext";
     [playButton release];
     playButton = nil;
 
+    [managedButton release];
+    managedButton = nil;
 }
 
 #pragma mark -
@@ -465,7 +516,9 @@ static NSString *AudioContext = @"AudioContext";
     
     performersViewController.document = document;
     
-    playButton.hidden = !((Resolution *)document.document).hasAudioComment;
+    playButton.hidden = !resolution.hasAudioComment;
+    
+    managedButton.on = resolution.managed;
     
     [self updateHeight];
 }
@@ -601,4 +654,14 @@ static NSString *AudioContext = @"AudioContext";
     
     [deadlineButton setTitle:label forState:UIControlStateNormal];
 }
+
+-(void) setManaged:(id) sender
+{
+    Resolution *resolution = (Resolution *)document.document;
+
+    resolution.managed = managedButton.on;
+
+    [self.document saveDocument];
+}
+
 @end

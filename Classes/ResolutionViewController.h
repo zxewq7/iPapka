@@ -25,6 +25,7 @@
     AZZAudioRecorder    *recorder;
     AZZAudioPlayer      *player;
     UIButton            *playButton;
+    UISwitch            *managedButton;
 }
 
 @property (nonatomic, retain) ResolutionManaged    *document;
