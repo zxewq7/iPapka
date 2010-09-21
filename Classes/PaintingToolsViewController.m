@@ -155,8 +155,8 @@
     
     colorPicker.color = self.color;
     UIView *button = (UIView *)sender;
-    CGRect targetRect = button.bounds;
-	[popoverController presentPopoverFromRect: targetRect inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    CGRect targetRect = button.frame;
+	[popoverController presentPopoverFromRect: targetRect inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
 -(void) selectColor:(id) sender
