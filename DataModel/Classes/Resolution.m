@@ -10,7 +10,12 @@
 
 
 @implementation Resolution
-@synthesize text, performers, managed, parentResolution, deadline;
+@synthesize text, performers, managed, parentResolution, deadline, audioComment;
+
+-(NSString *) audioComment
+{
+    return [self.path stringByAppendingPathComponent:@"audioComment.ima4"];
+}
 
 - (void) dealloc
 {
