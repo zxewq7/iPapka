@@ -7,10 +7,10 @@
 //
 
 #import "Document.h"
-
+#import "Attachment.h"
 
 @implementation Document
-@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError, links, dataSourceId;
+@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError, links, dataSourceId, path;
 - (void) dealloc
 {
     self.title = nil;
@@ -21,7 +21,32 @@
     self.dateModified = nil;
     self.links = nil;
     self.dataSourceId = nil;
+    [path release];
+    path = nil;
     [super dealloc];
+}
+
+-(void) setPath:(NSString *) aPath
+{
+    if (path == aPath)
+        return;
+    
+    [path release];
+    
+    path = [aPath retain];
+    
+    //attachments
+    NSString *attachmentPath = [aPath stringByAppendingPathComponent: @"attachments"];
+    
+    for (Attachment *attachment in attachments)
+        attachment.path = [[attachmentPath stringByAppendingPathComponent: attachment.uid] stringByAppendingPathComponent: @"pages"];
+    
+    
+    //links
+    NSString *linksPath = [aPath stringByAppendingPathComponent: @"links"];
+
+    for (Document *link in links)
+        link.path = [linksPath stringByAppendingPathComponent: link.uid];
 }
 
 #pragma mark -
@@ -40,6 +65,8 @@
         self.isLoaded = [[coder decodeObjectForKey:@"isLoaded"] boolValue];
         self.hasError = [[coder decodeObjectForKey:@"hasError"] boolValue];
         self.dataSourceId = [coder decodeObjectForKey:@"dataSourceId"];
+        path = [coder decodeObjectForKey:@"path"]; //for future changes
+        [path retain];
     }
     return self;
 }
@@ -56,5 +83,6 @@
     [coder encodeObject: [NSNumber numberWithBool:self.hasError] forKey:@"hasError"];
     [coder encodeObject: [NSNumber numberWithBool:self.isLoaded] forKey:@"isLoaded"];
     [coder encodeObject: self.dataSourceId forKey:@"dataSourceId"];
+    [coder encodeObject: self.path forKey:@"path"];
 }
 @end

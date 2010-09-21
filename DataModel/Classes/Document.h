@@ -18,6 +18,7 @@
     BOOL         isLoaded;
     BOOL         hasError;
     NSString     *dataSourceId;
+    NSString     *path;
 }
 
 @property (nonatomic, retain) NSString     *title;
@@ -31,4 +32,5 @@
 @property (nonatomic)         BOOL         isLoaded;
 @property (nonatomic)         BOOL         hasError;
 @property (nonatomic, retain) NSString     *dataSourceId;
+@property (nonatomic, retain) NSString     *path;
 @end

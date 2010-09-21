@@ -67,7 +67,6 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary;
-- (void) fixDocumentPath:(Document *) document path:(NSString *) newPath isLink:(BOOL) isLink;
 @end
 static NSString* OperationCount = @"OperationCount";
 
@@ -246,7 +245,7 @@ static NSString* OperationCount = @"OperationCount";
     Document *doc = [self loadDocument: uid];
     NSString *newPath = [self documentDirectory: uid];
     
-    [self fixDocumentPath:doc path:newPath isLink: NO];
+    doc.path = newPath;
     
     [self saveDocument:doc];
 }
@@ -315,6 +314,7 @@ static NSString* OperationCount = @"OperationCount";
             document.uid = uid;
             document.dateModified = dateModified;
             document.dataSourceId = dataSourceId;
+            document.path = [self documentDirectory:uid];
             [newDocuments addObject:document];
             [document release];
         }
@@ -673,7 +673,7 @@ static NSString* OperationCount = @"OperationCount";
     {
         NSString *urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, document.uid, link.uid, @"%@", @"%d"];
         
-        [self fetchAttachments:link rootDocument:document urlPattern:urlPattern basePath:[path stringByAppendingPathComponent:link.uid]];
+        [self fetchAttachments:link rootDocument:document urlPattern:urlPattern basePath:[[path stringByAppendingPathComponent:link.uid] stringByAppendingPathComponent:@"attachments"]];
     }
 }
 - (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary
@@ -700,20 +700,5 @@ static NSString* OperationCount = @"OperationCount";
         resolution.parentResolution = parentResolution;
         [parentResolution release];
     }
-}
-- (void) fixDocumentPath:(Document *) document path:(NSString *) newPath isLink:(BOOL) isLink
-{
-    NSArray *attachments = document.attachments;
-    
-    NSString *path = [newPath stringByAppendingPathComponent: (isLink?[@"links" stringByAppendingPathComponent: document.uid]:@"attachments")];
-    
-    for (Attachment *attachment in attachments)
-        attachment.path = [[path stringByAppendingPathComponent: attachment.uid] stringByAppendingPathComponent: @"pages"];
-    
-    
-    NSArray *links = document.links;
-    
-    for (Document *link in links)
-        [self fixDocumentPath:link path:newPath isLink:YES];
 }
 @end
