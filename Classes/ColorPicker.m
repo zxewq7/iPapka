@@ -175,7 +175,6 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     self.color = [ColorPicker colorForIndex: indexPath.row];
 }
 
-
 #pragma mark -
 #pragma mark Memory management
 - (void)viewDidUnload 
