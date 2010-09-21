@@ -7,10 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVAudioPlayer.h>
 
-
-@interface AZZAudioPlayer : NSObject {
-
+@interface AZZAudioPlayer : NSObject<AVAudioPlayerDelegate>
+{
+    AVAudioPlayer *player;
 }
+
+@property (nonatomic, retain) NSString *path;
+@property (readonly) BOOL playing;
+
+-(BOOL) start;
+-(void) pause;
+-(void) stop;
 
 @end

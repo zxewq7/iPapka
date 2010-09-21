@@ -9,8 +9,6 @@
 #import <Foundation/Foundation.h>
 
 
-@interface NSFileManager_Additions : NSObject {
-
-}
-
+@interface NSFileManager(NSFileManagerAdditions) 
++(NSString *) tempFileName:(NSString *) prefix;
 @end

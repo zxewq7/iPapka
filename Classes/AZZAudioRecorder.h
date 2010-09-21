@@ -7,10 +7,20 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AVFoundation/AVAudioRecorder.h>
 
+@class AVAudioRecorder;
 
-@interface AZZAudioRecorder : NSObject {
-
+@interface AZZAudioRecorder : NSObject<AVAudioRecorderDelegate>
+{
+    AVAudioRecorder *recorder;
+    NSString *path;
 }
 
+@property (nonatomic, retain) NSString *path;
+@property (readonly) BOOL recording;
+
+-(BOOL) start;
+-(void) pause;
+-(void) stop;
 @end

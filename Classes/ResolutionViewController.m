@@ -14,6 +14,10 @@
 #import "ResolutionManaged.h"
 #import "PersonManaged.h"
 #import "DatePickerController.h"
+#import "AZZAudioRecorder.h"
+#import "AZZAudioPlayer.h"
+
+static NSString *AudioContext = @"AudioContext";
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
@@ -202,10 +206,31 @@
 
     twoRows.frame = twoRowsFrame;
     
+    UILabel *labelComment = [[UILabel alloc] initWithFrame: CGRectZero];
+    
+    labelComment.text = NSLocalizedString(@"Comment", "Comment");
+    labelComment.textColor = [UIColor blackColor];
+    labelComment.font = [UIFont boldSystemFontOfSize: 17];
+    labelComment.backgroundColor = [UIColor clearColor];
+    
+    [labelComment sizeToFit];
+    
+    CGRect labelCommentFrame = labelComment.frame;
+    
+    labelCommentFrame.origin.x = 10.0f;
+    
+    labelCommentFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - labelCommentFrame.size.height)/2;
+    
+    labelComment.frame = labelCommentFrame;
+    
+    [twoRows addSubview: labelComment];
+    
+    [labelComment release];
+    
     UILabel *labelRecord = [[UILabel alloc] initWithFrame: CGRectZero];
     
     labelRecord.text = NSLocalizedString(@"Record", "Record");
-    labelRecord.textColor = [UIColor blackColor];
+    labelRecord.textColor = [UIColor colorWithRed:0.431 green:0.510 blue:0.655 alpha:1.0];
     labelRecord.font = [UIFont boldSystemFontOfSize: 17];
     labelRecord.backgroundColor = [UIColor clearColor];
     
@@ -213,7 +238,7 @@
     
     CGRect labelRecordFrame = labelRecord.frame;
     
-    labelRecordFrame.origin.x = 10.0f;
+    labelRecordFrame.origin.x = twoRowsFrame.size.width - labelRecordFrame.size.width - 52.0f;
     
     labelRecordFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - labelRecordFrame.size.height)/2;
     
@@ -224,7 +249,7 @@
     [labelRecord release];
     
     UIButton *recordButton = [UIButton imageButton:self
-                                          selector:nil
+                                          selector:@selector(record:)
                                              image:[UIImage imageNamed:@"ButtonRecord.png"]
                                      imageSelected:[UIImage imageNamed:@"ButtonRecord.png"]];
     
@@ -237,6 +262,24 @@
     recordButton.frame = recordButtonFrame;
     
     [twoRows addSubview: recordButton];
+
+    //play button
+    playButton = [UIButton imageButton:self
+                                          selector:@selector(play:)
+                                             image:[UIImage imageNamed:@"ButtonPlay.png"]
+                                     imageSelected:[UIImage imageNamed:@"ButtonStop.png"]];
+
+    [playButton retain];
+    
+    CGRect playButtonFrame = playButton.frame;
+    
+    playButtonFrame.origin.x = 200.0f;
+    
+    playButtonFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - recordButtonFrame.size.height)/2;
+    
+    playButton.frame = playButtonFrame;
+    
+    [twoRows addSubview: playButton];
     
     [self.view addSubview: twoRows];
 
@@ -281,6 +324,17 @@
     
     [performersViewController release];
     performersViewController = nil;
+    
+    [recorder removeObserver:self forKeyPath:@"recording"];
+    [recorder release];
+    recorder = nil;
+
+    [player removeObserver:self forKeyPath:@"playing"];
+    [player release];
+    player = nil;
+    
+    [playButton release];
+    playButton = nil;
 }
 
 
@@ -317,6 +371,18 @@
     
     [performersViewController release];
     performersViewController = nil;
+    
+    [recorder removeObserver:self forKeyPath:@"recording"];
+    [recorder release];
+    recorder = nil;
+
+    [player removeObserver:self forKeyPath:@"playing"];
+    [player release];
+    player = nil;
+    
+    [playButton release];
+    playButton = nil;
+
 }
 
 #pragma mark -
@@ -340,7 +406,33 @@
    [self.document saveDocument];
 }
 
-#pragma Privare
+#pragma mark -
+#pragma mark Observer
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &AudioContext)
+    {
+        if (recorder.recording)
+            playButton.hidden = YES;
+        else
+            playButton.hidden = !((Resolution *)document.document).hasAudioComment;
+        
+        playButton.selected = player.playing;
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
+}
+
+#pragma Private
 
 -(void) updateContent
 {
@@ -373,6 +465,8 @@
     
     performersViewController.document = document;
     
+    playButton.hidden = !((Resolution *)document.document).hasAudioComment;
+    
     [self updateHeight];
 }
 
@@ -403,6 +497,68 @@
         [resolutionText scrollRangeToVisible: NSMakeRange(0, 1)];
     }
     
+}
+
+-(void)record:(id) sender
+{
+    if (!recorder)
+    {
+        recorder = [[AZZAudioRecorder alloc] init];
+        [recorder addObserver:self
+                   forKeyPath:@"recording"
+                      options:0
+                      context:&AudioContext];
+    }
+    
+    if (recorder.recording)
+    {
+        [recorder stop];
+        ((Resolution *)document.document).hasAudioComment = YES;
+        [document saveDocument];
+    }
+    else
+    {
+        recorder.path = ((Resolution *)document.document).audioComment;
+        if (![recorder start])
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", "Error")
+                                                            message: NSLocalizedString(@"Unable to record audio", "Unable to record audio")
+                                                           delegate: nil
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", "OK")
+                                                  otherButtonTitles:nil];
+            [alert show];
+            [alert release];            
+        }
+    }
+}
+
+-(void)play:(id) sender
+{
+    if (!player)
+    {
+        player = [[AZZAudioPlayer alloc] init];
+        [player addObserver:self
+                 forKeyPath:@"playing"
+                    options:0
+                    context:&AudioContext];
+    }
+    
+    if (player.playing)
+        [player stop];
+    else
+    {
+        player.path = ((Resolution *)document.document).audioComment;
+        if (![player start])
+        {
+            UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", "Error")
+                                                            message: NSLocalizedString(@"Unable to record audio", "Unable to record audio")
+                                                           delegate: nil
+                                                  cancelButtonTitle:NSLocalizedString(@"OK", "OK")
+                                                  otherButtonTitles:nil];
+            [alert show];
+            [alert release];            
+        }
+    }
 }
 
 #pragma mark -
