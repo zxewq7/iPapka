@@ -14,6 +14,7 @@
 - (void) renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end;
 - (void) paintTexture:(UIImage *) aTexture;
 - (void) createTexture:(GLuint *) texture withImage:(UIImage *) anImage;
+- (void) setBrushColor;
 @end
 
 @implementation PaintingView
@@ -23,6 +24,7 @@
 @synthesize  image;
 @synthesize paintingDelegate;
 @synthesize stamps;
+@synthesize color;
 
 -(void)setImage:(UIImage *) aDrawings;
 {
@@ -284,7 +286,7 @@
     self.stamps = nil;
     self.paintingDelegate = nil;
 	[context release];
-    [currentColor release];
+    self.color = nil;
     [savedContent release];
     [tapRecognizer release];
 	[super dealloc];
@@ -395,7 +397,7 @@
     {
         
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
-        [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
+        [self setBrushColor];
         [self renderLineFromPoint:CGPointMake(touchPoint.x, touchPoint.y) toPoint: CGPointMake(touchPoint.x, touchPoint.y)];
         [stamps addObject:[NSValue valueWithCGRect:CGRectMake(touchPoint.x, touchPoint.y, stamperWidth, stamperWidth)]];
         if ([paintingDelegate respondsToSelector:@selector(stampAdded:index:)]) 
@@ -415,17 +417,15 @@
         // This application is not saving state.
 }
 
-- (void)setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue
+- (void) setColor:(UIColor *) aColor;
 {
-        // Set the brush color using premultiplied alpha values
-    CGFloat r = red   * kBrushOpacity;
-    CGFloat g = green * kBrushOpacity;
-    CGFloat b = blue  * kBrushOpacity;
-    glColor4f(r, g, b, kBrushOpacity);
-    
-    [currentColor release];
-    currentColor = [UIColor colorWithRed:red green:green blue:blue alpha:kBrushOpacity];
-    [currentColor retain];
+    if (color != aColor)
+    {
+        [color release];
+        color = [UIColor colorWithRed:aColor.red green:aColor.green blue:aColor.blue alpha:kBrushOpacity];
+        [color retain];
+    }
+    [self setBrushColor];
 }
 
 - (void) enablePen:(BOOL) enabled
@@ -444,7 +444,7 @@
 
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
-    [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
+    [self setBrushColor];
     glBindTexture(GL_TEXTURE_2D, markerTexture);
     glPointSize(markerWidth / kBrushScale);
     currentTool = kToolTypeMarker;
@@ -480,7 +480,7 @@
         }
         glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_BLEND);
-        [self setBrushColorWithRed:currentColor.red green:currentColor.green blue:currentColor.blue];
+        [self setBrushColor];
         glBindTexture(GL_TEXTURE_2D, stamperTexture);
         glPointSize(stamperWidth);
         currentTool = kToolTypeStamper;
@@ -628,5 +628,14 @@
             // Release  the image data; it's no longer needed
         free(brushData);
     }
+}
+
+- (void)setBrushColor
+{
+    // Set the brush color using premultiplied alpha values
+    CGFloat r = color.red   * kBrushOpacity;
+    CGFloat g = color.green * kBrushOpacity;
+    CGFloat b = color.blue  * kBrushOpacity;
+    glColor4f(r, g, b, kBrushOpacity);
 }
 @end

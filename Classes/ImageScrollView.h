@@ -9,9 +9,11 @@
     CGSize              imageOriginalSize;
     CGFloat             currentAngle;
     id<PaintingViewDelegate> paintingDelegate;
+    UIColor             *color;
 }
-@property (nonatomic, retain, getter=drawings, setter=setDrawings:) UIImage *drawings;
-@property(nonatomic, retain, getter=paintingDelegate, setter=setPaintingDelegate:) id<PaintingViewDelegate> paintingDelegate;
+@property (nonatomic, retain) UIImage *drawings;
+@property (nonatomic, retain) id<PaintingViewDelegate> paintingDelegate;
+@property (nonatomic, retain) UIColor *color;
 
 - (void)displayImage:(UIImage *)image angle:(CGFloat) anAngle;
 - (void)setMaxMinZoomScalesForCurrentBounds;

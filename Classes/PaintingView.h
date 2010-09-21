@@ -51,7 +51,7 @@ typedef enum
 	CGPoint	previousLocation;
 	Boolean	firstTouch;
 	Boolean needsErase;
-    UIColor *currentColor;
+    UIColor *color;
     UIImage *savedContent;
     BOOL    modifiedContentSaved;
     CGFloat markerWidth;
@@ -65,12 +65,12 @@ typedef enum
 
 @property(nonatomic, readwrite) CGPoint location;
 @property(nonatomic, readwrite) CGPoint previousLocation;
+@property(nonatomic, readwrite, retain) UIColor *color;
 
 @property(nonatomic, retain, readwrite, getter=image, setter=setImage:) UIImage *image;
 @property(nonatomic, retain, readwrite) NSMutableArray *stamps;
 @property(nonatomic, retain, readwrite) id<PaintingViewDelegate> paintingDelegate;
 - (void) erase;
-- (void) setBrushColorWithRed:(CGFloat)red green:(CGFloat)green blue:(CGFloat)blue;
 - (void) saveContent;
 - (void) enableMarker:(BOOL) enabled;
 - (void) enablePen:(BOOL) enabled;

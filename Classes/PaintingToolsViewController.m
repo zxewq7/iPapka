@@ -143,8 +143,7 @@
     if (!colorPicker)
     {
         colorPicker = [[ColorPicker alloc] init];
-        colorPicker.target = self;
-        colorPicker.selector = @selector(selectColor:);
+        colorPicker.color = self.color;
     }
     
     if (!popoverController)
@@ -159,16 +158,17 @@
 	[popoverController presentPopoverFromRect: targetRect inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
 
--(void) selectColor:(id) sender
-{
-    self.color = colorPicker.color;
-}
-
 #pragma mark -
 #pragma mark UIPopoverControllerDelegate
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
 {
     paletteButton.selected = NO;
+    
+    self.color = colorPicker.color;
+    
+    if ([delegate respondsToSelector:@selector(paintingView:color:)])
+        [delegate paintingView:self color:self.color];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

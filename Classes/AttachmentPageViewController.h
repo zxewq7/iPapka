@@ -17,17 +17,23 @@
 
     Attachment      *attachment;
     ImageScrollView *imageView;
+    BOOL pen;
+    BOOL marker;
+    BOOL eraser;
+    BOOL stamper;
+    CGFloat angle;
+    
 }
 
-@property (nonatomic, setter=setPageIndex:)              NSInteger     pageIndex;
-@property (nonatomic, retain)                            Attachment    *attachment;
-
+@property (nonatomic)         NSInteger     pageIndex;
+@property (nonatomic, retain) Attachment    *attachment;
+@property (nonatomic)         BOOL pen;
+@property (nonatomic)         BOOL marker;
+@property (nonatomic)         BOOL eraser;
+@property (nonatomic)         BOOL stamper;
+@property (nonatomic)         CGFloat angle;
+@property (nonatomic, retain) UIColor *color;
 - (void) updateViews:(BOOL)force;
 - (void) setCommenting:(BOOL) state;
 - (void) saveContent;
-- (void) rotate:(CGFloat) degressAngle;
-- (void) enablePen:(BOOL) enabled;
-- (void) enableMarker:(BOOL) enabled;
-- (void) enableEraser:(BOOL) enabled;
-- (void) enableStamper:(BOOL) enabled;
 @end

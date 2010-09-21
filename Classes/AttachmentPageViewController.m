@@ -19,7 +19,8 @@
 
 
 @implementation AttachmentPageViewController
-@synthesize pageIndex, attachment;
+@synthesize pageIndex, attachment, pen, stamper, eraser, marker, angle;
+@dynamic color;
 
 - (void)setPageIndex:(NSInteger)newPageIndex
 {
@@ -117,6 +118,7 @@
 {
     [imageView release];
     self.attachment = nil;
+    self.color = nil;
     [super dealloc];
 }
 
@@ -182,31 +184,41 @@
     }
 }
 
--(void) rotate:(CGFloat) degressAngle
-{
-    AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
-    CGFloat angle = page.rotationAngle + degressAngle;
-    [imageView rotate: DEGREES_TO_RADIANS(angle)];
-    page.rotationAngle = angle;
-}
-
-- (void) enablePen:(BOOL) enabled
+- (void) setPen:(BOOL) enabled
 {
     [imageView enablePen:enabled];
 }
 
-- (void) enableMarker:(BOOL) enabled
+- (void) setMarker:(BOOL) enabled
 {
     [imageView enableMarker:enabled];
 }
 
-- (void) enableEraser:(BOOL) enabled
+- (void) setEraser:(BOOL) enabled
 {
     [imageView enableEraser:enabled];
 }
 
-- (void) enableStamper:(BOOL) enabled
+- (void) setStamper:(BOOL) enabled
 {
     [imageView enableStamper:enabled];
+}
+
+-(void) setAngle:(CGFloat) anAngle
+{
+    AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
+    angle = page.rotationAngle + anAngle;
+    [imageView rotate: DEGREES_TO_RADIANS(angle)];
+    page.rotationAngle = angle;
+}
+
+- (void) setColor:(UIColor *) aColor
+{
+    imageView.color = aColor;
+}
+
+- (UIColor *) color
+{
+    return imageView.color;
 }
 @end

@@ -196,7 +196,7 @@ typedef enum _TapPosition{
 
 -(void) paintingView: (PaintingToolsViewController *) sender color:(UIColor *) aColor
 {
-    
+    currentPage.color = aColor;
 }
 
 -(void) paintingView: (PaintingToolsViewController *) sender tool: (PaintingTool) aTool
@@ -205,16 +205,16 @@ typedef enum _TapPosition{
     switch (aTool)
     {
         case PaintingToolComment:
-            [currentPage enableStamper:YES];
+            currentPage.stamper = YES;
             break;
         case PaintingToolEraser:
-            [currentPage enableEraser:YES];
+            currentPage.eraser = YES;
             break;
         case PaintingToolMarker:
-            [currentPage enableMarker:YES];
+            currentPage.marker = YES;
             break;
         case PaintingToolPen:
-            [currentPage enablePen:YES];
+            currentPage.pen = YES;
             break;
     }
 }
@@ -303,7 +303,7 @@ typedef enum _TapPosition{
 
 -(void) rotate:(CGFloat) degreesAngle
 {
-    [currentPage rotate:degreesAngle];
+    currentPage.angle = degreesAngle;
 }
 @end
 
