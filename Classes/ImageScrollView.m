@@ -221,29 +221,18 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     CGSize boundsSize = self.bounds.size;
     CGSize imageSize = imageView.bounds.size;
     
-    NSUInteger imageWidth = imageSize.width;
+    NSUInteger minWidth = boundsSize.width;
+    NSUInteger maxWidth = imageSize.width;
 
-    NSUInteger minWidth = (boundsSize.width/32)*32;
-    NSUInteger maxWidth = (imageWidth/32)*32;
-
-    if (maxWidth>MAX_WIDTH)
-        maxWidth = MAX_WIDTH;
-
-    if (minWidth > maxWidth)
-        maxWidth = minWidth;
-    
     CGFloat minScale = minWidth / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     
         // on high resolution screens we have double the pixel density, so we will be seeing every pixel if we limit the
         // maximum zoom scale to 0.5.
-        //
-        //due to odd behavoir fo grReadPixels we need exact width (checked 1024, 537-544, 320)
     CGFloat maxScale = maxWidth / imageSize.width;
     
         // don't let minScale exceed maxScale. (If the image is smaller than the screen, we don't want to force it to be zoomed.) 
-    if (minScale > maxScale) {
+    if (minScale > maxScale)
         minScale = maxScale;
-    }
     
     self.maximumZoomScale = maxScale;
     self.minimumZoomScale = minScale;
@@ -374,9 +363,24 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
 - (void) createPaintingView
 {
-    UIImage *image = drawingsView.image;
+    //align content size to multiple 32, but not exceed MAX_WIDTH
+    
+    CGRect imageFrame = imageView.frame;
+    
+    CGFloat newWidth = (imageFrame.size.width * self.zoomScale) / 32 * 32;
+    
+    if (newWidth>MAX_WIDTH)
+        newWidth = MAX_WIDTH;
+
+    
+    CGFloat newScale = newWidth / imageFrame.size.width;
+    
+    self.zoomScale = newScale;
     
     CGRect f = imageView.frame;
+
+    UIImage *image = drawingsView.image;
+    
     paintingView = [[PaintingView alloc] initWithFrame: f];
     paintingView.backgroundColor = [UIColor clearColor];
     paintingView.paintingDelegate = paintingDelegate;
