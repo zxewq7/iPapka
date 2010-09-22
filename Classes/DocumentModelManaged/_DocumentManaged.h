@@ -14,6 +14,9 @@
 
 
 
+
+
+
 @interface DocumentManagedID : NSManagedObjectID {}
 @end
 
@@ -22,6 +25,16 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (DocumentManagedID*)objectID;
+
+
+
+@property (nonatomic, retain) NSNumber *isModified;
+
+@property BOOL isModifiedValue;
+- (BOOL)isModifiedValue;
+- (void)setIsModifiedValue:(BOOL)value_;
+
+//- (BOOL)validateIsModified:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -73,6 +86,26 @@
 
 
 
+@property (nonatomic, retain) NSNumber *isDeclined;
+
+@property BOOL isDeclinedValue;
+- (BOOL)isDeclinedValue;
+- (void)setIsDeclinedValue:(BOOL)value_;
+
+//- (BOOL)validateIsDeclined:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSNumber *isAccepted;
+
+@property BOOL isAcceptedValue;
+- (BOOL)isAcceptedValue;
+- (void)setIsAcceptedValue:(BOOL)value_;
+
+//- (BOOL)validateIsAccepted:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSString *title;
 
 //- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
@@ -92,6 +125,13 @@
 @end
 
 @interface _DocumentManaged (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSNumber*)primitiveIsModified;
+- (void)setPrimitiveIsModified:(NSNumber*)value;
+
+- (BOOL)primitiveIsModifiedValue;
+- (void)setPrimitiveIsModifiedValue:(BOOL)value_;
+
 
 - (NSNumber*)primitiveIsEditable;
 - (void)setPrimitiveIsEditable:(NSNumber*)value;
@@ -124,6 +164,20 @@
 
 - (NSDate*)primitiveDateModified;
 - (void)setPrimitiveDateModified:(NSDate*)value;
+
+
+- (NSNumber*)primitiveIsDeclined;
+- (void)setPrimitiveIsDeclined:(NSNumber*)value;
+
+- (BOOL)primitiveIsDeclinedValue;
+- (void)setPrimitiveIsDeclinedValue:(BOOL)value_;
+
+
+- (NSNumber*)primitiveIsAccepted;
+- (void)setPrimitiveIsAccepted:(NSNumber*)value;
+
+- (BOOL)primitiveIsAcceptedValue;
+- (void)setPrimitiveIsAcceptedValue:(BOOL)value_;
 
 
 - (NSString*)primitiveTitle;

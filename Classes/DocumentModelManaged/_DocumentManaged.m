@@ -29,6 +29,32 @@
 
 
 
+@dynamic isModified;
+
+
+
+- (BOOL)isModifiedValue {
+	NSNumber *result = [self isModified];
+	return [result boolValue];
+}
+
+- (void)setIsModifiedValue:(BOOL)value_ {
+	[self setIsModified:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsModifiedValue {
+	NSNumber *result = [self primitiveIsModified];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsModifiedValue:(BOOL)value_ {
+	[self setPrimitiveIsModified:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
 @dynamic isEditable;
 
 
@@ -123,6 +149,58 @@
 
 @dynamic dateModified;
 
+
+
+
+
+
+@dynamic isDeclined;
+
+
+
+- (BOOL)isDeclinedValue {
+	NSNumber *result = [self isDeclined];
+	return [result boolValue];
+}
+
+- (void)setIsDeclinedValue:(BOOL)value_ {
+	[self setIsDeclined:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsDeclinedValue {
+	NSNumber *result = [self primitiveIsDeclined];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsDeclinedValue:(BOOL)value_ {
+	[self setPrimitiveIsDeclined:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic isAccepted;
+
+
+
+- (BOOL)isAcceptedValue {
+	NSNumber *result = [self isAccepted];
+	return [result boolValue];
+}
+
+- (void)setIsAcceptedValue:(BOOL)value_ {
+	[self setIsAccepted:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsAcceptedValue {
+	NSNumber *result = [self primitiveIsAccepted];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsAcceptedValue:(BOOL)value_ {
+	[self setPrimitiveIsAccepted:[NSNumber numberWithBool:value_]];
+}
 
 
 

@@ -10,7 +10,7 @@
 #import "Attachment.h"
 
 @implementation Document
-@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError, links, dataSourceId, path;
+@synthesize uid, title, author, date, attachments, dateModified, isLoaded, hasError, links, dataSourceId, path, isDeclined, isAccepted;
 - (void) dealloc
 {
     self.title = nil;
@@ -67,6 +67,9 @@
         self.dataSourceId = [coder decodeObjectForKey:@"dataSourceId"];
         path = [coder decodeObjectForKey:@"path"]; //for future changes
         [path retain];
+        
+        self.isAccepted = [[coder decodeObjectForKey:@"isAccepted"] boolValue];
+        self.isDeclined = [[coder decodeObjectForKey:@"isDeclined"] boolValue];
     }
     return self;
 }
@@ -84,5 +87,8 @@
     [coder encodeObject: [NSNumber numberWithBool:self.isLoaded] forKey:@"isLoaded"];
     [coder encodeObject: self.dataSourceId forKey:@"dataSourceId"];
     [coder encodeObject: self.path forKey:@"path"];
+    
+    [coder encodeObject: [NSNumber numberWithBool:self.isAccepted] forKey:@"isAccepted"];
+    [coder encodeObject: [NSNumber numberWithBool:self.isDeclined] forKey:@"isDeclined"];
 }
 @end

@@ -19,6 +19,8 @@
     BOOL         hasError;
     NSString     *dataSourceId;
     NSString     *path;
+    BOOL         isAccepted;
+    BOOL         isDeclined;
 }
 
 @property (nonatomic, retain) NSString     *title;
@@ -33,4 +35,7 @@
 @property (nonatomic)         BOOL         hasError;
 @property (nonatomic, retain) NSString     *dataSourceId;
 @property (nonatomic, retain) NSString     *path;
+
+@property (nonatomic)         BOOL         isAccepted;
+@property (nonatomic)         BOOL         isDeclined;
 @end

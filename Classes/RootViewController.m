@@ -402,11 +402,17 @@ static NSString* LinkContext          = @"LinkContext";
 
 - (void) declineDocument:(id) sender
 {
+    self.document.isAcceptedValue = NO;
+    self.document.isDeclinedValue = YES;
+
     [self moveToArchive];
 }
 
 - (void) acceptDocument:(id) sender
 {
+    self.document.isAcceptedValue = YES;
+    self.document.isDeclinedValue = NO;
+
     [self moveToArchive];
 }
 
