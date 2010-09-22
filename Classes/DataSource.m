@@ -301,6 +301,24 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void) saveDocument:(Document *) aDocument
 {
+    DocumentManaged *documentManaged = [self findDocumentByUid: aDocument.uid];
+    documentManaged.isModifiedValue = YES;
+    
+    if ([aDocument isKindOfClass: [Resolution class]])
+    {
+        Resolution *resolution = (Resolution *) aDocument;
+        ResolutionManaged *resolutionManaged = (ResolutionManaged *) documentManaged;
+        
+        //sync performers
+        NSMutableArray *performers = [NSMutableArray arrayWithCapacity: [resolution.performers count]];
+        for (PersonManaged *person in resolutionManaged.performers)
+            [performers addObject: person.uid];
+        
+        resolution.performers = [performers count]?performers:nil;
+    }
+    
+    [self commit];
+
     LNDataSource *ds = [dataSources objectForKey:aDocument.dataSourceId];
     [ds saveDocument:aDocument];
 }
