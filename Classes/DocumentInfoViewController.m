@@ -215,7 +215,7 @@
         Attachment *a = (Attachment *) file;
         cell.textLabel.text = a.title;
         NSUInteger count = [a.pages count];
-        NSString *pageLabel = count==1?NSLocalizedString(@"page", "page"):(count < 5?NSLocalizedString(@"pages_genetivus", "pages in genetivus"):NSLocalizedString(@"pages", "pages"));
+        NSString *pageLabel = count==1?NSLocalizedString(@"page", "page"):(count < 5?NSLocalizedString(@"pages_2-4_instrumentalis", "pages from 2 to 4 in instrumentalis"):NSLocalizedString(@"pages_instrumentalis", "pages_instrumentalis"));
         cell.detailTextLabel.text = [NSString stringWithFormat:@"%d %@", [a.pages count], pageLabel];
     }
     else
