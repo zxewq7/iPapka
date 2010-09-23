@@ -41,6 +41,8 @@
 - (void) paintTexture:(UIImage *) aTexture
 {
     [self erase];
+    if (!aTexture)
+        return;
         //set color to white
     glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
     
