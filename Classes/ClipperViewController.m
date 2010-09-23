@@ -19,16 +19,11 @@
 
 - (void)loadView
 {
-    UIView *v = [[UIImageView alloc] initWithImage: [UIImage imageNamed:opened?@"ClipperOpened.png":@"ClipperClosed.png"]];
+    UIView *v = [[UIImageView alloc] initWithImage: [UIImage imageNamed:@"ClipperClosed.png"]];
     
     self.view = v;
     
     [v release];
-}
-
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
     
     self.view.userInteractionEnabled = NO;
 }
@@ -73,9 +68,6 @@
     
     [tapZone2 release];
 
-}
-- (void)viewDidUnload {
-    [super viewDidUnload];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation 
