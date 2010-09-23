@@ -116,7 +116,7 @@
 
     [containerView release];
     
-    CGRect tableViewFrame = CGRectMake(containerViewFrame.origin.x, containerViewFrame.size.height + containerViewFrame.origin.y, containerViewFrame.size.width, viewSize.height);
+    CGRect tableViewFrame = CGRectMake(containerViewFrame.origin.x, containerViewFrame.size.height + containerViewFrame.origin.y, containerViewFrame.size.width, kMinTableRows * kTableRowHeight);
     tableView = [[UITableView alloc] initWithFrame:tableViewFrame style: UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
@@ -136,7 +136,7 @@
     [self.view addSubview: tableView];
     
     CGRect viewFrame = self.view.frame;
-    viewFrame.size.height = tableView.frame.origin.y + kMinTableRows * kTableRowHeight - 5.0f;
+    viewFrame.size.height = tableView.frame.origin.y + tableViewFrame.size.height;
     self.view.frame = viewFrame;
 
     [self updateContent];
