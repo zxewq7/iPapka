@@ -25,6 +25,7 @@
     AZZAudioRecorder    *recorder;
     AZZAudioPlayer      *player;
     UIButton            *playButton;
+    UIButton            *recordButton;
     UISwitch            *managedButton;
 }
 

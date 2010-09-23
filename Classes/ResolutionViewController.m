@@ -280,13 +280,14 @@ static NSString *AudioContext = @"AudioContext";
     
     [labelRecord sizeToFit];
     
+    CGFloat oneRowHeight = twoRowsFrame.size.height/2;
     
     //label record
     CGRect labelRecordFrame = labelRecord.frame;
     
     labelRecordFrame.origin.x = twoRowsFrame.size.width - labelRecordFrame.size.width - 52.0f;
     
-    labelRecordFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - labelRecordFrame.size.height)/2;
+    labelRecordFrame.origin.y = oneRowHeight + (oneRowHeight - labelRecordFrame.size.height)/2;
     
     labelRecord.frame = labelRecordFrame;
 
@@ -294,16 +295,18 @@ static NSString *AudioContext = @"AudioContext";
     
     [labelRecord release];
     
-    UIButton *recordButton = [UIButton imageButton:self
+    recordButton = [UIButton imageButton:self
                                           selector:@selector(record:)
                                              image:[UIImage imageNamed:@"ButtonRecord.png"]
-                                     imageSelected:[UIImage imageNamed:@"ButtonRecord.png"]];
+                                     imageSelected:[UIImage imageNamed:@"ButtonRecordStop.png"]];
     
     CGRect recordButtonFrame = recordButton.frame;
     
+    recordButtonFrame.size.height +=5.0f;
+    
     recordButtonFrame.origin.x = twoRowsFrame.size.width - recordButtonFrame.size.width - 10.0f;
     
-    recordButtonFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - recordButtonFrame.size.height)/2;
+    recordButtonFrame.origin.y = oneRowHeight + (oneRowHeight - recordButtonFrame.size.height)/2;
     
     recordButton.frame = recordButtonFrame;
     
@@ -321,7 +324,7 @@ static NSString *AudioContext = @"AudioContext";
     
     playButtonFrame.origin.x = 200.0f;
     
-    playButtonFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - recordButtonFrame.size.height)/2;
+    playButtonFrame.origin.y = oneRowHeight + (oneRowHeight - playButtonFrame.size.height)/2;
     
     playButton.frame = playButtonFrame;
     
@@ -384,6 +387,9 @@ static NSString *AudioContext = @"AudioContext";
     
     [managedButton release];
     managedButton = nil;
+    
+    [recordButton release];
+    recordButton = nil;
 }
 
 
@@ -434,6 +440,9 @@ static NSString *AudioContext = @"AudioContext";
 
     [managedButton release];
     managedButton = nil;
+    
+    [recordButton release];
+    recordButton = nil;
 }
 
 #pragma mark -
@@ -472,6 +481,7 @@ static NSString *AudioContext = @"AudioContext";
         else
             playButton.hidden = !((Resolution *)document.document).hasAudioComment;
         
+        recordButton.selected = recorder.recording;
         playButton.selected = player.playing;
     }
     else
