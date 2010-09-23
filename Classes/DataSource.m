@@ -137,6 +137,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         foundDocument.title = aDocument.title;
         foundDocument.isReadValue = NO;
         foundDocument.isSyncedValue = YES;
+        [foundDocument resetCachedDocument];
         
         if ([aDocument isKindOfClass:[Resolution class]])
         {
