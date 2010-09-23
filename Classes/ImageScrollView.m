@@ -254,18 +254,18 @@
 
 - (void) rotate:(CGFloat) radiansAngle
 {
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5f];
-    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
-    [UIView setAnimationBeginsFromCurrentState:YES];
-    
-        // The transform matrix
-    CGAffineTransform transform = CGAffineTransformMakeRotation(radiansAngle);
-    self.transform = transform;
-    
-        // Commit the changes
-    [UIView commitAnimations];
-    currentAngle = radiansAngle;
+//    [UIView beginAnimations:nil context:NULL];
+//    [UIView setAnimationDuration:0.5f];
+//    [UIView setAnimationCurve:UIViewAnimationCurveEaseInOut];
+//    [UIView setAnimationBeginsFromCurrentState:YES];
+//    
+//        // The transform matrix
+//    CGAffineTransform transform = CGAffineTransformMakeRotation(radiansAngle);
+//    self.transform = transform;
+//    
+//        // Commit the changes
+//    [UIView commitAnimations];
+//    currentAngle = radiansAngle;
 }
 
 - (void) enablePen:(BOOL) enabled
@@ -284,7 +284,7 @@
 
 - (void) enableStamper:(BOOL) enabled
 {
-    [paintingView enableStamper:enabled];
+//    [paintingView enableStamper:enabled];
 }
 @end
 
