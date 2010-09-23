@@ -17,6 +17,12 @@
     return [self.path stringByAppendingPathComponent:@"audioComment.ima4"];
 }
 
+-(BOOL) hasAudioComment
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    return [df fileExistsAtPath: self.audioComment];
+}
+
 - (void) dealloc
 {
     self.text = nil;
@@ -25,6 +31,7 @@
     self.deadline = nil;
     [super dealloc];
 }
+
 
 #pragma mark -
 #pragma mark NSCoding
@@ -37,7 +44,6 @@
         self.performers = [coder decodeObjectForKey:@"performers"];
         self.parentResolution = [coder decodeObjectForKey:@"parentResolution"];
         self.deadline = [coder decodeObjectForKey:@"deadline"];
-        self.hasAudioComment = [[coder decodeObjectForKey:@"hasAudioComment"] boolValue];
     }
     return self;
 }
@@ -50,6 +56,5 @@
     [coder encodeObject: [NSNumber numberWithBool:self.managed] forKey:@"managed"];
     [coder encodeObject: parentResolution forKey:@"parentResolution"];
     [coder encodeObject: deadline forKey:@"deadline"];
-    [coder encodeObject: [NSNumber numberWithBool:self.hasAudioComment] forKey:@"hasAudioComment"];
 }
 @end

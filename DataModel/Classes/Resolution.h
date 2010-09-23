@@ -22,5 +22,5 @@
 @property (nonatomic)         BOOL       managed;
 @property (nonatomic, retain) Resolution *parentResolution;
 @property (nonatomic, retain, readonly) NSString *audioComment;
-@property (nonatomic)         BOOL       hasAudioComment;
+@property (nonatomic, readonly)         BOOL       hasAudioComment;
 @end

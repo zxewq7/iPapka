@@ -577,7 +577,6 @@ static NSString *AudioContext = @"AudioContext";
     if (recorder.recording)
     {
         [recorder stop];
-        ((Resolution *)document.document).hasAudioComment = YES;
         [document saveDocument];
     }
     else
