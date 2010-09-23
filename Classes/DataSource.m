@@ -362,9 +362,12 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     NSSet *updatedObjects  = [managedObjectContext updatedObjects];
     for (DocumentManaged *document in updatedObjects)
     {
-        document.isModifiedValue = YES;
-        document.isSyncedValue = NO;
-        [self syncAndSaveDocument: document.document];
+        if ([document isKindOfClass: [DocumentManaged class]])
+        {
+            document.isModifiedValue = YES;
+            document.isSyncedValue = NO;
+            [self syncAndSaveDocument: document.document];
+        }
     }
     
     [self commitNoSync];
