@@ -470,9 +470,10 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     {
         PersonManaged *person = [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:managedObjectContext];
         person.uid = anUid;
-        person.first = anUid;
-        person.middle = anUid;
-        person.last = anUid;
+        NSArray *chunks = [anUid componentsSeparatedByString: @" "];
+        person.first = [anUid substringToIndex:1];
+        person.middle = [anUid substringToIndex:1];
+        person.last = [chunks objectAtIndex: 0];
         NSLog(@"Created person: %@", anUid);
         return person;
     }
