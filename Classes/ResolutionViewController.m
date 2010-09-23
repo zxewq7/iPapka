@@ -103,7 +103,7 @@ static NSString *AudioContext = @"AudioContext";
     
     //deadline phrase
     UILabel *deadlinePhrase = [[UILabel alloc] initWithFrame: CGRectZero];
-    deadlinePhrase.text = NSLocalizedString(@"Perform resolution till date", "Perform resolution till date");
+    deadlinePhrase.text = NSLocalizedString(@"Deadline", "Deadline");
     deadlinePhrase.textColor = [UIColor blackColor];
     deadlinePhrase.textAlignment = UITextAlignmentLeft;
     deadlinePhrase.font = [UIFont fontWithName:@"CharterC" size:18];
