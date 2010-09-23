@@ -49,9 +49,9 @@
     NSString *action;
     
     if (document.isAccepted)
-        action = @"accept";
+        action = @"approve";
     else if (document.isDeclined)
-        action = @"declined";
+        action = @"reject";
     else
         action = @"save";
     
