@@ -98,6 +98,8 @@ typedef enum _TapPosition{
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.autoresizesSubviews = YES;
 
     //tap recognizer
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
@@ -234,6 +236,11 @@ typedef enum _TapPosition{
     }
 }
 
+-(void) paintingView: (PaintingToolsViewController *) sender rotate: (CGFloat) degreesAngle;
+{
+    currentPage.angle = degreesAngle;
+}
+
 #pragma mark -
 #pragma mark UIGestureRecognizerDelegate
 
@@ -314,11 +321,6 @@ typedef enum _TapPosition{
         [currentPage saveContent];
         [[DataSource sharedDataSource] saveDocument: document];
     }
-}
-
--(void) rotate:(CGFloat) degreesAngle
-{
-    currentPage.angle = degreesAngle;
 }
 @end
 

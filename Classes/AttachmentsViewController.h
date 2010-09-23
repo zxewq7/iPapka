@@ -32,6 +32,4 @@
 @property (nonatomic, assign)           BOOL                         commenting;
 @property (nonatomic, retain)           PageControlWithMenu          *pageControl;
 @property (nonatomic, retain)           PaintingToolsViewController  *paintingTools;
-
--(void) rotate:(CGFloat) degreesAngle;
 @end

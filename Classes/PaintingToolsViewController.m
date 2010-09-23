@@ -95,14 +95,14 @@
     [paletteButton retain];
 
     rotateCCVButton = [UIButton imageButton:self
-                                 selector:nil
-                                    image:[UIImage imageNamed:@"ButtonRotateCCV.png"]
-                            imageSelected:[UIImage imageNamed:@"ButtonRotateCCV.png"]];
+                                   selector:@selector(rotate:)
+                                      image:[UIImage imageNamed:@"ButtonRotateCCV.png"]
+                              imageSelected:[UIImage imageNamed:@"ButtonRotateCCV.png"]];
 
     [rotateCCVButton retain];
 
-    rotateCVButton = [UIButton imageButton:self
-                                   selector:nil
+    rotateCVButton = [UIButton  imageButton:self
+                                   selector:@selector(rotate:)
                                       image:[UIImage imageNamed:@"ButtonRotateCV.png"]
                               imageSelected:[UIImage imageNamed:@"ButtonRotateCV.png"]];
 
@@ -112,15 +112,6 @@
              topOffset:SECOND_BAR_OFFSET
                barSize:CGSizeMake(contentSize.width, SECOND_BAR_HEIGHT)
    spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
-
-    [self.view addSubview: commentButton];
-    [self.view addSubview: penButton];
-    [self.view addSubview: markerButton];
-    [self.view addSubview: eraserButton];
-    
-    [self.view addSubview: paletteButton];
-    [self.view addSubview: rotateCCVButton];
-    [self.view addSubview: rotateCVButton];
 }
 
 -(void) selectTool:(id) sender
@@ -145,6 +136,15 @@
         [delegate paintingView:self tool:self.tool];
 }
 
+-(void) rotate:(id) sender
+{
+    UIButton *rotateButton = (UIButton *)sender;
+    
+    CGFloat angle = 90*(rotateButton == rotateCVButton?1:-1);
+    
+    if ([delegate respondsToSelector:@selector(paintingView:rotate:)])
+        [delegate paintingView:self rotate:angle];
+}
 
 -(void) pickColor:(id) sender
 {
@@ -245,6 +245,7 @@
         CGRect frame = CGRectMake(x, y, buttonSize.width, buttonSize.height);
         button.frame = frame;
         y += buttonSize.height + spaceBetweenButtons;
+        [self.view addSubview: button];
     }
 }
 @end

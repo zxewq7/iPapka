@@ -20,6 +20,7 @@ typedef enum _PaintingTool {
 @protocol PaintingToolsDelegate <NSObject>
 -(void) paintingView: (PaintingToolsViewController *) sender color:(UIColor *) aColor;
 -(void) paintingView: (PaintingToolsViewController *) sender tool: (PaintingTool) aTool;
+-(void) paintingView: (PaintingToolsViewController *) sender rotate: (CGFloat) degreesAngle;
 @end
     
 
