@@ -17,6 +17,7 @@
 
 
 
+
 @interface DocumentManagedID : NSManagedObjectID {}
 @end
 
@@ -38,6 +39,12 @@
 
 
 
+@property (nonatomic, retain) NSString *uid;
+
+//- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSNumber *isEditable;
 
 @property BOOL isEditableValue;
@@ -48,9 +55,13 @@
 
 
 
-@property (nonatomic, retain) NSString *uid;
+@property (nonatomic, retain) NSNumber *isRead;
 
-//- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
+@property BOOL isReadValue;
+- (BOOL)isReadValue;
+- (void)setIsReadValue:(BOOL)value_;
+
+//- (BOOL)validateIsRead:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -67,16 +78,6 @@
 - (void)setIsArchivedValue:(BOOL)value_;
 
 //- (BOOL)validateIsArchived:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isRead;
-
-@property BOOL isReadValue;
-- (BOOL)isReadValue;
-- (void)setIsReadValue:(BOOL)value_;
-
-//- (BOOL)validateIsRead:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -103,6 +104,16 @@
 - (void)setIsAcceptedValue:(BOOL)value_;
 
 //- (BOOL)validateIsAccepted:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSNumber *isSynced;
+
+@property BOOL isSyncedValue;
+- (BOOL)isSyncedValue;
+- (void)setIsSyncedValue:(BOOL)value_;
+
+//- (BOOL)validateIsSynced:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -133,6 +144,10 @@
 - (void)setPrimitiveIsModifiedValue:(BOOL)value_;
 
 
+- (NSString*)primitiveUid;
+- (void)setPrimitiveUid:(NSString*)value;
+
+
 - (NSNumber*)primitiveIsEditable;
 - (void)setPrimitiveIsEditable:(NSNumber*)value;
 
@@ -140,8 +155,11 @@
 - (void)setPrimitiveIsEditableValue:(BOOL)value_;
 
 
-- (NSString*)primitiveUid;
-- (void)setPrimitiveUid:(NSString*)value;
+- (NSNumber*)primitiveIsRead;
+- (void)setPrimitiveIsRead:(NSNumber*)value;
+
+- (BOOL)primitiveIsReadValue;
+- (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
 - (NSString*)primitiveDataSourceId;
@@ -153,13 +171,6 @@
 
 - (BOOL)primitiveIsArchivedValue;
 - (void)setPrimitiveIsArchivedValue:(BOOL)value_;
-
-
-- (NSNumber*)primitiveIsRead;
-- (void)setPrimitiveIsRead:(NSNumber*)value;
-
-- (BOOL)primitiveIsReadValue;
-- (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
 - (NSDate*)primitiveDateModified;
@@ -178,6 +189,13 @@
 
 - (BOOL)primitiveIsAcceptedValue;
 - (void)setPrimitiveIsAcceptedValue:(BOOL)value_;
+
+
+- (NSNumber*)primitiveIsSynced;
+- (void)setPrimitiveIsSynced:(NSNumber*)value;
+
+- (BOOL)primitiveIsSyncedValue;
+- (void)setPrimitiveIsSyncedValue:(BOOL)value_;
 
 
 - (NSString*)primitiveTitle;

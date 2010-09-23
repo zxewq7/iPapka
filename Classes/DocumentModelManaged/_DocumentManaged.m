@@ -55,6 +55,13 @@
 
 
 
+@dynamic uid;
+
+
+
+
+
+
 @dynamic isEditable;
 
 
@@ -81,8 +88,27 @@
 
 
 
-@dynamic uid;
+@dynamic isRead;
 
+
+
+- (BOOL)isReadValue {
+	NSNumber *result = [self isRead];
+	return [result boolValue];
+}
+
+- (void)setIsReadValue:(BOOL)value_ {
+	[self setIsRead:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsReadValue {
+	NSNumber *result = [self primitiveIsRead];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsReadValue:(BOOL)value_ {
+	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
+}
 
 
 
@@ -115,32 +141,6 @@
 
 - (void)setPrimitiveIsArchivedValue:(BOOL)value_ {
 	[self setPrimitiveIsArchived:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
-@dynamic isRead;
-
-
-
-- (BOOL)isReadValue {
-	NSNumber *result = [self isRead];
-	return [result boolValue];
-}
-
-- (void)setIsReadValue:(BOOL)value_ {
-	[self setIsRead:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsReadValue {
-	NSNumber *result = [self primitiveIsRead];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsReadValue:(BOOL)value_ {
-	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
 }
 
 
@@ -200,6 +200,32 @@
 
 - (void)setPrimitiveIsAcceptedValue:(BOOL)value_ {
 	[self setPrimitiveIsAccepted:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic isSynced;
+
+
+
+- (BOOL)isSyncedValue {
+	NSNumber *result = [self isSynced];
+	return [result boolValue];
+}
+
+- (void)setIsSyncedValue:(BOOL)value_ {
+	[self setIsSynced:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsSyncedValue {
+	NSNumber *result = [self primitiveIsSynced];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsSyncedValue:(BOOL)value_ {
+	[self setPrimitiveIsSynced:[NSNumber numberWithBool:value_]];
 }
 
 

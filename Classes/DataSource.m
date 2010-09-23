@@ -18,6 +18,7 @@
 #import "Signature.h"
 #import "KeychainItemWrapper.h"
 #import "PersonManaged.h"
+#import "LNDocumentSaver.h"
 
 #define kLoginFieldTag 1001
 #define kPasswordFieldTag 1002
@@ -29,6 +30,10 @@
 - (void) askLoginAndPassword:(NSString*) login;
 - (void) updatePerformers:(NSArray *) uids resolution:(ResolutionManaged *) resolution;
 - (void) updateAuthor:(NSString *) uid document:(DocumentManaged *) document;
+- (void) syncAndSaveDocument:(Document *) aDocument;
+- (void) commitNoSync;
+- (NSArray *) unsyncedDocuments;
+- (LNDocumentSaver *) documentSaver;
 @end
 
 @implementation DataSource
@@ -130,17 +135,19 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         foundDocument.dateModified = aDocument.dateModified;
         [self updateAuthor:aDocument.author document:foundDocument];
         foundDocument.title = aDocument.title;
-        foundDocument.isRead = [NSNumber numberWithBool:NO];
+        foundDocument.isReadValue = NO;
+        foundDocument.isSyncedValue = YES;
+        
         if ([aDocument isKindOfClass:[Resolution class]])
         {
-            ResolutionManaged *resolution = (ResolutionManaged *)aDocument;
+            ResolutionManaged *resolution = (ResolutionManaged *)foundDocument;
             
             NSArray *performers = ((Resolution *)aDocument).performers;
             
             [self updatePerformers:performers resolution: resolution];
         }
 
-        [self commit];
+        [self commitNoSync];
         
         [notify postNotificationName:@"DocumentUpdated" object:foundDocument];
     }
@@ -161,7 +168,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     
     [notify postNotificationName:@"DocumentsRemoved" object:documentsToDelete];
     
-    [self commit];
+    [self commitNoSync];
 }
 
 - (void) documentAdded:(Document *) aDocument
@@ -179,10 +186,11 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [self updateAuthor:aDocument.author document:newDocument];
     newDocument.title = aDocument.title;
     newDocument.uid = aDocument.uid;
-    newDocument.isRead = [NSNumber numberWithBool: [aDocument.dataSourceId isEqualToString: @"archive"]];
-    newDocument.isArchived = [NSNumber numberWithBool:NO];
+    newDocument.isReadValue = [aDocument.dataSourceId isEqualToString: @"archive"];
+    newDocument.isArchivedValue = NO;
     newDocument.dataSourceId = aDocument.dataSourceId;
-    newDocument.isEditable = [NSNumber numberWithBool: [@"inbox" isEqualToString:aDocument.dataSourceId]];
+    newDocument.isEditableValue = [@"inbox" isEqualToString:aDocument.dataSourceId];
+    newDocument.isSyncedValue = YES;
     
     if (isResolution)
     {
@@ -193,7 +201,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         [self updatePerformers:performers resolution: resolution];
     }
     
-	[self commit];
+	[self commitNoSync];
     
         //    [newDocument release];
 	
@@ -290,8 +298,38 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void) refreshDocuments
 {
-    for (LNDataSource *ds in [dataSources allValues]) 
-        [ds refreshDocuments];
+    NSArray *unsyncedDocuments = [self unsyncedDocuments];
+    countDocumentsToSend = [unsyncedDocuments count];
+    
+    if (countDocumentsToSend)
+    {
+        __block DataSource *blockSelf = self;
+        for (DocumentManaged *document in unsyncedDocuments)
+        {
+            [[self documentSaver] sendDocument:document.document handler:^(LNDocumentSaver *sender, NSString *error)
+            {
+                @synchronized(self)
+                {
+                    countDocumentsToSend--;
+                }
+                
+                document.isSyncedValue = (error == nil);
+                
+                if (countDocumentsToSend <= 0)
+                {
+                    for (LNDataSource *ds in [dataSources allValues]) 
+                        [ds refreshDocuments];
+
+                    [self commitNoSync];
+                }
+            }];
+        }
+    }
+    else
+    {
+        for (LNDataSource *ds in [dataSources allValues]) 
+            [ds refreshDocuments];
+    }
 }
 -(Document *) loadDocument:(DocumentManaged *) aDocument
 {
@@ -302,25 +340,15 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 -(void) saveDocument:(Document *) aDocument
 {
     DocumentManaged *documentManaged = [self findDocumentByUid: aDocument.uid];
-    documentManaged.isModifiedValue = YES;
     
-    if ([aDocument isKindOfClass: [Resolution class]])
+    if (!documentManaged.isModifiedValue || !documentManaged.isSyncedValue)
     {
-        Resolution *resolution = (Resolution *) aDocument;
-        ResolutionManaged *resolutionManaged = (ResolutionManaged *) documentManaged;
-        
-        //sync performers
-        NSMutableArray *performers = [NSMutableArray arrayWithCapacity: [resolution.performers count]];
-        for (PersonManaged *person in resolutionManaged.performers)
-            [performers addObject: person.uid];
-        
-        resolution.performers = [performers count]?performers:nil;
+        documentManaged.isModifiedValue = YES;
+        documentManaged.isSyncedValue = NO;
+        [self commit];
     }
-    
-    [self commit];
-
-    LNDataSource *ds = [dataSources objectForKey:aDocument.dataSourceId];
-    [ds saveDocument:aDocument];
+    else
+        [self syncAndSaveDocument: aDocument];
 }
 
 -(void) shutdown
@@ -330,29 +358,20 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void)commit
 {
-    NSError *error = nil;
-    if (![managedObjectContext save:&error])
+    NSSet *updatedObjects  = [managedObjectContext updatedObjects];
+    for (DocumentManaged *document in updatedObjects)
     {
-            //remove documents from cache for consistency
-        NSSet *insertedObjects  = [managedObjectContext insertedObjects];
-        for (DocumentManaged *document in insertedObjects)
-        {
-            LNDataSource *ds = [dataSources objectForKey:document.dataSourceId];
-            [ds deleteDocument:document.uid];
-        }
-        
-        NSSet *updatedObjects  = [managedObjectContext updatedObjects];
-        for (DocumentManaged *document in updatedObjects)
-        {
-            LNDataSource *ds = [dataSources objectForKey:document.dataSourceId];
-            [ds deleteDocument:document.uid];
-        }
-        
-        NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
+        document.isModifiedValue = YES;
+        document.isSyncedValue = NO;
+        [self syncAndSaveDocument: document.document];
     }
+    
+    [self commitNoSync];
 }
 -(void) archiveDocument:(DocumentManaged *) aDocument
 {
+    [aDocument saveDocument];
+    
     LNDataSource *inbox = [dataSources objectForKey: @"inbox"];
     LNDataSource *archive = [dataSources objectForKey: @"archive"];
     [inbox moveDocument: aDocument.uid destination: archive];
@@ -407,6 +426,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [documentUidPredicateTemplate release];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [documentSaver release];
+    documentSaver = nil;
 	[super dealloc];
 }
 @end
@@ -562,5 +584,87 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     document.author = [self findPersonByUid: uid];
     [document.author addDocumentsObject: document];
+}
+
+- (void) commitNoSync
+{
+    NSError *error = nil;
+    if (![managedObjectContext save:&error])
+    {
+        //remove documents from cache for consistency
+        NSSet *insertedObjects  = [managedObjectContext insertedObjects];
+        for (DocumentManaged *document in insertedObjects)
+        {
+            LNDataSource *ds = [dataSources objectForKey:document.dataSourceId];
+            [ds deleteDocument:document.uid];
+        }
+        
+        NSSet *updatedObjects  = [managedObjectContext updatedObjects];
+        for (DocumentManaged *document in updatedObjects)
+        {
+            LNDataSource *ds = [dataSources objectForKey:document.dataSourceId];
+            [ds deleteDocument:document.uid];
+        }
+        
+        NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
+    }
+}
+
+- (void) syncAndSaveDocument:(Document *) aDocument
+{
+    DocumentManaged *documentManaged = [self findDocumentByUid: aDocument.uid];
+    
+    if ([aDocument isKindOfClass: [Resolution class]])
+    {
+        Resolution *resolution = (Resolution *) aDocument;
+        ResolutionManaged *resolutionManaged = (ResolutionManaged *) documentManaged;
+        
+        //sync performers
+        NSMutableArray *performers = [NSMutableArray arrayWithCapacity: [resolution.performers count]];
+        for (PersonManaged *person in resolutionManaged.performers)
+            [performers addObject: person.uid];
+        
+        resolution.performers = [performers count]?performers:nil;
+    }
+    
+    aDocument.isAccepted = documentManaged.isAcceptedValue;
+    
+    aDocument.isDeclined = documentManaged.isDeclinedValue;
+    
+    LNDataSource *ds = [dataSources objectForKey:aDocument.dataSourceId];
+    [ds saveDocument:aDocument];    
+}
+
+- (NSArray *) unsyncedDocuments
+{
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
+	
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"isSynced==NO"]];
+    
+	NSError *error = nil;
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
+    
+    return fetchResults;    
+}
+- (LNDocumentSaver *) documentSaver
+{
+    if (!documentSaver)
+    {
+        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
+        documentSaver = [[LNDocumentSaver alloc] initWithUrl: serverUrl];
+        
+        KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
+        
+        documentSaver.login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
+        documentSaver.password = [wrapper objectForKey:(NSString *)kSecValueData];
+        
+        [wrapper release];
+
+    }
+    return documentSaver;
 }
 @end

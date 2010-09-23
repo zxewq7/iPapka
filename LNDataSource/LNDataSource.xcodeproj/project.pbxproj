@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		815E5452124A5DF40029F01F /* LNDocumentSaver.h in Headers */ = {isa = PBXBuildFile; fileRef = 815E5450124A5DF40029F01F /* LNDocumentSaver.h */; };
+		815E5453124A5DF40029F01F /* LNDocumentSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 815E5451124A5DF40029F01F /* LNDocumentSaver.m */; };
 		8165414F1237951B008FC80F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8165414E1237951B008FC80F /* Foundation.framework */; };
 		8165415D1237953A008FC80F /* LNDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 816541591237953A008FC80F /* LNDataSource.h */; };
 		8165415E1237953A008FC80F /* LNDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165415A1237953A008FC80F /* LNDataSource.m */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		815E5450124A5DF40029F01F /* LNDocumentSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentSaver.h; sourceTree = "<group>"; };
+		815E5451124A5DF40029F01F /* LNDocumentSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDocumentSaver.m; sourceTree = "<group>"; };
 		8165414C1237951B008FC80F /* libLNDataSource.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libLNDataSource.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		8165414E1237951B008FC80F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		816541501237951B008FC80F /* LNDataSource_Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LNDataSource_Prefix.pch; sourceTree = "<group>"; };
@@ -91,6 +95,8 @@
 		816541451237951B008FC80F /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				815E5450124A5DF40029F01F /* LNDocumentSaver.h */,
+				815E5451124A5DF40029F01F /* LNDocumentSaver.m */,
 				816541591237953A008FC80F /* LNDataSource.h */,
 				8165415A1237953A008FC80F /* LNDataSource.m */,
 				8165415B1237953A008FC80F /* LNHttpRequest.h */,
@@ -183,6 +189,7 @@
 				8165418912379713008FC80F /* SBJsonBase.h in Headers */,
 				8165418B12379713008FC80F /* SBJsonParser.h in Headers */,
 				8165418D12379713008FC80F /* SBJsonWriter.h in Headers */,
+				815E5452124A5DF40029F01F /* LNDocumentSaver.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +220,7 @@
 			isa = PBXProject;
 			buildConfigurationList = 816541431237951B008FC80F /* Build configuration list for PBXProject "LNDataSource" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -266,6 +274,7 @@
 				8165418A12379713008FC80F /* SBJsonBase.m in Sources */,
 				8165418C12379713008FC80F /* SBJsonParser.m in Sources */,
 				8165418E12379713008FC80F /* SBJsonWriter.m in Sources */,
+				815E5453124A5DF40029F01F /* LNDocumentSaver.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

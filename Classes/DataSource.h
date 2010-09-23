@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "LNDataSource.h"
 
-@class Folder, Document, DocumentManaged;
+@class Folder, Document, DocumentManaged, LNDocumentSaver;
 
 @interface DataSource : NSObject<LNDataSourceDelegate, UIAlertViewDelegate>
 {
@@ -24,6 +24,8 @@
     NSEntityDescription          *personEntityDescription;
     NSPredicate                  *personUidPredicateTemplate;
     BOOL                         isSyncing;
+    LNDocumentSaver              *documentSaver;
+    NSUInteger                   countDocumentsToSend;
 }
 + (DataSource *)sharedDataSource;
 

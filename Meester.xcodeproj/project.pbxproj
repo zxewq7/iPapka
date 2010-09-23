@@ -134,6 +134,7 @@
 		81E5B49C123BB3900068617E /* ButtonSignature.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5B49A123BB3900068617E /* ButtonSignature.png */; };
 		81E5FE7B1240EEBA00D697EA /* Papers-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE791240EEBA00D697EA /* Papers-Landscape.png */; };
 		81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE7A1240EEBA00D697EA /* Papers.png */; };
+		81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -348,6 +349,7 @@
 		81E5B49A123BB3900068617E /* ButtonSignature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSignature.png; sourceTree = "<group>"; };
 		81E5FE791240EEBA00D697EA /* Papers-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Papers-Landscape.png"; sourceTree = "<group>"; };
 		81E5FE7A1240EEBA00D697EA /* Papers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Papers.png; sourceTree = "<group>"; };
+		81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecordStop.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -381,6 +383,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */,
 				813EF9E41249332600E52803 /* ButtonStop.png */,
 				813EF9A412492CA400E52803 /* ButtonPlay.png */,
 				8157959D12468130002A42C0 /* ButtonRecord.png */,
@@ -566,10 +569,6 @@
 			isa = PBXGroup;
 			children = (
 				81B273051248EEA20012FE9A /* Audio */,
-				813EF90712491E9700E52803 /* AZZAudioPlayer.h */,
-				813EF90812491E9700E52803 /* AZZAudioPlayer.m */,
-				81B273091248EED60012FE9A /* AZZAudioRecorder.h */,
-				81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */,
 				8155A5F71237AFB500A15FE5 /* Additions */,
 				8155A5F61237AF8500A15FE5 /* Model */,
 				8155A5F51237AF6F00A15FE5 /* Controller */,
@@ -689,6 +688,10 @@
 		81B273051248EEA20012FE9A /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				813EF90712491E9700E52803 /* AZZAudioPlayer.h */,
+				813EF90812491E9700E52803 /* AZZAudioPlayer.m */,
+				81B273091248EED60012FE9A /* AZZAudioRecorder.h */,
+				81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -846,6 +849,7 @@
 				8157959E12468130002A42C0 /* ButtonRecord.png in Resources */,
 				813EF9A512492CA400E52803 /* ButtonPlay.png in Resources */,
 				813EF9E51249332600E52803 /* ButtonStop.png in Resources */,
+				81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
