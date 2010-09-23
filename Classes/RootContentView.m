@@ -88,9 +88,9 @@
     
     UIView *documentInfo = self.documentInfo;
     CGRect documentInfoFrame = documentInfo.frame;
-    documentInfoFrame.origin.x = kMargin;
-    documentInfoFrame.origin.y = kTopMargin;
-    documentInfoFrame.size.width = size.width - 2 * kMargin;
+    documentInfoFrame.origin.x = margin;
+    documentInfoFrame.origin.y = topMargin;
+    documentInfoFrame.size.width = size.width - 2 * margin;
     
     documentInfo.frame = documentInfoFrame;
     
