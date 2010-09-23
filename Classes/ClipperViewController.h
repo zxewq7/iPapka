@@ -11,7 +11,6 @@
 
 @interface ClipperViewController : UIViewController<UIGestureRecognizerDelegate> 
 {
-    UIImageView *clipperImageView;
     BOOL opened;
 }
 - (CGFloat) contentOffset;
@@ -20,4 +19,5 @@
 //this method will configue tapzones for clipper and should be called after adding clipper to superview.
 //it will create several tapzones over clipper (due to rectangular nature of image)
 - (void) counfigureTapzones;
+- (void) silentClose;
 @end
