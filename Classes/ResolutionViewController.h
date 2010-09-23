@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class ResolutionManaged, DatePickerController, PerformersViewController, AZZAudioRecorder, AZZAudioPlayer;
+@class ResolutionManaged, DatePickerController, PerformersViewController, AZZAudioRecorder, AZZAudioPlayer, TextViewWithPlaceholder;
 @interface ResolutionViewController : UIViewController <UITextViewDelegate, UIPopoverControllerDelegate>
 {
     UISegmentedControl *resolutionSwitcher;
     UIImageView        *logo;
     UIButton           *deadlineButton;
-    UITextView         *resolutionText;
+    TextViewWithPlaceholder         *resolutionText;
     UILabel            *authorLabel;
     UILabel            *dateLabel;
     ResolutionManaged   *document;

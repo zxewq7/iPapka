@@ -146,8 +146,8 @@ static NSString *AudioContext = @"AudioContext";
 	resolutionText.delegate = self;
 	resolutionText.backgroundColor = [UIColor clearColor];
     
-    ((TextViewWithPlaceholder *)resolutionText).placeholder = NSLocalizedString(@"Enter resolution text", "Enter resolution text");
-    ((TextViewWithPlaceholder *)resolutionText).placeholderColor = [UIColor lightGrayColor];
+    resolutionText.placeholder = NSLocalizedString(@"Enter resolution text", "Enter resolution text");
+    resolutionText.placeholderColor = [UIColor lightGrayColor];
     
 	resolutionText.returnKeyType = UIReturnKeyDefault;
 	resolutionText.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
@@ -520,6 +520,9 @@ static NSString *AudioContext = @"AudioContext";
     authorLabel.text = resolution.author;
     
     resolutionText.text = resolution.text;
+    
+    [resolutionText textChanged:nil];
+    
     dateLabel.text = [dateFormatter stringFromDate: resolution.dateModified];
     
     NSString *label = (resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil);
