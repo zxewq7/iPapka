@@ -270,39 +270,40 @@ static NSString *AudioContext = @"AudioContext";
     
     [labelComment release];
     
-    //label record
-    UILabel *labelRecord = [[UILabel alloc] initWithFrame: CGRectZero];
-    
-    labelRecord.text = NSLocalizedString(@"Record", "Record");
-    labelRecord.textColor = [UIColor colorWithRed:0.431 green:0.510 blue:0.655 alpha:1.0];
-    labelRecord.font = [UIFont boldSystemFontOfSize: 17];
-    labelRecord.backgroundColor = [UIColor clearColor];
-    
-    [labelRecord sizeToFit];
-    
     CGFloat oneRowHeight = twoRowsFrame.size.height/2;
     
-    //label record
-    CGRect labelRecordFrame = labelRecord.frame;
+    //button record
     
-    labelRecordFrame.origin.x = twoRowsFrame.size.width - labelRecordFrame.size.width - 52.0f;
+    UIImage *imageRecord = [UIImage imageNamed:@"ButtonRecord.png"];
     
-    labelRecordFrame.origin.y = oneRowHeight + (oneRowHeight - labelRecordFrame.size.height)/2;
+    recordButton = [UIButton imageButtonWithTitle:@"Recording -- 99:99"
+                                           target:self
+                                         selector:@selector(record:)
+                                            image:imageRecord
+                                    imageSelected:[UIImage imageNamed:@"ButtonRecordStop.png"]];
     
-    labelRecord.frame = labelRecordFrame;
+    recordButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
 
-    [twoRows addSubview: labelRecord];
+    [recordButton sizeToFit];
+
+    CGSize imageRecordSize = imageRecord.size;
+    CGSize titleRecordSize = recordButton.titleLabel.bounds.size;
     
-    [labelRecord release];
+    recordButton.imageEdgeInsets = UIEdgeInsetsMake(0, titleRecordSize.width, 0, 0);
+    recordButton.titleEdgeInsets = UIEdgeInsetsMake(0,imageRecordSize.width, 0, imageRecordSize.width + 5.0f);
     
-    recordButton = [UIButton imageButton:self
-                                          selector:@selector(record:)
-                                             image:[UIImage imageNamed:@"ButtonRecord.png"]
-                                     imageSelected:[UIImage imageNamed:@"ButtonRecordStop.png"]];
+    
+    [recordButton setTitleColor:[UIColor colorWithRed:0.431 green:0.510 blue:0.655 alpha:1.0] forState:UIControlStateNormal];
+    
+    [recordButton setTitle:NSLocalizedString(@"Record", @"Record") forState:UIControlStateNormal];
+    
+    [recordButton setTitle:NSLocalizedString(@"Recording", @"Recording") forState:UIControlStateSelected];
+
+    [recordButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+    
+    recordButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
     
     CGRect recordButtonFrame = recordButton.frame;
-    
-    recordButtonFrame.size.height +=5.0f;
     
     recordButtonFrame.origin.x = twoRowsFrame.size.width - recordButtonFrame.size.width - 10.0f;
     
