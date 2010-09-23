@@ -601,6 +601,8 @@ static NSString* LinkContext          = @"LinkContext";
     if (clipperViewController.opened)
         clipperViewController.opened = NO;
 
+    documentInfoViewController.view.hidden = YES;
+    
     [UIView beginAnimations:ArchiveAnimationId context:NULL];
     [UIView setAnimationDuration:0.5f];
     [UIView setAnimationDelegate:self];
@@ -661,6 +663,7 @@ static NSString* LinkContext          = @"LinkContext";
 //        [UIView setAnimationDidStopSelector:nil];
         
         attachmentsViewController.view.alpha = 1.0;
+        documentInfoViewController.view.hidden = NO;
         
         [[DataSource sharedDataSource] archiveDocument:self.document];
         
