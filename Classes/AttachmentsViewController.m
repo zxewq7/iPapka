@@ -100,6 +100,8 @@ typedef enum _TapPosition{
     [super viewDidLoad];
     
     self.view.autoresizesSubviews = YES;
+    
+    self.view.backgroundColor = [UIColor colorWithPatternImage: [UIImage imageNamed: @"PaperTexture.png"]];
 
     //tap recognizer
     tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];

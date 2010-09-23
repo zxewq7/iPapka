@@ -158,8 +158,6 @@ static NSString* LinkContext          = @"LinkContext";
     //attachmentPicker view
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
     
-    documentInfoViewController.view.alpha = 0.0;
-    
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"attachmentIndex"
                                     options:0
@@ -438,8 +436,6 @@ static NSString* LinkContext          = @"LinkContext";
         
         [UIView beginAnimations:OpenClipperAnimationId context:NULL];
         [UIView setAnimationDuration:.5];
-        [UIView setAnimationDelegate:self];
-        [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
 
         CGSize documentInfoViewControllerSize = documentInfoViewController.view.frame.size;
         
@@ -674,14 +670,6 @@ static NSString* LinkContext          = @"LinkContext";
         else
             self.document = nil;
         
-    }
-    else if (animationID == OpenClipperAnimationId)
-    {
-        [UIView beginAnimations:nil context:nil];
-        [UIView setAnimationDuration:0.5];
-        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:contentView cache:YES];
-        documentInfoViewController.view.alpha = clipperViewController.opened?1.0:0.0;
-        [UIView commitAnimations];
     }
 }
 -(void) setCanEdit:(BOOL) value

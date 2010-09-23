@@ -128,6 +128,7 @@
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
+		81E2C0B2124B5C1C001ED53A /* PaperTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E2C0B1124B5C1C001ED53A /* PaperTexture.png */; };
 		81E5002A1241616A00D697EA /* RotateableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E500291241616A00D697EA /* RotateableImageView.m */; };
 		81E500641241656800D697EA /* RootBackground-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E500631241656700D697EA /* RootBackground-Landscape.png */; };
 		81E5B49B123BB3900068617E /* ButtonResolution.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5B499123BB3900068617E /* ButtonResolution.png */; };
@@ -342,6 +343,7 @@
 		81D60425123ACBC400CEAF75 /* PaintingTools.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaintingTools.png; sourceTree = "<group>"; };
 		81D60427123ACBEA00CEAF75 /* PaintingToolsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingToolsViewController.h; sourceTree = "<group>"; };
 		81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingToolsViewController.m; sourceTree = "<group>"; };
+		81E2C0B1124B5C1C001ED53A /* PaperTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaperTexture.png; sourceTree = "<group>"; };
 		81E500281241616A00D697EA /* RotateableImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotateableImageView.h; sourceTree = "<group>"; };
 		81E500291241616A00D697EA /* RotateableImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotateableImageView.m; sourceTree = "<group>"; };
 		81E500631241656700D697EA /* RootBackground-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "RootBackground-Landscape.png"; sourceTree = "<group>"; };
@@ -383,6 +385,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81E2C0B1124B5C1C001ED53A /* PaperTexture.png */,
 				81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */,
 				813EF9E41249332600E52803 /* ButtonStop.png */,
 				813EF9A412492CA400E52803 /* ButtonPlay.png */,
@@ -850,6 +853,7 @@
 				813EF9A512492CA400E52803 /* ButtonPlay.png in Resources */,
 				813EF9E51249332600E52803 /* ButtonStop.png in Resources */,
 				81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */,
+				81E2C0B2124B5C1C001ED53A /* PaperTexture.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
