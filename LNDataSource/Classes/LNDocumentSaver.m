@@ -97,8 +97,8 @@
     request.password = self.password;
     
     request.requestMethod = @"POST";
-    
-    request.postBody = [[postData dataUsingEncoding: NSUTF8StringEncoding] mutableCopy];
+
+    [request appendPostData: [postData dataUsingEncoding: NSUTF8StringEncoding]];
     
     __block LNDocumentSaver *blockSelf = self;
 
