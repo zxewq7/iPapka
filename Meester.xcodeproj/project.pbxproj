@@ -18,10 +18,10 @@
 		8107AC481237A69700F0C71F /* PLBlocks.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 8107AC291237A5D900F0C71F /* PLBlocks.framework */; };
 		8109477A123B629D009B3B1E /* UINavigationBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81094779123B629D009B3B1E /* UINavigationBar+Additions.m */; };
 		81094788123B6582009B3B1E /* DocumentsListNavigationbarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */; };
+		810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 810CE95B1251D66C00933B9E /* Data.xcdatamodeld */; };
 		8110847A1244EF66008FBDE3 /* _PersonManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 811084771244EF66008FBDE3 /* _PersonManaged.m */; };
 		8110847B1244EF66008FBDE3 /* PersonManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 811084791244EF66008FBDE3 /* PersonManaged.m */; };
 		811B583412454D1000BEB158 /* ColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B583312454D1000BEB158 /* ColorPicker.m */; };
-		811DF42B1237A0E700903D30 /* Document.xcdatamodel in Sources */ = {isa = PBXBuildFile; fileRef = 811DF4281237A0E700903D30 /* Document.xcdatamodel */; };
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
 		811DF44B1237A11300903D30 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42E1237A11300903D30 /* BrushErase.png */; };
 		811DF44C1237A11300903D30 /* BrushMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42F1237A11300903D30 /* BrushMarker.png */; };
@@ -187,13 +187,13 @@
 		81094778123B629D009B3B1E /* UINavigationBar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UINavigationBar+Additions.h"; sourceTree = "<group>"; };
 		81094779123B629D009B3B1E /* UINavigationBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UINavigationBar+Additions.m"; sourceTree = "<group>"; };
 		81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentsListNavigationbarBackground.png; sourceTree = "<group>"; };
+		810CE95C1251D66C00933B9E /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
 		811084761244EF66008FBDE3 /* _PersonManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _PersonManaged.h; sourceTree = "<group>"; };
 		811084771244EF66008FBDE3 /* _PersonManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _PersonManaged.m; sourceTree = "<group>"; };
 		811084781244EF66008FBDE3 /* PersonManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PersonManaged.h; path = DocumentModelManaged/PersonManaged.h; sourceTree = "<group>"; };
 		811084791244EF66008FBDE3 /* PersonManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PersonManaged.m; path = DocumentModelManaged/PersonManaged.m; sourceTree = "<group>"; };
 		811B583212454D1000BEB158 /* ColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPicker.h; sourceTree = "<group>"; };
 		811B583312454D1000BEB158 /* ColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorPicker.m; sourceTree = "<group>"; };
-		811DF4281237A0E700903D30 /* Document.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Document.xcdatamodel; sourceTree = "<group>"; };
 		811DF42D1237A11300903D30 /* BrushComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushComment.png; sourceTree = "<group>"; };
 		811DF42E1237A11300903D30 /* BrushErase.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushErase.png; sourceTree = "<group>"; };
 		811DF42F1237A11300903D30 /* BrushMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushMarker.png; sourceTree = "<group>"; };
@@ -602,7 +602,7 @@
 				811DF42C1237A11300903D30 /* images */,
 				811DF4481237A11300903D30 /* MainWindow.xib */,
 				811DF4491237A11300903D30 /* Info.plist */,
-				811DF4281237A0E700903D30 /* Document.xcdatamodel */,
+				810CE95B1251D66C00933B9E /* Data.xcdatamodeld */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -879,7 +879,6 @@
 				8165427B12379C6A008FC80F /* KeychainItemWrapper.m in Sources */,
 				8165427D12379C6A008FC80F /* Texture2D.m in Sources */,
 				8165427E12379C6A008FC80F /* UIColor-Expanded.m in Sources */,
-				811DF42B1237A0E700903D30 /* Document.xcdatamodel in Sources */,
 				8144AD3112395B82006B2AD7 /* DocumentsListViewController.m in Sources */,
 				8144AD4F12395DA8006B2AD7 /* RootViewController.m in Sources */,
 				8148EC2E123A323A000E9762 /* ClipperViewController.m in Sources */,
@@ -909,6 +908,7 @@
 				81B2730B1248EED60012FE9A /* AZZAudioRecorder.m in Sources */,
 				813EF8D2124919D300E52803 /* NSFileManager+Additions.m in Sources */,
 				813EF90912491E9700E52803 /* AZZAudioPlayer.m in Sources */,
+				810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1061,6 +1061,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		810CE95B1251D66C00933B9E /* Data.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				810CE95C1251D66C00933B9E /* Data.xcdatamodel */,
+			);
+			currentVersion = 810CE95C1251D66C00933B9E /* Data.xcdatamodel */;
+			path = Data.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 816541AE12379AA3008FC80F /* Project object */;
 }
