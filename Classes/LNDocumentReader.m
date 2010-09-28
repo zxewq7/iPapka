@@ -70,11 +70,9 @@ static NSString* OperationCount = @"OperationCount";
 @implementation LNDocumentReader
 @synthesize login, password, isSyncing, dataSource;
 
-- (id) initWithUrl:(NSString *) anUrl andViews:(NSArray *) vs
+- (id) initWithUrl:(NSString *) anUrl andViews:(NSArray *) views
 {
     if ((self = [super init])) {
-        url = [anUrl retain];
-        views = [vs retain];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _databaseDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -91,10 +89,15 @@ static NSString* OperationCount = @"OperationCount";
             //20100811
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
         
-        urlFetchView = [[NSString alloc] initWithFormat:url_FetchViewFormat, url, "%@"];
-        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, url, @"%@"];
-        urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, url, @"%@", @"%@", @"%@"];
-        urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, url, @"%@", @"%@", @"%@", @"%@"];
+        NSMutableArray *vs = [[NSMutableArray alloc] initWithCapacity: [views count]];
+        for (NSString *vn in views)
+            [vs addObject: [NSString stringWithFormat:url_FetchViewFormat, anUrl, vn]];
+        
+        viewUrls = vs;
+        
+        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, anUrl, @"%@"];
+        urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@"];
+        urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@", @"%@"];
 
         _networkQueue = [[ASINetworkQueue alloc] init];
         [_networkQueue setRequestDidFinishSelector:@selector(fetchComplete:)];
@@ -119,8 +122,7 @@ static NSString* OperationCount = @"OperationCount";
 	[_networkQueue release];
     [_databaseDirectory release];
 	self.dataSource = nil;
-    [views release];
-    [url release];
+    [viewUrls release];
     self.login = nil;
     self.password = nil;
     [parseFormatterDst release];
@@ -129,7 +131,6 @@ static NSString* OperationCount = @"OperationCount";
     [urlFetchDocumentFormat release];
     [urlAttachmentFetchPageFormat release];
     [urlLinkAttachmentFetchPageFormat release];
-    [urlFetchView release];
     
     [super dealloc];
 }
@@ -141,23 +142,26 @@ static NSString* OperationCount = @"OperationCount";
     if (isSyncing) //prevent spam syncing requests
         return;
     
-    LNHttpRequest *request = [self makeRequestWithUrl: urlFetchView];
-	[request setDownloadDestinationPath:[_databaseDirectory stringByAppendingPathComponent:@"index.xml"]];
-    __block LNDocumentReader *blockSelf = self;
-    request.requestHandler = ^(ASIHTTPRequest *request) {
-        NSString *error = [request error] == nil?
-                                ([request responseStatusCode] == 200?
-                                    nil:
-                                    NSLocalizedString(@"Bad response", "Bad response")):
-                                [[request error] localizedDescription];
-        if (error == nil)
-            [blockSelf parseViewData:[request downloadDestinationPath]];
-        else
-        {
-            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
-        }
-    };
-	[_networkQueue addOperation:request];
+    for (NSString *url in viewUrls)
+    {
+        LNHttpRequest *request = [self makeRequestWithUrl: url];
+        [request setDownloadDestinationPath:[_databaseDirectory stringByAppendingPathComponent:@"index.xml"]];
+        __block LNDocumentReader *blockSelf = self;
+        request.requestHandler = ^(ASIHTTPRequest *request) {
+            NSString *error = [request error] == nil?
+            ([request responseStatusCode] == 200?
+             nil:
+             NSLocalizedString(@"Bad response", "Bad response")):
+            [[request error] localizedDescription];
+            if (error == nil)
+                [blockSelf parseViewData:[request downloadDestinationPath]];
+            else
+            {
+                NSLog(@"error fetching url %@\n%@", [request originalURL], error);
+            }
+        };
+        [_networkQueue addOperation:request];        
+    }
 }
 
 - (void)purgeCache

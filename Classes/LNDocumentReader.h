@@ -27,15 +27,13 @@
 {
     ASINetworkQueue                 *_networkQueue;
     NSString                        *_databaseDirectory;
-    NSString                        *url;
     NSString                        *login;
     NSString                        *password;
     NSDateFormatter                 *parseFormatterDst;
     NSDateFormatter                 *parseFormatterSimple;
     BOOL                            isSyncing;
-    NSArray                         *views;
     
-    NSString                        *urlFetchView;
+    NSArray                         *viewUrls;
     NSString                        *urlFetchDocumentFormat;
     NSString                        *urlAttachmentFetchPageFormat;
     NSString                        *urlLinkAttachmentFetchPageFormat;
