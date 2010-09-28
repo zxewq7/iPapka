@@ -24,16 +24,10 @@
 #define kPasswordFieldTag 1002
 
 @interface DataSource(Private)
-- (DocumentManaged *) findDocumentByUid:(NSString *) anUid;
-- (PersonManaged *) findPersonByUid:(NSString *) anUid;
-- (void) createLNDocumentReaderFromDefaults;
 - (void) askLoginAndPassword:(NSString*) login;
-- (void) updatePerformers:(NSArray *) uids resolution:(ResolutionManaged *) resolution;
-- (void) updateAuthor:(NSString *) uid document:(DocumentManaged *) document;
-- (void) syncAndSaveDocument:(Document *) aDocument;
-- (void) commitNoSync;
 - (NSArray *) unsyncedDocuments;
 - (LNDocumentSaver *) documentSaver;
+- (LNDocumentReader *) documentReader;
 @end
 
 @implementation DataSource
@@ -114,8 +108,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             [managedObjectContext setPersistentStoreCoordinator: persistentStoreCoordinator];
         }
         
-        [self createLNDocumentReaderFromDefaults];
-        
         [[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext] retain];
         
         [[NSNotificationCenter defaultCenter] addObserver:self
@@ -124,102 +116,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                                                    object:nil];
     }
     return self;
-}
-#pragma mark -
-#pragma mark LNDocumentReaderDelegate
-- (void) documentUpdated:(Document *) aDocument
-{
-    DocumentManaged *foundDocument = [self findDocumentByUid:aDocument.uid];
-    if (foundDocument) 
-    {
-        foundDocument.dateModified = aDocument.dateModified;
-        [self updateAuthor:aDocument.author document:foundDocument];
-        foundDocument.title = aDocument.title;
-        foundDocument.isReadValue = NO;
-        foundDocument.isSyncedValue = YES;
-        [foundDocument resetCachedDocument];
-        
-        if ([aDocument isKindOfClass:[Resolution class]])
-        {
-            ResolutionManaged *resolution = (ResolutionManaged *)foundDocument;
-            
-            NSArray *performers = ((Resolution *)aDocument).performers;
-            
-            [self updatePerformers:performers resolution: resolution];
-        }
-
-        [self commitNoSync];
-        
-        [notify postNotificationName:@"DocumentUpdated" object:foundDocument];
-    }
-    else
-        [self documentAdded:aDocument];
-}
-
-- (void) documentsDeleted:(NSArray *) documents
-{
-    NSMutableArray *documentsToDelete = [NSMutableArray arrayWithCapacity:[documents count]];
-    for (Document *document in documents) 
-    {
-        DocumentManaged *foundDocument = [self findDocumentByUid:document.uid];
-        [documentsToDelete addObject:foundDocument];
-        if (foundDocument)
-            [managedObjectContext deleteObject:(NSManagedObject *)foundDocument];
-    }
-    
-    [notify postNotificationName:@"DocumentsRemoved" object:documentsToDelete];
-    
-    [self commitNoSync];
-}
-
-- (void) documentAdded:(Document *) aDocument
-{
-    DocumentManaged *newDocument = nil;
-    BOOL isResolution = [aDocument isKindOfClass:[Resolution class]];
-    if (isResolution)
-         newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:managedObjectContext];
-    else if ([aDocument isKindOfClass:[Signature class]])
-         newDocument = [NSEntityDescription insertNewObjectForEntityForName:@"Signature" inManagedObjectContext:managedObjectContext];
-    else 
-        NSAssert1(NO,@"Unknown entity: %@", [[aDocument class] name]);
-    
-    newDocument.dateModified = aDocument.dateModified;
-    [self updateAuthor:aDocument.author document:newDocument];
-    newDocument.title = aDocument.title;
-    newDocument.uid = aDocument.uid;
-    newDocument.isReadValue = [aDocument.dataSourceId isEqualToString: @"archive"];
-    newDocument.isArchivedValue = NO;
-    newDocument.dataSourceId = aDocument.dataSourceId;
-    newDocument.isEditableValue = [@"inbox" isEqualToString:aDocument.dataSourceId];
-    newDocument.isSyncedValue = YES;
-    
-    if (isResolution)
-    {
-        ResolutionManaged *resolution = (ResolutionManaged *)newDocument;
-        
-        NSArray *performers = ((Resolution *)aDocument).performers;
-        
-        [self updatePerformers:performers resolution: resolution];
-    }
-    
-	[self commitNoSync];
-    
-        //    [newDocument release];
-	
-    [notify postNotificationName:@"DocumentAdded" object:newDocument];
-}
-
-- (void) documentsListDidRefreshed:(id) sender
-{
-    isSyncing = NO;
-    [notify postNotificationName:@"DocumentsListDidRefreshed" object:nil];
-    [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
-}
-
-- (void) documentsListWillRefreshed:(id) sender
-{
-    isSyncing = YES;
-    [notify postNotificationName:@"DocumentsListWillRefreshed" object:nil];
 }
 
 
@@ -318,39 +214,18 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 
                 if (countDocumentsToSend <= 0)
                 {
-                    for (LNDocumentReader *ds in [dataSources allValues]) 
-                        [ds refreshDocuments];
-
-                    [self commitNoSync];
+                    [self commit];
+                    [[self documentReader] refreshDocuments];
                 }
             }];
         }
     }
     else
     {
-        for (LNDocumentReader *ds in [dataSources allValues]) 
-            [ds refreshDocuments];
+        [[self documentReader] refreshDocuments];
     }
-}
--(Document *) loadDocument:(DocumentManaged *) aDocument
-{
-    LNDocumentReader *ds = [dataSources objectForKey:aDocument.dataSourceId];
-    return [ds loadDocument:aDocument.uid];
 }
 
--(void) saveDocument:(Document *) aDocument
-{
-    DocumentManaged *documentManaged = [self findDocumentByUid: aDocument.uid];
-    
-    if (!documentManaged.isModifiedValue || !documentManaged.isSyncedValue)
-    {
-        documentManaged.isModifiedValue = YES;
-        documentManaged.isSyncedValue = NO;
-        [self commit];
-    }
-    else
-        [self syncAndSaveDocument: aDocument];
-}
 
 -(void) shutdown
 {
@@ -359,86 +234,16 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void)commit
 {
-    NSSet *updatedObjects  = [managedObjectContext updatedObjects];
-    for (DocumentManaged *document in updatedObjects)
+    NSError *error = nil;
+    if (![managedObjectContext save:&error])
     {
-        if ([document isKindOfClass: [DocumentManaged class]])
-        {
-            document.isModifiedValue = YES;
-            document.isSyncedValue = NO;
-            [self syncAndSaveDocument: document.document];
-        }
-    }
-    
-    [self commitNoSync];
-}
--(void) archiveDocument:(DocumentManaged *) aDocument
-{
-    [aDocument saveDocument];
-    
-    LNDocumentReader *inbox = [dataSources objectForKey: @"inbox"];
-    LNDocumentReader *archive = [dataSources objectForKey: @"archive"];
-    [inbox moveDocument: aDocument.uid destination: archive];
-    [aDocument resetCachedDocument];
-    aDocument.dataSourceId = archive.dataSourceId;
-    aDocument.isEditable = [NSNumber numberWithBool: NO];
-    [self commit];
-}
-#pragma mark -
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0)
-        exit(0);
-    else
-    {
-        UITextField *loginField = (UITextField *)[alertView viewWithTag:kLoginFieldTag];
-        UITextField *passwordField = (UITextField *)[alertView viewWithTag:kPasswordFieldTag];
-        NSString *login = loginField.text;
-        NSString *password = passwordField.text;
-        if (!login || !password || [login isEqualToString:@""] || [password isEqualToString:@""]) 
-        {
-            [self askLoginAndPassword:password];
-            return;
-        }
-        KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
-        [wrapper setObject:login forKey: (NSString *)kSecAttrAccount];
-        [wrapper setObject:password forKey: (NSString *)kSecValueData];
-        [wrapper release];
-        
-        for (LNDocumentReader *ds in [dataSources allValues]) 
-        {
-            ds.login = login;
-            ds.password = password;
-        }
-
+        NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
     }
 }
 
 #pragma mark -
-#pragma mark Memory management
-
-- (void)dealloc 
-{
-	
-    [managedObjectContext release];
-    [managedObjectModel release];
-    [persistentStoreCoordinator release];
-    [dataSources release];
-    [documentEntityDescription release];
-    [documentUidPredicateTemplate release];
-
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-    [documentSaver release];
-    documentSaver = nil;
-	[super dealloc];
-}
-@end
-
-@implementation DataSource(Private)
--(DocumentManaged *) findDocumentByUid:(NSString *) anUid
+#pragma mark LNDocumentReaderDataSource
+- (DocumentManaged *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) anUid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:self.documentEntityDescription];
@@ -455,7 +260,57 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return nil;
 }
 
--(PersonManaged *) findPersonByUid:(NSString *) anUid
+- (ResolutionManaged *) documentReaderCreateResolution:(LNDocumentReader *) documentReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:managedObjectContext];
+}
+
+- (SignatureManaged *) documentReaderCreateSignature:(LNDocumentReader *) documentReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"Signature" inManagedObjectContext:managedObjectContext];
+}
+
+- (DocumentManaged *) documentReaderCreateDocument:(LNDocumentReader *) documentReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
+}
+
+- (AttachmentManaged *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"Attachment" inManagedObjectContext:managedObjectContext];    
+}
+
+- (PageManaged *) documentReaderCreatePage:(LNDocumentReader *) documentReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"Page" inManagedObjectContext:managedObjectContext];
+}
+
+- (NSArray *) documentReaderRootUids:(LNDocumentReader *) documentReader
+{
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:self.documentEntityDescription];
+    [request setResultType:NSDictionaryResultType];
+    [request setReturnsDistinctResults:YES];
+    [request setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
+    
+    // Execute the fetch.
+    NSError *error;
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+    NSAssert1(fetchResults != nil, @"Unhandled error executing document fetch: %@", [error localizedDescription]);
+    return fetchResults;
+}
+
+- (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSManagedObject *) object;
+{
+    [managedObjectContext deleteObject:object];
+}
+
+- (void) documentReaderCommit:(LNDocumentReader *) documentReader
+{
+    [self commit];
+}
+
+- (PersonManaged *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) anUid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:self.personEntityDescription];
@@ -482,6 +337,58 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     }
 }
 
+#pragma mark -
+#pragma mark UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex == 0)
+        exit(0);
+    else
+    {
+        UITextField *loginField = (UITextField *)[alertView viewWithTag:kLoginFieldTag];
+        UITextField *passwordField = (UITextField *)[alertView viewWithTag:kPasswordFieldTag];
+        NSString *login = loginField.text;
+        NSString *password = passwordField.text;
+        if (!login || !password || [login isEqualToString:@""] || [password isEqualToString:@""]) 
+        {
+            [self askLoginAndPassword:password];
+            return;
+        }
+        KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
+        [wrapper setObject:login forKey: (NSString *)kSecAttrAccount];
+        [wrapper setObject:password forKey: (NSString *)kSecValueData];
+        [wrapper release];
+        
+        
+        [self documentReader].login = login;
+        [self documentReader].password = password;
+    }
+}
+
+#pragma mark -
+#pragma mark Memory management
+
+- (void)dealloc 
+{
+	
+    [managedObjectContext release];
+    [managedObjectModel release];
+    [persistentStoreCoordinator release];
+    [documentReader release];
+    [documentEntityDescription release];
+    [documentUidPredicateTemplate release];
+
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+    [documentSaver release];
+    documentSaver = nil;
+	[super dealloc];
+}
+@end
+
+@implementation DataSource(Private)
+
 - (void)defaultsChanged:(NSNotification *)notif
 {
         //purge cache - we need not it anymore
@@ -490,43 +397,36 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 //    [self createLNDocumentReaderFromDefaults];
 }
 
--(void) createLNDocumentReaderFromDefaults
+- (LNDocumentReader *) documentReader
 {
-    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-    NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
-    NSString *serverDatabaseViewInbox = [currentDefaults objectForKey:@"serverDatabaseViewInbox"];
-    NSString *serverDatabaseViewArchive = [currentDefaults objectForKey:@"serverDatabaseViewArchive"];
-
-    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
+    if (!documentReader)
+    {
+        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
+        NSString *serverDatabaseViewInbox = [currentDefaults objectForKey:@"serverDatabaseViewInbox"];
+        NSString *serverDatabaseViewArchive = [currentDefaults objectForKey:@"serverDatabaseViewArchive"];
+        
+        KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
+        
+        NSString *login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
+        NSString *password = [wrapper objectForKey:(NSString *)kSecValueData];
+        
+        [wrapper release];
+        
+        [documentReader release];
+        
+        documentReader = [[LNDocumentReader alloc] initWithUrl:serverUrl andViews:[NSArray arrayWithObjects: serverDatabaseViewInbox, serverDatabaseViewArchive, nil]];
+        
+        documentReader.dataSource = self;
+        
+        documentReader.login = login;
+        documentReader.password = password;
+        
+//        if (!login || !password || [login isEqualToString:@""] || [password isEqualToString:@""])
+//            [self askLoginAndPassword:login];
+    }
     
-    NSString *login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
-    NSString *password = [wrapper objectForKey:(NSString *)kSecValueData];
-    
-    [wrapper release];
-    
-    [dataSources release];
-    dataSources = [NSMutableDictionary dictionaryWithCapacity:2];
-    [dataSources retain];
-    
-    LNDocumentReader *dsInbox = [[LNDocumentReader alloc] initWithId: @"inbox" viewId:serverDatabaseViewInbox andUrl:serverUrl];
-    dsInbox.login = login;
-    dsInbox.password = password;
-    [dsInbox loadCache];
-    dsInbox.delegate = self;
-
-    [dataSources setObject:dsInbox forKey:@"inbox"];
-    
-
-    LNDocumentReader *dsArchive = [[LNDocumentReader alloc] initWithId: @"archive" viewId:serverDatabaseViewArchive andUrl:serverUrl];
-    dsArchive.login = login;
-    dsArchive.password = password;
-    [dsArchive loadCache];
-    dsArchive.delegate = self;
-    
-    [dataSources setObject:dsArchive forKey:@"archive"];
-    
-    if (!login || !password || [login isEqualToString:@""] || [password isEqualToString:@""])
-        [self askLoginAndPassword:login];
+    return documentReader;
 }
 
     //http://iphone-dev-tips.alterplay.com/2009/12/username-and-password-uitextfields-in.html
@@ -569,91 +469,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     else
         [textField becomeFirstResponder];
 }
-- (void) updatePerformers:(NSArray *) uids resolution:(ResolutionManaged *) resolution
-{
-    [resolution removePerformers: resolution.performers]; //clean all performers
-    
-    for (NSString *uid in uids)
-    {
-        PersonManaged *performer = [self findPersonByUid: uid];
-        if (performer)
-        {
-            [resolution addPerformersObject: performer];
-            [performer addResolutionsObject: resolution];
-        }
-        else
-            NSLog(@"Unknown person: %@", uid);
-    }
-}
-- (void) updateAuthor:(NSString *) uid document:(DocumentManaged *) document
-{
-    document.author = [self findPersonByUid: uid];
-    [document.author addDocumentsObject: document];
-}
-
-- (void) commitNoSync
-{
-    NSError *error = nil;
-    if (![managedObjectContext save:&error])
-    {
-        //remove documents from cache for consistency
-        NSSet *insertedObjects  = [managedObjectContext insertedObjects];
-        for (DocumentManaged *document in insertedObjects)
-        {
-            LNDocumentReader *ds = [dataSources objectForKey:document.dataSourceId];
-            [ds deleteDocument:document.uid];
-        }
-        
-        NSSet *updatedObjects  = [managedObjectContext updatedObjects];
-        for (DocumentManaged *document in updatedObjects)
-        {
-            LNDocumentReader *ds = [dataSources objectForKey:document.dataSourceId];
-            [ds deleteDocument:document.uid];
-        }
-        
-        NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
-    }
-}
-
-- (void) syncAndSaveDocument:(Document *) aDocument
-{
-    DocumentManaged *documentManaged = [self findDocumentByUid: aDocument.uid];
-    
-    if ([aDocument isKindOfClass: [Resolution class]])
-    {
-        Resolution *resolution = (Resolution *) aDocument;
-        ResolutionManaged *resolutionManaged = (ResolutionManaged *) documentManaged;
-        
-        //sync performers
-        NSMutableArray *performers = [NSMutableArray arrayWithCapacity: [resolution.performers count]];
-        for (PersonManaged *person in resolutionManaged.performers)
-            [performers addObject: person.uid];
-        
-        resolution.performers = [performers count]?performers:nil;
-    }
-    
-    aDocument.isAccepted = documentManaged.isAcceptedValue;
-    
-    aDocument.isDeclined = documentManaged.isDeclinedValue;
-    
-    LNDocumentReader *ds = [dataSources objectForKey:aDocument.dataSourceId];
-    [ds saveDocument:aDocument];    
-}
-
-- (NSArray *) unsyncedDocuments
-{
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	[fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
-	
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"isSynced==NO"]];
-    
-	NSError *error = nil;
-    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
-    
-    return fetchResults;    
-}
 - (LNDocumentSaver *) documentSaver
 {
     if (!documentSaver)
@@ -671,5 +486,20 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
     }
     return documentSaver;
+}
+
+- (NSArray *) unsyncedDocuments
+{
+	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
+	
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"isSynced==NO"]];
+    
+	NSError *error = nil;
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
+    
+    return fetchResults;    
 }
 @end

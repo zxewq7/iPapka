@@ -10,14 +10,13 @@
 #import <CoreData/CoreData.h>
 #import "LNDocumentReader.h"
 
-@class Folder, Document, DocumentManaged, LNDocumentSaver;
+@class Folder, Document, DocumentManaged, LNDocumentSaver, LNDocumentReader;
 
-@interface DataSource : NSObject<LNDataSourceDelegate, UIAlertViewDelegate>
+@interface DataSource : NSObject<UIAlertViewDelegate, LNDocumentReaderDataSource>
 {
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel         *managedObjectModel;
     NSManagedObjectContext       *managedObjectContext;
-    NSMutableDictionary          *dataSources;
     NSNotificationCenter         *notify;
     NSEntityDescription          *documentEntityDescription;
     NSPredicate                  *documentUidPredicateTemplate;
@@ -25,6 +24,7 @@
     NSPredicate                  *personUidPredicateTemplate;
     BOOL                         isSyncing;
     LNDocumentSaver              *documentSaver;
+    LNDocumentReader             *documentReader;
     NSUInteger                   countDocumentsToSend;
 }
 + (DataSource *)sharedDataSource;
@@ -38,11 +38,8 @@
 
 -(NSArray *) documentsForFolder:(Folder *) folder;
 -(void) refreshDocuments;
--(Document *) loadDocument:(DocumentManaged *) aDocument;
 -(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder;
 -(void) shutdown;
 -(void) commit;
--(void) saveDocument:(Document *) aDocument;
--(void) archiveDocument:(DocumentManaged *) aDocument;
 -(NSArray *) persons;
 @end
