@@ -8,6 +8,7 @@
 
 
 
+
 @interface ResolutionManagedID : NSManagedObjectID {}
 @end
 
@@ -16,6 +17,12 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (ResolutionManagedID*)objectID;
+
+
+
+@property (nonatomic, retain) NSDate *deadline;
+
+//- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -43,6 +50,10 @@
 @end
 
 @interface _ResolutionManaged (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSDate*)primitiveDeadline;
+- (void)setPrimitiveDeadline:(NSDate*)value;
+
 
 - (NSString*)primitiveText;
 - (void)setPrimitiveText:(NSString*)value;

@@ -29,6 +29,13 @@
 
 
 
+@dynamic deadline;
+
+
+
+
+
+
 @dynamic text;
 
 
