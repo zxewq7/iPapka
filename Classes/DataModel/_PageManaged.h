@@ -21,13 +21,13 @@
 
 
 
-@property (nonatomic, retain) NSNumber *syncStatus;
+@property (nonatomic, retain) NSNumber *isFetched;
 
-@property short syncStatusValue;
-- (short)syncStatusValue;
-- (void)setSyncStatusValue:(short)value_;
+@property BOOL isFetchedValue;
+- (BOOL)isFetchedValue;
+- (void)setIsFetchedValue:(BOOL)value_;
 
-//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateIsFetched:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -65,11 +65,11 @@
 
 @interface _PageManaged (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSNumber*)primitiveSyncStatus;
-- (void)setPrimitiveSyncStatus:(NSNumber*)value;
+- (NSNumber*)primitiveIsFetched;
+- (void)setPrimitiveIsFetched:(NSNumber*)value;
 
-- (short)primitiveSyncStatusValue;
-- (void)setPrimitiveSyncStatusValue:(short)value_;
+- (BOOL)primitiveIsFetchedValue;
+- (void)setPrimitiveIsFetchedValue:(BOOL)value_;
 
 
 - (NSNumber*)primitiveNumber;

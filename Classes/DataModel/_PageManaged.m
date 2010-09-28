@@ -29,26 +29,26 @@
 
 
 
-@dynamic syncStatus;
+@dynamic isFetched;
 
 
 
-- (short)syncStatusValue {
-	NSNumber *result = [self syncStatus];
-	return [result shortValue];
+- (BOOL)isFetchedValue {
+	NSNumber *result = [self isFetched];
+	return [result boolValue];
 }
 
-- (void)setSyncStatusValue:(short)value_ {
-	[self setSyncStatus:[NSNumber numberWithShort:value_]];
+- (void)setIsFetchedValue:(BOOL)value_ {
+	[self setIsFetched:[NSNumber numberWithBool:value_]];
 }
 
-- (short)primitiveSyncStatusValue {
-	NSNumber *result = [self primitiveSyncStatus];
-	return [result shortValue];
+- (BOOL)primitiveIsFetchedValue {
+	NSNumber *result = [self primitiveIsFetched];
+	return [result boolValue];
 }
 
-- (void)setPrimitiveSyncStatusValue:(short)value_ {
-	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveIsFetchedValue:(BOOL)value_ {
+	[self setPrimitiveIsFetched:[NSNumber numberWithBool:value_]];
 }
 
 
