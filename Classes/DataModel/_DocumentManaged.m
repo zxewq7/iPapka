@@ -62,27 +62,8 @@
 
 
 
-@dynamic isRead;
+@dynamic path;
 
-
-
-- (BOOL)isReadValue {
-	NSNumber *result = [self isRead];
-	return [result boolValue];
-}
-
-- (void)setIsReadValue:(BOOL)value_ {
-	[self setIsRead:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsReadValue {
-	NSNumber *result = [self primitiveIsRead];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsReadValue:(BOOL)value_ {
-	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
-}
 
 
 
@@ -108,6 +89,32 @@
 
 - (void)setPrimitiveIsEditableValue:(BOOL)value_ {
 	[self setPrimitiveIsEditable:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic isRead;
+
+
+
+- (BOOL)isReadValue {
+	NSNumber *result = [self isRead];
+	return [result boolValue];
+}
+
+- (void)setIsReadValue:(BOOL)value_ {
+	[self setIsRead:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsReadValue {
+	NSNumber *result = [self primitiveIsRead];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsReadValue:(BOOL)value_ {
+	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
 }
 
 
