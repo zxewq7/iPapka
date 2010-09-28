@@ -62,6 +62,32 @@
 
 
 
+@dynamic syncStatus;
+
+
+
+- (short)syncStatusValue {
+	NSNumber *result = [self syncStatus];
+	return [result shortValue];
+}
+
+- (void)setSyncStatusValue:(short)value_ {
+	[self setSyncStatus:[NSNumber numberWithShort:value_]];
+}
+
+- (short)primitiveSyncStatusValue {
+	NSNumber *result = [self primitiveSyncStatus];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveSyncStatusValue:(short)value_ {
+	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
+}
+
+
+
+
+
 @dynamic isEditable;
 
 
@@ -114,39 +140,6 @@
 
 
 
-@dynamic dataSourceId;
-
-
-
-
-
-
-@dynamic isArchived;
-
-
-
-- (BOOL)isArchivedValue {
-	NSNumber *result = [self isArchived];
-	return [result boolValue];
-}
-
-- (void)setIsArchivedValue:(BOOL)value_ {
-	[self setIsArchived:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsArchivedValue {
-	NSNumber *result = [self primitiveIsArchived];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsArchivedValue:(BOOL)value_ {
-	[self setPrimitiveIsArchived:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
 @dynamic dateModified;
 
 
@@ -154,78 +147,26 @@
 
 
 
-@dynamic isDeclined;
+@dynamic status;
 
 
 
-- (BOOL)isDeclinedValue {
-	NSNumber *result = [self isDeclined];
-	return [result boolValue];
+- (short)statusValue {
+	NSNumber *result = [self status];
+	return [result shortValue];
 }
 
-- (void)setIsDeclinedValue:(BOOL)value_ {
-	[self setIsDeclined:[NSNumber numberWithBool:value_]];
+- (void)setStatusValue:(short)value_ {
+	[self setStatus:[NSNumber numberWithShort:value_]];
 }
 
-- (BOOL)primitiveIsDeclinedValue {
-	NSNumber *result = [self primitiveIsDeclined];
-	return [result boolValue];
+- (short)primitiveStatusValue {
+	NSNumber *result = [self primitiveStatus];
+	return [result shortValue];
 }
 
-- (void)setPrimitiveIsDeclinedValue:(BOOL)value_ {
-	[self setPrimitiveIsDeclined:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
-@dynamic isAccepted;
-
-
-
-- (BOOL)isAcceptedValue {
-	NSNumber *result = [self isAccepted];
-	return [result boolValue];
-}
-
-- (void)setIsAcceptedValue:(BOOL)value_ {
-	[self setIsAccepted:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsAcceptedValue {
-	NSNumber *result = [self primitiveIsAccepted];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsAcceptedValue:(BOOL)value_ {
-	[self setPrimitiveIsAccepted:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
-@dynamic isSynced;
-
-
-
-- (BOOL)isSyncedValue {
-	NSNumber *result = [self isSynced];
-	return [result boolValue];
-}
-
-- (void)setIsSyncedValue:(BOOL)value_ {
-	[self setIsSynced:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsSyncedValue {
-	NSNumber *result = [self primitiveIsSynced];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsSyncedValue:(BOOL)value_ {
-	[self setPrimitiveIsSynced:[NSNumber numberWithBool:value_]];
+- (void)setPrimitiveStatusValue:(short)value_ {
+	[self setPrimitiveStatus:[NSNumber numberWithShort:value_]];
 }
 
 
@@ -239,8 +180,34 @@
 
 
 
+@dynamic links;
+
+	
+- (NSMutableSet*)linksSet {
+	[self willAccessValueForKey:@"links"];
+	NSMutableSet *result = [self mutableSetValueForKey:@"links"];
+	[self didAccessValueForKey:@"links"];
+	return result;
+}
+	
+
 @dynamic author;
 
+	
+
+@dynamic parent;
+
+	
+
+@dynamic attachments;
+
+	
+- (NSMutableSet*)attachmentsSet {
+	[self willAccessValueForKey:@"attachments"];
+	NSMutableSet *result = [self mutableSetValueForKey:@"attachments"];
+	[self didAccessValueForKey:@"attachments"];
+	return result;
+}
 	
 
 

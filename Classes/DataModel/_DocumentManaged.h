@@ -4,10 +4,10 @@
 #import <CoreData/CoreData.h>
 
 
+@class DocumentManaged;
 @class PersonManaged;
-
-
-
+@class DocumentManaged;
+@class AttachmentManaged;
 
 
 
@@ -45,6 +45,16 @@
 
 
 
+@property (nonatomic, retain) NSNumber *syncStatus;
+
+@property short syncStatusValue;
+- (short)syncStatusValue;
+- (void)setSyncStatusValue:(short)value_;
+
+//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSNumber *isEditable;
 
 @property BOOL isEditableValue;
@@ -65,55 +75,19 @@
 
 
 
-@property (nonatomic, retain) NSString *dataSourceId;
-
-//- (BOOL)validateDataSourceId:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isArchived;
-
-@property BOOL isArchivedValue;
-- (BOOL)isArchivedValue;
-- (void)setIsArchivedValue:(BOOL)value_;
-
-//- (BOOL)validateIsArchived:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSDate *dateModified;
 
 //- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, retain) NSNumber *isDeclined;
+@property (nonatomic, retain) NSNumber *status;
 
-@property BOOL isDeclinedValue;
-- (BOOL)isDeclinedValue;
-- (void)setIsDeclinedValue:(BOOL)value_;
+@property short statusValue;
+- (short)statusValue;
+- (void)setStatusValue:(short)value_;
 
-//- (BOOL)validateIsDeclined:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isAccepted;
-
-@property BOOL isAcceptedValue;
-- (BOOL)isAcceptedValue;
-- (void)setIsAcceptedValue:(BOOL)value_;
-
-//- (BOOL)validateIsAccepted:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isSynced;
-
-@property BOOL isSyncedValue;
-- (BOOL)isSyncedValue;
-- (void)setIsSyncedValue:(BOOL)value_;
-
-//- (BOOL)validateIsSynced:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateStatus:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -124,14 +98,39 @@
 
 
 
+@property (nonatomic, retain) NSSet* links;
+- (NSMutableSet*)linksSet;
+
+
+
 @property (nonatomic, retain) PersonManaged* author;
 //- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) DocumentManaged* parent;
+//- (BOOL)validateParent:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSSet* attachments;
+- (NSMutableSet*)attachmentsSet;
 
 
 
 @end
 
 @interface _DocumentManaged (CoreDataGeneratedAccessors)
+
+- (void)addLinks:(NSSet*)value_;
+- (void)removeLinks:(NSSet*)value_;
+- (void)addLinksObject:(DocumentManaged*)value_;
+- (void)removeLinksObject:(DocumentManaged*)value_;
+
+- (void)addAttachments:(NSSet*)value_;
+- (void)removeAttachments:(NSSet*)value_;
+- (void)addAttachmentsObject:(AttachmentManaged*)value_;
+- (void)removeAttachmentsObject:(AttachmentManaged*)value_;
 
 @end
 
@@ -148,6 +147,13 @@
 - (void)setPrimitiveUid:(NSString*)value;
 
 
+- (NSNumber*)primitiveSyncStatus;
+- (void)setPrimitiveSyncStatus:(NSNumber*)value;
+
+- (short)primitiveSyncStatusValue;
+- (void)setPrimitiveSyncStatusValue:(short)value_;
+
+
 - (NSNumber*)primitiveIsEditable;
 - (void)setPrimitiveIsEditable:(NSNumber*)value;
 
@@ -162,40 +168,15 @@
 - (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
-- (NSString*)primitiveDataSourceId;
-- (void)setPrimitiveDataSourceId:(NSString*)value;
-
-
-- (NSNumber*)primitiveIsArchived;
-- (void)setPrimitiveIsArchived:(NSNumber*)value;
-
-- (BOOL)primitiveIsArchivedValue;
-- (void)setPrimitiveIsArchivedValue:(BOOL)value_;
-
-
 - (NSDate*)primitiveDateModified;
 - (void)setPrimitiveDateModified:(NSDate*)value;
 
 
-- (NSNumber*)primitiveIsDeclined;
-- (void)setPrimitiveIsDeclined:(NSNumber*)value;
+- (NSNumber*)primitiveStatus;
+- (void)setPrimitiveStatus:(NSNumber*)value;
 
-- (BOOL)primitiveIsDeclinedValue;
-- (void)setPrimitiveIsDeclinedValue:(BOOL)value_;
-
-
-- (NSNumber*)primitiveIsAccepted;
-- (void)setPrimitiveIsAccepted:(NSNumber*)value;
-
-- (BOOL)primitiveIsAcceptedValue;
-- (void)setPrimitiveIsAcceptedValue:(BOOL)value_;
-
-
-- (NSNumber*)primitiveIsSynced;
-- (void)setPrimitiveIsSynced:(NSNumber*)value;
-
-- (BOOL)primitiveIsSyncedValue;
-- (void)setPrimitiveIsSyncedValue:(BOOL)value_;
+- (short)primitiveStatusValue;
+- (void)setPrimitiveStatusValue:(short)value_;
 
 
 - (NSString*)primitiveTitle;
@@ -204,8 +185,23 @@
 
 
 
+- (NSMutableSet*)primitiveLinks;
+- (void)setPrimitiveLinks:(NSMutableSet*)value;
+
+
+
 - (PersonManaged*)primitiveAuthor;
 - (void)setPrimitiveAuthor:(PersonManaged*)value;
+
+
+
+- (DocumentManaged*)primitiveParent;
+- (void)setPrimitiveParent:(DocumentManaged*)value;
+
+
+
+- (NSMutableSet*)primitiveAttachments;
+- (void)setPrimitiveAttachments:(NSMutableSet*)value;
 
 
 @end
