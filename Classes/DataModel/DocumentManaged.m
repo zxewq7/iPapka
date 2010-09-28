@@ -6,28 +6,6 @@
 
 -(Document *) document
 {
-    if (!document)
-    {
-        document = [[DataSource sharedDataSource] loadDocument:self];
-        [document retain];
-    }
-    return document;
-}
-
--(void) resetCachedDocument
-{
-    [document release];
-    document = nil;
-}
-
--(void) saveDocument
-{
-    [[DataSource sharedDataSource] saveDocument: self.document];
-}
-
--(void) dealloc
-{
-    [document release];
-    [super dealloc];
+    return nil;
 }
 @end

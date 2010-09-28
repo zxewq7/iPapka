@@ -1,13 +1,16 @@
 #import "_DocumentManaged.h"
 
+typedef enum _DocumentStatus {
+	DocumentStatusDraft = 0,
+    DocumentStatusAccepted = 1,
+    DocumentStatusDeclined = 2
+} DocumentStatus;
+
 @class Document;
 
 @interface DocumentManaged : _DocumentManaged 
 {
-    Document *document;
 }
 
 @property (nonatomic, readonly, getter=document) Document *document;
--(void) saveDocument;
--(void) resetCachedDocument;
 @end
