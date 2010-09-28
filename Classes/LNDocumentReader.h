@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class DocumentManaged, ResolutionManaged, SignatureManaged, PageManaged, AttachmentManaged, ASINetworkQueue, LNDocumentReader;
+@class DocumentManaged, ResolutionManaged, SignatureManaged, PageManaged, AttachmentManaged, ASINetworkQueue, LNDocumentReader, NSManagedObject, PersonManaged;
 
 @protocol LNDocumentReaderDataSource
 - (DocumentManaged *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
@@ -18,8 +18,9 @@
 - (AttachmentManaged *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader;
 - (PageManaged *) documentReaderCreatePage:(LNDocumentReader *) documentReader;
 - (NSArray *) documentReaderRootUids:(LNDocumentReader *) documentReader;
-- (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSObject *) object;
+- (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSManagedObject *) object;
 - (void) documentReaderCommit:(LNDocumentReader *) documentReader;
+- (PersonManaged *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) uid;
 @end
 
 
