@@ -7,6 +7,7 @@
 @class PersonManaged;
 
 
+
 @interface ResolutionManagedID : NSManagedObjectID {}
 @end
 
@@ -15,6 +16,12 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (ResolutionManagedID*)objectID;
+
+
+
+@property (nonatomic, retain) NSString *text;
+
+//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -36,6 +43,10 @@
 @end
 
 @interface _ResolutionManaged (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSString*)primitiveText;
+- (void)setPrimitiveText:(NSString*)value;
+
 
 
 

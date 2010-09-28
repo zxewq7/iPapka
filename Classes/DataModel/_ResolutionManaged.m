@@ -29,6 +29,13 @@
 
 
 
+@dynamic text;
+
+
+
+
+
+
 @dynamic performers;
 
 	
