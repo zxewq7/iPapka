@@ -5,6 +5,7 @@
 #import "DocumentManaged.h"
 
 @class PersonManaged;
+@class ResolutionManaged;
 
 
 
@@ -38,6 +39,11 @@
 
 
 
+@property (nonatomic, retain) ResolutionManaged* parentResolution;
+//- (BOOL)validateParentResolution:(id*)value_ error:(NSError**)error_;
+
+
+
 @end
 
 @interface _ResolutionManaged (CoreDataGeneratedAccessors)
@@ -63,6 +69,11 @@
 
 - (NSMutableSet*)primitivePerformers;
 - (void)setPrimitivePerformers:(NSMutableSet*)value;
+
+
+
+- (ResolutionManaged*)primitiveParentResolution;
+- (void)setPrimitiveParentResolution:(ResolutionManaged*)value;
 
 
 @end
