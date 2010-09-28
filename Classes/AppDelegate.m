@@ -27,32 +27,32 @@
         
         //default folders
         Folder *inbox = [Folder folderWithName:@"Documents" 
-                               predicateString:@"dataSourceId = \"inbox\"" 
+                               predicateString:@"status = 0" 
                                     entityName:@"Document"
                                       iconName:@"ButtonDocuments.png"];
         inbox.filters = [NSArray arrayWithObjects: 
                          [Folder folderWithName:@"Resolutions" 
-                                predicateString:@"dataSourceId = \"inbox\"" 
+                                predicateString:@"status = 0" 
                                      entityName:@"Resolution"
                                        iconName:@"ButtonResolution.png"], 
                          [Folder folderWithName:@"Signatures" 
-                                predicateString:@"dataSourceId = \"inbox\"" 
+                                predicateString:@"status = 0" 
                                      entityName:@"Signature"
                                        iconName:@"ButtonSignature.png"],
                          nil];
         
         Folder *archive = [Folder folderWithName:@"Archive" 
-                                 predicateString:@"dataSourceId = \"archive\"" 
+                                 predicateString:@"status = 0" 
                                       entityName:@"Document"
                                         iconName:@"ButtonArchive.png"];
         
         archive.filters = [NSArray arrayWithObjects: 
                            [Folder folderWithName:@"Resolutions" 
-                                  predicateString:@"dataSourceId = \"archive\"" 
+                                  predicateString:@"status = 0" 
                                        entityName:@"Resolution"
                                          iconName:@"ButtonResolution.png"], 
                            [Folder folderWithName:@"Signatures" 
-                                  predicateString:@"dataSourceId = \"archive\"" 
+                                  predicateString:@"status = 0" 
                                        entityName:@"Signature"
                                          iconName:@"ButtonSignature.png"],
                            nil];
