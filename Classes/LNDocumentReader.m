@@ -16,6 +16,7 @@
 #import "ASINetworkQueue.h"
 #import "SBJsonParser.h"
 #import "PageManaged.h"
+#import "PersonManaged.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -254,8 +255,6 @@ static NSString* OperationCount = @"OperationCount";
         //fetch documents
     for (DocumentManaged *document in [updatedDocuments allValues])
         [self fetchDocument: document];
-    
-    [[self dataSource] documentReaderCommit: self];
 }
 
 - (void)fetchDocument:(DocumentManaged *) document
@@ -390,7 +389,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
     
-    document.author = [parsedDocument objectForKey:field_Author];
+    document.author = [[self dataSource] documentReader:self personWithUid: [parsedDocument objectForKey:field_Author]];
     document.title = [subDocument objectForKey:field_Title];
     
     if ([document isKindOfClass:[ResolutionManaged class]]) 
@@ -600,30 +599,50 @@ static NSString* OperationCount = @"OperationCount";
             attachment.isFetchedValue = YES;
     }
 
-    if (!pagesFetched)
-        return;
-    
-    BOOL linksFetched = YES;
-    
-    for (DocumentManaged *link in document.links) 
+    if (pagesFetched)
     {
+        BOOL linksFetched = YES;
         
-        if (link.isFetched)
-            continue;
+        for (DocumentManaged *link in document.links) 
+        {
+            
+            if (link.isFetchedValue)
+                continue;
+            
+            linksFetched = NO;
+            break;
+        }
         
-        linksFetched = NO;
-        break;
+        if (linksFetched)
+            document.isFetchedValue = YES;
     }
-
-    if (linksFetched)
-        document.isFetchedValue = YES;
+    [[self dataSource] documentReaderCommit: self];
     
 }
 - (void) parseResolution:(ResolutionManaged *) resolution fromDictionary:(NSDictionary *) dictionary;
 {
     resolution.text = [dictionary objectForKey:field_Text];
-    resolution.author = [dictionary objectForKey:field_Author];
-    resolution.performers = [dictionary objectForKey:field_Performers];
+    resolution.author = [[self dataSource] documentReader:self personWithUid: [dictionary objectForKey:field_Author]];
+
+    //performers
+    [resolution removePerformers: resolution.performers]; //clean all performers
+    
+    NSArray *performers = [dictionary objectForKey:field_Performers];
+    for (NSString *uid in performers)
+    {
+        NSString *u = [uid stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if ([u isEqualToString:@""])
+             continue;
+        PersonManaged *performer = [[self dataSource] documentReader:self personWithUid: uid];
+        if (performer)
+        {
+            [resolution addPerformersObject: performer];
+            [performer addResolutionsObject: resolution];
+        }
+        else
+            NSLog(@"Unknown person: %@", uid);
+    }
+    
     NSDate *dDeadline = nil;
     NSString *sDeadline = [dictionary objectForKey:field_Deadline];
     if (sDeadline && ![sDeadline isEqualToString:@""])
@@ -638,6 +657,7 @@ static NSString* OperationCount = @"OperationCount";
         [self parseResolution:parentResolution fromDictionary:parsedParentResolution];
         parentResolution.title = resolution.title;
         resolution.parentResolution = parentResolution;
+        parentResolution.parent = resolution;
     }
 }
 @end
