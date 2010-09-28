@@ -8,50 +8,45 @@
 
 #import <Foundation/Foundation.h>
 
-@class Document, ASINetworkQueue;
+@class DocumentManaged, ResolutionManaged, SignatureManaged, PageManaged, AttachmentManaged, ASINetworkQueue, LNDocumentReader;
 
-@protocol LNDataSourceDelegate
-- (void) documentUpdated:(Document *) document;
-- (void) documentsDeleted:(NSArray *) documents;
-- (void) documentAdded:(Document *) document;
-- (void) documentsListDidRefreshed:(id) sender;
-- (void) documentsListWillRefreshed:(id) sender;
+@protocol LNDocumentReaderDataSource
+- (DocumentManaged *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
+- (ResolutionManaged *) documentReaderCreateResolution:(LNDocumentReader *) documentReader;
+- (SignatureManaged *) documentReaderCreateSignature:(LNDocumentReader *) documentReader;
+- (DocumentManaged *) documentReaderCreateDocument:(LNDocumentReader *) documentReader;
+- (AttachmentManaged *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader;
+- (PageManaged *) documentReaderCreatePage:(LNDocumentReader *) documentReader;
+- (NSArray *) documentReaderRootUids:(LNDocumentReader *) documentReader;
+- (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSObject *) object;
+- (void) documentReaderCommit:(LNDocumentReader *) documentReader;
 @end
 
 
 @interface LNDocumentReader : NSObject
 {
-    NSMutableSet                    *cacheIndex;
     ASINetworkQueue                 *_networkQueue;
     NSString                        *_databaseDirectory;
     NSString                        *url;
-    NSString                        *viewId;
     NSString                        *login;
     NSString                        *password;
-    NSObject<LNDataSourceDelegate>  *delegate;
     NSDateFormatter                 *parseFormatterDst;
     NSDateFormatter                 *parseFormatterSimple;
     BOOL                            isSyncing;
-    NSString                        *dataSourceId;
+    NSArray                         *views;
     
     NSString                        *urlFetchView;
     NSString                        *urlFetchDocumentFormat;
     NSString                        *urlAttachmentFetchPageFormat;
     NSString                        *urlLinkAttachmentFetchPageFormat;
+    
+    NSObject<LNDocumentReaderDataSource> *dataSource;                          
 }
-@property (nonatomic, retain, readonly) NSString              *url;
-@property (nonatomic, retain, readonly) NSString              *viewId;
-@property (nonatomic, retain, readonly) NSString              *dataSourceId;
+- (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
+@property (nonatomic, readonly)         BOOL                  isSyncing;
 @property (nonatomic, retain) NSString                        *login;
 @property (nonatomic, retain) NSString                        *password;
-@property (nonatomic, retain) NSObject<LNDataSourceDelegate>  *delegate;
+@property (nonatomic, retain) NSObject<LNDocumentReaderDataSource> *dataSource;
 - (void) refreshDocuments;
-- (void) loadCache;
-- (Document *) loadDocument:(NSString *) anUid;
-- (void) deleteDocument:(NSString *) anUid;
 - (void) purgeCache;
-- (void) saveDocument:(Document *) document;
-- (id) initWithId:(NSString *) aDataSourceId viewId:(NSString *) aViewId andUrl:(NSString*) anUrl;
-- (void) moveDocument:(NSString *) documentUid destination:(LNDocumentReader *) destination;
-- (void) addDocument:(NSString *) uid path:(NSString *) path moveSource:(BOOL) moveSource;
 @end

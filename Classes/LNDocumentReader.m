@@ -7,15 +7,15 @@
 //
 
 #import "LNDocumentReader.h"
-#import "Document.h"
-#import "Resolution.h"
-#import "Signature.h"
-#import "Attachment.h"
+#import "DocumentManaged.h"
+#import "ResolutionManaged.h"
+#import "SignatureManaged.h"
+#import "AttachmentManaged.h"
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
 #import "SBJsonParser.h"
-#import "AttachmentPage.h"
+#import "PageManaged.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -27,7 +27,6 @@ static NSString *view_EntryDataText = @"text";
 static NSString *view_EntryDataFirstElement = @"0";
 
 static NSString *field_Title       = @"subject";
-static NSString *field_Date        = @"date";
 static NSString *field_Author      = @"author";
 static NSString *field_Modified    = @"$modified";
 static NSString *field_Subdocument = @"document";
@@ -57,39 +56,34 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 - (void)fetchComplete:(ASIHTTPRequest *)request;
 - (void)fetchFailed:(ASIHTTPRequest *)request;
 - (void)parseViewData:(NSString *) jsonFile;
-- (void)fetchDocument:(Document *) document isNew:(BOOL) isNew;
-- (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile;
+- (void)fetchDocument:(DocumentManaged *) document;
+- (void)parseDocumentData:(DocumentManaged *) document parsedDocument:(NSDictionary *) parsedDocument;
 - (NSString *) documentDirectory:(NSString *) anUid;
-- (void)fetchAttachments:(Document *)document;
-- (void)fetchLinks:(Document *)document;
-- (void)fetchAttachments:(Document *)document rootDocument:(Document *)aRootDocument urlPattern:(NSString *) anUrlPattern basePath:(NSString *) aBasePath;
-- (void)checkDocumentIsLoaded:(Document *)document;
+- (void)fetchPage:(PageManaged *)page;
+- (void)checkDocumentIsLoaded:(DocumentManaged *)document;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
-- (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) parseResolution:(ResolutionManaged *) resolution fromDictionary:(NSDictionary *) dictionary;
 @end
 static NSString* OperationCount = @"OperationCount";
 
 @implementation LNDocumentReader
-@synthesize viewId, url, delegate, login, password, dataSourceId;
+@synthesize login, password, isSyncing, dataSource;
 
-- (id) initWithId:(NSString *) aDataSourceId viewId:(NSString *) aViewId andUrl:(NSString*) anUrl
+- (id) initWithUrl:(NSString *) anUrl andViews:(NSArray *) vs
 {
     if ((self = [super init])) {
         url = [anUrl retain];
-        dataSourceId = [aDataSourceId retain];
-        viewId = [aViewId retain];
+        views = [vs retain];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _databaseDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-        _databaseDirectory = [[_databaseDirectory stringByAppendingPathComponent:@"Cache"] stringByAppendingPathComponent:self.dataSourceId];
+        _databaseDirectory = [_databaseDirectory stringByAppendingPathComponent:@"Documents"];
         [_databaseDirectory retain];
 
         [[NSFileManager defaultManager] createDirectoryAtPath:_databaseDirectory withIntermediateDirectories:TRUE 
                                                    attributes:nil error:nil]; 
 
-        cacheIndex = [[NSMutableSet alloc] initWithCapacity:50];
-        
         parseFormatterDst = [[NSDateFormatter alloc] init];
             //20100811T183249,89+04
         [parseFormatterDst setDateFormat:@"yyyyMMdd'T'HHmmss,S"];
@@ -97,10 +91,10 @@ static NSString* OperationCount = @"OperationCount";
             //20100811
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
         
-        urlFetchView = [[NSString alloc] initWithFormat:url_FetchViewFormat, self.url, self.viewId];
-        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, self.url, @"%@"];
-        urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, self.url, @"%@", @"%@", @"%@"];
-        urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, self.url, @"%@", @"%@", @"%@", @"%@"];
+        urlFetchView = [[NSString alloc] initWithFormat:url_FetchViewFormat, url, "%@"];
+        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, url, @"%@"];
+        urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, url, @"%@", @"%@", @"%@"];
+        urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, url, @"%@", @"%@", @"%@", @"%@"];
 
         _networkQueue = [[ASINetworkQueue alloc] init];
         [_networkQueue setRequestDidFinishSelector:@selector(fetchComplete:)];
@@ -124,13 +118,11 @@ static NSString* OperationCount = @"OperationCount";
     [_networkQueue reset];
 	[_networkQueue release];
     [_databaseDirectory release];
-	[cacheIndex release];
-    [viewId release];
+	self.dataSource = nil;
+    [views release];
     [url release];
     self.login = nil;
     self.password = nil;
-    self.delegate = nil;
-    [dataSourceId release];
     [parseFormatterDst release];
     [parseFormatterSimple release];
 
@@ -163,91 +155,15 @@ static NSString* OperationCount = @"OperationCount";
         else
         {
             NSLog(@"error fetching url %@\n%@", [request originalURL], error);
-            if ([ self.delegate respondsToSelector:@selector(documentsListDidRefreshed:)] ) 
-                [self.delegate documentsListDidRefreshed:self];
         }
     };
 	[_networkQueue addOperation:request];
-}
-
-- (void)loadCache
-{
-    NSFileManager *df = [NSFileManager defaultManager];
-    NSDirectoryEnumerator *dirEnum = [df enumeratorAtPath:_databaseDirectory];
-    
-    NSString *file;
-    while (file = [dirEnum nextObject]) 
-    {
-        NSString *documentObjectPath = [_databaseDirectory stringByAppendingPathComponent: [file stringByAppendingPathComponent:@"index.object"]];
-        if ([df fileExistsAtPath:documentObjectPath isDirectory:NULL]) 
-            [cacheIndex addObject:file];
-    }
-}
-
-- (Document *) loadDocument:(NSString *) anUid
-{
-    NSString *path = [self documentDirectory:anUid];
-    NSString *documentObjectPath = [path stringByAppendingPathComponent:@"index.object"];
-    NSFileManager *df = [NSFileManager defaultManager];
-    
-    if ([df fileExistsAtPath:documentObjectPath isDirectory:NULL])
-        return [NSKeyedUnarchiver unarchiveObjectWithFile:documentObjectPath];
-    else
-        return nil;
-}
-
-- (void)deleteDocument:(NSString *) anUid
-{
-    NSFileManager *df = [NSFileManager defaultManager];
-    NSString *documentPath = [self documentDirectory:anUid];
-    [df removeItemAtPath:documentPath error:NULL];
-    [cacheIndex removeObject:anUid];
 }
 
 - (void)purgeCache
 {
     NSFileManager *df = [NSFileManager defaultManager];
     [df removeItemAtPath:_databaseDirectory error:NULL];
-}
-
-- (void)saveDocument:(Document *) document
-{
-    @synchronized(self) 
-    {
-        NSString * path = [self documentDirectory:document.uid];
-        
-        [NSKeyedArchiver archiveRootObject: document toFile: [path stringByAppendingPathComponent:@"index.object"]];
-        [cacheIndex addObject:document.uid];
-            //    NSLog(@"saved to: %@", [path stringByAppendingPathComponent:@"index.object"]);
-    }
-}
-
-- (void) moveDocument:(NSString *) documentUid destination:(LNDocumentReader *) destination
-{
-    [destination addDocument:documentUid path:[self documentDirectory:documentUid] moveSource:YES];
-    [self deleteDocument:documentUid];
-}
-
-- (void) addDocument:(NSString *)uid path:(NSString *) path moveSource:(BOOL) moveSource
-{
-    NSFileManager *df = [NSFileManager defaultManager];
-    NSString *dstPath = [self documentDirectory: uid];
-    NSError *error = nil;
-    if (moveSource)
-        [df moveItemAtPath:path toPath:dstPath error:&error];
-    else
-        [df copyItemAtPath:path toPath:dstPath error:&error];
-    
-    NSAssert3(error == nil, @"Unable to move from \"%@\" to \"%@\", error: %@", path, dstPath, error);
-    
-    [cacheIndex addObject: uid];
-    
-    Document *doc = [self loadDocument: uid];
-    NSString *newPath = [self documentDirectory: uid];
-    
-    doc.path = newPath;
-    
-    [self saveDocument:doc];
 }
 
 @end
@@ -282,10 +198,7 @@ static NSString* OperationCount = @"OperationCount";
     }
     NSArray *entries = [parsedView objectForKey:view_RootEntry]; 
     NSUInteger size = [entries count];
-    NSMutableArray *newDocuments = [NSMutableArray arrayWithCapacity:size];
-    NSMutableArray *updatedDocuments = [NSMutableArray arrayWithCapacity:size];
-    NSMutableSet *allUids = [NSMutableSet setWithCapacity:size];
-    NSMutableSet *uidsToRemove = [NSMutableSet setWithCapacity:size];
+    NSMutableDictionary *updatedDocuments = [NSMutableDictionary dictionaryWithCapacity:size];
     for (NSDictionary *entry in entries) 
     {
         NSString *uid = [entry objectForKey:view_EntryUid];
@@ -297,115 +210,90 @@ static NSString* OperationCount = @"OperationCount";
         NSAssert(form != nil, @"Unable to find form in view");
         NSAssert(dateModified != nil, @"Unable to find dateModified in view");
 
-        if (![cacheIndex containsObject:uid])
+        DocumentManaged *document = [[self dataSource] documentReader:self documentWithUid:uid];
+        
+        if (!document)
         {
             
-            Document *document = nil;
-
             if ([form isEqualToString:form_Resolution])
-                document = [[Resolution alloc] init];
+                document = [[self dataSource] documentReaderCreateResolution:self];
             else if ([form isEqualToString:form_Signature])
-                document = [[Signature alloc] init];
+                document = [[self dataSource] documentReaderCreateSignature:self];
             else
             {
                 NSLog(@"wrong form, document skipped: %@ %@", uid, form);
                 continue;
             }
             document.uid = uid;
-            document.dateModified = dateModified;
-            document.dataSourceId = dataSourceId;
             document.path = [self documentDirectory:uid];
-            [newDocuments addObject:document];
-            [document release];
+            document.dateModified = dateModified;
         }
-        else
+        else if ([document.dateModified compare: dateModified] == NSOrderedAscending)
         {
-                //document updated
-            Document *document = [self loadDocument:uid];
-            if ([document.dateModified compare: dateModified] == NSOrderedAscending)
-            {
-                document.dateModified = dateModified;
-                [updatedDocuments addObject:document];
-            }
+            document.dateModified = dateModified;
         }
         
-        [allUids addObject:uid];
+        [updatedDocuments setObject:document forKey:uid];
     }
     
+    NSArray *rootUids = [[self dataSource] documentReaderRootUids:self];
         //remove obsoleted documents
-    for (NSString *uid in cacheIndex)
+    for (NSString *uid in rootUids)
     {
-        if (![allUids containsObject:uid])
-            [uidsToRemove addObject:uid];
-    }
-        //remove documents
-    if ([uidsToRemove count])
-    {
-        
-        NSMutableArray *documentToRemove = [NSMutableArray arrayWithCapacity:[uidsToRemove count]];
-        
-        for (NSString *uid in uidsToRemove)
+        DocumentManaged *doc = [updatedDocuments objectForKey: uid];
+        if (!doc)
         {
-            Document *document = [self loadDocument:uid];
-            [documentToRemove addObject:document];
-            [self deleteDocument:uid];
+            DocumentManaged *obj = [[self dataSource] documentReader:self documentWithUid:uid];
+            [[self dataSource] documentReader:self removeObject: obj];
         }
-        
-        if ( [delegate respondsToSelector:@selector(documentsDeleted:)] ) 
-            [delegate documentsDeleted:documentToRemove];
     }
-        //fetch new documents
-    for (Document *document in newDocuments)
-        [self fetchDocument: document isNew:YES];
+        //fetch documents
+    for (DocumentManaged *document in [updatedDocuments allValues])
+        [self fetchDocument: document];
     
-        //fetch updated documents
-    for (Document *document in updatedDocuments)
-        [self fetchDocument: document isNew:NO];
+    [[self dataSource] documentReaderCommit: self];
 }
 
-- (void)fetchDocument:(Document *) document isNew:(BOOL) isNew
+- (void)fetchDocument:(DocumentManaged *) document
 {
     NSString *anUrl = [NSString stringWithFormat:urlFetchDocumentFormat, document.uid];
     LNHttpRequest *request = [self makeRequestWithUrl: anUrl];
-    NSString *directory = [self documentDirectory:document.uid];
-    NSFileManager *df = [NSFileManager defaultManager];
-    if (isNew)
-        [df createDirectoryAtPath:directory withIntermediateDirectories:TRUE attributes:nil error:nil];
 
-	[request setDownloadDestinationPath:[directory stringByAppendingPathComponent:@"index.html"]];
+    NSFileManager *df = [NSFileManager defaultManager];
+    
+    [df createDirectoryAtPath:document.path withIntermediateDirectories:TRUE attributes:nil error:nil];
+
+	[request setDownloadDestinationPath:[document.path stringByAppendingPathComponent:@"index.html"]];
     request.requestHandler = ^(ASIHTTPRequest *request) {
         NSString *file = [request downloadDestinationPath];
-        if ([request error] == nil  && [request responseStatusCode] == 200)
+        if ([request error] == nil  && [request responseStatusCode] == 200) //remove document if error
         {
-            Document *doc = [self parseDocumentData:document jsonFile:file];
-            if (doc != nil) 
+            NSString *jsonString = [NSString stringWithContentsOfFile:file encoding:NSUTF8StringEncoding error:NULL];
+            SBJsonParser *json = [[SBJsonParser alloc] init];
+            NSError *error = nil;
+            NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
+            [json release];
+            if (parsedDocument == nil) 
             {
-                [self saveDocument:doc];
-                if ( isNew && [delegate respondsToSelector:@selector(documentAdded:)] ) 
-                    [delegate documentAdded:doc];
-                else if ( !isNew && [delegate respondsToSelector:@selector(documentUpdated:)] )
-                    [delegate documentUpdated:doc];
-                [self fetchAttachments: document];
-                [self fetchLinks: document];
+                NSLog(@"error parsing document %@, error:%@", document.uid, error);
+                [[self dataSource] documentReader:self removeObject: document];
             }
+            else
+                [self parseDocumentData:document parsedDocument:parsedDocument];
+            
         }
         else
         {
-            [df removeItemAtPath:directory error:NULL];
+            [[self dataSource] documentReader:self removeObject: document];
             NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
-            //[df removeItemAtPath:file error:NULL];
+        
+        [df removeItemAtPath:file error:NULL];
+        
+        [[self dataSource] documentReaderCommit: self];
+        
     };
 	[_networkQueue addOperation:request];
-}
-
-- (void)fetchAttachments:(Document *)document
-{
-    NSString *path = [[self documentDirectory:document.uid] stringByAppendingPathComponent:@"attachments"];
-
-    NSString *urlPattern = [NSString stringWithFormat:urlAttachmentFetchPageFormat, document.uid, @"%@", @"%d"];
-    
-    [self fetchAttachments:document rootDocument:document urlPattern:urlPattern basePath:path];
 }
 
 - (NSString *) documentDirectory:(NSString *) anUid
@@ -413,95 +301,165 @@ static NSString* OperationCount = @"OperationCount";
     NSString *directory = [_databaseDirectory stringByAppendingPathComponent: anUid];
     return directory;
 }
-- (Document *)parseDocumentData:(Document *) document jsonFile:(NSString *) jsonFile
-{
-    NSString *jsonString = [NSString stringWithContentsOfFile:jsonFile encoding:NSUTF8StringEncoding error:NULL];
-    SBJsonParser *json = [[SBJsonParser alloc] init];
-    NSError *error = nil;
-    NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
-    [json release];
-    if (parsedDocument == nil) {
-        NSLog(@"error parsing document %@, error:%@", document.uid, error);
-        return nil;
-    }
-    NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
 
+- (void)parseAttachments:(DocumentManaged *) document attachments:(NSArray *) attachments
+{
+    NSSet *existingAttachments = document.attachments;
+    
+    //remove obsoleted attachments
+    for (AttachmentManaged *attachment in existingAttachments)
+    {
+        BOOL  exists = NO;
+        for (NSDictionary *dictAttachment in attachments)
+        {
+            NSString *uid = [dictAttachment objectForKey:field_AttachmentUid];
+            if ([attachment.uid isEqualToString :uid])
+            {
+                exists = YES;
+                break;
+            }
+            
+            if (!exists)
+                [[self dataSource] documentReader:self removeObject: attachment];
+        }
+    }
+    
+    //add new attachments
+    existingAttachments = document.attachments;
+    
+    for(NSDictionary *dictAttachment in attachments)
+    {
+        NSString *attachmentUid = [dictAttachment objectForKey:field_AttachmentUid];
+        
+        AttachmentManaged *attachment = nil;
+        
+        for (AttachmentManaged *a in existingAttachments)
+        {
+            if ([a.uid isEqualToString: attachmentUid])
+            {
+                attachment = a;
+                break;
+            }
+        }
+        
+        if (!attachment) //create new attachment
+        {
+            attachment = [[self dataSource] documentReaderCreateAttachment:self];
+            attachment.title = [dictAttachment objectForKey:field_AttachmentName];
+            attachment.uid = [dictAttachment objectForKey:field_AttachmentUid];
+            attachment.isFetchedValue = NO;
+            attachment.document = document;
+            
+            NSUInteger pageCount = [[dictAttachment objectForKey:field_AttachmentPageCount] intValue];
+            
+            for (NSUInteger i = 0; i < pageCount ; i++) //create page stubs
+            {
+                PageManaged *page = [[self dataSource] documentReaderCreatePage:self];
+                page.numberValue = i;
+                page.isFetchedValue = NO;
+                page.attachment = attachment;
+                [attachment addPagesObject: page];
+            }
+            [document addAttachmentsObject: attachment];
+        }
+    }
+    
+    //fetch attachment pages
+    existingAttachments = document.attachments;
+    for (AttachmentManaged *attachment in existingAttachments)
+    {
+        if (attachment.isFetchedValue)
+            continue;
+        
+        for (PageManaged *page in attachment.pages)
+        {
+            if (page.isFetchedValue)
+                continue;
+            
+            [self fetchPage: page];
+        }
+    }
+    
+}
+
+- (void)parseDocumentData:(DocumentManaged *) document parsedDocument:(NSDictionary *) parsedDocument
+{
+    NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
+    
     document.author = [parsedDocument objectForKey:field_Author];
     document.title = [subDocument objectForKey:field_Title];
-    NSDate *dDate = nil;
-    NSString *sDate = [parsedDocument objectForKey:field_Date];
-    if (sDate && ![sDate isEqualToString:@""])
-        dDate = [parseFormatterSimple dateFromString:sDate];
-    document.date = dDate;
     
-    if ([document isKindOfClass:[Resolution class]]) 
+    if ([document isKindOfClass:[ResolutionManaged class]]) 
     {
-        Resolution *resolution = (Resolution *)document;
+        ResolutionManaged *resolution = (ResolutionManaged *)document;
         [self parseResolution:resolution fromDictionary:parsedDocument];
     }
     
+    //parse attachments
     NSArray *attachments = [subDocument objectForKey:field_Attachments];
-    NSMutableArray *documentAttachments = [NSMutableArray arrayWithCapacity:[attachments count]];
-    for(NSDictionary *attachment in attachments)
-    {
-        Attachment *newAttachment = [[Attachment alloc] init];
-        newAttachment.title = [attachment objectForKey:field_AttachmentName];
-        newAttachment.uid = [attachment objectForKey:field_AttachmentUid];
-        NSNumber *nPageCount = [attachment objectForKey:field_AttachmentPageCount];
-        NSUInteger pageCount = nPageCount == nil?0:[nPageCount intValue];
-        
-        NSMutableArray *pages = [NSMutableArray arrayWithCapacity:pageCount];
-        for (NSUInteger i = 0; i < pageCount ; i++) //just empty array
-        {
-            AttachmentPage *page = [[AttachmentPage alloc] init];
-            [pages addObject:page];
-            [page release];
-        }
 
-        newAttachment.pages = pages;
-        [documentAttachments addObject:newAttachment];
-        [newAttachment release];
-    }
-    document.attachments = documentAttachments;
+    [self parseAttachments:document attachments: attachments];
     
+    
+    //parse links
     NSArray *links = [subDocument objectForKey:field_Links];
-    NSMutableArray *documentLinks = [NSMutableArray arrayWithCapacity:[attachments count]];
-    for(NSDictionary *link in links)
+    
+    NSSet *existingLinks = document.links;
+
+    //remove obsoleted attachments
+    for (DocumentManaged *link in existingLinks)
     {
-        Document *linkDocument = [[Document alloc] init];
-        linkDocument.uid = [link objectForKey:field_LinkUid];
-        linkDocument.title = [link objectForKey:field_LinkTitle];
-        NSArray *linkAttachments = [link objectForKey:field_Attachments];
-        NSMutableArray *documentLinkAttachments = [NSMutableArray arrayWithCapacity:[linkAttachments count]];
-        for(NSDictionary *attachment in linkAttachments)
+        BOOL  exists = NO;
+        for (NSDictionary *dictLink in links)
         {
-            Attachment *newAttachment = [[Attachment alloc] init];
-            newAttachment.title = [attachment objectForKey:field_AttachmentName];
-            newAttachment.uid = [attachment objectForKey:field_AttachmentUid];
-            NSNumber *nPageCount = [attachment objectForKey:field_AttachmentPageCount];
-            NSUInteger pageCount = nPageCount == nil?0:[nPageCount intValue];
-            
-            NSMutableArray *pages = [NSMutableArray arrayWithCapacity:pageCount];
-            for (NSUInteger i = 0; i < pageCount ; i++) //just empty array
+            NSString *uid = [dictLink objectForKey:field_LinkUid];
+            if ([link.uid isEqualToString :uid])
             {
-                AttachmentPage *page = [[AttachmentPage alloc] init];
-                [pages addObject:page];
-                [page release];
+                exists = YES;
+                break;
             }
             
-            newAttachment.pages = pages;
-            [documentLinkAttachments addObject:newAttachment];
-            [newAttachment release];
+            if (!exists)
+                [[self dataSource] documentReader:self removeObject: link];
         }
-        linkDocument.attachments = documentLinkAttachments;
-        [documentLinks addObject:linkDocument];
-        [linkDocument release];
     }
-    document.links = documentLinks;
     
-    document.hasError = NO;
-    return document;
+    //add new links
+    existingLinks = document.links;
+    
+    for(NSDictionary *dictLink in links)
+    {
+        NSString *uid = [dictLink objectForKey:field_LinkUid];
+        
+        DocumentManaged *link = nil;
+        
+        for (DocumentManaged *l in existingLinks)
+        {
+            if ([l.uid isEqualToString: uid])
+            {
+                link = l;
+                break;
+            }
+        }
+        
+        if (!link) //create new link
+        {
+            link = [[self dataSource] documentReaderCreateDocument:self];
+            link.uid = [dictLink objectForKey:field_LinkUid];
+            link.title = [dictLink objectForKey:field_LinkTitle];
+            link.isFetchedValue = NO;
+            
+            link.parent = document;
+            
+            NSArray *linkAttachments = [dictLink objectForKey:field_Attachments];
+            
+            [self parseAttachments:link attachments: linkAttachments];
+            
+            [document addLinksObject: link];
+        }
+    }
 }
+
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) anUrl
 {
     LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: anUrl]];
@@ -517,19 +475,12 @@ static NSString* OperationCount = @"OperationCount";
 {
     if (context == &OperationCount)
     {
-		if(_networkQueue.requestsCount)
+		BOOL x = (_networkQueue.requestsCount == 0);
+        if ( x != isSyncing )
         {
-            if ( !isSyncing && [delegate respondsToSelector:@selector(documentsListWillRefreshed:)] ) 
-            {
-                [delegate documentsListWillRefreshed:self];
-                isSyncing = YES;
-            }
-        }
-        else
-        {
-            isSyncing = NO;
-            if ([ self.delegate respondsToSelector:@selector(documentsListDidRefreshed:)] ) 
-                [self.delegate documentsListDidRefreshed:self];
+            [self willChangeValueForKey:@"isSyncing"];
+            isSyncing = x;
+            [self didChangeValueForKey:@"isSyncing"];
         }
     }
     else
@@ -574,109 +525,97 @@ static NSString* OperationCount = @"OperationCount";
     
     return result;
 }
-- (void)fetchAttachments:(Document *)document rootDocument:(Document *)aRootDocument urlPattern:(NSString *) anUrlPattern basePath:(NSString *) aBasePath
+- (void)fetchPage:(PageManaged *)page
 {
     NSFileManager *df = [NSFileManager defaultManager];
+    
+    NSString *path = page.path;
+    
+    [df createDirectoryAtPath:path withIntermediateDirectories:TRUE 
+                   attributes:nil error:nil];
 
-    for (Attachment *attachment in document.attachments) 
+    NSString *urlPattern;
+    
+    AttachmentManaged *attachment = page.attachment;
+    DocumentManaged *rootDocument = attachment.document;
+
+#warning recursive links???
+    if (rootDocument.parent) //link
     {
-        NSString *path = [[aBasePath stringByAppendingPathComponent: attachment.uid] stringByAppendingPathComponent: @"pages"];
-        [df createDirectoryAtPath:path withIntermediateDirectories:TRUE 
-                                                   attributes:nil error:nil];
-        NSUInteger pageCount = [attachment.pages count];
+        rootDocument = rootDocument.parent;
+        DocumentManaged *link = rootDocument;
         
-        for (NSUInteger pageIndex = 0 ; pageIndex < pageCount; pageIndex++)
-        {
-            NSString *anUrl = [NSString stringWithFormat:anUrlPattern, attachment.uid, pageIndex];
-            LNHttpRequest *request = [self makeRequestWithUrl: anUrl];
-            
-            [request setDownloadDestinationPath:[path stringByAppendingPathComponent:[NSString stringWithFormat:@"%d", pageIndex]]];
-            request.requestHandler = ^(ASIHTTPRequest *request) 
-            {
-                AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
-                if ([request error] == nil  && [request responseStatusCode] == 200)
-                {
-                    
-                    page.name = [[request downloadDestinationPath] lastPathComponent];
-                    page.isLoaded = YES;
-                    page.hasError = NO;
-                }
-                else
-                {
-                    attachment.hasError = YES;
-                    page.isLoaded = YES;
-                    page.hasError = YES;
-                        //remove bugged response
-                    [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
-                    NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
-                }
-                [self checkDocumentIsLoaded:aRootDocument];
-            };
-            attachment.path = path;
-            [_networkQueue addOperation:request];
-        }        
+        urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, rootDocument.uid, link.uid, @"%@", @"%d"];
     }
-}
-- (void)checkDocumentIsLoaded:(Document *)document
-{
-    BOOL attachmentsLoaded = YES;
+    else
+        urlPattern = [NSString stringWithFormat:urlAttachmentFetchPageFormat, rootDocument.uid, @"%@", @"%d"];
+    
+    NSString *anUrl = [NSString stringWithFormat:urlPattern, attachment.uid, [page.number intValue]];
+    
 
-    for (Attachment *attachment in document.attachments)
+    LNHttpRequest *request = [self makeRequestWithUrl: anUrl];
+    
+    [request setDownloadDestinationPath:[path stringByAppendingPathComponent:path]];
+    request.requestHandler = ^(ASIHTTPRequest *request) 
     {
-        if (attachment.isLoaded)
+        if ([request error] == nil  && [request responseStatusCode] == 200)
+        {
+            page.isFetchedValue = YES;
+        }
+        else
+        {
+            page.isFetchedValue = NO;
+            //remove bugged response
+            [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
+            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
+        }
+        [self checkDocumentIsLoaded:rootDocument];
+    };
+
+    [_networkQueue addOperation:request];
+}
+- (void)checkDocumentIsLoaded:(DocumentManaged *)document
+{
+    BOOL pagesFetched = YES;
+
+    for (AttachmentManaged *attachment in document.attachments)
+    {
+        if (attachment.isFetchedValue)
             continue;
         
-        for (AttachmentPage *page in attachment.pages) 
+        for (PageManaged *page in attachment.pages) 
         {
-            if (!page.isLoaded)
+            if (!page.isFetchedValue)
             {
-                attachmentsLoaded = NO;
+                pagesFetched = NO;
                 break;
             }
         }
-        attachment.isLoaded = attachmentsLoaded;
+        
+        if (pagesFetched)
+            attachment.isFetchedValue = YES;
     }
 
-    BOOL linksLoaded = YES;
+    if (!pagesFetched)
+        return;
     
-    for (Document *link in document.links) 
+    BOOL linksFetched = YES;
+    
+    for (DocumentManaged *link in document.links) 
     {
         
-        if (link.isLoaded)
+        if (link.isFetched)
             continue;
         
-        for (Attachment *attachment in link.attachments)
-        {
-            if (attachment.isLoaded)
-                continue;
-            
-            for (AttachmentPage *page in attachment.pages) 
-            {
-                if (!page.isLoaded)
-                {
-                    linksLoaded = NO;
-                    break;
-                }
-            }
-            attachment.isLoaded = linksLoaded;
-        }
+        linksFetched = NO;
+        break;
     }
-    
-    document.isLoaded = attachmentsLoaded & linksLoaded;
-    [self saveDocument:document];
+
+    if (linksFetched)
+        document.isFetchedValue = YES;
     
 }
-- (void)fetchLinks:(Document *)document
-{
-    NSString *path = [[self documentDirectory:document.uid] stringByAppendingPathComponent:@"links"];
-    for (Document *link in document.links) 
-    {
-        NSString *urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, document.uid, link.uid, @"%@", @"%d"];
-        
-        [self fetchAttachments:link rootDocument:document urlPattern:urlPattern basePath:[[path stringByAppendingPathComponent:link.uid] stringByAppendingPathComponent:@"attachments"]];
-    }
-}
-- (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary
+- (void) parseResolution:(ResolutionManaged *) resolution fromDictionary:(NSDictionary *) dictionary;
 {
     resolution.text = [dictionary objectForKey:field_Text];
     resolution.author = [dictionary objectForKey:field_Author];
@@ -685,20 +624,16 @@ static NSString* OperationCount = @"OperationCount";
     NSString *sDeadline = [dictionary objectForKey:field_Deadline];
     if (sDeadline && ![sDeadline isEqualToString:@""])
         dDeadline = [parseFormatterSimple dateFromString:sDeadline];
+
     resolution.deadline = dDeadline;
-    NSDate *dDate = nil;
-    NSString *sDate = [dictionary objectForKey:field_Date];
-    if (sDate && ![sDate isEqualToString:@""])
-        dDate = [parseFormatterSimple dateFromString:sDate];
 
     NSDictionary *parsedParentResolution = [dictionary objectForKey:field_ParentResolution];
     if (parsedParentResolution) 
     {
-        Resolution *parentResolution = [[Resolution alloc] init];
+        ResolutionManaged *parentResolution = [[self dataSource] documentReaderCreateResolution:self];
         [self parseResolution:parentResolution fromDictionary:parsedParentResolution];
         parentResolution.title = resolution.title;
         resolution.parentResolution = parentResolution;
-        [parentResolution release];
     }
 }
 @end
