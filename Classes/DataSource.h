@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "LNDataSource.h"
+#import "LNDocumentReader.h"
 
 @class Folder, Document, DocumentManaged, LNDocumentSaver;
 

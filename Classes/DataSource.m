@@ -11,7 +11,7 @@
 #import "SynthesizeSingleton.h"
 #import "DocumentManaged.h"
 #import "Document.h"
-#import "LNDataSource.h"
+#import "LNDocumentReader.h"
 #import "ResolutionManaged.h"
 #import "SignatureManaged.h"
 #import "Resolution.h"
@@ -26,7 +26,7 @@
 @interface DataSource(Private)
 - (DocumentManaged *) findDocumentByUid:(NSString *) anUid;
 - (PersonManaged *) findPersonByUid:(NSString *) anUid;
-- (void) createLNDatasourceFromDefaults;
+- (void) createLNDocumentReaderFromDefaults;
 - (void) askLoginAndPassword:(NSString*) login;
 - (void) updatePerformers:(NSArray *) uids resolution:(ResolutionManaged *) resolution;
 - (void) updateAuthor:(NSString *) uid document:(DocumentManaged *) document;
@@ -114,7 +114,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             [managedObjectContext setPersistentStoreCoordinator: persistentStoreCoordinator];
         }
         
-        [self createLNDatasourceFromDefaults];
+        [self createLNDocumentReaderFromDefaults];
         
         [[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext] retain];
         
@@ -126,7 +126,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return self;
 }
 #pragma mark -
-#pragma mark LNDataSourceDelegate
+#pragma mark LNDocumentReaderDelegate
 - (void) documentUpdated:(Document *) aDocument
 {
     DocumentManaged *foundDocument = [self findDocumentByUid:aDocument.uid];
@@ -318,7 +318,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 
                 if (countDocumentsToSend <= 0)
                 {
-                    for (LNDataSource *ds in [dataSources allValues]) 
+                    for (LNDocumentReader *ds in [dataSources allValues]) 
                         [ds refreshDocuments];
 
                     [self commitNoSync];
@@ -328,13 +328,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     }
     else
     {
-        for (LNDataSource *ds in [dataSources allValues]) 
+        for (LNDocumentReader *ds in [dataSources allValues]) 
             [ds refreshDocuments];
     }
 }
 -(Document *) loadDocument:(DocumentManaged *) aDocument
 {
-    LNDataSource *ds = [dataSources objectForKey:aDocument.dataSourceId];
+    LNDocumentReader *ds = [dataSources objectForKey:aDocument.dataSourceId];
     return [ds loadDocument:aDocument.uid];
 }
 
@@ -376,8 +376,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     [aDocument saveDocument];
     
-    LNDataSource *inbox = [dataSources objectForKey: @"inbox"];
-    LNDataSource *archive = [dataSources objectForKey: @"archive"];
+    LNDocumentReader *inbox = [dataSources objectForKey: @"inbox"];
+    LNDocumentReader *archive = [dataSources objectForKey: @"archive"];
     [inbox moveDocument: aDocument.uid destination: archive];
     [aDocument resetCachedDocument];
     aDocument.dataSourceId = archive.dataSourceId;
@@ -407,7 +407,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         [wrapper setObject:password forKey: (NSString *)kSecValueData];
         [wrapper release];
         
-        for (LNDataSource *ds in [dataSources allValues]) 
+        for (LNDocumentReader *ds in [dataSources allValues]) 
         {
             ds.login = login;
             ds.password = password;
@@ -485,12 +485,12 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 - (void)defaultsChanged:(NSNotification *)notif
 {
         //purge cache - we need not it anymore
-//    [lnDataSource purgeCache];
+//    [LNDocumentReader purgeCache];
 //    
-//    [self createLNDatasourceFromDefaults];
+//    [self createLNDocumentReaderFromDefaults];
 }
 
--(void) createLNDatasourceFromDefaults
+-(void) createLNDocumentReaderFromDefaults
 {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
@@ -508,7 +508,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     dataSources = [NSMutableDictionary dictionaryWithCapacity:2];
     [dataSources retain];
     
-    LNDataSource *dsInbox = [[LNDataSource alloc] initWithId: @"inbox" viewId:serverDatabaseViewInbox andUrl:serverUrl];
+    LNDocumentReader *dsInbox = [[LNDocumentReader alloc] initWithId: @"inbox" viewId:serverDatabaseViewInbox andUrl:serverUrl];
     dsInbox.login = login;
     dsInbox.password = password;
     [dsInbox loadCache];
@@ -517,7 +517,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [dataSources setObject:dsInbox forKey:@"inbox"];
     
 
-    LNDataSource *dsArchive = [[LNDataSource alloc] initWithId: @"archive" viewId:serverDatabaseViewArchive andUrl:serverUrl];
+    LNDocumentReader *dsArchive = [[LNDocumentReader alloc] initWithId: @"archive" viewId:serverDatabaseViewArchive andUrl:serverUrl];
     dsArchive.login = login;
     dsArchive.password = password;
     [dsArchive loadCache];
@@ -600,14 +600,14 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         NSSet *insertedObjects  = [managedObjectContext insertedObjects];
         for (DocumentManaged *document in insertedObjects)
         {
-            LNDataSource *ds = [dataSources objectForKey:document.dataSourceId];
+            LNDocumentReader *ds = [dataSources objectForKey:document.dataSourceId];
             [ds deleteDocument:document.uid];
         }
         
         NSSet *updatedObjects  = [managedObjectContext updatedObjects];
         for (DocumentManaged *document in updatedObjects)
         {
-            LNDataSource *ds = [dataSources objectForKey:document.dataSourceId];
+            LNDocumentReader *ds = [dataSources objectForKey:document.dataSourceId];
             [ds deleteDocument:document.uid];
         }
         
@@ -636,7 +636,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     
     aDocument.isDeclined = documentManaged.isDeclinedValue;
     
-    LNDataSource *ds = [dataSources objectForKey:aDocument.dataSourceId];
+    LNDocumentReader *ds = [dataSources objectForKey:aDocument.dataSourceId];
     [ds saveDocument:aDocument];    
 }
 
