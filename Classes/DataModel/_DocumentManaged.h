@@ -45,13 +45,13 @@
 
 
 
-@property (nonatomic, retain) NSNumber *syncStatus;
+@property (nonatomic, retain) NSNumber *isRead;
 
-@property short syncStatusValue;
-- (short)syncStatusValue;
-- (void)setSyncStatusValue:(short)value_;
+@property BOOL isReadValue;
+- (BOOL)isReadValue;
+- (void)setIsReadValue:(BOOL)value_;
 
-//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateIsRead:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -62,16 +62,6 @@
 - (void)setIsEditableValue:(BOOL)value_;
 
 //- (BOOL)validateIsEditable:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isRead;
-
-@property BOOL isReadValue;
-- (BOOL)isReadValue;
-- (void)setIsReadValue:(BOOL)value_;
-
-//- (BOOL)validateIsRead:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -88,6 +78,16 @@
 - (void)setStatusValue:(short)value_;
 
 //- (BOOL)validateStatus:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSNumber *isSynced;
+
+@property BOOL isSyncedValue;
+- (BOOL)isSyncedValue;
+- (void)setIsSyncedValue:(BOOL)value_;
+
+//- (BOOL)validateIsSynced:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -147,11 +147,11 @@
 - (void)setPrimitiveUid:(NSString*)value;
 
 
-- (NSNumber*)primitiveSyncStatus;
-- (void)setPrimitiveSyncStatus:(NSNumber*)value;
+- (NSNumber*)primitiveIsRead;
+- (void)setPrimitiveIsRead:(NSNumber*)value;
 
-- (short)primitiveSyncStatusValue;
-- (void)setPrimitiveSyncStatusValue:(short)value_;
+- (BOOL)primitiveIsReadValue;
+- (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
 - (NSNumber*)primitiveIsEditable;
@@ -159,13 +159,6 @@
 
 - (BOOL)primitiveIsEditableValue;
 - (void)setPrimitiveIsEditableValue:(BOOL)value_;
-
-
-- (NSNumber*)primitiveIsRead;
-- (void)setPrimitiveIsRead:(NSNumber*)value;
-
-- (BOOL)primitiveIsReadValue;
-- (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
 - (NSDate*)primitiveDateModified;
@@ -177,6 +170,13 @@
 
 - (short)primitiveStatusValue;
 - (void)setPrimitiveStatusValue:(short)value_;
+
+
+- (NSNumber*)primitiveIsSynced;
+- (void)setPrimitiveIsSynced:(NSNumber*)value;
+
+- (BOOL)primitiveIsSyncedValue;
+- (void)setPrimitiveIsSyncedValue:(BOOL)value_;
 
 
 - (NSString*)primitiveTitle;

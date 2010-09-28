@@ -62,26 +62,26 @@
 
 
 
-@dynamic syncStatus;
+@dynamic isRead;
 
 
 
-- (short)syncStatusValue {
-	NSNumber *result = [self syncStatus];
-	return [result shortValue];
+- (BOOL)isReadValue {
+	NSNumber *result = [self isRead];
+	return [result boolValue];
 }
 
-- (void)setSyncStatusValue:(short)value_ {
-	[self setSyncStatus:[NSNumber numberWithShort:value_]];
+- (void)setIsReadValue:(BOOL)value_ {
+	[self setIsRead:[NSNumber numberWithBool:value_]];
 }
 
-- (short)primitiveSyncStatusValue {
-	NSNumber *result = [self primitiveSyncStatus];
-	return [result shortValue];
+- (BOOL)primitiveIsReadValue {
+	NSNumber *result = [self primitiveIsRead];
+	return [result boolValue];
 }
 
-- (void)setPrimitiveSyncStatusValue:(short)value_ {
-	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveIsReadValue:(BOOL)value_ {
+	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
 }
 
 
@@ -108,32 +108,6 @@
 
 - (void)setPrimitiveIsEditableValue:(BOOL)value_ {
 	[self setPrimitiveIsEditable:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
-@dynamic isRead;
-
-
-
-- (BOOL)isReadValue {
-	NSNumber *result = [self isRead];
-	return [result boolValue];
-}
-
-- (void)setIsReadValue:(BOOL)value_ {
-	[self setIsRead:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsReadValue {
-	NSNumber *result = [self primitiveIsRead];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsReadValue:(BOOL)value_ {
-	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
 }
 
 
@@ -167,6 +141,32 @@
 
 - (void)setPrimitiveStatusValue:(short)value_ {
 	[self setPrimitiveStatus:[NSNumber numberWithShort:value_]];
+}
+
+
+
+
+
+@dynamic isSynced;
+
+
+
+- (BOOL)isSyncedValue {
+	NSNumber *result = [self isSynced];
+	return [result boolValue];
+}
+
+- (void)setIsSyncedValue:(BOOL)value_ {
+	[self setIsSynced:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsSyncedValue {
+	NSNumber *result = [self primitiveIsSynced];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsSyncedValue:(BOOL)value_ {
+	[self setPrimitiveIsSynced:[NSNumber numberWithBool:value_]];
 }
 
 
