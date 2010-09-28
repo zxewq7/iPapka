@@ -1,3 +1,3 @@
 #!/bin/sh
 
-mogenerator -m Document.xcdatamodel -O Classes/DocumentModelManaged
+mogenerator -m Data.xcdatamodeld/Data.xcdatamodel -O Classes/DataModel
