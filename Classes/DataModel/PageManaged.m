@@ -1,7 +1,11 @@
 #import "PageManaged.h"
+#import "AttachmentManaged.h"
 
 @implementation PageManaged
 
-// Custom logic goes here.
+-(NSString *)path
+{
+    return [self.attachment.path stringByAppendingPathComponent:@"pages"];
+}
 
 @end

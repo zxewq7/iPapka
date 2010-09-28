@@ -1,5 +1,5 @@
 #import "_AttachmentManaged.h"
 
-@interface AttachmentManaged : _AttachmentManaged {}
-// Custom logic goes here.
+@interface AttachmentManaged : _AttachmentManaged
+@property (readonly) NSString *path;
 @end

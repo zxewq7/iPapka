@@ -1,5 +1,5 @@
 #import "_PageManaged.h"
 
-@interface PageManaged : _PageManaged {}
-// Custom logic goes here.
+@interface PageManaged : _PageManaged
+@property (readonly) NSString *path;
 @end

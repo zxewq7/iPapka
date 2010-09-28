@@ -1,7 +1,11 @@
 #import "AttachmentManaged.h"
+#import "DocumentManaged.h"
 
 @implementation AttachmentManaged
 
-// Custom logic goes here.
+-(NSString *)path
+{
+    return [self.document.path stringByAppendingPathComponent:@"attachments"];
+}
 
 @end
