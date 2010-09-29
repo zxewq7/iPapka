@@ -90,7 +90,7 @@ static NSString* SyncingContext = @"SyncingContext";
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
     self.tableView.rowHeight = ROW_HEIGHT;
     
-    UIImageView *backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
+    UIImageView *backgroundView = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"PaperTexture.png"]];
     self.tableView.backgroundView = backgroundView;
     [backgroundView release];
     
