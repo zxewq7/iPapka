@@ -527,27 +527,31 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return fetchResults;    
 }
 
-- (NSEntityDescription *)documentEntityDescription {
+- (NSEntityDescription *)documentEntityDescription 
+{
     if (documentEntityDescription == nil) {
         documentEntityDescription = [[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext] retain];
     }
     return documentEntityDescription;
 }
 
-- (NSEntityDescription *)personEntityDescription {
+- (NSEntityDescription *)personEntityDescription 
+{
     if (personEntityDescription == nil) {
         personEntityDescription = [[NSEntityDescription entityForName:@"Person" inManagedObjectContext:managedObjectContext] retain];
     }
     return personEntityDescription;
 }
-- (NSEntityDescription *)pageEntityDescription {
+- (NSEntityDescription *)pageEntityDescription 
+{
     if (pageEntityDescription == nil) {
         pageEntityDescription = [[NSEntityDescription entityForName:@"Page" inManagedObjectContext:managedObjectContext] retain];
     }
     return pageEntityDescription;
 }
 
-- (NSPredicate *)documentUidPredicateTemplate {
+- (NSPredicate *)documentUidPredicateTemplate 
+{
     if (documentUidPredicateTemplate == nil) {
         NSExpression *leftHand = [NSExpression expressionForKeyPath:@"uid"];
         NSExpression *rightHand = [NSExpression expressionForVariable:kDocumentUidSubstitutionVariable];
@@ -556,7 +560,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return documentUidPredicateTemplate;
 }
 
-- (NSPredicate *)personUidPredicateTemplate {
+- (NSPredicate *)personUidPredicateTemplate 
+{
     if (personUidPredicateTemplate == nil) {
         NSExpression *leftHand = [NSExpression expressionForKeyPath:@"uid"];
         NSExpression *rightHand = [NSExpression expressionForVariable:kPersonUidSubstitutionVariable];
