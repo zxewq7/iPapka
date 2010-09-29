@@ -79,13 +79,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             managedObjectContext = [[NSManagedObjectContext alloc] init];
             [managedObjectContext setPersistentStoreCoordinator: persistentStoreCoordinator];
         }
-        
-        [[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext] retain];
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(defaultsChanged:)
-                                                     name:NSUserDefaultsDidChangeNotification
-                                                   object:nil];
     }
     return self;
 }
@@ -395,12 +388,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 @implementation DataSource(Private)
 
-- (void)defaultsChanged:(NSNotification *)notif
 {
-        //purge cache - we need not it anymore
-//    [LNDocumentReader purgeCache];
-//    
-//    [self createLNDocumentReaderFromDefaults];
 }
 
 - (LNDocumentReader *) documentReader
