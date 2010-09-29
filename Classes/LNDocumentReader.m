@@ -511,7 +511,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     if (context == &OperationCount)
     {
-		BOOL x = (_networkQueue.requestsCount == 0);
+		BOOL x = (_networkQueue.requestsCount != 0);
         if ( x != isSyncing )
         {
             [self willChangeValueForKey:@"isSyncing"];
