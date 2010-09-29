@@ -20,6 +20,7 @@ static NSString* SyncingContext = @"SyncingContext";
 @interface DocumentsListViewController(Private)
 - (void) createToolbars;
 - (void)updateSyncStatus;
+- (NSString *)sectionNameForDate:(NSDate *) date;
 @end
 
 
@@ -164,7 +165,7 @@ static NSString* SyncingContext = @"SyncingContext";
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
     NSArray *objects = [sectionInfo objects];
     DocumentManaged *doc = [objects objectAtIndex:0];
-    return [dateFormatter stringFromDate: doc.strippedDateModified];
+    return [self sectionNameForDate:doc.strippedDateModified];
 }
 
 
@@ -476,5 +477,45 @@ static NSString* SyncingContext = @"SyncingContext";
         }
     }
     
+}
+
+- (NSString *)sectionNameForDate:(NSDate *) date
+{
+    NSString *result = nil;
+    NSDateComponents *dateComponents;
+    NSInteger myDay, tzDay;
+    
+    // Set the calendar's time zone to the default time zone.
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    [calendar setTimeZone:[NSTimeZone defaultTimeZone]];
+    dateComponents = [calendar components:NSWeekdayCalendarUnit fromDate:date];
+    myDay = [dateComponents weekday];
+    
+    dateComponents = [calendar components:NSWeekdayCalendarUnit fromDate:date];
+    tzDay = [dateComponents weekday];
+    
+    NSRange dayRange = [calendar maximumRangeOfUnit:NSWeekdayCalendarUnit];
+    NSInteger maxDay = NSMaxRange(dayRange) - 1;
+    
+    if (myDay == tzDay)
+        result = NSLocalizedString(@"Today", "Today");
+    else 
+    {
+        if ((tzDay - myDay) > 0)
+            result = NSLocalizedString(@"Tomorrow", "Tomorrow");
+        else
+            result = NSLocalizedString(@"Yesterday", "Yesterday");
+        // Special cases for days at the end of the week
+        if ((myDay == maxDay) && (tzDay == 1))
+            result = NSLocalizedString(@"Tomorrow", "Tomorrow");
+
+        if ((myDay == 1) && (tzDay == maxDay))
+            result = NSLocalizedString(@"Yesterday", "Yesterday");
+    }
+    
+    if (!result)
+        result = [dateFormatter stringFromDate: date];
+
+	return result;
 }
 @end
