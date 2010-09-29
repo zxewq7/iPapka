@@ -27,32 +27,32 @@
         
         //default folders
         Folder *inbox = [Folder folderWithName:@"Documents" 
-                               predicateString:@"status = 0" 
+                               predicateString:@"status == 0" 
                                     entityName:@"Document"
                                       iconName:@"ButtonDocuments.png"];
         inbox.filters = [NSArray arrayWithObjects: 
                          [Folder folderWithName:@"Resolutions" 
-                                predicateString:@"status = 0" 
+                                predicateString:@"status == 0" 
                                      entityName:@"Resolution"
                                        iconName:@"ButtonResolution.png"], 
                          [Folder folderWithName:@"Signatures" 
-                                predicateString:@"status = 0" 
+                                predicateString:@"status == 0" 
                                      entityName:@"Signature"
                                        iconName:@"ButtonSignature.png"],
                          nil];
         
         Folder *archive = [Folder folderWithName:@"Archive" 
-                                 predicateString:@"status = 0" 
+                                 predicateString:@"status != 0" 
                                       entityName:@"Document"
                                         iconName:@"ButtonArchive.png"];
         
         archive.filters = [NSArray arrayWithObjects: 
                            [Folder folderWithName:@"Resolutions" 
-                                  predicateString:@"status = 0" 
+                                  predicateString:@"status != 0" 
                                        entityName:@"Resolution"
                                          iconName:@"ButtonResolution.png"], 
                            [Folder folderWithName:@"Signatures" 
-                                  predicateString:@"status = 0" 
+                                  predicateString:@"status != 0" 
                                        entityName:@"Signature"
                                          iconName:@"ButtonSignature.png"],
                            nil];
