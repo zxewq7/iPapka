@@ -28,50 +28,25 @@
 - (NSArray *) unsyncedDocuments;
 - (LNDocumentSaver *) documentSaver;
 - (LNDocumentReader *) documentReader;
+- (NSEntityDescription *)documentEntityDescription;
+- (NSEntityDescription *)personEntityDescription;
+- (NSEntityDescription *)pageEntityDescription;
+- (NSPredicate *)documentUidPredicateTemplate;
+- (NSPredicate *)personUidPredicateTemplate;
 @end
 
 @implementation DataSource
+SYNTHESIZE_SINGLETON_FOR_CLASS(DataSource);
+
+
 @synthesize isSyncing;
 
-SYNTHESIZE_SINGLETON_FOR_CLASS(DataSource);
+static NSString * const kDocumentUidSubstitutionVariable = @"UID";
+static NSString * const kPersonUidSubstitutionVariable = @"UID";
+
 #pragma mark -
 #pragma mark properties
 
-- (NSEntityDescription *)documentEntityDescription {
-    if (documentEntityDescription == nil) {
-        documentEntityDescription = [[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext] retain];
-    }
-    return documentEntityDescription;
-}
-
-- (NSEntityDescription *)personEntityDescription {
-    if (documentEntityDescription == nil) {
-        documentEntityDescription = [[NSEntityDescription entityForName:@"Person" inManagedObjectContext:managedObjectContext] retain];
-    }
-    return documentEntityDescription;
-}
-
-static NSString * const kDocumentUidSubstitutionVariable = @"UID";
-
-- (NSPredicate *)documentUidPredicateTemplate {
-    if (documentUidPredicateTemplate == nil) {
-        NSExpression *leftHand = [NSExpression expressionForKeyPath:@"uid"];
-        NSExpression *rightHand = [NSExpression expressionForVariable:kDocumentUidSubstitutionVariable];
-        documentUidPredicateTemplate = [[NSComparisonPredicate alloc] initWithLeftExpression:leftHand rightExpression:rightHand modifier:NSDirectPredicateModifier type:NSLikePredicateOperatorType options:0];
-    }
-    return documentUidPredicateTemplate;
-}
-
-static NSString * const kPersonUidSubstitutionVariable = @"UID";
-
-- (NSPredicate *)personUidPredicateTemplate {
-    if (personUidPredicateTemplate == nil) {
-        NSExpression *leftHand = [NSExpression expressionForKeyPath:@"uid"];
-        NSExpression *rightHand = [NSExpression expressionForVariable:kPersonUidSubstitutionVariable];
-        personUidPredicateTemplate = [[NSComparisonPredicate alloc] initWithLeftExpression:leftHand rightExpression:rightHand modifier:NSDirectPredicateModifier type:NSLikePredicateOperatorType options:0];
-    }
-    return personUidPredicateTemplate;
-}
 
 -(NSDate *) lastSynced
 {
@@ -347,6 +322,22 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     }
 }
 
+- (NSArray *) documentReaderUnfetchedResources:(LNDocumentReader *) documentReader
+{
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:self.pageEntityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isFetched == NO"];
+    [request setPredicate:predicate];
+    
+    
+    // Execute the fetch.
+    NSError *error;
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+    NSAssert1(fetchResults != nil, @"Unhandled error executing unfetched pages fetch: %@", [error localizedDescription]);
+    
+    return fetchResults;    
+}
 #pragma mark -
 #pragma mark UIAlertViewDelegate
 
@@ -387,7 +378,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [persistentStoreCoordinator release];
     [documentReader release];
     [documentEntityDescription release];
+    [personEntityDescription release];
     [documentUidPredicateTemplate release];
+    [pageEntityDescription release];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
@@ -511,5 +504,43 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
     
     return fetchResults;    
+}
+
+- (NSEntityDescription *)documentEntityDescription {
+    if (documentEntityDescription == nil) {
+        documentEntityDescription = [[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext] retain];
+    }
+    return documentEntityDescription;
+}
+
+- (NSEntityDescription *)personEntityDescription {
+    if (personEntityDescription == nil) {
+        personEntityDescription = [[NSEntityDescription entityForName:@"Person" inManagedObjectContext:managedObjectContext] retain];
+    }
+    return personEntityDescription;
+}
+- (NSEntityDescription *)pageEntityDescription {
+    if (pageEntityDescription == nil) {
+        pageEntityDescription = [[NSEntityDescription entityForName:@"Page" inManagedObjectContext:managedObjectContext] retain];
+    }
+    return pageEntityDescription;
+}
+
+- (NSPredicate *)documentUidPredicateTemplate {
+    if (documentUidPredicateTemplate == nil) {
+        NSExpression *leftHand = [NSExpression expressionForKeyPath:@"uid"];
+        NSExpression *rightHand = [NSExpression expressionForVariable:kDocumentUidSubstitutionVariable];
+        documentUidPredicateTemplate = [[NSComparisonPredicate alloc] initWithLeftExpression:leftHand rightExpression:rightHand modifier:NSDirectPredicateModifier type:NSLikePredicateOperatorType options:0];
+    }
+    return documentUidPredicateTemplate;
+}
+
+- (NSPredicate *)personUidPredicateTemplate {
+    if (personUidPredicateTemplate == nil) {
+        NSExpression *leftHand = [NSExpression expressionForKeyPath:@"uid"];
+        NSExpression *rightHand = [NSExpression expressionForVariable:kPersonUidSubstitutionVariable];
+        personUidPredicateTemplate = [[NSComparisonPredicate alloc] initWithLeftExpression:leftHand rightExpression:rightHand modifier:NSDirectPredicateModifier type:NSLikePredicateOperatorType options:0];
+    }
+    return personUidPredicateTemplate;
 }
 @end

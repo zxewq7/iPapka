@@ -21,6 +21,7 @@
     NSEntityDescription          *documentEntityDescription;
     NSPredicate                  *documentUidPredicateTemplate;
     NSEntityDescription          *personEntityDescription;
+    NSEntityDescription          *pageEntityDescription;
     NSPredicate                  *personUidPredicateTemplate;
     BOOL                         isSyncing;
     LNDocumentSaver              *documentSaver;
@@ -28,11 +29,6 @@
     NSUInteger                   countDocumentsToSend;
 }
 + (DataSource *)sharedDataSource;
-
-@property (nonatomic, retain, readonly) NSEntityDescription *documentEntityDescription;
-@property (nonatomic, retain, readonly) NSPredicate         *documentUidPredicateTemplate;
-@property (nonatomic, retain, readonly) NSEntityDescription *personEntityDescription;
-@property (nonatomic, retain, readonly) NSPredicate         *personUidPredicateTemplate;
 @property (nonatomic)                   BOOL                isSyncing;
 @property (nonatomic, retain, readonly) NSDate              *lastSynced;
 

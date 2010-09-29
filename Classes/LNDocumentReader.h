@@ -25,6 +25,8 @@
 - (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSManagedObject *) object;
 
 - (void) documentReaderCommit:(LNDocumentReader *) documentReader;
+
+- (NSArray *) documentReaderUnfetchedResources:(LNDocumentReader *) documentReader;
 @end
 
 
