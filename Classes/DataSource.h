@@ -32,7 +32,7 @@
 @property (nonatomic)                   BOOL                isSyncing;
 @property (nonatomic, retain, readonly) NSDate              *lastSynced;
 
--(NSArray *) documentsForFolder:(Folder *) folder;
+-(NSFetchedResultsController *) documentsForFolder:(Folder *) folder;
 -(void) refreshDocuments;
 -(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder;
 -(void) shutdown;

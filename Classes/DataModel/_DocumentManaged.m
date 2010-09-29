@@ -95,6 +95,13 @@
 
 
 
+@dynamic strippedDateModified;
+
+
+
+
+
+
 @dynamic isRead;
 
 

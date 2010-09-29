@@ -116,17 +116,21 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return fetchResults;    
 }
 
--(NSArray *) documentsForFolder:(Folder *) folder
+-(NSFetchedResultsController *) documentsForFolder:(Folder *) folder
 {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:[NSEntityDescription entityForName:folder.entityName inManagedObjectContext:managedObjectContext]];
 	
-    NSPredicate *filter = folder.predicate;
-    if (filter)
-        [fetchRequest setPredicate:folder.predicate];
+    NSString *filterString = folder.predicateString;
+    if (filterString)
+        filterString = [filterString stringByAppendingString:@" && parent == nil"];
+    else
+        filterString = @"parent==nil";
+    
+    [fetchRequest setPredicate:[NSPredicate predicateWithFormat: filterString]];
     
     NSSortDescriptor *sortDescriptor = 
-    [[NSSortDescriptor alloc] initWithKey:@"dateModified" 
+    [[NSSortDescriptor alloc] initWithKey:@"strippedDateModified" 
                                 ascending:NO];
     
     NSArray *sortDescriptors = [[NSArray alloc] 
@@ -135,12 +139,14 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [sortDescriptors release];
     [sortDescriptor release];
 	
-	NSError *error = nil;
-    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
     
-    return fetchResults;
+    NSFetchedResultsController *fetchedResultsController = 
+    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
+                                        managedObjectContext:managedObjectContext sectionNameKeyPath:@"strippedDateModified" 
+                                                   cacheName:folder.name];
+    [fetchRequest release];
+    
+    return [fetchedResultsController autorelease];
 }
 
 -(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder

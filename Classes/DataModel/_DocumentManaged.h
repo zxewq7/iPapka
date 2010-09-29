@@ -19,6 +19,7 @@
 
 
 
+
 @interface DocumentManagedID : NSManagedObjectID {}
 @end
 
@@ -59,6 +60,12 @@
 - (void)setIsEditableValue:(BOOL)value_;
 
 //- (BOOL)validateIsEditable:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *strippedDateModified;
+
+//- (BOOL)validateStrippedDateModified:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -163,6 +170,10 @@
 
 - (BOOL)primitiveIsEditableValue;
 - (void)setPrimitiveIsEditableValue:(BOOL)value_;
+
+
+- (NSDate*)primitiveStrippedDateModified;
+- (void)setPrimitiveStrippedDateModified:(NSDate*)value;
 
 
 - (NSNumber*)primitiveIsRead;

@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/NSFetchedResultsController.h>
 
 @class FoldersViewController, Folder;
 
@@ -19,14 +20,10 @@
 @end
     
 
-@interface DocumentsListViewController : UITableViewController<UITabBarDelegate>
+@interface DocumentsListViewController : UITableViewController<UITabBarDelegate, NSFetchedResultsControllerDelegate>
 {
 	
-    NSMutableDictionary     *sections;
-    NSMutableArray          *sectionsOrdered;
-    NSMutableArray          *sectionsOrderedLabels;
     NSDateFormatter         *dateFormatter;
-    NSArray                 *sortDescriptors;
     Folder                  *folder;
     NSUInteger              filterIndex;
     UILabel                 *titleLabel;
@@ -37,12 +34,9 @@
     DocumentManaged         *document;
     NSIndexPath             *selectedDocumentIndexPath;
     UITabBar                *filtersBar;
+    NSFetchedResultsController *fetchedResultsController;
 }
-@property (nonatomic, retain) NSMutableDictionary       *sections;
-@property (nonatomic, retain) NSMutableArray            *sectionsOrdered;
-@property (nonatomic, retain) NSMutableArray            *sectionsOrderedLabels;
 @property (nonatomic, retain) NSDateFormatter           *dateFormatter;
-@property (nonatomic, retain) NSArray                   *sortDescriptors;
 @property (nonatomic, retain, setter=setFolder:) Folder *folder;
 
 @property (nonatomic, retain) NSDateFormatter           *activityDateFormatter;

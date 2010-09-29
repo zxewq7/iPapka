@@ -16,10 +16,6 @@
 #define ROW_HEIGHT 94
 
 @interface DocumentsListViewController(Private)
-- (void)documentAdded:(NSNotification *)notification;
-- (void)documentsRemoved:(NSNotification *)notification;
-- (void)documentUpdated:(NSNotification *)notification;
-- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
 - (void) createToolbars;
 - (void)updateSyncStatus;
 @end
@@ -29,11 +25,7 @@
 
 #pragma mark -
 #pragma mark properties
-@synthesize sections; 
-@synthesize sectionsOrdered;
-@synthesize sectionsOrderedLabels;
 @synthesize dateFormatter;
-@synthesize sortDescriptors;
 @synthesize folder;
 @synthesize activityDateFormatter; 
 @synthesize activityTimeFormatter;
@@ -75,7 +67,11 @@
         else
             filter = folder;
         
-        [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:filter] isDeleteDocuments:NO isDelta:NO];
+        fetchedResultsController.delegate = nil;
+        [fetchedResultsController release];
+        fetchedResultsController = [[DataSource sharedDataSource] documentsForFolder:filter];
+        [fetchedResultsController retain];
+        fetchedResultsController.delegate = self;
         filtersBar.selectedItem = [filtersBar.items objectAtIndex: filterIndex];
     }
     else
@@ -108,36 +104,17 @@
     [self.activityTimeFormatter setDateStyle:NSDateFormatterNoStyle];
     [self.activityTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
     
-    self.sections = [NSMutableDictionary dictionaryWithCapacity:1];
-    self.sectionsOrdered = [NSMutableArray arrayWithCapacity:1];
-    self.sectionsOrderedLabels = [NSMutableArray arrayWithCapacity:1];
-                                  
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentAdded:)
-                                                 name:@"DocumentAdded" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsRemoved:)
-                                                 name:@"DocumentsRemoved" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentUpdated:)
-                                                 name:@"DocumentUpdated" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsListWillRefreshed:)
-                                                 name:@"DocumentsListWillRefreshed" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(documentsListDidRefreshed:)
-                                                 name:@"DocumentsListDidRefreshed" object:nil];
     [self createToolbars];
+    
+    NSError *error;
+	if (![fetchedResultsController performFetch:&error])
+		NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
 }
 
 
 -(void) viewDidUnload {
 	[super viewDidUnload];
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.dateFormatter = nil;
-    self.sections = nil;
-    self.sectionsOrdered = nil;
-    self.sectionsOrderedLabels = nil;
     [titleLabel release];
     titleLabel = nil;
     [detailsLabel release];
@@ -179,19 +156,21 @@
 #pragma mark -
 #pragma mark Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView {
-	return [self.sectionsOrderedLabels count];
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
+{
+	return [[fetchedResultsController sections] count];
 }
-- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section {
-        // Number of rows is the number of time zones in the region for the specified section
-    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:section]];
-	return [documentSection count];
+
+- (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
+{
+    id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo numberOfObjects];
 }
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section {
         // Section title is the region name
-	NSString *documentSectionLabel = [self.sectionsOrderedLabels objectAtIndex:section];
-	return documentSectionLabel;
+	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+    return [sectionInfo name];
 }
 
 
@@ -209,13 +188,78 @@
 	}
     
         // Set appropriate labels for the cells.
-    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
-    DocumentManaged *doc = [documentSection objectAtIndex:indexPath.row];
+    DocumentManaged *doc = [fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = doc.title;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author.fullName];
     cell.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
     return cell;
 }
+
+#pragma mark -
+#pragma mark Table view selection
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    self.document = [fetchedResultsController objectAtIndexPath:indexPath];
+    if ([delegate respondsToSelector:@selector(documentDidChanged:)]) 
+        [delegate documentDidChanged:self];
+}
+
+#pragma mark -
+#pragma mark NSFetchedResultsControllerDelegate
+
+- (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    [self.tableView beginUpdates];
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
+    
+    UITableView *tableView = self.tableView;
+    
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeUpdate:
+            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeMove:
+            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            // Reloading the section inserts a new row and ensures that titles are updated appropriately.
+            [tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+
+- (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+    
+    switch(type) {
+            
+        case NSFetchedResultsChangeInsert:
+            [self.tableView insertSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+            
+        case NSFetchedResultsChangeDelete:
+            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex:sectionIndex] withRowAnimation:UITableViewRowAnimationFade];
+            break;
+    }
+}
+
+
+- (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
+    // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self.tableView endUpdates];
+}
+
 #pragma mark - 
 #pragma mark UITabBarDelegate
 
@@ -230,8 +274,17 @@
     else
         filter = folder;
 
+    fetchedResultsController.delegate = nil;
+    [fetchedResultsController release];
+    fetchedResultsController = [[DataSource sharedDataSource] documentsForFolder:filter];
+    [fetchedResultsController retain];
+    fetchedResultsController.delegate = self;
+    NSError *error;
+	if (![fetchedResultsController performFetch:&error])
+		NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
+
+    [self.tableView reloadData];
     
-    [self updateDocuments:[[DataSource sharedDataSource] documentsForFolder:filter] isDeleteDocuments:NO isDelta:NO];
     if (selectedDocumentIndexPath)
         [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
 
@@ -248,17 +301,6 @@
     [self dismissModalViewControllerAnimated:YES];
 }
 
-#pragma mark -
-#pragma mark Table view selection
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSArray *documentSection = [self.sections objectForKey:[self.sectionsOrdered objectAtIndex:indexPath.section]];
-    self.document = [documentSection objectAtIndex:indexPath.row];
-    if ([delegate respondsToSelector:@selector(documentDidChanged:)]) 
-        [delegate documentDidChanged:self];
-}
-
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
 }
@@ -267,17 +309,12 @@
 #pragma mark Memory management
 
 - (void)dealloc {
-    self.sections = nil;
-    self.sectionsOrdered = nil;
-    self.sectionsOrderedLabels = nil;
     self.dateFormatter = nil;
-    self.sortDescriptors = nil;
     self.folder = nil;
     [titleLabel release];
     titleLabel = nil;
     [detailsLabel release];
     detailsLabel = nil;
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
     self.activityDateFormatter = nil;
     self.activityTimeFormatter = nil;
     self.delegate = nil;
@@ -286,196 +323,12 @@
     selectedDocumentIndexPath = nil;
     [filtersBar release];
     filtersBar = nil;
-    
+    [fetchedResultsController release];
     [super dealloc];
 }
 @end
 
 @implementation DocumentsListViewController(Private)
-- (void)updateDocuments:(NSArray *) documents isDeleteDocuments:(BOOL)isDeleteDocuments isDelta:(BOOL)isDelta;
-{
-    NSIndexPath *selectedPath = [self.tableView indexPathForSelectedRow];
-    if (selectedPath)
-        [self.tableView deselectRowAtIndexPath:selectedPath animated:NO];
-
-    if (!isDelta) //just clear all
-    {
-        NSUInteger length = [sections count];
-        [sections removeAllObjects];
-        [sectionsOrdered removeAllObjects];
-        [sectionsOrderedLabels removeAllObjects];
-        [self.tableView deleteSections:[NSIndexSet indexSetWithIndexesInRange: NSMakeRange(0, length)] withRowAnimation:UITableViewRowAnimationNone];
-    }
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-    NSPredicate *filter = folder.predicate;
-    Class entityClass = folder.entityClass;
-    [selectedDocumentIndexPath release];
-    selectedDocumentIndexPath = nil;
-    
-    for (DocumentManaged *doc in documents) 
-    {
-        if (![doc isKindOfClass:entityClass] || (filter && ![filter evaluateWithObject:doc]))
-            continue;
-        
-        NSDate *documentDate = doc.dateModified;
-        NSDateComponents *comps = [calendar components:unitFlags fromDate:documentDate];
-        NSDate *documentSection = [calendar dateFromComponents:comps];
-        NSUInteger sectionIndex = [self.sectionsOrdered indexOfObject:documentSection];
-        NSIndexPath *documentIndexPath = nil;
-        
-        if (isDeleteDocuments)
-        {
-            if (sectionIndex != NSNotFound) 
-            {
-                NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
-                NSUInteger documentIndex = [sectionDocuments indexOfObject: doc];
-                if (documentIndex != NSNotFound) 
-                {
-                    if ([sectionDocuments count] == 1) //remove empty section
-                    {
-                        [self.sections removeObjectForKey:documentSection];
-                        [self.sectionsOrdered removeObject:documentSection];
-                        [self.sectionsOrderedLabels removeObject:[self.dateFormatter stringFromDate:documentSection]];
-                        [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: sectionIndex] withRowAnimation:UITableViewRowAnimationNone];
-                    }
-                    else
-                    {
-                        NSIndexPath *path = [NSIndexPath indexPathForRow:documentIndex inSection:sectionIndex];
-                        [sectionDocuments removeObjectAtIndex:documentIndex];
-                        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
-                    }
-                }
-            }
-        }
-        else
-        {
-            if (sectionIndex == NSNotFound) //new section
-            {
-                NSUInteger length = [self.sectionsOrdered count];
-                NSUInteger insertIndex = NSNotFound;
-                for (NSUInteger i=0; i < length; i++) 
-                {
-                    NSDate *section = [self.sectionsOrdered objectAtIndex:i];
-                    if ([documentSection compare: section] == NSOrderedDescending) 
-                    {
-                        insertIndex = i;
-                        break;
-                    }
-                }
-                if (insertIndex == NSNotFound)
-                {
-                    [self.sections setObject:[NSMutableArray arrayWithObject: doc] forKey:documentSection];
-                    [self.sectionsOrdered addObject:documentSection];
-                    [self.sectionsOrderedLabels addObject: [self.dateFormatter stringFromDate:documentSection]];
-                    insertIndex = [self.sectionsOrdered count]-1;
-                }
-                else 
-                {
-                    [self.sections setObject:[NSMutableArray arrayWithObject: doc] forKey:documentSection];
-                    [self.sectionsOrdered insertObject:documentSection atIndex:insertIndex];
-                    [self.sectionsOrderedLabels insertObject: [self.dateFormatter stringFromDate:documentSection] atIndex:insertIndex];
-                }
-                [self.tableView insertSections:[NSIndexSet indexSetWithIndex: insertIndex] withRowAnimation:UITableViewRowAnimationNone];
-                sectionIndex = insertIndex;
-                documentIndexPath = [NSIndexPath indexPathForRow:0 inSection:sectionIndex];
-            }
-            else //update section documents
-            {
-                NSMutableArray *sectionDocuments = [self.sections objectForKey:documentSection];
-                NSUInteger length = [sectionDocuments count];
-                NSUInteger possibleInsertIndex = NSNotFound;
-                BOOL updated = NO;
-                for (NSUInteger i=0; i < length; i++) 
-                {
-                    DocumentManaged *docUpdated = [sectionDocuments objectAtIndex:i];
-                    if ([doc isEqual: docUpdated]) 
-                    {
-                        [sectionDocuments replaceObjectAtIndex:i withObject:doc];
-
-                        documentIndexPath = [NSIndexPath indexPathForRow:i inSection:sectionIndex];
-                        [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject: documentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-                        updated = YES;
-                        break;
-                    }
-                    else if ([doc.dateModified compare: docUpdated.dateModified] == NSOrderedDescending)
-                        possibleInsertIndex = i;
-                }
-                if (!updated) //insert document
-                {
-                    if (possibleInsertIndex == NSNotFound)
-                    {
-                        [sectionDocuments addObject: doc];
-                        possibleInsertIndex = [sectionDocuments count]-1;
-                    }
-                    else
-                        [sectionDocuments insertObject: doc atIndex:possibleInsertIndex];
-                    
-                    documentIndexPath = [NSIndexPath indexPathForRow:possibleInsertIndex inSection:sectionIndex];
-                    [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject: documentIndexPath] withRowAnimation:UITableViewRowAnimationNone];
-                }
-            }
-                //remove possible dublicates
-                NSUInteger length = [self.sectionsOrdered count];
-                for (NSUInteger i=0;i < length; i++) 
-                {
-                    if (sectionIndex == i) //skip updated section
-                        continue;
-                    NSDate *section = [self.sectionsOrdered objectAtIndex:i];
-                    NSMutableArray *sectionDocuments = [self.sections objectForKey:section];
-                    NSUInteger docIndex = [sectionDocuments indexOfObject: doc];
-                    if (docIndex != NSNotFound)
-                    {
-                        if ([sectionDocuments count] == 1) //remove section
-                        {
-                            NSDate *docSection = [self.sectionsOrdered objectAtIndex:i];
-                            [self.sections removeObjectForKey:docSection];
-                            [self.sectionsOrderedLabels removeObjectAtIndex:i];
-                            [self.sectionsOrdered removeObjectAtIndex:i];
-                            [self.tableView deleteSections:[NSIndexSet indexSetWithIndex: i] withRowAnimation:UITableViewRowAnimationNone];
-                        }
-                        else
-                        {
-                            [sectionDocuments removeObjectAtIndex:docIndex];
-                            NSIndexPath *path = [NSIndexPath indexPathForRow:docIndex inSection:i];
-                            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:path] withRowAnimation:UITableViewRowAnimationNone];
-                        }
-                        break;
-                    }
-            }
-        }
-        if (!selectedDocumentIndexPath && [self.document isEqual: doc] )
-            selectedDocumentIndexPath = [documentIndexPath retain];
-    }
-}
-- (void)documentAdded:(NSNotification *)notification
-{
-    Document *doc = notification.object;
-    [self updateDocuments: [NSArray arrayWithObject: doc] isDeleteDocuments:NO isDelta:YES];
-}
-
-- (void)documentsRemoved:(NSNotification *)notification
-{
-    NSArray *documents = notification.object;
-    [self updateDocuments: documents isDeleteDocuments:YES isDelta:YES];
-}
-
-- (void)documentUpdated:(NSNotification *)notification
-{
-    Document *doc = notification.object;
-    [self updateDocuments: [NSArray arrayWithObject: doc] isDeleteDocuments:NO isDelta:YES];
-}
-
-- (void)documentsListDidRefreshed:(NSNotification *)notification
-{
-    [self updateSyncStatus];
-}
-
-- (void)documentsListWillRefreshed:(NSNotification *)notification
-{
-    [self updateSyncStatus];
-}
-
 - (void) createToolbars;
 {
     //create bottom toolbar
