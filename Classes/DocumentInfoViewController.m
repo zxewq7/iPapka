@@ -8,8 +8,7 @@
 
 #import "DocumentInfoViewController.h"
 #import "DocumentManaged.h"
-#import "Document.h"
-#import "Attachment.h"
+#import "AttachmentManaged.h"
 #import "PersonManaged.h"
 #import <QuartzCore/CALayer.h>
 
@@ -28,7 +27,7 @@
 @synthesize document, attachmentIndex, linkIndex;
 
 
--(void) setDocument:(Document *) aDocument
+-(void) setDocument:(DocumentManaged *) aDocument
 {
     if (document == aDocument)
         return;
@@ -164,7 +163,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSObject  *file = [currentItems objectAtIndex:indexPath.row];
-    if ([file isKindOfClass: [Attachment class]])
+    if ([file isKindOfClass: [AttachmentManaged class]])
     {
         self.attachmentIndex = indexPath.row;
         linkIndex = NSNotFound;
@@ -189,7 +188,7 @@
 {
     NSObject  *file = [currentItems objectAtIndex:indexPath.row];
     
-    BOOL isAttachment = [file isKindOfClass: [Attachment class]];
+    BOOL isAttachment = [file isKindOfClass: [AttachmentManaged class]];
     
     UITableViewCell *cell = nil;
     
@@ -212,7 +211,7 @@
     }
     if (isAttachment)
     {
-        Attachment *a = (Attachment *) file;
+        AttachmentManaged *a = (AttachmentManaged *) file;
         cell.textLabel.text = a.title;
         NSUInteger count = [a.pages count];
         NSString *pageLabel = count==1?NSLocalizedString(@"page", "page"):(count < 5?NSLocalizedString(@"pages_2-4_instrumentalis", "pages from 2 to 4 in instrumentalis"):NSLocalizedString(@"pages_instrumentalis", "pages_instrumentalis"));
@@ -220,7 +219,7 @@
     }
     else
     {
-        Document *d = (Document *) file;
+        DocumentManaged *d = (DocumentManaged *) file;
         cell.textLabel.text = d.title;
     }
     return cell;
@@ -251,7 +250,7 @@
     switch(filter.selectedSegmentIndex)
     {
         case 0:
-            currentItems = document.attachments;
+            currentItems = document.attachmentsOrdered;
             break;
         case 1:
             currentItems = document.links;
@@ -266,12 +265,13 @@
 @implementation  DocumentInfoViewController(Private)
 -(void) updateContent;
 {
-    currentItems = document.attachments;
+    currentItems = [document valueForKey:@"attachmentsOrdered"];
+    
+    NSLog(@"%@", currentItems);
     
     documentTitle.text = document.title;
     documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.dateModified]];
-    NSArray *attachments = document.attachments;
-    if ([attachments count]) 
+    if ([currentItems count]) 
         attachmentIndex = 0;
     else
         attachmentIndex = NSNotFound;
