@@ -565,9 +565,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     NSFileManager *df = [NSFileManager defaultManager];
     
-    NSString *path = page.path;
-    
-    [df createDirectoryAtPath:path withIntermediateDirectories:TRUE 
+    [df createDirectoryAtPath:page.path withIntermediateDirectories:TRUE 
                    attributes:nil error:nil];
 
     NSString *urlPattern;
@@ -591,7 +589,7 @@ static NSString* OperationCount = @"OperationCount";
 
     LNHttpRequest *r = [self makeRequestWithUrl: anUrl];
     
-    [r setDownloadDestinationPath:[path stringByAppendingPathComponent: [NSString stringWithFormat:@"%d", [page.number intValue]]]];
+    [r setDownloadDestinationPath:page.pathImage];
     r.requestHandler = ^(ASIHTTPRequest *request) 
     {
         if ([request error] == nil  && [request responseStatusCode] == 200)
