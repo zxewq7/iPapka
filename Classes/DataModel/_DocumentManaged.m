@@ -180,32 +180,6 @@
 
 
 
-@dynamic isFetched;
-
-
-
-- (BOOL)isFetchedValue {
-	NSNumber *result = [self isFetched];
-	return [result boolValue];
-}
-
-- (void)setIsFetchedValue:(BOOL)value_ {
-	[self setIsFetched:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsFetchedValue {
-	NSNumber *result = [self primitiveIsFetched];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsFetchedValue:(BOOL)value_ {
-	[self setPrimitiveIsFetched:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
 @dynamic title;
 
 

@@ -29,14 +29,14 @@
 
 
 
-@dynamic deadline;
-
-
-
-
-
-
 @dynamic text;
+
+
+
+
+
+
+@dynamic deadline;
 
 
 

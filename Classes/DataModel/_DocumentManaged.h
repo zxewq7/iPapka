@@ -19,7 +19,6 @@
 
 
 
-
 @interface DocumentManagedID : NSManagedObjectID {}
 @end
 
@@ -96,16 +95,6 @@
 - (void)setIsSyncedValue:(BOOL)value_;
 
 //- (BOOL)validateIsSynced:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isFetched;
-
-@property BOOL isFetchedValue;
-- (BOOL)isFetchedValue;
-- (void)setIsFetchedValue:(BOOL)value_;
-
-//- (BOOL)validateIsFetched:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -199,13 +188,6 @@
 
 - (BOOL)primitiveIsSyncedValue;
 - (void)setPrimitiveIsSyncedValue:(BOOL)value_;
-
-
-- (NSNumber*)primitiveIsFetched;
-- (void)setPrimitiveIsFetched:(NSNumber*)value;
-
-- (BOOL)primitiveIsFetchedValue;
-- (void)setPrimitiveIsFetchedValue:(BOOL)value_;
 
 
 - (NSString*)primitiveTitle;

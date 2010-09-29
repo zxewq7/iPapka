@@ -10,7 +10,6 @@
 
 
 
-
 @interface AttachmentManagedID : NSManagedObjectID {}
 @end
 
@@ -31,16 +30,6 @@
 @property (nonatomic, retain) NSString *title;
 
 //- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isFetched;
-
-@property BOOL isFetchedValue;
-- (BOOL)isFetchedValue;
-- (void)setIsFetchedValue:(BOOL)value_;
-
-//- (BOOL)validateIsFetched:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -74,13 +63,6 @@
 
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;
-
-
-- (NSNumber*)primitiveIsFetched;
-- (void)setPrimitiveIsFetched:(NSNumber*)value;
-
-- (BOOL)primitiveIsFetchedValue;
-- (void)setPrimitiveIsFetchedValue:(BOOL)value_;
 
 
 

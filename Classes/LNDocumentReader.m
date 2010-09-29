@@ -60,7 +60,6 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 - (void)parseDocumentData:(NSDictionary *) parsedDocument;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchPage:(PageManaged *)page;
-- (void)checkDocumentIsLoaded:(DocumentManaged *)document;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(ResolutionManaged *) resolution fromDictionary:(NSDictionary *) dictionary;
@@ -289,6 +288,11 @@ static NSString* OperationCount = @"OperationCount";
             {
                 documentsLeftToFetch--;
             }
+            
+            if (documentsLeftToFetch == 0) //fetch all resources
+            {
+                
+            }
         };
         [_networkQueue addOperation:request];
     }
@@ -345,7 +349,6 @@ static NSString* OperationCount = @"OperationCount";
             attachment = [[self dataSource] documentReaderCreateAttachment:self];
             attachment.title = [dictAttachment objectForKey:field_AttachmentName];
             attachment.uid = [dictAttachment objectForKey:field_Uid];
-            attachment.isFetchedValue = NO;
             attachment.document = document;
             
             NSUInteger pageCount = [[dictAttachment objectForKey:field_AttachmentPageCount] intValue];
@@ -462,7 +465,6 @@ static NSString* OperationCount = @"OperationCount";
                 link.title = [dictLink objectForKey:field_LinkTitle];
 #warning wrong date modified for link
                 link.dateModified = document.dateModified;
-                link.isFetchedValue = NO;
                 
 #warning wrong author for link                
                 link.author = document.author;
@@ -592,52 +594,10 @@ static NSString* OperationCount = @"OperationCount";
             [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
             NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
-        [self checkDocumentIsLoaded:rootDocument];
+        [[self dataSource] documentReaderCommit: self];
     };
 
     [_networkQueue addOperation:request];
-}
-- (void)checkDocumentIsLoaded:(DocumentManaged *)document
-{
-    BOOL pagesFetched = YES;
-
-    for (AttachmentManaged *attachment in document.attachments)
-    {
-        if (attachment.isFetchedValue)
-            continue;
-        
-        for (PageManaged *page in attachment.pages) 
-        {
-            if (!page.isFetchedValue)
-            {
-                pagesFetched = NO;
-                break;
-            }
-        }
-        
-        if (pagesFetched)
-            attachment.isFetchedValue = YES;
-    }
-
-    if (pagesFetched)
-    {
-        BOOL linksFetched = YES;
-        
-        for (DocumentManaged *link in document.links) 
-        {
-            
-            if (link.isFetchedValue)
-                continue;
-            
-            linksFetched = NO;
-            break;
-        }
-        
-        if (linksFetched)
-            document.isFetchedValue = YES;
-    }
-    [[self dataSource] documentReaderCommit: self];
-    
 }
 - (void) parseResolution:(ResolutionManaged *) resolution fromDictionary:(NSDictionary *) dictionary;
 {
