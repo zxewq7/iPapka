@@ -12,15 +12,19 @@
 
 @protocol LNDocumentReaderDataSource
 - (DocumentManaged *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
+- (PersonManaged *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) uid;
+
 - (ResolutionManaged *) documentReaderCreateResolution:(LNDocumentReader *) documentReader;
 - (SignatureManaged *) documentReaderCreateSignature:(LNDocumentReader *) documentReader;
 - (DocumentManaged *) documentReaderCreateDocument:(LNDocumentReader *) documentReader;
 - (AttachmentManaged *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader;
 - (PageManaged *) documentReaderCreatePage:(LNDocumentReader *) documentReader;
+
 - (NSArray *) documentReaderRootUids:(LNDocumentReader *) documentReader;
+
 - (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSManagedObject *) object;
+
 - (void) documentReaderCommit:(LNDocumentReader *) documentReader;
-- (PersonManaged *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) uid;
 @end
 
 
