@@ -414,6 +414,13 @@ static NSString* OperationCount = @"OperationCount";
         
 #warning wrong dateModified
         document.dateModified = [NSDate date];
+
+        NSCalendar *calendar = [NSCalendar currentCalendar];
+        unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+
+        NSDateComponents *comps = [calendar components:unitFlags fromDate:document.dateModified];
+
+        document.strippedDateModified = [calendar dateFromComponents:comps];
         
         if ([document isKindOfClass:[ResolutionManaged class]]) 
         {
