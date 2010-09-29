@@ -10,12 +10,12 @@
 #import "PerformersViewController.h"
 #import "UIButton+Additions.h"
 #import "TextViewWithPlaceholder.h"
-#import "Resolution.h"
 #import "ResolutionManaged.h"
 #import "PersonManaged.h"
 #import "DatePickerController.h"
 #import "AZZAudioRecorder.h"
 #import "AZZAudioPlayer.h"
+#import "DataSource.h"
 
 static NSString *AudioContext = @"AudioContext";
 
@@ -453,10 +453,9 @@ static NSString *AudioContext = @"AudioContext";
 {
     [self updateHeight];
     
-    Resolution *resolution = (Resolution *)document.document;
-    resolution.text = resolutionText.text;
+    document.text = resolutionText.text;
     
-    [self.document saveDocument];
+    [[DataSource sharedDataSource] commit];
     return YES;
 }
 
@@ -464,7 +463,7 @@ static NSString *AudioContext = @"AudioContext";
 #pragma mark UIPopoverControllerDelegate
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
 {
-   [self.document saveDocument];
+    [[DataSource sharedDataSource] commit];
 }
 
 #pragma mark -
@@ -480,7 +479,7 @@ static NSString *AudioContext = @"AudioContext";
         if (recorder.recording)
             playButton.hidden = YES;
         else
-            playButton.hidden = !((Resolution *)document.document).hasAudioComment;
+            playButton.hidden = !document.hasAudioComment;
         
         recordButton.selected = recorder.recording;
         playButton.selected = player.playing;
@@ -498,8 +497,8 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void) updateContent
 {
-    Resolution *resolution = (Resolution *)document.document;
-    Resolution *parentResolution = resolution.parentResolution;
+    ResolutionManaged *resolution  = document;
+    ResolutionManaged *parentResolution = resolution.parentResolution;
     
     resolutionSwitcher.hidden = (parentResolution == nil);
     
@@ -517,7 +516,7 @@ static NSString *AudioContext = @"AudioContext";
         performersViewController.view.hidden = YES;
     }
         
-    authorLabel.text = resolution.author;
+    authorLabel.text = resolution.author.fullName;
     
     resolutionText.text = resolution.text;
     
@@ -532,7 +531,7 @@ static NSString *AudioContext = @"AudioContext";
     
     playButton.hidden = !resolution.hasAudioComment;
     
-    managedButton.on = resolution.managed;
+    managedButton.on = resolution.isManagedValue;
     
     [self updateHeight];
 }
@@ -578,13 +577,10 @@ static NSString *AudioContext = @"AudioContext";
     }
     
     if (recorder.recording)
-    {
         [recorder stop];
-        [document saveDocument];
-    }
     else
     {
-        recorder.path = ((Resolution *)document.document).audioComment;
+        recorder.path = document.audioCommentPath;
         if (![recorder start])
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", "Error")
@@ -613,7 +609,7 @@ static NSString *AudioContext = @"AudioContext";
         [player stop];
     else
     {
-        player.path = ((Resolution *)document.document).audioComment;
+        player.path = document.audioCommentPath;
         if (![player start])
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", "Error")
@@ -644,8 +640,7 @@ static NSString *AudioContext = @"AudioContext";
         popoverController.delegate = self;
     }
     
-    Resolution *resolution = (Resolution *)document.document;
-    datePickerController.date = resolution.deadline;
+    datePickerController.date = document.deadline;
     UIView *button = (UIView *)sender;
     CGRect targetRect = button.frame;
 	[popoverController presentPopoverFromRect: targetRect inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
@@ -657,8 +652,7 @@ static NSString *AudioContext = @"AudioContext";
     
     NSDate *deadline = datePickerController.date;
 
-    Resolution *resolution = (Resolution *)document.document;
-    resolution.deadline = deadline;
+    document.deadline = deadline;
     
     if (deadline)
         label = [dateFormatter stringFromDate:deadline];
@@ -670,11 +664,9 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void) setManaged:(id) sender
 {
-    Resolution *resolution = (Resolution *)document.document;
+    document.isManagedValue = managedButton.on;
 
-    resolution.managed = managedButton.on;
-
-    [self.document saveDocument];
+    [[DataSource sharedDataSource] commit];
 }
 
 @end

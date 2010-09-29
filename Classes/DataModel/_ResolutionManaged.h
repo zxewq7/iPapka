@@ -10,6 +10,7 @@
 
 
 
+
 @interface ResolutionManagedID : NSManagedObjectID {}
 @end
 
@@ -18,6 +19,16 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (ResolutionManagedID*)objectID;
+
+
+
+@property (nonatomic, retain) NSNumber *isManaged;
+
+@property BOOL isManagedValue;
+- (BOOL)isManagedValue;
+- (void)setIsManagedValue:(BOOL)value_;
+
+//- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -56,6 +67,13 @@
 @end
 
 @interface _ResolutionManaged (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSNumber*)primitiveIsManaged;
+- (void)setPrimitiveIsManaged:(NSNumber*)value;
+
+- (BOOL)primitiveIsManagedValue;
+- (void)setPrimitiveIsManagedValue:(BOOL)value_;
+
 
 - (NSDate*)primitiveDeadline;
 - (void)setPrimitiveDeadline:(NSDate*)value;
