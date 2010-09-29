@@ -20,6 +20,8 @@
 #define kLoginFieldTag 1001
 #define kPasswordFieldTag 1002
 
+static NSString* SyncingContext = @"SyncingContext";
+
 @interface DataSource(Private)
 - (void) askLoginAndPassword:(NSString*) login;
 - (NSArray *) unsyncedDocuments;
@@ -380,17 +382,40 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [documentSaver release];
-    documentSaver = nil;
+    [documentReader removeObserver:self
+                        forKeyPath:@"isSyncing"];
+
+    [documentReader release]; documentReader = nil;
+    
+    [documentSaver release]; documentSaver = nil;
 	[super dealloc];
+}
+
+#pragma mark -
+#pragma mark Observer
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &SyncingContext)
+    {
+        self.isSyncing = [documentReader isSyncing];
+        if (!self.isSyncing)
+            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
 }
 @end
 
 @implementation DataSource(Private)
-
-{
-}
-
 - (LNDocumentReader *) documentReader
 {
     if (!documentReader)
@@ -415,6 +440,11 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         documentReader.login = login;
         documentReader.password = password;
+        
+        [documentReader addObserver:self
+                         forKeyPath:@"isSyncing"
+                            options:0
+                            context:&SyncingContext];
         
 //        if (!login || !password || [login isEqualToString:@""] || [password isEqualToString:@""])
 //            [self askLoginAndPassword:login];

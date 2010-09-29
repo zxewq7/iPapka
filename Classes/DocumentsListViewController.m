@@ -15,6 +15,8 @@
 
 #define ROW_HEIGHT 94
 
+static NSString* SyncingContext = @"SyncingContext";
+
 @interface DocumentsListViewController(Private)
 - (void) createToolbars;
 - (void)updateSyncStatus;
@@ -109,22 +111,12 @@
     NSError *error;
 	if (![fetchedResultsController performFetch:&error])
 		NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
-}
+    
+    [[DataSource sharedDataSource] addObserver:self
+                                    forKeyPath:@"isSyncing"
+                                       options:0
+                                       context:&SyncingContext];
 
-
--(void) viewDidUnload {
-	[super viewDidUnload];
-    self.dateFormatter = nil;
-    [titleLabel release];
-    titleLabel = nil;
-    [detailsLabel release];
-    detailsLabel = nil;
-    self.activityDateFormatter = nil;
-    self.activityTimeFormatter = nil;
-    [selectedDocumentIndexPath release];
-    selectedDocumentIndexPath = nil;
-    [filtersBar release];
-    filtersBar = nil;
 }
 
 /*
@@ -289,6 +281,26 @@
         [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
 
 }
+#pragma mark -
+#pragma mark Observer
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &SyncingContext)
+    {
+        [self updateSyncStatus];
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
+}
 
 #pragma mark -
 #pragma mark actions
@@ -308,7 +320,28 @@
 #pragma mark -
 #pragma mark Memory management
 
-- (void)dealloc {
+-(void) viewDidUnload 
+{
+	[super viewDidUnload];
+    self.dateFormatter = nil;
+    [titleLabel release];
+    titleLabel = nil;
+    [detailsLabel release];
+    detailsLabel = nil;
+    self.activityDateFormatter = nil;
+    self.activityTimeFormatter = nil;
+    [selectedDocumentIndexPath release];
+    selectedDocumentIndexPath = nil;
+    [filtersBar release];
+    filtersBar = nil;
+    
+    [[DataSource sharedDataSource] removeObserver:self
+                                       forKeyPath:@"isSyncing"];
+    
+}
+
+- (void)dealloc 
+{
     self.dateFormatter = nil;
     self.folder = nil;
     [titleLabel release];
@@ -324,6 +357,9 @@
     [filtersBar release];
     filtersBar = nil;
     [fetchedResultsController release];
+
+    [[DataSource sharedDataSource] removeObserver:self
+                                       forKeyPath:@"isSyncing"];
     [super dealloc];
 }
 @end
