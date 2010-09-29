@@ -162,7 +162,9 @@ static NSString* SyncingContext = @"SyncingContext";
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section {
         // Section title is the region name
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo name];
+    NSArray *objects = [sectionInfo objects];
+    DocumentManaged *doc = [objects objectAtIndex:0];
+    return [dateFormatter stringFromDate: doc.strippedDateModified];
 }
 
 
