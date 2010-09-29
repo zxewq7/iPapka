@@ -39,7 +39,12 @@
     NSString                        *urlAttachmentFetchPageFormat;
     NSString                        *urlLinkAttachmentFetchPageFormat;
     
-    NSObject<LNDocumentReaderDataSource> *dataSource;                          
+    NSObject<LNDocumentReaderDataSource> *dataSource;
+    NSMutableSet                    *uidsToFetch;
+    NSMutableSet                    *fetchedUids;
+    
+    NSUInteger                      viewsLeftToFetch;
+    NSUInteger                      documentsLeftToFetch;
 }
 - (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
 @property (nonatomic, readonly)         BOOL                  isSyncing;
