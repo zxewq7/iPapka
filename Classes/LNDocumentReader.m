@@ -374,6 +374,12 @@ static NSString* OperationCount = @"OperationCount";
         
         PersonManaged *author = [[self dataSource] documentReader:self personWithUid: [parsedDocument objectForKey:field_Author]];
         
+        if (!author)
+        {
+            NSLog(@"no author, document skipped: %@", uid);
+            return;
+        }
+        
         DocumentManaged *document;
         
         if ([form isEqualToString:form_Resolution])
@@ -460,6 +466,8 @@ static NSString* OperationCount = @"OperationCount";
                 
 #warning wrong author for link                
                 link.author = document.author;
+                
+                [link.author addDocumentsObject:link];
                 
                 link.parent = document;
                 
