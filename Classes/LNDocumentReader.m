@@ -291,7 +291,14 @@ static NSString* OperationCount = @"OperationCount";
             
             if (documentsLeftToFetch == 0) //fetch all resources
             {
-                
+                NSArray *unfetchedResources = [blockSelf->dataSource documentReaderUnfetchedResources:blockSelf];
+                for(NSObject *resource in unfetchedResources)
+                {
+                    if ([resource isKindOfClass: [PageManaged class]])
+                        [blockSelf fetchPage:(PageManaged *) resource];
+                    else
+                        NSAssert1(NO, @"invalid resource: ", [resource class]);
+                }
             }
         };
         [_networkQueue addOperation:request];
@@ -403,6 +410,8 @@ static NSString* OperationCount = @"OperationCount";
         
         document.title = [subDocument objectForKey:field_Title];
         
+        document.path = [self documentDirectory: uid];
+        
 #warning wrong dateModified
         document.dateModified = [NSDate date];
         
@@ -472,6 +481,8 @@ static NSString* OperationCount = @"OperationCount";
                 [link.author addDocumentsObject:link];
                 
                 link.parent = document;
+                
+                link.path = [[document.path stringByAppendingPathComponent:@"links"] stringByAppendingPathComponent:link.uid];
                 
                 NSArray *linkAttachments = [dictLink objectForKey:field_Attachments];
                 
@@ -578,10 +589,10 @@ static NSString* OperationCount = @"OperationCount";
     NSString *anUrl = [NSString stringWithFormat:urlPattern, attachment.uid, [page.number intValue]];
     
 
-    LNHttpRequest *request = [self makeRequestWithUrl: anUrl];
+    LNHttpRequest *r = [self makeRequestWithUrl: anUrl];
     
-    [request setDownloadDestinationPath:[path stringByAppendingPathComponent:path]];
-    request.requestHandler = ^(ASIHTTPRequest *request) 
+    [r setDownloadDestinationPath:[path stringByAppendingPathComponent: [NSString stringWithFormat:@"%d", [page.number intValue]]]];
+    r.requestHandler = ^(ASIHTTPRequest *request) 
     {
         if ([request error] == nil  && [request responseStatusCode] == 200)
         {
@@ -590,14 +601,14 @@ static NSString* OperationCount = @"OperationCount";
         else
         {
             page.isFetchedValue = NO;
+            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
             //remove bugged response
             [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
-            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
         }
         [[self dataSource] documentReaderCommit: self];
     };
 
-    [_networkQueue addOperation:request];
+    [_networkQueue addOperation:r];
 }
 - (void) parseResolution:(ResolutionManaged *) resolution fromDictionary:(NSDictionary *) dictionary;
 {
