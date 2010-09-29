@@ -10,9 +10,9 @@
 #import "ViewWithButtons.h"
 #import "UIButton+Additions.h"
 #import "ResolutionManaged.h"
-#import "Resolution.h"
 #import "PersonManaged.h"
 #import "PersonPickerViewController.h"
+#import "DataSource.h"
 
 @interface PerformersViewController (Private)
 - (void) updateContent;
@@ -97,7 +97,7 @@
     if (p)
     {
         [document addPerformersObject: p];
-        [self.document saveDocument];
+        [[DataSource sharedDataSource] commit];
         [self updateContent];
         
     }
