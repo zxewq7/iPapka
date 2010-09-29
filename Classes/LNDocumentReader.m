@@ -365,110 +365,114 @@ static NSString* OperationCount = @"OperationCount";
 
 - (void)parseDocumentData:(NSDictionary *) parsedDocument
 {
-    
-    NSString *form = [parsedDocument objectForKey:field_Form];
-    NSString *uid = [parsedDocument objectForKey:field_Uid];
-
-    NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
-    
-    PersonManaged *author = [[self dataSource] documentReader:self personWithUid: [parsedDocument objectForKey:field_Author]];
-    
-    DocumentManaged *document;
-    
-    if ([form isEqualToString:form_Resolution])
-        document = [[self dataSource] documentReaderCreateResolution:self];
-    else if ([form isEqualToString:form_Signature])
-        document = [[self dataSource] documentReaderCreateSignature:self];
-    else
+    @synchronized (self)
     {
-        NSLog(@"wrong form, document skipped: %@ %@", uid, form);
-        return;
-    }
-    
-    [author addDocumentsObject: document];
-    
-    document.author = author;
-    
-    document.uid = uid;
-    
-    document.title = [subDocument objectForKey:field_Title];
-
+        NSString *form = [parsedDocument objectForKey:field_Form];
+        NSString *uid = [parsedDocument objectForKey:field_Uid];
+        
+        NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
+        
+        PersonManaged *author = [[self dataSource] documentReader:self personWithUid: [parsedDocument objectForKey:field_Author]];
+        
+        DocumentManaged *document;
+        
+        if ([form isEqualToString:form_Resolution])
+            document = [[self dataSource] documentReaderCreateResolution:self];
+        else if ([form isEqualToString:form_Signature])
+            document = [[self dataSource] documentReaderCreateSignature:self];
+        else
+        {
+            NSLog(@"wrong form, document skipped: %@ %@", uid, form);
+            return;
+        }
+        
+        [author addDocumentsObject: document];
+        
+        document.author = author;
+        
+        document.uid = uid;
+        
+        document.title = [subDocument objectForKey:field_Title];
+        
 #warning wrong dateModified
-    document.dateModified = [NSDate date];
-
-    if ([document isKindOfClass:[ResolutionManaged class]]) 
-    {
-        ResolutionManaged *resolution = (ResolutionManaged *)document;
-        [self parseResolution:resolution fromDictionary:parsedDocument];
-    }
-
-    //parse attachments
-    NSArray *attachments = [subDocument objectForKey:field_Attachments];
-
-    [self parseAttachments:document attachments: attachments];
-    
-    
-    //parse links
-    NSArray *links = [subDocument objectForKey:field_Links];
-    
-    NSSet *existingLinks = document.links;
-
-    //remove obsoleted attachments
-    for (DocumentManaged *link in existingLinks)
-    {
-        BOOL  exists = NO;
-        for (NSDictionary *dictLink in links)
+        document.dateModified = [NSDate date];
+        
+        if ([document isKindOfClass:[ResolutionManaged class]]) 
         {
-            NSString *uid = [dictLink objectForKey:field_Uid];
-            if ([link.uid isEqualToString :uid])
+            ResolutionManaged *resolution = (ResolutionManaged *)document;
+            [self parseResolution:resolution fromDictionary:parsedDocument];
+        }
+        
+        //parse attachments
+        NSArray *attachments = [subDocument objectForKey:field_Attachments];
+        
+        [self parseAttachments:document attachments: attachments];
+        
+        //parse links
+        NSArray *links = [subDocument objectForKey:field_Links];
+        
+        NSSet *existingLinks = document.links;
+        
+        //remove obsoleted attachments
+        for (DocumentManaged *link in existingLinks)
+        {
+            BOOL  exists = NO;
+            for (NSDictionary *dictLink in links)
             {
-                exists = YES;
-                break;
+                NSString *linkUid = [dictLink objectForKey:field_Uid];
+                if ([link.uid isEqualToString :linkUid])
+                {
+                    exists = YES;
+                    break;
+                }
+                
+                if (!exists)
+                    [[self dataSource] documentReader:self removeObject: link];
+            }
+        }
+        
+        //add new links
+        existingLinks = document.links;
+        
+        for(NSDictionary *dictLink in links)
+        {
+            NSString *linkUid = [dictLink objectForKey:field_Uid];
+            
+            DocumentManaged *link = nil;
+            
+            for (DocumentManaged *l in existingLinks)
+            {
+                if ([l.uid isEqualToString: linkUid])
+                {
+                    link = l;
+                    break;
+                }
             }
             
-            if (!exists)
-                [[self dataSource] documentReader:self removeObject: link];
-        }
-    }
-    
-    //add new links
-    existingLinks = document.links;
-    
-    for(NSDictionary *dictLink in links)
-    {
-        NSString *uid = [dictLink objectForKey:field_Uid];
-        
-        DocumentManaged *link = nil;
-        
-        for (DocumentManaged *l in existingLinks)
-        {
-            if ([l.uid isEqualToString: uid])
+            if (!link) //create new link
             {
-                link = l;
-                break;
-            }
-        }
-        
-        if (!link) //create new link
-        {
-            link = [[self dataSource] documentReaderCreateDocument:self];
-            link.uid = [uid stringByAppendingPathComponent: [dictLink objectForKey:field_Uid]];
-            link.title = [dictLink objectForKey:field_LinkTitle];
+                link = [[self dataSource] documentReaderCreateDocument:self];
+                link.uid = [uid stringByAppendingPathComponent: [dictLink objectForKey:field_Uid]];
+                link.title = [dictLink objectForKey:field_LinkTitle];
 #warning wrong date modified for link
-            link.dateModified = document.dateModified;
-            link.isFetchedValue = NO;
-            
-            link.parent = document;
-            
-            NSArray *linkAttachments = [dictLink objectForKey:field_Attachments];
-            
-            [self parseAttachments:link attachments: linkAttachments];
-            
-            [document addLinksObject: link];
+                link.dateModified = document.dateModified;
+                link.isFetchedValue = NO;
+                
+#warning wrong author for link                
+                link.author = document.author;
+                
+                link.parent = document;
+                
+                NSArray *linkAttachments = [dictLink objectForKey:field_Attachments];
+                
+                [self parseAttachments:link attachments: linkAttachments];
+                
+                [document addLinksObject: link];
+            }
         }
+        
+        [[self dataSource] documentReaderCommit: self];
     }
-    
-    [[self dataSource] documentReaderCommit: self];
 }
 
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) anUrl
