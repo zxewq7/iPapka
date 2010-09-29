@@ -178,7 +178,7 @@ static NSString* OperationCount = @"OperationCount";
             
             if (viewsLeftToFetch == 0) //all view fetched
             {
-                NSArray *rootUids = [[blockSelf dataSource] documentReaderRootUids:blockSelf];
+                NSSet *rootUids = [[blockSelf dataSource] documentReaderRootUids:blockSelf];
                 //remove obsoleted documents
                 for (NSString *uid in rootUids)
                 {

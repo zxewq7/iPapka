@@ -20,7 +20,7 @@
 - (AttachmentManaged *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader;
 - (PageManaged *) documentReaderCreatePage:(LNDocumentReader *) documentReader;
 
-- (NSArray *) documentReaderRootUids:(LNDocumentReader *) documentReader;
+- (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader;
 
 - (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSManagedObject *) object;
 

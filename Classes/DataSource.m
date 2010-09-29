@@ -285,19 +285,29 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return [NSEntityDescription insertNewObjectForEntityForName:@"Page" inManagedObjectContext:managedObjectContext];
 }
 
-- (NSArray *) documentReaderRootUids:(LNDocumentReader *) documentReader
+- (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader
 {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:self.documentEntityDescription];
     [request setResultType:NSDictionaryResultType];
     [request setReturnsDistinctResults:YES];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parent == nil"];
+    [request setPredicate:predicate];
+
+    
     [request setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
     
     // Execute the fetch.
     NSError *error;
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
     NSAssert1(fetchResults != nil, @"Unhandled error executing document fetch: %@", [error localizedDescription]);
-    return fetchResults;
+    
+    NSMutableSet * result = [NSMutableSet setWithCapacity: [fetchResults count]];
+    for (NSDictionary *doc in fetchResults)
+        [result addObject: [doc objectForKey: @"uid"]];
+
+    return result;
 }
 
 - (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSManagedObject *) object;
