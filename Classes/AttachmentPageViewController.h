@@ -9,31 +9,21 @@
 #import <UIKit/UIKit.h>
 #import "PaintingView.h"
 
-@class Attachment, ImageScrollView;
+@class PageManaged, ImageScrollView;
 @interface AttachmentPageViewController : UIViewController<PaintingViewDelegate>
 {
-	NSInteger       pageIndex;
-	BOOL            viewNeedsUpdate;
-
-    Attachment      *attachment;
-    ImageScrollView *imageView;
-    BOOL pen;
-    BOOL marker;
-    BOOL eraser;
-    BOOL stamper;
-    CGFloat angle;
-    
+    PageManaged       *page;
+    ImageScrollView   *imageView;
 }
 
-@property (nonatomic)         NSInteger     pageIndex;
-@property (nonatomic, retain) Attachment    *attachment;
-@property (nonatomic)         BOOL pen;
-@property (nonatomic)         BOOL marker;
-@property (nonatomic)         BOOL eraser;
-@property (nonatomic)         BOOL stamper;
-@property (nonatomic)         CGFloat angle;
-@property (nonatomic, retain) UIColor *color;
-- (void) updateViews:(BOOL)force;
+@property (nonatomic, retain) PageManaged       *page;
+@property (nonatomic)         BOOL              pen;
+@property (nonatomic)         BOOL              marker;
+@property (nonatomic)         BOOL              eraser;
+@property (nonatomic)         BOOL              stamper;
+@property (nonatomic)         CGFloat           angle;
+@property (nonatomic, retain) UIColor           *color;
+
 - (void) setCommenting:(BOOL) state;
 - (void) saveContent;
 @end

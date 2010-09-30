@@ -7,9 +7,8 @@
 //
 
 #import "AttachmentPageViewController.h"
-#import "Attachment.h"
 #import "ImageScrollView.h"
-#import "AttachmentPage.h"
+#import "PageManaged.h"
 
     // This is defined in Math.h
 #define M_PI   3.14159265358979323846264338327950288   /* pi */
@@ -19,61 +18,26 @@
 
 
 @implementation AttachmentPageViewController
-@synthesize pageIndex, attachment, pen, stamper, eraser, marker, angle;
+@synthesize page;
+@dynamic pen, stamper, eraser, marker, angle;
 @dynamic color;
 
-- (void)setPageIndex:(NSInteger)newPageIndex
+- (void)setPage:(PageManaged *)aPage
 {
-    pageIndex = newPageIndex;
-    
-	if (pageIndex >= 0 && pageIndex < [attachment.pages count])
-	{		
-        AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
-        [imageView displayImage: page.image angle: DEGREES_TO_RADIANS(page.rotationAngle)];
-        
-        imageView.drawings = page.drawings;
-        
-        CGPoint restorePoint = [imageView pointToCenterAfterRotation];
-        CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
-        [imageView setMaxMinZoomScalesForCurrentBounds];
-        [imageView restoreCenterPoint:restorePoint scale:restoreScale];
-		CGRect absoluteRect = [self.view.window
-                               convertRect:imageView.bounds
-                               fromView:imageView];
-		if (!self.view.window ||
-			!CGRectIntersectsRect(
-                                  CGRectInset(absoluteRect, 10, 10),
-                                  [self.view.window bounds]))
-		{
-			viewNeedsUpdate = YES;
-		}
-	}
-    else
-    {
-        [imageView displayImage: nil angle: 0];
-        imageView.drawings = nil;
-    }
-}
+    if (page == aPage)
+        return;
 
-- (void)updateViews:(BOOL)force
-{
-    if (force ||
-		(viewNeedsUpdate &&
-         self.view.window &&
-         CGRectIntersectsRect(
-                              [self.view.window
-                               convertRect:CGRectInset(imageView.bounds, 10, 10)
-                               fromView:imageView],
-                              [self.view.window bounds])))
-	{
-		
-//        CGPoint restorePoint = [imageView pointToCenterAfterRotation];
-//        CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
-//        [imageView setMaxMinZoomScalesForCurrentBounds];
-//        [imageView restoreCenterPoint:restorePoint scale:restoreScale];
-            
-		viewNeedsUpdate = NO;
-	}
+    [page release];
+    page = [aPage retain];
+    
+    [imageView displayImage: page.image angle: DEGREES_TO_RADIANS(page.angleValue)];
+    
+    imageView.drawings = page.drawings;
+    
+    CGPoint restorePoint = [imageView pointToCenterAfterRotation];
+    CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
+    [imageView setMaxMinZoomScalesForCurrentBounds];
+    [imageView restoreCenterPoint:restorePoint scale:restoreScale];
 }
 
 - (void)loadView 
@@ -117,7 +81,7 @@
 - (void)dealloc 
 {
     [imageView release];
-    self.attachment = nil;
+    self.page = nil;
     self.color = nil;
     [super dealloc];
 }
@@ -177,11 +141,11 @@
 
 - (void) saveContent
 {
-    if (pageIndex >= 0 && pageIndex < [attachment.pages count])
-    {
-        AttachmentPage *prevPage = [attachment.pages objectAtIndex: pageIndex];
-        prevPage.drawings = imageView.drawings;
-    }
+    NSString *drawingsPath = page.pathDrawings;
+    UIImage *drawings = imageView.drawings;
+
+    NSData *drawingsData = UIImagePNGRepresentation(drawings);
+    [drawingsData writeToFile: drawingsPath atomically:YES];
 }
 
 - (void) setPen:(BOOL) enabled
@@ -206,10 +170,9 @@
 
 -(void) setAngle:(CGFloat) anAngle
 {
-    AttachmentPage *page = [attachment.pages objectAtIndex:pageIndex];
-    angle = page.rotationAngle + anAngle;
+    CGFloat angle = page.angleValue + anAngle;
     [imageView rotate: DEGREES_TO_RADIANS(angle)];
-    page.rotationAngle = angle;
+    page.angleValue = angle;
 }
 
 - (void) setColor:(UIColor *) aColor
