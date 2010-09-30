@@ -118,7 +118,6 @@
 		8193B63612379E09000F05B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63512379E09000F05B6 /* CoreData.framework */; };
 		8193B63C12379E13000F05B6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63B12379E13000F05B6 /* Security.framework */; };
 		8193B64412379E28000F05B6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B64312379E28000F05B6 /* OpenGLES.framework */; };
-		8193B66D12379E7B000F05B6 /* libDataModel.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 8165426B12379BE3008FC80F /* libDataModel.a */; };
 		819D8083123DFD8B00483E10 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 819D8082123DFD8B00483E10 /* Entitlements.plist */; };
 		81A1B66C123E3DC70089C988 /* ButtonSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B66B123E3DC70089C988 /* ButtonSquare.png */; };
 		81A1B676123E3E930089C988 /* ButtonSquareSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B675123E3E930089C988 /* ButtonSquareSelected.png */; };
@@ -150,13 +149,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		8165426A12379BE3008FC80F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8165426612379BE2008FC80F /* DataModel.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 816540CB1237903A008FC80F;
-			remoteInfo = DataModel;
-		};
 		81ADD41C1237A02F001E830A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */;
@@ -304,7 +296,6 @@
 		8165420912379B3B008FC80F /* PaintingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingView.m; sourceTree = "<group>"; };
 		8165420E12379B3B008FC80F /* UIButton+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Additions.h"; sourceTree = "<group>"; };
 		8165420F12379B3B008FC80F /* UIButton+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Additions.m"; sourceTree = "<group>"; };
-		8165426612379BE2008FC80F /* DataModel.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DataModel.xcodeproj; path = DataModel/DataModel.xcodeproj; sourceTree = "<group>"; };
 		8165427112379C6A008FC80F /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = thirdparty/KeychainItemWrapper.h; sourceTree = "<group>"; };
 		8165427212379C6A008FC80F /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = thirdparty/KeychainItemWrapper.m; sourceTree = "<group>"; };
 		8165427312379C6A008FC80F /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = thirdparty/SynthesizeSingleton.h; sourceTree = "<group>"; };
@@ -388,7 +379,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8107AA8A1237A05500F0C71F /* libASIHTTPRequest.a in Frameworks */,
-				8193B66D12379E7B000F05B6 /* libDataModel.a in Frameworks */,
 				816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */,
 				816541C112379AA3008FC80F /* Foundation.framework in Frameworks */,
 				816541C312379AA3008FC80F /* CoreGraphics.framework in Frameworks */,
@@ -684,17 +674,8 @@
 				8165427912379C6A008FC80F /* UIColor-Expanded.h */,
 				8165427A12379C6A008FC80F /* UIColor-Expanded.m */,
 				81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */,
-				8165426612379BE2008FC80F /* DataModel.xcodeproj */,
 			);
 			name = Libraries;
-			sourceTree = "<group>";
-		};
-		8165426712379BE2008FC80F /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8165426B12379BE3008FC80F /* libDataModel.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		81775FBF1251F6E0002A2D3D /* LN */ = {
@@ -802,10 +783,6 @@
 					ProductGroup = 81ADD4191237A02E001E830A /* Products */;
 					ProjectRef = 81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */;
 				},
-				{
-					ProductGroup = 8165426712379BE2008FC80F /* Products */;
-					ProjectRef = 8165426612379BE2008FC80F /* DataModel.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -815,13 +792,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		8165426B12379BE3008FC80F /* libDataModel.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libDataModel.a;
-			remoteRef = 8165426A12379BE3008FC80F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		81ADD41D1237A02F001E830A /* libASIHTTPRequest.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1002,7 +972,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
-				USER_HEADER_SEARCH_PATHS = "DataModel/** LNDataSource/** thirdparty/ASIHTTPRequest/**";
+				USER_HEADER_SEARCH_PATHS = "thirdparty/ASIHTTPRequest/**";
 			};
 			name = Debug;
 		};
@@ -1020,7 +990,7 @@
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
-				USER_HEADER_SEARCH_PATHS = "DataModel/** LNDataSource/** thirdparty/ASIHTTPRequest/**";
+				USER_HEADER_SEARCH_PATHS = "thirdparty/ASIHTTPRequest/**";
 			};
 			name = Release;
 		};
@@ -1075,7 +1045,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = 2;
-				USER_HEADER_SEARCH_PATHS = "DataModel/** LNDataSource/** thirdparty/ASIHTTPRequest/**";
+				USER_HEADER_SEARCH_PATHS = "thirdparty/ASIHTTPRequest/**";
 			};
 			name = Distribution;
 		};

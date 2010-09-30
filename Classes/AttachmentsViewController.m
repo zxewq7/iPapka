@@ -10,7 +10,6 @@
 #import "ImageScrollView.h"
 #import "AttachmentManaged.h"
 #import "AttachmentPageViewController.h"
-#import "AttachmentPage.h"
 #import "PageControlWithMenu.h"
 #import "DocumentManaged.h"
 #import "DataSource.h"
