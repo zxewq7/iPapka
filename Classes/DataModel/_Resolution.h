@@ -1,26 +1,26 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to ResolutionManaged.h instead.
+// Make changes to Resolution.h instead.
 
 #import <CoreData/CoreData.h>
 #import "Document.h"
 
 @class Person;
-@class ResolutionManaged;
+@class Resolution;
 
 
 
 
 
-@interface ResolutionManagedID : NSManagedObjectID {}
+@interface ResolutionID : NSManagedObjectID {}
 @end
 
-@interface _ResolutionManaged : Document {}
+@interface _Resolution : Document {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (ResolutionManagedID*)objectID;
+- (ResolutionID*)objectID;
 
 
 
@@ -52,14 +52,14 @@
 
 
 
-@property (nonatomic, retain) ResolutionManaged* parentResolution;
+@property (nonatomic, retain) Resolution* parentResolution;
 //- (BOOL)validateParentResolution:(id*)value_ error:(NSError**)error_;
 
 
 
 @end
 
-@interface _ResolutionManaged (CoreDataGeneratedAccessors)
+@interface _Resolution (CoreDataGeneratedAccessors)
 
 - (void)addPerformers:(NSSet*)value_;
 - (void)removePerformers:(NSSet*)value_;
@@ -68,7 +68,7 @@
 
 @end
 
-@interface _ResolutionManaged (CoreDataGeneratedPrimitiveAccessors)
+@interface _Resolution (CoreDataGeneratedPrimitiveAccessors)
 
 - (NSNumber*)primitiveIsManaged;
 - (void)setPrimitiveIsManaged:(NSNumber*)value;
@@ -92,8 +92,8 @@
 
 
 
-- (ResolutionManaged*)primitiveParentResolution;
-- (void)setPrimitiveParentResolution:(ResolutionManaged*)value;
+- (Resolution*)primitiveParentResolution;
+- (void)setPrimitiveParentResolution:(Resolution*)value;
 
 
 @end

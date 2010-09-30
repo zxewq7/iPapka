@@ -9,7 +9,7 @@
 #import "PerformersViewController.h"
 #import "ViewWithButtons.h"
 #import "UIButton+Additions.h"
-#import "ResolutionManaged.h"
+#import "Resolution.h"
 #import "Person.h"
 #import "PersonPickerViewController.h"
 #import "DataSource.h"
@@ -21,7 +21,7 @@
 @implementation PerformersViewController
 @synthesize document;
 
--(void) setDocument:(ResolutionManaged *) aDocument
+-(void) setDocument:(Resolution *) aDocument
 {
     if (document == aDocument)
         return;

@@ -1,12 +1,12 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to ResolutionManaged.m instead.
+// Make changes to Resolution.m instead.
 
-#import "_ResolutionManaged.h"
+#import "_Resolution.h"
 
-@implementation ResolutionManagedID
+@implementation ResolutionID
 @end
 
-@implementation _ResolutionManaged
+@implementation _Resolution
 
 
 
@@ -24,8 +24,8 @@
 	return [NSEntityDescription entityForName:@"Resolution" inManagedObjectContext:moc_];
 }
 
-- (ResolutionManagedID*)objectID {
-	return (ResolutionManagedID*)[super objectID];
+- (ResolutionID*)objectID {
+	return (ResolutionID*)[super objectID];
 }
 
 

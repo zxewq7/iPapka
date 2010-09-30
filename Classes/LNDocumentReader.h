@@ -8,13 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@class Document, ResolutionManaged, SignatureManaged, PageManaged, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person;
+@class Document, Resolution, SignatureManaged, PageManaged, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person;
 
 @protocol LNDocumentReaderDataSource
 - (Document *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
 - (Person *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) uid;
 
-- (ResolutionManaged *) documentReaderCreateResolution:(LNDocumentReader *) documentReader;
+- (Resolution *) documentReaderCreateResolution:(LNDocumentReader *) documentReader;
 - (SignatureManaged *) documentReaderCreateSignature:(LNDocumentReader *) documentReader;
 - (Document *) documentReaderCreateDocument:(LNDocumentReader *) documentReader;
 - (Attachment *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader;

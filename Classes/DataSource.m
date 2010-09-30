@@ -11,7 +11,7 @@
 #import "SynthesizeSingleton.h"
 #import "Document.h"
 #import "LNDocumentReader.h"
-#import "ResolutionManaged.h"
+#import "Resolution.h"
 #import "SignatureManaged.h"
 #import "KeychainItemWrapper.h"
 #import "Person.h"
@@ -205,7 +205,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return nil;
 }
 
-- (ResolutionManaged *) documentReaderCreateResolution:(LNDocumentReader *) documentReader
+- (Resolution *) documentReaderCreateResolution:(LNDocumentReader *) documentReader
 {
     return [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:managedObjectContext];
 }

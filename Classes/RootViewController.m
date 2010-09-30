@@ -19,7 +19,7 @@
 #import "ResolutionViewController.h"
 #import "RotateableImageView.h"
 #import "PageControlWithMenu.h"
-#import "ResolutionManaged.h"
+#import "Resolution.h"
 #import "RootBackgroundView.h"
 #import "RootContentView.h"
 
@@ -704,9 +704,9 @@ static NSString* LinkContext          = @"LinkContext";
 
     attachmentsViewController.attachment = self.document.firstAttachment;
 
-    if ([self.document isKindOfClass: [ResolutionManaged class]])
+    if ([self.document isKindOfClass: [Resolution class]])
     {
-        resolutionViewController.document = (ResolutionManaged *)self.document;
+        resolutionViewController.document = (Resolution *)self.document;
         resolutionButton.hidden = NO;
     }
     else

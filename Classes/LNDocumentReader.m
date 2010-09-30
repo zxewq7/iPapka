@@ -8,7 +8,7 @@
 
 #import "LNDocumentReader.h"
 #import "Document.h"
-#import "ResolutionManaged.h"
+#import "Resolution.h"
 #import "SignatureManaged.h"
 #import "Attachment.h"
 #import "ASINetworkQueue.h"
@@ -62,7 +62,7 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 - (void)fetchPage:(PageManaged *)page;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
-- (void) parseResolution:(ResolutionManaged *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary;
 @end
 static NSString* OperationCount = @"OperationCount";
 
@@ -423,9 +423,9 @@ static NSString* OperationCount = @"OperationCount";
 
         document.strippedDateModified = [calendar dateFromComponents:comps];
         
-        if ([document isKindOfClass:[ResolutionManaged class]]) 
+        if ([document isKindOfClass:[Resolution class]]) 
         {
-            ResolutionManaged *resolution = (ResolutionManaged *)document;
+            Resolution *resolution = (Resolution *)document;
             [self parseResolution:resolution fromDictionary:parsedDocument];
         }
         
@@ -616,7 +616,7 @@ static NSString* OperationCount = @"OperationCount";
 
     [_networkQueue addOperation:r];
 }
-- (void) parseResolution:(ResolutionManaged *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary;
 {
     resolution.text = [dictionary objectForKey:field_Text];
     resolution.author = [[self dataSource] documentReader:self personWithUid: [dictionary objectForKey:field_Author]];
@@ -650,7 +650,7 @@ static NSString* OperationCount = @"OperationCount";
     NSDictionary *parsedParentResolution = [dictionary objectForKey:field_ParentResolution];
     if (parsedParentResolution) 
     {
-        ResolutionManaged *parentResolution = [[self dataSource] documentReaderCreateResolution:self];
+        Resolution *parentResolution = [[self dataSource] documentReaderCreateResolution:self];
         [self parseResolution:parentResolution fromDictionary:parsedParentResolution];
         
 #warning possibly wrong data (title, dateModified)

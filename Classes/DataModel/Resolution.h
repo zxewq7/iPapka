@@ -1,6 +1,6 @@
-#import "_ResolutionManaged.h"
+#import "_Resolution.h"
 
-@interface ResolutionManaged : _ResolutionManaged
+@interface Resolution : _Resolution
 @property (nonatomic, retain, readonly) NSString *audioCommentPath;
 @property (nonatomic, readonly) BOOL hasAudioComment;
 @end
