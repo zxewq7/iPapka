@@ -185,7 +185,8 @@ static NSString* OperationCount = @"OperationCount";
                     if (![blockSelf->fetchedUids containsObject: uid])
                     {
                         DocumentManaged *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
-                        [[blockSelf dataSource] documentReader:blockSelf removeObject: obj];
+                        if (obj)
+                            [[blockSelf dataSource] documentReader:blockSelf removeObject: obj];
                     }
                 }
                 [blockSelf fetchDocuments];
