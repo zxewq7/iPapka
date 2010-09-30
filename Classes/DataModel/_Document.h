@@ -1,12 +1,12 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to DocumentManaged.h instead.
+// Make changes to Document.h instead.
 
 #import <CoreData/CoreData.h>
 
 
-@class DocumentManaged;
+@class Document;
 @class PersonManaged;
-@class DocumentManaged;
+@class Document;
 @class AttachmentManaged;
 
 
@@ -20,10 +20,10 @@
 
 
 
-@interface DocumentManagedID : NSManagedObjectID {}
+@interface DocumentID : NSManagedObjectID {}
 @end
 
-@interface _DocumentManaged : NSManagedObject {}
+@interface _Document : NSManagedObject {}
 
 @property (nonatomic, readonly) NSArray *linksOrdered;
 
@@ -33,7 +33,7 @@
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (DocumentManagedID*)objectID;
+- (DocumentID*)objectID;
 
 
 
@@ -128,7 +128,7 @@
 
 
 
-@property (nonatomic, retain) DocumentManaged* parent;
+@property (nonatomic, retain) Document* parent;
 //- (BOOL)validateParent:(id*)value_ error:(NSError**)error_;
 
 
@@ -140,12 +140,12 @@
 
 @end
 
-@interface _DocumentManaged (CoreDataGeneratedAccessors)
+@interface _Document (CoreDataGeneratedAccessors)
 
 - (void)addLinks:(NSSet*)value_;
 - (void)removeLinks:(NSSet*)value_;
-- (void)addLinksObject:(DocumentManaged*)value_;
-- (void)removeLinksObject:(DocumentManaged*)value_;
+- (void)addLinksObject:(Document*)value_;
+- (void)removeLinksObject:(Document*)value_;
 
 - (void)addAttachments:(NSSet*)value_;
 - (void)removeAttachments:(NSSet*)value_;
@@ -154,7 +154,7 @@
 
 @end
 
-@interface _DocumentManaged (CoreDataGeneratedPrimitiveAccessors)
+@interface _Document (CoreDataGeneratedPrimitiveAccessors)
 
 - (NSNumber*)primitiveIsModified;
 - (void)setPrimitiveIsModified:(NSNumber*)value;
@@ -223,8 +223,8 @@
 
 
 
-- (DocumentManaged*)primitiveParent;
-- (void)setPrimitiveParent:(DocumentManaged*)value;
+- (Document*)primitiveParent;
+- (void)setPrimitiveParent:(Document*)value;
 
 
 

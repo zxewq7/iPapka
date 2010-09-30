@@ -7,7 +7,7 @@
 //
 
 #import "LNDocumentReader.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "ResolutionManaged.h"
 #import "SignatureManaged.h"
 #import "AttachmentManaged.h"
@@ -184,7 +184,7 @@ static NSString* OperationCount = @"OperationCount";
                 {
                     if (![blockSelf->fetchedUids containsObject: uid])
                     {
-                        DocumentManaged *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
+                        Document *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
                         if (obj)
                             [[blockSelf dataSource] documentReader:blockSelf removeObject: obj];
                     }
@@ -245,7 +245,7 @@ static NSString* OperationCount = @"OperationCount";
         
         NSAssert(dateModified != nil, @"Unable to find dateModified in view");
 
-        DocumentManaged *document = [[self dataSource] documentReader:self documentWithUid:uid];
+        Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document)
             [uidsToFetch addObject: uid];
@@ -312,7 +312,7 @@ static NSString* OperationCount = @"OperationCount";
     return directory;
 }
 
-- (void)parseAttachments:(DocumentManaged *) document attachments:(NSArray *) attachments
+- (void)parseAttachments:(Document *) document attachments:(NSArray *) attachments
 {
     NSSet *existingAttachments = document.attachments;
     
@@ -391,7 +391,7 @@ static NSString* OperationCount = @"OperationCount";
             return;
         }
         
-        DocumentManaged *document;
+        Document *document;
         
         if ([form isEqualToString:form_Resolution])
             document = [[self dataSource] documentReaderCreateResolution:self];
@@ -440,7 +440,7 @@ static NSString* OperationCount = @"OperationCount";
         NSSet *existingLinks = document.links;
         
         //remove obsoleted attachments
-        for (DocumentManaged *link in existingLinks)
+        for (Document *link in existingLinks)
         {
             BOOL  exists = NO;
             for (NSDictionary *dictLink in links)
@@ -464,9 +464,9 @@ static NSString* OperationCount = @"OperationCount";
         {
             NSString *linkUid = [dictLink objectForKey:field_Uid];
             
-            DocumentManaged *link = nil;
+            Document *link = nil;
             
-            for (DocumentManaged *l in existingLinks)
+            for (Document *l in existingLinks)
             {
                 if ([l.uid isEqualToString: linkUid])
                 {
@@ -579,13 +579,13 @@ static NSString* OperationCount = @"OperationCount";
     NSString *urlPattern;
     
     AttachmentManaged *attachment = page.attachment;
-    DocumentManaged *rootDocument = attachment.document;
+    Document *rootDocument = attachment.document;
 
 #warning recursive links???
     if (rootDocument.parent) //link
     {
         rootDocument = rootDocument.parent;
-        DocumentManaged *link = rootDocument;
+        Document *link = rootDocument;
         
         urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, rootDocument.uid, link.uid, @"%@", @"%d"];
     }

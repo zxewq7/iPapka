@@ -1,12 +1,12 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to DocumentManaged.m instead.
+// Make changes to Document.m instead.
 
-#import "_DocumentManaged.h"
+#import "_Document.h"
 
-@implementation DocumentManagedID
+@implementation DocumentID
 @end
 
-@implementation _DocumentManaged
+@implementation _Document
 
 @synthesize linksOrdered;
 
@@ -28,8 +28,8 @@
 	return [NSEntityDescription entityForName:@"Document" inManagedObjectContext:moc_];
 }
 
-- (DocumentManagedID*)objectID {
-	return (DocumentManagedID*)[super objectID];
+- (DocumentID*)objectID {
+	return (DocumentID*)[super objectID];
 }
 
 

@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "LNDocumentReader.h"
 
-@class Folder, Document, DocumentManaged, LNDocumentWriter, LNDocumentReader;
+@class Folder, Document, Document, LNDocumentWriter, LNDocumentReader;
 
 @interface DataSource : NSObject<UIAlertViewDelegate, LNDocumentReaderDataSource>
 {

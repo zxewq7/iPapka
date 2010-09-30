@@ -9,7 +9,7 @@
 #import "DataSource.h"
 #import "Folder.h"
 #import "SynthesizeSingleton.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "LNDocumentReader.h"
 #import "ResolutionManaged.h"
 #import "SignatureManaged.h"
@@ -188,7 +188,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 #pragma mark -
 #pragma mark LNDocumentReaderDataSource
-- (DocumentManaged *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) anUid
+- (Document *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) anUid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:self.documentEntityDescription];
@@ -215,7 +215,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return [NSEntityDescription insertNewObjectForEntityForName:@"Signature" inManagedObjectContext:managedObjectContext];
 }
 
-- (DocumentManaged *) documentReaderCreateDocument:(LNDocumentReader *) documentReader
+- (Document *) documentReaderCreateDocument:(LNDocumentReader *) documentReader
 {
     return [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
 }

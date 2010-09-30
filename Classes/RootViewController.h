@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "DocumentsListViewController.h"
 
-@class DocumentManaged, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController, RootContentView;
+@class Document, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController, RootContentView;
 
 @interface RootViewController : UIViewController<DocumentsListDelegate>
 {
-    DocumentManaged             *document;
+    Document             *document;
     AttachmentsViewController   *attachmentsViewController;
     UIToolbar                   *toolbar;
     ClipperViewController       *clipperViewController;
@@ -31,6 +31,6 @@
     ResolutionViewController    *resolutionViewController;
 }
 
-@property (nonatomic, retain, setter=setDocument:) DocumentManaged *document;
+@property (nonatomic, retain, setter=setDocument:) Document *document;
 @property (nonatomic, retain, setter=setFolder:)   Folder          *folder;
 @end

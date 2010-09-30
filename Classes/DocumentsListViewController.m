@@ -8,7 +8,7 @@
 
 #import "DocumentsListViewController.h"
 #import "DataSource.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "Folder.h";
 #import "UIButton+Additions.h"
 #import "PersonManaged.h"
@@ -164,7 +164,7 @@ static NSString* SyncingContext = @"SyncingContext";
         // Section title is the region name
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
     NSArray *objects = [sectionInfo objects];
-    DocumentManaged *doc = [objects objectAtIndex:0];
+    Document *doc = [objects objectAtIndex:0];
     return [self sectionNameForDate:doc.strippedDateModified];
 }
 
@@ -183,7 +183,7 @@ static NSString* SyncingContext = @"SyncingContext";
 	}
     
         // Set appropriate labels for the cells.
-    DocumentManaged *doc = [fetchedResultsController objectAtIndexPath:indexPath];
+    Document *doc = [fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = doc.title;
     cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author.fullName];
     cell.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];

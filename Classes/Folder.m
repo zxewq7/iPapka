@@ -7,7 +7,7 @@
 //
 
 #import "Folder.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "ResolutionManaged.h"
 #import "SignatureManaged.h"
 
@@ -134,7 +134,7 @@
     if (entityClass == nil) 
     {
         if ([entityName isEqualToString:@"Document"])
-            entityClass = [DocumentManaged class];
+            entityClass = [Document class];
         else if ([entityName isEqualToString:@"Resolution"])
             entityClass = [ResolutionManaged class];
         else if ([entityName isEqualToString:@"Signature"])

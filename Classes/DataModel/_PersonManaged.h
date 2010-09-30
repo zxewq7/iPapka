@@ -5,7 +5,7 @@
 
 
 @class ResolutionManaged;
-@class DocumentManaged;
+@class Document;
 
 
 
@@ -71,8 +71,8 @@
 
 - (void)addDocuments:(NSSet*)value_;
 - (void)removeDocuments:(NSSet*)value_;
-- (void)addDocumentsObject:(DocumentManaged*)value_;
-- (void)removeDocumentsObject:(DocumentManaged*)value_;
+- (void)addDocumentsObject:(Document*)value_;
+- (void)removeDocumentsObject:(Document*)value_;
 
 @end
 

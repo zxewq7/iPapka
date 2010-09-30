@@ -1,5 +1,5 @@
 #import "AttachmentManaged.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 
 @implementation AttachmentManaged
 

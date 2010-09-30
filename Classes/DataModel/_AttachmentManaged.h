@@ -4,7 +4,7 @@
 #import <CoreData/CoreData.h>
 
 
-@class DocumentManaged;
+@class Document;
 @class PageManaged;
 
 
@@ -38,7 +38,7 @@
 
 
 
-@property (nonatomic, retain) DocumentManaged* document;
+@property (nonatomic, retain) Document* document;
 //- (BOOL)validateDocument:(id*)value_ error:(NSError**)error_;
 
 
@@ -71,8 +71,8 @@
 
 
 
-- (DocumentManaged*)primitiveDocument;
-- (void)setPrimitiveDocument:(DocumentManaged*)value;
+- (Document*)primitiveDocument;
+- (void)setPrimitiveDocument:(Document*)value;
 
 
 

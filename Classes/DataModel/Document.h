@@ -1,4 +1,4 @@
-#import "_DocumentManaged.h"
+#import "_Document.h"
 
 typedef enum _DocumentStatus {
 	DocumentStatusDraft = 0,
@@ -14,7 +14,7 @@ typedef enum _SyncStatus {
 
 @class Document, AttachmentManaged;
 
-@interface DocumentManaged : _DocumentManaged 
+@interface Document : _Document 
 @property (nonatomic, readonly, getter=document) Document *document;
 @property (nonatomic, readonly) AttachmentManaged *firstAttachment;
 @end

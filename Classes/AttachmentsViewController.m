@@ -11,7 +11,7 @@
 #import "AttachmentManaged.h"
 #import "AttachmentPageViewController.h"
 #import "PageControlWithMenu.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "DataSource.h"
 
 static NSString *HidePageControlAnimationId = @"HidePageControlAnimationId";

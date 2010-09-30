@@ -7,7 +7,7 @@
     //
 
 #import "RootViewController.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "DataSource.h"
 #import "AttachmentsViewController.h"
 #import "UIButton+Additions.h"
@@ -59,7 +59,7 @@ static NSString* LinkContext          = @"LinkContext";
 //        self.document = nil;
 }
 
--(void) setDocument:(DocumentManaged *) aDocument
+-(void) setDocument:(Document *) aDocument
 {
     if (document == aDocument)
         return;
@@ -456,7 +456,7 @@ static NSString* LinkContext          = @"LinkContext";
         if (clipperViewController.opened)
             clipperViewController.opened = NO;
         
-        DocumentManaged *linkedDocument = documentInfoViewController.link;
+        Document *linkedDocument = documentInfoViewController.link;
         
         if (backButton.hidden)
         {

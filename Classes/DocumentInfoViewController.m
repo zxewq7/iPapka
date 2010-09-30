@@ -7,7 +7,7 @@
 //
 
 #import "DocumentInfoViewController.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "AttachmentManaged.h"
 #import "PersonManaged.h"
 #import <QuartzCore/CALayer.h>
@@ -27,7 +27,7 @@
 @synthesize document, attachment, link;
 
 
--(void) setDocument:(DocumentManaged *) aDocument
+-(void) setDocument:(Document *) aDocument
 {
     if (document == aDocument)
         return;
@@ -166,7 +166,7 @@
     if ([file isKindOfClass: [AttachmentManaged class]])
         self.attachment = (AttachmentManaged *)file;
     else
-        self.link = (DocumentManaged *)file;
+        self.link = (Document *)file;
 }
 
 
@@ -213,7 +213,7 @@
     }
     else
     {
-        DocumentManaged *d = (DocumentManaged *) file;
+        Document *d = (Document *) file;
         cell.textLabel.text = d.title;
     }
     return cell;

@@ -9,7 +9,7 @@
 #import "LNDocumentWriter.h"
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "SBJsonWriter.h"
 #import "ResolutionManaged.h"
 #import "DataSource.h"
@@ -17,7 +17,7 @@
 static NSString* OperationCount = @"OperationCount";
 
 @interface LNDocumentWriter(Private)
-- (void) syncDocument:(DocumentManaged *) document;
+- (void) syncDocument:(Document *) document;
 @end
 
 @implementation LNDocumentWriter
@@ -81,7 +81,7 @@ static NSString* OperationCount = @"OperationCount";
         for (NSUInteger i = 0;i < numberOfObjects; i++)
         {
             NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-            DocumentManaged *document = [unsyncedDocuments objectAtIndexPath:indexPath];
+            Document *document = [unsyncedDocuments objectAtIndexPath:indexPath];
             [self syncDocument:document];
         }
     }
@@ -127,7 +127,7 @@ static NSString* OperationCount = @"OperationCount";
 
 #pragma mark -
 #pragma mark Private
-- (void) syncDocument:(DocumentManaged *) document
+- (void) syncDocument:(Document *) document
 {
     NSMutableDictionary *dictDocument = [[NSMutableDictionary alloc] initWithCapacity: 6];
     

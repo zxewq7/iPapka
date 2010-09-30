@@ -1,7 +1,7 @@
-#import "DocumentManaged.h"
+#import "Document.h"
 #import "DataSource.h"
 
-@implementation DocumentManaged
+@implementation Document
 @synthesize document;
 
 -(Document *) document
