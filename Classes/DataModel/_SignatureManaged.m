@@ -8,6 +8,8 @@
 
 @implementation _SignatureManaged
 
+
+
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Signature" inManagedObjectContext:moc_];

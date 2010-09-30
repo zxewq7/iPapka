@@ -15,6 +15,8 @@
 @end
 
 @interface _ResolutionManaged : DocumentManaged {}
+
+	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

@@ -10,5 +10,4 @@ typedef enum _DocumentStatus {
 
 @interface DocumentManaged : _DocumentManaged 
 @property (nonatomic, readonly, getter=document) Document *document;
-@property (nonatomic, readonly) NSArray *attachmentsOrdered;
 @end

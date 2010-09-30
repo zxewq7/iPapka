@@ -10,6 +10,8 @@
 @end
 
 @interface _SignatureManaged : DocumentManaged {}
+
+	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

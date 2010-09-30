@@ -16,6 +16,8 @@
 @end
 
 @interface _PersonManaged : NSManagedObject {}
+
+	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

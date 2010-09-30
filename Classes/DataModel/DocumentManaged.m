@@ -9,8 +9,4 @@
     return nil;
 }
 
--(NSArray *)attachmentsOrdered
-{
-    return [self valueForKey:@"attachmentsOrdered"];
-}
 @end

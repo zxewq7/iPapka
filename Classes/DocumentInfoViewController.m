@@ -253,7 +253,7 @@
             currentItems = document.attachmentsOrdered;
             break;
         case 1:
-            currentItems = document.links;
+            currentItems = document.linksOrdered;
             break;
         default:
             NSAssert1 (NO, @"Invalid filter value: %d", filter.selectedSegmentIndex);
@@ -265,12 +265,10 @@
 @implementation  DocumentInfoViewController(Private)
 -(void) updateContent;
 {
-    currentItems = [document valueForKey:@"attachmentsOrdered"];
-    
-    NSLog(@"%@", currentItems);
+    currentItems = document.attachmentsOrdered;
     
     documentTitle.text = document.title;
-    documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.dateModified]];
+    documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author.fullName, [dateFormatter stringFromDate: document.dateModified]];
     if ([currentItems count]) 
         attachmentIndex = 0;
     else

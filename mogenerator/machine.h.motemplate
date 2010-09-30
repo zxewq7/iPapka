@@ -12,6 +12,10 @@
 @end
 
 @interface _<$managedObjectClassName$> : <$customSuperentity$> {}
+<$foreach FetchedProperty noninheritedFetchedProperties do$>
+@property (nonatomic, readonly) NSArray *<$FetchedProperty.name$>;
+<$endforeach do$>
+	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

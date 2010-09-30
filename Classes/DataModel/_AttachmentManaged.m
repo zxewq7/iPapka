@@ -8,6 +8,10 @@
 
 @implementation _AttachmentManaged
 
+@synthesize pagesOrdered;
+
+
+
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Attachment" inManagedObjectContext:moc_];

@@ -7,6 +7,10 @@
 @end
 
 @implementation _<$managedObjectClassName$>
+<$foreach FetchedProperty noninheritedFetchedProperties do$>
+@synthesize <$FetchedProperty.name$>;
+<$endforeach do$>
+
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);

@@ -14,6 +14,8 @@
 @end
 
 @interface _PageManaged : NSManagedObject {}
+
+	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

@@ -8,6 +8,12 @@
 
 @implementation _DocumentManaged
 
+@synthesize linksOrdered;
+
+@synthesize attachmentsOrdered;
+
+
+
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:moc_];

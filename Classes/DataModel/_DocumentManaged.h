@@ -24,6 +24,12 @@
 @end
 
 @interface _DocumentManaged : NSManagedObject {}
+
+@property (nonatomic, readonly) NSArray *linksOrdered;
+
+@property (nonatomic, readonly) NSArray *attachmentsOrdered;
+
+	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;

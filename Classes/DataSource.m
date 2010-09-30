@@ -32,6 +32,7 @@ static NSString* SyncingContext = @"SyncingContext";
 - (NSEntityDescription *)pageEntityDescription;
 - (NSPredicate *)documentUidPredicateTemplate;
 - (NSPredicate *)personUidPredicateTemplate;
+- (NSManagedObjectModel *)managedObjectModel;
 @end
 
 @implementation DataSource
@@ -69,12 +70,11 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         NSError *error;
         
-        managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
-        
-        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: managedObjectModel];
+        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: self.managedObjectModel];
         if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
             [persistentStoreCoordinator release];
             persistentStoreCoordinator = nil;
+            NSAssert1(NO, @"Unhandled to create persistentStoreCoordinator: %@", [error localizedDescription]);
         }
         
         if (persistentStoreCoordinator != nil) {
@@ -568,5 +568,41 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         personUidPredicateTemplate = [[NSComparisonPredicate alloc] initWithLeftExpression:leftHand rightExpression:rightHand modifier:NSDirectPredicateModifier type:NSLikePredicateOperatorType options:0];
     }
     return personUidPredicateTemplate;
+}
+
+- (NSManagedObjectModel *)managedObjectModel 
+{
+    
+    if (managedObjectModel == nil)
+    {
+        managedObjectModel = [[NSManagedObjectModel mergedModelFromBundles:nil] retain];    
+        
+        // Find the fetched properties, and make them sorted...
+        for (NSEntityDescription *entity in [managedObjectModel entities]) 
+        {
+            for (NSPropertyDescription *property in [entity properties]) 
+            {
+                if ([property isKindOfClass:[NSFetchedPropertyDescription class]]) 
+                {
+                    NSFetchedPropertyDescription *fetchedProperty = (NSFetchedPropertyDescription *)property;
+                    NSFetchRequest *fetchRequest = [fetchedProperty fetchRequest];
+                    NSSortDescriptor *sort = nil;
+                    if ([[property name] isEqualToString:@"attachmentsOrdered"])
+                        sort = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+                    else if ([[property name] isEqualToString:@"linksOrdered"])
+                        sort = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];
+                    else if ([[property name] isEqualToString:@"pagesOrdered"])
+                        sort = [[NSSortDescriptor alloc] initWithKey:@"number" ascending:YES];
+                    
+                    if (sort)
+                        [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+                    
+                    [sort release];
+
+                }
+            }
+        }
+    }
+    return managedObjectModel;
 }
 @end

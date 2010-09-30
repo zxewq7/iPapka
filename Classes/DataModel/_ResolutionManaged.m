@@ -8,6 +8,8 @@
 
 @implementation _ResolutionManaged
 
+
+
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
 	return [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:moc_];

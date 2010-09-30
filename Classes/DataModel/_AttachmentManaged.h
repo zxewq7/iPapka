@@ -14,6 +14,10 @@
 @end
 
 @interface _AttachmentManaged : NSManagedObject {}
+
+@property (nonatomic, readonly) NSArray *pagesOrdered;
+
+	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
