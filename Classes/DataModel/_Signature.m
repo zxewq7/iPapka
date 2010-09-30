@@ -1,12 +1,12 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to SignatureManaged.m instead.
+// Make changes to Signature.m instead.
 
-#import "_SignatureManaged.h"
+#import "_Signature.h"
 
-@implementation SignatureManagedID
+@implementation SignatureID
 @end
 
-@implementation _SignatureManaged
+@implementation _Signature
 
 
 
@@ -24,8 +24,8 @@
 	return [NSEntityDescription entityForName:@"Signature" inManagedObjectContext:moc_];
 }
 
-- (SignatureManagedID*)objectID {
-	return (SignatureManagedID*)[super objectID];
+- (SignatureID*)objectID {
+	return (SignatureID*)[super objectID];
 }
 
 
