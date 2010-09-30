@@ -8,13 +8,11 @@
 
 #import "AttachmentsViewController.h"
 #import "ImageScrollView.h"
-#import "Attachment.h"
+#import "AttachmentManaged.h"
 #import "AttachmentPageViewController.h"
 #import "AttachmentPage.h"
 #import "PageControlWithMenu.h"
-#import "AZZBubbleView.h"
 #import "DocumentManaged.h"
-#import "Document.h"
 #import "DataSource.h"
 
 static NSString *HidePageControlAnimationId = @"HidePageControlAnimationId";
@@ -27,10 +25,11 @@ typedef enum _TapPosition{
 
 @interface AttachmentsViewController(Private)
 - (TapPosition) tapPosition:(UITouch *)touch;
+- (void) setPages;
 @end
 
 @implementation AttachmentsViewController
-@synthesize currentPage, commenting, pageControl, document, attachmentIndex, paintingTools;
+@synthesize commenting, pageControl, attachment, paintingTools;
 
 -(void) setPaintingTools: (PaintingToolsViewController *) aPaintingTools
 {
@@ -50,46 +49,26 @@ typedef enum _TapPosition{
     [pageControl release];
     pageControl = [aPageControl retain];
     [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
-    pageControl.numberOfPages = [attachment.pages count];
+    pageControl.numberOfPages = [attachment.pagesOrdered count];
     pageControl.hidden = YES;
     pageControl.alpha = 0.0;
 }
 
--(void) setDocument:(Document*) aDocument
+-(void) setAttachment:(AttachmentManaged *) anAttachment
 {
-    if (document == aDocument)
+    
+    if (attachment == anAttachment)
         return;
     
-    [document release];
-    document = [aDocument retain];
-    self.attachmentIndex = 0;
-}
-
--(void) setAttachmentIndex:(NSUInteger) anAttachmentIndex
-{
-    if ([document.attachments count] <= anAttachmentIndex)
-    {
-        [attachment release];
-        attachment = nil;
-        attachmentIndex = 0;
-        return;
-    }
-    
-    attachmentIndex = anAttachmentIndex;
-    
-    Attachment *anAttachment = [document.attachments objectAtIndex: attachmentIndex];
-    if (attachment != anAttachment) 
-    {
-        [attachment release];
-        attachment = [anAttachment retain];
-    }
+    [attachment release];
+    attachment = [anAttachment retain];
+  
     [currentPage saveContent];
-    currentPage.attachment = attachment;
-    nextPage.attachment = attachment;
-    currentPage.pageIndex = 0;
-    nextPage.pageIndex = 1;
-    pageControl.numberOfPages = [attachment.pages count];
+
+    pageControl.numberOfPages = [attachment.pagesOrdered count];
     pageControl.currentPage = 0;
+    
+    [self setPages];
 }
 
 #pragma mark -
@@ -127,11 +106,8 @@ typedef enum _TapPosition{
     currentPage.color = paintingTools.color;
     nextPage.color = paintingTools.color;
     
-    currentPage.attachment = attachment;
-    nextPage.attachment = attachment;
-
-    currentPage.pageIndex = 0;
-    nextPage.pageIndex = 1;
+    //refrest pages
+    self.attachment = self.attachment;
     
     [self.view addSubview:nextPage.view];
 	[self.view addSubview:currentPage.view];
@@ -140,12 +116,9 @@ typedef enum _TapPosition{
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [currentPage release];
-    currentPage = nil;
-    [nextPage release];
-    nextPage = nil;
-    [tapRecognizer release];
-    tapRecognizer = nil;
+    [currentPage release]; currentPage = nil;
+    [nextPage release]; nextPage = nil;
+    [tapRecognizer release]; tapRecognizer = nil;
 }
 
 - (void)dealloc
@@ -164,7 +137,7 @@ typedef enum _TapPosition{
     
     self.pageControl = nil;
     
-    self.document = nil;
+    self.attachment = nil;
     
     self.paintingTools = nil;
     
@@ -173,13 +146,11 @@ typedef enum _TapPosition{
 
 -(void)pageAction:(id) sender
 {
-    NSUInteger currentPageIndex = pageControl.currentPage;
+    NSUInteger currentIndex = pageControl.currentPage;
     
-    if (currentPageIndex != currentPage.pageIndex)
+    if (currentPageIndex != currentIndex)
     {
-        BOOL nextPrev = currentPageIndex < currentPage.pageIndex;
-        
-        NSInteger nextPageIndex = currentPageIndex+(nextPrev?-1:1);
+        BOOL nextPrev = currentIndex < currentPageIndex;
         
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.5f];
@@ -190,18 +161,14 @@ typedef enum _TapPosition{
             AttachmentPageViewController *swapController = currentPage;
             currentPage = nextPage;
             nextPage = swapController;
-            if (currentPage.pageIndex != currentPageIndex)
-                currentPage.pageIndex = currentPageIndex;
-            nextPage.pageIndex = nextPageIndex;
+            [self setPages];
         }
         else //page down
         {
             AttachmentPageViewController *swapController = currentPage;
             currentPage = nextPage;
             nextPage = swapController;
-            if (currentPage.pageIndex != currentPageIndex)
-                currentPage.pageIndex = currentPageIndex;
-            nextPage.pageIndex = nextPageIndex;
+            [self setPages];
         }
         nextPage.view.hidden = YES;
         currentPage.view.hidden = NO;
@@ -276,9 +243,9 @@ typedef enum _TapPosition{
     }
     else if (tapPosition == TapPositionTop || tapPosition == TapPositionBottom)
     {
-        NSInteger currentPageIndex = [currentPage pageIndex]+(tapPosition == TapPositionTop?-1:1);
+        currentPageIndex += (tapPosition == TapPositionTop?-1:1);
 
-        NSUInteger numberOfPages = [attachment.pages count]-1;
+        NSUInteger numberOfPages = pageControl.numberOfPages-1;
         
         if (currentPageIndex<0 || currentPageIndex>numberOfPages) //out of bounds
             return;
@@ -321,7 +288,7 @@ typedef enum _TapPosition{
     if (!commenting)
     {
         [currentPage saveContent];
-        [[DataSource sharedDataSource] saveDocument: document];
+        [[DataSource sharedDataSource] commit];
     }
 }
 @end
@@ -339,5 +306,26 @@ typedef enum _TapPosition{
         return TapPositionTop;
 
     return TapPositionMiddle;
+}
+- (void) setPages
+{
+    NSUInteger numberOfPages = pageControl.numberOfPages;
+    NSUInteger currentIndex = pageControl.currentPage;
+    
+    if (numberOfPages > currentIndex)
+    {
+        currentPage.page = [attachment.pagesOrdered objectAtIndex: currentIndex];
+        currentPageIndex = currentIndex;
+        
+        if (numberOfPages > (currentIndex + 1))
+            nextPage.page = [attachment.pagesOrdered objectAtIndex: (currentIndex + 1)];
+        else
+            nextPage.page = nil;
+    }
+    else
+    {
+        currentPage.page = nil;
+        nextPage.page = nil;
+    }
 }
 @end
