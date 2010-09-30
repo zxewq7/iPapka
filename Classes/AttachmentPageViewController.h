@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import "PaintingView.h"
 
-@class PageManaged, ImageScrollView;
+@class AttachmentPage, ImageScrollView;
 @interface AttachmentPageViewController : UIViewController<PaintingViewDelegate>
 {
-    PageManaged       *page;
+    AttachmentPage       *page;
     ImageScrollView   *imageView;
 }
 
-@property (nonatomic, retain) PageManaged       *page;
+@property (nonatomic, retain) AttachmentPage       *page;
 @property (nonatomic)         BOOL              pen;
 @property (nonatomic)         BOOL              marker;
 @property (nonatomic)         BOOL              eraser;

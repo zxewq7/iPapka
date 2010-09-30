@@ -225,9 +225,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return [NSEntityDescription insertNewObjectForEntityForName:@"Attachment" inManagedObjectContext:managedObjectContext];    
 }
 
-- (PageManaged *) documentReaderCreatePage:(LNDocumentReader *) documentReader
+- (AttachmentPage *) documentReaderCreatePage:(LNDocumentReader *) documentReader
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Page" inManagedObjectContext:managedObjectContext];
+    return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPage" inManagedObjectContext:managedObjectContext];
 }
 
 - (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader
@@ -544,7 +544,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 - (NSEntityDescription *)pageEntityDescription 
 {
     if (pageEntityDescription == nil) {
-        pageEntityDescription = [[NSEntityDescription entityForName:@"Page" inManagedObjectContext:managedObjectContext] retain];
+        pageEntityDescription = [[NSEntityDescription entityForName:@"AttachmentPage" inManagedObjectContext:managedObjectContext] retain];
     }
     return pageEntityDescription;
 }

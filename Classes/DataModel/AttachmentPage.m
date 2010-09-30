@@ -1,7 +1,7 @@
-#import "PageManaged.h"
+#import "AttachmentPage.h"
 #import "Attachment.h"
 
-@implementation PageManaged
+@implementation AttachmentPage
 
 -(NSString *)path
 {

@@ -1,31 +1,31 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to PageManaged.m instead.
+// Make changes to AttachmentPage.m instead.
 
-#import "_PageManaged.h"
+#import "_AttachmentPage.h"
 
-@implementation PageManagedID
+@implementation AttachmentPageID
 @end
 
-@implementation _PageManaged
+@implementation _AttachmentPage
 
 
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"Page" inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPage" inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
-	return @"Page";
+	return @"AttachmentPage";
 }
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"Page" inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:@"AttachmentPage" inManagedObjectContext:moc_];
 }
 
-- (PageManagedID*)objectID {
-	return (PageManagedID*)[super objectID];
+- (AttachmentPageID*)objectID {
+	return (AttachmentPageID*)[super objectID];
 }
 
 

@@ -1,5 +1,5 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to PageManaged.h instead.
+// Make changes to AttachmentPage.h instead.
 
 #import <CoreData/CoreData.h>
 
@@ -10,16 +10,16 @@
 
 
 
-@interface PageManagedID : NSManagedObjectID {}
+@interface AttachmentPageID : NSManagedObjectID {}
 @end
 
-@interface _PageManaged : NSManagedObject {}
+@interface _AttachmentPage : NSManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (PageManagedID*)objectID;
+- (AttachmentPageID*)objectID;
 
 
 
@@ -61,11 +61,11 @@
 
 @end
 
-@interface _PageManaged (CoreDataGeneratedAccessors)
+@interface _AttachmentPage (CoreDataGeneratedAccessors)
 
 @end
 
-@interface _PageManaged (CoreDataGeneratedPrimitiveAccessors)
+@interface _AttachmentPage (CoreDataGeneratedPrimitiveAccessors)
 
 - (NSNumber*)primitiveIsFetched;
 - (void)setPrimitiveIsFetched:(NSNumber*)value;

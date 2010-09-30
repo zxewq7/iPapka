@@ -1,6 +1,6 @@
-#import "_PageManaged.h"
+#import "_AttachmentPage.h"
 
-@interface PageManaged : _PageManaged
+@interface AttachmentPage : _AttachmentPage
 @property (readonly) NSString *path;
 @property (readonly) NSString *pathImage;
 @property (readonly) NSString *pathDrawings;

@@ -5,7 +5,7 @@
 
 
 @class Document;
-@class PageManaged;
+@class AttachmentPage;
 
 
 
@@ -54,8 +54,8 @@
 
 - (void)addPages:(NSSet*)value_;
 - (void)removePages:(NSSet*)value_;
-- (void)addPagesObject:(PageManaged*)value_;
-- (void)removePagesObject:(PageManaged*)value_;
+- (void)addPagesObject:(AttachmentPage*)value_;
+- (void)removePagesObject:(AttachmentPage*)value_;
 
 @end
 

@@ -14,7 +14,7 @@
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
 #import "SBJsonParser.h"
-#import "PageManaged.h"
+#import "AttachmentPage.h"
 #import "Person.h"
 
 static NSString *view_RootEntry = @"viewentry";
@@ -58,7 +58,7 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 - (void)fetchDocuments;
 - (void)parseDocumentData:(NSDictionary *) parsedDocument;
 - (NSString *) documentDirectory:(NSString *) anUid;
-- (void)fetchPage:(PageManaged *)page;
+- (void)fetchPage:(AttachmentPage *)page;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(Resolution *) resolution fromDictionary:(NSDictionary *) dictionary;
@@ -294,8 +294,8 @@ static NSString* OperationCount = @"OperationCount";
                 NSArray *unfetchedResources = [blockSelf->dataSource documentReaderUnfetchedResources:blockSelf];
                 for(NSObject *resource in unfetchedResources)
                 {
-                    if ([resource isKindOfClass: [PageManaged class]])
-                        [blockSelf fetchPage:(PageManaged *) resource];
+                    if ([resource isKindOfClass: [AttachmentPage class]])
+                        [blockSelf fetchPage:(AttachmentPage *) resource];
                     else
                         NSAssert1(NO, @"invalid resource: ", [resource class]);
                 }
@@ -362,7 +362,7 @@ static NSString* OperationCount = @"OperationCount";
             
             for (NSUInteger i = 0; i < pageCount ; i++) //create page stubs
             {
-                PageManaged *page = [[self dataSource] documentReaderCreatePage:self];
+                AttachmentPage *page = [[self dataSource] documentReaderCreatePage:self];
                 page.numberValue = i;
                 page.isFetchedValue = NO;
                 page.attachment = attachment;
@@ -568,7 +568,7 @@ static NSString* OperationCount = @"OperationCount";
     
     return result;
 }
-- (void)fetchPage:(PageManaged *)page
+- (void)fetchPage:(AttachmentPage *)page
 {
     NSFileManager *df = [NSFileManager defaultManager];
     

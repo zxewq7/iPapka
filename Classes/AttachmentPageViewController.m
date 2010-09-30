@@ -8,7 +8,7 @@
 
 #import "AttachmentPageViewController.h"
 #import "ImageScrollView.h"
-#import "PageManaged.h"
+#import "AttachmentPage.h"
 
     // This is defined in Math.h
 #define M_PI   3.14159265358979323846264338327950288   /* pi */
@@ -22,7 +22,7 @@
 @dynamic pen, stamper, eraser, marker, angle;
 @dynamic color;
 
-- (void)setPage:(PageManaged *)aPage
+- (void)setPage:(AttachmentPage *)aPage
 {
     if (page == aPage)
         return;
