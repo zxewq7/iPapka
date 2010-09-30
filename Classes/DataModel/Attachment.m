@@ -1,7 +1,7 @@
-#import "AttachmentManaged.h"
+#import "Attachment.h"
 #import "Document.h"
 
-@implementation AttachmentManaged
+@implementation Attachment
 
 -(NSString *)path
 {

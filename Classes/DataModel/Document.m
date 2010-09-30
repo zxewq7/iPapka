@@ -8,7 +8,7 @@
 {
     return nil;
 }
-- (AttachmentManaged*)firstAttachment
+- (Attachment*)firstAttachment
 {
     NSArray *attachments = self.attachmentsOrdered;
     

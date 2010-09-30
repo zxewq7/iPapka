@@ -220,7 +220,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
 }
 
-- (AttachmentManaged *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader
+- (Attachment *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader
 {
     return [NSEntityDescription insertNewObjectForEntityForName:@"Attachment" inManagedObjectContext:managedObjectContext];    
 }

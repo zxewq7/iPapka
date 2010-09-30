@@ -4,7 +4,7 @@
 #import <CoreData/CoreData.h>
 
 
-@class AttachmentManaged;
+@class Attachment;
 
 
 
@@ -54,7 +54,7 @@
 
 
 
-@property (nonatomic, retain) AttachmentManaged* attachment;
+@property (nonatomic, retain) Attachment* attachment;
 //- (BOOL)validateAttachment:(id*)value_ error:(NSError**)error_;
 
 
@@ -90,8 +90,8 @@
 
 
 
-- (AttachmentManaged*)primitiveAttachment;
-- (void)setPrimitiveAttachment:(AttachmentManaged*)value;
+- (Attachment*)primitiveAttachment;
+- (void)setPrimitiveAttachment:(Attachment*)value;
 
 
 @end

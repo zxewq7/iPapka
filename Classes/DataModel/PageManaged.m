@@ -1,5 +1,5 @@
 #import "PageManaged.h"
-#import "AttachmentManaged.h"
+#import "Attachment.h"
 
 @implementation PageManaged
 

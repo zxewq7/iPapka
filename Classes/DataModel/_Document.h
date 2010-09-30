@@ -7,7 +7,7 @@
 @class Document;
 @class PersonManaged;
 @class Document;
-@class AttachmentManaged;
+@class Attachment;
 
 
 
@@ -149,8 +149,8 @@
 
 - (void)addAttachments:(NSSet*)value_;
 - (void)removeAttachments:(NSSet*)value_;
-- (void)addAttachmentsObject:(AttachmentManaged*)value_;
-- (void)removeAttachmentsObject:(AttachmentManaged*)value_;
+- (void)addAttachmentsObject:(Attachment*)value_;
+- (void)removeAttachmentsObject:(Attachment*)value_;
 
 @end
 

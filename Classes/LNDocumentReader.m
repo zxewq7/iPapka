@@ -10,7 +10,7 @@
 #import "Document.h"
 #import "ResolutionManaged.h"
 #import "SignatureManaged.h"
-#import "AttachmentManaged.h"
+#import "Attachment.h"
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
@@ -317,7 +317,7 @@ static NSString* OperationCount = @"OperationCount";
     NSSet *existingAttachments = document.attachments;
     
     //remove obsoleted attachments
-    for (AttachmentManaged *attachment in existingAttachments)
+    for (Attachment *attachment in existingAttachments)
     {
         BOOL  exists = NO;
         for (NSDictionary *dictAttachment in attachments)
@@ -341,9 +341,9 @@ static NSString* OperationCount = @"OperationCount";
     {
         NSString *attachmentUid = [dictAttachment objectForKey:field_Uid];
         
-        AttachmentManaged *attachment = nil;
+        Attachment *attachment = nil;
         
-        for (AttachmentManaged *a in existingAttachments)
+        for (Attachment *a in existingAttachments)
         {
             if ([a.uid isEqualToString: attachmentUid])
             {
@@ -578,7 +578,7 @@ static NSString* OperationCount = @"OperationCount";
 
     NSString *urlPattern;
     
-    AttachmentManaged *attachment = page.attachment;
+    Attachment *attachment = page.attachment;
     Document *rootDocument = attachment.document;
 
 #warning recursive links???

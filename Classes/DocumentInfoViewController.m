@@ -8,7 +8,7 @@
 
 #import "DocumentInfoViewController.h"
 #import "Document.h"
-#import "AttachmentManaged.h"
+#import "Attachment.h"
 #import "PersonManaged.h"
 #import <QuartzCore/CALayer.h>
 
@@ -163,8 +163,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSObject  *file = [currentItems objectAtIndex:indexPath.row];
-    if ([file isKindOfClass: [AttachmentManaged class]])
-        self.attachment = (AttachmentManaged *)file;
+    if ([file isKindOfClass: [Attachment class]])
+        self.attachment = (Attachment *)file;
     else
         self.link = (Document *)file;
 }
@@ -182,7 +182,7 @@
 {
     NSObject  *file = [currentItems objectAtIndex:indexPath.row];
     
-    BOOL isAttachment = [file isKindOfClass: [AttachmentManaged class]];
+    BOOL isAttachment = [file isKindOfClass: [Attachment class]];
     
     UITableViewCell *cell = nil;
     
@@ -205,7 +205,7 @@
     }
     if (isAttachment)
     {
-        AttachmentManaged *a = (AttachmentManaged *) file;
+        Attachment *a = (Attachment *) file;
         cell.textLabel.text = a.title;
         NSUInteger count = [a.pages count];
         NSString *pageLabel = count==1?NSLocalizedString(@"page", "page"):(count < 5?NSLocalizedString(@"pages_2-4_instrumentalis", "pages from 2 to 4 in instrumentalis"):NSLocalizedString(@"pages_instrumentalis", "pages_instrumentalis"));

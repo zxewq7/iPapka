@@ -1,12 +1,12 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to AttachmentManaged.m instead.
+// Make changes to Attachment.m instead.
 
-#import "_AttachmentManaged.h"
+#import "_Attachment.h"
 
-@implementation AttachmentManagedID
+@implementation AttachmentID
 @end
 
-@implementation _AttachmentManaged
+@implementation _Attachment
 
 @synthesize pagesOrdered;
 
@@ -26,8 +26,8 @@
 	return [NSEntityDescription entityForName:@"Attachment" inManagedObjectContext:moc_];
 }
 
-- (AttachmentManagedID*)objectID {
-	return (AttachmentManagedID*)[super objectID];
+- (AttachmentID*)objectID {
+	return (AttachmentID*)[super objectID];
 }
 
 

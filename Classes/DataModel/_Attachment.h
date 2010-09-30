@@ -1,5 +1,5 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to AttachmentManaged.h instead.
+// Make changes to Attachment.h instead.
 
 #import <CoreData/CoreData.h>
 
@@ -10,10 +10,10 @@
 
 
 
-@interface AttachmentManagedID : NSManagedObjectID {}
+@interface AttachmentID : NSManagedObjectID {}
 @end
 
-@interface _AttachmentManaged : NSManagedObject {}
+@interface _Attachment : NSManagedObject {}
 
 @property (nonatomic, readonly) NSArray *pagesOrdered;
 
@@ -21,7 +21,7 @@
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (AttachmentManagedID*)objectID;
+- (AttachmentID*)objectID;
 
 
 
@@ -50,7 +50,7 @@
 
 @end
 
-@interface _AttachmentManaged (CoreDataGeneratedAccessors)
+@interface _Attachment (CoreDataGeneratedAccessors)
 
 - (void)addPages:(NSSet*)value_;
 - (void)removePages:(NSSet*)value_;
@@ -59,7 +59,7 @@
 
 @end
 
-@interface _AttachmentManaged (CoreDataGeneratedPrimitiveAccessors)
+@interface _Attachment (CoreDataGeneratedPrimitiveAccessors)
 
 - (NSString*)primitiveUid;
 - (void)setPrimitiveUid:(NSString*)value;

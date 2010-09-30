@@ -8,7 +8,7 @@
 
 #import "AttachmentsViewController.h"
 #import "ImageScrollView.h"
-#import "AttachmentManaged.h"
+#import "Attachment.h"
 #import "AttachmentPageViewController.h"
 #import "PageControlWithMenu.h"
 #import "Document.h"
@@ -53,7 +53,7 @@ typedef enum _TapPosition{
     pageControl.alpha = 0.0;
 }
 
--(void) setAttachment:(AttachmentManaged *) anAttachment
+-(void) setAttachment:(Attachment *) anAttachment
 {
     
     if (attachment == anAttachment)
