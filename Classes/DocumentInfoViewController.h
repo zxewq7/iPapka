@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentManaged;
+@class DocumentManaged, AttachmentManaged;
 @interface DocumentInfoViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
     DocumentManaged    *document;
@@ -21,8 +21,8 @@
     NSUInteger         linkIndex;
     UITableView        *tableView;
 }
-@property (nonatomic, retain, setter=setDocument:) DocumentManaged  *document;
-@property (nonatomic, assign)                      NSUInteger       attachmentIndex;
-@property (nonatomic, assign)                      NSUInteger       linkIndex;
+@property (nonatomic, retain, setter=setDocument:) DocumentManaged   *document;
+@property (nonatomic, retain)                      AttachmentManaged *attachment;
+@property (nonatomic, retain)                      DocumentManaged   *link;
 
 @end

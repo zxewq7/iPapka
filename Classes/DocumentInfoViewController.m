@@ -24,7 +24,7 @@
 
 #pragma mark -
 #pragma mark Properties
-@synthesize document, attachmentIndex, linkIndex;
+@synthesize document, attachment, link;
 
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -164,15 +164,9 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSObject  *file = [currentItems objectAtIndex:indexPath.row];
     if ([file isKindOfClass: [AttachmentManaged class]])
-    {
-        self.attachmentIndex = indexPath.row;
-        linkIndex = NSNotFound;
-    }
+        self.attachment = (AttachmentManaged *)file;
     else
-    {
-        self.linkIndex = indexPath.row;
-        attachmentIndex = NSNotFound;
-    }
+        self.link = (DocumentManaged *)file;
 }
 
 
@@ -227,18 +221,18 @@
 
 - (void)dealloc {
     self.document = nil;
+    self.link = nil;
+    self.attachment = nil;
 
-    [documentTitle release];
-    documentTitle = nil;
-    [documentDetails release];
-    documentDetails = nil;
-    [filter release];
-    filter = nil;
-    [dateFormatter release];
-    dateFormatter = nil;
+    [documentTitle release]; documentTitle = nil;
     
-    [tableView release];
-    tableView = nil;
+    [documentDetails release]; documentDetails = nil;
+    
+    [filter release]; filter = nil;
+    
+    [dateFormatter release]; dateFormatter = nil;
+    
+    [tableView release]; tableView = nil;
 
     [super dealloc];
 }
