@@ -17,4 +17,26 @@
 {
     return [self.pathImage stringByAppendingPathExtension:@"drawings"];
 }
+
+- (UIImage *) drawings
+{
+    NSString *path = self.pathDrawings;
+    
+    NSFileManager *df = [NSFileManager defaultManager];
+    if (![df fileExistsAtPath: path])
+        return nil;
+    
+    return [UIImage imageWithContentsOfFile:path];
+}
+
+-(UIImage *) image
+{
+    NSString *path = self.pathImage;
+    
+    NSFileManager *df = [NSFileManager defaultManager];
+    if (![df fileExistsAtPath: path])
+        return nil;
+    
+    return [UIImage imageWithContentsOfFile:path];
+}
 @end
