@@ -12,7 +12,7 @@
 #import "Document.h"
 #import "LNDocumentReader.h"
 #import "DocumentResolution.h"
-#import "Signature.h"
+#import "DocumentSignature.h"
 #import "KeychainItemWrapper.h"
 #import "Person.h"
 #import "LNDocumentWriter.h"
@@ -210,9 +210,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return [NSEntityDescription insertNewObjectForEntityForName:@"DocumentResolution" inManagedObjectContext:managedObjectContext];
 }
 
-- (Signature *) documentReaderCreateSignature:(LNDocumentReader *) documentReader
+- (DocumentSignature *) documentReaderCreateSignature:(LNDocumentReader *) documentReader
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Signature" inManagedObjectContext:managedObjectContext];
+    return [NSEntityDescription insertNewObjectForEntityForName:@"DocumentSignature" inManagedObjectContext:managedObjectContext];
 }
 
 - (Document *) documentReaderCreateDocument:(LNDocumentReader *) documentReader

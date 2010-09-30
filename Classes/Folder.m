@@ -9,7 +9,7 @@
 #import "Folder.h"
 #import "Document.h"
 #import "DocumentResolution.h"
-#import "Signature.h"
+#import "DocumentSignature.h"
 
 @implementation Folder
 @synthesize name, predicateString, entityName, icon, iconName, filters;
@@ -137,8 +137,8 @@
             entityClass = [Document class];
         else if ([entityName isEqualToString:@"DocumentResolution"])
             entityClass = [DocumentResolution class];
-        else if ([entityName isEqualToString:@"Signature"])
-            entityClass = [Signature class];
+        else if ([entityName isEqualToString:@"DocumentSignature"])
+            entityClass = [DocumentSignature class];
         else
             NSAssert1(NO, @"Unknown entity name: %@", entityName);
     }

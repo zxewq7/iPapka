@@ -1,32 +1,32 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to Signature.h instead.
+// Make changes to DocumentSignature.h instead.
 
 #import <CoreData/CoreData.h>
 #import "Document.h"
 
 
 
-@interface SignatureID : NSManagedObjectID {}
+@interface DocumentSignatureID : NSManagedObjectID {}
 @end
 
-@interface _Signature : Document {}
+@interface _DocumentSignature : Document {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (SignatureID*)objectID;
+- (DocumentSignatureID*)objectID;
 
 
 
 
 @end
 
-@interface _Signature (CoreDataGeneratedAccessors)
+@interface _DocumentSignature (CoreDataGeneratedAccessors)
 
 @end
 
-@interface _Signature (CoreDataGeneratedPrimitiveAccessors)
+@interface _DocumentSignature (CoreDataGeneratedPrimitiveAccessors)
 
 
 @end

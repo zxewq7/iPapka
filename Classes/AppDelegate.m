@@ -37,7 +37,7 @@
                                        iconName:@"ButtonResolution.png"], 
                          [Folder folderWithName:@"Signatures" 
                                 predicateString:@"status == 0" 
-                                     entityName:@"Signature"
+                                     entityName:@"DocumentSignature"
                                        iconName:@"ButtonSignature.png"],
                          nil];
         
@@ -53,7 +53,7 @@
                                          iconName:@"ButtonResolution.png"], 
                            [Folder folderWithName:@"Signatures" 
                                   predicateString:@"status != 0" 
-                                       entityName:@"Signature"
+                                       entityName:@"DocumentSignature"
                                          iconName:@"ButtonSignature.png"],
                            nil];
         
