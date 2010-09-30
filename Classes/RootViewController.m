@@ -9,8 +9,6 @@
 #import "RootViewController.h"
 #import "DocumentManaged.h"
 #import "DataSource.h"
-#import "Document.h"
-#import "Attachment.h"
 #import "AttachmentsViewController.h"
 #import "UIButton+Additions.h"
 #import "DocumentInfoViewController.h"
@@ -160,12 +158,12 @@ static NSString* LinkContext          = @"LinkContext";
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
     
     [documentInfoViewController addObserver:self
-                                 forKeyPath:@"attachmentIndex"
+                                 forKeyPath:@"attachment"
                                     options:0
                                     context:&AttachmentContext];
 
     [documentInfoViewController addObserver:self
-                                 forKeyPath:@"linkIndex"
+                                 forKeyPath:@"link"
                                     options:0
                                     context:&LinkContext];
 
@@ -350,7 +348,7 @@ static NSString* LinkContext          = @"LinkContext";
     [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
                            forView:contentView cache:YES];
     
-    attachmentsViewController.document = self.document.document;
+    attachmentsViewController.attachment = self.document.firstAttachment;
     documentInfoViewController.document = self.document;
     
     [UIView commitAnimations];    
@@ -451,41 +449,38 @@ static NSString* LinkContext          = @"LinkContext";
     {
         if (clipperViewController.opened)
             clipperViewController.opened = NO;
-        attachmentsViewController.attachmentIndex = documentInfoViewController.attachmentIndex;
+        attachmentsViewController.attachment = documentInfoViewController.attachment;
     } 
     else if (context == &LinkContext)
     {
-        if (documentInfoViewController.linkIndex != NSNotFound)
+        if (clipperViewController.opened)
+            clipperViewController.opened = NO;
+        
+        DocumentManaged *linkedDocument = documentInfoViewController.link;
+        
+        if (backButton.hidden)
         {
-            if (clipperViewController.opened)
-                clipperViewController.opened = NO;
             
-            Document *linkedDocument = [document.document.links objectAtIndex: documentInfoViewController.linkIndex];
-
-            if (backButton.hidden)
-            {
-                
-                resolutionButton.hidden = YES;
-                backButton.hidden = NO;
-                
-                [UIView beginAnimations:nil context:NULL];
-                [UIView setAnimationDuration:.5];
-                [UIView setAnimationDelegate:nil];
-                [UIView setAnimationDidStopSelector:nil];
-                
-                [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
-                                       forView:contentView cache:YES];
-                
-                attachmentsViewController.document = linkedDocument;
-                documentInfoViewController.document = linkedDocument;
-                
-                [UIView commitAnimations];
-            }
-            else
-            {
-                attachmentsViewController.document = linkedDocument;
-                documentInfoViewController.document = linkedDocument;
-            }
+            resolutionButton.hidden = YES;
+            backButton.hidden = NO;
+            
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:.5];
+            [UIView setAnimationDelegate:nil];
+            [UIView setAnimationDidStopSelector:nil];
+            
+            [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight
+                                   forView:contentView cache:YES];
+            
+            attachmentsViewController.attachment = linkedDocument.firstAttachment;
+            documentInfoViewController.document = linkedDocument;
+            
+            [UIView commitAnimations];
+        }
+        else
+        {
+            attachmentsViewController.attachment = linkedDocument.firstAttachment;
+            documentInfoViewController.document = linkedDocument;
         }
     }
     else
@@ -706,7 +701,8 @@ static NSString* LinkContext          = @"LinkContext";
 -(void) updateContent
 {
     documentInfoViewController.document = self.document;
-    attachmentsViewController.document = self.document.document;
+
+    attachmentsViewController.attachment = self.document.firstAttachment;
 
     if ([self.document isKindOfClass: [ResolutionManaged class]])
     {
