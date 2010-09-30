@@ -52,12 +52,13 @@ static NSString* LinkContext          = @"LinkContext";
         return;
     [folder release];
     folder = [aFolder retain];
-    
-    NSArray *documents = [[DataSource sharedDataSource] documentsForFolder: folder];
-    if ([documents count])
-        self.document = [documents objectAtIndex:0];
-    else
-        self.document = nil;
+
+#warning no document at startup
+//    NSArray *documents = [[DataSource sharedDataSource] documentsForFolder: folder];
+//    if ([documents count])
+//        self.document = [documents objectAtIndex:0];
+//    else
+//        self.document = nil;
 }
 
 -(void) setDocument:(DocumentManaged *) aDocument
@@ -350,7 +351,7 @@ static NSString* LinkContext          = @"LinkContext";
                            forView:contentView cache:YES];
     
     attachmentsViewController.document = self.document.document;
-    documentInfoViewController.document = self.document.document;
+    documentInfoViewController.document = self.document;
     
     [UIView commitAnimations];    
 }
@@ -704,7 +705,7 @@ static NSString* LinkContext          = @"LinkContext";
 }
 -(void) updateContent
 {
-    documentInfoViewController.document = self.document.document;
+    documentInfoViewController.document = self.document;
     attachmentsViewController.document = self.document.document;
 
     if ([self.document isKindOfClass: [ResolutionManaged class]])
