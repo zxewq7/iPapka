@@ -15,7 +15,7 @@
 #import "SignatureManaged.h"
 #import "KeychainItemWrapper.h"
 #import "PersonManaged.h"
-#import "LNDocumentSaver.h"
+#import "LNDocumentWriter.h"
 
 #define kLoginFieldTag 1001
 #define kPasswordFieldTag 1002
@@ -24,7 +24,7 @@ static NSString* SyncingContext = @"SyncingContext";
 
 @interface DataSource(Private)
 - (void) askLoginAndPassword:(NSString*) login;
-- (LNDocumentSaver *) documentSaver;
+- (LNDocumentWriter *) documentWriter;
 - (LNDocumentReader *) documentReader;
 - (NSEntityDescription *)documentEntityDescription;
 - (NSEntityDescription *)personEntityDescription;
@@ -168,7 +168,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 -(void) refreshDocuments
 {
     isNeedFetchFromServer = YES;
-    [[self documentSaver] sync];
+    [[self documentWriter] sync];
 }
 
 
@@ -359,9 +359,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
     [documentReader release]; documentReader = nil;
     
-    [documentSaver removeObserver:self
+    [documentWriter removeObserver:self
                         forKeyPath:@"isSyncing"];
-    [documentSaver release]; documentSaver = nil;
+    [documentWriter release]; documentWriter = nil;
 	[super dealloc];
 }
 
@@ -375,14 +375,14 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (context == &SyncingContext)
     {
-        if (isNeedFetchFromServer && !documentSaver.isSyncing)
+        if (isNeedFetchFromServer && !documentWriter.isSyncing)
         {
             [[self documentReader] refreshDocuments];
             isNeedFetchFromServer = NO;
             return;
         }
         
-        self.isSyncing = documentReader.isSyncing || documentSaver.isSyncing;
+        self.isSyncing = documentReader.isSyncing || documentWriter.isSyncing;
         
         if (!self.isSyncing)
             [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
@@ -475,18 +475,18 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     else
         [textField becomeFirstResponder];
 }
-- (LNDocumentSaver *) documentSaver
+- (LNDocumentWriter *) documentWriter
 {
-    if (!documentSaver)
+    if (!documentWriter)
     {
         NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
         NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
-        documentSaver = [[LNDocumentSaver alloc] initWithUrl: serverUrl];
+        documentWriter = [[LNDocumentWriter alloc] initWithUrl: serverUrl];
         
         KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
         
-        documentSaver.login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
-        documentSaver.password = [wrapper objectForKey:(NSString *)kSecValueData];
+        documentWriter.login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
+        documentWriter.password = [wrapper objectForKey:(NSString *)kSecValueData];
         
         [wrapper release];
         
@@ -513,17 +513,17 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                                                        cacheName:@"UnsyncedObjects"];
         [fetchRequest release];
         
-        documentSaver.unsyncedDocuments = fetchedResultsController;
+        documentWriter.unsyncedDocuments = fetchedResultsController;
         
         [fetchedResultsController release];
         
-        [documentSaver addObserver:self
+        [documentWriter addObserver:self
                          forKeyPath:@"isSyncing"
                             options:0
                             context:&SyncingContext];
 
     }
-    return documentSaver;
+    return documentWriter;
 }
 
 - (NSEntityDescription *)documentEntityDescription 

@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "LNDocumentReader.h"
 
-@class Folder, Document, DocumentManaged, LNDocumentSaver, LNDocumentReader;
+@class Folder, Document, DocumentManaged, LNDocumentWriter, LNDocumentReader;
 
 @interface DataSource : NSObject<UIAlertViewDelegate, LNDocumentReaderDataSource>
 {
@@ -24,7 +24,7 @@
     NSEntityDescription          *pageEntityDescription;
     NSPredicate                  *personUidPredicateTemplate;
     BOOL                         isSyncing;
-    LNDocumentSaver              *documentSaver;
+    LNDocumentWriter              *documentWriter;
     LNDocumentReader             *documentReader;
     NSUInteger                   countDocumentsToSend;
     BOOL                         isNeedFetchFromServer;

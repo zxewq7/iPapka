@@ -6,7 +6,7 @@
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "LNDocumentSaver.h"
+#import "LNDocumentWriter.h"
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
 #import "DocumentManaged.h"
@@ -16,11 +16,11 @@
 
 static NSString* OperationCount = @"OperationCount";
 
-@interface LNDocumentSaver(Private)
+@interface LNDocumentWriter(Private)
 - (void) syncDocument:(DocumentManaged *) document;
 @end
 
-@implementation LNDocumentSaver
+@implementation LNDocumentWriter
 @synthesize url, login, password, unsyncedDocuments, isSyncing;
 
 -(void) setUnsyncedDocuments:(NSFetchedResultsController*) anUnsyncedDocuments
@@ -194,7 +194,7 @@ static NSString* OperationCount = @"OperationCount";
     
     [request appendPostData: [postData dataUsingEncoding: NSUTF8StringEncoding]];
     
-    __block LNDocumentSaver *blockSelf = self;
+    __block LNDocumentWriter *blockSelf = self;
     
     request.requestHandler = ^(ASIHTTPRequest *request) {
         NSString *error = [request error] == nil?

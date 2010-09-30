@@ -101,7 +101,7 @@
 		8173D9F11248EFC00045C2EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9F01248EFC00045C2EF /* AVFoundation.framework */; };
 		8173D9FB1248F1D40045C2EF /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9FA1248F1D40045C2EF /* CoreAudio.framework */; };
 		81775FC61251F6F0002A2D3D /* LNDocumentReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC11251F6F0002A2D3D /* LNDocumentReader.m */; };
-		81775FC71251F6F0002A2D3D /* LNDocumentSaver.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC31251F6F0002A2D3D /* LNDocumentSaver.m */; };
+		81775FC71251F6F0002A2D3D /* LNDocumentWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC31251F6F0002A2D3D /* LNDocumentWriter.m */; };
 		81775FC81251F6F0002A2D3D /* LNHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC51251F6F0002A2D3D /* LNHttpRequest.m */; };
 		81775FD81251F74E002A2D3D /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FCF1251F74E002A2D3D /* NSObject+SBJSON.m */; };
 		81775FD91251F74E002A2D3D /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FD11251F74E002A2D3D /* NSString+SBJSON.m */; };
@@ -318,8 +318,8 @@
 		8173D9FA1248F1D40045C2EF /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		81775FC01251F6F0002A2D3D /* LNDocumentReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentReader.h; sourceTree = "<group>"; };
 		81775FC11251F6F0002A2D3D /* LNDocumentReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDocumentReader.m; sourceTree = "<group>"; };
-		81775FC21251F6F0002A2D3D /* LNDocumentSaver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentSaver.h; sourceTree = "<group>"; };
-		81775FC31251F6F0002A2D3D /* LNDocumentSaver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDocumentSaver.m; sourceTree = "<group>"; };
+		81775FC21251F6F0002A2D3D /* LNDocumentWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentWriter.h; sourceTree = "<group>"; };
+		81775FC31251F6F0002A2D3D /* LNDocumentWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDocumentWriter.m; sourceTree = "<group>"; };
 		81775FC41251F6F0002A2D3D /* LNHttpRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNHttpRequest.h; sourceTree = "<group>"; };
 		81775FC51251F6F0002A2D3D /* LNHttpRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNHttpRequest.m; sourceTree = "<group>"; };
 		81775FCD1251F74E002A2D3D /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
@@ -702,8 +702,8 @@
 			children = (
 				81775FC01251F6F0002A2D3D /* LNDocumentReader.h */,
 				81775FC11251F6F0002A2D3D /* LNDocumentReader.m */,
-				81775FC21251F6F0002A2D3D /* LNDocumentSaver.h */,
-				81775FC31251F6F0002A2D3D /* LNDocumentSaver.m */,
+				81775FC21251F6F0002A2D3D /* LNDocumentWriter.h */,
+				81775FC31251F6F0002A2D3D /* LNDocumentWriter.m */,
 				81775FC41251F6F0002A2D3D /* LNHttpRequest.h */,
 				81775FC51251F6F0002A2D3D /* LNHttpRequest.m */,
 			);
@@ -787,7 +787,6 @@
 			isa = PBXProject;
 			buildConfigurationList = 816541B112379AA3008FC80F /* Build configuration list for PBXProject "Meester" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -951,7 +950,7 @@
 				813EF90912491E9700E52803 /* AZZAudioPlayer.m in Sources */,
 				810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */,
 				81775FC61251F6F0002A2D3D /* LNDocumentReader.m in Sources */,
-				81775FC71251F6F0002A2D3D /* LNDocumentSaver.m in Sources */,
+				81775FC71251F6F0002A2D3D /* LNDocumentWriter.m in Sources */,
 				81775FC81251F6F0002A2D3D /* LNHttpRequest.m in Sources */,
 				81775FD81251F74E002A2D3D /* NSObject+SBJSON.m in Sources */,
 				81775FD91251F74E002A2D3D /* NSString+SBJSON.m in Sources */,

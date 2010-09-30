@@ -9,9 +9,9 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/NSFetchedResultsController.h>
 
-@class ASINetworkQueue, LNDocumentSaver;
+@class ASINetworkQueue;
 
-@interface LNDocumentSaver : NSObject<NSFetchedResultsControllerDelegate> 
+@interface LNDocumentWriter : NSObject<NSFetchedResultsControllerDelegate> 
 {
     ASINetworkQueue *queue;
     NSString        *url;
