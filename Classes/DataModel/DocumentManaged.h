@@ -6,8 +6,9 @@ typedef enum _DocumentStatus {
     DocumentStatusDeclined = 2
 } DocumentStatus;
 
-@class Document;
+@class Document, AttachmentManaged;
 
 @interface DocumentManaged : _DocumentManaged 
 @property (nonatomic, readonly, getter=document) Document *document;
+@property (nonatomic, readonly) AttachmentManaged *firstAttachment;
 @end
