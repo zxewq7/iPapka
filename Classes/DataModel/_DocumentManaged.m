@@ -101,6 +101,32 @@
 
 
 
+@dynamic syncStatus;
+
+
+
+- (short)syncStatusValue {
+	NSNumber *result = [self syncStatus];
+	return [result shortValue];
+}
+
+- (void)setSyncStatusValue:(short)value_ {
+	[self setSyncStatus:[NSNumber numberWithShort:value_]];
+}
+
+- (short)primitiveSyncStatusValue {
+	NSNumber *result = [self primitiveSyncStatus];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveSyncStatusValue:(short)value_ {
+	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
+}
+
+
+
+
+
 @dynamic strippedDateModified;
 
 
@@ -161,32 +187,6 @@
 
 - (void)setPrimitiveStatusValue:(short)value_ {
 	[self setPrimitiveStatus:[NSNumber numberWithShort:value_]];
-}
-
-
-
-
-
-@dynamic isSynced;
-
-
-
-- (BOOL)isSyncedValue {
-	NSNumber *result = [self isSynced];
-	return [result boolValue];
-}
-
-- (void)setIsSyncedValue:(BOOL)value_ {
-	[self setIsSynced:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsSyncedValue {
-	NSNumber *result = [self primitiveIsSynced];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsSyncedValue:(BOOL)value_ {
-	[self setPrimitiveIsSynced:[NSNumber numberWithBool:value_]];
 }
 
 

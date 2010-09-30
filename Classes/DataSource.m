@@ -24,7 +24,6 @@ static NSString* SyncingContext = @"SyncingContext";
 
 @interface DataSource(Private)
 - (void) askLoginAndPassword:(NSString*) login;
-- (NSArray *) unsyncedDocuments;
 - (LNDocumentSaver *) documentSaver;
 - (LNDocumentReader *) documentReader;
 - (NSEntityDescription *)documentEntityDescription;
@@ -168,35 +167,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void) refreshDocuments
 {
-    NSArray *unsyncedDocuments = [self unsyncedDocuments];
-    countDocumentsToSend = [unsyncedDocuments count];
-    
-    if (countDocumentsToSend)
-    {
-        __block DataSource *blockSelf = self;
-        for (DocumentManaged *document in unsyncedDocuments)
-        {
-            [[self documentSaver] sendDocument:document.document handler:^(LNDocumentSaver *sender, NSString *error)
-            {
-                @synchronized(self)
-                {
-                    countDocumentsToSend--;
-                }
-                
-                document.isSyncedValue = (error == nil);
-                
-                if (countDocumentsToSend <= 0)
-                {
-                    [self commit];
-                    [[self documentReader] refreshDocuments];
-                }
-            }];
-        }
-    }
-    else
-    {
-        [[self documentReader] refreshDocuments];
-    }
+    isNeedFetchFromServer = YES;
+    [[self documentSaver] sync];
 }
 
 
@@ -387,6 +359,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
     [documentReader release]; documentReader = nil;
     
+    [documentSaver removeObserver:self
+                        forKeyPath:@"isSyncing"];
     [documentSaver release]; documentSaver = nil;
 	[super dealloc];
 }
@@ -401,7 +375,15 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (context == &SyncingContext)
     {
-        self.isSyncing = [documentReader isSyncing];
+        if (isNeedFetchFromServer && !documentSaver.isSyncing)
+        {
+            [[self documentReader] refreshDocuments];
+            isNeedFetchFromServer = NO;
+            return;
+        }
+        
+        self.isSyncing = documentReader.isSyncing || documentSaver.isSyncing;
+        
         if (!self.isSyncing)
             [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
     }
@@ -507,24 +489,41 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         documentSaver.password = [wrapper objectForKey:(NSString *)kSecValueData];
         
         [wrapper release];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
+        
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
+
+        NSSortDescriptor *sortDescriptor = 
+        [[NSSortDescriptor alloc] initWithKey:@"dateModified" 
+                                    ascending:NO];
+        
+        NSArray *sortDescriptors = [[NSArray alloc] 
+                                    initWithObjects:sortDescriptor, nil];  
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        [sortDescriptors release];
+        [sortDescriptor release];
+
+        
+        NSFetchedResultsController *fetchedResultsController = 
+        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
+                                            managedObjectContext:managedObjectContext 
+                                              sectionNameKeyPath:nil
+                                                       cacheName:@"UnsyncedObjects"];
+        [fetchRequest release];
+        
+        documentSaver.unsyncedDocuments = fetchedResultsController;
+        
+        [fetchedResultsController release];
+        
+        [documentSaver addObserver:self
+                         forKeyPath:@"isSyncing"
+                            options:0
+                            context:&SyncingContext];
 
     }
     return documentSaver;
-}
-
-- (NSArray *) unsyncedDocuments
-{
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-	[fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
-	
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"isSynced==NO"]];
-    
-	NSError *error = nil;
-    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
-    
-    return fetchResults;    
 }
 
 - (NSEntityDescription *)documentEntityDescription 

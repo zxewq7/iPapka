@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/NSFetchedResultsController.h>
 
-@class ASINetworkQueue, Document;
+@class ASINetworkQueue, LNDocumentSaver;
 
-@interface LNDocumentSaver : NSObject 
+@interface LNDocumentSaver : NSObject<NSFetchedResultsControllerDelegate> 
 {
     ASINetworkQueue *queue;
     NSString        *url;
@@ -25,6 +26,8 @@
 @property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSString *login;
 @property (nonatomic, retain) NSString *password;
+@property (nonatomic, retain) NSFetchedResultsController *unsyncedDocuments;
+@property (nonatomic, assign, readonly) BOOL isSyncing;
 
-- (void) sendDocument:(Document *) document handler:(void(^)(LNDocumentSaver *sender, NSString *error)) handler;
+- (void) sync;
 @end

@@ -69,6 +69,16 @@
 
 
 
+@property (nonatomic, retain) NSNumber *syncStatus;
+
+@property short syncStatusValue;
+- (short)syncStatusValue;
+- (void)setSyncStatusValue:(short)value_;
+
+//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSDate *strippedDateModified;
 
 //- (BOOL)validateStrippedDateModified:(id*)value_ error:(NSError**)error_;
@@ -98,16 +108,6 @@
 - (void)setStatusValue:(short)value_;
 
 //- (BOOL)validateStatus:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *isSynced;
-
-@property BOOL isSyncedValue;
-- (BOOL)isSyncedValue;
-- (void)setIsSyncedValue:(BOOL)value_;
-
-//- (BOOL)validateIsSynced:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -178,6 +178,13 @@
 - (void)setPrimitiveIsEditableValue:(BOOL)value_;
 
 
+- (NSNumber*)primitiveSyncStatus;
+- (void)setPrimitiveSyncStatus:(NSNumber*)value;
+
+- (short)primitiveSyncStatusValue;
+- (void)setPrimitiveSyncStatusValue:(short)value_;
+
+
 - (NSDate*)primitiveStrippedDateModified;
 - (void)setPrimitiveStrippedDateModified:(NSDate*)value;
 
@@ -198,13 +205,6 @@
 
 - (short)primitiveStatusValue;
 - (void)setPrimitiveStatusValue:(short)value_;
-
-
-- (NSNumber*)primitiveIsSynced;
-- (void)setPrimitiveIsSynced:(NSNumber*)value;
-
-- (BOOL)primitiveIsSyncedValue;
-- (void)setPrimitiveIsSyncedValue:(BOOL)value_;
 
 
 - (NSString*)primitiveTitle;

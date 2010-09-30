@@ -27,6 +27,7 @@
     LNDocumentSaver              *documentSaver;
     LNDocumentReader             *documentReader;
     NSUInteger                   countDocumentsToSend;
+    BOOL                         isNeedFetchFromServer;
 }
 + (DataSource *)sharedDataSource;
 @property (nonatomic)                   BOOL                isSyncing;
