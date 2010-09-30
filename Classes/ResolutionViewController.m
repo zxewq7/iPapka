@@ -10,7 +10,7 @@
 #import "PerformersViewController.h"
 #import "UIButton+Additions.h"
 #import "TextViewWithPlaceholder.h"
-#import "Resolution.h"
+#import "DocumentResolution.h"
 #import "Person.h"
 #import "DatePickerController.h"
 #import "AZZAudioRecorder.h"
@@ -31,7 +31,7 @@ static NSString *AudioContext = @"AudioContext";
 @implementation ResolutionViewController
 @synthesize document;
 
--(void) setDocument:(Resolution *) aDocument
+-(void) setDocument:(DocumentResolution *) aDocument
 {
     if (document == aDocument)
     return;
@@ -497,8 +497,8 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void) updateContent
 {
-    Resolution *resolution  = document;
-    Resolution *parentResolution = resolution.parentResolution;
+    DocumentResolution *resolution  = document;
+    DocumentResolution *parentResolution = resolution.parentResolution;
     
     resolutionSwitcher.hidden = (parentResolution == nil);
     

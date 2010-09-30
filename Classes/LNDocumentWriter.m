@@ -11,7 +11,7 @@
 #import "LNHttpRequest.h"
 #import "Document.h"
 #import "SBJsonWriter.h"
-#import "Resolution.h"
+#import "DocumentResolution.h"
 #import "DataSource.h"
 
 static NSString* OperationCount = @"OperationCount";
@@ -153,9 +153,9 @@ static NSString* OperationCount = @"OperationCount";
     
     [dictDocument setObject:action forKey:@"action"];
     
-    if ([document isKindOfClass: [Resolution class]])
+    if ([document isKindOfClass: [DocumentResolution class]])
     {
-        Resolution *resolution = (Resolution *) document;
+        DocumentResolution *resolution = (DocumentResolution *) document;
         
         if (resolution.deadline)
             [dictDocument setObject:[parseFormatterSimple stringFromDate:resolution.deadline] forKey:@"deadline"];

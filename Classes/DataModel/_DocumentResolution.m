@@ -1,31 +1,31 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to Resolution.m instead.
+// Make changes to DocumentResolution.m instead.
 
-#import "_Resolution.h"
+#import "_DocumentResolution.h"
 
-@implementation ResolutionID
+@implementation DocumentResolutionID
 @end
 
-@implementation _Resolution
+@implementation _DocumentResolution
 
 
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"Resolution" inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:@"DocumentResolution" inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
-	return @"Resolution";
+	return @"DocumentResolution";
 }
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"Resolution" inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:@"DocumentResolution" inManagedObjectContext:moc_];
 }
 
-- (ResolutionID*)objectID {
-	return (ResolutionID*)[super objectID];
+- (DocumentResolutionID*)objectID {
+	return (DocumentResolutionID*)[super objectID];
 }
 
 

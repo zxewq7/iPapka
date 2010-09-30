@@ -1,6 +1,6 @@
-#import "Resolution.h"
+#import "DocumentResolution.h"
 
-@implementation Resolution
+@implementation DocumentResolution
 
 -(NSString *) audioCommentPath
 {

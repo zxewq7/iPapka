@@ -33,7 +33,7 @@
         inbox.filters = [NSArray arrayWithObjects: 
                          [Folder folderWithName:@"Resolutions" 
                                 predicateString:@"status == 0" 
-                                     entityName:@"Resolution"
+                                     entityName:@"DocumentResolution"
                                        iconName:@"ButtonResolution.png"], 
                          [Folder folderWithName:@"Signatures" 
                                 predicateString:@"status == 0" 
@@ -49,7 +49,7 @@
         archive.filters = [NSArray arrayWithObjects: 
                            [Folder folderWithName:@"Resolutions" 
                                   predicateString:@"status != 0" 
-                                       entityName:@"Resolution"
+                                       entityName:@"DocumentResolution"
                                          iconName:@"ButtonResolution.png"], 
                            [Folder folderWithName:@"Signatures" 
                                   predicateString:@"status != 0" 

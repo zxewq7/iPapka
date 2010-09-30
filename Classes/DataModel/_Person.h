@@ -4,7 +4,7 @@
 #import <CoreData/CoreData.h>
 
 
-@class Resolution;
+@class DocumentResolution;
 @class Document;
 
 
@@ -66,8 +66,8 @@
 
 - (void)addResolutions:(NSSet*)value_;
 - (void)removeResolutions:(NSSet*)value_;
-- (void)addResolutionsObject:(Resolution*)value_;
-- (void)removeResolutionsObject:(Resolution*)value_;
+- (void)addResolutionsObject:(DocumentResolution*)value_;
+- (void)removeResolutionsObject:(DocumentResolution*)value_;
 
 - (void)addDocuments:(NSSet*)value_;
 - (void)removeDocuments:(NSSet*)value_;

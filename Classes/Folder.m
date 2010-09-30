@@ -8,7 +8,7 @@
 
 #import "Folder.h"
 #import "Document.h"
-#import "Resolution.h"
+#import "DocumentResolution.h"
 #import "Signature.h"
 
 @implementation Folder
@@ -135,8 +135,8 @@
     {
         if ([entityName isEqualToString:@"Document"])
             entityClass = [Document class];
-        else if ([entityName isEqualToString:@"Resolution"])
-            entityClass = [Resolution class];
+        else if ([entityName isEqualToString:@"DocumentResolution"])
+            entityClass = [DocumentResolution class];
         else if ([entityName isEqualToString:@"Signature"])
             entityClass = [Signature class];
         else
