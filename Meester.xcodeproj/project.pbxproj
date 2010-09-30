@@ -19,13 +19,12 @@
 		8109477A123B629D009B3B1E /* UINavigationBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81094779123B629D009B3B1E /* UINavigationBar+Additions.m */; };
 		81094788123B6582009B3B1E /* DocumentsListNavigationbarBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */; };
 		810BBBF51251FEE900BD88EB /* _PageManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBE01251FEE900BD88EB /* _PageManaged.m */; };
-		810BBBF61251FEE900BD88EB /* _PersonManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBE21251FEE900BD88EB /* _PersonManaged.m */; };
 		810BBBF71251FEE900BD88EB /* _ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBE41251FEE900BD88EB /* _ResolutionManaged.m */; };
 		810BBBF81251FEE900BD88EB /* _SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBE61251FEE900BD88EB /* _SignatureManaged.m */; };
 		810BBBF91251FEE900BD88EB /* Attachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBE81251FEE900BD88EB /* Attachment.m */; };
 		810BBBFA1251FEE900BD88EB /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBEA1251FEE900BD88EB /* Document.m */; };
 		810BBBFB1251FEE900BD88EB /* PageManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBEC1251FEE900BD88EB /* PageManaged.m */; };
-		810BBBFC1251FEE900BD88EB /* PersonManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBEE1251FEE900BD88EB /* PersonManaged.m */; };
+		810BBBFC1251FEE900BD88EB /* Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBEE1251FEE900BD88EB /* Person.m */; };
 		810BBBFD1251FEE900BD88EB /* ResolutionManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF01251FEE900BD88EB /* ResolutionManaged.m */; };
 		810BBBFE1251FEE900BD88EB /* SignatureManaged.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF21251FEE900BD88EB /* SignatureManaged.m */; };
 		810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 810CE95B1251D66C00933B9E /* Data.xcdatamodeld */; };
@@ -138,6 +137,7 @@
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
 		81E284C51254FFF6001ED66E /* _Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E284C41254FFF6001ED66E /* _Document.m */; };
 		81E285081255018D001ED66E /* _Attachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E285071255018D001ED66E /* _Attachment.m */; };
+		81E2853112550292001ED66E /* _Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E2853012550292001ED66E /* _Person.m */; };
 		81E2C0B2124B5C1C001ED53A /* PaperTexture.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E2C0B1124B5C1C001ED53A /* PaperTexture.png */; };
 		81E5002A1241616A00D697EA /* RotateableImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E500291241616A00D697EA /* RotateableImageView.m */; };
 		81E500641241656800D697EA /* RootBackground-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E500631241656700D697EA /* RootBackground-Landscape.png */; };
@@ -185,8 +185,6 @@
 		81094787123B6582009B3B1E /* DocumentsListNavigationbarBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentsListNavigationbarBackground.png; sourceTree = "<group>"; };
 		810BBBDF1251FEE900BD88EB /* _PageManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _PageManaged.h; sourceTree = "<group>"; };
 		810BBBE01251FEE900BD88EB /* _PageManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _PageManaged.m; sourceTree = "<group>"; };
-		810BBBE11251FEE900BD88EB /* _PersonManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _PersonManaged.h; sourceTree = "<group>"; };
-		810BBBE21251FEE900BD88EB /* _PersonManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _PersonManaged.m; sourceTree = "<group>"; };
 		810BBBE31251FEE900BD88EB /* _ResolutionManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ResolutionManaged.h; sourceTree = "<group>"; };
 		810BBBE41251FEE900BD88EB /* _ResolutionManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _ResolutionManaged.m; sourceTree = "<group>"; };
 		810BBBE51251FEE900BD88EB /* _SignatureManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _SignatureManaged.h; sourceTree = "<group>"; };
@@ -197,8 +195,8 @@
 		810BBBEA1251FEE900BD88EB /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
 		810BBBEB1251FEE900BD88EB /* PageManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageManaged.h; sourceTree = "<group>"; };
 		810BBBEC1251FEE900BD88EB /* PageManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageManaged.m; sourceTree = "<group>"; };
-		810BBBED1251FEE900BD88EB /* PersonManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonManaged.h; sourceTree = "<group>"; };
-		810BBBEE1251FEE900BD88EB /* PersonManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonManaged.m; sourceTree = "<group>"; };
+		810BBBED1251FEE900BD88EB /* Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Person.h; sourceTree = "<group>"; };
+		810BBBEE1251FEE900BD88EB /* Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Person.m; sourceTree = "<group>"; };
 		810BBBEF1251FEE900BD88EB /* ResolutionManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionManaged.h; sourceTree = "<group>"; };
 		810BBBF01251FEE900BD88EB /* ResolutionManaged.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionManaged.m; sourceTree = "<group>"; };
 		810BBBF11251FEE900BD88EB /* SignatureManaged.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureManaged.h; sourceTree = "<group>"; };
@@ -362,6 +360,8 @@
 		81E284C41254FFF6001ED66E /* _Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Document.m; sourceTree = "<group>"; };
 		81E285061255018D001ED66E /* _Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Attachment.h; sourceTree = "<group>"; };
 		81E285071255018D001ED66E /* _Attachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Attachment.m; sourceTree = "<group>"; };
+		81E2852F12550292001ED66E /* _Person.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Person.h; sourceTree = "<group>"; };
+		81E2853012550292001ED66E /* _Person.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Person.m; sourceTree = "<group>"; };
 		81E2C0B1124B5C1C001ED53A /* PaperTexture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaperTexture.png; sourceTree = "<group>"; };
 		81E500281241616A00D697EA /* RotateableImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RotateableImageView.h; sourceTree = "<group>"; };
 		81E500291241616A00D697EA /* RotateableImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RotateableImageView.m; sourceTree = "<group>"; };
@@ -402,14 +402,14 @@
 		810BBBDA1251FEE900BD88EB /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				81E2852F12550292001ED66E /* _Person.h */,
+				81E2853012550292001ED66E /* _Person.m */,
 				81E285061255018D001ED66E /* _Attachment.h */,
 				81E285071255018D001ED66E /* _Attachment.m */,
 				81E284C31254FFF6001ED66E /* _Document.h */,
 				81E284C41254FFF6001ED66E /* _Document.m */,
 				810BBBDF1251FEE900BD88EB /* _PageManaged.h */,
 				810BBBE01251FEE900BD88EB /* _PageManaged.m */,
-				810BBBE11251FEE900BD88EB /* _PersonManaged.h */,
-				810BBBE21251FEE900BD88EB /* _PersonManaged.m */,
 				810BBBE31251FEE900BD88EB /* _ResolutionManaged.h */,
 				810BBBE41251FEE900BD88EB /* _ResolutionManaged.m */,
 				810BBBE51251FEE900BD88EB /* _SignatureManaged.h */,
@@ -420,8 +420,8 @@
 				810BBBEA1251FEE900BD88EB /* Document.m */,
 				810BBBEB1251FEE900BD88EB /* PageManaged.h */,
 				810BBBEC1251FEE900BD88EB /* PageManaged.m */,
-				810BBBED1251FEE900BD88EB /* PersonManaged.h */,
-				810BBBEE1251FEE900BD88EB /* PersonManaged.m */,
+				810BBBED1251FEE900BD88EB /* Person.h */,
+				810BBBEE1251FEE900BD88EB /* Person.m */,
 				810BBBEF1251FEE900BD88EB /* ResolutionManaged.h */,
 				810BBBF01251FEE900BD88EB /* ResolutionManaged.m */,
 				810BBBF11251FEE900BD88EB /* SignatureManaged.h */,
@@ -928,17 +928,17 @@
 				81775FDB1251F74E002A2D3D /* SBJsonParser.m in Sources */,
 				81775FDC1251F74E002A2D3D /* SBJsonWriter.m in Sources */,
 				810BBBF51251FEE900BD88EB /* _PageManaged.m in Sources */,
-				810BBBF61251FEE900BD88EB /* _PersonManaged.m in Sources */,
 				810BBBF71251FEE900BD88EB /* _ResolutionManaged.m in Sources */,
 				810BBBF81251FEE900BD88EB /* _SignatureManaged.m in Sources */,
 				810BBBF91251FEE900BD88EB /* Attachment.m in Sources */,
 				810BBBFA1251FEE900BD88EB /* Document.m in Sources */,
 				810BBBFB1251FEE900BD88EB /* PageManaged.m in Sources */,
-				810BBBFC1251FEE900BD88EB /* PersonManaged.m in Sources */,
+				810BBBFC1251FEE900BD88EB /* Person.m in Sources */,
 				810BBBFD1251FEE900BD88EB /* ResolutionManaged.m in Sources */,
 				810BBBFE1251FEE900BD88EB /* SignatureManaged.m in Sources */,
 				81E284C51254FFF6001ED66E /* _Document.m in Sources */,
 				81E285081255018D001ED66E /* _Attachment.m in Sources */,
+				81E2853112550292001ED66E /* _Person.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

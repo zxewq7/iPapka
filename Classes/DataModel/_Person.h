@@ -1,5 +1,5 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to PersonManaged.h instead.
+// Make changes to Person.h instead.
 
 #import <CoreData/CoreData.h>
 
@@ -12,16 +12,16 @@
 
 
 
-@interface PersonManagedID : NSManagedObjectID {}
+@interface PersonID : NSManagedObjectID {}
 @end
 
-@interface _PersonManaged : NSManagedObject {}
+@interface _Person : NSManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (PersonManagedID*)objectID;
+- (PersonID*)objectID;
 
 
 
@@ -62,7 +62,7 @@
 
 @end
 
-@interface _PersonManaged (CoreDataGeneratedAccessors)
+@interface _Person (CoreDataGeneratedAccessors)
 
 - (void)addResolutions:(NSSet*)value_;
 - (void)removeResolutions:(NSSet*)value_;
@@ -76,7 +76,7 @@
 
 @end
 
-@interface _PersonManaged (CoreDataGeneratedPrimitiveAccessors)
+@interface _Person (CoreDataGeneratedPrimitiveAccessors)
 
 - (NSString*)primitiveFirst;
 - (void)setPrimitiveFirst:(NSString*)value;

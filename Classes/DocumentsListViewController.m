@@ -11,7 +11,7 @@
 #import "Document.h"
 #import "Folder.h";
 #import "UIButton+Additions.h"
-#import "PersonManaged.h"
+#import "Person.h"
 
 #define ROW_HEIGHT 94
 

@@ -16,7 +16,7 @@
 #import "ASINetworkQueue.h"
 #import "SBJsonParser.h"
 #import "PageManaged.h"
-#import "PersonManaged.h"
+#import "Person.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -383,7 +383,7 @@ static NSString* OperationCount = @"OperationCount";
         
         NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
         
-        PersonManaged *author = [[self dataSource] documentReader:self personWithUid: [parsedDocument objectForKey:field_Author]];
+        Person *author = [[self dataSource] documentReader:self personWithUid: [parsedDocument objectForKey:field_Author]];
         
         if (!author)
         {
@@ -630,7 +630,7 @@ static NSString* OperationCount = @"OperationCount";
         NSString *u = [uid stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
         if ([u isEqualToString:@""])
              continue;
-        PersonManaged *performer = [[self dataSource] documentReader:self personWithUid: uid];
+        Person *performer = [[self dataSource] documentReader:self personWithUid: uid];
         if (performer)
         {
             [resolution addPerformersObject: performer];

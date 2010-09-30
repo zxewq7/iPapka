@@ -1,6 +1,6 @@
-#import "_PersonManaged.h"
+#import "_Person.h"
 
-@interface PersonManaged : _PersonManaged 
+@interface Person : _Person
 {
     NSString *fullName;
 }

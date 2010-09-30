@@ -9,7 +9,7 @@
 #import "DocumentInfoViewController.h"
 #import "Document.h"
 #import "Attachment.h"
-#import "PersonManaged.h"
+#import "Person.h"
 #import <QuartzCore/CALayer.h>
 
 #define kMinTableRows 4

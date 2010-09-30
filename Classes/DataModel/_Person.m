@@ -1,12 +1,12 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to PersonManaged.m instead.
+// Make changes to Person.m instead.
 
-#import "_PersonManaged.h"
+#import "_Person.h"
 
-@implementation PersonManagedID
+@implementation PersonID
 @end
 
-@implementation _PersonManaged
+@implementation _Person
 
 
 
@@ -24,8 +24,8 @@
 	return [NSEntityDescription entityForName:@"Person" inManagedObjectContext:moc_];
 }
 
-- (PersonManagedID*)objectID {
-	return (PersonManagedID*)[super objectID];
+- (PersonID*)objectID {
+	return (PersonID*)[super objectID];
 }
 
 

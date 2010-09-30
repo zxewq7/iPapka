@@ -1,6 +1,6 @@
-#import "PersonManaged.h"
+#import "Person.h"
 
-@implementation PersonManaged
+@implementation Person
 @synthesize fullName;
 
 -(NSString *) fullName

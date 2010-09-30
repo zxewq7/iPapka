@@ -4,7 +4,7 @@
 #import <CoreData/CoreData.h>
 #import "Document.h"
 
-@class PersonManaged;
+@class Person;
 @class ResolutionManaged;
 
 
@@ -63,8 +63,8 @@
 
 - (void)addPerformers:(NSSet*)value_;
 - (void)removePerformers:(NSSet*)value_;
-- (void)addPerformersObject:(PersonManaged*)value_;
-- (void)removePerformersObject:(PersonManaged*)value_;
+- (void)addPerformersObject:(Person*)value_;
+- (void)removePerformersObject:(Person*)value_;
 
 @end
 

@@ -7,7 +7,7 @@
 //
 
 #import "PersonPickerViewController.h"
-#import "PersonManaged.h"
+#import "Person.h"
 #import "DataSource.h"
 
 @implementation PersonPickerViewController
@@ -45,7 +45,7 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    PersonManaged *p = [persons objectAtIndex: indexPath.row];
+    Person *p = [persons objectAtIndex: indexPath.row];
     cell.textLabel.text = p.fullName;
     
     return cell;

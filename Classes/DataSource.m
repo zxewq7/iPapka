@@ -14,7 +14,7 @@
 #import "ResolutionManaged.h"
 #import "SignatureManaged.h"
 #import "KeychainItemWrapper.h"
-#import "PersonManaged.h"
+#import "Person.h"
 #import "LNDocumentWriter.h"
 
 #define kLoginFieldTag 1001
@@ -265,7 +265,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [self commit];
 }
 
-- (PersonManaged *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) anUid
+- (Person *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) anUid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:self.personEntityDescription];
@@ -281,7 +281,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 #warning fake or incorrect data
     else
     {
-        PersonManaged *person = [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:managedObjectContext];
+        Person *person = [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:managedObjectContext];
         person.uid = anUid;
         NSArray *chunks = [anUid componentsSeparatedByString: @" "];
         person.first = [anUid substringToIndex:1];

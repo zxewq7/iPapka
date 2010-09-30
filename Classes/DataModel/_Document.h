@@ -5,7 +5,7 @@
 
 
 @class Document;
-@class PersonManaged;
+@class Person;
 @class Document;
 @class Attachment;
 
@@ -123,7 +123,7 @@
 
 
 
-@property (nonatomic, retain) PersonManaged* author;
+@property (nonatomic, retain) Person* author;
 //- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
 
 
@@ -218,8 +218,8 @@
 
 
 
-- (PersonManaged*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(PersonManaged*)value;
+- (Person*)primitiveAuthor;
+- (void)setPrimitiveAuthor:(Person*)value;
 
 
 

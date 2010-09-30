@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@class PersonManaged;
+@class Person;
 @interface PersonPickerViewController : UITableViewController 
 {
     NSArray *persons;
-    PersonManaged *person;
+    Person *person;
     SEL selector;
     id target;
 }
 
-@property (nonatomic, retain) PersonManaged *person;
+@property (nonatomic, retain) Person *person;
 @property (nonatomic, assign) SEL selector;
 @property (nonatomic, retain) id target;
 @end

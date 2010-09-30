@@ -11,7 +11,7 @@
 #import "UIButton+Additions.h"
 #import "TextViewWithPlaceholder.h"
 #import "ResolutionManaged.h"
-#import "PersonManaged.h"
+#import "Person.h"
 #import "DatePickerController.h"
 #import "AZZAudioRecorder.h"
 #import "AZZAudioPlayer.h"

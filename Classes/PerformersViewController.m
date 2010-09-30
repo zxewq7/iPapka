@@ -10,7 +10,7 @@
 #import "ViewWithButtons.h"
 #import "UIButton+Additions.h"
 #import "ResolutionManaged.h"
-#import "PersonManaged.h"
+#import "Person.h"
 #import "PersonPickerViewController.h"
 #import "DataSource.h"
 
@@ -93,7 +93,7 @@
 {
     [popoverController dismissPopoverAnimated:YES];
 
-    PersonManaged *p = personPickerViewController.person;
+    Person *p = personPickerViewController.person;
     if (p)
     {
         [document addPerformersObject: p];
@@ -154,7 +154,7 @@
     {
         NSSet *ps = document.performers;
         performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
-        for (PersonManaged *p in ps)
+        for (Person *p in ps)
             [performers addObject: p];
         
         [performers sortedArrayUsingDescriptors: sortByLastDescriptors];
@@ -164,7 +164,7 @@
 
     NSMutableArray *performerButtons = [NSMutableArray arrayWithCapacity: [performers count]];
     
-    for (PersonManaged *performer in performers)
+    for (Person *performer in performers)
     {
         [performerButtons addObject: [UIButton buttonWithBackgroundAndTitle:performer.fullName
                                                                   titleFont:[UIFont fontWithName:@"CharterC" size:16]
