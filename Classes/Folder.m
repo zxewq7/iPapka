@@ -10,6 +10,7 @@
 #import "Document.h"
 #import "DocumentResolution.h"
 #import "DocumentSignature.h"
+#import "DataSource.h"
 
 @implementation Folder
 @synthesize name, predicateString, entityName, icon, iconName, filters;
@@ -143,5 +144,37 @@
             NSAssert1(NO, @"Unknown entity name: %@", entityName);
     }
    return entityClass;
+}
+
+- (NSUInteger) countUnread
+{
+    return [[DataSource sharedDataSource] countUnreadDocumentsForFolder:self];
+}
+- (NSFetchedResultsController*) documents
+{
+    if (!documents)
+    {
+        documents = [[DataSource sharedDataSource] documentsForFolder:self];
+        [documents retain];
+        NSError *error = nil;
+        if (![documents performFetch:&error])
+            NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
+        
+    }
+    
+    return documents;
+}
+- (Document*) firstDocument
+{
+    NSUInteger sectionsCount = [[self.documents sections] count];
+    
+    for (NSUInteger sectionIndex = 0; sectionIndex < sectionsCount; sectionIndex++)
+    {
+        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.documents sections] objectAtIndex:sectionIndex];
+        if ([sectionInfo numberOfObjects])
+            return [self.documents objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:sectionIndex]];
+    }
+    
+    return nil;
 }
 @end

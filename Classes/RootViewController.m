@@ -51,12 +51,7 @@ static NSString* LinkContext          = @"LinkContext";
     [folder release];
     folder = [aFolder retain];
 
-#warning no document at startup
-//    NSArray *documents = [[DataSource sharedDataSource] documentsForFolder: folder];
-//    if ([documents count])
-//        self.document = [documents objectAtIndex:0];
-//    else
-//        self.document = nil;
+    self.document = folder.firstDocument;
 }
 
 -(void) setDocument:(Document *) aDocument
@@ -662,12 +657,7 @@ static NSString* LinkContext          = @"LinkContext";
         [[DataSource sharedDataSource] commit];
         
         //set first document in current folder
-        NSArray *documents = [[DataSource sharedDataSource] documentsForFolder: folder];
-        if ([documents count])
-            self.document = [documents objectAtIndex:0];
-        else
-            self.document = nil;
-        
+        self.document = folder.firstDocument;
     }
 }
 -(void) setCanEdit:(BOOL) value

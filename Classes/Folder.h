@@ -7,7 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
+@class Document;
 
 @interface Folder : NSObject<NSCoding> {
     NSString     *name;
@@ -19,6 +21,7 @@
     UIImage      *icon;
     NSString     *iconName;
     NSArray      *filters;
+    NSFetchedResultsController *documents;
 }
 +(id)folderWithName:(NSString *) aName predicateString:(NSString *) aPredicateString entityName:(NSString *) anEntityName iconName:(NSString *) anIconName;
 @property (nonatomic, retain, setter=setName:)              NSString     *name;
@@ -30,4 +33,8 @@
 @property (nonatomic, readonly, getter=icon)                UIImage      *icon;
 @property (nonatomic, retain, setter=setIconName:)          NSString     *iconName;
 @property (nonatomic, retain)                               NSArray      *filters;
+
+@property (nonatomic, readonly)                             NSUInteger   countUnread;
+@property (nonatomic, readonly)                             NSFetchedResultsController *documents;
+@property (nonatomic, readonly)                             Document     *firstDocument;
 @end
