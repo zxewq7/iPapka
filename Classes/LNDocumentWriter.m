@@ -65,7 +65,7 @@ static NSString* OperationCount = @"OperationCount";
 
 - (void) sync
 {
-    NSError *error;
+    NSError *error = nil;
 	if (![unsyncedDocuments performFetch:&error])
 		NSAssert1(error == nil, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
 
