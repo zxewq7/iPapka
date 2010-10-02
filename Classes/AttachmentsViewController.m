@@ -242,13 +242,13 @@ typedef enum _TapPosition{
     }
     else if (tapPosition == TapPositionTop || tapPosition == TapPositionBottom)
     {
-        currentPageIndex += (tapPosition == TapPositionTop?-1:1);
+        NSInteger currentIndex = currentPageIndex + (tapPosition == TapPositionTop?-1:1);
 
         NSUInteger numberOfPages = pageControl.numberOfPages-1;
         
         if (currentPageIndex<0 || currentPageIndex>numberOfPages) //out of bounds
             return;
-        pageControl.currentPage = currentPageIndex;
+        pageControl.currentPage = currentIndex;
         
         //emulate pager tap
         [self pageAction:pageControl];
