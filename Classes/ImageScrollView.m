@@ -164,7 +164,9 @@
     CGSize imageSize = imageView.bounds.size;
     
     NSUInteger minWidth = boundsSize.width;
-    NSUInteger maxWidth = imageSize.width;
+    
+    //we need max zoomscales aligned to 32 multplier for drawings
+    NSUInteger maxWidth = (imageSize.width/32 + 0.5f) * 32;
 
     CGFloat minScale = minWidth / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     
@@ -306,24 +308,28 @@
 - (void) createPaintingView
 {
     //align content size to multiple 32, but not exceed MAX_WIDTH
+    //it should be between minimumZoomScale and maximumZoomScale
     
     CGRect imageFrame = imageView.frame;
     
-    CGFloat newWidth = (imageFrame.size.width * self.zoomScale) / 32 * 32;
+    NSUInteger newWidth = ((imageFrame.size.width * self.zoomScale) / 32 + 0.5f) * 32;
     
     if (newWidth>MAX_WIDTH)
         newWidth = MAX_WIDTH;
 
-    
     CGFloat newScale = newWidth / imageFrame.size.width;
+    
+    if (newScale > self.maximumZoomScale)
+        newScale = self.maximumZoomScale;
     
     self.zoomScale = newScale;
     
-    CGRect f = imageView.frame;
+    //update imageFrame according to new zoomScale
+    imageFrame = imageView.frame;
 
     UIImage *image = drawingsView.image;
     
-    paintingView = [[PaintingView alloc] initWithFrame: f];
+    paintingView = [[PaintingView alloc] initWithFrame: imageFrame];
     paintingView.backgroundColor = [UIColor clearColor];
     paintingView.paintingDelegate = paintingDelegate;
         //if view can not cancel touchs, than we in editing mode
