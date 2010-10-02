@@ -72,7 +72,7 @@ static NSString* SyncingContext = @"SyncingContext";
         
         fetchedResultsController.delegate = nil;
         [fetchedResultsController release];
-        fetchedResultsController = [[DataSource sharedDataSource] documentsForFolder:filter];
+        fetchedResultsController = filter.documents;
         [fetchedResultsController retain];
         fetchedResultsController.delegate = self;
         filtersBar.selectedItem = [filtersBar.items objectAtIndex: filterIndex];
@@ -271,7 +271,7 @@ static NSString* SyncingContext = @"SyncingContext";
 
     fetchedResultsController.delegate = nil;
     [fetchedResultsController release];
-    fetchedResultsController = [[DataSource sharedDataSource] documentsForFolder:filter];
+    fetchedResultsController = filter.documents;
     [fetchedResultsController retain];
     fetchedResultsController.delegate = self;
     NSError *error;
@@ -456,7 +456,6 @@ static NSString* SyncingContext = @"SyncingContext";
         NSArray *toolbarItems = filtersBar.items;
         NSUInteger buttonsCount = [toolbarItems count];
         
-        DataSource *ds = [DataSource sharedDataSource];
         for (NSUInteger i=0; i < buttonsCount; i++)
         {
             UITabBarItem *item = [toolbarItems objectAtIndex: i];
@@ -472,7 +471,7 @@ static NSString* SyncingContext = @"SyncingContext";
 
             Folder *f = [filters objectAtIndex:fi];
 
-            NSInteger count = [ds countUnreadDocumentsForFolder: f];
+            NSInteger count = f.countUnread;
             item.badgeValue = count>0?[NSString stringWithFormat:@"%d", count]:nil;
         }
     }
