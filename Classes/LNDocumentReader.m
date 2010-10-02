@@ -9,6 +9,7 @@
 #import "LNDocumentReader.h"
 #import "Document.h"
 #import "DocumentResolution.h"
+#import "DocumentSignature.h"
 #import "Attachment.h"
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
