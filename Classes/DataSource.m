@@ -144,9 +144,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:[NSEntityDescription entityForName:folder.entityName inManagedObjectContext:managedObjectContext]];
 	
-    NSPredicate *filter = folder.predicate;
-    NSString *format = @"isRead==NO";
-    if (filter)
+    NSString *format = @"(isRead==nil || isRead==NO)";
+    if (folder.predicateString)
         format = [[format stringByAppendingString:@" && "] stringByAppendingString:folder.predicateString];
 
     [fetchRequest setPredicate: [NSPredicate predicateWithFormat:format]];
