@@ -18,6 +18,7 @@
     AZZAudioPlayer      *player;
     UIButton            *playButton;
     UIButton            *recordButton;
+    UIButton            *removeButton;
 }
     
 @property (nonatomic, retain) NSString* path;

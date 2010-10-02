@@ -73,15 +73,29 @@ static NSString *AudioContext = @"AudioContext";
                                             image:imageRecord
                                     imageSelected:[UIImage imageNamed:@"ButtonRecordStop.png"]];
     
+    [recordButton retain];
+    
     recordButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    
+    recordButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
     
     [recordButton sizeToFit];
     
-    CGSize imageRecordSize = imageRecord.size;
-    CGSize titleRecordSize = recordButton.titleLabel.bounds.size;
+    CGRect recordButtonFrame = recordButton.frame;
     
-    recordButton.imageEdgeInsets = UIEdgeInsetsMake(0, titleRecordSize.width, 0, 0);
-    recordButton.titleEdgeInsets = UIEdgeInsetsMake(0,imageRecordSize.width, 0, imageRecordSize.width + 5.0f);
+    recordButtonFrame.size.width = viewFrame.size.width/3;
+    
+    recordButtonFrame.origin.x = viewFrame.size.width - recordButtonFrame.size.width - 10.0f;
+    
+    recordButtonFrame.origin.y = (viewFrame.size.height - recordButtonFrame.size.height)/2;
+    
+    recordButton.frame = recordButtonFrame;
+
+    
+    CGSize imageRecordSize = imageRecord.size;
+    
+    recordButton.imageEdgeInsets = UIEdgeInsetsMake(0, recordButtonFrame.size.width - imageRecordSize.width, 0, 0);
+    recordButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(imageRecordSize.width + 5.0f), 0, imageRecordSize.width + 5.0f);
     
     
     [recordButton setTitleColor:[UIColor colorWithRed:0.431 green:0.510 blue:0.655 alpha:1.0] forState:UIControlStateNormal];
@@ -92,21 +106,44 @@ static NSString *AudioContext = @"AudioContext";
     
     [recordButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
     
-    recordButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
-    
-    CGRect recordButtonFrame = recordButton.frame;
-    
-    recordButtonFrame.origin.x = viewFrame.size.width - recordButtonFrame.size.width - 10.0f;
-    
-    recordButtonFrame.origin.y = (viewFrame.size.height - recordButtonFrame.size.height)/2;
-    
-    recordButton.frame = recordButtonFrame;
     
     recordButton.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | 
                                      UIViewAutoresizingFlexibleTopMargin | 
                                      UIViewAutoresizingFlexibleBottomMargin);
     
     [self.view addSubview: recordButton];
+    
+    //button remove
+    UIImage *imageRemove = [UIImage imageNamed:@"ButtonRecordRemove.png"];
+    
+    removeButton = [UIButton imageButtonWithTitle:NSLocalizedString(@"Remove", "Remove")
+                                           target:self
+                                         selector:@selector(remove:)
+                                            image:imageRemove
+                                    imageSelected:imageRemove];
+    [removeButton retain];
+    
+    removeButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
+
+    removeButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
+    
+    [removeButton sizeToFit];
+    
+    removeButton.frame = recordButtonFrame;
+
+    CGSize imageRemoveSize = imageRemove.size;
+    
+    removeButton.imageEdgeInsets = UIEdgeInsetsMake(0, recordButtonFrame.size.width - imageRemoveSize.width, 0, 0);
+    removeButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(imageRemoveSize.width + 0.5f), 0, imageRemoveSize.width + 5.0f);
+
+    [removeButton setTitleColor:[UIColor colorWithRed:0.431 green:0.510 blue:0.655 alpha:1.0] forState:UIControlStateNormal];
+    
+    
+    removeButton.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | 
+                                     UIViewAutoresizingFlexibleTopMargin | 
+                                     UIViewAutoresizingFlexibleBottomMargin);
+    
+    [self.view addSubview: removeButton];
     
     //play button
     playButton = [UIButton imageButton:self
@@ -151,22 +188,42 @@ static NSString *AudioContext = @"AudioContext";
     [player release]; player = nil;
     
     [playButton release]; playButton = nil;
+    
     [recordButton release]; recordButton = nil;
+    
+    [removeButton release]; removeButton = nil;
 }
 
 
 - (void)dealloc 
 {
     [recorder release]; recorder = nil;
+
     [player release]; player = nil;
+
     [playButton release]; playButton = nil;
+
     [recordButton release]; recordButton = nil;
 
+    [removeButton release]; removeButton = nil;
+    
     [super dealloc];
 }
 
 #pragma mark -
 #pragma mark actions
+
+-(void)remove:(id) sender
+{
+    [recorder stop];
+    [player stop];
+    
+    NSFileManager *df = [NSFileManager defaultManager];
+
+    [df removeItemAtPath:self.path error:NULL];
+    
+    [self updateContent];
+}
 
 -(void)record:(id) sender
 {
@@ -257,9 +314,16 @@ static NSString *AudioContext = @"AudioContext";
     BOOL exists = [df fileExistsAtPath: self.path];
     
     if (recorder.recording)
+    {
         playButton.hidden = YES;
+        removeButton.hidden = YES;
+    }
     else
+    {
         playButton.hidden = !exists;
+        removeButton.hidden = !exists;
+        recordButton.hidden = exists;
+    }
     
     recordButton.selected = recorder.recording;
     playButton.selected = player.playing;

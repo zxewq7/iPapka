@@ -68,6 +68,7 @@
 		8149BA5D1244BA3B00D028EE /* ViewWithButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */; };
 		8149BA8B1244D77700D028EE /* ButtonPerformer.png in Resources */ = {isa = PBXBuildFile; fileRef = 8149BA8A1244D77700D028EE /* ButtonPerformer.png */; };
 		815657C21257574A0019A88D /* AudioCommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815657C11257574A0019A88D /* AudioCommentController.m */; };
+		815658181257820A0019A88D /* ButtonRecordRemove.png in Resources */ = {isa = PBXBuildFile; fileRef = 815658171257820A0019A88D /* ButtonRecordRemove.png */; };
 		8157959C1246802B002A42C0 /* TwoRows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959B1246802B002A42C0 /* TwoRows.png */; };
 		8157959E12468130002A42C0 /* ButtonRecord.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959D12468130002A42C0 /* ButtonRecord.png */; };
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
@@ -253,6 +254,7 @@
 		8149BA8A1244D77700D028EE /* ButtonPerformer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPerformer.png; sourceTree = "<group>"; };
 		815657C01257574A0019A88D /* AudioCommentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCommentController.h; sourceTree = "<group>"; };
 		815657C11257574A0019A88D /* AudioCommentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioCommentController.m; sourceTree = "<group>"; };
+		815658171257820A0019A88D /* ButtonRecordRemove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecordRemove.png; sourceTree = "<group>"; };
 		8157959B1246802B002A42C0 /* TwoRows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TwoRows.png; sourceTree = "<group>"; };
 		8157959D12468130002A42C0 /* ButtonRecord.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecord.png; sourceTree = "<group>"; };
 		81585473123BC24000A827E6 /* UIToolbar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIToolbar+Additions.h"; sourceTree = "<group>"; };
@@ -436,6 +438,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				815658171257820A0019A88D /* ButtonRecordRemove.png */,
 				81E2C0B1124B5C1C001ED53A /* PaperTexture.png */,
 				81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */,
 				813EF9E41249332600E52803 /* ButtonStop.png */,
@@ -878,6 +881,7 @@
 				813EF9E51249332600E52803 /* ButtonStop.png in Resources */,
 				81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */,
 				81E2C0B2124B5C1C001ED53A /* PaperTexture.png in Resources */,
+				815658181257820A0019A88D /* ButtonRecordRemove.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
