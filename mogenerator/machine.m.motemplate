@@ -8,7 +8,7 @@
 
 @implementation _<$managedObjectClassName$>
 <$foreach FetchedProperty noninheritedFetchedProperties do$>
-@synthesize <$FetchedProperty.name$>;
+@dynamic <$FetchedProperty.name$>;
 <$endforeach do$>
 
 

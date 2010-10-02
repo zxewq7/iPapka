@@ -8,7 +8,7 @@
 
 @implementation _Attachment
 
-@synthesize pagesOrdered;
+@dynamic pagesOrdered;
 
 
 

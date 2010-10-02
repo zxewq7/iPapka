@@ -8,9 +8,9 @@
 
 @implementation _Document
 
-@synthesize linksOrdered;
+@dynamic linksOrdered;
 
-@synthesize attachmentsOrdered;
+@dynamic attachmentsOrdered;
 
 
 
