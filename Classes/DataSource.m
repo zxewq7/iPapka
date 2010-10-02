@@ -115,13 +115,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:[NSEntityDescription entityForName:folder.entityName inManagedObjectContext:managedObjectContext]];
 	
-    NSString *filterString = folder.predicateString;
-    if (filterString)
-        filterString = [filterString stringByAppendingString:@" && parent == nil"];
-    else
-        filterString = @"parent==nil";
-    
-    [fetchRequest setPredicate:[NSPredicate predicateWithFormat: filterString]];
+    NSPredicate *filter = folder.predicate;
+    if (filter)
+        [fetchRequest setPredicate:filter];
     
     NSSortDescriptor *sortDescriptor = 
     [[NSSortDescriptor alloc] initWithKey:@"strippedDateModified" 
