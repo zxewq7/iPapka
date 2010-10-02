@@ -149,26 +149,18 @@ typedef enum _TapPosition{
     
     if (currentPageIndex != currentIndex)
     {
-        BOOL nextPrev = currentIndex < currentPageIndex;
+        BOOL down = currentIndex < currentPageIndex;
         
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.5f];
-        [UIView setAnimationTransition: (nextPrev?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp)
+        [UIView setAnimationTransition: (down?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp)
                                forView:self.view cache:YES];
-        if (nextPrev) //page up
-        {
-            AttachmentPageViewController *swapController = currentPage;
-            currentPage = nextPage;
-            nextPage = swapController;
-            [self setPages];
-        }
-        else //page down
-        {
-            AttachmentPageViewController *swapController = currentPage;
-            currentPage = nextPage;
-            nextPage = swapController;
-            [self setPages];
-        }
+
+        AttachmentPageViewController *swapController = currentPage;
+        currentPage = nextPage;
+        nextPage = swapController;
+        [self setPages];
+        
         nextPage.view.hidden = YES;
         currentPage.view.hidden = NO;
         // Commit the changes
@@ -310,14 +302,15 @@ typedef enum _TapPosition{
 {
     NSUInteger numberOfPages = pageControl.numberOfPages;
     NSUInteger currentIndex = pageControl.currentPage;
+    NSInteger direction = (pageControl.currentPage < currentPageIndex?-1:1);
     
     if (numberOfPages > currentIndex)
     {
         currentPage.page = [attachment.pagesOrdered objectAtIndex: currentIndex];
         currentPageIndex = currentIndex;
         
-        if (numberOfPages > (currentIndex + 1))
-            nextPage.page = [attachment.pagesOrdered objectAtIndex: (currentIndex + 1)];
+        if (numberOfPages > (currentIndex + direction))
+            nextPage.page = [attachment.pagesOrdered objectAtIndex: (currentIndex + direction)];
         else
             nextPage.page = nil;
     }
