@@ -42,7 +42,7 @@ static NSString *AudioContext = @"AudioContext";
     UILabel *labelComment = [[UILabel alloc] initWithFrame: CGRectZero];
     
     labelComment.text = NSLocalizedString(@"Comment", "Comment");
-    labelComment.textColor = [UIColor blackColor];
+    labelComment.textColor = [UIColor lightGrayColor];
     labelComment.font = [UIFont boldSystemFontOfSize: 17];
     labelComment.backgroundColor = [UIColor clearColor];
     
