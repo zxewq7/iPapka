@@ -13,11 +13,8 @@
 #import "DocumentResolution.h"
 #import "Person.h"
 #import "DatePickerController.h"
-#import "AZZAudioRecorder.h"
-#import "AZZAudioPlayer.h"
 #import "DataSource.h"
-
-static NSString *AudioContext = @"AudioContext";
+#import "AudioCommentController.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
@@ -84,13 +81,15 @@ static NSString *AudioContext = @"AudioContext";
     
     [self.view addSubview: resolutionSwitcher];
     
-    logo = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"ResolutionLogo.png"]];
+    UIImageView *logo = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"ResolutionLogo.png"]];
     
     CGSize logoSize = logo.frame.size;
     CGRect logFrame = CGRectMake((viewSize.width - logoSize.width)/2, 83, logoSize.width, logoSize.height);
     logo.frame = logFrame;
     
     [self.view addSubview: logo];
+    
+    [logo release];
     
     performersViewController = [[PerformersViewController alloc] init];
     performersViewController.view.backgroundColor = [UIColor clearColor];
@@ -206,6 +205,8 @@ static NSString *AudioContext = @"AudioContext";
 
     twoRows.frame = twoRowsFrame;
     
+    CGFloat oneRowHeight = twoRowsFrame.size.height/2;
+    
     //label Managed
     UILabel *labelManaged = [[UILabel alloc] initWithFrame: CGRectZero];
     
@@ -220,7 +221,7 @@ static NSString *AudioContext = @"AudioContext";
     
     labelManagedFrame.origin.x = 10.0f;
     
-    labelManagedFrame.origin.y = (twoRowsFrame.size.height/2 - labelManagedFrame.size.height)/2;
+    labelManagedFrame.origin.y = (oneRowHeight - labelManagedFrame.size.height)/2;
     
     labelManaged.frame = labelManagedFrame;
     
@@ -240,97 +241,21 @@ static NSString *AudioContext = @"AudioContext";
     
     managedButtonFrame.origin.x = twoRowsFrame.size.width - managedButtonFrame.size.width - 12.0f;;
     
-    managedButtonFrame.origin.y = (twoRowsFrame.size.height/2 - labelManagedFrame.size.height)/2;
+    managedButtonFrame.origin.y = (oneRowHeight - labelManagedFrame.size.height)/2;
     
     managedButton.frame = managedButtonFrame;
     
     [twoRows addSubview: managedButton];
-
-
     
-    //label comment
-    UILabel *labelComment = [[UILabel alloc] initWithFrame: CGRectZero];
+    //audioCommentController
+    audioCommentController = [[AudioCommentController alloc] init];
     
-    labelComment.text = NSLocalizedString(@"Comment", "Comment");
-    labelComment.textColor = [UIColor blackColor];
-    labelComment.font = [UIFont boldSystemFontOfSize: 17];
-    labelComment.backgroundColor = [UIColor clearColor];
+    CGRect audioCommentFrame = CGRectMake(0, oneRowHeight, twoRowsFrame.size.width, oneRowHeight);
     
-    [labelComment sizeToFit];
+    audioCommentController.view.frame = audioCommentFrame;
     
-    CGRect labelCommentFrame = labelComment.frame;
-    
-    labelCommentFrame.origin.x = 10.0f;
-    
-    labelCommentFrame.origin.y = twoRowsFrame.size.height/2 + (twoRowsFrame.size.height/2 - labelCommentFrame.size.height)/2;
-    
-    labelComment.frame = labelCommentFrame;
-    
-    [twoRows addSubview: labelComment];
-    
-    [labelComment release];
-    
-    CGFloat oneRowHeight = twoRowsFrame.size.height/2;
-    
-    //button record
-    
-    UIImage *imageRecord = [UIImage imageNamed:@"ButtonRecord.png"];
-    
-    recordButton = [UIButton imageButtonWithTitle:@"Recording -- 99:99"
-                                           target:self
-                                         selector:@selector(record:)
-                                            image:imageRecord
-                                    imageSelected:[UIImage imageNamed:@"ButtonRecordStop.png"]];
-    
-    recordButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-
-    [recordButton sizeToFit];
-
-    CGSize imageRecordSize = imageRecord.size;
-    CGSize titleRecordSize = recordButton.titleLabel.bounds.size;
-    
-    recordButton.imageEdgeInsets = UIEdgeInsetsMake(0, titleRecordSize.width, 0, 0);
-    recordButton.titleEdgeInsets = UIEdgeInsetsMake(0,imageRecordSize.width, 0, imageRecordSize.width + 5.0f);
-    
-    
-    [recordButton setTitleColor:[UIColor colorWithRed:0.431 green:0.510 blue:0.655 alpha:1.0] forState:UIControlStateNormal];
-    
-    [recordButton setTitle:NSLocalizedString(@"Record", @"Record") forState:UIControlStateNormal];
-    
-    [recordButton setTitle:NSLocalizedString(@"Recording", @"Recording") forState:UIControlStateSelected];
-
-    [recordButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
-    
-    recordButton.titleLabel.font = [UIFont boldSystemFontOfSize: 17];
-    
-    CGRect recordButtonFrame = recordButton.frame;
-    
-    recordButtonFrame.origin.x = twoRowsFrame.size.width - recordButtonFrame.size.width - 10.0f;
-    
-    recordButtonFrame.origin.y = oneRowHeight + (oneRowHeight - recordButtonFrame.size.height)/2;
-    
-    recordButton.frame = recordButtonFrame;
-    
-    [twoRows addSubview: recordButton];
-
-    //play button
-    playButton = [UIButton imageButton:self
-                                          selector:@selector(play:)
-                                             image:[UIImage imageNamed:@"ButtonPlay.png"]
-                                     imageSelected:[UIImage imageNamed:@"ButtonStop.png"]];
-
-    [playButton retain];
-    
-    CGRect playButtonFrame = playButton.frame;
-    
-    playButtonFrame.origin.x = 200.0f;
-    
-    playButtonFrame.origin.y = oneRowHeight + (oneRowHeight - playButtonFrame.size.height)/2;
-    
-    playButton.frame = playButtonFrame;
-    
-    [twoRows addSubview: playButton];
-    
+    [twoRows addSubview: audioCommentController.view];
+ 
     [self.view addSubview: twoRows];
 
     [twoRows release];
@@ -345,105 +270,56 @@ static NSString *AudioContext = @"AudioContext";
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    [resolutionSwitcher release];
-    resolutionSwitcher = nil;
+    [resolutionSwitcher release]; resolutionSwitcher = nil;
     
-    [logo release];
-    logo = nil;
+    [deadlineButton release]; deadlineButton = nil;
     
-    [deadlineButton release];
-    deadlineButton = nil;
+    [resolutionText release]; resolutionText = nil;
     
-    [resolutionText release];
-    resolutionText = nil;
+    [authorLabel release]; authorLabel =nil;
     
-    [authorLabel release];
-    authorLabel =nil;
-    
-    [dateLabel release];
-    dateLabel = nil;
+    [dateLabel release]; dateLabel = nil;
 
-    [dateFormatter release];
-    dateFormatter = nil;
+    [dateFormatter release]; dateFormatter = nil;
     
-    [datePickerController release];
-    datePickerController = nil;
+    [datePickerController release]; datePickerController = nil;
     
-    [popoverController release];
-    popoverController = nil;
+    [popoverController release]; popoverController = nil;
     
-    [performersViewController release];
-    performersViewController = nil;
+    [performersViewController release]; performersViewController = nil;
     
-    [recorder removeObserver:self forKeyPath:@"recording"];
-    [recorder release];
-    recorder = nil;
-
-    [player removeObserver:self forKeyPath:@"playing"];
-    [player release];
-    player = nil;
+    [managedButton release]; managedButton = nil;
     
-    [playButton release];
-    playButton = nil;
-    
-    [managedButton release];
-    managedButton = nil;
-    
-    [recordButton release];
-    recordButton = nil;
+    [audioCommentController release]; audioCommentController = nil;
 }
 
 
 - (void)dealloc {
-    [resolutionSwitcher release];
-    resolutionSwitcher = nil;
-
-    [logo release];
-    logo = nil;
+    [resolutionSwitcher release]; resolutionSwitcher = nil;
     
-    [deadlineButton release];
-    deadlineButton = nil;
-
-    [resolutionText release];
-    resolutionText = nil;
-
-    [authorLabel release];
-    authorLabel =nil;
+    [deadlineButton release]; deadlineButton = nil;
     
-    [dateLabel release];
-    dateLabel = nil;
-
+    [resolutionText release]; resolutionText = nil;
+    
+    [authorLabel release]; authorLabel =nil;
+    
+    [dateLabel release]; dateLabel = nil;
+    
+    [dateFormatter release]; dateFormatter = nil;
+    
+    [datePickerController release]; datePickerController = nil;
+    
+    [popoverController release]; popoverController = nil;
+    
+    [performersViewController release]; performersViewController = nil;
+    
+    [managedButton release]; managedButton = nil;
+    
+    [audioCommentController release]; audioCommentController = nil;
+    
     self.document = nil;
     [super dealloc];
-    
-    [dateFormatter release];
-    dateFormatter = nil;
-    
-    [datePickerController release];
-    datePickerController = nil;
-    
-    [popoverController release];
-    popoverController = nil;
-    
-    [performersViewController release];
-    performersViewController = nil;
-    
-    [recorder removeObserver:self forKeyPath:@"recording"];
-    [recorder release];
-    recorder = nil;
 
-    [player removeObserver:self forKeyPath:@"playing"];
-    [player release];
-    player = nil;
-    
-    [playButton release];
-    playButton = nil;
-
-    [managedButton release];
-    managedButton = nil;
-    
-    [recordButton release];
-    recordButton = nil;
 }
 
 #pragma mark -
@@ -464,33 +340,6 @@ static NSString *AudioContext = @"AudioContext";
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)pc
 {
     [[DataSource sharedDataSource] commit];
-}
-
-#pragma mark -
-#pragma mark Observer
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == &AudioContext)
-    {
-        if (recorder.recording)
-            playButton.hidden = YES;
-        else
-            playButton.hidden = !document.hasAudioComment;
-        
-        recordButton.selected = recorder.recording;
-        playButton.selected = player.playing;
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
-    }
 }
 
 #pragma Private
@@ -529,7 +378,7 @@ static NSString *AudioContext = @"AudioContext";
     
     performersViewController.document = document;
     
-    playButton.hidden = !resolution.hasAudioComment;
+    audioCommentController.path = document.audioCommentPath;
     
     managedButton.on = resolution.isManagedValue;
     
@@ -564,65 +413,6 @@ static NSString *AudioContext = @"AudioContext";
     }
     
 }
-
--(void)record:(id) sender
-{
-    if (!recorder)
-    {
-        recorder = [[AZZAudioRecorder alloc] init];
-        [recorder addObserver:self
-                   forKeyPath:@"recording"
-                      options:0
-                      context:&AudioContext];
-    }
-    
-    if (recorder.recording)
-        [recorder stop];
-    else
-    {
-        recorder.path = document.audioCommentPath;
-        if (![recorder start])
-        {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", "Error")
-                                                            message: NSLocalizedString(@"Unable to record audio", "Unable to record audio")
-                                                           delegate: nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", "OK")
-                                                  otherButtonTitles:nil];
-            [alert show];
-            [alert release];            
-        }
-    }
-}
-
--(void)play:(id) sender
-{
-    if (!player)
-    {
-        player = [[AZZAudioPlayer alloc] init];
-        [player addObserver:self
-                 forKeyPath:@"playing"
-                    options:0
-                    context:&AudioContext];
-    }
-    
-    if (player.playing)
-        [player stop];
-    else
-    {
-        player.path = document.audioCommentPath;
-        if (![player start])
-        {
-            UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", "Error")
-                                                            message: NSLocalizedString(@"Unable to record audio", "Unable to record audio")
-                                                           delegate: nil
-                                                  cancelButtonTitle:NSLocalizedString(@"OK", "OK")
-                                                  otherButtonTitles:nil];
-            [alert show];
-            [alert release];            
-        }
-    }
-}
-
 #pragma mark -
 #pragma mark actions
 -(void) pickDeadline:(id) sender

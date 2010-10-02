@@ -67,6 +67,7 @@
 		8148EF8C123A7C76000E9762 /* ClipperOpened.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EF8B123A7C76000E9762 /* ClipperOpened.png */; };
 		8149BA5D1244BA3B00D028EE /* ViewWithButtons.m in Sources */ = {isa = PBXBuildFile; fileRef = 8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */; };
 		8149BA8B1244D77700D028EE /* ButtonPerformer.png in Resources */ = {isa = PBXBuildFile; fileRef = 8149BA8A1244D77700D028EE /* ButtonPerformer.png */; };
+		815657C21257574A0019A88D /* AudioCommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815657C11257574A0019A88D /* AudioCommentController.m */; };
 		8157959C1246802B002A42C0 /* TwoRows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959B1246802B002A42C0 /* TwoRows.png */; };
 		8157959E12468130002A42C0 /* ButtonRecord.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959D12468130002A42C0 /* ButtonRecord.png */; };
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
@@ -250,6 +251,8 @@
 		8149BA5B1244BA3B00D028EE /* ViewWithButtons.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewWithButtons.h; sourceTree = "<group>"; };
 		8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewWithButtons.m; sourceTree = "<group>"; };
 		8149BA8A1244D77700D028EE /* ButtonPerformer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPerformer.png; sourceTree = "<group>"; };
+		815657C01257574A0019A88D /* AudioCommentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCommentController.h; sourceTree = "<group>"; };
+		815657C11257574A0019A88D /* AudioCommentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioCommentController.m; sourceTree = "<group>"; };
 		8157959B1246802B002A42C0 /* TwoRows.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TwoRows.png; sourceTree = "<group>"; };
 		8157959D12468130002A42C0 /* ButtonRecord.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecord.png; sourceTree = "<group>"; };
 		81585473123BC24000A827E6 /* UIToolbar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIToolbar+Additions.h"; sourceTree = "<group>"; };
@@ -522,6 +525,8 @@
 		8155A5F51237AF6F00A15FE5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				815657C01257574A0019A88D /* AudioCommentController.h */,
+				815657C11257574A0019A88D /* AudioCommentController.m */,
 				8144AD4D12395DA8006B2AD7 /* RootViewController.h */,
 				8144AD4E12395DA8006B2AD7 /* RootViewController.m */,
 				8148EC2C123A323A000E9762 /* ClipperViewController.h */,
@@ -940,6 +945,7 @@
 				81E2859F12550611001ED66E /* _AttachmentPage.m in Sources */,
 				811ED76A12551F9E00D2E027 /* _DocumentResolution.m in Sources */,
 				811ED7AA125521A300D2E027 /* _DocumentSignature.m in Sources */,
+				815657C21257574A0019A88D /* AudioCommentController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
