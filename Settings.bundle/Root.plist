@@ -20,7 +20,7 @@
 			<key>Key</key>
 			<string>serverUrl</string>
 			<key>DefaultValue</key>
-			<string>http://vovasty/~vovasty/prvz.nsf</string>
+			<string>http://vovasty.local/~vovasty/prvz.nsf</string>
 			<key>KeyboardType</key>
 			<string>URL</string>
 			<key>AutocapitalizationType</key>
