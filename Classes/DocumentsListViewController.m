@@ -359,7 +359,7 @@ static NSString* SyncingContext = @"SyncingContext";
     selectedDocumentIndexPath = nil;
     [filtersBar release];
     filtersBar = nil;
-    [fetchedResultsController release];
+    [fetchedResultsController release]; fetchedResultsController = nil;
 
     [[DataSource sharedDataSource] removeObserver:self
                                        forKeyPath:@"isSyncing"];
