@@ -11,6 +11,7 @@
 #define kDocumentInfo 1021
 #define kAttachments 1022
 #define kResolution 1023
+#define kSignatureComment 1024
 
 
 #define kMargin 6.0f
@@ -26,7 +27,7 @@
 @end
 
 @implementation RootContentView
-@dynamic documentInfo, attachments, resolution;
+@dynamic documentInfo, attachments, resolution, signatureComment;
 
 
 -(void) setDocumentInfo:(UIView *) view
@@ -58,6 +59,16 @@
 -(UIView *) resolution
 {
     return [self viewWithTag: kResolution];
+}
+
+-(void) setSignatureComment:(UIView *) view
+{
+    [self setView:view withTag: kSignatureComment];
+}
+
+-(UIView *) signatureComment
+{
+    return [self viewWithTag: kSignatureComment];
 }
 
 - (void)layoutSubviews 
@@ -101,7 +112,12 @@
     resolutionFrame.origin.x = (size.width-resolutionFrame.size.width)/2;
     resolutionFrame.origin.y = 0;
     resolution.frame = resolutionFrame;
+
+    //resolution
+    UIView *signatureComment = self.signatureComment;
     
+    signatureComment.frame = resolutionFrame;
+
     //attachments
     UIView *attachments = self.attachments;
     

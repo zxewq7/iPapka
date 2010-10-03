@@ -17,5 +17,6 @@
 @property (nonatomic, retain) UIView *infoButton;
 @property (nonatomic, retain) UIView *resolutionButton;
 @property (nonatomic, retain) UIView *backButton;
+@property (nonatomic, retain) UIView *signatureCommentButton;
 
 @end

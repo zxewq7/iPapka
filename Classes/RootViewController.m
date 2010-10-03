@@ -22,6 +22,7 @@
 #import "DocumentResolution.h"
 #import "RootBackgroundView.h"
 #import "RootContentView.h"
+#import "SignatureCommentViewController.h"
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
 static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
@@ -36,6 +37,7 @@ static NSString* LinkContext          = @"LinkContext";
 - (void) setCanEdit:(BOOL) value;
 - (void) updateContent;
 - (void) showResolution:(id) sender;
+- (void) showSignatureComment:(id) sender;
 @end
 
 @implementation RootViewController
@@ -204,6 +206,23 @@ static NSString* LinkContext          = @"LinkContext";
 
     [resolutionButton retain];
 
+    //signatureCommentButton
+    signatureCommentButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Comment", "Comment")
+                                                    titleFont:[UIFont boldSystemFontOfSize:12]
+                                                       target:self
+                                                     selector:@selector(showSignatureComment:)
+                                                        frame:CGRectMake(0, 0, 20, 30)
+                                                addLabelWidth:YES
+                                                        image:[UIImage imageNamed:@"ButtonSquare.png"]
+                                                 imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
+                                                 leftCapWidth:10.0f
+                                                darkTextColor:NO];
+    
+    [signatureCommentButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
+    signatureCommentButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+    
+    [signatureCommentButton retain];
+
     //info button
     infoButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Information", "Information")
                                               titleFont:[UIFont boldSystemFontOfSize:12]
@@ -224,10 +243,13 @@ static NSString* LinkContext          = @"LinkContext";
     
     resolutionViewController = [[ResolutionViewController alloc] init];
     resolutionViewController.view.hidden = YES;
+    signatureCommentViewController = [[SignatureCommentViewController alloc] init];
+    signatureCommentViewController.view.hidden = YES;
     
     contentView.documentInfo = documentInfoViewController.view;
     contentView.attachments = attachmentsViewController.view;
     contentView.resolution = resolutionViewController.view;
+    contentView.signatureComment = signatureCommentViewController.view;
 
     //paper
     RotateableImageView *paperView = [[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"Papers.png"]];
@@ -238,6 +260,7 @@ static NSString* LinkContext          = @"LinkContext";
     backgroundView.paintingTools = paintingToolsViewController.view;
     backgroundView.content = contentView;
     backgroundView.resolutionButton = resolutionButton;
+    backgroundView.signatureCommentButton = signatureCommentButton;
     backgroundView.infoButton = infoButton;
     backgroundView.backButton = backButton;
 
@@ -269,56 +292,41 @@ static NSString* LinkContext          = @"LinkContext";
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    [attachmentsViewController release];
-    attachmentsViewController = nil;
+    [attachmentsViewController release]; attachmentsViewController = nil;
     [clipperViewController removeObserver:self forKeyPath:@"opened"];
-    [clipperViewController release];
-    clipperViewController = nil;
+    [clipperViewController release]; clipperViewController = nil;
     [documentInfoViewController removeObserver:self forKeyPath:@"attachment"];
-    [documentInfoViewController release];
-    documentInfoViewController = nil;
-    [contentView release];
-    contentView = nil;
-    [toolbar release];
-    toolbar = nil;
-    [declineButton release];
-    declineButton = nil;
-    [acceptButton release];
-    acceptButton = nil;
-    [infoButton release];
-    infoButton = nil;
-    [resolutionButton release];
-    resolutionButton = nil;
-    [backButton release];
-    backButton = nil;
+    [documentInfoViewController release]; documentInfoViewController = nil;
+    [contentView release]; contentView = nil;
+    [toolbar release]; toolbar = nil;
+    [declineButton release]; declineButton = nil;
+    [acceptButton release]; acceptButton = nil;
+    [infoButton release]; infoButton = nil;
+    [resolutionButton release]; resolutionButton = nil;
+    [backButton release]; backButton = nil;
+    [signatureCommentButton release]; signatureCommentButton = nil;
+    [signatureCommentViewController release]; signatureCommentViewController = nil;
 }
 
 - (void) dealloc
 {
-    [attachmentsViewController release];
-    attachmentsViewController = nil;
-    [clipperViewController removeObserver:self forKeyPath:@"opened"];
-    [clipperViewController release];
-    clipperViewController = nil;
-    [documentInfoViewController removeObserver:self forKeyPath:@"attachment"];
-    [documentInfoViewController release];
-    documentInfoViewController = nil;
-    [contentView release];
-    contentView = nil;
-    [toolbar release];
-    toolbar = nil;
     self.document = nil;
     self.folder = nil;
-    [declineButton release];
-    declineButton = nil;
-    [acceptButton release];
-    acceptButton = nil;
-    [infoButton release];
-    infoButton = nil;
-    [resolutionButton release];
-    resolutionButton = nil;
-    [backButton release];
-    backButton = nil;
+
+    [attachmentsViewController release]; attachmentsViewController = nil;
+    [clipperViewController removeObserver:self forKeyPath:@"opened"];
+    [clipperViewController release]; clipperViewController = nil;
+    [documentInfoViewController removeObserver:self forKeyPath:@"attachment"];
+    [documentInfoViewController release]; documentInfoViewController = nil;
+    [contentView release]; contentView = nil;
+    [toolbar release]; toolbar = nil;
+    [declineButton release]; declineButton = nil;
+    [acceptButton release]; acceptButton = nil;
+    [infoButton release]; infoButton = nil;
+    [resolutionButton release]; resolutionButton = nil;
+    [backButton release]; backButton = nil;
+    [signatureCommentButton release]; signatureCommentButton = nil;
+    [signatureCommentViewController release]; signatureCommentViewController = nil;
     
 	[super dealloc];
 }
@@ -426,6 +434,10 @@ static NSString* LinkContext          = @"LinkContext";
     {
         if (resolutionButton.selected) //hide resolution
             [self showResolution:resolutionButton];
+
+        if (signatureCommentButton.selected) //hide signature comment
+            [self showSignatureComment:signatureCommentButton];
+
         
         [UIView beginAnimations:OpenClipperAnimationId context:NULL];
         [UIView setAnimationDuration:.5];
@@ -506,6 +518,22 @@ static NSString* LinkContext          = @"LinkContext";
     
 }
 
+- (void) showSignatureComment:(id) sender
+{
+    signatureCommentButton.selected = !signatureCommentButton.selected;
+    
+    attachmentsViewController.view.userInteractionEnabled = !signatureCommentButton.selected;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationTransition:signatureCommentButton.selected?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp
+                           forView:signatureCommentViewController.view cache:YES];
+    
+    signatureCommentViewController.view.hidden = !signatureCommentButton.selected;
+    
+    [UIView commitAnimations];
+    
+}
 
 - (void) createToolbar
 {
@@ -698,11 +726,15 @@ static NSString* LinkContext          = @"LinkContext";
     {
         resolutionViewController.document = (DocumentResolution *)self.document;
         resolutionButton.hidden = NO;
+        signatureCommentButton.hidden = YES;
+        signatureCommentViewController.document = nil;
     }
     else
     {
         resolutionViewController.document = nil;
         resolutionButton.hidden = YES;
+        signatureCommentButton.hidden = NO;
+        signatureCommentViewController.document = (DocumentSignature *)self.document;;
     }
     
     backButton.hidden = YES;

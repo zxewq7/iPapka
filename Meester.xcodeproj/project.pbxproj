@@ -25,6 +25,7 @@
 		810BBBFD1251FEE900BD88EB /* DocumentResolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF01251FEE900BD88EB /* DocumentResolution.m */; };
 		810BBBFE1251FEE900BD88EB /* DocumentSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF21251FEE900BD88EB /* DocumentSignature.m */; };
 		810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 810CE95B1251D66C00933B9E /* Data.xcdatamodeld */; };
+		811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811456061258AC9300B755EB /* SignatureCommentViewController.m */; };
 		811B583412454D1000BEB158 /* ColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B583312454D1000BEB158 /* ColorPicker.m */; };
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
 		811DF44B1237A11300903D30 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42E1237A11300903D30 /* BrushErase.png */; };
@@ -134,6 +135,7 @@
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
 		81C674911248BDFC002C272D /* RootContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C674901248BDFC002C272D /* RootContentView.m */; };
 		81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CA24E912469DB900A50613 /* RootBackgroundView.m */; };
+		81D3EBD21258BEA2002FCCDC /* OneRow.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D3EBD11258BEA2002FCCDC /* OneRow.png */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
 		81D60426123ACBC400CEAF75 /* PaintingTools.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60425123ACBC400CEAF75 /* PaintingTools.png */; };
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
@@ -199,6 +201,8 @@
 		810BBBF11251FEE900BD88EB /* DocumentSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentSignature.h; sourceTree = "<group>"; };
 		810BBBF21251FEE900BD88EB /* DocumentSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSignature.m; sourceTree = "<group>"; };
 		810CE95C1251D66C00933B9E /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
+		811456051258AC9300B755EB /* SignatureCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureCommentViewController.h; sourceTree = "<group>"; };
+		811456061258AC9300B755EB /* SignatureCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureCommentViewController.m; sourceTree = "<group>"; };
 		811B583212454D1000BEB158 /* ColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPicker.h; sourceTree = "<group>"; };
 		811B583312454D1000BEB158 /* ColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorPicker.m; sourceTree = "<group>"; };
 		811DF42D1237A11300903D30 /* BrushComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushComment.png; sourceTree = "<group>"; };
@@ -358,6 +362,7 @@
 		81C674901248BDFC002C272D /* RootContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootContentView.m; sourceTree = "<group>"; };
 		81CA24E812469DB900A50613 /* RootBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootBackgroundView.h; sourceTree = "<group>"; };
 		81CA24E912469DB900A50613 /* RootBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootBackgroundView.m; sourceTree = "<group>"; };
+		81D3EBD11258BEA2002FCCDC /* OneRow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OneRow.png; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
 		81D60425123ACBC400CEAF75 /* PaintingTools.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaintingTools.png; sourceTree = "<group>"; };
 		81D60427123ACBEA00CEAF75 /* PaintingToolsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaintingToolsViewController.h; sourceTree = "<group>"; };
@@ -441,6 +446,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81D3EBD11258BEA2002FCCDC /* OneRow.png */,
 				815658171257820A0019A88D /* ButtonRecordRemove.png */,
 				81E2C0B1124B5C1C001ED53A /* PaperTexture.png */,
 				81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */,
@@ -531,6 +537,8 @@
 		8155A5F51237AF6F00A15FE5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				811456051258AC9300B755EB /* SignatureCommentViewController.h */,
+				811456061258AC9300B755EB /* SignatureCommentViewController.m */,
 				815657C01257574A0019A88D /* AudioCommentController.h */,
 				815657C11257574A0019A88D /* AudioCommentController.m */,
 				8144AD4D12395DA8006B2AD7 /* RootViewController.h */,
@@ -887,6 +895,7 @@
 				81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */,
 				81E2C0B2124B5C1C001ED53A /* PaperTexture.png in Resources */,
 				815658181257820A0019A88D /* ButtonRecordRemove.png in Resources */,
+				81D3EBD21258BEA2002FCCDC /* OneRow.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -956,6 +965,7 @@
 				811ED7AA125521A300D2E027 /* _DocumentSignature.m in Sources */,
 				815657C21257574A0019A88D /* AudioCommentController.m in Sources */,
 				819CA55612579C9B00AF308E /* NSString+Additions.m in Sources */,
+				811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

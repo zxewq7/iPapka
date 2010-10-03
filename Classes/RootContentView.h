@@ -14,4 +14,5 @@
 @property (nonatomic, retain) UIView *documentInfo;
 @property (nonatomic, retain) UIView *attachments;
 @property (nonatomic, retain) UIView *resolution;
+@property (nonatomic, retain) UIView *signatureComment;
 @end

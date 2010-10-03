@@ -14,13 +14,14 @@
 #define kInfoButton 1004
 #define kResolutionButton 1005
 #define kBackButton 1006
+#define kSignatureCommentButton 1007
 
 @interface RootBackgroundView(Private)
 -(void) setView:(UIView *) view withTag:(int) tag;
 @end
 
 @implementation RootBackgroundView
-@dynamic paper, paintingTools, content, infoButton, resolutionButton, backButton;
+@dynamic paper, paintingTools, content, infoButton, resolutionButton, backButton, signatureCommentButton;
 
 -(void) setPaper:(UIView *) view
 {
@@ -82,6 +83,16 @@
     return [self viewWithTag: kBackButton];
 }
 
+-(void) setSignatureCommentButton:(UIView *) view
+{
+    [self setView:view withTag: kSignatureCommentButton];
+}
+
+-(UIView *) signatureCommentButton
+{
+    return [self viewWithTag: kSignatureCommentButton];
+}
+
 - (void)layoutSubviews 
 {
     [super layoutSubviews];
@@ -126,6 +137,11 @@
 
     resolutionButton.frame = resolutionButtonFrame;
 
+    //signatureCommentButton
+    UIView *signatureCommentButton = self.signatureCommentButton;
+    signatureCommentButton.frame = resolutionButtonFrame;
+
+    
     //backButton
     UIView *backButton = self.backButton;
     CGRect backButtonFrame = backButton.frame;
