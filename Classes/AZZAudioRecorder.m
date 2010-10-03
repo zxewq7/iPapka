@@ -19,6 +19,8 @@
 -(BOOL) start
 {
     [self stop];
+    if (!self.path)
+        return NO;
     
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err = nil;
@@ -124,8 +126,7 @@
 
 -(void) dealloc
 {
-    [recorder release];
-    recorder = nil;
+    [recorder release]; recorder = nil;
     
     self.path = nil;
     [super dealloc];

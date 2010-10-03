@@ -23,9 +23,11 @@
     
     [self stop];
 
-    [player release];
+    [player release]; player = nil;
     
-    if (!path)
+    NSFileManager *df = [NSFileManager defaultManager];
+
+    if (!path || ![df fileExistsAtPath: self.path])
         return;
     
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
