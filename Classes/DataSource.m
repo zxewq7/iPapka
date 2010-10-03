@@ -257,10 +257,14 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
     
     [request setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
-    
+
     // Execute the fetch.
     NSError *error;
+
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+    
+    [request release];
+
     NSAssert1(fetchResults != nil, @"Unhandled error executing document fetch: %@", [error localizedDescription]);
     
     NSMutableSet * result = [NSMutableSet setWithCapacity: [fetchResults count]];
@@ -313,12 +317,15 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [request setEntity:self.pageEntityDescription];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isFetched == NO"];
+
     [request setPredicate:predicate];
-    
     
     // Execute the fetch.
     NSError *error;
     NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+    
+    [request release];
+    
     NSAssert1(fetchResults != nil, @"Unhandled error executing unfetched pages fetch: %@", [error localizedDescription]);
     
     return fetchResults;    

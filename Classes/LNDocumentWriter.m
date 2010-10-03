@@ -129,7 +129,7 @@ static NSString* OperationCount = @"OperationCount";
 #pragma mark Private
 - (void) syncDocument:(Document *) document
 {
-    NSMutableDictionary *dictDocument = [[NSMutableDictionary alloc] initWithCapacity: 6];
+    NSMutableDictionary *dictDocument = [NSMutableDictionary dictionaryWithCapacity: 6];
     
     [dictDocument setObject:document.uid forKey:@"id"];
     
@@ -173,7 +173,6 @@ static NSString* OperationCount = @"OperationCount";
     NSError *error = nil;
     NSString *postData = [jsonWriter stringWithObject:dictDocument error: &error];
     
-    [dictDocument release];
     [jsonWriter release];
     
     if (error)
