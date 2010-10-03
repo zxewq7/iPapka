@@ -6,6 +6,7 @@
 
 
 
+
 @interface DocumentSignatureID : NSManagedObjectID {}
 @end
 
@@ -19,6 +20,12 @@
 
 
 
+@property (nonatomic, retain) NSString *comment;
+
+//- (BOOL)validateComment:(id*)value_ error:(NSError**)error_;
+
+
+
 
 @end
 
@@ -27,6 +34,10 @@
 @end
 
 @interface _DocumentSignature (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSString*)primitiveComment;
+- (void)setPrimitiveComment:(NSString*)value;
+
 
 
 @end

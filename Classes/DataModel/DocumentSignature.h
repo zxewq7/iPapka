@@ -1,5 +1,5 @@
 #import "_DocumentSignature.h"
 
 @interface DocumentSignature : _DocumentSignature {}
-// Custom logic goes here.
+@property (nonatomic, retain, readonly) NSString *audioCommentPath;
 @end

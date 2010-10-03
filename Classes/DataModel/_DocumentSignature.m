@@ -31,6 +31,13 @@
 
 
 
+@dynamic comment;
+
+
+
+
+
+
 
 
 @end
