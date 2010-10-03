@@ -726,11 +726,16 @@ static NSString* LinkContext          = @"LinkContext";
     {
         resolutionViewController.document = (DocumentResolution *)self.document;
         resolutionButton.hidden = NO;
+
+        if (!signatureCommentButton.hidden && signatureCommentButton.selected) //hide signature comment
+            [self showSignatureComment:signatureCommentButton];
         signatureCommentButton.hidden = YES;
         signatureCommentViewController.document = nil;
     }
     else
     {
+        if (!resolutionButton.hidden && resolutionButton.selected) //hide resolution
+            [self showResolution:resolutionButton];
         resolutionViewController.document = nil;
         resolutionButton.hidden = YES;
         signatureCommentButton.hidden = NO;
