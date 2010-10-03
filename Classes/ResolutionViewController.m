@@ -81,6 +81,7 @@
     
     [self.view addSubview: resolutionSwitcher];
     
+    //logo
     UIImageView *logo = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"ResolutionLogo.png"]];
     
     CGSize logoSize = logo.frame.size;
@@ -91,6 +92,7 @@
     
     [logo release];
     
+    //performersViewController
     performersViewController = [[PerformersViewController alloc] init];
     performersViewController.view.backgroundColor = [UIColor clearColor];
     CGRect performersFrame = CGRectMake(0, logFrame.origin.y + logFrame.size.height+18, viewSize.width, (26 + 2)* 3); //3 rows
