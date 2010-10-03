@@ -175,6 +175,26 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 -(void)commit
 {
     NSError *error = nil;
+    NSSet *updatedObjects = [managedObjectContext updatedObjects];
+    
+    for (NSManagedObject *object in updatedObjects)
+    {
+        if ([object isKindOfClass:[Document class]])
+        {
+            NSDictionary *changedValues = [object changedValues];
+            
+            NSUInteger numberOfProperties = [changedValues count];
+            if ([changedValues objectForKey: @"isRead"]) //ignore these properties
+                numberOfProperties--;
+            if ([changedValues objectForKey: @"syncStatus"])
+                numberOfProperties--;
+            
+            if (numberOfProperties > 0) //set syncStatus to SyncStatusNeedSyncToServer
+                [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
+                
+        }
+    }
+    
     if (![managedObjectContext save:&error])
     {
         NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
