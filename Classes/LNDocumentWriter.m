@@ -76,16 +76,14 @@ static NSString* OperationCount = @"OperationCount";
     id <NSFetchedResultsSectionInfo> sectionInfo = [[unsyncedDocuments sections] objectAtIndex:0];
     NSUInteger numberOfObjects = [sectionInfo numberOfObjects];
     
-    if (numberOfObjects)
+    for (NSUInteger i = 0;i < numberOfObjects; i++)
     {
-        for (NSUInteger i = 0;i < numberOfObjects; i++)
-        {
-            NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-            Document *document = [unsyncedDocuments objectAtIndexPath:indexPath];
-            [self syncDocument:document];
-        }
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        Document *document = [unsyncedDocuments objectAtIndexPath:indexPath];
+        [self syncDocument:document];
     }
-    else
+    
+    if (!queue.requestsCount)// nothing running
     {
         [self willChangeValueForKey:@"isSyncing"];
         isSyncing = NO;
