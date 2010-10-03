@@ -18,8 +18,6 @@
 
 
 
-
-
 @interface DocumentID : NSManagedObjectID {}
 @end
 
@@ -37,16 +35,6 @@
 
 
 
-@property (nonatomic, retain) NSNumber *isModified;
-
-@property BOOL isModifiedValue;
-- (BOOL)isModifiedValue;
-- (void)setIsModifiedValue:(BOOL)value_;
-
-//- (BOOL)validateIsModified:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSString *uid;
 
 //- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
@@ -59,13 +47,9 @@
 
 
 
-@property (nonatomic, retain) NSNumber *isEditable;
+@property (nonatomic, retain) NSDate *strippedDateModified;
 
-@property BOOL isEditableValue;
-- (BOOL)isEditableValue;
-- (void)setIsEditableValue:(BOOL)value_;
-
-//- (BOOL)validateIsEditable:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateStrippedDateModified:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -76,12 +60,6 @@
 - (void)setSyncStatusValue:(short)value_;
 
 //- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *strippedDateModified;
-
-//- (BOOL)validateStrippedDateModified:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -156,13 +134,6 @@
 
 @interface _Document (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSNumber*)primitiveIsModified;
-- (void)setPrimitiveIsModified:(NSNumber*)value;
-
-- (BOOL)primitiveIsModifiedValue;
-- (void)setPrimitiveIsModifiedValue:(BOOL)value_;
-
-
 - (NSString*)primitiveUid;
 - (void)setPrimitiveUid:(NSString*)value;
 
@@ -171,11 +142,8 @@
 - (void)setPrimitivePath:(NSString*)value;
 
 
-- (NSNumber*)primitiveIsEditable;
-- (void)setPrimitiveIsEditable:(NSNumber*)value;
-
-- (BOOL)primitiveIsEditableValue;
-- (void)setPrimitiveIsEditableValue:(BOOL)value_;
+- (NSDate*)primitiveStrippedDateModified;
+- (void)setPrimitiveStrippedDateModified:(NSDate*)value;
 
 
 - (NSNumber*)primitiveSyncStatus;
@@ -183,10 +151,6 @@
 
 - (short)primitiveSyncStatusValue;
 - (void)setPrimitiveSyncStatusValue:(short)value_;
-
-
-- (NSDate*)primitiveStrippedDateModified;
-- (void)setPrimitiveStrippedDateModified:(NSDate*)value;
 
 
 - (NSNumber*)primitiveIsRead;

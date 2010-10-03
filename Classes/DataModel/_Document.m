@@ -35,32 +35,6 @@
 
 
 
-@dynamic isModified;
-
-
-
-- (BOOL)isModifiedValue {
-	NSNumber *result = [self isModified];
-	return [result boolValue];
-}
-
-- (void)setIsModifiedValue:(BOOL)value_ {
-	[self setIsModified:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsModifiedValue {
-	NSNumber *result = [self primitiveIsModified];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsModifiedValue:(BOOL)value_ {
-	[self setPrimitiveIsModified:[NSNumber numberWithBool:value_]];
-}
-
-
-
-
-
 @dynamic uid;
 
 
@@ -75,27 +49,8 @@
 
 
 
-@dynamic isEditable;
+@dynamic strippedDateModified;
 
-
-
-- (BOOL)isEditableValue {
-	NSNumber *result = [self isEditable];
-	return [result boolValue];
-}
-
-- (void)setIsEditableValue:(BOOL)value_ {
-	[self setIsEditable:[NSNumber numberWithBool:value_]];
-}
-
-- (BOOL)primitiveIsEditableValue {
-	NSNumber *result = [self primitiveIsEditable];
-	return [result boolValue];
-}
-
-- (void)setPrimitiveIsEditableValue:(BOOL)value_ {
-	[self setPrimitiveIsEditable:[NSNumber numberWithBool:value_]];
-}
 
 
 
@@ -122,13 +77,6 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_ {
 	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
 }
-
-
-
-
-
-@dynamic strippedDateModified;
-
 
 
 

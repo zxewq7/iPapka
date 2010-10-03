@@ -31,6 +31,20 @@
 
 
 
+@dynamic text;
+
+
+
+
+
+
+@dynamic deadline;
+
+
+
+
+
+
 @dynamic isManaged;
 
 
@@ -52,20 +66,6 @@
 - (void)setPrimitiveIsManagedValue:(BOOL)value_ {
 	[self setPrimitiveIsManaged:[NSNumber numberWithBool:value_]];
 }
-
-
-
-
-
-@dynamic deadline;
-
-
-
-
-
-
-@dynamic text;
-
 
 
 

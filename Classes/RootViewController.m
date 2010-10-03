@@ -707,6 +707,6 @@ static NSString* LinkContext          = @"LinkContext";
     
     backButton.hidden = YES;
     
-    [self setCanEdit: [self.document.isEditable boolValue]];
+    [self setCanEdit: (self.document.statusValue == DocumentStatusDraft)];
 }
 @end

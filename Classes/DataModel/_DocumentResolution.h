@@ -24,13 +24,9 @@
 
 
 
-@property (nonatomic, retain) NSNumber *isManaged;
+@property (nonatomic, retain) NSString *text;
 
-@property BOOL isManagedValue;
-- (BOOL)isManagedValue;
-- (void)setIsManagedValue:(BOOL)value_;
-
-//- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -40,9 +36,13 @@
 
 
 
-@property (nonatomic, retain) NSString *text;
+@property (nonatomic, retain) NSNumber *isManaged;
 
-//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
+@property BOOL isManagedValue;
+- (BOOL)isManagedValue;
+- (void)setIsManagedValue:(BOOL)value_;
+
+//- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -70,19 +70,19 @@
 
 @interface _DocumentResolution (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSNumber*)primitiveIsManaged;
-- (void)setPrimitiveIsManaged:(NSNumber*)value;
-
-- (BOOL)primitiveIsManagedValue;
-- (void)setPrimitiveIsManagedValue:(BOOL)value_;
+- (NSString*)primitiveText;
+- (void)setPrimitiveText:(NSString*)value;
 
 
 - (NSDate*)primitiveDeadline;
 - (void)setPrimitiveDeadline:(NSDate*)value;
 
 
-- (NSString*)primitiveText;
-- (void)setPrimitiveText:(NSString*)value;
+- (NSNumber*)primitiveIsManaged;
+- (void)setPrimitiveIsManaged:(NSNumber*)value;
+
+- (BOOL)primitiveIsManagedValue;
+- (void)setPrimitiveIsManagedValue:(BOOL)value_;
 
 
 
