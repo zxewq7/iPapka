@@ -251,14 +251,13 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void)remove:(id) sender
 {
-    [recorder stop];
-    [player stop];
-    
-    NSFileManager *df = [NSFileManager defaultManager];
-
-    [df removeItemAtPath:self.path error:NULL];
-    
-    [self updateContent];
+    UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Audio comment", "Audio comment")
+                                                    message: NSLocalizedString(@"Would you like to remove audio comment?", "Would you like to remove audio comment?")
+                                                   delegate: self
+                                          cancelButtonTitle:NSLocalizedString(@"Cancel", "Cancel")
+                                          otherButtonTitles:NSLocalizedString(@"Ok", "Ok"), nil];
+    [alert show];
+    [alert release];            
 }
 
 -(void)record:(id) sender
@@ -336,6 +335,23 @@ static NSString *AudioContext = @"AudioContext";
                              ofObject:object
                                change:change
                               context:context];
+    }
+}
+
+#pragma mark -
+#pragma mark UIAlertViewDelegate
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if (buttonIndex)
+    {
+        [recorder stop];
+        [player stop];
+        
+        NSFileManager *df = [NSFileManager defaultManager];
+        
+        [df removeItemAtPath:self.path error:NULL];
+        
+        [self updateContent];
     }
 }
 
