@@ -25,12 +25,12 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) setUnsyncedDocuments:(NSFetchedResultsController*) anUnsyncedDocuments
 {
-    if (anUnsyncedDocuments != anUnsyncedDocuments)
+    if (unsyncedDocuments != anUnsyncedDocuments)
     {
-        [anUnsyncedDocuments release];
-        anUnsyncedDocuments = [anUnsyncedDocuments retain];
+        [unsyncedDocuments release];
+        unsyncedDocuments = [anUnsyncedDocuments retain];
     }
-    anUnsyncedDocuments.delegate = self;
+    unsyncedDocuments.delegate = nil;
 }
 
 - (id) initWithUrl:(NSString *) anUrl
