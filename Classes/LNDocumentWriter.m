@@ -13,6 +13,8 @@
 #import "SBJsonWriter.h"
 #import "DocumentResolution.h"
 #import "DataSource.h"
+#import "Person.h"
+
 
 static NSString* OperationCount = @"OperationCount";
 
@@ -158,8 +160,18 @@ static NSString* OperationCount = @"OperationCount";
         if (resolution.deadline)
             [dictDocument setObject:[parseFormatterSimple stringFromDate:resolution.deadline] forKey:@"deadline"];
         
-        if (resolution.performers)
-            [dictDocument setObject:resolution.performers forKey:@"performers"];
+        NSSet *performers = resolution.performers;
+        NSUInteger performersCount = [performers count];
+        if (performersCount)
+        {
+            NSMutableArray *performersArray = [[NSMutableArray alloc] initWithCapacity: performersCount];
+            for(Person *performer in performers)
+                [performersArray addObject:performer.uid];
+
+            [dictDocument setObject:performersArray forKey:@"performers"];
+            
+            [performersArray release];
+        }
         
         if (resolution.text)
             [dictDocument setObject:resolution.text forKey:@"text"];
