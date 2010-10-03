@@ -30,11 +30,12 @@
     self.name = nil;
     self.predicateString = nil;
     self.entityName = nil;
-    [predicate release];
-    [localizedName release];
-    self.iconName = nil;
-    [icon release];
+    [predicate release]; predicate = nil;
+    [localizedName release]; self.iconName = nil;
+    [icon release]; icon = nil;
     self.filters = nil;
+    [documents release]; documents = nil;
+    
     [super dealloc];
 }
 
