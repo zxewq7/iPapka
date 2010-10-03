@@ -62,8 +62,8 @@ static NSString* LinkContext          = @"LinkContext";
     [document release];
     document = [aDocument retain];
     
-    if (![document.isRead boolValue])
-        document.isRead = [NSNumber numberWithBool:YES];
+    if (!document.isReadValue)
+        document.isReadValue = YES;
     [[DataSource sharedDataSource] commit];
     
     [self updateContent];
