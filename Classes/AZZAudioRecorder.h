@@ -19,6 +19,7 @@
 
 @property (nonatomic, retain) NSString *path;
 @property (readonly) BOOL recording;
+@property (readonly) NSTimeInterval currentTime;
 
 -(BOOL) start;
 -(void) pause;

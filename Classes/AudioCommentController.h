@@ -20,6 +20,7 @@
     UIButton            *recordButton;
     UIButton            *removeButton;
     UILabel             *labelComment;
+    NSTimer             *timer;
 }
     
 @property (nonatomic, retain) NSString* path;

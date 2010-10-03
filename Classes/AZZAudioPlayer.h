@@ -16,7 +16,8 @@
 
 @property (nonatomic, retain) NSString *path;
 @property (readonly) BOOL playing;
-@property(readonly) NSTimeInterval duration;
+@property (readonly) NSTimeInterval duration;
+@property (readonly) NSTimeInterval currentTime;
 
 -(BOOL) start;
 -(void) pause;

@@ -18,6 +18,9 @@ static NSString *AudioContext = @"AudioContext";
 -(BOOL) fileExists;
 -(void) updateContent;
 -(AZZAudioPlayer*) player;
+-(void) startTimer;
+-(void) stopTimer;
+-(void) updateDuration:(NSTimer *)timer;
 @end
 
 @implementation AudioCommentController
@@ -31,6 +34,7 @@ static NSString *AudioContext = @"AudioContext";
     [path release];
     path = [aPath retain];
     
+    self.player.path = self.path;
     [self updateContent];
 }
 
@@ -47,7 +51,6 @@ static NSString *AudioContext = @"AudioContext";
     labelComment.textColor = [UIColor blackColor];
     labelComment.font = [UIFont boldSystemFontOfSize: 17];
     labelComment.backgroundColor = [UIColor clearColor];
-    labelComment.enabled = NO;
     
     [labelComment sizeToFit];
     
@@ -87,7 +90,7 @@ static NSString *AudioContext = @"AudioContext";
     
     CGRect playButtonFrame = playButton.frame;
     
-    playButtonFrame.size.width = 2*(viewFrame.size.width/3);
+    playButtonFrame.size.width = viewFrame.size.width/2;
     
     playButtonFrame.origin.x = 10.0f;
     
@@ -127,7 +130,7 @@ static NSString *AudioContext = @"AudioContext";
     
     CGRect recordButtonFrame = recordButton.frame;
     
-    recordButtonFrame.size.width = viewFrame.size.width/3;
+    recordButtonFrame.size.width = viewFrame.size.width/2;
     
     recordButtonFrame.origin.x = viewFrame.size.width - recordButtonFrame.size.width - 10.0f;
     
@@ -217,6 +220,8 @@ static NSString *AudioContext = @"AudioContext";
     [removeButton release]; removeButton = nil;
     
     [labelComment release]; labelComment = nil;
+    
+    [timer invalidate]; timer = nil;
 }
 
 
@@ -235,6 +240,8 @@ static NSString *AudioContext = @"AudioContext";
     [removeButton release]; removeButton = nil;
     
     [labelComment release]; labelComment = nil;
+    
+    [timer invalidate]; timer = nil;
     
     [super dealloc];
 }
@@ -266,7 +273,11 @@ static NSString *AudioContext = @"AudioContext";
     }
     
     if (recorder.recording)
+    {
+        [self stopTimer];
         [recorder stop];
+        player.path = self.path;
+    }
     else
     {
         recorder.path = self.path;
@@ -280,28 +291,30 @@ static NSString *AudioContext = @"AudioContext";
             [alert show];
             [alert release];            
         }
-        [self updateContent];
+        [self startTimer];
     }
 }
 
 -(void)play:(id) sender
 {
     if (self.player.playing)
+    {
+        [self stopTimer];
         [self.player stop];
+    }
     else
     {
-        self.player.path = self.path;
         if (![self.player start])
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", "Error")
-                                                            message: NSLocalizedString(@"Unable to record audio", "Unable to record audio")
+                                                            message: NSLocalizedString(@"Unable to play audio", "Unable to play audio")
                                                            delegate: nil
                                                   cancelButtonTitle:NSLocalizedString(@"OK", "OK")
                                                   otherButtonTitles:nil];
             [alert show];
             [alert release];            
         }
-        [self updateContent];
+        [self startTimer];
     }
 }
 
@@ -337,22 +350,22 @@ static NSString *AudioContext = @"AudioContext";
     {
         playButton.hidden = YES;
         removeButton.hidden = YES;
+        labelComment.enabled = YES;
     }
     else
     {
         playButton.hidden = !exists;
         removeButton.hidden = !exists;
         recordButton.hidden = exists;
+        labelComment.enabled = NO;
     }
-    
     recordButton.selected = recorder.recording;
     playButton.selected = player.playing;
     labelComment.hidden = exists;
 
     if (!playButton.hidden)
     {
-        self.player.path = self.path;
-        NSString *label = [NSString stringWithFormat:@"%@      %@", NSLocalizedString(@"Listen comment", @"Listen comment"), [NSString timeString:self.player.duration showSeconds:YES]];
+        NSString *label = [NSString stringWithFormat:@"%@      %@", NSLocalizedString(@"Listen comment", @"Listen comment"), [NSString intervalString:self.player.duration]];
         
         [playButton setTitle:label forState:UIControlStateNormal];
     }
@@ -368,5 +381,42 @@ static NSString *AudioContext = @"AudioContext";
                     context:&AudioContext];
     }
     return player;
+}
+
+-(void) startTimer
+{
+    [self stopTimer];
+    
+    timer = [NSTimer scheduledTimerWithTimeInterval:(1.0)
+                                             target:self 
+                                           selector:@selector(updateDuration:) 
+                                           userInfo:nil
+                                            repeats:YES];
+    [self updateDuration:timer];
+}
+
+-(void) stopTimer
+{
+    [timer invalidate]; timer = nil;
+}
+
+-(void) updateDuration:(NSTimer *)timer
+{
+    if (player.playing)
+    {
+        NSString *timeString = [NSString intervalString:(player.duration - player.currentTime)];
+
+        NSString *label = [NSString stringWithFormat:@"%@      %@", NSLocalizedString(@"Listen comment", @"Listen comment"), timeString];
+        
+        [playButton setTitle:label forState:UIControlStateNormal];
+    }
+    else if (recorder.recording)
+    {
+        NSString *timeString = [NSString intervalString:recorder.currentTime];
+
+        NSString *label = [NSString stringWithFormat:@"%@ — %@", NSLocalizedString(@"Recording", @"Recording"), timeString];
+        [recordButton setTitle:label forState:UIControlStateSelected];
+    }
+
 }
 @end

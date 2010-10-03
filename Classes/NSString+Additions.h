@@ -10,6 +10,5 @@
 
 
 @interface NSString(NSStringAdditions)
-+ (NSString *) timeString: (uint64_t) seconds showSeconds: (BOOL) showSeconds;
-+ (NSString *) timeString: (uint64_t) seconds showSeconds: (BOOL) showSeconds maxFields: (NSUInteger) max;
++ (NSString *) intervalString: (NSTimeInterval) interval;
 @end

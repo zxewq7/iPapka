@@ -15,16 +15,41 @@
 
 -(void) setPath:(NSString *)aPath
 {
-    if (path == aPath || [path isEqualToString:aPath])
-        return;
-
-    [path release];
-    path = [aPath retain];
+    if (path != aPath)
+    {
+        [path release];
+        path = [aPath retain];
+    }
     
-    [player stop];
+    [self stop];
+
     [player release];
     
+    if (!path)
+        return;
+    
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    
     NSError *err = nil;
+    
+    [audioSession setCategory :AVAudioSessionCategoryPlayback error:&err];
+    
+    if(err)
+    {
+        NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+        return;
+    }
+    
+    err = nil;
+    
+    [audioSession setActive:YES error:&err];
+    
+    if(err)
+    {
+        NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+        return;
+    }
+    
     player = [[ AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&err];
     
     if(!player)
@@ -36,32 +61,13 @@
 -(BOOL) start
 {
     [self stop];
-
-    if (!player)
-        return NO;
-    
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    NSError *err = nil;
-    [audioSession setCategory :AVAudioSessionCategoryPlayback error:&err];
-    if(err)
-    {
-        NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
-        return NO;
-    }
-    [audioSession setActive:YES error:&err];
-    err = nil;
-    if(err)
-    {
-        NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
-        return NO;
-    }
     
     // start playing
     [self willChangeValueForKey:@"playing"];
     
     BOOL res = [player play];
     
-    [self didChangeValueForKey:@"playing"];    
+    [self didChangeValueForKey:@"playing"];
     
     return res;
 }
@@ -73,28 +79,13 @@
 
 -(void) stop
 {
+    if (!player.playing)
+        return;
+        
     [self willChangeValueForKey:@"playing"];
     [player stop];
     [self didChangeValueForKey:@"playing"];
-
-    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-    NSError *err = nil;
-    [audioSession setCategory :AVAudioSessionCategoryPlayback error:&err];
-    if(err)
-    {
-        NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
-        return;
-    }
-    
-    err =  nil;
-    [audioSession setActive:NO error:&err];
-    
-    if(err)
-    {
-        NSLog(@"audioSession: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
-        return;
-    }
-    
+    player.currentTime = 0;
 }
 
 -(BOOL) playing
@@ -107,6 +98,11 @@
     return player.duration;
 }
 
+-(NSTimeInterval) currentTime
+{
+    return player.currentTime;
+}
+
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
 {
     [self willChangeValueForKey:@"playing"];
@@ -115,8 +111,7 @@
 
 -(void) dealloc
 {
-    [player release];
-    player = nil;
+    [player release]; player = nil;
     
     self.path = nil;
     [super dealloc];

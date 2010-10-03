@@ -11,7 +11,7 @@
 #import <CoreAudio/CoreAudioTypes.h>
 #import "NSFileManager+Additions.h"
 
-#define kMaxTimetoRecord 10
+#define kMaxTimetoRecord 300
 
 @implementation AZZAudioRecorder
 @synthesize path;
@@ -36,16 +36,6 @@
         return NO;
     }
     
-//    NSDictionary *recordSettings =
-//    [[NSDictionary alloc] initWithObjectsAndKeys:
-//     [NSNumber numberWithFloat: 44100.0], AVSampleRateKey,
-//     [NSNumber numberWithInt: kAudioFormatAppleLossless], AVFormatIDKey,
-//     [NSNumber numberWithInt: 1], AVNumberOfChannelsKey,
-//     [NSNumber numberWithInt: AVAudioQualityMax],
-//     AVEncoderAudioQualityKey,
-//     nil];
-
-
     NSDictionary *recordSettings = [[NSDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithInt:kAudioFormatAppleIMA4],AVFormatIDKey,
                          [NSNumber numberWithInt:16000.0],AVSampleRateKey,
                          [NSNumber numberWithInt: 1],AVNumberOfChannelsKey,
@@ -119,6 +109,11 @@
 -(BOOL) recording
 {
     return recorder.recording;
+}
+
+-(NSTimeInterval) currentTime
+{
+    return recorder.currentTime;
 }
 
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *) aRecorder successfully:(BOOL)flag
