@@ -85,8 +85,8 @@
     UIImageView *logo = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"ResolutionLogo.png"]];
     
     CGSize logoSize = logo.frame.size;
-    CGRect logFrame = CGRectMake((viewSize.width - logoSize.width)/2, 83, logoSize.width, logoSize.height);
-    logo.frame = logFrame;
+    CGRect logoFrame = CGRectMake((viewSize.width - logoSize.width)/2, 83, logoSize.width, logoSize.height);
+    logo.frame = logoFrame;
     
     [self.view addSubview: logo];
     
@@ -95,7 +95,7 @@
     //performersViewController
     performersViewController = [[PerformersViewController alloc] init];
     performersViewController.view.backgroundColor = [UIColor clearColor];
-    CGRect performersFrame = CGRectMake(0, logFrame.origin.y + logFrame.size.height+18, viewSize.width, (26 + 2)* 3); //3 rows
+    CGRect performersFrame = CGRectMake(0, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width, (26 + 2)* 3); //3 rows
     performersViewController.view.frame = performersFrame;
     
     performersViewController.view.autoresizingMask = UIViewAutoresizingNone;
