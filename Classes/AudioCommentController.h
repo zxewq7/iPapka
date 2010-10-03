@@ -19,6 +19,7 @@
     UIButton            *playButton;
     UIButton            *recordButton;
     UIButton            *removeButton;
+    UILabel             *labelComment;
 }
     
 @property (nonatomic, retain) NSString* path;

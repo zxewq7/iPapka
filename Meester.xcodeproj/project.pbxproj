@@ -116,6 +116,7 @@
 		8193B63612379E09000F05B6 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63512379E09000F05B6 /* CoreData.framework */; };
 		8193B63C12379E13000F05B6 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B63B12379E13000F05B6 /* Security.framework */; };
 		8193B64412379E28000F05B6 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8193B64312379E28000F05B6 /* OpenGLES.framework */; };
+		819CA55612579C9B00AF308E /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 819CA55512579C9B00AF308E /* NSString+Additions.m */; };
 		819D8083123DFD8B00483E10 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 819D8082123DFD8B00483E10 /* Entitlements.plist */; };
 		81A1B66C123E3DC70089C988 /* ButtonSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B66B123E3DC70089C988 /* ButtonSquare.png */; };
 		81A1B676123E3E930089C988 /* ButtonSquareSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B675123E3E930089C988 /* ButtonSquareSelected.png */; };
@@ -331,6 +332,8 @@
 		8193B63512379E09000F05B6 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		8193B63B12379E13000F05B6 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		8193B64312379E28000F05B6 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
+		819CA55412579C9B00AF308E /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
+		819CA55512579C9B00AF308E /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		819D8082123DFD8B00483E10 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
 		81A1B66B123E3DC70089C988 /* ButtonSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSquare.png; sourceTree = "<group>"; };
 		81A1B675123E3E930089C988 /* ButtonSquareSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSquareSelected.png; sourceTree = "<group>"; };
@@ -740,6 +743,8 @@
 		81B273051248EEA20012FE9A /* Audio */ = {
 			isa = PBXGroup;
 			children = (
+				819CA55412579C9B00AF308E /* NSString+Additions.h */,
+				819CA55512579C9B00AF308E /* NSString+Additions.m */,
 				813EF90712491E9700E52803 /* AZZAudioPlayer.h */,
 				813EF90812491E9700E52803 /* AZZAudioPlayer.m */,
 				81B273091248EED60012FE9A /* AZZAudioRecorder.h */,
@@ -950,6 +955,7 @@
 				811ED76A12551F9E00D2E027 /* _DocumentResolution.m in Sources */,
 				811ED7AA125521A300D2E027 /* _DocumentSignature.m in Sources */,
 				815657C21257574A0019A88D /* AudioCommentController.m in Sources */,
+				819CA55612579C9B00AF308E /* NSString+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

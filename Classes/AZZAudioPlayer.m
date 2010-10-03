@@ -13,9 +13,32 @@
 @implementation AZZAudioPlayer
 @synthesize path;
 
+-(void) setPath:(NSString *)aPath
+{
+    if (path == aPath || [path isEqualToString:aPath])
+        return;
+
+    [path release];
+    path = [aPath retain];
+    
+    [player stop];
+    [player release];
+    
+    NSError *err = nil;
+    player = [[ AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&err];
+    
+    if(!player)
+        NSLog(@"recorder: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
+    
+    [player setDelegate:self];
+}
+
 -(BOOL) start
 {
     [self stop];
+
+    if (!player)
+        return NO;
     
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err = nil;
@@ -33,16 +56,6 @@
         return NO;
     }
     
-    player = [[ AVAudioPlayer alloc] initWithContentsOfURL:[NSURL fileURLWithPath:path] error:&err];
-
-    if(!player)
-    {
-        NSLog(@"recorder: %@ %d %@", [err domain], [err code], [[err userInfo] description]);
-        return NO;
-    }
-    
-    [player setDelegate:self];
-
     // start playing
     [self willChangeValueForKey:@"playing"];
     
@@ -64,10 +77,6 @@
     [player stop];
     [self didChangeValueForKey:@"playing"];
 
-    [player release];
-    
-    player = nil;
-    
     AVAudioSession *audioSession = [AVAudioSession sharedInstance];
     NSError *err = nil;
     [audioSession setCategory :AVAudioSessionCategoryPlayback error:&err];
@@ -91,6 +100,11 @@
 -(BOOL) playing
 {
     return player.playing;
+}
+
+-(NSTimeInterval) duration
+{
+    return player.duration;
 }
 
 - (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag
