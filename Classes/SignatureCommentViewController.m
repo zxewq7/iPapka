@@ -254,8 +254,13 @@
         if (viewFrame.size.height > maxHeight)
             viewFrame.size.height = maxHeight;
         self.view.frame = viewFrame;
-        [commentText scrollRangeToVisible: NSMakeRange(0, 1)];
     }
-    
+    else
+    {
+        viewFrame.size.height -= textViewFrame.size.height - MIN_COMMENT_TEXT_HEIGHT;
+        self.view.frame = viewFrame;
+    }
+    if ([commentText.text length])
+        [commentText scrollRangeToVisible: NSMakeRange(0, 1)];
 }
 @end

@@ -413,6 +413,13 @@
         self.view.frame = viewFrame;
         [resolutionText scrollRangeToVisible: NSMakeRange(0, 1)];
     }
+    else
+    {
+        viewFrame.size.height -= textViewFrame.size.height - MIN_RESOLUTION_TEXT_HEIGHT;
+        self.view.frame = viewFrame;
+    }
+    if ([resolutionText.text length])
+        [resolutionText scrollRangeToVisible: NSMakeRange(0, 1)];
     
 }
 #pragma mark -

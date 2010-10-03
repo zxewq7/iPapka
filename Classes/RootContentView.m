@@ -115,8 +115,11 @@
 
     //resolution
     UIView *signatureComment = self.signatureComment;
-    
-    signatureComment.frame = resolutionFrame;
+
+    CGRect signatureCommentFrame = signatureComment.frame;
+    signatureCommentFrame.origin.x = (size.width-signatureCommentFrame.size.width)/2;
+    signatureCommentFrame.origin.y = 0;
+    signatureComment.frame = signatureCommentFrame;
 
     //attachments
     UIView *attachments = self.attachments;
