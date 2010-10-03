@@ -34,7 +34,6 @@
     [localizedName release]; self.iconName = nil;
     [icon release]; icon = nil;
     self.filters = nil;
-    [documents release]; documents = nil;
     
     [super dealloc];
 }
@@ -153,27 +152,24 @@
 }
 - (NSFetchedResultsController*) documents
 {
-    if (!documents)
-    {
-        documents = [[DataSource sharedDataSource] documentsForFolder:self];
-        [documents retain];
-        NSError *error = nil;
-        if (![documents performFetch:&error])
-            NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
-        
-    }
-    
+    NSFetchedResultsController *documents = [[DataSource sharedDataSource] documentsForFolder:self];
+    NSError *error = nil;
+    if (![documents performFetch:&error])
+        NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
     return documents;
 }
+
 - (Document*) firstDocument
 {
-    NSUInteger sectionsCount = [[self.documents sections] count];
+    NSFetchedResultsController *documents = self.documents;
+    
+    NSUInteger sectionsCount = [[documents sections] count];
     
     for (NSUInteger sectionIndex = 0; sectionIndex < sectionsCount; sectionIndex++)
     {
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[self.documents sections] objectAtIndex:sectionIndex];
+        id <NSFetchedResultsSectionInfo> sectionInfo = [[documents sections] objectAtIndex:sectionIndex];
         if ([sectionInfo numberOfObjects])
-            return [self.documents objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:sectionIndex]];
+            return [documents objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:sectionIndex]];
     }
     
     return nil;

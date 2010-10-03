@@ -21,7 +21,6 @@
     UIImage      *icon;
     NSString     *iconName;
     NSArray      *filters;
-    NSFetchedResultsController *documents;
 }
 +(id)folderWithName:(NSString *) aName predicateString:(NSString *) aPredicateString entityName:(NSString *) anEntityName iconName:(NSString *) anIconName;
 @property (nonatomic, retain, setter=setName:)              NSString     *name;
