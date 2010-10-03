@@ -26,6 +26,7 @@
         NSMutableDictionary* defaultValues = [NSUserDefaults defaultsFromSettingsBundle];
         
         //default folders
+        //names should be unique across all folders
         Folder *inbox = [Folder folderWithName:@"Documents" 
                                predicateString:@"parent==nil && status == 0" 
                                     entityName:@"Document"
@@ -47,11 +48,11 @@
                                         iconName:@"ButtonArchive.png"];
         
         archive.filters = [NSArray arrayWithObjects: 
-                           [Folder folderWithName:@"Resolutions" 
+                           [Folder folderWithName:@"Archived resolutions" 
                                   predicateString:@"parent==nil && status != 0" 
                                        entityName:@"DocumentResolution"
                                          iconName:@"ButtonResolution.png"], 
-                           [Folder folderWithName:@"Signatures" 
+                           [Folder folderWithName:@"Archived signatures" 
                                   predicateString:@"parent==nil && status != 0" 
                                        entityName:@"DocumentSignature"
                                          iconName:@"ButtonSignature.png"],
