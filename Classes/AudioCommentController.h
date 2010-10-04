@@ -10,7 +10,7 @@
 
 @class AZZAudioRecorder, AZZAudioPlayer;
 
-@interface AudioCommentController : UIViewController<UIAlertViewDelegate>
+@interface AudioCommentController : UIViewController
 {
     NSString *path;
     

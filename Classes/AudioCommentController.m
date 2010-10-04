@@ -11,6 +11,8 @@
 #import "AZZAudioRecorder.h"
 #import "AZZAudioPlayer.h"
 #import "NSString+Additions.h"
+#import "DeleteItemViewController.h"
+
 
 static NSString *AudioContext = @"AudioContext";
 
@@ -251,13 +253,16 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void)remove:(id) sender
 {
-    UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Audio comment", "Audio comment")
-                                                    message: NSLocalizedString(@"Would you like to remove audio comment?", "Would you like to remove audio comment?")
-                                                   delegate: self
-                                          cancelButtonTitle:NSLocalizedString(@"Cancel", "Cancel")
-                                          otherButtonTitles:NSLocalizedString(@"Ok", "Ok"), nil];
-    [alert show];
-    [alert release];            
+    __block AudioCommentController *blockSelf = self;
+    
+    [[DeleteItemViewController sharedDeleteItemViewController] showForView:(UIView *)sender handler:^(UIView *target){
+        NSFileManager *df = [NSFileManager defaultManager];
+        
+        [df removeItemAtPath:blockSelf.path error:NULL];
+        
+        [blockSelf updateContent];
+        
+    }];
 }
 
 -(void)record:(id) sender
@@ -337,24 +342,6 @@ static NSString *AudioContext = @"AudioContext";
                               context:context];
     }
 }
-
-#pragma mark -
-#pragma mark UIAlertViewDelegate
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex)
-    {
-        [recorder stop];
-        [player stop];
-        
-        NSFileManager *df = [NSFileManager defaultManager];
-        
-        [df removeItemAtPath:self.path error:NULL];
-        
-        [self updateContent];
-    }
-}
-
 #pragma mark Private
 
 -(void) updateContent
