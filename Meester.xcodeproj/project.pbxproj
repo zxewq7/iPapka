@@ -93,7 +93,6 @@
 		8165421F12379B3B008FC80F /* NSUserDefaults+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420712379B3B008FC80F /* NSUserDefaults+Additions.m */; };
 		8165422012379B3B008FC80F /* PaintingView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420912379B3B008FC80F /* PaintingView.m */; };
 		8165422312379B3B008FC80F /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420F12379B3B008FC80F /* UIButton+Additions.m */; };
-		8165427B12379C6A008FC80F /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427212379C6A008FC80F /* KeychainItemWrapper.m */; };
 		8165427D12379C6A008FC80F /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427812379C6A008FC80F /* Texture2D.m */; };
 		8165427E12379C6A008FC80F /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427A12379C6A008FC80F /* UIColor-Expanded.m */; };
 		816CD7841239466C006BC92F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
@@ -151,6 +150,7 @@
 		81E5B49C123BB3900068617E /* ButtonSignature.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5B49A123BB3900068617E /* ButtonSignature.png */; };
 		81E5FE7B1240EEBA00D697EA /* Papers-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE791240EEBA00D697EA /* Papers-Landscape.png */; };
 		81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE7A1240EEBA00D697EA /* Papers.png */; };
+		81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */; };
 		81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */; };
 /* End PBXBuildFile section */
 
@@ -301,8 +301,6 @@
 		8165420912379B3B008FC80F /* PaintingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaintingView.m; sourceTree = "<group>"; };
 		8165420E12379B3B008FC80F /* UIButton+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+Additions.h"; sourceTree = "<group>"; };
 		8165420F12379B3B008FC80F /* UIButton+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+Additions.m"; sourceTree = "<group>"; };
-		8165427112379C6A008FC80F /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = thirdparty/KeychainItemWrapper.h; sourceTree = "<group>"; };
-		8165427212379C6A008FC80F /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = thirdparty/KeychainItemWrapper.m; sourceTree = "<group>"; };
 		8165427312379C6A008FC80F /* SynthesizeSingleton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SynthesizeSingleton.h; path = thirdparty/SynthesizeSingleton.h; sourceTree = "<group>"; };
 		8165427712379C6A008FC80F /* Texture2D.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Texture2D.h; path = thirdparty/Texture2D.h; sourceTree = "<group>"; };
 		8165427812379C6A008FC80F /* Texture2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Texture2D.m; path = thirdparty/Texture2D.m; sourceTree = "<group>"; };
@@ -386,6 +384,8 @@
 		81E5B49A123BB3900068617E /* ButtonSignature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSignature.png; sourceTree = "<group>"; };
 		81E5FE791240EEBA00D697EA /* Papers-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Papers-Landscape.png"; sourceTree = "<group>"; };
 		81E5FE7A1240EEBA00D697EA /* Papers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Papers.png; sourceTree = "<group>"; };
+		81EA7EB71259F823007D4A7C /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = thirdparty/KeychainItemWrapper.h; sourceTree = "<group>"; };
+		81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = thirdparty/KeychainItemWrapper.m; sourceTree = "<group>"; };
 		81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecordStop.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -690,9 +690,9 @@
 			isa = PBXGroup;
 			children = (
 				81775FCC1251F74E002A2D3D /* JSON */,
-				8165427112379C6A008FC80F /* KeychainItemWrapper.h */,
-				8165427212379C6A008FC80F /* KeychainItemWrapper.m */,
 				8165427312379C6A008FC80F /* SynthesizeSingleton.h */,
+				81EA7EB71259F823007D4A7C /* KeychainItemWrapper.h */,
+				81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */,
 				8165427712379C6A008FC80F /* Texture2D.h */,
 				8165427812379C6A008FC80F /* Texture2D.m */,
 				8165427912379C6A008FC80F /* UIColor-Expanded.h */,
@@ -923,7 +923,6 @@
 				8165421F12379B3B008FC80F /* NSUserDefaults+Additions.m in Sources */,
 				8165422012379B3B008FC80F /* PaintingView.m in Sources */,
 				8165422312379B3B008FC80F /* UIButton+Additions.m in Sources */,
-				8165427B12379C6A008FC80F /* KeychainItemWrapper.m in Sources */,
 				8165427D12379C6A008FC80F /* Texture2D.m in Sources */,
 				8165427E12379C6A008FC80F /* UIColor-Expanded.m in Sources */,
 				8144AD3112395B82006B2AD7 /* DocumentsListViewController.m in Sources */,
@@ -972,6 +971,7 @@
 				819CA55612579C9B00AF308E /* NSString+Additions.m in Sources */,
 				811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */,
 				8141DD7A1259DC2400C6C24D /* PasswordManager.m in Sources */,
+				81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
