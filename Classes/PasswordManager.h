@@ -14,5 +14,5 @@
     void (^passwordDialogHandler)(NSString *login, NSString *password, BOOL canceled);
 }
 + (PasswordManager *)sharedPasswordManager;
--(void) credentials:(void (^)(NSString *login, NSString *password, BOOL canceled))handler;
+- (void) credentials:(void (^)(NSString *login, NSString *password, BOOL canceled))handler;
 @end
