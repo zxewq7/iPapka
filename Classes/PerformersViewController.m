@@ -47,10 +47,9 @@
     
     CGSize viewSize = self.view.bounds.size;
     
-    UIButton *buttonAdd = [UIButton imageButton:self
-                                       selector:@selector(pickPerformer:)
-                                          image:[UIImage imageNamed: @"ButtonAdd.png"]
-                                  imageSelected:[UIImage imageNamed: @"ButtonAdd.png"]];
+    UIButton *buttonAdd = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    
+    [buttonAdd addTarget:self action:@selector(addPerformer:) forControlEvents:UIControlEventTouchUpInside];
     
     CGRect buttonAddFrame = buttonAdd.frame;
     buttonAddFrame.origin.y = 0;
