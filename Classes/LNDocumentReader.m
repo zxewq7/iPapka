@@ -103,6 +103,7 @@ static NSString* OperationCount = @"OperationCount";
         [_networkQueue setRequestDidFinishSelector:@selector(fetchComplete:)];
         [_networkQueue setRequestDidFailSelector:@selector(fetchFailed:)];
         [_networkQueue setDelegate:self];
+#warning only one request at time
         _networkQueue.maxConcurrentOperationCount = 1;
         [_networkQueue setShouldCancelAllRequestsOnFailure:NO];
         [_networkQueue go];

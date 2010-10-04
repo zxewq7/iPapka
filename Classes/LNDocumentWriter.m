@@ -59,6 +59,7 @@ static NSString* OperationCount = @"OperationCount";
                            context:&OperationCount];
 
         [queue setDelegate:self];
+#warning only one request at time
         queue.maxConcurrentOperationCount = 1;
         [queue setShouldCancelAllRequestsOnFailure:NO];
         [queue go];
