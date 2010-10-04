@@ -14,6 +14,7 @@
 #import "DocumentResolution.h"
 #import "DataSource.h"
 #import "Person.h"
+#import "PasswordManager.h"
 
 
 static NSString* OperationCount = @"OperationCount";
@@ -23,7 +24,7 @@ static NSString* OperationCount = @"OperationCount";
 @end
 
 @implementation LNDocumentWriter
-@synthesize url, login, password, unsyncedDocuments, isSyncing;
+@synthesize url, unsyncedDocuments, isSyncing;
 
 -(void) setUnsyncedDocuments:(NSFetchedResultsController*) anUnsyncedDocuments
 {
@@ -58,6 +59,8 @@ static NSString* OperationCount = @"OperationCount";
                            context:&OperationCount];
 
         [queue setDelegate:self];
+        queue.maxConcurrentOperationCount = 1;
+        [queue setShouldCancelAllRequestsOnFailure:NO];
         [queue go];
         
     }
@@ -106,14 +109,33 @@ static NSString* OperationCount = @"OperationCount";
     if (handler)
         handler(request);
 }
+
+- (void)authenticationNeededForRequest:(ASIHTTPRequest *)request
+{
+    [[PasswordManager sharedPasswordManager] credentials:^(NSString *aLogin, NSString *aPassword, BOOL canceled){
+        if (canceled) 
+            [request cancelAuthentication];
+        else
+        {
+            if ([request authenticationNeeded] == ASIHTTPAuthenticationNeeded) 
+            {
+                [request setUsername:aLogin];
+                [request setPassword:aPassword];
+                [request retryUsingSuppliedCredentials];
+            } else if ([request authenticationNeeded] == ASIProxyAuthenticationNeeded) 
+            {
+                [request setProxyUsername:aLogin];
+                [request setProxyPassword:aPassword];
+                [request retryUsingSuppliedCredentials];
+            }
+        }
+    }];
+}
+
 - (void)dealloc {
     [queue removeObserver:self forKeyPath:OperationCount];
     [queue reset];
 	[queue release]; queue = nil;
-    
-    self.login = nil;
-    
-    self.password = nil;
     
     [parseFormatterSimple release]; parseFormatterSimple = nil;
     
@@ -196,9 +218,7 @@ static NSString* OperationCount = @"OperationCount";
     
     [request addRequestHeader:@"Content-Type" value:@"text/plain; charset=utf-8"];
     
-    request.username = self.login;
-    request.password = self.password;
-    
+    request.delegate = self;
     request.requestMethod = @"POST";
     
     [request appendPostData: [postData dataUsingEncoding: NSUTF8StringEncoding]];

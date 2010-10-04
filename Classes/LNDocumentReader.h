@@ -34,8 +34,6 @@
 {
     ASINetworkQueue                 *_networkQueue;
     NSString                        *_databaseDirectory;
-    NSString                        *login;
-    NSString                        *password;
     NSDateFormatter                 *parseFormatterDst;
     NSDateFormatter                 *parseFormatterSimple;
     BOOL                            isSyncing;
@@ -54,8 +52,6 @@
 }
 - (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
 @property (nonatomic, readonly)         BOOL                  isSyncing;
-@property (nonatomic, retain) NSString                        *login;
-@property (nonatomic, retain) NSString                        *password;
 @property (nonatomic, retain) NSObject<LNDocumentReaderDataSource> *dataSource;
 - (void) refreshDocuments;
 - (void) purgeCache;

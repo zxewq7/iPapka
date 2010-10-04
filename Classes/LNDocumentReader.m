@@ -17,6 +17,7 @@
 #import "SBJsonParser.h"
 #import "AttachmentPage.h"
 #import "Person.h"
+#import "PasswordManager.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -67,7 +68,7 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 static NSString* OperationCount = @"OperationCount";
 
 @implementation LNDocumentReader
-@synthesize login, password, isSyncing, dataSource;
+@synthesize isSyncing, dataSource;
 
 - (id) initWithUrl:(NSString *) anUrl andViews:(NSArray *) views
 {
@@ -102,6 +103,8 @@ static NSString* OperationCount = @"OperationCount";
         [_networkQueue setRequestDidFinishSelector:@selector(fetchComplete:)];
         [_networkQueue setRequestDidFailSelector:@selector(fetchFailed:)];
         [_networkQueue setDelegate:self];
+        _networkQueue.maxConcurrentOperationCount = 1;
+        [_networkQueue setShouldCancelAllRequestsOnFailure:NO];
         [_networkQueue go];
         
         [_networkQueue addObserver:self
@@ -122,8 +125,6 @@ static NSString* OperationCount = @"OperationCount";
     [_databaseDirectory release];
 	self.dataSource = nil;
     [viewUrls release];
-    self.login = nil;
-    self.password = nil;
     [parseFormatterDst release];
     [parseFormatterSimple release];
 
@@ -193,7 +194,7 @@ static NSString* OperationCount = @"OperationCount";
             }
 
         };
-        [_networkQueue addOperation:request];        
+        [_networkQueue addOperation:request];
     }
 }
 
@@ -220,6 +221,28 @@ static NSString* OperationCount = @"OperationCount";
     void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
     if (handler)
         handler(request);
+}
+
+- (void)authenticationNeededForRequest:(ASIHTTPRequest *)request
+{
+    [[PasswordManager sharedPasswordManager] credentials:^(NSString *aLogin, NSString *aPassword, BOOL canceled){
+        if (canceled) 
+            [request cancelAuthentication];
+        else
+        {
+            if ([request authenticationNeeded] == ASIHTTPAuthenticationNeeded) 
+            {
+                [request setUsername:aLogin];
+                [request setPassword:aPassword];
+                [request retryUsingSuppliedCredentials];
+            } else if ([request authenticationNeeded] == ASIProxyAuthenticationNeeded) 
+            {
+                [request setProxyUsername:aLogin];
+                [request setProxyPassword:aPassword];
+                [request retryUsingSuppliedCredentials];
+            }
+        }
+    }];
 }
 
 - (void)parseViewData:(NSString *) jsonString
@@ -507,8 +530,7 @@ static NSString* OperationCount = @"OperationCount";
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) anUrl
 {
     LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: anUrl]];
-    request.username = self.login;
-    request.password = self.password;
+    request.delegate = self;
     return request;
 }
 
