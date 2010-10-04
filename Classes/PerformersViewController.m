@@ -131,17 +131,13 @@
 {
     self.document = nil;
 
-    [performers release];
-    performers = nil;
+    [performers release]; performers = nil;
 
-    [performersView release];
-    performersView = nil;
+    [performersView release]; performersView = nil;
 
-    [sortByLastDescriptors release];
-    sortByLastDescriptors = nil;
+    [sortByLastDescriptors release]; sortByLastDescriptors = nil;
 
-    [popoverController release];
-    personPickerViewController = nil;
+    [popoverController release]; personPickerViewController = nil;
 
     [super dealloc];
 }
