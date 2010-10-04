@@ -23,7 +23,10 @@
     int fileDescriptor = mkstemp(tempFileNameCString);
     
     if (fileDescriptor == -1) //unable to create
+    {
+        free(tempFileNameCString);
         return nil;
+    }
     
     // This is the file name if you need to access the file by name, otherwise you can remove
     // this line.
