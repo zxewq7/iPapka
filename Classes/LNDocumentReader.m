@@ -43,6 +43,7 @@ static NSString *field_AttachmentName = @"name";
 static NSString *field_AttachmentPageCount = @"pageCount";
 static NSString *field_Links = @"links";
 static NSString *field_LinkTitle = @"info";
+static NSString *field_Status = @"status";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -426,7 +427,7 @@ static NSString* OperationCount = @"OperationCount";
             return;
         }
         
-        NSString *stringStatus = [parsedDocument objectForKey:@"status"];
+        NSString *stringStatus = [parsedDocument objectForKey:field_Status];
         
         documentStatus = [statusDictionary objectForKey:stringStatus];
         if (!documentStatus)
