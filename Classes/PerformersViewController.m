@@ -146,15 +146,16 @@
 
 - (void) updateContent
 {
+    [performers release];
+
     if (document)
     {
         NSSet *ps = document.performers;
-        [performers release];
         performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
         for (Person *p in ps)
             [performers addObject: p];
         
-        [performers sortedArrayUsingDescriptors: sortByLastDescriptors];
+        [performers sortUsingDescriptors: sortByLastDescriptors];
     }
     else
         performers = nil;
