@@ -67,8 +67,11 @@
                               leftCapWidth:(CGFloat) leftCapWidth
                              darkTextColor:(BOOL)darkTextColor
 {	
+	UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+
     CGFloat width = addLabelWidth?[title sizeWithFont:titleFont].width:0;
-	UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(frame.origin.x, frame.origin.x, frame.size.width + width, frame.size.height)];
+
+    button.frame = CGRectMake(frame.origin.x, frame.origin.x, frame.size.width + width, frame.size.height);
 	
 	button.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
 	button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
