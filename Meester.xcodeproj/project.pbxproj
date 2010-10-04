@@ -53,7 +53,6 @@
 		813A3CDF123B477F00E6C382 /* ButtonMarkerSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */; };
 		813A3D41123B4D5C00E6C382 /* ButtonPalette.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3D40123B4D5C00E6C382 /* ButtonPalette.png */; };
 		813A3D4B123B4F1400E6C382 /* ButtonPaletteSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */; };
-		813EF8D2124919D300E52803 /* NSFileManager+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 813EF8D1124919D300E52803 /* NSFileManager+Additions.m */; };
 		813EF90912491E9700E52803 /* AZZAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 813EF90812491E9700E52803 /* AZZAudioPlayer.m */; };
 		813EF9A512492CA400E52803 /* ButtonPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 813EF9A412492CA400E52803 /* ButtonPlay.png */; };
 		813EF9E51249332600E52803 /* ButtonStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 813EF9E41249332600E52803 /* ButtonStop.png */; };
@@ -75,7 +74,6 @@
 		8157959E12468130002A42C0 /* ButtonRecord.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959D12468130002A42C0 /* ButtonRecord.png */; };
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
 		81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585487123BC2F100A827E6 /* UITabBar+Additions.m */; };
-		815DDC3B124509A200F72600 /* ButtonAdd.png in Resources */ = {isa = PBXBuildFile; fileRef = 815DDC3A124509A200F72600 /* ButtonAdd.png */; };
 		815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DDC5512450C3F00F72600 /* PersonPickerViewController.m */; };
 		815EAB4F1237DF810093CF38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 815EAB4E1237DF810093CF38 /* InfoPlist.strings */; };
 		816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541BE12379AA3008FC80F /* UIKit.framework */; };
@@ -95,6 +93,7 @@
 		8165422312379B3B008FC80F /* UIButton+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165420F12379B3B008FC80F /* UIButton+Additions.m */; };
 		8165427D12379C6A008FC80F /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427812379C6A008FC80F /* Texture2D.m */; };
 		8165427E12379C6A008FC80F /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427A12379C6A008FC80F /* UIColor-Expanded.m */; };
+		81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81656362125A2A5E00154640 /* DeleteItemViewController.m */; };
 		816CD7841239466C006BC92F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
 		816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7BD12394AA0006BC92F /* Default-Landscape.png */; };
 		8173D9F11248EFC00045C2EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9F01248EFC00045C2EF /* AVFoundation.framework */; };
@@ -237,8 +236,6 @@
 		813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMarkerSelected.png; sourceTree = "<group>"; };
 		813A3D40123B4D5C00E6C382 /* ButtonPalette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPalette.png; sourceTree = "<group>"; };
 		813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPaletteSelected.png; sourceTree = "<group>"; };
-		813EF8D0124919D300E52803 /* NSFileManager+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Additions.h"; sourceTree = "<group>"; };
-		813EF8D1124919D300E52803 /* NSFileManager+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Additions.m"; sourceTree = "<group>"; };
 		813EF90712491E9700E52803 /* AZZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZZAudioPlayer.h; sourceTree = "<group>"; };
 		813EF90812491E9700E52803 /* AZZAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZZAudioPlayer.m; sourceTree = "<group>"; };
 		813EF9A412492CA400E52803 /* ButtonPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPlay.png; sourceTree = "<group>"; };
@@ -269,7 +266,6 @@
 		81585474123BC24000A827E6 /* UIToolbar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIToolbar+Additions.m"; sourceTree = "<group>"; };
 		81585486123BC2F100A827E6 /* UITabBar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+Additions.h"; sourceTree = "<group>"; };
 		81585487123BC2F100A827E6 /* UITabBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Additions.m"; sourceTree = "<group>"; };
-		815DDC3A124509A200F72600 /* ButtonAdd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonAdd.png; sourceTree = "<group>"; };
 		815DDC5412450C3F00F72600 /* PersonPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonPickerViewController.h; sourceTree = "<group>"; };
 		815DDC5512450C3F00F72600 /* PersonPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonPickerViewController.m; sourceTree = "<group>"; };
 		815EAB4E1237DF810093CF38 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
@@ -306,6 +302,8 @@
 		8165427812379C6A008FC80F /* Texture2D.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Texture2D.m; path = thirdparty/Texture2D.m; sourceTree = "<group>"; };
 		8165427912379C6A008FC80F /* UIColor-Expanded.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor-Expanded.h"; path = "thirdparty/UIColor-Expanded.h"; sourceTree = "<group>"; };
 		8165427A12379C6A008FC80F /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor-Expanded.m"; path = "thirdparty/UIColor-Expanded.m"; sourceTree = "<group>"; };
+		81656361125A2A5E00154640 /* DeleteItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteItemViewController.h; sourceTree = "<group>"; };
+		81656362125A2A5E00154640 /* DeleteItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteItemViewController.m; sourceTree = "<group>"; };
 		816CD7831239466C006BC92F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		816CD7BD12394AA0006BC92F /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		8173D9F01248EFC00045C2EF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -457,7 +455,6 @@
 				813EF9A412492CA400E52803 /* ButtonPlay.png */,
 				8157959D12468130002A42C0 /* ButtonRecord.png */,
 				8157959B1246802B002A42C0 /* TwoRows.png */,
-				815DDC3A124509A200F72600 /* ButtonAdd.png */,
 				8149BA8A1244D77700D028EE /* ButtonPerformer.png */,
 				81B105AD1243C28F00AFB109 /* ResolutionLogo.png */,
 				81B104B91243AD2100AFB109 /* DotCurrent.png */,
@@ -570,6 +567,8 @@
 				815DDC5512450C3F00F72600 /* PersonPickerViewController.m */,
 				811B583212454D1000BEB158 /* ColorPicker.h */,
 				811B583312454D1000BEB158 /* ColorPicker.m */,
+				81656361125A2A5E00154640 /* DeleteItemViewController.h */,
+				81656362125A2A5E00154640 /* DeleteItemViewController.m */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -589,8 +588,6 @@
 		8155A5F71237AFB500A15FE5 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
-				813EF8D0124919D300E52803 /* NSFileManager+Additions.h */,
-				813EF8D1124919D300E52803 /* NSFileManager+Additions.m */,
 				81585486123BC2F100A827E6 /* UITabBar+Additions.h */,
 				81585487123BC2F100A827E6 /* UITabBar+Additions.m */,
 				81585473123BC24000A827E6 /* UIToolbar+Additions.h */,
@@ -794,7 +791,6 @@
 			isa = PBXProject;
 			buildConfigurationList = 816541B112379AA3008FC80F /* Build configuration list for PBXProject "Meester" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -892,7 +888,6 @@
 				81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */,
 				81B105AE1243C28F00AFB109 /* ResolutionLogo.png in Resources */,
 				8149BA8B1244D77700D028EE /* ButtonPerformer.png in Resources */,
-				815DDC3B124509A200F72600 /* ButtonAdd.png in Resources */,
 				8157959C1246802B002A42C0 /* TwoRows.png in Resources */,
 				8157959E12468130002A42C0 /* ButtonRecord.png in Resources */,
 				813EF9A512492CA400E52803 /* ButtonPlay.png in Resources */,
@@ -944,7 +939,6 @@
 				81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */,
 				81C674911248BDFC002C272D /* RootContentView.m in Sources */,
 				81B2730B1248EED60012FE9A /* AZZAudioRecorder.m in Sources */,
-				813EF8D2124919D300E52803 /* NSFileManager+Additions.m in Sources */,
 				813EF90912491E9700E52803 /* AZZAudioPlayer.m in Sources */,
 				810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */,
 				81775FC61251F6F0002A2D3D /* LNDocumentReader.m in Sources */,
@@ -972,6 +966,7 @@
 				811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */,
 				8141DD7A1259DC2400C6C24D /* PasswordManager.m in Sources */,
 				81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */,
+				81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

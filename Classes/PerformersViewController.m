@@ -13,6 +13,7 @@
 #import "Person.h"
 #import "PersonPickerViewController.h"
 #import "DataSource.h"
+#import "DeleteItemViewController.h"
 
 @interface PerformersViewController (Private)
 - (void) updateContent;
@@ -71,7 +72,7 @@
 
 #pragma mark -
 #pragma mark actions
--(void) pickPerformer:(id) sender
+-(void) addPerformer:(id) sender
 {
     if (!personPickerViewController)
     {
@@ -87,6 +88,19 @@
     CGRect targetRect = button.bounds;
 	[popoverController presentPopoverFromRect: targetRect inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
+
+-(void) removePerformer:(id) sender
+{
+    __block PerformersViewController *blockSelf = self;
+
+    [[DeleteItemViewController sharedDeleteItemViewController] showForView:(UIView *)sender handler:^(UIView *target){
+        Person *performerToDelete  = [performers objectAtIndex:target.tag];
+        [document removePerformersObject:performerToDelete];
+        [[DataSource sharedDataSource] commit];
+        [blockSelf updateContent];
+    }];
+}
+
 
 -(void) setPerformer:(id) sender
 {
@@ -161,18 +175,23 @@
 
     NSMutableArray *performerButtons = [NSMutableArray arrayWithCapacity: [performers count]];
     
-    for (Person *performer in performers)
+    NSUInteger countPerformers = [performers count];
+    for (NSUInteger i=0; i < countPerformers; i++)
     {
-        [performerButtons addObject: [UIButton buttonWithBackgroundAndTitle:performer.fullName
-                                                                  titleFont:[UIFont fontWithName:@"CharterC" size:16]
-                                                                     target:self
-                                                                   selector:nil
-                                                                      frame:CGRectMake(0, 0, 29, 26)
-                                                              addLabelWidth:YES
-                                                                      image:[UIImage imageNamed:@"ButtonPerformer.png"]
-                                                               imagePressed:[UIImage imageNamed:@" ButtonPerformer.png"]
-                                                               leftCapWidth:13.0f
-                                                              darkTextColor:YES]];
+        Person *performer = [performers objectAtIndex:i];
+        
+        UIButton *performerButton = [UIButton buttonWithBackgroundAndTitle:performer.fullName
+                                                                 titleFont:[UIFont fontWithName:@"CharterC" size:16]
+                                                                    target:self
+                                                                  selector:@selector(removePerformer:)
+                                                                     frame:CGRectMake(0, 0, 29, 26)
+                                                             addLabelWidth:YES
+                                                                     image:[UIImage imageNamed:@"ButtonPerformer.png"]
+                                                              imagePressed:[UIImage imageNamed:@" ButtonPerformer.png"]
+                                                              leftCapWidth:13.0f
+                                                             darkTextColor:YES];
+        performerButton.tag = i;
+        [performerButtons addObject: performerButton];
     }
     performersView.buttons = performerButtons;
 }
