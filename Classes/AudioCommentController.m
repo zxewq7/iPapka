@@ -164,7 +164,7 @@ static NSString *AudioContext = @"AudioContext";
     //button remove
     UIImage *imageRemove = [UIImage imageNamed:@"ButtonRecordRemove.png"];
     
-    removeButton = [UIButton imageButtonWithTitle:NSLocalizedString(@"Remove", "Remove")
+    removeButton = [UIButton imageButtonWithTitle:NSLocalizedString(@"Delete", "Delete")
                                            target:self
                                          selector:@selector(remove:)
                                             image:imageRemove
