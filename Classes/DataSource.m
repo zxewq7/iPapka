@@ -13,17 +13,12 @@
 #import "LNDocumentReader.h"
 #import "DocumentResolution.h"
 #import "DocumentSignature.h"
-#import "KeychainItemWrapper.h"
 #import "Person.h"
 #import "LNDocumentWriter.h"
-
-#define kLoginFieldTag 1001
-#define kPasswordFieldTag 1002
 
 static NSString* SyncingContext = @"SyncingContext";
 
 @interface DataSource(Private)
-- (void) askLoginAndPassword:(NSString*) login;
 - (LNDocumentWriter *) documentWriter;
 - (LNDocumentReader *) documentReader;
 - (NSEntityDescription *)documentEntityDescription;
@@ -330,34 +325,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     
     return fetchResults;    
 }
-#pragma mark -
-#pragma mark UIAlertViewDelegate
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0)
-        exit(0);
-    else
-    {
-        UITextField *loginField = (UITextField *)[alertView viewWithTag:kLoginFieldTag];
-        UITextField *passwordField = (UITextField *)[alertView viewWithTag:kPasswordFieldTag];
-        NSString *login = loginField.text;
-        NSString *password = passwordField.text;
-        if (!login || !password || [login isEqualToString:@""] || [password isEqualToString:@""]) 
-        {
-            [self askLoginAndPassword:password];
-            return;
-        }
-        KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
-        [wrapper setObject:login forKey: (NSString *)kSecAttrAccount];
-        [wrapper setObject:password forKey: (NSString *)kSecValueData];
-        [wrapper release];
-        
-        
-        [self documentReader].login = login;
-        [self documentReader].password = password;
-    }
-}
 
 #pragma mark -
 #pragma mark Memory management
@@ -429,74 +396,19 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         NSString *serverDatabaseViewInbox = [currentDefaults objectForKey:@"serverDatabaseViewInbox"];
         NSString *serverDatabaseViewArchive = [currentDefaults objectForKey:@"serverDatabaseViewArchive"];
         
-        KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
-        
-        NSString *login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
-        NSString *password = [wrapper objectForKey:(NSString *)kSecValueData];
-        
-        [wrapper release];
-        
-        [documentReader release];
-        
         documentReader = [[LNDocumentReader alloc] initWithUrl:serverUrl andViews:[NSArray arrayWithObjects: serverDatabaseViewInbox, serverDatabaseViewArchive, nil]];
         
         documentReader.dataSource = self;
-        
-        documentReader.login = login;
-        documentReader.password = password;
         
         [documentReader addObserver:self
                          forKeyPath:@"isSyncing"
                             options:0
                             context:&SyncingContext];
-        
-//        if (!login || !password || [login isEqualToString:@""] || [password isEqualToString:@""])
-//            [self askLoginAndPassword:login];
     }
     
     return documentReader;
 }
 
-    //http://iphone-dev-tips.alterplay.com/2009/12/username-and-password-uitextfields-in.html
-- (void) askLoginAndPassword:(NSString*) login
-{
-    UITextField *textField;
-    UITextField *textField2;
-    
-    UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Username and password", "Username and password")
-                                                     message:@"\n\n\n" // IMPORTANT
-                                                    delegate:self 
-                                           cancelButtonTitle:NSLocalizedString(@"Quit", "login->Quit")
-                                           otherButtonTitles:NSLocalizedString(@"Enter", "login->Enter"),
-                                           nil];
-    
-    textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 50.0, 260.0, 25.0)]; 
-    [textField setBackgroundColor:[UIColor whiteColor]];
-    [textField setPlaceholder:NSLocalizedString(@"username", "username")];
-    textField.text = login;
-    textField.tag = kLoginFieldTag;
-    [prompt addSubview:textField];
-    
-    textField2 = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 85.0, 260.0, 25.0)]; 
-    [textField2 setBackgroundColor:[UIColor whiteColor]];
-    [textField2 setPlaceholder:NSLocalizedString(@"password", "password")];
-    [textField2 setSecureTextEntry:YES];
-    textField2.tag = kPasswordFieldTag;
-    [prompt addSubview:textField2];
-    
-        // set place
-#warning next string obsoleted in iOS4
-    [prompt setTransform:CGAffineTransformMakeTranslation(0.0, 110.0)];
-    
-    [prompt show];
-    [prompt release];
-    
-        // set cursor and show keyboard
-    if (login && ![login isEqualToString:@""])
-        [textField2 becomeFirstResponder];
-    else
-        [textField becomeFirstResponder];
-}
 - (LNDocumentWriter *) documentWriter
 {
     if (!documentWriter)
@@ -504,13 +416,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
         NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
         documentWriter = [[LNDocumentWriter alloc] initWithUrl: serverUrl];
-        
-        KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
-        
-        documentWriter.login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
-        documentWriter.password = [wrapper objectForKey:(NSString *)kSecValueData];
-        
-        [wrapper release];
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         [fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];

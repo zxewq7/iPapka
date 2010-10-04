@@ -12,7 +12,7 @@
 
 @class Folder, Document, Document, LNDocumentWriter, LNDocumentReader;
 
-@interface DataSource : NSObject<UIAlertViewDelegate, LNDocumentReaderDataSource>
+@interface DataSource : NSObject<LNDocumentReaderDataSource>
 {
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel         *managedObjectModel;
