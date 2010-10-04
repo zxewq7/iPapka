@@ -166,7 +166,7 @@
     NSUInteger minWidth = boundsSize.width;
     
     //we need max zoomscales aligned to 32 multplier for drawings
-    NSUInteger maxWidth = (imageSize.width/32 + 0.5f) * 32;
+    NSUInteger maxWidth = ceil(imageSize.width / 32 ) * 32;
 
     CGFloat minScale = minWidth / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     
@@ -311,13 +311,14 @@
     //it should be between minimumZoomScale and maximumZoomScale
     
     CGRect imageFrame = imageView.frame;
+    CGFloat imageWidth = imageView.image.size.width * self.zoomScale;
     
-    NSUInteger newWidth = ((imageFrame.size.width * self.zoomScale) / 32 + 0.5f) * 32;
+    NSUInteger newWidth = ceil(imageWidth / 32 ) * 32;
     
     if (newWidth>MAX_WIDTH)
         newWidth = MAX_WIDTH;
 
-    CGFloat newScale = newWidth / imageFrame.size.width;
+    CGFloat newScale = (newWidth / imageWidth) * self.zoomScale;
     
     if (newScale > self.maximumZoomScale)
         newScale = self.maximumZoomScale;
