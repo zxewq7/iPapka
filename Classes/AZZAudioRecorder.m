@@ -9,7 +9,6 @@
 #import "AZZAudioRecorder.h"
 #import <AVFoundation/AVFoundation.h>
 #import <CoreAudio/CoreAudioTypes.h>
-#import "NSFileManager+Additions.h"
 
 #define kMaxTimetoRecord 300
 
@@ -42,7 +41,7 @@
                          [NSNumber numberWithInt:16000.0],AVSampleRateKey,
                          [NSNumber numberWithInt: 1],AVNumberOfChannelsKey,
                          nil];
-    NSURL *url = [NSURL fileURLWithPath: [NSFileManager tempFileName:@"recording"]];
+    NSURL *url = [NSURL fileURLWithPath: self.path];
     err = nil;
     recorder = [[ AVAudioRecorder alloc] initWithURL:url settings:recordSettings error:&err];
     [recordSettings release];
@@ -53,7 +52,7 @@
     }
     
     //prepare to record
-    [recorder setDelegate:self];
+    recorder.delegate = self;
     
     BOOL audioHWAvailable = audioSession.inputIsAvailable;
     if (! audioHWAvailable)
@@ -79,11 +78,6 @@
     [recorder stop];
     [self didChangeValueForKey:@"recording"];
 
-    NSFileManager *fm = [NSFileManager defaultManager];
-    [fm removeItemAtPath: self.path error:nil];
-    [fm moveItemAtPath: [recorder.url path] toPath: self.path error:nil];
-
-    
     [recorder release];
     
     recorder = nil;
