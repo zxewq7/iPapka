@@ -1,0 +1,6 @@
+NSLocalizedString(@"Documents", "Folders->Documents")
+NSLocalizedString(@"Resolutions", "Folders->Resolutions")
+NSLocalizedString(@"Signatures", "Folders->Signatures")
+NSLocalizedString(@"Archive", "Folders->Archive")
+NSLocalizedString(@"Archived resolutions", "Folders->Archived resolutions")
+NSLocalizedString(@"Archived signatures", "Folders->Archived signatures")
