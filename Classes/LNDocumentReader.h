@@ -49,6 +49,8 @@
     
     NSUInteger                      viewsLeftToFetch;
     NSUInteger                      documentsLeftToFetch;
+    
+    NSDictionary                    *statusDictionary;    
 }
 - (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
 @property (nonatomic, readonly)         BOOL                  isSyncing;

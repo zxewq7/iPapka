@@ -99,6 +99,13 @@ static NSString* OperationCount = @"OperationCount";
         urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@"];
         urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@", @"%@"];
 
+        statusDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:DocumentStatusDraft], @"draft",
+                                                                              [NSNumber numberWithInt:DocumentStatusDraft], @"new",
+                                                                              [NSNumber numberWithInt:DocumentStatusDeclined], @"rejected",
+                                                                              [NSNumber numberWithInt:DocumentStatusAccepted], @"approved",
+                                                                              nil];
+        [statusDictionary retain];
+        
         _networkQueue = [[ASINetworkQueue alloc] init];
         [_networkQueue setRequestDidFinishSelector:@selector(fetchComplete:)];
         [_networkQueue setRequestDidFailSelector:@selector(fetchFailed:)];
@@ -134,6 +141,8 @@ static NSString* OperationCount = @"OperationCount";
     [urlLinkAttachmentFetchPageFormat release];
     [uidsToFetch release]; uidsToFetch = nil;
     [fetchedUids release]; fetchedUids = nil;
+    [statusDictionary release];
+    
     [super dealloc];
 }
 
@@ -407,11 +416,22 @@ static NSString* OperationCount = @"OperationCount";
         
         NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
         
+        NSNumber *documentStatus;
+        
         Person *author = [[self dataSource] documentReader:self personWithUid: [parsedDocument objectForKey:field_Author]];
         
         if (!author)
         {
             NSLog(@"no author, document skipped: %@", uid);
+            return;
+        }
+        
+        NSString *stringStatus = [parsedDocument objectForKey:@"status"];
+        
+        documentStatus = [statusDictionary objectForKey:stringStatus];
+        if (!documentStatus)
+        {
+            NSLog(@"unknown document status '%@', document skipped: %@", stringStatus, uid);
             return;
         }
         
@@ -428,8 +448,9 @@ static NSString* OperationCount = @"OperationCount";
         }
         
         [author addDocumentsObject: document];
-        
         document.author = author;
+        
+        document.status = documentStatus;
         
         document.uid = uid;
         
