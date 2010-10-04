@@ -354,6 +354,7 @@ static NSString *AudioContext = @"AudioContext";
         playButton.hidden = YES;
         removeButton.hidden = YES;
         labelComment.enabled = YES;
+        labelComment.hidden = NO;
     }
     else
     {
@@ -361,10 +362,10 @@ static NSString *AudioContext = @"AudioContext";
         removeButton.hidden = !exists;
         recordButton.hidden = exists;
         labelComment.enabled = NO;
+        labelComment.hidden = exists;
     }
     recordButton.selected = recorder.recording;
     playButton.selected = player.playing;
-    labelComment.hidden = exists;
 
     if (!playButton.hidden)
     {
