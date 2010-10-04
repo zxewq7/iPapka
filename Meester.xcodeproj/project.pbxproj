@@ -75,7 +75,6 @@
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
 		81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585487123BC2F100A827E6 /* UITabBar+Additions.m */; };
 		815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DDC5512450C3F00F72600 /* PersonPickerViewController.m */; };
-		815EAB4F1237DF810093CF38 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 815EAB4E1237DF810093CF38 /* InfoPlist.strings */; };
 		816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541BE12379AA3008FC80F /* UIKit.framework */; };
 		816541C112379AA3008FC80F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541C012379AA3008FC80F /* Foundation.framework */; };
 		816541C312379AA3008FC80F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541C212379AA3008FC80F /* CoreGraphics.framework */; };
@@ -94,6 +93,7 @@
 		8165427D12379C6A008FC80F /* Texture2D.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427812379C6A008FC80F /* Texture2D.m */; };
 		8165427E12379C6A008FC80F /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427A12379C6A008FC80F /* UIColor-Expanded.m */; };
 		81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81656362125A2A5E00154640 /* DeleteItemViewController.m */; };
+		8165640A125A473F00154640 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81656408125A473F00154640 /* InfoPlist.strings */; };
 		816CD7841239466C006BC92F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
 		816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7BD12394AA0006BC92F /* Default-Landscape.png */; };
 		8173D9F11248EFC00045C2EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9F01248EFC00045C2EF /* AVFoundation.framework */; };
@@ -268,7 +268,6 @@
 		81585487123BC2F100A827E6 /* UITabBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Additions.m"; sourceTree = "<group>"; };
 		815DDC5412450C3F00F72600 /* PersonPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonPickerViewController.h; sourceTree = "<group>"; };
 		815DDC5512450C3F00F72600 /* PersonPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonPickerViewController.m; sourceTree = "<group>"; };
-		815EAB4E1237DF810093CF38 /* InfoPlist.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = InfoPlist.strings; sourceTree = "<group>"; };
 		816541BB12379AA3008FC80F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		816541BE12379AA3008FC80F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		816541C012379AA3008FC80F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -304,6 +303,8 @@
 		8165427A12379C6A008FC80F /* UIColor-Expanded.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor-Expanded.m"; path = "thirdparty/UIColor-Expanded.m"; sourceTree = "<group>"; };
 		81656361125A2A5E00154640 /* DeleteItemViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DeleteItemViewController.h; sourceTree = "<group>"; };
 		81656362125A2A5E00154640 /* DeleteItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteItemViewController.m; sourceTree = "<group>"; };
+		81656409125A473F00154640 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		8165640B125A477F00154640 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		816CD7831239466C006BC92F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		816CD7BD12394AA0006BC92F /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		8173D9F01248EFC00045C2EF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
@@ -641,9 +642,9 @@
 		816541B512379AA3008FC80F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				81656408125A473F00154640 /* InfoPlist.strings */,
 				818E90F9123E0496006FCE06 /* Fonts */,
 				819D8082123DFD8B00483E10 /* Entitlements.plist */,
-				815EAB4E1237DF810093CF38 /* InfoPlist.strings */,
 				8107AAB31237A1AF00F0C71F /* Localizable.strings */,
 				811DF4671237A11E00903D30 /* Settings.bundle */,
 				811DF42C1237A11300903D30 /* images */,
@@ -847,7 +848,6 @@
 				811DF4651237A11300903D30 /* MainWindow.xib in Resources */,
 				811DF4681237A11E00903D30 /* Settings.bundle in Resources */,
 				8107AAB41237A1AF00F0C71F /* Localizable.strings in Resources */,
-				815EAB4F1237DF810093CF38 /* InfoPlist.strings in Resources */,
 				816CD7841239466C006BC92F /* Default.png in Resources */,
 				816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */,
 				8144AD83123A143B006B2AD7 /* ButtonArchive.png in Resources */,
@@ -896,6 +896,7 @@
 				81E2C0B2124B5C1C001ED53A /* PaperTexture.png in Resources */,
 				815658181257820A0019A88D /* ButtonRecordRemove.png in Resources */,
 				81D3EBD21258BEA2002FCCDC /* OneRow.png in Resources */,
+				8165640A125A473F00154640 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -980,6 +981,15 @@
 				8107AAB91237A22C00F0C71F /* en */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		81656408125A473F00154640 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				81656409125A473F00154640 /* en */,
+				8165640B125A477F00154640 /* ru */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
