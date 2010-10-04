@@ -31,7 +31,7 @@
     NSDateFormatter         *activityDateFormatter;
     NSDateFormatter         *activityTimeFormatter;
     id<DocumentsListDelegate> delegate;
-    Document         *document;
+    Document                *document;
     NSIndexPath             *selectedDocumentIndexPath;
     UITabBar                *filtersBar;
     NSFetchedResultsController *fetchedResultsController;
