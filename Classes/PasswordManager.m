@@ -29,20 +29,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PasswordManager);
     UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Username and password", "Username and password")
                                                      message:@"\n\n\n" // IMPORTANT
                                                     delegate:self 
-                                           cancelButtonTitle:NSLocalizedString(@"Quit", "login->Quit")
-                                           otherButtonTitles:NSLocalizedString(@"Enter", "login->Enter"),
+                                           cancelButtonTitle:NSLocalizedString(@"Cancel", "Cancel")
+                                           otherButtonTitles:NSLocalizedString(@"OK", "OK"),
                            nil];
     
     textField = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 50.0, 260.0, 25.0)]; 
     [textField setBackgroundColor:[UIColor whiteColor]];
-    [textField setPlaceholder:NSLocalizedString(@"username", "username")];
+    [textField setPlaceholder:NSLocalizedString(@"Username", "Username")];
     textField.text = login;
     textField.tag = kLoginFieldTag;
     [prompt addSubview:textField];
     
     textField2 = [[UITextField alloc] initWithFrame:CGRectMake(12.0, 85.0, 260.0, 25.0)]; 
     [textField2 setBackgroundColor:[UIColor whiteColor]];
-    [textField2 setPlaceholder:NSLocalizedString(@"password", "password")];
+    [textField2 setPlaceholder:NSLocalizedString(@"Password", "Password")];
     [textField2 setSecureTextEntry:YES];
     textField2.text = passwrod;
     textField2.tag = kPasswordFieldTag;
