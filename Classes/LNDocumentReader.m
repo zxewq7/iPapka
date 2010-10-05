@@ -304,10 +304,11 @@ static NSString* OperationCount = @"OperationCount";
         request.requestHandler = ^(ASIHTTPRequest *request) {
             if ([request error] == nil  && [request responseStatusCode] == 200) //remove document if error
             {
-                NSString *jsonString = [request responseString];
+                NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
                 SBJsonParser *json = [[SBJsonParser alloc] init];
                 NSError *error = nil;
                 NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
+                [jsonString release];
                 [json release];
                 if (parsedDocument == nil) 
                     NSLog(@"error parsing document %@, error:%@", uid, error);
