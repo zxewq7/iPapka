@@ -22,7 +22,7 @@ typedef enum
     kToolTypeStamper = 4
 } ToolType;
 
-@class PaintingView;
+@class PaintingView, IntRow;
 @protocol PaintingViewDelegate <NSObject>
 
 -(void) stampAdded:(PaintingView *) sender index:(NSUInteger) anIndex;
@@ -64,9 +64,7 @@ typedef enum
     UITapGestureRecognizer *tapRecognizer;
     NSMutableArray *stamps;
     id<PaintingViewDelegate> paintingDelegate;
-    NSUInteger prevNumberOfPoints;
-    NSUInteger currentNumberOfPoints;
-    NSUInteger roundedNumberOfPoints;
+    IntRow *numberOfPoints;
 }
 
 @property(nonatomic, readwrite) CGPoint location;

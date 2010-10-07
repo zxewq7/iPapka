@@ -4,6 +4,7 @@
 #import "PaintingView.h"
 #import "UIColor-Expanded.h"
 #import "Texture2D.h"
+#import "IntRow.h"
 
     //CLASS IMPLEMENTATIONS:
 
@@ -300,6 +301,8 @@
     self.color = nil;
     [savedContent release];
     [tapRecognizer release];
+    [numberOfPoints release];
+    
 	[super dealloc];
 }
 
@@ -331,7 +334,9 @@
 	location = [touch locationInView:self];
 	location.y = bounds.size.height - location.y;
     modifiedContentSaved = NO;
-    currentNumberOfPoints = 0;
+    [numberOfPoints release];
+    numberOfPoints = [[IntRow alloc] init];
+    numberOfPoints.maxSize = 5;
 }
 
     // Handles the continuation of a touch.
@@ -355,22 +360,21 @@
 		previousLocation.y = bounds.size.height - previousLocation.y;
         if (currentTool == kToolTypePen)
         {
-            prevNumberOfPoints = currentNumberOfPoints;
-            currentNumberOfPoints = sqrt(pow((previousLocation.y - location.y),2) + pow((previousLocation.x - location.x),2));
-            roundedNumberOfPoints = (roundedNumberOfPoints+currentNumberOfPoints + prevNumberOfPoints)/3;
+            NSUInteger np = sqrt(pow((previousLocation.y - location.y),2) + pow((previousLocation.x - location.x),2));
+            [numberOfPoints add: np];
         }
 	}
     if (currentTool == kToolTypePen)
     {
-        double divider = roundedNumberOfPoints;
-        if (divider > penWidth/3)
-            divider = penWidth/3;
-        else if (divider < 8.0f)
-            divider = 8.0f;
+        double divider = numberOfPoints.median;
+        if (divider > penWidth/5)
+            divider = penWidth/5;
+        else if (divider < 7.0f)
+            divider = 7.0f;
+        
+        NSLog(@"%f", divider);
         
         glPointSize(penWidth / divider);
-        NSLog(@"%d %d %d", prevNumberOfPoints, currentNumberOfPoints, roundedNumberOfPoints);
-
     }
         // Render the stroke
 	[self renderLineFromPoint:previousLocation toPoint:location];
@@ -390,6 +394,8 @@
 		previousLocation.y = bounds.size.height - previousLocation.y;
 		[self renderLineFromPoint:previousLocation toPoint:location];
 	}
+    [numberOfPoints release];
+    numberOfPoints = nil;
 }
 
 #pragma mark -

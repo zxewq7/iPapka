@@ -8,9 +8,16 @@
 
 #import <Foundation/Foundation.h>
 
-
-@interface IntRow : NSObject {
-
+@class ListElement;
+@interface IntRow : NSObject 
+{
+    ListElement *top;
+    ListElement *last;
+    NSUInteger maxSize;
+    NSUInteger size;
 }
 
+- (void) add: (NSUInteger) value;
+@property (readonly) NSUInteger median;
+@property NSUInteger maxSize;
 @end
