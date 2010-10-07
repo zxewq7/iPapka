@@ -1269,6 +1269,86 @@
 					<key>versions</key>
 					<dict/>
 				</dict>
+				<dict>
+					<key>attachments</key>
+					<dict/>
+					<key>change date</key>
+					<date>2010-10-05T09:11:49Z</date>
+					<key>changed values</key>
+					<array/>
+					<key>class</key>
+					<string>BLStringsFileObject</string>
+					<key>errors</key>
+					<array/>
+					<key>flags</key>
+					<integer>0</integer>
+					<key>hash</key>
+					<string>22869742a27fd837824bec4df687c29b
+</string>
+					<key>name</key>
+					<string>InfoPlist.strings</string>
+					<key>objects</key>
+					<array>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Localized versions of Info.plist keys</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>NSHumanReadableCopyright</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>©Aramzamzam.net, 2010</string>
+								<key>ru</key>
+								<string>©Aramzamzam.net, 2010</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Localized versions of Info.plist keys</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>CFBundleDisplayName</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>iPapka</string>
+								<key>ru</key>
+								<string>iPapka</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+					</array>
+					<key>old objects</key>
+					<array/>
+					<key>plist file</key>
+					<false/>
+					<key>snapshots</key>
+					<dict/>
+					<key>versions</key>
+					<dict/>
+				</dict>
 			</array>
 			<key>flags</key>
 			<integer>0</integer>
