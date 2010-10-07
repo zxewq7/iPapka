@@ -65,6 +65,9 @@ typedef enum
     NSMutableArray *stamps;
     id<PaintingViewDelegate> paintingDelegate;
     IntRow *numberOfPoints;
+    CGFloat minPenScale;
+    CGFloat maxPenScale;
+    CGFloat penScale;
 }
 
 @property(nonatomic, readwrite) CGPoint location;

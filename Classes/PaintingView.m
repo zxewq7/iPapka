@@ -360,18 +360,17 @@
 		previousLocation = [touch previousLocationInView:self];
 		previousLocation.y = bounds.size.height - previousLocation.y;
 	}
+    
     if (currentTool == kToolTypePen)
     {
         NSUInteger np = sqrt(pow((previousLocation.y - location.y),2) + pow((previousLocation.x - location.x),2));
         [numberOfPoints add: np];
 
         double divider = numberOfPoints.median;
-        if (divider > penWidth/5)
-            divider = penWidth/5;
-        else if (divider < 7.0f)
-            divider = 7.0f;
-        
-        NSLog(@"%f", divider);
+        if (divider > maxPenScale)
+            divider = maxPenScale;
+        else if (divider < minPenScale)
+            divider = minPenScale;
         
         glPointSize(penWidth / divider);
     }
@@ -469,6 +468,9 @@
         UIImage *penImage = [UIImage imageNamed:@"BrushPen.png"];
         penWidth = penImage.size.width;
         [self createTexture:&penTexture withImage:penImage];
+        maxPenScale = penWidth / 5.0f;
+        minPenScale = 7.0f;
+        penScale = maxPenScale;
     }
     
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
@@ -481,7 +483,7 @@
 
     
     glBindTexture(GL_TEXTURE_2D, penTexture);
-    glPointSize(penWidth / 8.0f);
+    glPointSize(penWidth / penScale);
     currentTool = kToolTypePen;
 }
 
