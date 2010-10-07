@@ -10,6 +10,8 @@
 #import "UIButton+Additions.h"
 #import "ColorPicker.h"
 
+static NSString* ColorContext = @"ColorContext";
+
 @interface PaintingToolsViewController(Private)
 -(void) alignButtons:(NSArray *) buttons
            topOffset:(CGFloat) topOffset
@@ -150,8 +152,14 @@
 {
     paletteButton.selected = YES;
     if (!colorPicker)
+    {
         colorPicker = [[ColorPicker alloc] init];
-    
+        [colorPicker addObserver:self
+                      forKeyPath:@"color"
+                        options:0
+                         context:&ColorContext];
+
+    }
     if (!popoverController)
     {
         popoverController = [[UIPopoverController alloc] initWithContentViewController:colorPicker];
@@ -163,6 +171,29 @@
     CGRect targetRect = button.frame;
 	[popoverController presentPopoverFromRect: targetRect inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
 }
+
+#pragma mark -
+#pragma mark Observer
+
+- (void)observeValueForKeyPath:(NSString *)keyPath
+                      ofObject:(id)object
+                        change:(NSDictionary *)change
+                       context:(void *)context
+{
+    if (context == &ColorContext)
+    {
+        [popoverController dismissPopoverAnimated:YES];
+        [self popoverControllerDidDismissPopover:popoverController];
+    }
+    else
+    {
+        [super observeValueForKeyPath:keyPath
+                             ofObject:object
+                               change:change
+                              context:context];
+    }
+}
+
 
 #pragma mark -
 #pragma mark UIPopoverControllerDelegate
@@ -183,47 +214,54 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    [commentButton release];
-    commentButton = nil;
-    [penButton release];
-    [markerButton release];
-    markerButton = nil;
-    [eraserButton release];
-    eraserButton = nil;
-    [paletteButton release];
-    paletteButton = nil;
-    [rotateCCVButton release];
-    rotateCCVButton = nil;
-    [rotateCVButton release];
-    rotateCVButton = nil;
-    [colorPicker release];
-    colorPicker = nil;
-    [popoverController release];
-    popoverController = nil;
+
+    [commentButton release]; commentButton = nil;
+
+    [penButton release]; penButton = nil;
+
+    [markerButton release]; markerButton = nil;
+
+    [eraserButton release]; eraserButton = nil;
+
+    [paletteButton release]; paletteButton = nil;
+
+    [rotateCCVButton release]; rotateCCVButton = nil;
+
+    [rotateCVButton release]; rotateCVButton = nil;
+    
+    [colorPicker removeObserver:self forKeyPath:@"color"];
+    [colorPicker release]; colorPicker = nil;
+    
+    [popoverController release]; popoverController = nil;
 }
 
 
 - (void)dealloc {
-    [super dealloc];
-    [commentButton release];
-    commentButton = nil;
-    [penButton release];
-    [markerButton release];
-    markerButton = nil;
-    [eraserButton release];
-    eraserButton = nil;
-    [paletteButton release];
-    paletteButton = nil;
-    [rotateCCVButton release];
-    rotateCCVButton = nil;
-    [rotateCVButton release];
-    rotateCVButton = nil;
     self.delegate = nil;
+
     self.color = nil;
-    [colorPicker release];
-    colorPicker = nil;
-    [popoverController release];
-    popoverController = nil;
+
+    [commentButton release]; commentButton = nil;
+
+    [penButton release]; penButton = nil;
+
+    [markerButton release]; markerButton = nil;
+
+    [eraserButton release]; eraserButton = nil;
+
+    [paletteButton release]; paletteButton = nil;
+
+    [rotateCCVButton release]; rotateCCVButton = nil;
+
+    [rotateCVButton release]; rotateCVButton = nil;
+    
+    [colorPicker removeObserver:self forKeyPath:@"color"];
+    [colorPicker release]; colorPicker = nil;
+
+    [popoverController release]; popoverController = nil;
+    
+    [super dealloc];
+
 }
 
 

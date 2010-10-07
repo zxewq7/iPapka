@@ -76,17 +76,10 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 	if(outB)
 		*outB = temp[2];
 }
-#define kPaletteSize			5
+#define kPaletteSize			6
 
 #define kLuminosity			0.75
 #define kSaturation			1.0
-
-#define kColorViewLeftMargin  36.0f
-#define kColorViewRightMargin  36.0f
-#define kColorViewTopMargin  5.0f
-#define kColorViewBottomMargin  5.0f
-
-#define kColorViewTag  1001
 
 #define kTableWidth  240
 
@@ -123,7 +116,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 #pragma mark Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 5;
+    return kPaletteSize;
 }
 
 
@@ -134,34 +127,47 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        
-        CGRect frame = CGRectMake(kColorViewLeftMargin, kColorViewTopMargin, kTableWidth - kColorViewLeftMargin - kColorViewRightMargin, tableView.rowHeight - kColorViewTopMargin - kColorViewBottomMargin);
-        UIView *colorView = [[UIView alloc] initWithFrame: frame];
-        colorView.tag = kColorViewTag;
+        CGRect frame = cell.bounds;
+        UIImageView *bw = [[UIImageView alloc] initWithFrame: frame];
 
-        [cell addSubview: colorView];
+        cell.backgroundView = bw;
 
-        [colorView release];
+        [bw release];
         
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        UIImageView *bws = [[UIImageView alloc] initWithFrame: frame];
+        
+        cell.selectedBackgroundView = bws;
+        
+        [bws release];
     }
-    UIView *colorView = [cell viewWithTag: kColorViewTag];
+    
+    UIImageView *bw = (UIImageView *)cell.backgroundView;
+    UIImageView *bws = (UIImageView *)cell.selectedBackgroundView;
     switch (indexPath.row)
     {
         case 0:
-            colorView.backgroundColor = [UIColor redColor];
+            bw.image = [UIImage imageNamed: @"PaletteBlack.png"];
+            bws.image = [UIImage imageNamed: @"PaletteBlackSelected.png"];
             break;
         case 1:
-            colorView.backgroundColor = [UIColor yellowColor];
+            bw.image = [UIImage imageNamed: @"PaletteRed.png"];
+            bws.image = [UIImage imageNamed: @"PaletteRedSelected.png"];
             break;
         case 2:
-            colorView.backgroundColor = [UIColor greenColor];
+            bw.image = [UIImage imageNamed: @"PaletteYellow.png"];
+            bws.image = [UIImage imageNamed: @"PaletteYellowSelected.png"];
             break;
         case 3:
-            colorView.backgroundColor = [UIColor blueColor];
+            bw.image = [UIImage imageNamed: @"PaletteGreen.png"];
+            bws.image = [UIImage imageNamed: @"PaletteGreenSelected.png"];
             break;
         case 4:
-            colorView.backgroundColor = [UIColor purpleColor];
+            bw.image = [UIImage imageNamed: @"PaletteBlue.png"];
+            bws.image = [UIImage imageNamed: @"PaletteBlueSelected.png"];
+            break;
+        case 5:
+            bw.image = [UIImage imageNamed: @"PalettePurple.png"];
+            bws.image = [UIImage imageNamed: @"PalettePurpleSelected.png"];
             break;
     }
     return cell;
@@ -196,8 +202,12 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
 + (UIColor *) colorForIndex:(NSUInteger) index
 {
+    if (index == 0)
+        return [UIColor blackColor];
+    
     CGFloat components[3];
-    HSL2RGB((CGFloat)index / (CGFloat)kPaletteSize, kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
+    //substract black color
+    HSL2RGB((CGFloat)(index - 1) / (CGFloat)(kPaletteSize - 1), kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
     return [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:0];
 }
 @end
