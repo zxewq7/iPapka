@@ -64,6 +64,9 @@ typedef enum
     UITapGestureRecognizer *tapRecognizer;
     NSMutableArray *stamps;
     id<PaintingViewDelegate> paintingDelegate;
+    NSUInteger prevNumberOfPoints;
+    NSUInteger currentNumberOfPoints;
+    NSUInteger roundedNumberOfPoints;
 }
 
 @property(nonatomic, readwrite) CGPoint location;

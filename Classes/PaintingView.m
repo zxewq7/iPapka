@@ -331,6 +331,7 @@
 	location = [touch locationInView:self];
 	location.y = bounds.size.height - location.y;
     modifiedContentSaved = NO;
+    currentNumberOfPoints = 0;
 }
 
     // Handles the continuation of a touch.
@@ -352,8 +353,25 @@
 	    location.y = bounds.size.height - location.y;
 		previousLocation = [touch previousLocationInView:self];
 		previousLocation.y = bounds.size.height - previousLocation.y;
+        if (currentTool == kToolTypePen)
+        {
+            prevNumberOfPoints = currentNumberOfPoints;
+            currentNumberOfPoints = sqrt(pow((previousLocation.y - location.y),2) + pow((previousLocation.x - location.x),2));
+            roundedNumberOfPoints = (roundedNumberOfPoints+currentNumberOfPoints + prevNumberOfPoints)/3;
+        }
 	}
-    
+    if (currentTool == kToolTypePen)
+    {
+        double divider = roundedNumberOfPoints;
+        if (divider > penWidth/3)
+            divider = penWidth/3;
+        else if (divider < 8.0f)
+            divider = 8.0f;
+        
+        glPointSize(penWidth / divider);
+        NSLog(@"%d %d %d", prevNumberOfPoints, currentNumberOfPoints, roundedNumberOfPoints);
+
+    }
         // Render the stroke
 	[self renderLineFromPoint:previousLocation toPoint:location];
 }
