@@ -463,6 +463,8 @@
 
 - (void) enablePen:(BOOL) enabled
 {
+    currentTool = kToolTypePen;
+
     if (!penTexture)
     {
         UIImage *penImage = [UIImage imageNamed:@"BrushPen.png"];
@@ -476,19 +478,16 @@
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
-    CGFloat r = color.red;
-    CGFloat g = color.green;
-    CGFloat b = color.blue;
-    glColor4f(r, g, b, 1);
-
+    [self setBrushColor];
     
     glBindTexture(GL_TEXTURE_2D, penTexture);
     glPointSize(penWidth / penScale);
-    currentTool = kToolTypePen;
 }
 
 - (void) enableMarker:(BOOL) enabled
 {
+    currentTool = kToolTypeMarker;
+
     if (!markerTexture)
     {
         UIImage *markerImage = [UIImage imageNamed:@"BrushMarker.png"];
@@ -501,10 +500,11 @@
     [self setBrushColor];
     glBindTexture(GL_TEXTURE_2D, markerTexture);
     glPointSize(markerWidth / kBrushScale);
-    currentTool = kToolTypeMarker;
 }
 - (void) enableEraser:(BOOL) enabled
 {
+    currentTool = kToolTypeEraser;
+
     if (!eraserTexture)
     {
         UIImage *eraserImage = [UIImage imageNamed:@"BrushErase.png"];
@@ -516,7 +516,6 @@
     glDisable(GL_BLEND);
     glBindTexture(GL_TEXTURE_2D, eraserTexture);
     glPointSize(eraserWidth / kBrushScale);
-    currentTool = kToolTypeEraser;
 }
 - (void) enableStamper:(BOOL) enabled
 {
@@ -687,9 +686,26 @@
 - (void)setBrushColor
 {
     // Set the brush color using premultiplied alpha values
-    CGFloat r = color.red   * kBrushOpacity;
-    CGFloat g = color.green * kBrushOpacity;
-    CGFloat b = color.blue  * kBrushOpacity;
-    glColor4f(r, g, b, kBrushOpacity);
+    CGFloat r;
+    CGFloat g;
+    CGFloat b;
+    CGFloat a;
+    
+    switch (currentTool)
+    {
+        case kToolTypeMarker: //set color with opacity
+            r = color.red   * kBrushOpacity;
+            g = color.green * kBrushOpacity;
+            b = color.blue  * kBrushOpacity;
+            a = kBrushOpacity;
+            break;
+        default:
+            r = color.red;
+            g = color.green;
+            b = color.blue;
+            a = 1.0f;
+            break;
+    }
+    glColor4f(r, g, b, a);
 }
 @end
