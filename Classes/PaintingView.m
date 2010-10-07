@@ -78,6 +78,9 @@
         case kToolTypeMarker:
             [self enableMarker:YES];
             break;
+        case kToolTypePen:
+            [self enablePen:YES];
+            break;
         case kToolTypeStamper:
             [self enableStamper:YES];
             break;
@@ -268,6 +271,12 @@
 		markerTexture = 0;
 	}
 
+    if (penTexture)
+    {
+		glDeleteTextures(1, &penTexture);
+		penTexture = 0;
+    }
+    
     if (eraserTexture)
 	{
 		glDeleteTextures(1, &eraserTexture);
@@ -432,7 +441,25 @@
 
 - (void) enablePen:(BOOL) enabled
 {
-    [self enableMarker: enabled];
+    if (!penTexture)
+    {
+        UIImage *penImage = [UIImage imageNamed:@"BrushPen.png"];
+        penWidth = penImage.size.width;
+        [self createTexture:&penTexture withImage:penImage];
+    }
+    
+    glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
+    glEnable(GL_BLEND);
+
+    CGFloat r = color.red;
+    CGFloat g = color.green;
+    CGFloat b = color.blue;
+    glColor4f(r, g, b, 1);
+
+    
+    glBindTexture(GL_TEXTURE_2D, penTexture);
+    glPointSize(penWidth / 8.0f);
+    currentTool = kToolTypePen;
 }
 
 - (void) enableMarker:(BOOL) enabled

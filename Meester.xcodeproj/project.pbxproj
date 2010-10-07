@@ -46,6 +46,7 @@
 		811DF4681237A11E00903D30 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4671237A11E00903D30 /* Settings.bundle */; };
 		811ED76A12551F9E00D2E027 /* _DocumentResolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 811ED76912551F9E00D2E027 /* _DocumentResolution.m */; };
 		811ED7AA125521A300D2E027 /* _DocumentSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 811ED7A9125521A300D2E027 /* _DocumentSignature.m */; };
+		8124C7A0125DFB400031C07E /* BrushPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8124C79F125DFB400031C07E /* BrushPen.png */; };
 		8136DEF212436B6F008D68AB /* PageControlWithMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8136DEF112436B6F008D68AB /* PageControlWithMenu.m */; };
 		8136DF7D12437A5D008D68AB /* AZZBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8136DF7C12437A5D008D68AB /* AZZBubbleView.m */; };
 		8136E05F12439120008D68AB /* PageControlBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 8136E05E12439120008D68AB /* PageControlBackground.png */; };
@@ -96,6 +97,7 @@
 		8165640A125A473F00154640 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81656408125A473F00154640 /* InfoPlist.strings */; };
 		816CD7841239466C006BC92F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
 		816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7BD12394AA0006BC92F /* Default-Landscape.png */; };
+		816D76F1125B16380042BD8E /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 816D76F0125B16380042BD8E /* iTunesArtwork */; };
 		8173D9F11248EFC00045C2EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9F01248EFC00045C2EF /* AVFoundation.framework */; };
 		8173D9FB1248F1D40045C2EF /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9FA1248F1D40045C2EF /* CoreAudio.framework */; };
 		81775FC61251F6F0002A2D3D /* LNDocumentReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC11251F6F0002A2D3D /* LNDocumentReader.m */; };
@@ -227,6 +229,7 @@
 		811ED76912551F9E00D2E027 /* _DocumentResolution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DocumentResolution.m; sourceTree = "<group>"; };
 		811ED7A8125521A300D2E027 /* _DocumentSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DocumentSignature.h; sourceTree = "<group>"; };
 		811ED7A9125521A300D2E027 /* _DocumentSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DocumentSignature.m; sourceTree = "<group>"; };
+		8124C79F125DFB400031C07E /* BrushPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushPen.png; sourceTree = "<group>"; };
 		8136DEF012436B6F008D68AB /* PageControlWithMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControlWithMenu.h; sourceTree = "<group>"; };
 		8136DEF112436B6F008D68AB /* PageControlWithMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControlWithMenu.m; sourceTree = "<group>"; };
 		8136DF7B12437A5D008D68AB /* AZZBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZZBubbleView.h; sourceTree = "<group>"; };
@@ -307,6 +310,7 @@
 		8165640B125A477F00154640 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		816CD7831239466C006BC92F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		816CD7BD12394AA0006BC92F /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
+		816D76F0125B16380042BD8E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		8173D9F01248EFC00045C2EF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8173D9FA1248F1D40045C2EF /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		81775FC01251F6F0002A2D3D /* LNDocumentReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentReader.h; sourceTree = "<group>"; };
@@ -448,6 +452,8 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8124C79F125DFB400031C07E /* BrushPen.png */,
+				816D76F0125B16380042BD8E /* iTunesArtwork */,
 				81D3EBD11258BEA2002FCCDC /* OneRow.png */,
 				815658171257820A0019A88D /* ButtonRecordRemove.png */,
 				81E2C0B1124B5C1C001ED53A /* PaperTexture.png */,
@@ -792,6 +798,7 @@
 			isa = PBXProject;
 			buildConfigurationList = 816541B112379AA3008FC80F /* Build configuration list for PBXProject "Meester" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
@@ -897,6 +904,8 @@
 				815658181257820A0019A88D /* ButtonRecordRemove.png in Resources */,
 				81D3EBD21258BEA2002FCCDC /* OneRow.png in Resources */,
 				8165640A125A473F00154640 /* InfoPlist.strings in Resources */,
+				816D76F1125B16380042BD8E /* iTunesArtwork in Resources */,
+				8124C7A0125DFB400031C07E /* BrushPen.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -16,9 +16,10 @@
 typedef enum
 {
     kToolTypeNone = 0,
-    kToolTypeMarker = 1,
-    kToolTypeEraser = 2,
-    kToolTypeStamper = 3
+    kToolTypePen = 1,
+    kToolTypeMarker = 2,
+    kToolTypeEraser = 3,
+    kToolTypeStamper = 4
 } ToolType;
 
 @class PaintingView;
@@ -45,6 +46,7 @@ typedef enum
 	GLuint depthRenderbuffer;
 	
 	GLuint	markerTexture;
+    GLuint	penTexture;
     GLuint	eraserTexture;
     GLuint  stamperTexture;
 	CGPoint	location;
@@ -55,6 +57,7 @@ typedef enum
     UIImage *savedContent;
     BOOL    modifiedContentSaved;
     CGFloat markerWidth;
+    CGFloat penWidth;
     CGFloat eraserWidth;
     CGFloat stamperWidth;
     ToolType currentTool;
