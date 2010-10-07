@@ -55,7 +55,7 @@
 								<key>en</key>
 								<string>Accept</string>
 								<key>ru</key>
-								<string>Принять</string>
+								<string>Утвердить</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -330,7 +330,7 @@
 								<key>en</key>
 								<string>Decline</string>
 								<key>ru</key>
-								<string>Отклонить</string>
+								<string>Вернуть</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
