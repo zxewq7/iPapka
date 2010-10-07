@@ -351,21 +351,20 @@
         // Convert touch point from UIView referential to OpenGL one (upside-down flip)
 	if (firstTouch) {
 		firstTouch = NO;
-		previousLocation = [touch previousLocationInView:self];
-		previousLocation.y = bounds.size.height - previousLocation.y;
+        previousLocation = location;
+        location = [touch locationInView:self];
+        location.y = bounds.size.height - location.y;
 	} else {
 		location = [touch locationInView:self];
 	    location.y = bounds.size.height - location.y;
 		previousLocation = [touch previousLocationInView:self];
 		previousLocation.y = bounds.size.height - previousLocation.y;
-        if (currentTool == kToolTypePen)
-        {
-            NSUInteger np = sqrt(pow((previousLocation.y - location.y),2) + pow((previousLocation.x - location.x),2));
-            [numberOfPoints add: np];
-        }
 	}
     if (currentTool == kToolTypePen)
     {
+        NSUInteger np = sqrt(pow((previousLocation.y - location.y),2) + pow((previousLocation.x - location.x),2));
+        [numberOfPoints add: np];
+
         double divider = numberOfPoints.median;
         if (divider > penWidth/5)
             divider = penWidth/5;
