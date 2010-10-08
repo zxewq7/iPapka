@@ -5,7 +5,7 @@
 
 -(NSString *)path
 {
-    return [self.document.path stringByAppendingPathComponent:@"attachments"];
+    return [[self.document.path stringByAppendingPathComponent:@"attachments"] stringByAppendingPathComponent: self.uid];
 }
 
 @end
