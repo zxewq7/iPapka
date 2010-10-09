@@ -5,17 +5,17 @@
 
 -(NSString *)path
 {
-    return [self.attachment.path stringByAppendingPathComponent:@"pages"];
+    return [[self.attachment.path stringByAppendingPathComponent:@"pages"] stringByAppendingPathComponent: [NSString stringWithFormat:@"%d", [self.number intValue]]];
 }
 
 -(NSString *)pathImage
 {
-    return [self.path stringByAppendingPathComponent: [NSString stringWithFormat:@"%d", [self.number intValue]]];
+    return [self.path stringByAppendingPathComponent: @"image.png"];
 }
 
 -(NSString *)pathDrawings
 {
-    return [self.pathImage stringByAppendingPathExtension:@"drawings"];
+    return [self.path stringByAppendingPathComponent:@"drawings.png"];
 }
 
 - (UIImage *) drawings
