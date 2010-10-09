@@ -50,10 +50,13 @@
     NSUInteger                      viewsLeftToFetch;
     NSUInteger                      documentsLeftToFetch;
     
-    NSDictionary                    *statusDictionary;    
+    NSDictionary                    *statusDictionary;
+    
+    BOOL                            hasErrors;
 }
 - (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
 @property (nonatomic, readonly)         BOOL                  isSyncing;
+@property (nonatomic, readonly)         BOOL                  hasErrors;
 @property (nonatomic, retain) NSObject<LNDocumentReaderDataSource> *dataSource;
 - (void) refreshDocuments;
 - (void) purgeCache;

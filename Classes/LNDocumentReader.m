@@ -69,7 +69,7 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 static NSString* OperationCount = @"OperationCount";
 
 @implementation LNDocumentReader
-@synthesize isSyncing, dataSource;
+@synthesize isSyncing, dataSource, hasErrors;
 
 - (id) initWithUrl:(NSString *) anUrl andViews:(NSArray *) views
 {
@@ -164,6 +164,8 @@ static NSString* OperationCount = @"OperationCount";
     
     viewsLeftToFetch = [viewUrls count];
     
+    hasErrors = NO;
+    
     for (NSString *url in viewUrls)
     {
         LNHttpRequest *request = [self makeRequestWithUrl: url];
@@ -181,6 +183,7 @@ static NSString* OperationCount = @"OperationCount";
             else
             {
                 NSLog(@"error fetching url %@\n%@", [request originalURL], error);
+                hasErrors = YES;
             }
             
             @synchronized (blockSelf)
@@ -188,7 +191,7 @@ static NSString* OperationCount = @"OperationCount";
                 viewsLeftToFetch--;
             }
             
-            if (viewsLeftToFetch == 0) //all view fetched
+            if (viewsLeftToFetch == 0 && !hasErrors) //all view fetched and no errors
             {
                 NSSet *rootUids = [[blockSelf dataSource] documentReaderRootUids:blockSelf];
                 //remove obsoleted documents
