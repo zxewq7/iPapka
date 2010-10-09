@@ -15,5 +15,5 @@
     KeychainItemWrapper *wrapper;
 }
 + (PasswordManager *)sharedPasswordManager;
-- (void) credentials:(void (^)(NSString *login, NSString *password, BOOL canceled))handler;
+- (void) credentials:(BOOL) requery handler:(void (^)(NSString *login, NSString *password, BOOL canceled))handler;
 @end

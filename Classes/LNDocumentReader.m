@@ -236,7 +236,7 @@ static NSString* OperationCount = @"OperationCount";
 
 - (void)authenticationNeededForRequest:(ASIHTTPRequest *)request
 {
-    [[PasswordManager sharedPasswordManager] credentials:^(NSString *aLogin, NSString *aPassword, BOOL canceled){
+    [[PasswordManager sharedPasswordManager] credentials:(request.authenticationRetryCount>0) handler:^(NSString *aLogin, NSString *aPassword, BOOL canceled){
         if (canceled) 
             [request cancelAuthentication];
         else

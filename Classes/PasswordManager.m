@@ -37,18 +37,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PasswordManager);
     return self;
 }
 
--(void) credentials:(void (^)(NSString *login, NSString *password, BOOL canceled))handler
+- (void) credentials:(BOOL) requery handler:(void (^)(NSString *login, NSString *password, BOOL canceled))handler
 {
     NSString *login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
     NSString *password = [wrapper objectForKey:(NSString *)kSecValueData];
 
-    if (login && password && ![login isEqualToString:@""] && ![password isEqualToString:@""])
+    if (!requery)
     {
-        if (handler)
-            handler(login, password, NO);
-        return;
+        if (login && password && ![login isEqualToString:@""] && ![password isEqualToString:@""])
+        {
+            if (handler)
+                handler(login, password, NO);
+            return;
+        }
     }
-    
     [passwordDialogHandler release];
     
     passwordDialogHandler = [handler copy];
@@ -74,7 +76,6 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PasswordManager);
     [textField2 setBackgroundColor:[UIColor whiteColor]];
     [textField2 setPlaceholder:NSLocalizedString(@"Password", "Password")];
     [textField2 setSecureTextEntry:YES];
-    textField2.text = password;
     textField2.tag = kPasswordFieldTag;
     [prompt addSubview:textField2];
     
