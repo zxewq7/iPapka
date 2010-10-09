@@ -10,6 +10,8 @@
 #import "Folder.h"
 #import "SynthesizeSingleton.h"
 #import "Document.h"
+#import "Attachment.h"
+#import "AttachmentPage.h"
 #import "LNDocumentReader.h"
 #import "DocumentResolution.h"
 #import "DocumentSignature.h"
@@ -189,7 +191,24 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 
         }
     }
+
+    NSSet *deletedObjects = [managedObjectContext deletedObjects];
+    NSFileManager *df = [NSFileManager defaultManager];
     
+    for (NSManagedObject *object in deletedObjects)
+    {
+        NSString *path = nil;
+        if ([object isKindOfClass:[Document class]])
+            path = [object valueForKey:@"path"];
+        else if ([object isKindOfClass:[Attachment class]])
+            path = [object valueForKey:@"path"];
+        else if ([object isKindOfClass:[AttachmentPage class]])
+            path = [object valueForKey:@"path"];
+        
+        if (path)
+            [df removeItemAtPath:path error:NULL];
+    }
+
     if (![managedObjectContext save:&error])
     {
         NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
