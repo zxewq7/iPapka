@@ -23,7 +23,7 @@ typedef enum _TapPosition{
 } TapPosition;
 
 @interface AttachmentsViewController(Private)
-- (TapPosition) tapPosition:(UITouch *)touch;
+- (TapPosition) tapPosition:(UIGestureRecognizer *)gestureRecognizer;
 - (void) setPages;
 @end
 
@@ -82,9 +82,12 @@ typedef enum _TapPosition{
     self.view.backgroundColor = [UIColor colorWithPatternImage: [UIImage imageNamed: @"PaperTexture.png"]];
 
     //tap recognizer
-    tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
-    [self.view addGestureRecognizer:tapRecognizer];
+    UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
     tapRecognizer.delegate = self;
+
+    [self.view addGestureRecognizer:tapRecognizer];
+    
+    [tapRecognizer release];
 
     //create pages
     currentPage = [[AttachmentPageViewController alloc] init];
@@ -117,22 +120,15 @@ typedef enum _TapPosition{
     [super viewDidUnload];
     [currentPage release]; currentPage = nil;
     [nextPage release]; nextPage = nil;
-    [tapRecognizer release]; tapRecognizer = nil;
 }
 
 - (void)dealloc
 {
-    [attachment release];
-    attachment = nil;
+    [attachment release]; attachment = nil;
     
-    [currentPage release];
-    currentPage = nil;
+    [currentPage release]; currentPage = nil;
     
-    [nextPage release];
-    nextPage = nil;
-    
-    [tapRecognizer release];
-    tapRecognizer = nil;
+    [nextPage release]; nextPage = nil;
     
     self.pageControl = nil;
     
@@ -206,7 +202,7 @@ typedef enum _TapPosition{
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    TapPosition tapPosition = [self tapPosition:touch];
+    TapPosition tapPosition = [self tapPosition:gestureRecognizer];
     
     if (tapPosition == TapPositionMiddle)
         return YES;
@@ -214,9 +210,9 @@ typedef enum _TapPosition{
     return pageControl.hidden;
 }
 
--(void) handleTapFrom:(UITouch *)touch
+-(void) handleTapFrom:(UIGestureRecognizer *)gestureRecognizer
 {
-    TapPosition tapPosition = [self tapPosition:touch];
+    TapPosition tapPosition = [self tapPosition:gestureRecognizer];
     
     if (tapPosition == TapPositionMiddle)
     {
@@ -285,10 +281,10 @@ typedef enum _TapPosition{
 @end
 
 @implementation AttachmentsViewController(Private)
-- (TapPosition) tapPosition:(UITouch *)touch
+- (TapPosition) tapPosition:(UIGestureRecognizer *)gestureRecognizer
 {
     CGSize size = self.view.frame.size;
-    CGPoint location = [touch locationInView:self.view];
+    CGPoint location = [gestureRecognizer locationInView:self.view];
     
     if ((size.height - location.y)<100.0f)
         return TapPositionBottom;

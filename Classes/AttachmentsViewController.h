@@ -17,7 +17,6 @@
 
     Attachment           *attachment;
     BOOL                        commenting;
-    UITapGestureRecognizer      *tapRecognizer;
     PageControlWithMenu         *pageControl;
     PaintingToolsViewController *paintingTools;
     NSUInteger                  currentPageIndex;
