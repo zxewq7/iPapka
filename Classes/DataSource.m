@@ -394,6 +394,19 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         if (!self.isSyncing)
             [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
+        
+        if (!self.isSyncing && documentReader.hasErrors)
+        {
+            UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Synchronization error", "Synchronization error")
+                                                             message:@"Unable to synchronyze"
+                                                            delegate:nil
+                                                   cancelButtonTitle:NSLocalizedString(@"OK", "OK")
+                                                   otherButtonTitles:nil];
+            [prompt show];
+            [prompt release];            
+        }
+            
+        
     }
     else
     {
