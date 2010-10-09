@@ -97,6 +97,7 @@
 		8165427E12379C6A008FC80F /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427A12379C6A008FC80F /* UIColor-Expanded.m */; };
 		81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81656362125A2A5E00154640 /* DeleteItemViewController.m */; };
 		8165640A125A473F00154640 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81656408125A473F00154640 /* InfoPlist.strings */; };
+		816C3BE912608D2F00139BA3 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 816C3BE812608D2F00139BA3 /* Logger.m */; };
 		816CD7841239466C006BC92F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
 		816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7BD12394AA0006BC92F /* Default-Landscape.png */; };
 		816D76F1125B16380042BD8E /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 816D76F0125B16380042BD8E /* iTunesArtwork */; };
@@ -325,6 +326,8 @@
 		81656362125A2A5E00154640 /* DeleteItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteItemViewController.m; sourceTree = "<group>"; };
 		81656409125A473F00154640 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8165640B125A477F00154640 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		816C3BE712608D2F00139BA3 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
+		816C3BE812608D2F00139BA3 /* Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
 		816CD7831239466C006BC92F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		816CD7BD12394AA0006BC92F /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		816D76F0125B16380042BD8E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
@@ -588,6 +591,8 @@
 		8155A5F51237AF6F00A15FE5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				816C3BE712608D2F00139BA3 /* Logger.h */,
+				816C3BE812608D2F00139BA3 /* Logger.m */,
 				8141DD781259DC2400C6C24D /* PasswordManager.h */,
 				8141DD791259DC2400C6C24D /* PasswordManager.m */,
 				811456051258AC9300B755EB /* SignatureCommentViewController.h */,
@@ -1035,6 +1040,7 @@
 				81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */,
 				81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */,
 				8124C7FD125E15C90031C07E /* IntRow.m in Sources */,
+				816C3BE912608D2F00139BA3 /* Logger.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

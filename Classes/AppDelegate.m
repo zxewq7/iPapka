@@ -12,25 +12,14 @@
 #import "Folder.h"
 #import "DataSource.h"
 #import "NSUserDefaults+Additions.h"
+#import "Logger.h"
 
 @implementation AppDelegate
 @synthesize window, rootViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    //redirect NSLog to file
-    //http://blog.coriolis.ch/2009/01/09/redirect-nslog-to-a-file-on-the-iphone/
-
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-
-    if (documentsDirectory)
-    {
-        NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"console.log"];
-        freopen([logPath cStringUsingEncoding:NSUTF8StringEncoding],"w+",stderr);
-    }
-    else
-        NSLog(@"Unable to redirect log to file");
+    [Logger sharedLogger].redirectEnabled = YES;
     
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     

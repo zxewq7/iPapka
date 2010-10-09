@@ -7,6 +7,7 @@
 //
 
 #import "ClipperViewController.h"
+#import "Logger.h"
 
 @implementation ClipperViewController
 @synthesize opened;
@@ -118,32 +119,6 @@
 
 -(void) openLogTap:(UIGestureRecognizer *)gestureRecognizer
 {
-
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-
-    if (documentsDirectory)
-    {
-        NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"console.log"];
-
-        NSString *logContent = [NSString stringWithContentsOfFile:logPath encoding:NSUTF8StringEncoding error:NULL];
-        
-        MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
-        controller.mailComposeDelegate = self;
-        [controller setSubject:@"Meester log"];
-
-        [controller setMessageBody:logContent isHTML:NO]; 
-        [self presentModalViewController:controller animated:YES];
-        [controller release];}
-}
-
-#pragma mark -
-#pragma mark MFMailComposeViewControllerDelegate
-
-- (void)mailComposeController:(MFMailComposeViewController*)controller  
-          didFinishWithResult:(MFMailComposeResult)result 
-                        error:(NSError*)error;
-{
-    [self dismissModalViewControllerAnimated:YES];
+    [[Logger sharedLogger] showLogForController:self];
 }
 @end
