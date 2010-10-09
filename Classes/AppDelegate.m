@@ -31,32 +31,32 @@
         //default folders
         //names should be unique across all folders
         Folder *inbox = [Folder folderWithName:@"Documents" 
-                               predicateString:@"parent==nil && status == 0" 
+                               predicateString:@"parent==nil && (status == 0 || status == 1)" 
                                     entityName:@"Document"
                                       iconName:@"ButtonDocuments.png"];
         inbox.filters = [NSArray arrayWithObjects: 
                          [Folder folderWithName:@"Resolutions" 
-                                predicateString:@"parent==nil && status == 0" 
+                                predicateString:@"parent==nil && (status == 0 || status == 1)" 
                                      entityName:@"DocumentResolution"
                                        iconName:@"ButtonResolution.png"], 
                          [Folder folderWithName:@"Signatures" 
-                                predicateString:@"parent==nil && status == 0" 
+                                predicateString:@"parent==nil && (status == 0 || status == 1)" 
                                      entityName:@"DocumentSignature"
                                        iconName:@"ButtonSignature.png"],
                          nil];
         
         Folder *archive = [Folder folderWithName:@"Archive" 
-                                 predicateString:@"parent==nil && status != 0" 
+                                 predicateString:@"parent==nil && !(status == 0 || status == 1)" 
                                       entityName:@"Document"
                                         iconName:@"ButtonArchive.png"];
         
         archive.filters = [NSArray arrayWithObjects: 
                            [Folder folderWithName:@"Archived resolutions" 
-                                  predicateString:@"parent==nil && status != 0" 
+                                  predicateString:@"parent==nil && !(status == 0 || status == 1)" 
                                        entityName:@"DocumentResolution"
                                          iconName:@"ButtonResolution.png"], 
                            [Folder folderWithName:@"Archived signatures" 
-                                  predicateString:@"parent==nil && status != 0" 
+                                  predicateString:@"parent==nil && !(status == 0 || status == 1)" 
                                        entityName:@"DocumentSignature"
                                          iconName:@"ButtonSignature.png"],
                            nil];

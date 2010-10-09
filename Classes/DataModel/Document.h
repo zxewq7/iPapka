@@ -1,9 +1,10 @@
 #import "_Document.h"
 
 typedef enum _DocumentStatus {
-	DocumentStatusDraft = 0,
-    DocumentStatusAccepted = 1,
-    DocumentStatusDeclined = 2
+    DocumentStatusDraft = 0,
+	DocumentStatusNew = 1,
+    DocumentStatusAccepted = 3,
+    DocumentStatusDeclined = 4
 } DocumentStatus;
 
 typedef enum _SyncStatus {

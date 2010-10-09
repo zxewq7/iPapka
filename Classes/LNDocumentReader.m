@@ -101,7 +101,7 @@ static NSString* OperationCount = @"OperationCount";
         urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@", @"%@"];
 
         statusDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:DocumentStatusDraft], @"draft",
-                                                                              [NSNumber numberWithInt:DocumentStatusDraft], @"new",
+                                                                              [NSNumber numberWithInt:DocumentStatusNew], @"new",
                                                                               [NSNumber numberWithInt:DocumentStatusDeclined], @"rejected",
                                                                               [NSNumber numberWithInt:DocumentStatusAccepted], @"approved",
                                                                               nil];
@@ -456,6 +456,8 @@ static NSString* OperationCount = @"OperationCount";
         document.author = author;
         
         document.status = documentStatus;
+        
+        document.isReadValue = (document.statusValue != DocumentStatusNew);
         
         document.uid = uid;
         
