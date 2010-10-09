@@ -18,6 +18,20 @@
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
+    //redirect NSLog to file
+    //http://blog.coriolis.ch/2009/01/09/redirect-nslog-to-a-file-on-the-iphone/
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+
+    if (documentsDirectory)
+    {
+        NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"console.log"];
+        freopen([logPath cStringUsingEncoding:NSASCIIStringEncoding],"w+",stderr);
+    }
+    else
+        NSLog(@"Unable to redirect log to file");
+    
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     
     if (![currentDefaults objectForKey:@"lastFolder"])
