@@ -698,14 +698,19 @@
             g = color.green * kBrushOpacity;
             b = color.blue  * kBrushOpacity;
             a = kBrushOpacity;
+            
+            glColor4f(r, g, b, a);
+            break;
+        case kToolTypeEraser: //do nothing
             break;
         default:
             r = color.red;
             g = color.green;
             b = color.blue;
             a = 1.0f;
+            
+            glColor4f(r, g, b, a);
             break;
     }
-    glColor4f(r, g, b, a);
 }
 @end
