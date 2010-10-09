@@ -27,7 +27,7 @@
     if (documentsDirectory)
     {
         NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"console.log"];
-        freopen([logPath cStringUsingEncoding:NSASCIIStringEncoding],"w+",stderr);
+        freopen([logPath cStringUsingEncoding:NSUTF8StringEncoding],"w+",stderr);
     }
     else
         NSLog(@"Unable to redirect log to file");

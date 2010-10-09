@@ -7,9 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MessageUI/MessageUI.h>
 
-
-@interface ClipperViewController : UIViewController<UIGestureRecognizerDelegate> 
+@interface ClipperViewController : UIViewController<UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate> 
 {
     BOOL opened;
 }

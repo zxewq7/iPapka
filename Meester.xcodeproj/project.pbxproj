@@ -25,6 +25,7 @@
 		810BBBFD1251FEE900BD88EB /* DocumentResolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF01251FEE900BD88EB /* DocumentResolution.m */; };
 		810BBBFE1251FEE900BD88EB /* DocumentSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF21251FEE900BD88EB /* DocumentSignature.m */; };
 		810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 810CE95B1251D66C00933B9E /* Data.xcdatamodeld */; };
+		81113FB2126087C400132C39 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81113FB1126087C400132C39 /* MessageUI.framework */; };
 		811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811456061258AC9300B755EB /* SignatureCommentViewController.m */; };
 		811B583412454D1000BEB158 /* ColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B583312454D1000BEB158 /* ColorPicker.m */; };
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
@@ -216,6 +217,7 @@
 		810BBBF11251FEE900BD88EB /* DocumentSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentSignature.h; sourceTree = "<group>"; };
 		810BBBF21251FEE900BD88EB /* DocumentSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSignature.m; sourceTree = "<group>"; };
 		810CE95C1251D66C00933B9E /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
+		81113FB1126087C400132C39 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		811456051258AC9300B755EB /* SignatureCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureCommentViewController.h; sourceTree = "<group>"; };
 		811456061258AC9300B755EB /* SignatureCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureCommentViewController.m; sourceTree = "<group>"; };
 		811B583212454D1000BEB158 /* ColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPicker.h; sourceTree = "<group>"; };
@@ -439,6 +441,7 @@
 				8107AC2A1237A5D900F0C71F /* PLBlocks.framework in Frameworks */,
 				8173D9F11248EFC00045C2EF /* AVFoundation.framework in Frameworks */,
 				8173D9FB1248F1D40045C2EF /* CoreAudio.framework in Frameworks */,
+				81113FB2126087C400132C39 /* MessageUI.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -560,8 +563,6 @@
 			children = (
 				8124C7FB125E15C90031C07E /* IntRow.h */,
 				8124C7FC125E15C90031C07E /* IntRow.m */,
-				8141DD781259DC2400C6C24D /* PasswordManager.h */,
-				8141DD791259DC2400C6C24D /* PasswordManager.m */,
 				81CA24E812469DB900A50613 /* RootBackgroundView.h */,
 				81CA24E912469DB900A50613 /* RootBackgroundView.m */,
 				81C6748F1248BDFC002C272D /* RootContentView.h */,
@@ -587,6 +588,8 @@
 		8155A5F51237AF6F00A15FE5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				8141DD781259DC2400C6C24D /* PasswordManager.h */,
+				8141DD791259DC2400C6C24D /* PasswordManager.m */,
 				811456051258AC9300B755EB /* SignatureCommentViewController.h */,
 				811456061258AC9300B755EB /* SignatureCommentViewController.m */,
 				815657C01257574A0019A88D /* AudioCommentController.h */,
@@ -719,6 +722,7 @@
 				8107AC211237A5A900F0C71F /* QuartzCore.framework */,
 				8173D9F01248EFC00045C2EF /* AVFoundation.framework */,
 				8173D9FA1248F1D40045C2EF /* CoreAudio.framework */,
+				81113FB1126087C400132C39 /* MessageUI.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

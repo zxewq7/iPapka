@@ -39,9 +39,19 @@
     
     tapZone1.userInteractionEnabled = YES;
 
-    UITapGestureRecognizer *tapRecognizer1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+    UITapGestureRecognizer *tapRecognizer1 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openClipperTap:)];
+    tapRecognizer1.numberOfTapsRequired = 1;
     tapRecognizer1.delegate = self;
 
+    //show log
+    UITapGestureRecognizer *tapRecognizerLog = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openLogTap:)];
+    tapRecognizerLog.numberOfTapsRequired = 3;
+    tapRecognizerLog.delegate = self;
+    
+    [tapZone1 addGestureRecognizer: tapRecognizerLog];
+    [tapRecognizerLog release];
+
+    
     [tapZone1 addGestureRecognizer: tapRecognizer1];
     [tapRecognizer1 release];
     
@@ -57,12 +67,13 @@
     
     tapZone2.userInteractionEnabled = YES;
     
-    UITapGestureRecognizer *tapRecognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTapFrom:)];
+    UITapGestureRecognizer *tapRecognizer2 = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(openClipperTap:)];
+    tapRecognizer2.numberOfTapsRequired = 1;
     tapRecognizer2.delegate = self;
     
     [tapZone2 addGestureRecognizer: tapRecognizer2];
     [tapRecognizer2 release];
-    
+
     [self.view.superview addSubview: tapZone2];
     [self.view.superview bringSubviewToFront: tapZone2];
     
@@ -100,8 +111,39 @@
     return YES;
 }
 
--(void) handleTapFrom:(UITouch *)touch
+-(void) openClipperTap:(UIGestureRecognizer *)gestureRecognizer
 {
     self.opened = !self.opened;
+}
+
+-(void) openLogTap:(UIGestureRecognizer *)gestureRecognizer
+{
+
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *documentsDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+
+    if (documentsDirectory)
+    {
+        NSString *logPath = [documentsDirectory stringByAppendingPathComponent:@"console.log"];
+
+        NSString *logContent = [NSString stringWithContentsOfFile:logPath encoding:NSUTF8StringEncoding error:NULL];
+        
+        MFMailComposeViewController* controller = [[MFMailComposeViewController alloc] init];
+        controller.mailComposeDelegate = self;
+        [controller setSubject:@"Meester log"];
+
+        [controller setMessageBody:logContent isHTML:NO]; 
+        [self presentModalViewController:controller animated:YES];
+        [controller release];}
+}
+
+#pragma mark -
+#pragma mark MFMailComposeViewControllerDelegate
+
+- (void)mailComposeController:(MFMailComposeViewController*)controller  
+          didFinishWithResult:(MFMailComposeResult)result 
+                        error:(NSError*)error;
+{
+    [self dismissModalViewControllerAnimated:YES];
 }
 @end
