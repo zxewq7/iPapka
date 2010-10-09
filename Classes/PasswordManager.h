@@ -8,10 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-
+@class KeychainItemWrapper;
 @interface PasswordManager : NSObject<UIAlertViewDelegate>
 {
     void (^passwordDialogHandler)(NSString *login, NSString *password, BOOL canceled);
+    KeychainItemWrapper *wrapper;
 }
 + (PasswordManager *)sharedPasswordManager;
 - (void) credentials:(void (^)(NSString *login, NSString *password, BOOL canceled))handler;

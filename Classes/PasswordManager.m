@@ -15,14 +15,32 @@
 
 @implementation PasswordManager
 SYNTHESIZE_SINGLETON_FOR_CLASS(PasswordManager);
+
+- (id)init 
+{
+    if ((self = [super init])) 
+    {
+        wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
+        
+        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+        if ([currentDefaults boolForKey:@"serverResetPasssword"])
+        {
+            [wrapper resetKeychainItem];
+            [wrapper release];
+            //recreate wrapper after reset
+            wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
+            
+            [currentDefaults setBool:NO forKey:@"serverResetPasssword"];
+        }
+            
+    }
+    return self;
+}
+
 -(void) credentials:(void (^)(NSString *login, NSString *password, BOOL canceled))handler
 {
-    KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
-    
     NSString *login = [wrapper objectForKey:(NSString *)kSecAttrAccount];
     NSString *password = [wrapper objectForKey:(NSString *)kSecValueData];
-    
-    [wrapper release];
 
     if (login && password && ![login isEqualToString:@""] && ![password isEqualToString:@""])
     {
@@ -77,6 +95,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PasswordManager);
 - (void)dealloc 
 {
     [passwordDialogHandler release];
+    [wrapper release];
     [super dealloc];
 }
 
@@ -94,11 +113,8 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PasswordManager);
     
     if (!canceled)
     {
-        KeychainItemWrapper *wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
         [wrapper setObject:login forKey: (NSString *)kSecAttrAccount];
         [wrapper setObject:password forKey: (NSString *)kSecValueData];
-        [wrapper release];
-        
     }
     
     if (passwordDialogHandler)
