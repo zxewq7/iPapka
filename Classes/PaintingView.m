@@ -360,20 +360,6 @@
 		previousLocation = [touch previousLocationInView:self];
 		previousLocation.y = bounds.size.height - previousLocation.y;
 	}
-    
-    if (currentTool == kToolTypePen)
-    {
-        NSUInteger np = sqrt(pow((previousLocation.y - location.y),2) + pow((previousLocation.x - location.x),2));
-        [numberOfPoints add: np];
-
-        double divider = numberOfPoints.median;
-        if (divider > maxPenScale)
-            divider = maxPenScale;
-        else if (divider < minPenScale)
-            divider = minPenScale;
-        
-        glPointSize(penWidth / divider);
-    }
         // Render the stroke
 	[self renderLineFromPoint:previousLocation toPoint:location];
 }
@@ -472,9 +458,10 @@
         [self createTexture:&penTexture withImage:penImage];
         maxPenScale = penWidth / 5.0f;
         minPenScale = 7.0f;
-        penScale = maxPenScale;
     }
-    
+
+    penScale = maxPenScale;
+
     glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
     glEnable(GL_BLEND);
 
@@ -553,6 +540,7 @@
     // Drawings a line onscreen based on where the user touches
 - (void) renderLineFromPoint:(CGPoint)start toPoint:(CGPoint)end
 {
+
 	static GLfloat*		vertexBuffer = NULL;
 	static NSUInteger	vertexMax = 64;
 	NSUInteger			vertexCount = 0,
@@ -562,6 +550,21 @@
 	[EAGLContext setCurrentContext:context];
 	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
 	
+    
+    if (currentTool == kToolTypePen)
+    {
+        NSUInteger np = sqrt(pow((start.y - end.y),2) + pow((start.x - end.x),2));
+        [numberOfPoints add: np];
+        
+        double divider = numberOfPoints.median;
+        if (divider > maxPenScale)
+            divider = maxPenScale;
+        else if (divider < minPenScale)
+            divider = minPenScale;
+        
+        glPointSize(penWidth / divider);
+    }
+    
         // Convert locations from Points to Pixels
 #warning iOS 4 stuff
     CGFloat scale = 1.0;
