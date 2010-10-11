@@ -17,6 +17,7 @@
 #import "DocumentSignature.h"
 #import "Person.h"
 #import "LNDocumentWriter.h"
+#import "FileField.h"
 
 static NSString* SyncingContext = @"SyncingContext";
 
@@ -190,6 +191,18 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
                 
         }
+        else if ([object isKindOfClass:[FileField class]])
+
+        {
+            NSDictionary *changedValues = [object changedValues];
+            
+            NSUInteger numberOfProperties = [changedValues count];
+            if ([changedValues objectForKey: @"syncStatus"])
+                numberOfProperties--;
+            
+            if (numberOfProperties > 0) //set syncStatus to SyncStatusNeedSyncToServer
+                [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
+        }
     }
 
     NSSet *deletedObjects = [managedObjectContext deletedObjects];
@@ -258,6 +271,17 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPage" inManagedObjectContext:managedObjectContext];
 }
+
+- (ResolutionAudio *) documentReaderCreateResolutionAudio:(LNDocumentReader *) documentReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"ResolutionAudio" inManagedObjectContext:managedObjectContext];
+}
+
+- (SignatureAudio *) documentReaderCreateSignatureAudio:(LNDocumentReader *) documentReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"SignatureAudio" inManagedObjectContext:managedObjectContext];
+}
+
 
 - (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader
 {

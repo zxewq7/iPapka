@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		810586AF1263130400B8B079 /* _FileField.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586A81263130400B8B079 /* _FileField.m */; };
+		810586B01263130400B8B079 /* _ResolutionAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AA1263130400B8B079 /* _ResolutionAudio.m */; };
+		810586B11263130400B8B079 /* FileField.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AC1263130400B8B079 /* FileField.m */; };
+		810586B21263130400B8B079 /* ResolutionAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AE1263130400B8B079 /* ResolutionAudio.m */; };
+		810586B7126314D900B8B079 /* _SignatureAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586B4126314D900B8B079 /* _SignatureAudio.m */; };
+		810586B8126314D900B8B079 /* SignatureAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586B6126314D900B8B079 /* SignatureAudio.m */; };
 		8107AA8A1237A05500F0C71F /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADD41D1237A02F001E830A /* libASIHTTPRequest.a */; };
 		8107AAB41237A1AF00F0C71F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8107AAB31237A1AF00F0C71F /* Localizable.strings */; };
 		8107AB541237A4A500F0C71F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8107AB531237A4A500F0C71F /* CFNetwork.framework */; };
@@ -194,6 +200,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		810586A71263130400B8B079 /* _FileField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FileField.h; sourceTree = "<group>"; };
+		810586A81263130400B8B079 /* _FileField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _FileField.m; sourceTree = "<group>"; };
+		810586A91263130400B8B079 /* _ResolutionAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ResolutionAudio.h; sourceTree = "<group>"; };
+		810586AA1263130400B8B079 /* _ResolutionAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _ResolutionAudio.m; sourceTree = "<group>"; };
+		810586AB1263130400B8B079 /* FileField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileField.h; sourceTree = "<group>"; };
+		810586AC1263130400B8B079 /* FileField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileField.m; sourceTree = "<group>"; };
+		810586AD1263130400B8B079 /* ResolutionAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionAudio.h; sourceTree = "<group>"; };
+		810586AE1263130400B8B079 /* ResolutionAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionAudio.m; sourceTree = "<group>"; };
+		810586B3126314D900B8B079 /* _SignatureAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _SignatureAudio.h; sourceTree = "<group>"; };
+		810586B4126314D900B8B079 /* _SignatureAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _SignatureAudio.m; sourceTree = "<group>"; };
+		810586B5126314D900B8B079 /* SignatureAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureAudio.h; sourceTree = "<group>"; };
+		810586B6126314D900B8B079 /* SignatureAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureAudio.m; sourceTree = "<group>"; };
 		8107AAB51237A1B400F0C71F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8107AAB91237A22C00F0C71F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8107AB531237A4A500F0C71F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -454,6 +472,18 @@
 		810BBBDA1251FEE900BD88EB /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				810586B3126314D900B8B079 /* _SignatureAudio.h */,
+				810586B4126314D900B8B079 /* _SignatureAudio.m */,
+				810586B5126314D900B8B079 /* SignatureAudio.h */,
+				810586B6126314D900B8B079 /* SignatureAudio.m */,
+				810586A71263130400B8B079 /* _FileField.h */,
+				810586A81263130400B8B079 /* _FileField.m */,
+				810586A91263130400B8B079 /* _ResolutionAudio.h */,
+				810586AA1263130400B8B079 /* _ResolutionAudio.m */,
+				810586AB1263130400B8B079 /* FileField.h */,
+				810586AC1263130400B8B079 /* FileField.m */,
+				810586AD1263130400B8B079 /* ResolutionAudio.h */,
+				810586AE1263130400B8B079 /* ResolutionAudio.m */,
 				811ED7A8125521A300D2E027 /* _DocumentSignature.h */,
 				811ED7A9125521A300D2E027 /* _DocumentSignature.m */,
 				811ED76812551F9E00D2E027 /* _DocumentResolution.h */,
@@ -1041,6 +1071,12 @@
 				81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */,
 				8124C7FD125E15C90031C07E /* IntRow.m in Sources */,
 				816C3BE912608D2F00139BA3 /* Logger.m in Sources */,
+				810586AF1263130400B8B079 /* _FileField.m in Sources */,
+				810586B01263130400B8B079 /* _ResolutionAudio.m in Sources */,
+				810586B11263130400B8B079 /* FileField.m in Sources */,
+				810586B21263130400B8B079 /* ResolutionAudio.m in Sources */,
+				810586B7126314D900B8B079 /* _SignatureAudio.m in Sources */,
+				810586B8126314D900B8B079 /* SignatureAudio.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

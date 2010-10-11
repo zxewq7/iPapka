@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class AZZAudioRecorder, AZZAudioPlayer;
+@class AZZAudioRecorder, AZZAudioPlayer, FileField;
 
 @interface AudioCommentController : UIViewController
 {
-    NSString *path;
+    FileField           *file;
     
     AZZAudioRecorder    *recorder;
     AZZAudioPlayer      *player;
@@ -23,5 +23,5 @@
     NSTimer             *timer;
 }
     
-@property (nonatomic, retain) NSString* path;
+@property (nonatomic, retain) FileField* file;
 @end

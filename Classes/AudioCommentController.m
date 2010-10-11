@@ -12,6 +12,8 @@
 #import "AZZAudioPlayer.h"
 #import "NSString+Additions.h"
 #import "DeleteItemViewController.h"
+#import "FileField.h"
+#import "DataSource.h"
 
 
 static NSString *AudioContext = @"AudioContext";
@@ -23,20 +25,21 @@ static NSString *AudioContext = @"AudioContext";
 -(void) startTimer;
 -(void) stopTimer;
 -(void) updateDuration:(NSTimer *)timer;
+-(void) markFileModified;
 @end
 
 @implementation AudioCommentController
-@synthesize path;
+@synthesize file;
 
--(void) setPath:(NSString *) aPath
+-(void) setFile:(FileField *)aFile
 {
-    if (path == aPath)
+    if (file == aFile)
         return;
     
-    [path release];
-    path = [aPath retain];
+    [file release];
+    file = [aFile retain];
     
-    self.player.path = self.path;
+    self.player.path = file.path;
     [self updateContent];
 }
 
@@ -258,7 +261,9 @@ static NSString *AudioContext = @"AudioContext";
     [[DeleteItemViewController sharedDeleteItemViewController] showForView:(UIView *)sender handler:^(UIView *target){
         NSFileManager *df = [NSFileManager defaultManager];
         
-        [df removeItemAtPath:blockSelf.path error:NULL];
+        [df removeItemAtPath:blockSelf.file.path error:NULL];
+        
+        [blockSelf markFileModified];
         
         [blockSelf updateContent];
         
@@ -280,11 +285,12 @@ static NSString *AudioContext = @"AudioContext";
     {
         [self stopTimer];
         [recorder stop];
-        player.path = self.path;
+        player.path = self.file.path;
+        [self markFileModified];
     }
     else
     {
-        recorder.path = self.path;
+        recorder.path = self.file.path;
         if (![recorder start])
         {
             UIAlertView* alert = [[UIAlertView alloc] initWithTitle: NSLocalizedString(@"Error", "Error")
@@ -347,7 +353,7 @@ static NSString *AudioContext = @"AudioContext";
 -(void) updateContent
 {
     NSFileManager *df = [NSFileManager defaultManager];
-    BOOL exists = [df fileExistsAtPath: self.path];
+    BOOL exists = [df fileExistsAtPath: self.file.path];
     
     if (recorder.recording)
     {
@@ -422,5 +428,11 @@ static NSString *AudioContext = @"AudioContext";
         [recordButton setTitle:label forState:UIControlStateSelected];
     }
 
+}
+
+-(void) markFileModified
+{
+    self.file.localDateModified = [NSDate date];
+    [[DataSource sharedDataSource] commit];
 }
 @end

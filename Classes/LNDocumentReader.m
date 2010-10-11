@@ -18,6 +18,8 @@
 #import "AttachmentPage.h"
 #import "Person.h"
 #import "PasswordManager.h"
+#import "ResolutionAudio.h"
+#import "SignatureAudio.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -444,6 +446,7 @@ static NSString* OperationCount = @"OperationCount";
         
         if ([form isEqualToString:form_Resolution])
             document = [[self dataSource] documentReaderCreateResolution:self];
+            
         else if ([form isEqualToString:form_Signature])
             document = [[self dataSource] documentReaderCreateSignature:self];
         else
@@ -465,6 +468,7 @@ static NSString* OperationCount = @"OperationCount";
         
         document.path = [self documentDirectory: uid];
         
+        
 #warning wrong dateModified
         document.dateModified = [NSDate date];
 
@@ -479,6 +483,20 @@ static NSString* OperationCount = @"OperationCount";
         {
             DocumentResolution *resolution = (DocumentResolution *)document;
             [self parseResolution:resolution fromDictionary:parsedDocument];
+            
+            ResolutionAudio *audio = [self.dataSource documentReaderCreateResolutionAudio:self];
+            resolution.primitiveAudioComment = audio;
+            audio.parent = resolution;
+            audio.path = [resolution.path stringByAppendingPathComponent:@"audioComment.ima4"];
+
+        }
+        else if ([document isKindOfClass:[DocumentSignature class]]) 
+        {
+            DocumentSignature *signature = (DocumentSignature *)document;
+            SignatureAudio *audio = [self.dataSource documentReaderCreateSignatureAudio:self];
+            signature.primitiveAudioComment = audio;
+            audio.parent = signature;
+            audio.path = [signature.path stringByAppendingPathComponent:@"audioComment.ima4"];
         }
         
         //parse attachments

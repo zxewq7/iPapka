@@ -15,6 +15,7 @@
 #import "DatePickerController.h"
 #import "DataSource.h"
 #import "AudioCommentController.h"
+#import "ResolutionAudio.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
@@ -380,7 +381,7 @@
     
     performersViewController.document = document;
     
-    audioCommentController.path = document.audioCommentPath;
+    audioCommentController.file = document.audioComment;
     
     managedButton.on = resolution.isManagedValue;
     

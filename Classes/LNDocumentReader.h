@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class Document, DocumentResolution, DocumentSignature, AttachmentPage, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person;
+@class Document, DocumentResolution, DocumentSignature, AttachmentPage, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person, ResolutionAudio, SignatureAudio;
 
 @protocol LNDocumentReaderDataSource
 - (Document *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
@@ -19,6 +19,8 @@
 - (Document *) documentReaderCreateDocument:(LNDocumentReader *) documentReader;
 - (Attachment *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader;
 - (AttachmentPage *) documentReaderCreatePage:(LNDocumentReader *) documentReader;
+- (ResolutionAudio *) documentReaderCreateResolutionAudio:(LNDocumentReader *) documentReader;
+- (SignatureAudio *) documentReaderCreateSignatureAudio:(LNDocumentReader *) documentReader;
 
 - (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader;
 

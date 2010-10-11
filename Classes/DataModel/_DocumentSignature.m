@@ -38,6 +38,10 @@
 
 
 
+@dynamic audioComment;
+
+	
+
 
 
 @end

@@ -71,6 +71,10 @@
 
 
 
+@dynamic parentResolution;
+
+	
+
 @dynamic performers;
 
 	
@@ -82,7 +86,7 @@
 }
 	
 
-@dynamic parentResolution;
+@dynamic audioComment;
 
 	
 
