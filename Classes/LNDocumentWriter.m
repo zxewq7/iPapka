@@ -24,6 +24,13 @@
 
 static NSString* OperationCount = @"OperationCount";
 
+static NSString* kFieldVersion = @"version";
+static NSString* kFieldParentId = @"parentid";
+static NSString* kFieldUid = @"id";
+static NSString* kFieldDeadline = @"deadline";
+static NSString* kFieldPerformers = @"performers";
+static NSString* kFieldText = @"text";
+
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(Document *) document;
 - (void) syncFile:(FileField *) file;
@@ -174,7 +181,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     NSMutableDictionary *dictDocument = [NSMutableDictionary dictionaryWithCapacity: 6];
     
-    [dictDocument setObject:document.uid forKey:@"id"];
+    [dictDocument setObject:document.uid forKey:kFieldUid];
     
     NSString *action;
     
@@ -201,7 +208,7 @@ static NSString* OperationCount = @"OperationCount";
         DocumentResolution *resolution = (DocumentResolution *) document;
         
         if (resolution.deadline)
-            [dictDocument setObject:[parseFormatterSimple stringFromDate:resolution.deadline] forKey:@"deadline"];
+            [dictDocument setObject:[parseFormatterSimple stringFromDate:resolution.deadline] forKey:kFieldDeadline];
         
         NSSet *performers = resolution.performers;
         NSUInteger performersCount = [performers count];
@@ -211,13 +218,13 @@ static NSString* OperationCount = @"OperationCount";
             for(Person *performer in performers)
                 [performersArray addObject:performer.uid];
 
-            [dictDocument setObject:performersArray forKey:@"performers"];
+            [dictDocument setObject:performersArray forKey:kFieldPerformers];
             
             [performersArray release];
         }
         
         if (resolution.text)
-            [dictDocument setObject:resolution.text forKey:@"text"];
+            [dictDocument setObject:resolution.text forKey:kFieldText];
     }
     
     
@@ -272,16 +279,16 @@ static NSString* OperationCount = @"OperationCount";
     if ([file isKindOfClass: [SignatureAudio class]])
     {
         SignatureAudio *audio = (SignatureAudio *) file;
-        [request setPostValue:audio.parent.uid forKey:@"parentid"];
+        [request setPostValue:audio.parent.uid forKey:kFieldParentId];
         if (audio.version)
-            [request setPostValue:audio.version forKey:@"version"];
+            [request setPostValue:audio.version forKey:kFieldVersion];
     }
     else if ([file isKindOfClass: [ResolutionAudio class]])
     {
         ResolutionAudio *audio = (ResolutionAudio *) file;
-        [request setPostValue:audio.parent.uid forKey:@"parentid"];
+        [request setPostValue:audio.parent.uid forKey:kFieldParentId];
         if (audio.version)
-            [request setPostValue:audio.version forKey:@"version"];
+            [request setPostValue:audio.version forKey:kFieldVersion];
     }
 
     [request setFile:file.path forKey:postFileField];
@@ -312,8 +319,8 @@ static NSString* OperationCount = @"OperationCount";
                 return;
             }
             
-            NSString *uid = [parsedResponse valueForKey:@"id"];
-            NSString *version = [parsedResponse valueForKey:@"version"];
+            NSString *uid = [parsedResponse valueForKey:kFieldUid];
+            NSString *version = [parsedResponse valueForKey:kFieldVersion];
             if (uid == nil || version == nil)
             {
                 NSLog(@"error parsing response:", jsonString);
