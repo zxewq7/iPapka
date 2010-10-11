@@ -143,6 +143,7 @@
 		81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */; };
 		81B2730B1248EED60012FE9A /* AZZAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */; };
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
+		81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */; };
 		81C47F93125E397300F60C49 /* PaletteBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F87125E397300F60C49 /* PaletteBlack.png */; };
 		81C47F94125E397300F60C49 /* PaletteBlackSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F88125E397300F60C49 /* PaletteBlackSelected.png */; };
 		81C47F95125E397300F60C49 /* PaletteBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F89125E397300F60C49 /* PaletteBlue.png */; };
@@ -400,6 +401,8 @@
 		81B273091248EED60012FE9A /* AZZAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZZAudioRecorder.h; sourceTree = "<group>"; };
 		81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZZAudioRecorder.m; sourceTree = "<group>"; };
 		81B5C1131242792200B8E9B8 /* Paper-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper-Landscape.png"; sourceTree = "<group>"; };
+		81B7090E12635FFF006B5D53 /* LNFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNFormDataRequest.h; sourceTree = "<group>"; };
+		81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNFormDataRequest.m; sourceTree = "<group>"; };
 		81C47F87125E397300F60C49 /* PaletteBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlack.png; sourceTree = "<group>"; };
 		81C47F88125E397300F60C49 /* PaletteBlackSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlackSelected.png; sourceTree = "<group>"; };
 		81C47F89125E397300F60C49 /* PaletteBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlue.png; sourceTree = "<group>"; };
@@ -795,6 +798,8 @@
 				81775FC31251F6F0002A2D3D /* LNDocumentWriter.m */,
 				81775FC41251F6F0002A2D3D /* LNHttpRequest.h */,
 				81775FC51251F6F0002A2D3D /* LNHttpRequest.m */,
+				81B7090E12635FFF006B5D53 /* LNFormDataRequest.h */,
+				81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */,
 			);
 			name = LN;
 			sourceTree = "<group>";
@@ -1077,6 +1082,7 @@
 				810586B21263130400B8B079 /* ResolutionAudio.m in Sources */,
 				810586B7126314D900B8B079 /* _SignatureAudio.m in Sources */,
 				810586B8126314D900B8B079 /* SignatureAudio.m in Sources */,
+				81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

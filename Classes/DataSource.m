@@ -177,14 +177,15 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     
     for (NSManagedObject *object in updatedObjects)
     {
+        NSDictionary *changedValues = [object changedValues];
+        NSUInteger numberOfProperties = [changedValues count];
+        if ([changedValues objectForKey: @"syncStatus"]) //ignore documents with changed sync status
+            continue;
+
         if ([object isKindOfClass:[Document class]])
         {
-            NSDictionary *changedValues = [object changedValues];
             
-            NSUInteger numberOfProperties = [changedValues count];
             if ([changedValues objectForKey: @"isRead"]) //ignore these properties
-                numberOfProperties--;
-            if ([changedValues objectForKey: @"syncStatus"])
                 numberOfProperties--;
             
             if (numberOfProperties > 0) //set syncStatus to SyncStatusNeedSyncToServer
@@ -194,14 +195,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         else if ([object isKindOfClass:[FileField class]])
 
         {
-            NSDictionary *changedValues = [object changedValues];
-            
-            NSUInteger numberOfProperties = [changedValues count];
-            if ([changedValues objectForKey: @"syncStatus"])
-                numberOfProperties--;
-            
-            if (numberOfProperties > 0) //set syncStatus to SyncStatusNeedSyncToServer
-                [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
+            [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
         }
     }
 
@@ -493,12 +487,41 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
                                             managedObjectContext:managedObjectContext 
                                               sectionNameKeyPath:nil
-                                                       cacheName:@"UnsyncedObjects"];
+                                                       cacheName:@"UnsyncedDocuments"];
         [fetchRequest release];
         
         documentWriter.unsyncedDocuments = fetchedResultsController;
         
         [fetchedResultsController release];
+        
+
+        fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:[NSEntityDescription entityForName:@"FileField" inManagedObjectContext:managedObjectContext]];
+        
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
+        
+        sortDescriptor = 
+        [[NSSortDescriptor alloc] initWithKey:@"dateModified" 
+                                    ascending:NO];
+        
+        sortDescriptors = [[NSArray alloc] 
+                                    initWithObjects:sortDescriptor, nil];  
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        [sortDescriptors release];
+        [sortDescriptor release];
+
+        
+        fetchedResultsController = 
+        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
+                                            managedObjectContext:managedObjectContext 
+                                              sectionNameKeyPath:nil
+                                                       cacheName:@"UnsyncedFiles"];
+        [fetchRequest release];
+        
+        documentWriter.unsyncedFiles = fetchedResultsController;
+        
+        [fetchedResultsController release];
+        
         
         [documentWriter addObserver:self
                          forKeyPath:@"isSyncing"

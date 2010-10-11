@@ -12,29 +12,25 @@
 #import "Document.h"
 #import "SBJsonWriter.h"
 #import "DocumentResolution.h"
+#import "DocumentSignature.h"
 #import "DataSource.h"
 #import "Person.h"
 #import "PasswordManager.h"
-
+#import "FileField.h"
+#import "LNFormDataRequest.h"
+#import "SignatureAudio.h"
+#import "ResolutionAudio.h"
+#import "SBJsonParser.h"
 
 static NSString* OperationCount = @"OperationCount";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(Document *) document;
+- (void) syncFile:(FileField *) file;
 @end
 
 @implementation LNDocumentWriter
-@synthesize url, unsyncedDocuments, isSyncing;
-
--(void) setUnsyncedDocuments:(NSFetchedResultsController*) anUnsyncedDocuments
-{
-    if (unsyncedDocuments != anUnsyncedDocuments)
-    {
-        [unsyncedDocuments release];
-        unsyncedDocuments = [anUnsyncedDocuments retain];
-    }
-    unsyncedDocuments.delegate = nil;
-}
+@synthesize unsyncedDocuments, unsyncedFiles, isSyncing;
 
 - (id) initWithUrl:(NSString *) anUrl
 {
@@ -45,9 +41,12 @@ static NSString* OperationCount = @"OperationCount";
         
         url = [anUrl retain];
         
-        requestUrl = [url stringByAppendingString:@"/ipad.transfer?OpenAgent&charset=utf-8"];
+        postDocumentUrl = [url stringByAppendingString:@"/ipad.transfer?OpenAgent&charset=utf-8"]; [postDocumentUrl retain];
         
-        [requestUrl retain];
+        postFileUrl = [url stringByAppendingString:@"/e04f3dca071a7044c32577b50047f276?CreateDocument"]; [postFileUrl retain];
+        
+        postFileField = @"%%File.c325771a00553735.e04f3dca071a7044c32577b50047f276.$Body.0.2A6"; [postFileField retain];
+
         
         queue = [[ASINetworkQueue alloc] init];
         [queue setRequestDidFinishSelector:@selector(fetchComplete:)];
@@ -76,7 +75,7 @@ static NSString* OperationCount = @"OperationCount";
     
     NSError *error = nil;
 	if (![unsyncedDocuments performFetch:&error])
-		NSAssert1(error == nil, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
+		NSAssert1(error == nil, @"Unhandled error executing unsynced documents: %@", [error localizedDescription]);
 
     [self willChangeValueForKey:@"isSyncing"];
     isSyncing = YES;
@@ -91,7 +90,20 @@ static NSString* OperationCount = @"OperationCount";
         Document *document = [unsyncedDocuments objectAtIndexPath:indexPath];
         [self syncDocument:document];
     }
+
+    if (![unsyncedFiles performFetch:&error])
+		NSAssert1(error == nil, @"Unhandled error executing unsynced files: %@", [error localizedDescription]);
+
+    sectionInfo = [[unsyncedFiles sections] objectAtIndex:0];
+    numberOfObjects = [sectionInfo numberOfObjects];
     
+    for (NSUInteger i = 0;i < numberOfObjects; i++)
+    {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        FileField *file = [unsyncedFiles objectAtIndexPath:indexPath];
+        [self syncFile:file];
+    }
+
     if (!queue.requestsCount)// nothing running
     {
         [self willChangeValueForKey:@"isSyncing"];
@@ -143,10 +155,15 @@ static NSString* OperationCount = @"OperationCount";
     
     [parseFormatterSimple release]; parseFormatterSimple = nil;
     
-    [requestUrl release]; requestUrl =  nil;
+    [postDocumentUrl release]; postDocumentUrl =  nil;
     
-    unsyncedDocuments.delegate = nil;
+    [postFileUrl release]; postFileUrl = nil;
+    
+    [postFileField release]; postFileField = nil;
+    
     [unsyncedDocuments release]; unsyncedDocuments = nil;
+    [unsyncedFiles release]; unsyncedFiles = nil;
+    
     
     [super dealloc];
 }
@@ -218,7 +235,7 @@ static NSString* OperationCount = @"OperationCount";
         return;
     }
     
-    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: requestUrl]];
+    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: postDocumentUrl]];
     
     [request addRequestHeader:@"Content-Type" value:@"text/plain; charset=utf-8"];
     
@@ -240,6 +257,73 @@ static NSString* OperationCount = @"OperationCount";
         else
         {
             document.syncStatusValue = SyncStatusSynced;
+            [[DataSource sharedDataSource] commit];
+        }
+        
+    };
+    
+    [queue addOperation:request];    
+}
+
+- (void) syncFile:(FileField *) file
+{
+    LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: postFileUrl]];
+    
+    if ([file isKindOfClass: [SignatureAudio class]])
+    {
+        SignatureAudio *audio = (SignatureAudio *) file;
+        [request setPostValue:audio.parent.uid forKey:@"parentid"];
+        if (audio.version)
+            [request setPostValue:audio.version forKey:@"version"];
+    }
+    else if ([file isKindOfClass: [ResolutionAudio class]])
+    {
+        ResolutionAudio *audio = (ResolutionAudio *) file;
+        [request setPostValue:audio.parent.uid forKey:@"parentid"];
+        if (audio.version)
+            [request setPostValue:audio.version forKey:@"version"];
+    }
+
+    [request setPostValue:@"" forKey:@"text"];
+
+    [request setFile:file.path forKey:postFileField];
+    
+    request.delegate = self;
+    
+    
+    __block LNDocumentWriter *blockSelf = self;
+    
+    request.requestHandler = ^(ASIHTTPRequest *request) {
+        NSString *error = [request error] == nil?
+        ([request responseStatusCode] == 200?
+         nil:
+         NSLocalizedString(@"Bad response", "Bad response")):
+        [[request error] localizedDescription];
+        if (error)
+            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
+        else
+        {
+            SBJsonParser *json = [[SBJsonParser alloc] init];
+            NSError *error = nil;
+            NSString *jsonString = [request responseString];
+            NSDictionary *parsedResponse = [json objectWithString:jsonString error:&error];
+            [json release];
+            if (parsedResponse == nil)
+            {
+                NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
+                return;
+            }
+            
+            NSString *uid = [parsedResponse valueForKey:@"id"];
+            NSString *version = [parsedResponse valueForKey:@"version"];
+            if (uid == nil || version == nil)
+            {
+                NSLog(@"error parsing response:", jsonString);
+                return;
+            }
+            file.uid = uid;
+            file.version = version;
+            file.syncStatusValue = SyncStatusSynced;
             [[DataSource sharedDataSource] commit];
         }
         
