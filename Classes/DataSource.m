@@ -179,7 +179,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     {
         NSDictionary *changedValues = [object changedValues];
         NSUInteger numberOfProperties = [changedValues count];
-        if ([changedValues objectForKey: @"syncStatus"]) //ignore documents with changed sync status
+        if ([changedValues objectForKey: @"syncStatus"]) //ignore objects with changed sync status
             continue;
 
         if ([object isKindOfClass:[Document class]])
