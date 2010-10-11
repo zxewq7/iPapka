@@ -11,6 +11,8 @@
 
 
 
+
+
 @interface FileFieldID : NSManagedObjectID {}
 @end
 
@@ -24,21 +26,15 @@
 
 
 
-@property (nonatomic, retain) NSString *name;
+@property (nonatomic, retain) NSString *uid;
 
-//- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
 
 
 
 @property (nonatomic, retain) NSString *path;
 
 //- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *url;
-
-//- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -52,9 +48,27 @@
 
 
 
-@property (nonatomic, retain) NSDate *localDateModified;
+@property (nonatomic, retain) NSString *name;
 
-//- (BOOL)validateLocalDateModified:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *dateModified;
+
+//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *version;
+
+//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *url;
+
+//- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -67,16 +81,12 @@
 
 @interface _FileField (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveName;
-- (void)setPrimitiveName:(NSString*)value;
+- (NSString*)primitiveUid;
+- (void)setPrimitiveUid:(NSString*)value;
 
 
 - (NSString*)primitivePath;
 - (void)setPrimitivePath:(NSString*)value;
-
-
-- (NSString*)primitiveUrl;
-- (void)setPrimitiveUrl:(NSString*)value;
 
 
 - (NSNumber*)primitiveSyncStatus;
@@ -86,8 +96,20 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_;
 
 
-- (NSDate*)primitiveLocalDateModified;
-- (void)setPrimitiveLocalDateModified:(NSDate*)value;
+- (NSString*)primitiveName;
+- (void)setPrimitiveName:(NSString*)value;
+
+
+- (NSDate*)primitiveDateModified;
+- (void)setPrimitiveDateModified:(NSDate*)value;
+
+
+- (NSString*)primitiveVersion;
+- (void)setPrimitiveVersion:(NSString*)value;
+
+
+- (NSString*)primitiveUrl;
+- (void)setPrimitiveUrl:(NSString*)value;
 
 
 

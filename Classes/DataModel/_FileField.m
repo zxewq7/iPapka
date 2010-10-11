@@ -31,7 +31,7 @@
 
 
 
-@dynamic name;
+@dynamic uid;
 
 
 
@@ -39,13 +39,6 @@
 
 
 @dynamic path;
-
-
-
-
-
-
-@dynamic url;
 
 
 
@@ -78,7 +71,28 @@
 
 
 
-@dynamic localDateModified;
+@dynamic name;
+
+
+
+
+
+
+@dynamic dateModified;
+
+
+
+
+
+
+@dynamic version;
+
+
+
+
+
+
+@dynamic url;
 
 
 
