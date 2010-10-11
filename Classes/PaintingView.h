@@ -5,7 +5,7 @@
 
 //CONSTANTS:
 
-#define kBrushOpacity		(1.0 / 3.0)
+#define kBrushOpacity		(1.0 / 6.0)
 #define kBrushPixelStep		3
 #define kBrushScale			2
 #define kLuminosity			0.75
