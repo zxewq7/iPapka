@@ -284,8 +284,6 @@ static NSString* OperationCount = @"OperationCount";
             [request setPostValue:audio.version forKey:@"version"];
     }
 
-    [request setPostValue:@"" forKey:@"text"];
-
     [request setFile:file.path forKey:postFileField];
     
     request.delegate = self;
