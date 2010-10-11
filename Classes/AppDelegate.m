@@ -23,59 +23,66 @@
     
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     
-    if (![currentDefaults objectForKey:@"lastFolder"])
+    //Create dictionary
+    NSMutableDictionary* defaultValues = [NSUserDefaults defaultsFromSettingsBundle];
+    
+    //default folders
+    //names should be unique across all folders
+    Folder *inbox = [Folder folderWithName:@"Documents" 
+                           predicateString:@"parent==nil && (status == 0 || status == 1)" 
+                                entityName:@"Document"
+                                  iconName:@"ButtonDocuments.png"];
+    inbox.filters = [NSArray arrayWithObjects: 
+                     [Folder folderWithName:@"Resolutions" 
+                            predicateString:@"parent==nil && (status == 0 || status == 1)" 
+                                 entityName:@"DocumentResolution"
+                                   iconName:@"ButtonResolution.png"], 
+                     [Folder folderWithName:@"Signatures" 
+                            predicateString:@"parent==nil && (status == 0 || status == 1)" 
+                                 entityName:@"DocumentSignature"
+                                   iconName:@"ButtonSignature.png"],
+                     nil];
+    
+    Folder *archive = [Folder folderWithName:@"Archive" 
+                             predicateString:@"parent==nil && !(status == 0 || status == 1)" 
+                                  entityName:@"Document"
+                                    iconName:@"ButtonArchive.png"];
+    
+    archive.filters = [NSArray arrayWithObjects: 
+                       [Folder folderWithName:@"Archived resolutions" 
+                              predicateString:@"parent==nil && !(status == 0 || status == 1)" 
+                                   entityName:@"DocumentResolution"
+                                     iconName:@"ButtonResolution.png"], 
+                       [Folder folderWithName:@"Archived signatures" 
+                              predicateString:@"parent==nil && !(status == 0 || status == 1)" 
+                                   entityName:@"DocumentSignature"
+                                     iconName:@"ButtonSignature.png"],
+                       nil];
+    
+    NSArray* defaultFolders = [NSArray arrayWithObjects:
+                               inbox,
+                               archive,
+                               nil];
+    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
+    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
+    
+    [defaultValues setObject:@"ProcessedRest" forKey:@"serverDatabaseViewArchive"];
+    [defaultValues setObject:@"documents" forKey:@"serverDatabaseViewInbox"];
+    
+    //Register the dictionary of defaults
+    
+    
+    [currentDefaults registerDefaults:defaultValues];
+    [currentDefaults synchronize];
+
+    NSString *currentBundleVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
+    NSString *currentBundleShortVersion = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
+    NSString *currentVersion = [NSString stringWithFormat:@"%@(%@)", currentBundleShortVersion, currentBundleVersion];
+    
+    if (![[currentDefaults objectForKey:@"version"] isEqualToString:currentVersion])
     {
-        //Create dictionary
-        NSMutableDictionary* defaultValues = [NSUserDefaults defaultsFromSettingsBundle];
-        
-        //default folders
-        //names should be unique across all folders
-        Folder *inbox = [Folder folderWithName:@"Documents" 
-                               predicateString:@"parent==nil && (status == 0 || status == 1)" 
-                                    entityName:@"Document"
-                                      iconName:@"ButtonDocuments.png"];
-        inbox.filters = [NSArray arrayWithObjects: 
-                         [Folder folderWithName:@"Resolutions" 
-                                predicateString:@"parent==nil && (status == 0 || status == 1)" 
-                                     entityName:@"DocumentResolution"
-                                       iconName:@"ButtonResolution.png"], 
-                         [Folder folderWithName:@"Signatures" 
-                                predicateString:@"parent==nil && (status == 0 || status == 1)" 
-                                     entityName:@"DocumentSignature"
-                                       iconName:@"ButtonSignature.png"],
-                         nil];
-        
-        Folder *archive = [Folder folderWithName:@"Archive" 
-                                 predicateString:@"parent==nil && !(status == 0 || status == 1)" 
-                                      entityName:@"Document"
-                                        iconName:@"ButtonArchive.png"];
-        
-        archive.filters = [NSArray arrayWithObjects: 
-                           [Folder folderWithName:@"Archived resolutions" 
-                                  predicateString:@"parent==nil && !(status == 0 || status == 1)" 
-                                       entityName:@"DocumentResolution"
-                                         iconName:@"ButtonResolution.png"], 
-                           [Folder folderWithName:@"Archived signatures" 
-                                  predicateString:@"parent==nil && !(status == 0 || status == 1)" 
-                                       entityName:@"DocumentSignature"
-                                         iconName:@"ButtonSignature.png"],
-                           nil];
-        
-        NSArray* defaultFolders = [NSArray arrayWithObjects:
-                                   inbox,
-                                   archive,
-                                   nil];
-        [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
-        [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
-        
-        [defaultValues setObject:@"ProcessedRest" forKey:@"serverDatabaseViewArchive"];
-        [defaultValues setObject:@"documents" forKey:@"serverDatabaseViewInbox"];
-        
-        //Register the dictionary of defaults
-        
-        
-        [currentDefaults registerDefaults:defaultValues];
-        [currentDefaults synchronize];
+        [NSUserDefaults resetStandardUserDefaults];
+        [currentDefaults setObject:currentVersion forKey:@"version"];
     }
     
     NSData *lastFolderData = [currentDefaults objectForKey:@"lastFolder"];
