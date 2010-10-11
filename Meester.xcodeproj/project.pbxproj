@@ -289,7 +289,7 @@
 		81585487123BC2F100A827E6 /* UITabBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Additions.m"; sourceTree = "<group>"; };
 		815DDC5412450C3F00F72600 /* PersonPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonPickerViewController.h; sourceTree = "<group>"; };
 		815DDC5512450C3F00F72600 /* PersonPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonPickerViewController.m; sourceTree = "<group>"; };
-		816541BB12379AA3008FC80F /* Meester.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Meester.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		816541BB12379AA3008FC80F /* iPapka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPapka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		816541BE12379AA3008FC80F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		816541C012379AA3008FC80F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		816541C212379AA3008FC80F /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -735,7 +735,7 @@
 		816541BC12379AA3008FC80F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				816541BB12379AA3008FC80F /* Meester.app */,
+				816541BB12379AA3008FC80F /* iPapka.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -823,9 +823,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		816541BA12379AA3008FC80F /* Meester */ = {
+		816541BA12379AA3008FC80F /* iPapka */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 816541DC12379AA4008FC80F /* Build configuration list for PBXNativeTarget "Meester" */;
+			buildConfigurationList = 816541DC12379AA4008FC80F /* Build configuration list for PBXNativeTarget "iPapka" */;
 			buildPhases = (
 				816541B712379AA3008FC80F /* Sources */,
 				816541B812379AA3008FC80F /* Frameworks */,
@@ -836,9 +836,9 @@
 			);
 			dependencies = (
 			);
-			name = Meester;
+			name = iPapka;
 			productName = Meester;
-			productReference = 816541BB12379AA3008FC80F /* Meester.app */;
+			productReference = 816541BB12379AA3008FC80F /* iPapka.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -846,6 +846,9 @@
 /* Begin PBXProject section */
 		816541AE12379AA3008FC80F /* Project object */ = {
 			isa = PBXProject;
+			attributes = {
+				ORGANIZATIONNAME = Intertrust;
+			};
 			buildConfigurationList = 816541B112379AA3008FC80F /* Build configuration list for PBXProject "Meester" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
@@ -867,7 +870,7 @@
 			);
 			projectRoot = "";
 			targets = (
-				816541BA12379AA3008FC80F /* Meester */,
+				816541BA12379AA3008FC80F /* iPapka */,
 			);
 		};
 /* End PBXProject section */
@@ -1118,7 +1121,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Meester_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = Meester;
+				PRODUCT_NAME = iPapka;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1135,7 +1138,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Meester_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = Meester;
+				PRODUCT_NAME = iPapka;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1172,7 +1175,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = Meester_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
-				PRODUCT_NAME = Meester;
+				PRODUCT_NAME = iPapka;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1191,7 +1194,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		816541DC12379AA4008FC80F /* Build configuration list for PBXNativeTarget "Meester" */ = {
+		816541DC12379AA4008FC80F /* Build configuration list for PBXNativeTarget "iPapka" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				816541DD12379AA4008FC80F /* Debug */,
