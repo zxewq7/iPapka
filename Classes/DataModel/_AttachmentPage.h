@@ -24,13 +24,13 @@
 
 
 
-@property (nonatomic, retain) NSNumber *isFetched;
+@property (nonatomic, retain) NSNumber *syncStatus;
 
-@property BOOL isFetchedValue;
-- (BOOL)isFetchedValue;
-- (void)setIsFetchedValue:(BOOL)value_;
+@property short syncStatusValue;
+- (short)syncStatusValue;
+- (void)setSyncStatusValue:(short)value_;
 
-//- (BOOL)validateIsFetched:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -73,11 +73,11 @@
 
 @interface _AttachmentPage (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSNumber*)primitiveIsFetched;
-- (void)setPrimitiveIsFetched:(NSNumber*)value;
+- (NSNumber*)primitiveSyncStatus;
+- (void)setPrimitiveSyncStatus:(NSNumber*)value;
 
-- (BOOL)primitiveIsFetchedValue;
-- (void)setPrimitiveIsFetchedValue:(BOOL)value_;
+- (short)primitiveSyncStatusValue;
+- (void)setPrimitiveSyncStatusValue:(short)value_;
 
 
 - (NSNumber*)primitiveNumber;

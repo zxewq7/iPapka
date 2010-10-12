@@ -44,6 +44,7 @@ static NSString *field_ParentResolution  = @"parent";
 static NSString *field_Attachments = @"files";
 static NSString *field_AttachmentName = @"name";
 static NSString *field_AttachmentPageCount = @"pageCount";
+static NSString *field_AttachmentPagePainting = @"drawings";
 static NSString *field_Links = @"links";
 static NSString *field_LinkTitle = @"info";
 static NSString *field_Status = @"status";
@@ -54,8 +55,12 @@ static NSString *url_FetchViewFormat     = @"%@/%@?ReadViewEntries&OutputFormat=
 static NSString *url_FetchDocumentFormat = @"%@/document/%@";
     //document/id/file/file.id/page/pagenum
 static NSString *url_AttachmentFetchPageFormat = @"%@/document/%@/file/%@/page/%@";
+
+static NSString *url_AttachmentFetchPaintingFormat = @"%@/document/%@/file/%@/page/%@/drawing";
     //document/id/link/link.id/file/file.id/page/pagenum
 static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/file/%@/page/%@";
+
+static NSString *url_LinkAttachmentFetchPaintingFormat = @"%@/document/%@/link/%@/file/%@/page/%@/drawing";
 
 @interface LNDocumentReader(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -64,10 +69,12 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 - (void)fetchDocuments;
 - (void)parseDocumentData:(NSDictionary *) parsedDocument;
 - (NSString *) documentDirectory:(NSString *) anUid;
-- (void)fetchPage:(AttachmentPage *)page;
+- (void)fetchPage:(AttachmentPage *)painting;
+- (void)fetchPainting:(AttachmentPagePainting *)page;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(DocumentResolution *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) fetchResources;
 @end
 static NSString* OperationCount = @"OperationCount";
 
@@ -101,8 +108,11 @@ static NSString* OperationCount = @"OperationCount";
         
         urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, anUrl, @"%@"];
         urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@"];
+        urlAttachmentFetchPaintingFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPaintingFormat, anUrl, @"%@", @"%@", @"%@"];
         urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@", @"%@"];
 
+        urlLinkAttachmentFetchPaintingFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPaintingFormat, anUrl, @"%@", @"%@", @"%@", @"%@"];
+        
         statusDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:DocumentStatusDraft], @"draft",
                                                                               [NSNumber numberWithInt:DocumentStatusNew], @"new",
                                                                               [NSNumber numberWithInt:DocumentStatusDeclined], @"rejected",
@@ -142,7 +152,9 @@ static NSString* OperationCount = @"OperationCount";
 
     [urlFetchDocumentFormat release];
     [urlAttachmentFetchPageFormat release];
+    [urlAttachmentFetchPaintingFormat release];
     [urlLinkAttachmentFetchPageFormat release];
+    [url_LinkAttachmentFetchPaintingFormat release];
     [uidsToFetch release]; uidsToFetch = nil;
     [fetchedUids release]; fetchedUids = nil;
     [statusDictionary release];
@@ -311,50 +323,54 @@ static NSString* OperationCount = @"OperationCount";
     
     documentsLeftToFetch = [uidsToFetch count];
     
-    for (NSString *uid in uidsToFetch)
+    if (documentsLeftToFetch)
     {
-        NSString *anUrl = [NSString stringWithFormat:urlFetchDocumentFormat, uid];
-        LNHttpRequest *request = [blockSelf makeRequestWithUrl: anUrl];
-        
-        request.requestHandler = ^(ASIHTTPRequest *request) {
-            if ([request error] == nil  && [request responseStatusCode] == 200) //remove document if error
-            {
-                NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
-                SBJsonParser *json = [[SBJsonParser alloc] init];
-                NSError *error = nil;
-                NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
-                [jsonString release];
-                [json release];
-                if (parsedDocument == nil) 
-                    NSLog(@"error parsing document %@, error:%@", uid, error);
-                else
-                    [blockSelf parseDocumentData:parsedDocument];
-            }
-            else
-            {
-                NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
-            }
+        for (NSString *uid in uidsToFetch)
+        {
+            NSString *anUrl = [NSString stringWithFormat:urlFetchDocumentFormat, uid];
+            LNHttpRequest *request = [blockSelf makeRequestWithUrl: anUrl];
             
-            @synchronized (blockSelf)
-            {
-                documentsLeftToFetch--;
-            }
-            
-            if (documentsLeftToFetch == 0) //fetch all resources
-            {
-                NSArray *unfetchedResources = [blockSelf->dataSource documentReaderUnfetchedResources:blockSelf];
-                for(NSObject *resource in unfetchedResources)
+            request.requestHandler = ^(ASIHTTPRequest *request) {
+                if ([request error] == nil  && [request responseStatusCode] == 200) //remove document if error
                 {
-                    if ([resource isKindOfClass: [AttachmentPage class]])
-                        [blockSelf fetchPage:(AttachmentPage *) resource];
+                    NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
+                    SBJsonParser *json = [[SBJsonParser alloc] init];
+                    NSError *error = nil;
+                    NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
+                    [jsonString release];
+                    [json release];
+                    if (parsedDocument == nil) 
+                        NSLog(@"error parsing document %@, error:%@", uid, error);
                     else
-                        NSAssert1(NO, @"invalid resource: ", [resource class]);
+                        [blockSelf parseDocumentData:parsedDocument];
                 }
-                blockSelf->allRequestsSent = YES;
-            }
-        };
-        [_networkQueue addOperation:request];
+                else
+                {
+                    NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
+                }
+                
+                @synchronized (blockSelf)
+                {
+                    documentsLeftToFetch--;
+                }
+                
+                if (documentsLeftToFetch == 0) //fetch all resources
+                {
+                    [blockSelf fetchResources];
+                    
+                    blockSelf->allRequestsSent = YES;
+                }
+            };
+            [_networkQueue addOperation:request];
+        }
     }
+    else
+    {
+        [self fetchResources];
+        allRequestsSent = YES;
+    }
+    
+
 }
 
 - (NSString *) documentDirectory:(NSString *) anUid
@@ -416,7 +432,7 @@ static NSString* OperationCount = @"OperationCount";
             {
                 AttachmentPage *page = [[self dataSource] documentReaderCreatePage:self];
                 page.numberValue = i;
-                page.isFetchedValue = NO;
+                page.syncStatusValue = SyncStatusNeedSyncFromServer;
                 page.attachment = attachment;
                 AttachmentPagePainting *painting = [[self dataSource] documentReaderCreateAttachmentPagePainting:self];
                 painting.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
@@ -425,6 +441,22 @@ static NSString* OperationCount = @"OperationCount";
                 [attachment addPagesObject: page];
             }
             [document addAttachmentsObject: attachment];
+        }
+        
+        NSArray *paintings = [dictAttachment objectForKey:field_AttachmentPagePainting];
+        for (NSNumber *pageNumber in paintings)
+        {
+            NSSet *pages = attachment.pages;
+            AttachmentPage *page = nil;
+            for (AttachmentPage *p in pages)
+            {
+                if ([p.number isEqualToNumber: pageNumber])
+                {
+                    page = p;
+                    break;
+                }
+                page.painting.syncStatusValue = SyncStatusNeedSyncFromServer;
+            }
         }
     }
 }
@@ -689,11 +721,10 @@ static NSString* OperationCount = @"OperationCount";
     {
         if ([request error] == nil  && [request responseStatusCode] == 200)
         {
-            page.isFetchedValue = YES;
+            page.syncStatusValue = SyncStatusSynced;
         }
         else
         {
-            page.isFetchedValue = NO;
             NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
             //remove bugged response
             [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
@@ -703,6 +734,55 @@ static NSString* OperationCount = @"OperationCount";
 
     [_networkQueue addOperation:r];
 }
+
+- (void)fetchPainting:(AttachmentPagePainting *)painting
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    
+    [df createDirectoryAtPath:painting.page.path withIntermediateDirectories:TRUE 
+                   attributes:nil error:nil];
+    
+    NSString *urlPattern;
+    
+    AttachmentPage *page = painting.page;
+    Attachment *attachment = page.attachment;
+    Document *rootDocument = attachment.document;
+    
+#warning recursive links???
+    if (rootDocument.parent) //link
+    {
+        rootDocument = rootDocument.parent;
+        Document *link = rootDocument;
+        
+        urlPattern = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, rootDocument.uid, link.uid, @"%@", @"%d"];
+    }
+    else
+        urlPattern = [NSString stringWithFormat:urlAttachmentFetchPaintingFormat, rootDocument.uid, @"%@", @"%d"];
+    
+    NSString *anUrl = [NSString stringWithFormat:urlPattern, attachment.uid, [page.number intValue]];
+    
+    
+    LNHttpRequest *r = [self makeRequestWithUrl: anUrl];
+    
+    [r setDownloadDestinationPath:painting.path];
+    r.requestHandler = ^(ASIHTTPRequest *request) 
+    {
+        if ([request error] == nil  && [request responseStatusCode] == 200)
+        {
+            painting.syncStatusValue = SyncStatusSynced;
+        }
+        else
+        {
+            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
+            //remove bugged response
+            [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
+        }
+        [[self dataSource] documentReaderCommit: self];
+    };
+    
+    [_networkQueue addOperation:r];
+}
+
 - (void) parseResolution:(DocumentResolution *) resolution fromDictionary:(NSDictionary *) dictionary;
 {
     resolution.text = [dictionary objectForKey:field_Text];
@@ -754,5 +834,15 @@ static NSString* OperationCount = @"OperationCount";
         resolution.parentResolution = parentResolution;
         parentResolution.parent = resolution;
     }
+}
+- (void) fetchResources
+{
+    NSArray *unfetchedPages = [self.dataSource documentReaderUnfetchedPages:self];
+    for(AttachmentPage *page in unfetchedPages)
+        [self fetchPage:page];
+    
+    NSArray *unfetchedFiles = [self.dataSource documentReaderUnfetchedPaintings:self];
+    for(AttachmentPagePainting *painting in unfetchedFiles)
+        [self fetchPainting:painting];
 }
 @end

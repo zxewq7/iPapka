@@ -30,7 +30,9 @@
 
 - (void) documentReaderCommit:(LNDocumentReader *) documentReader;
 
-- (NSArray *) documentReaderUnfetchedResources:(LNDocumentReader *) documentReader;
+- (NSArray *) documentReaderUnfetchedPages:(LNDocumentReader *) documentReader;
+
+- (NSArray *) documentReaderUnfetchedPaintings:(LNDocumentReader *) documentReader;
 @end
 
 
@@ -45,7 +47,9 @@
     NSArray                         *viewUrls;
     NSString                        *urlFetchDocumentFormat;
     NSString                        *urlAttachmentFetchPageFormat;
+    NSString                        *urlAttachmentFetchPaintingFormat;
     NSString                        *urlLinkAttachmentFetchPageFormat;
+    NSString                        *urlLinkAttachmentFetchPaintingFormat;
     
     NSObject<LNDocumentReaderDataSource> *dataSource;
     NSMutableSet                    *uidsToFetch;

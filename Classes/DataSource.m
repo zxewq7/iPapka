@@ -26,6 +26,7 @@ static NSString* SyncingContext = @"SyncingContext";
 - (LNDocumentReader *) documentReader;
 - (NSEntityDescription *)documentEntityDescription;
 - (NSEntityDescription *)personEntityDescription;
+- (NSEntityDescription *)paintingEntityDescription;
 - (NSEntityDescription *)pageEntityDescription;
 - (NSPredicate *)documentUidPredicateTemplate;
 - (NSPredicate *)personUidPredicateTemplate;
@@ -347,13 +348,33 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     }
 }
 
-- (NSArray *) documentReaderUnfetchedResources:(LNDocumentReader *) documentReader
+- (NSArray *) documentReaderUnfetchedPages:(LNDocumentReader *) documentReader
 {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
     [request setEntity:self.pageEntityDescription];
     
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"isFetched == NO"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"syncStatus == %d", SyncStatusNeedSyncFromServer];
 
+    [request setPredicate:predicate];
+    
+    // Execute the fetch.
+    NSError *error;
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+    
+    [request release];
+    
+    NSAssert1(fetchResults != nil, @"Unhandled error executing unfetched pages fetch: %@", [error localizedDescription]);
+    
+    return fetchResults;    
+}
+
+- (NSArray *) documentReaderUnfetchedPaintings:(LNDocumentReader *) documentReader
+{
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:self.paintingEntityDescription];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"syncStatus == %d", SyncStatusNeedSyncFromServer];
+    
     [request setPredicate:predicate];
     
     // Execute the fetch.
@@ -380,6 +401,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [documentEntityDescription release];
     [personEntityDescription release];
     [documentUidPredicateTemplate release];
+    [paintingEntityDescription release];
     [pageEntityDescription release];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -557,6 +579,14 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         pageEntityDescription = [[NSEntityDescription entityForName:@"AttachmentPage" inManagedObjectContext:managedObjectContext] retain];
     }
     return pageEntityDescription;
+}
+
+- (NSEntityDescription *)paintingEntityDescription
+{
+    if (paintingEntityDescription == nil) {
+        paintingEntityDescription = [[NSEntityDescription entityForName:@"AttachmentPagePainting" inManagedObjectContext:managedObjectContext] retain];
+    }
+    return paintingEntityDescription;
 }
 
 - (NSPredicate *)documentUidPredicateTemplate 
