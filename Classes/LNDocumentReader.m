@@ -457,17 +457,20 @@ static NSString* OperationCount = @"OperationCount";
             return;
         }
         
-        Document *document;
+        Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
         
-        if ([form isEqualToString:form_Resolution])
-            document = [[self dataSource] documentReaderCreateResolution:self];
-            
-        else if ([form isEqualToString:form_Signature])
-            document = [[self dataSource] documentReaderCreateSignature:self];
-        else
+        if (!document ) //create new document
         {
-            NSLog(@"wrong form, document skipped: %@ %@", uid, form);
-            return;
+            if ([form isEqualToString:form_Resolution])
+                document = [[self dataSource] documentReaderCreateResolution:self];
+            
+            else if ([form isEqualToString:form_Signature])
+                document = [[self dataSource] documentReaderCreateSignature:self];
+            else
+            {
+                NSLog(@"wrong form, document skipped: %@ %@", uid, form);
+                return;
+            }
         }
         
         [author addDocumentsObject: document];
