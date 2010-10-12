@@ -34,6 +34,7 @@ static NSString *view_EntryDataFirstElement = @"0";
 static NSString *field_Title       = @"subject";
 static NSString *field_Author      = @"author";
 static NSString *field_Modified    = @"$modified";
+static NSString *field_DocumentModified    = @"modified";
 static NSString *field_Subdocument = @"document";
 static NSString *field_Deadline    = @"deadline";
 static NSString *field_Form        = @"type";
@@ -489,6 +490,16 @@ static NSString* OperationCount = @"OperationCount";
             return;
         }
         
+        NSString *dateModifiedString = [parsedDocument objectForKey:field_DocumentModified];
+        NSDate *dateModified = [parseFormatterDst dateFromString:dateModifiedString];
+
+        if (!dateModified)
+        {
+            NSLog(@"unknown document date modified, document skipped: %@", uid);
+            return;
+        }
+        
+        
         Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document ) //create new document
@@ -518,9 +529,7 @@ static NSString* OperationCount = @"OperationCount";
         
         document.path = [self documentDirectory: uid];
         
-        
-#warning wrong dateModified
-        document.dateModified = [NSDate date];
+        document.dateModified = dateModified;
 
         NSCalendar *calendar = [NSCalendar currentCalendar];
         unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
