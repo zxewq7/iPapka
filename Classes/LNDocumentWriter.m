@@ -80,6 +80,8 @@ static NSString* kFieldText = @"text";
     if (isSyncing) //prevent multiple syncs
         return;
     
+    allRequestsSent = NO;
+    
     NSError *error = nil;
 	if (![unsyncedDocuments performFetch:&error])
 		NSAssert1(error == nil, @"Unhandled error executing unsynced documents: %@", [error localizedDescription]);
@@ -111,6 +113,8 @@ static NSString* kFieldText = @"text";
         [self syncFile:file];
     }
 
+    allRequestsSent = YES;
+    
     if (!queue.requestsCount)// nothing running
     {
         [self willChangeValueForKey:@"isSyncing"];
@@ -344,7 +348,7 @@ static NSString* kFieldText = @"text";
 {
     if (context == &OperationCount)
     {
-		BOOL x = (queue.requestsCount != 0);
+		BOOL x = !allRequestsSent || (queue.requestsCount != 0);
         if ( x != isSyncing )
         {
             [self willChangeValueForKey:@"isSyncing"];

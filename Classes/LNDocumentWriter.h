@@ -21,6 +21,7 @@
     NSString        *postFileField;
     NSFetchedResultsController *unsyncedDocuments;
     NSFetchedResultsController *unsyncedFiles;
+    BOOL             allRequestsSent;
 }
 
 - (id) initWithUrl:(NSString *) anUrl;

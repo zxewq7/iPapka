@@ -20,6 +20,7 @@
 #import "PasswordManager.h"
 #import "ResolutionAudio.h"
 #import "SignatureAudio.h"
+#import "AttachmentPageDrawings.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -168,6 +169,8 @@ static NSString* OperationCount = @"OperationCount";
     
     hasErrors = NO;
     
+    allRequestsSent = NO;
+    
     for (NSString *url in viewUrls)
     {
         LNHttpRequest *request = [self makeRequestWithUrl: url];
@@ -207,6 +210,13 @@ static NSString* OperationCount = @"OperationCount";
                     }
                 }
                 [blockSelf fetchDocuments];
+            }
+
+            if (!_networkQueue.requestsCount)// nothing running
+            {
+                [self willChangeValueForKey:@"isSyncing"];
+                isSyncing = NO;
+                [self didChangeValueForKey:@"isSyncing"];
             }
 
         };
@@ -340,6 +350,7 @@ static NSString* OperationCount = @"OperationCount";
                     else
                         NSAssert1(NO, @"invalid resource: ", [resource class]);
                 }
+                blockSelf->allRequestsSent = YES;
             }
         };
         [_networkQueue addOperation:request];
@@ -592,7 +603,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     if (context == &OperationCount)
     {
-		BOOL x = (_networkQueue.requestsCount != 0);
+		BOOL x = !allRequestsSent || (_networkQueue.requestsCount != 0);
         if ( x != isSyncing )
         {
             [self willChangeValueForKey:@"isSyncing"];
