@@ -21,6 +21,9 @@
 #import "SignatureAudio.h"
 #import "ResolutionAudio.h"
 #import "SBJsonParser.h"
+#import "AttachmentPagePainting.h"
+#import "Attachment.h"
+#import "AttachmentPage.h"
 
 static NSString* OperationCount = @"OperationCount";
 
@@ -30,6 +33,9 @@ static NSString* kFieldUid = @"id";
 static NSString* kFieldDeadline = @"deadline";
 static NSString* kFieldPerformers = @"performers";
 static NSString* kFieldText = @"text";
+static NSString* kFieldType = @"type";
+static NSString* kFieldFile = @"file";
+static NSString* kPostFiledJson = @"json";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(Document *) document;
@@ -280,22 +286,72 @@ static NSString* kFieldText = @"text";
 {
     LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: postFileUrl]];
     
+    NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithCapacity:4];
+    
+    NSFileManager *df = [NSFileManager defaultManager];
+    
+    BOOL fileExists = [df isReadableFileAtPath:file.path];
+    
     if ([file isKindOfClass: [SignatureAudio class]])
     {
         SignatureAudio *audio = (SignatureAudio *) file;
-        [request setPostValue:audio.parent.uid forKey:kFieldParentId];
+
+        [jsonDict setObject:audio.parent.uid forKey:kFieldParentId];
+        [jsonDict setObject:@"userComment" forKey:kFieldType];
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"application/audio":@"null"), @"content", nil] forKey:kFieldFile];
+        
         if (audio.version)
-            [request setPostValue:audio.version forKey:kFieldVersion];
+            [jsonDict setObject:audio.version forKey:kFieldVersion];
+        if (audio.parent.comment)
+            [jsonDict setObject:audio.parent.comment forKey:kFieldText];
     }
     else if ([file isKindOfClass: [ResolutionAudio class]])
     {
         ResolutionAudio *audio = (ResolutionAudio *) file;
-        [request setPostValue:audio.parent.uid forKey:kFieldParentId];
+
+        [jsonDict setObject:audio.parent.uid forKey:kFieldParentId];
+        [jsonDict setObject:@"userComment" forKey:kFieldType];
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"application/audio":@"null"), @"content", nil] forKey:kFieldFile];
+        
         if (audio.version)
-            [request setPostValue:audio.version forKey:kFieldVersion];
+            [jsonDict setObject:audio.version forKey:kFieldVersion];
+
+    }
+    else if ([file isKindOfClass: [AttachmentPagePainting class]])
+    {
+        AttachmentPagePainting *painting = (AttachmentPagePainting *) file;
+        
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:painting.page.attachment.document.uid, @"id",
+                                                                       painting.page.attachment.uid, @"fileid",
+                                                                       painting.page.number, @"pagenum", nil] forKey:@"parent"];
+        [jsonDict setObject:@"drawing" forKey:kFieldType];
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"image/png":@"null"), @"content", nil] forKey:kFieldFile];
+        
+        if (painting.version)
+            [jsonDict setObject:painting.version forKey:kFieldVersion];
+        
+    }
+    else
+        NSAssert1(NO, @"Unknown file to sync: %@", [file class]);
+
+    SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
+    
+    NSError *error = nil;
+    NSString *jsonString = [jsonWriter stringWithObject:jsonDict error: &error];
+    
+    [jsonWriter release];
+    
+    if (error)
+    {
+        NSString *err  = @"Unable to create json string";
+        NSLog(@"%@", err);
+        return;
     }
 
-    [request setFile:file.path forKey:postFileField];
+    [request setPostValue:jsonString forKey:kPostFiledJson];
+    
+    if (fileExists)
+        [request setFile:file.path forKey:postFileField];
     
     request.delegate = self;
     
