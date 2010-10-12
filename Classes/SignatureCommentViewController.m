@@ -12,6 +12,7 @@
 #import "DataSource.h"
 #import "AudioCommentController.h"
 #import "Person.h"
+#import "SignatureAudio.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
@@ -225,7 +226,7 @@
     
     dateLabel.text = [dateFormatter stringFromDate: document.dateModified];
     
-    audioCommentController.path = document.audioCommentPath;
+    audioCommentController.file = document.audioComment;
 
     [self updateHeight];
 }

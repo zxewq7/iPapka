@@ -195,6 +195,7 @@
 			isa = PBXProject;
 			buildConfigurationList = 816540FA1237948E008FC80F /* Build configuration list for PBXProject "ASIHTTPRequest" */;
 			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,

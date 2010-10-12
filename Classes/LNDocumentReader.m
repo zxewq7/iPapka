@@ -18,6 +18,9 @@
 #import "AttachmentPage.h"
 #import "Person.h"
 #import "PasswordManager.h"
+#import "ResolutionAudio.h"
+#import "SignatureAudio.h"
+#import "AttachmentPageDrawings.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -166,6 +169,8 @@ static NSString* OperationCount = @"OperationCount";
     
     hasErrors = NO;
     
+    allRequestsSent = NO;
+    
     for (NSString *url in viewUrls)
     {
         LNHttpRequest *request = [self makeRequestWithUrl: url];
@@ -205,6 +210,13 @@ static NSString* OperationCount = @"OperationCount";
                     }
                 }
                 [blockSelf fetchDocuments];
+            }
+
+            if (!_networkQueue.requestsCount)// nothing running
+            {
+                [self willChangeValueForKey:@"isSyncing"];
+                isSyncing = NO;
+                [self didChangeValueForKey:@"isSyncing"];
             }
 
         };
@@ -338,6 +350,7 @@ static NSString* OperationCount = @"OperationCount";
                     else
                         NSAssert1(NO, @"invalid resource: ", [resource class]);
                 }
+                blockSelf->allRequestsSent = YES;
             }
         };
         [_networkQueue addOperation:request];
@@ -405,6 +418,10 @@ static NSString* OperationCount = @"OperationCount";
                 page.numberValue = i;
                 page.isFetchedValue = NO;
                 page.attachment = attachment;
+                AttachmentPageDrawings *drawings = [[self dataSource] documentReaderCreateAttachmentPageDrawings:self];
+                drawings.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
+                page.drawings = drawings;
+                drawings.parent = page;
                 [attachment addPagesObject: page];
             }
             [document addAttachmentsObject: attachment];
@@ -444,6 +461,7 @@ static NSString* OperationCount = @"OperationCount";
         
         if ([form isEqualToString:form_Resolution])
             document = [[self dataSource] documentReaderCreateResolution:self];
+            
         else if ([form isEqualToString:form_Signature])
             document = [[self dataSource] documentReaderCreateSignature:self];
         else
@@ -465,6 +483,7 @@ static NSString* OperationCount = @"OperationCount";
         
         document.path = [self documentDirectory: uid];
         
+        
 #warning wrong dateModified
         document.dateModified = [NSDate date];
 
@@ -479,6 +498,20 @@ static NSString* OperationCount = @"OperationCount";
         {
             DocumentResolution *resolution = (DocumentResolution *)document;
             [self parseResolution:resolution fromDictionary:parsedDocument];
+            
+            ResolutionAudio *audio = [self.dataSource documentReaderCreateResolutionAudio:self];
+            resolution.primitiveAudioComment = audio;
+            audio.parent = resolution;
+            audio.path = [resolution.path stringByAppendingPathComponent:@"audioComment.ima4"];
+
+        }
+        else if ([document isKindOfClass:[DocumentSignature class]]) 
+        {
+            DocumentSignature *signature = (DocumentSignature *)document;
+            SignatureAudio *audio = [self.dataSource documentReaderCreateSignatureAudio:self];
+            signature.primitiveAudioComment = audio;
+            audio.parent = signature;
+            audio.path = [signature.path stringByAppendingPathComponent:@"audioComment.ima4"];
         }
         
         //parse attachments
@@ -570,7 +603,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     if (context == &OperationCount)
     {
-		BOOL x = (_networkQueue.requestsCount != 0);
+		BOOL x = !allRequestsSent || (_networkQueue.requestsCount != 0);
         if ( x != isSyncing )
         {
             [self willChangeValueForKey:@"isSyncing"];

@@ -5,6 +5,7 @@
 
 
 @class Attachment;
+@class AttachmentPageDrawings;
 
 
 
@@ -59,6 +60,11 @@
 
 
 
+@property (nonatomic, retain) AttachmentPageDrawings* drawings;
+//- (BOOL)validateDrawings:(id*)value_ error:(NSError**)error_;
+
+
+
 @end
 
 @interface _AttachmentPage (CoreDataGeneratedAccessors)
@@ -92,6 +98,11 @@
 
 - (Attachment*)primitiveAttachment;
 - (void)setPrimitiveAttachment:(Attachment*)value;
+
+
+
+- (AttachmentPageDrawings*)primitiveDrawings;
+- (void)setPrimitiveDrawings:(AttachmentPageDrawings*)value;
 
 
 @end

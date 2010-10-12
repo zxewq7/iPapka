@@ -16,13 +16,18 @@
     ASINetworkQueue *queue;
     NSString        *url;
     NSDateFormatter *parseFormatterSimple;
-    NSString        *requestUrl;
+    NSString        *postDocumentUrl;
+    NSString        *postFileUrl;
+    NSString        *postFileField;
+    NSFetchedResultsController *unsyncedDocuments;
+    NSFetchedResultsController *unsyncedFiles;
+    BOOL             allRequestsSent;
 }
 
 - (id) initWithUrl:(NSString *) anUrl;
 
-@property (nonatomic, retain) NSString *url;
 @property (nonatomic, retain) NSFetchedResultsController *unsyncedDocuments;
+@property (nonatomic, retain) NSFetchedResultsController *unsyncedFiles;
 @property (nonatomic, assign, readonly) BOOL isSyncing;
 
 - (void) sync;

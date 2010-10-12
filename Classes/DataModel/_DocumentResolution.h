@@ -4,8 +4,9 @@
 #import <CoreData/CoreData.h>
 #import "Document.h"
 
-@class Person;
 @class DocumentResolution;
+@class Person;
+@class ResolutionAudio;
 
 
 
@@ -47,13 +48,18 @@
 
 
 
+@property (nonatomic, retain) DocumentResolution* parentResolution;
+//- (BOOL)validateParentResolution:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSSet* performers;
 - (NSMutableSet*)performersSet;
 
 
 
-@property (nonatomic, retain) DocumentResolution* parentResolution;
-//- (BOOL)validateParentResolution:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, retain) ResolutionAudio* audioComment;
+//- (BOOL)validateAudioComment:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -87,13 +93,18 @@
 
 
 
+- (DocumentResolution*)primitiveParentResolution;
+- (void)setPrimitiveParentResolution:(DocumentResolution*)value;
+
+
+
 - (NSMutableSet*)primitivePerformers;
 - (void)setPrimitivePerformers:(NSMutableSet*)value;
 
 
 
-- (DocumentResolution*)primitiveParentResolution;
-- (void)setPrimitiveParentResolution:(DocumentResolution*)value;
+- (ResolutionAudio*)primitiveAudioComment;
+- (void)setPrimitiveAudioComment:(ResolutionAudio*)value;
 
 
 @end

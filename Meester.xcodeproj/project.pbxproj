@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		810586AF1263130400B8B079 /* _FileField.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586A81263130400B8B079 /* _FileField.m */; };
+		810586B01263130400B8B079 /* _ResolutionAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AA1263130400B8B079 /* _ResolutionAudio.m */; };
+		810586B11263130400B8B079 /* FileField.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AC1263130400B8B079 /* FileField.m */; };
+		810586B21263130400B8B079 /* ResolutionAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AE1263130400B8B079 /* ResolutionAudio.m */; };
+		810586B7126314D900B8B079 /* _SignatureAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586B4126314D900B8B079 /* _SignatureAudio.m */; };
+		810586B8126314D900B8B079 /* SignatureAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586B6126314D900B8B079 /* SignatureAudio.m */; };
 		8107AA8A1237A05500F0C71F /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADD41D1237A02F001E830A /* libASIHTTPRequest.a */; };
 		8107AAB41237A1AF00F0C71F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8107AAB31237A1AF00F0C71F /* Localizable.strings */; };
 		8107AB541237A4A500F0C71F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8107AB531237A4A500F0C71F /* CFNetwork.framework */; };
@@ -65,6 +71,8 @@
 		8144AD83123A143B006B2AD7 /* ButtonArchive.png in Resources */ = {isa = PBXBuildFile; fileRef = 8144AD80123A143B006B2AD7 /* ButtonArchive.png */; };
 		8144AD84123A143B006B2AD7 /* ButtonDocuments.png in Resources */ = {isa = PBXBuildFile; fileRef = 8144AD81123A143B006B2AD7 /* ButtonDocuments.png */; };
 		8144AD85123A143B006B2AD7 /* RootBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 8144AD82123A143B006B2AD7 /* RootBackground.png */; };
+		8144C4A412648FB300735428 /* _AttachmentPageDrawings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144C4A112648FB200735428 /* _AttachmentPageDrawings.m */; };
+		8144C4A512648FB300735428 /* AttachmentPageDrawings.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144C4A312648FB200735428 /* AttachmentPageDrawings.m */; };
 		8148EC2E123A323A000E9762 /* ClipperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8148EC2D123A323A000E9762 /* ClipperViewController.m */; };
 		8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC33123A3378000E9762 /* ClipperClosed.png */; };
 		8148ED24123A4996000E9762 /* Paper.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148ED23123A4996000E9762 /* Paper.png */; };
@@ -137,6 +145,7 @@
 		81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */; };
 		81B2730B1248EED60012FE9A /* AZZAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */; };
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
+		81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */; };
 		81C47F93125E397300F60C49 /* PaletteBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F87125E397300F60C49 /* PaletteBlack.png */; };
 		81C47F94125E397300F60C49 /* PaletteBlackSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F88125E397300F60C49 /* PaletteBlackSelected.png */; };
 		81C47F95125E397300F60C49 /* PaletteBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F89125E397300F60C49 /* PaletteBlue.png */; };
@@ -194,6 +203,18 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		810586A71263130400B8B079 /* _FileField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FileField.h; sourceTree = "<group>"; };
+		810586A81263130400B8B079 /* _FileField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _FileField.m; sourceTree = "<group>"; };
+		810586A91263130400B8B079 /* _ResolutionAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ResolutionAudio.h; sourceTree = "<group>"; };
+		810586AA1263130400B8B079 /* _ResolutionAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _ResolutionAudio.m; sourceTree = "<group>"; };
+		810586AB1263130400B8B079 /* FileField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileField.h; sourceTree = "<group>"; };
+		810586AC1263130400B8B079 /* FileField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileField.m; sourceTree = "<group>"; };
+		810586AD1263130400B8B079 /* ResolutionAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionAudio.h; sourceTree = "<group>"; };
+		810586AE1263130400B8B079 /* ResolutionAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionAudio.m; sourceTree = "<group>"; };
+		810586B3126314D900B8B079 /* _SignatureAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _SignatureAudio.h; sourceTree = "<group>"; };
+		810586B4126314D900B8B079 /* _SignatureAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _SignatureAudio.m; sourceTree = "<group>"; };
+		810586B5126314D900B8B079 /* SignatureAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureAudio.h; sourceTree = "<group>"; };
+		810586B6126314D900B8B079 /* SignatureAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureAudio.m; sourceTree = "<group>"; };
 		8107AAB51237A1B400F0C71F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8107AAB91237A22C00F0C71F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8107AB531237A4A500F0C71F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -270,6 +291,10 @@
 		8144AD80123A143B006B2AD7 /* ButtonArchive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonArchive.png; sourceTree = "<group>"; };
 		8144AD81123A143B006B2AD7 /* ButtonDocuments.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonDocuments.png; sourceTree = "<group>"; };
 		8144AD82123A143B006B2AD7 /* RootBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = RootBackground.png; sourceTree = "<group>"; };
+		8144C4A012648FB200735428 /* _AttachmentPageDrawings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _AttachmentPageDrawings.h; sourceTree = "<group>"; };
+		8144C4A112648FB200735428 /* _AttachmentPageDrawings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _AttachmentPageDrawings.m; sourceTree = "<group>"; };
+		8144C4A212648FB200735428 /* AttachmentPageDrawings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentPageDrawings.h; sourceTree = "<group>"; };
+		8144C4A312648FB200735428 /* AttachmentPageDrawings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentPageDrawings.m; sourceTree = "<group>"; };
 		8148EC2C123A323A000E9762 /* ClipperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClipperViewController.h; sourceTree = "<group>"; };
 		8148EC2D123A323A000E9762 /* ClipperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClipperViewController.m; sourceTree = "<group>"; };
 		8148EC33123A3378000E9762 /* ClipperClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperClosed.png; sourceTree = "<group>"; };
@@ -382,6 +407,8 @@
 		81B273091248EED60012FE9A /* AZZAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZZAudioRecorder.h; sourceTree = "<group>"; };
 		81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZZAudioRecorder.m; sourceTree = "<group>"; };
 		81B5C1131242792200B8E9B8 /* Paper-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper-Landscape.png"; sourceTree = "<group>"; };
+		81B7090E12635FFF006B5D53 /* LNFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNFormDataRequest.h; sourceTree = "<group>"; };
+		81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNFormDataRequest.m; sourceTree = "<group>"; };
 		81C47F87125E397300F60C49 /* PaletteBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlack.png; sourceTree = "<group>"; };
 		81C47F88125E397300F60C49 /* PaletteBlackSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlackSelected.png; sourceTree = "<group>"; };
 		81C47F89125E397300F60C49 /* PaletteBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlue.png; sourceTree = "<group>"; };
@@ -454,6 +481,20 @@
 		810BBBDA1251FEE900BD88EB /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				8144C4A012648FB200735428 /* _AttachmentPageDrawings.h */,
+				8144C4A112648FB200735428 /* _AttachmentPageDrawings.m */,
+				810586B3126314D900B8B079 /* _SignatureAudio.h */,
+				810586B4126314D900B8B079 /* _SignatureAudio.m */,
+				810586B5126314D900B8B079 /* SignatureAudio.h */,
+				810586B6126314D900B8B079 /* SignatureAudio.m */,
+				810586A71263130400B8B079 /* _FileField.h */,
+				810586A81263130400B8B079 /* _FileField.m */,
+				810586A91263130400B8B079 /* _ResolutionAudio.h */,
+				810586AA1263130400B8B079 /* _ResolutionAudio.m */,
+				810586AB1263130400B8B079 /* FileField.h */,
+				810586AC1263130400B8B079 /* FileField.m */,
+				810586AD1263130400B8B079 /* ResolutionAudio.h */,
+				810586AE1263130400B8B079 /* ResolutionAudio.m */,
 				811ED7A8125521A300D2E027 /* _DocumentSignature.h */,
 				811ED7A9125521A300D2E027 /* _DocumentSignature.m */,
 				811ED76812551F9E00D2E027 /* _DocumentResolution.h */,
@@ -472,6 +513,8 @@
 				810BBBEA1251FEE900BD88EB /* Document.m */,
 				810BBBEB1251FEE900BD88EB /* AttachmentPage.h */,
 				810BBBEC1251FEE900BD88EB /* AttachmentPage.m */,
+				8144C4A212648FB200735428 /* AttachmentPageDrawings.h */,
+				8144C4A312648FB200735428 /* AttachmentPageDrawings.m */,
 				810BBBED1251FEE900BD88EB /* Person.h */,
 				810BBBEE1251FEE900BD88EB /* Person.m */,
 				810BBBEF1251FEE900BD88EB /* DocumentResolution.h */,
@@ -765,6 +808,8 @@
 				81775FC31251F6F0002A2D3D /* LNDocumentWriter.m */,
 				81775FC41251F6F0002A2D3D /* LNHttpRequest.h */,
 				81775FC51251F6F0002A2D3D /* LNHttpRequest.m */,
+				81B7090E12635FFF006B5D53 /* LNFormDataRequest.h */,
+				81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */,
 			);
 			name = LN;
 			sourceTree = "<group>";
@@ -1044,6 +1089,15 @@
 				81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */,
 				8124C7FD125E15C90031C07E /* IntRow.m in Sources */,
 				816C3BE912608D2F00139BA3 /* Logger.m in Sources */,
+				810586AF1263130400B8B079 /* _FileField.m in Sources */,
+				810586B01263130400B8B079 /* _ResolutionAudio.m in Sources */,
+				810586B11263130400B8B079 /* FileField.m in Sources */,
+				810586B21263130400B8B079 /* ResolutionAudio.m in Sources */,
+				810586B7126314D900B8B079 /* _SignatureAudio.m in Sources */,
+				810586B8126314D900B8B079 /* SignatureAudio.m in Sources */,
+				81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */,
+				8144C4A412648FB300735428 /* _AttachmentPageDrawings.m in Sources */,
+				8144C4A512648FB300735428 /* AttachmentPageDrawings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
