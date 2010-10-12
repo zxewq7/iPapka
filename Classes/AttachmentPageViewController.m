@@ -9,6 +9,7 @@
 #import "AttachmentPageViewController.h"
 #import "ImageScrollView.h"
 #import "AttachmentPage.h"
+#import "AttachmentPageDrawings.h"
 
     // This is defined in Math.h
 #define M_PI   3.14159265358979323846264338327950288   /* pi */
@@ -32,7 +33,7 @@
     
     [imageView displayImage: page.image angle: DEGREES_TO_RADIANS(page.angleValue)];
     
-    imageView.drawings = page.drawings;
+    imageView.drawings = page.drawings.image;
     
     CGPoint restorePoint = [imageView pointToCenterAfterRotation];
     CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
@@ -141,7 +142,7 @@
 
 - (void) saveContent
 {
-    NSString *drawingsPath = page.pathDrawings;
+    NSString *drawingsPath = page.drawings.path;
     UIImage *drawings = imageView.drawings;
 
     NSData *drawingsData = UIImagePNGRepresentation(drawings);

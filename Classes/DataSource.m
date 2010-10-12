@@ -276,6 +276,10 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return [NSEntityDescription insertNewObjectForEntityForName:@"SignatureAudio" inManagedObjectContext:managedObjectContext];
 }
 
+- (AttachmentPageDrawings *) documentReaderCreateAttachmentPageDrawings:(LNDocumentReader *) documentReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPageDrawings" inManagedObjectContext:managedObjectContext];
+}
 
 - (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader
 {

@@ -13,22 +13,6 @@
     return [self.path stringByAppendingPathComponent: @"image.png"];
 }
 
--(NSString *)pathDrawings
-{
-    return [self.path stringByAppendingPathComponent:@"drawings.png"];
-}
-
-- (UIImage *) drawings
-{
-    NSString *path = self.pathDrawings;
-    
-    NSFileManager *df = [NSFileManager defaultManager];
-    if (![df fileExistsAtPath: path])
-        return nil;
-    
-    return [UIImage imageWithContentsOfFile:path];
-}
-
 -(UIImage *) image
 {
     NSString *path = self.pathImage;

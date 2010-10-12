@@ -407,6 +407,10 @@ static NSString* OperationCount = @"OperationCount";
                 page.numberValue = i;
                 page.isFetchedValue = NO;
                 page.attachment = attachment;
+                AttachmentPageDrawings *drawings = [[self dataSource] documentReaderCreateAttachmentPageDrawings:self];
+                drawings.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
+                page.drawings = drawings;
+                drawings.parent = page;
                 [attachment addPagesObject: page];
             }
             [document addAttachmentsObject: attachment];
