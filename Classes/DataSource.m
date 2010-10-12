@@ -278,7 +278,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 - (AttachmentPagePainting *) documentReaderCreateAttachmentPagePainting:(LNDocumentReader *) documentReader
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPageDrawings" inManagedObjectContext:managedObjectContext];
+    return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPagePainting" inManagedObjectContext:managedObjectContext];
 }
 
 - (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader
