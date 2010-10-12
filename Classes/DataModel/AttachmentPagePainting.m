@@ -1,6 +1,6 @@
-#import "AttachmentPageDrawings.h"
+#import "AttachmentPagePainting.h"
 
-@implementation AttachmentPageDrawings
+@implementation AttachmentPagePainting
 
 - (UIImage *) image
 {

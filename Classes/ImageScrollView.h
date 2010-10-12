@@ -4,14 +4,14 @@
 @interface ImageScrollView : UIScrollView <UIScrollViewDelegate> {
     PaintingView        *paintingView;
     UIImageView         *imageView;
-    UIImageView         *drawingsView;
+    UIImageView         *savedPaintingView;
     BOOL                isCommenting;
     CGSize              imageOriginalSize;
     CGFloat             currentAngle;
     id<PaintingViewDelegate> paintingDelegate;
     UIColor             *color;
 }
-@property (nonatomic, retain) UIImage *drawings;
+@property (nonatomic, retain) UIImage *painting;
 @property (nonatomic, retain) id<PaintingViewDelegate> paintingDelegate;
 @property (nonatomic, retain) UIColor *color;
 

@@ -20,7 +20,7 @@
 #import "PasswordManager.h"
 #import "ResolutionAudio.h"
 #import "SignatureAudio.h"
-#import "AttachmentPageDrawings.h"
+#import "AttachmentPagePainting.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -418,10 +418,10 @@ static NSString* OperationCount = @"OperationCount";
                 page.numberValue = i;
                 page.isFetchedValue = NO;
                 page.attachment = attachment;
-                AttachmentPageDrawings *drawings = [[self dataSource] documentReaderCreateAttachmentPageDrawings:self];
-                drawings.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
-                page.drawings = drawings;
-                drawings.parent = page;
+                AttachmentPagePainting *painting = [[self dataSource] documentReaderCreateAttachmentPagePainting:self];
+                painting.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
+                page.painting = painting;
+                painting.page = page;
                 [attachment addPagesObject: page];
             }
             [document addAttachmentsObject: attachment];

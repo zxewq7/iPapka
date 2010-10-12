@@ -113,7 +113,7 @@
 
 	
 
-@dynamic drawings;
+@dynamic painting;
 
 	
 

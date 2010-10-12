@@ -5,7 +5,7 @@
 
 
 @class Attachment;
-@class AttachmentPageDrawings;
+@class AttachmentPagePainting;
 
 
 
@@ -60,8 +60,8 @@
 
 
 
-@property (nonatomic, retain) AttachmentPageDrawings* drawings;
-//- (BOOL)validateDrawings:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, retain) AttachmentPagePainting* painting;
+//- (BOOL)validatePainting:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -101,8 +101,8 @@
 
 
 
-- (AttachmentPageDrawings*)primitiveDrawings;
-- (void)setPrimitiveDrawings:(AttachmentPageDrawings*)value;
+- (AttachmentPagePainting*)primitivePainting;
+- (void)setPrimitivePainting:(AttachmentPagePainting*)value;
 
 
 @end

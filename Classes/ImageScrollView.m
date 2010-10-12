@@ -4,13 +4,13 @@
 #define MAX_WIDTH 1088.0f
 
 @interface ImageScrollView (Private)
-- (void) createDrawingsView;
+- (void) createSavedPaintingView;
 - (void) createPaintingView;
 @end
 
 
 @implementation ImageScrollView
-@synthesize drawings, paintingDelegate, color;
+@synthesize painting, paintingDelegate, color;
 
 -(void) setColor:(UIColor *) aColor
 {
@@ -22,25 +22,25 @@
     paintingView.color = color;
 }
 
--(UIImage *) drawings
+-(UIImage *) painting
 {
-    return paintingView?paintingView.image:drawingsView.image;
+    return paintingView?paintingView.image:savedPaintingView.image;
 }
 
--(void) setDrawings:(UIImage *) aDrawings
+-(void) setPainting:(UIImage *) aPainting
 {
-    if (!(paintingView || drawingsView)) 
+    if (!(paintingView || savedPaintingView)) 
     {
         if (isCommenting)
             [self createPaintingView];
         else
-            [self createDrawingsView];
+            [self createSavedPaintingView];
     }
     
     if (paintingView) 
-        paintingView.image = aDrawings;
+        paintingView.image = aPainting;
     else
-        drawingsView.image = aDrawings;
+        savedPaintingView.image = aPainting;
 }
 
 
@@ -75,7 +75,7 @@
 {
     [imageView release];
     [paintingView release];
-    [drawingsView release];
+    [savedPaintingView release];
     self.paintingDelegate = nil;
     self.color = nil;
     
@@ -124,17 +124,14 @@
 {
         // clear the previous imageView
     [imageView removeFromSuperview];
-    [imageView release];
-    imageView = nil;
+    [imageView release]; imageView = nil;
     
-    [drawingsView removeFromSuperview];
-    [drawingsView release];
-    drawingsView = nil;
+    [savedPaintingView removeFromSuperview];
+    [savedPaintingView release]; savedPaintingView = nil;
     
     
     [paintingView removeFromSuperview];
-    [paintingView release];
-    paintingView = nil;
+    [paintingView release]; paintingView = nil;
     
         // reset our zoomScale to 1.0 before doing any further calculations
     self.zoomScale = 1.0;
@@ -248,7 +245,7 @@
     if (isCommenting)
         [self createPaintingView];
     else
-        [self createDrawingsView];
+        [self createSavedPaintingView];
     
     self.canCancelContentTouches = !isCommenting;
     self.delaysContentTouches = !isCommenting;
@@ -291,18 +288,17 @@
 @end
 
 @implementation ImageScrollView (Private)
-- (void) createDrawingsView
+- (void) createSavedPaintingView
 {
     UIImage *image = paintingView.image;
     
-    drawingsView = [[UIImageView alloc] initWithImage:image];
-    drawingsView.frame = CGRectMake(0, 0, imageOriginalSize.width, imageOriginalSize.height);
+    savedPaintingView = [[UIImageView alloc] initWithImage:image];
+    savedPaintingView.frame = CGRectMake(0, 0, imageOriginalSize.width, imageOriginalSize.height);
     
     [paintingView removeFromSuperview];
-    [paintingView release];
-    paintingView = nil;
+    [paintingView release]; paintingView = nil;
     
-    [imageView addSubview:drawingsView];
+    [imageView addSubview:savedPaintingView];
 }
 
 - (void) createPaintingView
@@ -328,7 +324,7 @@
     //update imageFrame according to new zoomScale
     imageFrame = imageView.frame;
 
-    UIImage *image = drawingsView.image;
+    UIImage *image = savedPaintingView.image;
     
     paintingView = [[PaintingView alloc] initWithFrame: imageFrame];
     paintingView.backgroundColor = [UIColor clearColor];
@@ -341,9 +337,8 @@
     
     paintingView.image = image;
     
-    [drawingsView removeFromSuperview];
-    [drawingsView release];
-    drawingsView = nil;
+    [savedPaintingView removeFromSuperview];
+    [savedPaintingView release]; savedPaintingView = nil;
     
     [self addSubview:paintingView];
     
