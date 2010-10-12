@@ -52,7 +52,7 @@ static NSString* kFieldText = @"text";
         
         postFileUrl = [url stringByAppendingString:@"/e04f3dca071a7044c32577b50047f276?CreateDocument"]; [postFileUrl retain];
         
-        postFileField = @"%%File.c325771a00553735.e04f3dca071a7044c32577b50047f276.$Body.0.2A6"; [postFileField retain];
+        postFileField = @"%%File.c325771a00553735.e04f3dca071a7044c32577b50047f276.$Body.0.70"; [postFileField retain];
 
         
         queue = [[ASINetworkQueue alloc] init];
