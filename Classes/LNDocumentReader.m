@@ -456,8 +456,8 @@ static NSString* OperationCount = @"OperationCount";
                     page = p;
                     break;
                 }
-                page.painting.syncStatusValue = SyncStatusNeedSyncFromServer;
             }
+            page.painting.syncStatusValue = SyncStatusNeedSyncFromServer;
         }
     }
 }
@@ -505,10 +505,26 @@ static NSString* OperationCount = @"OperationCount";
         if (!document ) //create new document
         {
             if ([form isEqualToString:form_Resolution])
+            {
                 document = [[self dataSource] documentReaderCreateResolution:self];
-            
+                ResolutionAudio *audio = [self.dataSource documentReaderCreateResolutionAudio:self];
+                DocumentResolution *resolution = (DocumentResolution *)document;
+                audio.path = [resolution.path stringByAppendingPathComponent:@"audioComment.ima4"];
+
+                resolution.audioComment = audio;
+                audio.parent = resolution;
+                
+            }
             else if ([form isEqualToString:form_Signature])
+            {
                 document = [[self dataSource] documentReaderCreateSignature:self];
+                DocumentSignature *signature = (DocumentSignature *)document;
+                SignatureAudio *audio = [self.dataSource documentReaderCreateSignatureAudio:self];
+                audio.path = [signature.path stringByAppendingPathComponent:@"audioComment.ima4"];
+
+                signature.audioComment = audio;
+                audio.parent = signature;
+            }
             else
             {
                 NSLog(@"wrong form, document skipped: %@ %@", uid, form);
@@ -542,20 +558,7 @@ static NSString* OperationCount = @"OperationCount";
         {
             DocumentResolution *resolution = (DocumentResolution *)document;
             [self parseResolution:resolution fromDictionary:parsedDocument];
-            
-            ResolutionAudio *audio = [self.dataSource documentReaderCreateResolutionAudio:self];
-            resolution.primitiveAudioComment = audio;
-            audio.parent = resolution;
-            audio.path = [resolution.path stringByAppendingPathComponent:@"audioComment.ima4"];
 
-        }
-        else if ([document isKindOfClass:[DocumentSignature class]]) 
-        {
-            DocumentSignature *signature = (DocumentSignature *)document;
-            SignatureAudio *audio = [self.dataSource documentReaderCreateSignatureAudio:self];
-            signature.primitiveAudioComment = audio;
-            audio.parent = signature;
-            audio.path = [signature.path stringByAppendingPathComponent:@"audioComment.ima4"];
         }
         
         //parse attachments
