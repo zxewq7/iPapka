@@ -10,7 +10,7 @@
 
 @class Document, DocumentResolution, DocumentSignature, AttachmentPage, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person, CommentAudio, Comment, AttachmentPagePainting;
 
-@protocol LNDocumentReaderDataSource
+@protocol LNDocumentReaderDataSource<NSObject>
 - (Document *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
 - (Person *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) uid;
 
@@ -49,7 +49,7 @@
     NSString                        *urlAttachmentFetchPageFormat;
     NSString                        *urlLinkAttachmentFetchPageFormat;
     
-    NSObject<LNDocumentReaderDataSource> *dataSource;
+    id<LNDocumentReaderDataSource> dataSource;
     NSMutableSet                    *uidsToFetch;
     NSMutableSet                    *fetchedUids;
     
@@ -66,7 +66,7 @@
 - (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
 @property (nonatomic, readonly)         BOOL                  isSyncing;
 @property (nonatomic, readonly)         BOOL                  hasErrors;
-@property (nonatomic, retain) NSObject<LNDocumentReaderDataSource> *dataSource;
+@property (nonatomic, retain) id<LNDocumentReaderDataSource>  dataSource;
 - (void) refreshDocuments;
 - (void) purgeCache;
 @end
