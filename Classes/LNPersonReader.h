@@ -8,9 +8,30 @@
 
 #import <Foundation/Foundation.h>
 
+@class ASINetworkQueue, LNPersonReader, Person, NSManagedObject;
 
-@interface LNPersonReader : NSObject {
+@protocol LNPersonReaderDataSource<NSObject>
+- (Person *) personReader:(LNPersonReader *) personReader personWithUid:(NSString *) uid;
+- (Person *) personReaderCreatePerson:(LNPersonReader *) personReader;
+- (NSSet *) personReaderAllPersonsUids:(LNPersonReader *) personReader;
+- (void) personReader:(LNPersonReader *) personReader removeObject:(NSManagedObject *) object;
+- (void) personReaderCommit:(LNPersonReader *) personReader;
+@end
 
+
+@interface LNPersonReader : NSObject 
+{
+    ASINetworkQueue *queue;
+    NSString        *url;
+    id<LNPersonReaderDataSource> dataSource;
+    BOOL isSyncing;
+    BOOL allRequestsSent;
 }
 
+- (id) initWithUrl:(NSString *) anUrl;
+
+@property (nonatomic, assign, readonly) BOOL isSyncing;
+@property (nonatomic, retain) id<LNPersonReaderDataSource> dataSource;
+
+- (void) sync;
 @end

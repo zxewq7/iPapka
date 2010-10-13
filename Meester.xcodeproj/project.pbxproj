@@ -119,6 +119,7 @@
 		81775FDA1251F74E002A2D3D /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FD31251F74E002A2D3D /* SBJsonBase.m */; };
 		81775FDB1251F74E002A2D3D /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FD51251F74E002A2D3D /* SBJsonParser.m */; };
 		81775FDC1251F74E002A2D3D /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FD71251F74E002A2D3D /* SBJsonWriter.m */; };
+		8180B8511265DBDB00558A73 /* LNPersonReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8180B8501265DBDB00558A73 /* LNPersonReader.m */; };
 		818E90FE123E0496006FCE06 /* CHARTCBI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FA123E0496006FCE06 /* CHARTCBI.TTF */; };
 		818E90FF123E0496006FCE06 /* CHARTECB.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FB123E0496006FCE06 /* CHARTECB.TTF */; };
 		818E9100123E0496006FCE06 /* CHARTECI.TTF in Resources */ = {isa = PBXBuildFile; fileRef = 818E90FC123E0496006FCE06 /* CHARTECI.TTF */; };
@@ -375,6 +376,8 @@
 		81775FD51251F74E002A2D3D /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		81775FD61251F74E002A2D3D /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		81775FD71251F74E002A2D3D /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		8180B84F1265DBDB00558A73 /* LNPersonReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNPersonReader.h; sourceTree = "<group>"; };
+		8180B8501265DBDB00558A73 /* LNPersonReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNPersonReader.m; sourceTree = "<group>"; };
 		818E90FA123E0496006FCE06 /* CHARTCBI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTCBI.TTF; sourceTree = "<group>"; };
 		818E90FB123E0496006FCE06 /* CHARTECB.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTECB.TTF; sourceTree = "<group>"; };
 		818E90FC123E0496006FCE06 /* CHARTECI.TTF */ = {isa = PBXFileReference; lastKnownFileType = file; path = CHARTECI.TTF; sourceTree = "<group>"; };
@@ -802,6 +805,8 @@
 		81775FBF1251F6E0002A2D3D /* LN */ = {
 			isa = PBXGroup;
 			children = (
+				8180B84F1265DBDB00558A73 /* LNPersonReader.h */,
+				8180B8501265DBDB00558A73 /* LNPersonReader.m */,
 				81775FC01251F6F0002A2D3D /* LNDocumentReader.h */,
 				81775FC11251F6F0002A2D3D /* LNDocumentReader.m */,
 				81775FC21251F6F0002A2D3D /* LNDocumentWriter.h */,
@@ -1098,6 +1103,7 @@
 				81432FA31265B43300C38FFA /* Comment.m in Sources */,
 				81432FA81265B47000C38FFA /* _CommentAudio.m in Sources */,
 				81432FA91265B47000C38FFA /* CommentAudio.m in Sources */,
+				8180B8511265DBDB00558A73 /* LNPersonReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

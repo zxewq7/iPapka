@@ -67,6 +67,6 @@
 @property (nonatomic, readonly)         BOOL                  isSyncing;
 @property (nonatomic, readonly)         BOOL                  hasErrors;
 @property (nonatomic, retain) id<LNDocumentReaderDataSource>  dataSource;
-- (void) refreshDocuments;
+- (void) sync;
 - (void) purgeCache;
 @end

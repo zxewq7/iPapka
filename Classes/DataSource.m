@@ -18,12 +18,21 @@
 #import "Person.h"
 #import "LNDocumentWriter.h"
 #import "FileField.h"
+#import "LNPersonReader.h"
 
 static NSString* SyncingContext = @"SyncingContext";
+
+typedef enum
+{
+    SyncStepSyncDocumentWriter = 0,
+    SyncStepSyncDocumentReader = 1,
+    SyncStepSyncPersonReader = 2
+} SyncStep;
 
 @interface DataSource(Private)
 - (LNDocumentWriter *) documentWriter;
 - (LNDocumentReader *) documentReader;
+- (LNPersonReader *) personReader;
 - (NSEntityDescription *)documentEntityDescription;
 - (NSEntityDescription *)personEntityDescription;
 - (NSEntityDescription *)fileEntityDescription;
@@ -31,6 +40,7 @@ static NSString* SyncingContext = @"SyncingContext";
 - (NSPredicate *)documentUidPredicateTemplate;
 - (NSPredicate *)personUidPredicateTemplate;
 - (NSManagedObjectModel *)managedObjectModel;
+- (Person *) personWithUid:(NSString *) anUid;
 @end
 
 @implementation DataSource
@@ -161,8 +171,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void) refreshDocuments
 {
-    isNeedFetchFromServer = YES;
-    [[self documentWriter] sync];
+    syncStep = SyncStepSyncPersonReader;
+    [[self personReader] sync];
 }
 
 
@@ -323,29 +333,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 - (Person *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) anUid
 {
-    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-    [fetchRequest setEntity:self.personEntityDescription];
-    NSPredicate *predicate = [self.personUidPredicateTemplate predicateWithSubstitutionVariables:[NSDictionary dictionaryWithObject:anUid forKey:kPersonUidSubstitutionVariable]];
-    [fetchRequest setPredicate:predicate];
-    NSError *error = nil;
-    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    NSAssert1(fetchResults != nil, @"Unhandled error executing person fetch: %@", [error localizedDescription]);
-    
-    if ([fetchResults count] > 0)
-        return [fetchResults objectAtIndex:0];
-#warning fake or incorrect data
-    else
-    {
-        Person *person = [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:managedObjectContext];
-        person.uid = anUid;
-        NSArray *chunks = [anUid componentsSeparatedByString: @" "];
-        person.first = [anUid substringToIndex:1];
-        person.middle = [anUid substringToIndex:1];
-        person.last = [chunks objectAtIndex: 0];
-        NSLog(@"Created person: %@", anUid);
-        return person;
-    }
+    return [self personWithUid:anUid];
 }
 
 - (NSArray *) documentReaderUnfetchedPages:(LNDocumentReader *) documentReader
@@ -389,6 +377,55 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 }
 
 #pragma mark -
+#pragma mark LNPersonReaderDataSource
+
+- (Person *) personReader:(LNPersonReader *) personReader personWithUid:(NSString *) anUid
+{
+    return [self personWithUid:anUid];
+}
+
+- (Person *) personReaderCreatePerson:(LNPersonReader *) personReader
+{
+    return [NSEntityDescription insertNewObjectForEntityForName:@"Person" inManagedObjectContext:managedObjectContext];
+}
+
+- (NSSet *) personReaderAllPersonsUids:(LNPersonReader *) personReader
+{
+    NSFetchRequest *request = [[NSFetchRequest alloc] init];
+    [request setEntity:self.documentEntityDescription];
+    [request setResultType:NSDictionaryResultType];
+    [request setReturnsDistinctResults:YES];
+    
+    [request setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
+    
+    // Execute the fetch.
+    NSError *error;
+    
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
+    
+    [request release];
+    
+    NSAssert1(fetchResults != nil, @"Unhandled error executing persons fetch: %@", [error localizedDescription]);
+    
+    NSMutableSet * result = [NSMutableSet setWithCapacity: [fetchResults count]];
+    for (NSDictionary *dict in fetchResults)
+        [result addObject: [dict objectForKey: @"uid"]];
+    
+    return result;    
+}
+
+- (void) personReader:(LNPersonReader *) personReader removeObject:(NSManagedObject *) object
+{
+    [managedObjectContext deleteObject:object];
+}
+
+- (void) personReaderCommit:(LNPersonReader *) personReader
+{
+    [self commit];
+}
+
+
+#pragma mark -
 #pragma mark Memory management
 
 - (void)dealloc 
@@ -414,6 +451,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [documentWriter removeObserver:self
                         forKeyPath:@"isSyncing"];
     [documentWriter release]; documentWriter = nil;
+    
+    [personReader release]; personReader = nil;
 	[super dealloc];
 }
 
@@ -427,14 +466,24 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (context == &SyncingContext)
     {
-        if (isNeedFetchFromServer && !documentWriter.isSyncing)
+        BOOL ss = self.documentReader.isSyncing || self.documentWriter.isSyncing || self.personReader.isSyncing;
+        
+        if (!ss)
         {
-            [[self documentReader] refreshDocuments];
-            isNeedFetchFromServer = NO;
-            return;
+            switch (syncStep)
+            {
+                case SyncStepSyncDocumentWriter:
+                    syncStep = SyncStepSyncDocumentReader;
+                    [[self documentReader] sync];
+                    return;
+                case SyncStepSyncPersonReader:
+                    syncStep = SyncStepSyncDocumentWriter;
+                    [[self documentWriter] sync];
+                    return;
+            }
         }
         
-        self.isSyncing = documentReader.isSyncing || documentWriter.isSyncing;
+        self.isSyncing = ss;
         
         if (!self.isSyncing)
             [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
@@ -449,8 +498,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             [prompt show];
             [prompt release];            
         }
-            
-        
     }
     else
     {
@@ -483,6 +530,25 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     }
     
     return documentReader;
+}
+- (LNPersonReader *) personReader
+{
+    if (!personReader)
+    {
+        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+        NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
+        
+        personReader = [[LNPersonReader alloc] initWithUrl:serverUrl];
+        
+        personReader.dataSource = self;
+        
+        [personReader addObserver:self
+                         forKeyPath:@"isSyncing"
+                            options:0
+                            context:&SyncingContext];
+    }
+    
+    return personReader;
 }
 
 - (LNDocumentWriter *) documentWriter
@@ -644,4 +710,22 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     }
     return managedObjectModel;
 }
+
+- (Person *) personWithUid:(NSString *) anUid
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setEntity:self.personEntityDescription];
+    NSPredicate *predicate = [self.personUidPredicateTemplate predicateWithSubstitutionVariables:[NSDictionary dictionaryWithObject:anUid forKey:kPersonUidSubstitutionVariable]];
+    [fetchRequest setPredicate:predicate];
+    NSError *error = nil;
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    NSAssert1(fetchResults != nil, @"Unhandled error executing person fetch: %@", [error localizedDescription]);
+    
+    if ([fetchResults count] > 0)
+        return [fetchResults objectAtIndex:0];
+    else
+        return nil;
+}
+
 @end

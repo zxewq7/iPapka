@@ -9,10 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 #import "LNDocumentReader.h"
+#import "LNPersonReader.h"
 
-@class Folder, Document, Document, LNDocumentWriter, LNDocumentReader;
+@class Folder, Document, Document, LNDocumentWriter;
 
-@interface DataSource : NSObject<LNDocumentReaderDataSource>
+@interface DataSource : NSObject<LNDocumentReaderDataSource, LNPersonReaderDataSource>
 {
     NSPersistentStoreCoordinator *persistentStoreCoordinator;
     NSManagedObjectModel         *managedObjectModel;
@@ -25,10 +26,11 @@
     NSEntityDescription          *pageEntityDescription;
     NSPredicate                  *personUidPredicateTemplate;
     BOOL                         isSyncing;
-    LNDocumentWriter              *documentWriter;
+    LNDocumentWriter             *documentWriter;
     LNDocumentReader             *documentReader;
+    LNPersonReader               *personReader;
     NSUInteger                   countDocumentsToSend;
-    BOOL                         isNeedFetchFromServer;
+    int                          syncStep;
 }
 + (DataSource *)sharedDataSource;
 @property (nonatomic)                   BOOL                isSyncing;

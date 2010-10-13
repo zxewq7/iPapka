@@ -165,7 +165,7 @@ static NSString* OperationCount = @"OperationCount";
 
 #pragma mark -
 #pragma mark Methods
--(void) refreshDocuments
+-(void) sync
 {
     if (isSyncing) //prevent spam syncing requests
         return;
