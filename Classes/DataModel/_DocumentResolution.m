@@ -31,6 +31,13 @@
 
 
 
+@dynamic registrationNumber;
+
+
+
+
+
+
 @dynamic performers;
 
 	

@@ -57,7 +57,7 @@
 
 
 
-@dynamic deadline;
+@dynamic registrationDate;
 
 
 
@@ -65,6 +65,13 @@
 
 
 @dynamic text;
+
+
+
+
+
+
+@dynamic deadline;
 
 
 

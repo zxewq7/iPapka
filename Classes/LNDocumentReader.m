@@ -39,6 +39,8 @@ static NSString *field_Modified    = @"$modified";
 static NSString *field_DocumentModified    = @"modified";
 static NSString *field_Subdocument = @"document";
 static NSString *field_Deadline    = @"deadline";
+static NSString *field_RegistrationDate    = @"regDate";
+static NSString *field_RegistrationNumber    = @"regNumber";
 static NSString *field_Form        = @"type";
 static NSString *field_Uid         = @"id";
 static NSString *field_Text        = @"text";
@@ -818,6 +820,14 @@ static NSString* OperationCount = @"OperationCount";
         dDeadline = [parseFormatterSimple dateFromString:sDeadline];
     
     aResolution.deadline = dDeadline;
+
+    NSDate *dDegistrationDate = nil;
+    NSString *sDegistrationDate = [dictionary objectForKey:field_RegistrationDate];
+    if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
+        dDegistrationDate = [parseFormatterSimple dateFromString:sDeadline];
+    
+    aResolution.deadline = dDegistrationDate;
+
     
     NSArray *performers = [dictionary objectForKey:field_Performers];
 
@@ -825,6 +835,14 @@ static NSString* OperationCount = @"OperationCount";
     {
         DocumentResolution *resolution = (DocumentResolution *)aResolution;
 
+        NSDictionary *subDocument = [dictionary objectForKey:field_Subdocument];
+        
+        //registrationNumber
+        NSString *registrationNumber = [subDocument objectForKey:field_RegistrationNumber];
+        
+        if (registrationNumber && ![registrationNumber isEqualToString:@""])
+            resolution.registrationNumber = registrationNumber;
+        
         //performers
         NSArray *performers = [dictionary objectForKey:field_Performers];
         for (NSString *uid in performers)

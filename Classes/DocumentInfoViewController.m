@@ -11,6 +11,7 @@
 #import "Attachment.h"
 #import "Person.h"
 #import <QuartzCore/CALayer.h>
+#import "DocumentResolution.h"
 
 #define kMinTableRows 4
 #define kTableRowHeight 60.0f
@@ -262,7 +263,11 @@
     currentItems = document.attachmentsOrdered;
     
     documentTitle.text = document.title;
-    documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.dateModified]];
+    
+    if ([document isKindOfClass: [DocumentResolution class]])
+        documentDetails.text = [NSString stringWithFormat:@"%@, %@, %@", ((DocumentResolution *) document).registrationNumber, document.author, [dateFormatter stringFromDate: document.dateModified]];
+    else
+        documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.dateModified]];
     if ([currentItems count]) 
         attachmentIndex = 0;
     else
