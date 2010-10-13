@@ -145,9 +145,12 @@
     NSString *paintingPath = page.painting.path;
     UIImage *painting = imageView.painting;
 
-    NSData *paintingData = UIImagePNGRepresentation(painting);
-    [paintingData writeToFile: paintingPath atomically:YES];
-    page.painting.dateModified = [NSDate date];
+    if (painting)
+    {
+        NSData *paintingData = UIImagePNGRepresentation(painting);
+        [paintingData writeToFile: paintingPath atomically:YES];
+        page.painting.dateModified = [NSDate date];
+    }
 }
 
 - (void) setPen:(BOOL) enabled
