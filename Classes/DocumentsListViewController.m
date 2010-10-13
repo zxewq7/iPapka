@@ -20,6 +20,7 @@ static NSString* SyncingContext = @"SyncingContext";
 @interface DocumentsListViewController(Private)
 - (void) createToolbars;
 - (void)updateSyncStatus;
+- (void)updateContent;
 - (NSString *)sectionNameForDate:(NSDate *) date;
 @end
 
@@ -42,45 +43,7 @@ static NSString* SyncingContext = @"SyncingContext";
     [folder release];
     folder = [aFolder retain];
     
-        //deselect selected row
-    if (folder)
-    {
-        titleLabel.text = folder.localizedName;
-        Folder *filter;
-        
-        //find filter for document
-        NSArray *filters = folder.filters;
-        NSUInteger filtersCount = [folder.filters count];
-        
-        if (filtersCount)
-        {
-            filterIndex = 0;
-            for (NSUInteger i=0; i < filtersCount; i++)
-            {
-                Folder *f = [filters objectAtIndex: i];
-                if ([document isKindOfClass: f.entityClass] && [f.predicate evaluateWithObject: document])
-                {
-                    filterIndex = i;
-                    break;
-                }
-            }
-            
-            filter = [filters objectAtIndex: filterIndex];
-        }
-        else
-            filter = folder;
-        
-        fetchedResultsController.delegate = nil;
-        [fetchedResultsController release];
-        fetchedResultsController = filter.documents;
-        [fetchedResultsController retain];
-        fetchedResultsController.delegate = self;
-        filtersBar.selectedItem = [filtersBar.items objectAtIndex: filterIndex];
-    }
-    else
-        filterIndex = NSNotFound;
-    
-    titleLabel.text = folder.localizedName;
+    [self updateContent];
 }
 
 #pragma mark -
@@ -117,7 +80,7 @@ static NSString* SyncingContext = @"SyncingContext";
                                     forKeyPath:@"isSyncing"
                                        options:0
                                        context:&SyncingContext];
-
+    [self updateContent];
 }
 
 /*
@@ -516,5 +479,47 @@ static NSString* SyncingContext = @"SyncingContext";
         result = [dateFormatter stringFromDate: date];
 
 	return result;
+}
+
+- (void)updateContent
+{
+    //deselect selected row
+    if (folder)
+    {
+        Folder *filter;
+        
+        //find filter for document
+        NSArray *filters = folder.filters;
+        NSUInteger filtersCount = [folder.filters count];
+        
+        if (filtersCount)
+        {
+            filterIndex = 0;
+            for (NSUInteger i=0; i < filtersCount; i++)
+            {
+                Folder *f = [filters objectAtIndex: i];
+                if ([document isKindOfClass: f.entityClass] && [f.predicate evaluateWithObject: document])
+                {
+                    filterIndex = i;
+                    break;
+                }
+            }
+            
+            filter = [filters objectAtIndex: filterIndex];
+        }
+        else
+            filter = folder;
+        
+        fetchedResultsController.delegate = nil;
+        [fetchedResultsController release];
+        fetchedResultsController = filter.documents;
+        [fetchedResultsController retain];
+        fetchedResultsController.delegate = self;
+        filtersBar.selectedItem = [filtersBar.items objectAtIndex: filterIndex];
+    }
+    else
+        filterIndex = NSNotFound;
+    
+    titleLabel.text = folder.localizedName;
 }
 @end
