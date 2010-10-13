@@ -6,7 +6,14 @@
 -(NSString *) fullName
 {
     if (!fullName)
-        fullName = [[NSString stringWithFormat:@"%@ %@. %@.", self.last, [self.first substringToIndex: 1], [self.middle substringToIndex: 1]] retain];
+    {
+        NSString *m = self.middle;
+        if (m && ![m isEqualToString:@""])
+            fullName = [[NSString stringWithFormat:@"%@ %@. %@.", self.last, [self.first substringToIndex: 1], [m substringToIndex: 1]] retain];
+        else
+            fullName = [[NSString stringWithFormat:@"%@ %@.", self.last, [self.first substringToIndex: 1]] retain];
+    }
+        
     return fullName;
 }
 
