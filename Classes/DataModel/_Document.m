@@ -49,13 +49,6 @@
 
 
 
-@dynamic strippedDateModified;
-
-
-
-
-
-
 @dynamic syncStatus;
 
 
@@ -77,6 +70,20 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_ {
 	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
 }
+
+
+
+
+
+@dynamic strippedDateModified;
+
+
+
+
+
+
+@dynamic author;
+
 
 
 
@@ -157,10 +164,6 @@
 	[self didAccessValueForKey:@"links"];
 	return result;
 }
-	
-
-@dynamic author;
-
 	
 
 @dynamic parent;

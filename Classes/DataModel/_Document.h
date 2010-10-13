@@ -5,10 +5,10 @@
 
 
 @class Document;
-@class Person;
 @class Document;
 @class Comment;
 @class Attachment;
+
 
 
 
@@ -48,12 +48,6 @@
 
 
 
-@property (nonatomic, retain) NSDate *strippedDateModified;
-
-//- (BOOL)validateStrippedDateModified:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSNumber *syncStatus;
 
 @property short syncStatusValue;
@@ -61,6 +55,18 @@
 - (void)setSyncStatusValue:(short)value_;
 
 //- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *strippedDateModified;
+
+//- (BOOL)validateStrippedDateModified:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *author;
+
+//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -99,11 +105,6 @@
 
 @property (nonatomic, retain) NSSet* links;
 - (NSMutableSet*)linksSet;
-
-
-
-@property (nonatomic, retain) Person* author;
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -148,15 +149,19 @@
 - (void)setPrimitivePath:(NSString*)value;
 
 
-- (NSDate*)primitiveStrippedDateModified;
-- (void)setPrimitiveStrippedDateModified:(NSDate*)value;
-
-
 - (NSNumber*)primitiveSyncStatus;
 - (void)setPrimitiveSyncStatus:(NSNumber*)value;
 
 - (short)primitiveSyncStatusValue;
 - (void)setPrimitiveSyncStatusValue:(short)value_;
+
+
+- (NSDate*)primitiveStrippedDateModified;
+- (void)setPrimitiveStrippedDateModified:(NSDate*)value;
+
+
+- (NSString*)primitiveAuthor;
+- (void)setPrimitiveAuthor:(NSString*)value;
 
 
 - (NSNumber*)primitiveIsRead;
@@ -185,11 +190,6 @@
 
 - (NSMutableSet*)primitiveLinks;
 - (void)setPrimitiveLinks:(NSMutableSet*)value;
-
-
-
-- (Person*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(Person*)value;
 
 
 

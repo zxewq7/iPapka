@@ -31,20 +31,6 @@
 
 
 
-@dynamic text;
-
-
-
-
-
-
-@dynamic deadline;
-
-
-
-
-
-
 @dynamic isManaged;
 
 
@@ -71,9 +57,19 @@
 
 
 
-@dynamic parentResolution;
+@dynamic deadline;
 
-	
+
+
+
+
+
+@dynamic text;
+
+
+
+
+
 
 @dynamic performers;
 
@@ -84,6 +80,10 @@
 	[self didAccessValueForKey:@"performers"];
 	return result;
 }
+	
+
+@dynamic parentResolution;
+
 	
 
 

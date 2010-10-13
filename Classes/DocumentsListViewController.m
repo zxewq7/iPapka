@@ -148,7 +148,7 @@ static NSString* SyncingContext = @"SyncingContext";
         // Set appropriate labels for the cells.
     Document *doc = [fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = doc.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author.fullName];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author];
     cell.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
     return cell;
 }

@@ -4,8 +4,8 @@
 #import <CoreData/CoreData.h>
 #import "Document.h"
 
-@class DocumentResolution;
 @class Person;
+@class DocumentResolution;
 
 
 
@@ -24,18 +24,6 @@
 
 
 
-@property (nonatomic, retain) NSString *text;
-
-//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *deadline;
-
-//- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSNumber *isManaged;
 
 @property BOOL isManagedValue;
@@ -46,14 +34,26 @@
 
 
 
+@property (nonatomic, retain) NSDate *deadline;
 
-@property (nonatomic, retain) DocumentResolution* parentResolution;
-//- (BOOL)validateParentResolution:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *text;
+
+//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
+
 
 
 
 @property (nonatomic, retain) NSSet* performers;
 - (NSMutableSet*)performersSet;
+
+
+
+@property (nonatomic, retain) DocumentResolution* parentResolution;
+//- (BOOL)validateParentResolution:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -70,14 +70,6 @@
 
 @interface _DocumentResolution (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveText;
-- (void)setPrimitiveText:(NSString*)value;
-
-
-- (NSDate*)primitiveDeadline;
-- (void)setPrimitiveDeadline:(NSDate*)value;
-
-
 - (NSNumber*)primitiveIsManaged;
 - (void)setPrimitiveIsManaged:(NSNumber*)value;
 
@@ -85,15 +77,23 @@
 - (void)setPrimitiveIsManagedValue:(BOOL)value_;
 
 
+- (NSDate*)primitiveDeadline;
+- (void)setPrimitiveDeadline:(NSDate*)value;
 
 
-- (DocumentResolution*)primitiveParentResolution;
-- (void)setPrimitiveParentResolution:(DocumentResolution*)value;
+- (NSString*)primitiveText;
+- (void)setPrimitiveText:(NSString*)value;
+
 
 
 
 - (NSMutableSet*)primitivePerformers;
 - (void)setPrimitivePerformers:(NSMutableSet*)value;
+
+
+
+- (DocumentResolution*)primitiveParentResolution;
+- (void)setPrimitiveParentResolution:(DocumentResolution*)value;
 
 
 @end

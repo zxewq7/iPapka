@@ -219,7 +219,7 @@
 
 -(void) updateContent
 {
-    authorLabel.text = document.author.fullName;
+    authorLabel.text = document.author;
     
     commentText.text = document.comment.text;
     

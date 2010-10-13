@@ -483,7 +483,7 @@ static NSString* OperationCount = @"OperationCount";
         
         NSNumber *documentStatus;
         
-        Person *author = [[self dataSource] documentReader:self personWithUid: [parsedDocument objectForKey:field_Author]];
+        NSString *author = [parsedDocument objectForKey:field_Author];
         
         if (!author)
         {
@@ -542,7 +542,6 @@ static NSString* OperationCount = @"OperationCount";
             comment.document = document;
         }
         
-        [author addDocumentsObject: document];
         document.author = author;
         
         document.status = documentStatus;
@@ -646,8 +645,6 @@ static NSString* OperationCount = @"OperationCount";
                 
 #warning wrong author for link                
                 link.author = document.author;
-                
-                [link.author addDocumentsObject:link];
                 
                 link.parent = document;
                 
@@ -810,7 +807,7 @@ static NSString* OperationCount = @"OperationCount";
 - (void) parseResolution:(DocumentResolution *) resolution fromDictionary:(NSDictionary *) dictionary;
 {
     resolution.text = [dictionary objectForKey:field_Text];
-    resolution.author = [[self dataSource] documentReader:self personWithUid: [dictionary objectForKey:field_Author]];
+    resolution.author = [dictionary objectForKey:field_Author];
 
     //performers
     [resolution removePerformers: resolution.performers]; //clean all performers

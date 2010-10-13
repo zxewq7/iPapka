@@ -369,7 +369,7 @@
         performersViewController.view.hidden = YES;
     }
         
-    authorLabel.text = resolution.author.fullName;
+    authorLabel.text = resolution.author;
     
     resolutionText.text = resolution.text;
     
