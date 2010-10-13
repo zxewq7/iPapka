@@ -21,7 +21,7 @@
     NSEntityDescription          *documentEntityDescription;
     NSPredicate                  *documentUidPredicateTemplate;
     NSEntityDescription          *personEntityDescription;
-    NSEntityDescription          *paintingEntityDescription;
+    NSEntityDescription          *fileEntityDescription;
     NSEntityDescription          *pageEntityDescription;
     NSPredicate                  *personUidPredicateTemplate;
     BOOL                         isSyncing;

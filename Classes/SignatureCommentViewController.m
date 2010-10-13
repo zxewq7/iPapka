@@ -12,7 +12,8 @@
 #import "DataSource.h"
 #import "AudioCommentController.h"
 #import "Person.h"
-#import "SignatureAudio.h"
+#import "Comment.h"
+#import "CommentAudio.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
@@ -201,7 +202,7 @@
 {
     [self updateHeight];
     
-    document.comment = commentText.text;
+    document.comment.text = commentText.text;
     
     [[DataSource sharedDataSource] commit];
     return YES;
@@ -220,13 +221,13 @@
 {
     authorLabel.text = document.author.fullName;
     
-    commentText.text = document.comment;
+    commentText.text = document.comment.text;
     
     [commentText textChanged:nil];
     
     dateLabel.text = [dateFormatter stringFromDate: document.dateModified];
     
-    audioCommentController.file = document.audioComment;
+    audioCommentController.file = document.comment.audio;
 
     [self updateHeight];
 }

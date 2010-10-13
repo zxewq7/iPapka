@@ -86,10 +86,6 @@
 }
 	
 
-@dynamic audioComment;
-
-	
-
 
 
 @end

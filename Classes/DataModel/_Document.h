@@ -7,6 +7,7 @@
 @class Document;
 @class Person;
 @class Document;
+@class Comment;
 @class Attachment;
 
 
@@ -111,6 +112,11 @@
 
 
 
+@property (nonatomic, retain) Comment* comment;
+//- (BOOL)validateComment:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSSet* attachments;
 - (NSMutableSet*)attachmentsSet;
 
@@ -189,6 +195,11 @@
 
 - (Document*)primitiveParent;
 - (void)setPrimitiveParent:(Document*)value;
+
+
+
+- (Comment*)primitiveComment;
+- (void)setPrimitiveComment:(Comment*)value;
 
 
 

@@ -8,11 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		810586AF1263130400B8B079 /* _FileField.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586A81263130400B8B079 /* _FileField.m */; };
-		810586B01263130400B8B079 /* _ResolutionAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AA1263130400B8B079 /* _ResolutionAudio.m */; };
 		810586B11263130400B8B079 /* FileField.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AC1263130400B8B079 /* FileField.m */; };
-		810586B21263130400B8B079 /* ResolutionAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586AE1263130400B8B079 /* ResolutionAudio.m */; };
-		810586B7126314D900B8B079 /* _SignatureAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586B4126314D900B8B079 /* _SignatureAudio.m */; };
-		810586B8126314D900B8B079 /* SignatureAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 810586B6126314D900B8B079 /* SignatureAudio.m */; };
 		8107AA8A1237A05500F0C71F /* libASIHTTPRequest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 81ADD41D1237A02F001E830A /* libASIHTTPRequest.a */; };
 		8107AAB41237A1AF00F0C71F /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8107AAB31237A1AF00F0C71F /* Localizable.strings */; };
 		8107AB541237A4A500F0C71F /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8107AB531237A4A500F0C71F /* CFNetwork.framework */; };
@@ -66,6 +62,10 @@
 		813EF9A512492CA400E52803 /* ButtonPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 813EF9A412492CA400E52803 /* ButtonPlay.png */; };
 		813EF9E51249332600E52803 /* ButtonStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 813EF9E41249332600E52803 /* ButtonStop.png */; };
 		8141DD7A1259DC2400C6C24D /* PasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8141DD791259DC2400C6C24D /* PasswordManager.m */; };
+		81432FA21265B43300C38FFA /* _Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 81432F9F1265B43300C38FFA /* _Comment.m */; };
+		81432FA31265B43300C38FFA /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 81432FA11265B43300C38FFA /* Comment.m */; };
+		81432FA81265B47000C38FFA /* _CommentAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 81432FA51265B47000C38FFA /* _CommentAudio.m */; };
+		81432FA91265B47000C38FFA /* CommentAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 81432FA71265B47000C38FFA /* CommentAudio.m */; };
 		8144AD3112395B82006B2AD7 /* DocumentsListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144AD3012395B82006B2AD7 /* DocumentsListViewController.m */; };
 		8144AD4F12395DA8006B2AD7 /* RootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144AD4E12395DA8006B2AD7 /* RootViewController.m */; };
 		8144AD83123A143B006B2AD7 /* ButtonArchive.png in Resources */ = {isa = PBXBuildFile; fileRef = 8144AD80123A143B006B2AD7 /* ButtonArchive.png */; };
@@ -205,16 +205,8 @@
 /* Begin PBXFileReference section */
 		810586A71263130400B8B079 /* _FileField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _FileField.h; sourceTree = "<group>"; };
 		810586A81263130400B8B079 /* _FileField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _FileField.m; sourceTree = "<group>"; };
-		810586A91263130400B8B079 /* _ResolutionAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _ResolutionAudio.h; sourceTree = "<group>"; };
-		810586AA1263130400B8B079 /* _ResolutionAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _ResolutionAudio.m; sourceTree = "<group>"; };
 		810586AB1263130400B8B079 /* FileField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FileField.h; sourceTree = "<group>"; };
 		810586AC1263130400B8B079 /* FileField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FileField.m; sourceTree = "<group>"; };
-		810586AD1263130400B8B079 /* ResolutionAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionAudio.h; sourceTree = "<group>"; };
-		810586AE1263130400B8B079 /* ResolutionAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionAudio.m; sourceTree = "<group>"; };
-		810586B3126314D900B8B079 /* _SignatureAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _SignatureAudio.h; sourceTree = "<group>"; };
-		810586B4126314D900B8B079 /* _SignatureAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _SignatureAudio.m; sourceTree = "<group>"; };
-		810586B5126314D900B8B079 /* SignatureAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureAudio.h; sourceTree = "<group>"; };
-		810586B6126314D900B8B079 /* SignatureAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureAudio.m; sourceTree = "<group>"; };
 		8107AAB51237A1B400F0C71F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8107AAB91237A22C00F0C71F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		8107AB531237A4A500F0C71F /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -284,6 +276,14 @@
 		813EF9E41249332600E52803 /* ButtonStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonStop.png; sourceTree = "<group>"; };
 		8141DD781259DC2400C6C24D /* PasswordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordManager.h; sourceTree = "<group>"; };
 		8141DD791259DC2400C6C24D /* PasswordManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PasswordManager.m; sourceTree = "<group>"; };
+		81432F9E1265B43300C38FFA /* _Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Comment.h; sourceTree = "<group>"; };
+		81432F9F1265B43300C38FFA /* _Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Comment.m; sourceTree = "<group>"; };
+		81432FA01265B43300C38FFA /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		81432FA11265B43300C38FFA /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		81432FA41265B47000C38FFA /* _CommentAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _CommentAudio.h; sourceTree = "<group>"; };
+		81432FA51265B47000C38FFA /* _CommentAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _CommentAudio.m; sourceTree = "<group>"; };
+		81432FA61265B47000C38FFA /* CommentAudio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentAudio.h; sourceTree = "<group>"; };
+		81432FA71265B47000C38FFA /* CommentAudio.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentAudio.m; sourceTree = "<group>"; };
 		8144AD2F12395B82006B2AD7 /* DocumentsListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentsListViewController.h; sourceTree = "<group>"; };
 		8144AD3012395B82006B2AD7 /* DocumentsListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentsListViewController.m; sourceTree = "<group>"; };
 		8144AD4D12395DA8006B2AD7 /* RootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootViewController.h; sourceTree = "<group>"; };
@@ -481,20 +481,20 @@
 		810BBBDA1251FEE900BD88EB /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				81432FA41265B47000C38FFA /* _CommentAudio.h */,
+				81432FA51265B47000C38FFA /* _CommentAudio.m */,
+				81432FA61265B47000C38FFA /* CommentAudio.h */,
+				81432FA71265B47000C38FFA /* CommentAudio.m */,
+				81432F9E1265B43300C38FFA /* _Comment.h */,
+				81432F9F1265B43300C38FFA /* _Comment.m */,
+				81432FA01265B43300C38FFA /* Comment.h */,
+				81432FA11265B43300C38FFA /* Comment.m */,
 				8144C4A012648FB200735428 /* _AttachmentPagePainting.h */,
 				8144C4A112648FB200735428 /* _AttachmentPagePainting.m */,
-				810586B3126314D900B8B079 /* _SignatureAudio.h */,
-				810586B4126314D900B8B079 /* _SignatureAudio.m */,
-				810586B5126314D900B8B079 /* SignatureAudio.h */,
-				810586B6126314D900B8B079 /* SignatureAudio.m */,
 				810586A71263130400B8B079 /* _FileField.h */,
 				810586A81263130400B8B079 /* _FileField.m */,
-				810586A91263130400B8B079 /* _ResolutionAudio.h */,
-				810586AA1263130400B8B079 /* _ResolutionAudio.m */,
 				810586AB1263130400B8B079 /* FileField.h */,
 				810586AC1263130400B8B079 /* FileField.m */,
-				810586AD1263130400B8B079 /* ResolutionAudio.h */,
-				810586AE1263130400B8B079 /* ResolutionAudio.m */,
 				811ED7A8125521A300D2E027 /* _DocumentSignature.h */,
 				811ED7A9125521A300D2E027 /* _DocumentSignature.m */,
 				811ED76812551F9E00D2E027 /* _DocumentResolution.h */,
@@ -1090,14 +1090,14 @@
 				8124C7FD125E15C90031C07E /* IntRow.m in Sources */,
 				816C3BE912608D2F00139BA3 /* Logger.m in Sources */,
 				810586AF1263130400B8B079 /* _FileField.m in Sources */,
-				810586B01263130400B8B079 /* _ResolutionAudio.m in Sources */,
 				810586B11263130400B8B079 /* FileField.m in Sources */,
-				810586B21263130400B8B079 /* ResolutionAudio.m in Sources */,
-				810586B7126314D900B8B079 /* _SignatureAudio.m in Sources */,
-				810586B8126314D900B8B079 /* SignatureAudio.m in Sources */,
 				81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */,
 				8144C4A412648FB300735428 /* _AttachmentPagePainting.m in Sources */,
 				8144C4A512648FB300735428 /* AttachmentPagePainting.m in Sources */,
+				81432FA21265B43300C38FFA /* _Comment.m in Sources */,
+				81432FA31265B43300C38FFA /* Comment.m in Sources */,
+				81432FA81265B47000C38FFA /* _CommentAudio.m in Sources */,
+				81432FA91265B47000C38FFA /* CommentAudio.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

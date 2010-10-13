@@ -18,8 +18,8 @@
 #import "PasswordManager.h"
 #import "FileField.h"
 #import "LNFormDataRequest.h"
-#import "SignatureAudio.h"
-#import "ResolutionAudio.h"
+#import "Comment.h"
+#import "CommentAudio.h"
 #import "SBJsonParser.h"
 #import "AttachmentPagePainting.h"
 #import "Attachment.h"
@@ -292,30 +292,19 @@ static NSString* kPostFiledJson = @"json";
     
     BOOL fileExists = [df isReadableFileAtPath:file.path];
     
-    if ([file isKindOfClass: [SignatureAudio class]])
+    if ([file isKindOfClass: [CommentAudio class]])
     {
-        SignatureAudio *audio = (SignatureAudio *) file;
-
-        [jsonDict setObject:audio.parent.uid forKey:kFieldParentId];
+        CommentAudio *audio = (CommentAudio *) file;
+        Comment *comment = audio.comment;
+        
+        [jsonDict setObject:comment.document.uid forKey:kFieldParentId];
         [jsonDict setObject:@"userComment" forKey:kFieldType];
         [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"application/audio":@"null"), @"content", nil] forKey:kFieldFile];
         
         if (audio.version)
             [jsonDict setObject:audio.version forKey:kFieldVersion];
-        if (audio.parent.comment)
-            [jsonDict setObject:audio.parent.comment forKey:kFieldText];
-    }
-    else if ([file isKindOfClass: [ResolutionAudio class]])
-    {
-        ResolutionAudio *audio = (ResolutionAudio *) file;
-
-        [jsonDict setObject:audio.parent.uid forKey:kFieldParentId];
-        [jsonDict setObject:@"userComment" forKey:kFieldType];
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"application/audio":@"null"), @"content", nil] forKey:kFieldFile];
-        
-        if (audio.version)
-            [jsonDict setObject:audio.version forKey:kFieldVersion];
-
+        if (comment.text)
+            [jsonDict setObject:comment.text forKey:kFieldText];
     }
     else if ([file isKindOfClass: [AttachmentPagePainting class]])
     {

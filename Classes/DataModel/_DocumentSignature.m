@@ -31,17 +31,6 @@
 
 
 
-@dynamic comment;
-
-
-
-
-
-
-@dynamic audioComment;
-
-	
-
 
 
 @end

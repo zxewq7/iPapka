@@ -26,7 +26,7 @@ static NSString* SyncingContext = @"SyncingContext";
 - (LNDocumentReader *) documentReader;
 - (NSEntityDescription *)documentEntityDescription;
 - (NSEntityDescription *)personEntityDescription;
-- (NSEntityDescription *)paintingEntityDescription;
+- (NSEntityDescription *)fileEntityDescription;
 - (NSEntityDescription *)pageEntityDescription;
 - (NSPredicate *)documentUidPredicateTemplate;
 - (NSPredicate *)personUidPredicateTemplate;
@@ -267,14 +267,14 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPage" inManagedObjectContext:managedObjectContext];
 }
 
-- (ResolutionAudio *) documentReaderCreateResolutionAudio:(LNDocumentReader *) documentReader
+- (CommentAudio *) documentReaderCreateCommentAudio:(LNDocumentReader *) documentReader
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"ResolutionAudio" inManagedObjectContext:managedObjectContext];
+    return [NSEntityDescription insertNewObjectForEntityForName:@"CommentAudio" inManagedObjectContext:managedObjectContext];
 }
 
-- (SignatureAudio *) documentReaderCreateSignatureAudio:(LNDocumentReader *) documentReader
+- (Comment *) documentReaderCreateComment:(LNDocumentReader *) documentReader
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"SignatureAudio" inManagedObjectContext:managedObjectContext];
+    return [NSEntityDescription insertNewObjectForEntityForName:@"Comment" inManagedObjectContext:managedObjectContext];
 }
 
 - (AttachmentPagePainting *) documentReaderCreateAttachmentPagePainting:(LNDocumentReader *) documentReader
@@ -368,10 +368,10 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return fetchResults;    
 }
 
-- (NSArray *) documentReaderUnfetchedPaintings:(LNDocumentReader *) documentReader
+- (NSArray *) documentReaderUnfetchedFiles:(LNDocumentReader *) documentReader;
 {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:self.paintingEntityDescription];
+    [request setEntity:self.fileEntityDescription];
     
     NSPredicate *predicate = [NSPredicate predicateWithFormat:@"syncStatus == %d", SyncStatusNeedSyncFromServer];
     
@@ -401,7 +401,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [documentEntityDescription release];
     [personEntityDescription release];
     [documentUidPredicateTemplate release];
-    [paintingEntityDescription release];
+    [fileEntityDescription release];
     [pageEntityDescription release];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -581,12 +581,12 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return pageEntityDescription;
 }
 
-- (NSEntityDescription *)paintingEntityDescription
+- (NSEntityDescription *)fileEntityDescription
 {
-    if (paintingEntityDescription == nil) {
-        paintingEntityDescription = [[NSEntityDescription entityForName:@"AttachmentPagePainting" inManagedObjectContext:managedObjectContext] retain];
+    if (fileEntityDescription == nil) {
+        fileEntityDescription = [[NSEntityDescription entityForName:@"AttachmentPagePainting" inManagedObjectContext:managedObjectContext] retain];
     }
-    return paintingEntityDescription;
+    return fileEntityDescription;
 }
 
 - (NSPredicate *)documentUidPredicateTemplate 

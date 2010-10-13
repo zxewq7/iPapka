@@ -6,7 +6,6 @@
 
 @class DocumentResolution;
 @class Person;
-@class ResolutionAudio;
 
 
 
@@ -58,11 +57,6 @@
 
 
 
-@property (nonatomic, retain) ResolutionAudio* audioComment;
-//- (BOOL)validateAudioComment:(id*)value_ error:(NSError**)error_;
-
-
-
 @end
 
 @interface _DocumentResolution (CoreDataGeneratedAccessors)
@@ -100,11 +94,6 @@
 
 - (NSMutableSet*)primitivePerformers;
 - (void)setPrimitivePerformers:(NSMutableSet*)value;
-
-
-
-- (ResolutionAudio*)primitiveAudioComment;
-- (void)setPrimitiveAudioComment:(ResolutionAudio*)value;
 
 
 @end

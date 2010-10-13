@@ -18,8 +18,8 @@
 #import "AttachmentPage.h"
 #import "Person.h"
 #import "PasswordManager.h"
-#import "ResolutionAudio.h"
-#import "SignatureAudio.h"
+#import "CommentAudio.h"
+#import "Comment.h"
 #import "AttachmentPagePainting.h"
 
 static NSString *view_RootEntry = @"viewentry";
@@ -49,6 +49,10 @@ static NSString *field_AttachmentPagePainting = @"drawings";
 static NSString *field_Links = @"links";
 static NSString *field_LinkTitle = @"info";
 static NSString *field_Status = @"status";
+static NSString *field_Comment = @"userComment";
+static NSString *field_CommentFile = @"file";
+static NSString *field_Version = @"version";
+static NSString *field_URL = @"url";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -57,11 +61,11 @@ static NSString *url_FetchDocumentFormat = @"%@/document/%@";
     //document/id/file/file.id/page/pagenum
 static NSString *url_AttachmentFetchPageFormat = @"%@/document/%@/file/%@/page/%@";
 
-static NSString *url_AttachmentFetchPaintingFormat = @"%@/document/%@/file/%@/page/%@/drawing";
+static NSString *url_AttachmentFetchPaintingFormat = @"/document/%@/file/%@/page/%@/drawing";
     //document/id/link/link.id/file/file.id/page/pagenum
 static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/file/%@/page/%@";
 
-static NSString *url_LinkAttachmentFetchPaintingFormat = @"%@/document/%@/link/%@/file/%@/page/%@/drawing";
+static NSString *url_LinkAttachmentFetchPaintingFormat = @"/document/%@/link/%@/file/%@/page/%@/drawing";
 
 @interface LNDocumentReader(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -71,7 +75,7 @@ static NSString *url_LinkAttachmentFetchPaintingFormat = @"%@/document/%@/link/%
 - (void)parseDocumentData:(NSDictionary *) parsedDocument;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (void)fetchPage:(AttachmentPage *)painting;
-- (void)fetchPainting:(AttachmentPagePainting *)page;
+- (void)fetchFile:(FileField *)page;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(DocumentResolution *) resolution fromDictionary:(NSDictionary *) dictionary;
@@ -85,6 +89,8 @@ static NSString* OperationCount = @"OperationCount";
 - (id) initWithUrl:(NSString *) anUrl andViews:(NSArray *) views
 {
     if ((self = [super init])) {
+        
+        baseUrl = [anUrl retain];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _databaseDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -103,17 +109,14 @@ static NSString* OperationCount = @"OperationCount";
         
         NSMutableArray *vs = [[NSMutableArray alloc] initWithCapacity: [views count]];
         for (NSString *vn in views)
-            [vs addObject: [NSString stringWithFormat:url_FetchViewFormat, anUrl, vn]];
+            [vs addObject: [NSString stringWithFormat:url_FetchViewFormat, baseUrl, vn]];
         
         viewUrls = vs;
         
-        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, anUrl, @"%@"];
-        urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@"];
-        urlAttachmentFetchPaintingFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPaintingFormat, anUrl, @"%@", @"%@", @"%@"];
-        urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, anUrl, @"%@", @"%@", @"%@", @"%@"];
+        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, baseUrl, @"%@"];
+        urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, baseUrl, @"%@", @"%@", @"%@"];
+        urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, baseUrl, @"%@", @"%@", @"%@", @"%@"];
 
-        urlLinkAttachmentFetchPaintingFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPaintingFormat, anUrl, @"%@", @"%@", @"%@", @"%@"];
-        
         statusDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:DocumentStatusDraft], @"draft",
                                                                               [NSNumber numberWithInt:DocumentStatusNew], @"new",
                                                                               [NSNumber numberWithInt:DocumentStatusDeclined], @"rejected",
@@ -153,9 +156,7 @@ static NSString* OperationCount = @"OperationCount";
 
     [urlFetchDocumentFormat release];
     [urlAttachmentFetchPageFormat release];
-    [urlAttachmentFetchPaintingFormat release];
     [urlLinkAttachmentFetchPageFormat release];
-    [url_LinkAttachmentFetchPaintingFormat release];
     [uidsToFetch release]; uidsToFetch = nil;
     [fetchedUids release]; fetchedUids = nil;
     [statusDictionary release];
@@ -437,10 +438,17 @@ static NSString* OperationCount = @"OperationCount";
                 page.attachment = attachment;
                 AttachmentPagePainting *painting = [[self dataSource] documentReaderCreateAttachmentPagePainting:self];
                 painting.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
+                
+                if (document.parent) //link
+                    painting.url = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, document.parent.uid, document.uid, attachment.uid, page.number];
+                else
+                    painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
+                
                 page.painting = painting;
                 painting.page = page;
                 [attachment addPagesObject: page];
             }
+
             [document addAttachmentsObject: attachment];
         }
         
@@ -505,31 +513,22 @@ static NSString* OperationCount = @"OperationCount";
         if (!document ) //create new document
         {
             if ([form isEqualToString:form_Resolution])
-            {
                 document = [[self dataSource] documentReaderCreateResolution:self];
-                ResolutionAudio *audio = [self.dataSource documentReaderCreateResolutionAudio:self];
-                DocumentResolution *resolution = (DocumentResolution *)document;
-                audio.path = [resolution.path stringByAppendingPathComponent:@"audioComment.ima4"];
-
-                resolution.audioComment = audio;
-                audio.parent = resolution;
-                
-            }
             else if ([form isEqualToString:form_Signature])
-            {
                 document = [[self dataSource] documentReaderCreateSignature:self];
-                DocumentSignature *signature = (DocumentSignature *)document;
-                SignatureAudio *audio = [self.dataSource documentReaderCreateSignatureAudio:self];
-                audio.path = [signature.path stringByAppendingPathComponent:@"audioComment.ima4"];
-
-                signature.audioComment = audio;
-                audio.parent = signature;
-            }
             else
             {
                 NSLog(@"wrong form, document skipped: %@ %@", uid, form);
                 return;
             }
+            
+            Comment *comment = [[self dataSource] documentReaderCreateComment:self];
+            CommentAudio *audio = [[self dataSource] documentReaderCreateCommentAudio:self];
+            comment.audio = audio;
+            audio.comment = comment;
+            
+            document.comment = comment;
+            comment.document = document;
         }
         
         [author addDocumentsObject: document];
@@ -559,6 +558,27 @@ static NSString* OperationCount = @"OperationCount";
             DocumentResolution *resolution = (DocumentResolution *)document;
             [self parseResolution:resolution fromDictionary:parsedDocument];
 
+        }
+        
+        //parse comment
+        NSDictionary *userComment = [parsedDocument valueForKey:field_Comment];
+        if (userComment && [userComment count])
+        {
+            Comment *comment = document.comment;
+            comment.text = [userComment objectForKey:field_Text];
+            NSDictionary *commentFile = [userComment valueForKey:field_CommentFile];
+            if (commentFile)
+            {
+                CommentAudio *audio = comment.audio;
+                
+                NSString *version = [commentFile valueForKey:field_Version];
+                NSString *url = [commentFile valueForKey:field_URL];
+                if (![audio.version isEqualToString: version])
+                {
+                    audio.url = url;
+                    audio.syncStatusValue = SyncStatusNeedSyncFromServer;
+                }
+            }
         }
         
         //parse attachments
@@ -747,41 +767,24 @@ static NSString* OperationCount = @"OperationCount";
     [_networkQueue addOperation:r];
 }
 
-- (void)fetchPainting:(AttachmentPagePainting *)painting
+- (void)fetchFile:(FileField *)file
 {
     NSFileManager *df = [NSFileManager defaultManager];
     
-    [df createDirectoryAtPath:painting.page.path withIntermediateDirectories:TRUE 
+    [df createDirectoryAtPath:[file.path stringByDeletingLastPathComponent] withIntermediateDirectories:TRUE 
                    attributes:nil error:nil];
     
-    NSString *urlPattern;
-    
-    AttachmentPage *page = painting.page;
-    Attachment *attachment = page.attachment;
-    Document *rootDocument = attachment.document;
-    
-#warning recursive links???
-    if (rootDocument.parent) //link
-    {
-        rootDocument = rootDocument.parent;
-        Document *link = rootDocument;
-        
-        urlPattern = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, rootDocument.uid, link.uid, @"%@", @"%d"];
-    }
-    else
-        urlPattern = [NSString stringWithFormat:urlAttachmentFetchPaintingFormat, rootDocument.uid, @"%@", @"%d"];
-    
-    NSString *anUrl = [NSString stringWithFormat:urlPattern, attachment.uid, [page.number intValue]];
+    NSString *anUrl = [baseUrl stringByAppendingString:file.url];
     
     
     LNHttpRequest *r = [self makeRequestWithUrl: anUrl];
     
-    [r setDownloadDestinationPath:painting.path];
+    [r setDownloadDestinationPath:file.path];
     r.requestHandler = ^(ASIHTTPRequest *request) 
     {
         if ([request error] == nil  && [request responseStatusCode] == 200)
         {
-            painting.syncStatusValue = SyncStatusSynced;
+            file.syncStatusValue = SyncStatusSynced;
         }
         else
         {
@@ -853,8 +856,8 @@ static NSString* OperationCount = @"OperationCount";
     for(AttachmentPage *page in unfetchedPages)
         [self fetchPage:page];
     
-    NSArray *unfetchedFiles = [self.dataSource documentReaderUnfetchedPaintings:self];
-    for(AttachmentPagePainting *painting in unfetchedFiles)
-        [self fetchPainting:painting];
+    NSArray *unfetchedFiles = [self.dataSource documentReaderUnfetchedFiles:self];
+    for(FileField *file in unfetchedFiles)
+        [self fetchFile:file];
 }
 @end

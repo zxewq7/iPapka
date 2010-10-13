@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@class Document, DocumentResolution, DocumentSignature, AttachmentPage, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person, ResolutionAudio, SignatureAudio, AttachmentPagePainting;
+@class Document, DocumentResolution, DocumentSignature, AttachmentPage, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person, CommentAudio, Comment, AttachmentPagePainting;
 
 @protocol LNDocumentReaderDataSource
 - (Document *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
@@ -19,8 +19,8 @@
 - (Document *) documentReaderCreateDocument:(LNDocumentReader *) documentReader;
 - (Attachment *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader;
 - (AttachmentPage *) documentReaderCreatePage:(LNDocumentReader *) documentReader;
-- (ResolutionAudio *) documentReaderCreateResolutionAudio:(LNDocumentReader *) documentReader;
-- (SignatureAudio *) documentReaderCreateSignatureAudio:(LNDocumentReader *) documentReader;
+- (Comment *) documentReaderCreateComment:(LNDocumentReader *) documentReader;
+- (CommentAudio *) documentReaderCreateCommentAudio:(LNDocumentReader *) documentReader;
 
 - (AttachmentPagePainting *) documentReaderCreateAttachmentPagePainting:(LNDocumentReader *) documentReader;
 
@@ -32,7 +32,7 @@
 
 - (NSArray *) documentReaderUnfetchedPages:(LNDocumentReader *) documentReader;
 
-- (NSArray *) documentReaderUnfetchedPaintings:(LNDocumentReader *) documentReader;
+- (NSArray *) documentReaderUnfetchedFiles:(LNDocumentReader *) documentReader;
 @end
 
 
@@ -47,9 +47,7 @@
     NSArray                         *viewUrls;
     NSString                        *urlFetchDocumentFormat;
     NSString                        *urlAttachmentFetchPageFormat;
-    NSString                        *urlAttachmentFetchPaintingFormat;
     NSString                        *urlLinkAttachmentFetchPageFormat;
-    NSString                        *urlLinkAttachmentFetchPaintingFormat;
     
     NSObject<LNDocumentReaderDataSource> *dataSource;
     NSMutableSet                    *uidsToFetch;
@@ -62,6 +60,8 @@
     
     BOOL                            hasErrors;
     BOOL                            allRequestsSent;
+    
+    NSString                        *baseUrl;
 }
 - (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
 @property (nonatomic, readonly)         BOOL                  isSyncing;

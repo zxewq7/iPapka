@@ -167,6 +167,10 @@
 
 	
 
+@dynamic comment;
+
+	
+
 @dynamic attachments;
 
 	

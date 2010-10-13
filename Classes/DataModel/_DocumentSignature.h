@@ -4,8 +4,6 @@
 #import <CoreData/CoreData.h>
 #import "Document.h"
 
-@class SignatureAudio;
-
 
 
 @interface DocumentSignatureID : NSManagedObjectID {}
@@ -21,17 +19,6 @@
 
 
 
-@property (nonatomic, retain) NSString *comment;
-
-//- (BOOL)validateComment:(id*)value_ error:(NSError**)error_;
-
-
-
-
-@property (nonatomic, retain) SignatureAudio* audioComment;
-//- (BOOL)validateAudioComment:(id*)value_ error:(NSError**)error_;
-
-
 
 @end
 
@@ -40,15 +27,6 @@
 @end
 
 @interface _DocumentSignature (CoreDataGeneratedPrimitiveAccessors)
-
-- (NSString*)primitiveComment;
-- (void)setPrimitiveComment:(NSString*)value;
-
-
-
-
-- (SignatureAudio*)primitiveAudioComment;
-- (void)setPrimitiveAudioComment:(SignatureAudio*)value;
 
 
 @end
