@@ -612,10 +612,10 @@ static NSString* OperationCount = @"OperationCount";
                     exists = YES;
                     break;
                 }
-                
-                if (!exists)
-                    [[self dataSource] documentReader:self removeObject: link];
             }
+            
+            if (!exists)
+                [[self dataSource] documentReader:self removeObject: link];
         }
         
         //add new links
