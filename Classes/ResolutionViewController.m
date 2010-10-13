@@ -350,8 +350,8 @@
 
 -(void) updateContent
 {
-    DocumentResolution *resolution  = document;
-    DocumentResolution *parentResolution = resolution.parentResolution;
+    DocumentResolutionAbstract *resolution  = document;
+    DocumentResolutionParent *parentResolution = document.parentResolution;
     
     resolutionSwitcher.hidden = (parentResolution == nil);
     

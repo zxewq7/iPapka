@@ -29,32 +29,32 @@
     //default folders
     //names should be unique across all folders
     Folder *inbox = [Folder folderWithName:@"Documents" 
-                           predicateString:@"parent==nil && (status == 0 || status == 1)" 
-                                entityName:@"Document"
+                           predicateString:nil
+                                entityName:nil
                                   iconName:@"ButtonDocuments.png"];
     inbox.filters = [NSArray arrayWithObjects: 
                      [Folder folderWithName:@"Resolutions" 
-                            predicateString:@"parent==nil && (status == 0 || status == 1)" 
+                            predicateString:@"(status == 0 || status == 1)" 
                                  entityName:@"DocumentResolution"
                                    iconName:@"ButtonResolution.png"], 
                      [Folder folderWithName:@"Signatures" 
-                            predicateString:@"parent==nil && (status == 0 || status == 1)" 
+                            predicateString:@"(status == 0 || status == 1)" 
                                  entityName:@"DocumentSignature"
                                    iconName:@"ButtonSignature.png"],
                      nil];
     
     Folder *archive = [Folder folderWithName:@"Archive" 
-                             predicateString:@"parent==nil && !(status == 0 || status == 1)" 
-                                  entityName:@"Document"
+                             predicateString:nil
+                                  entityName:nil
                                     iconName:@"ButtonArchive.png"];
     
     archive.filters = [NSArray arrayWithObjects: 
                        [Folder folderWithName:@"Archived resolutions" 
-                              predicateString:@"parent==nil && !(status == 0 || status == 1)" 
+                              predicateString:@"!(status == 0 || status == 1)" 
                                    entityName:@"DocumentResolution"
                                      iconName:@"ButtonResolution.png"], 
                        [Folder folderWithName:@"Archived signatures" 
-                              predicateString:@"parent==nil && !(status == 0 || status == 1)" 
+                              predicateString:@"!(status == 0 || status == 1)" 
                                    entityName:@"DocumentSignature"
                                      iconName:@"ButtonSignature.png"],
                        nil];
@@ -64,7 +64,7 @@
                                archive,
                                nil];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
-    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:inbox] forKey:@"lastFolder"];
+    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:[inbox.filters objectAtIndex:0]] forKey:@"lastFolder"];
     
     [defaultValues setObject:@"ProcessedRest" forKey:@"serverDatabaseViewArchive"];
     [defaultValues setObject:@"documents" forKey:@"serverDatabaseViewInbox"];

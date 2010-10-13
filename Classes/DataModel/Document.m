@@ -2,12 +2,6 @@
 #import "DataSource.h"
 
 @implementation Document
-@synthesize document;
-
--(Document *) document
-{
-    return nil;
-}
 - (Attachment*)firstAttachment
 {
     NSArray *attachments = self.attachmentsOrdered;

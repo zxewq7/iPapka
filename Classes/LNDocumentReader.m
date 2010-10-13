@@ -10,6 +10,7 @@
 #import "Document.h"
 #import "DocumentResolution.h"
 #import "DocumentSignature.h"
+#import "DocumentLink.h"
 #import "Attachment.h"
 #import "LNHttpRequest.h"
 #import "ASINetworkQueue.h"
@@ -20,6 +21,8 @@
 #import "CommentAudio.h"
 #import "Comment.h"
 #import "AttachmentPagePainting.h"
+#import "DocumentResolutionParent.h"
+#import "DocumentResolutionAbstract.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -77,7 +80,7 @@ static NSString *url_LinkAttachmentFetchPaintingFormat = @"/document/%@/link/%@/
 - (void)fetchFile:(FileField *)page;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
-- (void) parseResolution:(DocumentResolution *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) parseResolution:(DocumentResolutionAbstract *) resolution fromDictionary:(NSDictionary *) dictionary;
 - (void) fetchResources;
 @end
 static NSString* OperationCount = @"OperationCount";
@@ -422,7 +425,7 @@ static NSString* OperationCount = @"OperationCount";
         
         if (!attachment) //create new attachment
         {
-            attachment = [[self dataSource] documentReaderCreateAttachment:self];
+            attachment = [[self dataSource] documentReader:self createEntity:[Attachment class]];
             attachment.title = [dictAttachment objectForKey:field_AttachmentName];
             attachment.uid = [dictAttachment objectForKey:field_Uid];
             attachment.document = document;
@@ -431,15 +434,18 @@ static NSString* OperationCount = @"OperationCount";
             
             for (NSUInteger i = 0; i < pageCount ; i++) //create page stubs
             {
-                AttachmentPage *page = [[self dataSource] documentReaderCreatePage:self];
+                AttachmentPage *page = [[self dataSource] documentReader:self createEntity:[AttachmentPage class]];
                 page.numberValue = i;
                 page.syncStatusValue = SyncStatusNeedSyncFromServer;
                 page.attachment = attachment;
-                AttachmentPagePainting *painting = [[self dataSource] documentReaderCreateAttachmentPagePainting:self];
+                AttachmentPagePainting *painting = [[self dataSource] documentReader:self createEntity:[AttachmentPagePainting class]];
                 painting.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
                 
-                if (document.parent) //link
-                    painting.url = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, document.parent.uid, document.uid, attachment.uid, page.number];
+                if ([document isKindOfClass:[DocumentLink class]])
+                {
+                    DocumentLink *link = (DocumentLink *) document;
+                    painting.url = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, link.document.uid, link.uid, attachment.uid, page.number];
+                }
                 else
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
                 
@@ -514,9 +520,9 @@ static NSString* OperationCount = @"OperationCount";
         if (!document ) //create new document
         {
             if ([form isEqualToString:form_Resolution])
-                document = [[self dataSource] documentReaderCreateResolution:self];
+                document = [[self dataSource] documentReader:self createEntity:[DocumentResolution class]];
             else if ([form isEqualToString:form_Signature])
-                document = [[self dataSource] documentReaderCreateSignature:self];
+                document = [[self dataSource] documentReader:self createEntity:[DocumentSignature class]];
             else
             {
                 NSLog(@"wrong form, document skipped: %@ %@", uid, form);
@@ -525,8 +531,8 @@ static NSString* OperationCount = @"OperationCount";
 
             document.path = [self documentDirectory: uid];
             
-            Comment *comment = [[self dataSource] documentReaderCreateComment:self];
-            CommentAudio *audio = [[self dataSource] documentReaderCreateCommentAudio:self];
+            Comment *comment = [[self dataSource] documentReader:self createEntity:[Comment class]];
+            CommentAudio *audio = [[self dataSource] documentReader:self createEntity:[CommentAudio class]];
             audio.path = [[document.path stringByAppendingPathComponent:@"comments"] stringByAppendingPathComponent:@"audioComment.ima4"];
             
             [df createDirectoryAtPath:[audio.path stringByDeletingLastPathComponent] withIntermediateDirectories:TRUE 
@@ -599,7 +605,7 @@ static NSString* OperationCount = @"OperationCount";
         NSSet *existingLinks = document.links;
         
         //remove obsoleted attachments
-        for (Document *link in existingLinks)
+        for (DocumentLink *link in existingLinks)
         {
             BOOL  exists = NO;
             for (NSDictionary *dictLink in links)
@@ -623,9 +629,9 @@ static NSString* OperationCount = @"OperationCount";
         {
             NSString *linkUid = [dictLink objectForKey:field_Uid];
             
-            Document *link = nil;
+            DocumentLink *link = nil;
             
-            for (Document *l in existingLinks)
+            for (DocumentLink *l in existingLinks)
             {
                 if ([l.uid isEqualToString: linkUid])
                 {
@@ -636,16 +642,14 @@ static NSString* OperationCount = @"OperationCount";
             
             if (!link) //create new link
             {
-                link = [[self dataSource] documentReaderCreateDocument:self];
+                link = [[self dataSource] documentReader:self createEntity:[DocumentLink class]];
                 link.uid = [uid stringByAppendingPathComponent: [dictLink objectForKey:field_Uid]];
                 link.title = [dictLink objectForKey:field_LinkTitle];
-#warning wrong date modified for link
                 link.dateModified = document.dateModified;
                 
-#warning wrong author for link                
                 link.author = document.author;
                 
-                link.parent = document;
+                link.document = document;
                 
                 link.path = [[document.path stringByAppendingPathComponent:@"links"] stringByAppendingPathComponent:link.uid];
                 
@@ -737,10 +741,9 @@ static NSString* OperationCount = @"OperationCount";
     Attachment *attachment = page.attachment;
     Document *rootDocument = attachment.document;
 
-#warning recursive links???
-    if (rootDocument.parent) //link
+    if ([rootDocument isKindOfClass:[DocumentLink class]]) //link
     {
-        rootDocument = rootDocument.parent;
+        rootDocument = ((DocumentLink *)rootDocument).document;
         Document *link = rootDocument;
         
         urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, rootDocument.uid, link.uid, @"%@", @"%d"];
@@ -803,56 +806,66 @@ static NSString* OperationCount = @"OperationCount";
     [_networkQueue addOperation:r];
 }
 
-- (void) parseResolution:(DocumentResolution *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) parseResolution:(DocumentResolutionAbstract *) aResolution fromDictionary:(NSDictionary *) dictionary
 {
-    resolution.text = [dictionary objectForKey:field_Text];
-    resolution.author = [dictionary objectForKey:field_Author];
+    aResolution.text = [dictionary objectForKey:field_Text];
+    aResolution.author = [dictionary objectForKey:field_Author];
 
-    //performers
-    [resolution removePerformers: resolution.performers]; //clean all performers
-    
-    NSArray *performers = [dictionary objectForKey:field_Performers];
-    for (NSString *uid in performers)
-    {
-        NSString *u = [uid stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-        if ([u isEqualToString:@""])
-             continue;
-        Person *performer = [[self dataSource] documentReader:self personWithUid: uid];
-        if (performer)
-        {
-            [resolution addPerformersObject: performer];
-            [performer addResolutionsObject: resolution];
-        }
-        else
-            NSLog(@"Unknown person: %@", uid);
-    }
-    
     NSDate *dDeadline = nil;
     NSString *sDeadline = [dictionary objectForKey:field_Deadline];
     if (sDeadline && ![sDeadline isEqualToString:@""])
         dDeadline = [parseFormatterSimple dateFromString:sDeadline];
+    
+    aResolution.deadline = dDeadline;
+    
+    NSArray *performers = [dictionary objectForKey:field_Performers];
 
-    resolution.deadline = dDeadline;
-
-    NSDictionary *parsedParentResolution = [dictionary objectForKey:field_ParentResolution];
-    if (parsedParentResolution) 
+    if ([aResolution isKindOfClass:[DocumentResolution class]])
     {
-        DocumentResolution *parentResolution = [[self dataSource] documentReaderCreateResolution:self];
-        [self parseResolution:parentResolution fromDictionary:parsedParentResolution];
-        
-#warning possibly wrong data (title, dateModified)
-        if (!parentResolution.title)
-            parentResolution.title = resolution.title;
-        
-        if (!parentResolution.dateModified)
-            parentResolution.dateModified = resolution.dateModified;
-        
-        if (!parentResolution.uid)
-            parentResolution.uid = [resolution.uid stringByAppendingString:@".parent"];
+        DocumentResolution *resolution = (DocumentResolution *)aResolution;
 
+        //performers
+        NSArray *performers = [dictionary objectForKey:field_Performers];
+        for (NSString *uid in performers)
+        {
+            NSString *u = [uid stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+            if ([u isEqualToString:@""])
+                continue;
+            Person *performer = [[self dataSource] documentReader:self personWithUid: uid];
+            if (performer)
+            {
+                [resolution addPerformersObject: performer];
+                [performer addResolutionsObject: resolution];
+            }
+            else
+                NSLog(@"Unknown person: %@", uid);
+        }
         
-        resolution.parentResolution = parentResolution;
-        parentResolution.parent = resolution;
+        //parent resolution
+        NSDictionary *parsedParentResolution = [dictionary objectForKey:field_ParentResolution];
+        if (parsedParentResolution) 
+        {
+            DocumentResolutionParent *parentResolution = [[self dataSource] documentReader:self createEntity:[DocumentResolutionParent class]];
+            [self parseResolution:parentResolution fromDictionary:parsedParentResolution];
+            
+            if (!parentResolution.title)
+                parentResolution.title = resolution.title;
+            
+            if (!parentResolution.dateModified)
+                parentResolution.dateModified = resolution.dateModified;
+            
+            if (!parentResolution.uid)
+                parentResolution.uid = [resolution.uid stringByAppendingString:@".parentResolution"];
+            
+            resolution.parentResolution = parentResolution;
+            parentResolution.resolution = resolution;
+        }
+    }
+    else if ([aResolution isKindOfClass:[DocumentResolutionParent class]])
+    {
+        //performers
+        DocumentResolutionParent *resolution = (DocumentResolutionParent *)aResolution;
+        resolution.performers = performers;
     }
 }
 - (void) fetchResources

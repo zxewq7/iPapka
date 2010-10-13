@@ -155,25 +155,6 @@
 
 
 
-@dynamic links;
-
-	
-- (NSMutableSet*)linksSet {
-	[self willAccessValueForKey:@"links"];
-	NSMutableSet *result = [self mutableSetValueForKey:@"links"];
-	[self didAccessValueForKey:@"links"];
-	return result;
-}
-	
-
-@dynamic parent;
-
-	
-
-@dynamic comment;
-
-	
-
 @dynamic attachments;
 
 	
@@ -181,6 +162,21 @@
 	[self willAccessValueForKey:@"attachments"];
 	NSMutableSet *result = [self mutableSetValueForKey:@"attachments"];
 	[self didAccessValueForKey:@"attachments"];
+	return result;
+}
+	
+
+@dynamic comment;
+
+	
+
+@dynamic links;
+
+	
+- (NSMutableSet*)linksSet {
+	[self willAccessValueForKey:@"links"];
+	NSMutableSet *result = [self mutableSetValueForKey:@"links"];
+	[self didAccessValueForKey:@"links"];
 	return result;
 }
 	

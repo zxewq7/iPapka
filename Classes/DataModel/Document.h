@@ -13,9 +13,8 @@ typedef enum _SyncStatus {
     SyncStatusNeedSyncFromServer = 2,
 } SyncStatus;
 
-@class Document, Attachment;
+@class Attachment;
 
 @interface Document : _Document 
-@property (nonatomic, readonly, getter=document) Document *document;
 @property (nonatomic, readonly) Attachment *firstAttachment;
 @end

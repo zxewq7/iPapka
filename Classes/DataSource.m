@@ -150,7 +150,10 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder
 {
-	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	if (!folder.entityName)
+        return 0;
+    
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:[NSEntityDescription entityForName:folder.entityName inManagedObjectContext:managedObjectContext]];
 	
     NSString *format = @"(isRead==nil || isRead==NO)";
@@ -252,44 +255,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return nil;
 }
 
-- (DocumentResolution *) documentReaderCreateResolution:(LNDocumentReader *) documentReader
+- (id) documentReader:(LNDocumentReader *) documentReader createEntity:(Class) entityClass
 {
-    return [NSEntityDescription insertNewObjectForEntityForName:@"DocumentResolution" inManagedObjectContext:managedObjectContext];
-}
-
-- (DocumentSignature *) documentReaderCreateSignature:(LNDocumentReader *) documentReader
-{
-    return [NSEntityDescription insertNewObjectForEntityForName:@"DocumentSignature" inManagedObjectContext:managedObjectContext];
-}
-
-- (Document *) documentReaderCreateDocument:(LNDocumentReader *) documentReader
-{
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Document" inManagedObjectContext:managedObjectContext];
-}
-
-- (Attachment *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader
-{
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Attachment" inManagedObjectContext:managedObjectContext];    
-}
-
-- (AttachmentPage *) documentReaderCreatePage:(LNDocumentReader *) documentReader
-{
-    return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPage" inManagedObjectContext:managedObjectContext];
-}
-
-- (CommentAudio *) documentReaderCreateCommentAudio:(LNDocumentReader *) documentReader
-{
-    return [NSEntityDescription insertNewObjectForEntityForName:@"CommentAudio" inManagedObjectContext:managedObjectContext];
-}
-
-- (Comment *) documentReaderCreateComment:(LNDocumentReader *) documentReader
-{
-    return [NSEntityDescription insertNewObjectForEntityForName:@"Comment" inManagedObjectContext:managedObjectContext];
-}
-
-- (AttachmentPagePainting *) documentReaderCreateAttachmentPagePainting:(LNDocumentReader *) documentReader
-{
-    return [NSEntityDescription insertNewObjectForEntityForName:@"AttachmentPagePainting" inManagedObjectContext:managedObjectContext];
+    return [NSEntityDescription insertNewObjectForEntityForName:[NSString stringWithFormat:@"%@", entityClass] inManagedObjectContext:managedObjectContext];
 }
 
 - (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader
@@ -298,10 +266,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [request setEntity:self.documentEntityDescription];
     [request setResultType:NSDictionaryResultType];
     [request setReturnsDistinctResults:YES];
-    
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"parent == nil"];
-    [request setPredicate:predicate];
-
     
     [request setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
 

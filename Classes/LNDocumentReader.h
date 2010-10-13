@@ -14,15 +14,7 @@
 - (Document *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
 - (Person *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) uid;
 
-- (DocumentResolution *) documentReaderCreateResolution:(LNDocumentReader *) documentReader;
-- (DocumentSignature *) documentReaderCreateSignature:(LNDocumentReader *) documentReader;
-- (Document *) documentReaderCreateDocument:(LNDocumentReader *) documentReader;
-- (Attachment *) documentReaderCreateAttachment:(LNDocumentReader *) documentReader;
-- (AttachmentPage *) documentReaderCreatePage:(LNDocumentReader *) documentReader;
-- (Comment *) documentReaderCreateComment:(LNDocumentReader *) documentReader;
-- (CommentAudio *) documentReaderCreateCommentAudio:(LNDocumentReader *) documentReader;
-
-- (AttachmentPagePainting *) documentReaderCreateAttachmentPagePainting:(LNDocumentReader *) documentReader;
+- (id) documentReader:(LNDocumentReader *) documentReader createEntity:(Class) entityClass;
 
 - (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader;
 

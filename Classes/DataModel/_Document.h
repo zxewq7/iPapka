@@ -4,10 +4,9 @@
 #import <CoreData/CoreData.h>
 
 
-@class Document;
-@class Document;
-@class Comment;
 @class Attachment;
+@class Comment;
+@class DocumentLink;
 
 
 
@@ -103,13 +102,8 @@
 
 
 
-@property (nonatomic, retain) NSSet* links;
-- (NSMutableSet*)linksSet;
-
-
-
-@property (nonatomic, retain) Document* parent;
-//- (BOOL)validateParent:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, retain) NSSet* attachments;
+- (NSMutableSet*)attachmentsSet;
 
 
 
@@ -118,8 +112,8 @@
 
 
 
-@property (nonatomic, retain) NSSet* attachments;
-- (NSMutableSet*)attachmentsSet;
+@property (nonatomic, retain) NSSet* links;
+- (NSMutableSet*)linksSet;
 
 
 
@@ -127,15 +121,15 @@
 
 @interface _Document (CoreDataGeneratedAccessors)
 
-- (void)addLinks:(NSSet*)value_;
-- (void)removeLinks:(NSSet*)value_;
-- (void)addLinksObject:(Document*)value_;
-- (void)removeLinksObject:(Document*)value_;
-
 - (void)addAttachments:(NSSet*)value_;
 - (void)removeAttachments:(NSSet*)value_;
 - (void)addAttachmentsObject:(Attachment*)value_;
 - (void)removeAttachmentsObject:(Attachment*)value_;
+
+- (void)addLinks:(NSSet*)value_;
+- (void)removeLinks:(NSSet*)value_;
+- (void)addLinksObject:(DocumentLink*)value_;
+- (void)removeLinksObject:(DocumentLink*)value_;
 
 @end
 
@@ -188,13 +182,8 @@
 
 
 
-- (NSMutableSet*)primitiveLinks;
-- (void)setPrimitiveLinks:(NSMutableSet*)value;
-
-
-
-- (Document*)primitiveParent;
-- (void)setPrimitiveParent:(Document*)value;
+- (NSMutableSet*)primitiveAttachments;
+- (void)setPrimitiveAttachments:(NSMutableSet*)value;
 
 
 
@@ -203,8 +192,8 @@
 
 
 
-- (NSMutableSet*)primitiveAttachments;
-- (void)setPrimitiveAttachments:(NSMutableSet*)value;
+- (NSMutableSet*)primitiveLinks;
+- (void)setPrimitiveLinks:(NSMutableSet*)value;
 
 
 @end

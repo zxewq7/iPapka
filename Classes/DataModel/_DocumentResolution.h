@@ -2,19 +2,16 @@
 // Make changes to DocumentResolution.h instead.
 
 #import <CoreData/CoreData.h>
-#import "Document.h"
+#import "DocumentResolutionAbstract.h"
 
 @class Person;
-@class DocumentResolution;
-
-
-
+@class DocumentResolutionParent;
 
 
 @interface DocumentResolutionID : NSManagedObjectID {}
 @end
 
-@interface _DocumentResolution : Document {}
+@interface _DocumentResolution : DocumentResolutionAbstract {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -24,35 +21,13 @@
 
 
 
-@property (nonatomic, retain) NSNumber *isManaged;
-
-@property BOOL isManagedValue;
-- (BOOL)isManagedValue;
-- (void)setIsManagedValue:(BOOL)value_;
-
-//- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *deadline;
-
-//- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *text;
-
-//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
-
-
-
 
 @property (nonatomic, retain) NSSet* performers;
 - (NSMutableSet*)performersSet;
 
 
 
-@property (nonatomic, retain) DocumentResolution* parentResolution;
+@property (nonatomic, retain) DocumentResolutionParent* parentResolution;
 //- (BOOL)validateParentResolution:(id*)value_ error:(NSError**)error_;
 
 
@@ -70,21 +45,6 @@
 
 @interface _DocumentResolution (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSNumber*)primitiveIsManaged;
-- (void)setPrimitiveIsManaged:(NSNumber*)value;
-
-- (BOOL)primitiveIsManagedValue;
-- (void)setPrimitiveIsManagedValue:(BOOL)value_;
-
-
-- (NSDate*)primitiveDeadline;
-- (void)setPrimitiveDeadline:(NSDate*)value;
-
-
-- (NSString*)primitiveText;
-- (void)setPrimitiveText:(NSString*)value;
-
-
 
 
 - (NSMutableSet*)primitivePerformers;
@@ -92,8 +52,8 @@
 
 
 
-- (DocumentResolution*)primitiveParentResolution;
-- (void)setPrimitiveParentResolution:(DocumentResolution*)value;
+- (DocumentResolutionParent*)primitiveParentResolution;
+- (void)setPrimitiveParentResolution:(DocumentResolutionParent*)value;
 
 
 @end
