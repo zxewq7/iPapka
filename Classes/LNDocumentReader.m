@@ -397,10 +397,10 @@ static NSString* OperationCount = @"OperationCount";
                 exists = YES;
                 break;
             }
-            
-            if (!exists)
-                [[self dataSource] documentReader:self removeObject: attachment];
         }
+
+        if (!exists)
+            [[self dataSource] documentReader:self removeObject: attachment];
     }
     
     //add new attachments
