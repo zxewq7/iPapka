@@ -743,10 +743,11 @@ static NSString* OperationCount = @"OperationCount";
 
     if ([rootDocument isKindOfClass:[DocumentLink class]]) //link
     {
-        rootDocument = ((DocumentLink *)rootDocument).document;
-        Document *link = rootDocument;
+        DocumentLink *link = (DocumentLink *)rootDocument;
+
+        rootDocument = link.document;
         
-        urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, rootDocument.uid, link.uid, @"%@", @"%d"];
+        urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, rootDocument.uid, link.index, @"%@", @"%d"];
     }
     else
         urlPattern = [NSString stringWithFormat:urlAttachmentFetchPageFormat, rootDocument.uid, @"%@", @"%d"];
