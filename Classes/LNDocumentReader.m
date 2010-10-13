@@ -474,6 +474,8 @@ static NSString* OperationCount = @"OperationCount";
 {
     @synchronized (self)
     {
+        NSFileManager *df = [NSFileManager defaultManager];
+        
         NSString *form = [parsedDocument objectForKey:field_Form];
         NSString *uid = [parsedDocument objectForKey:field_Uid];
         
@@ -521,9 +523,18 @@ static NSString* OperationCount = @"OperationCount";
                 NSLog(@"wrong form, document skipped: %@ %@", uid, form);
                 return;
             }
+
+            document.path = [self documentDirectory: uid];
             
             Comment *comment = [[self dataSource] documentReaderCreateComment:self];
             CommentAudio *audio = [[self dataSource] documentReaderCreateCommentAudio:self];
+            audio.path = [[document.path stringByAppendingPathComponent:@"comments"] stringByAppendingPathComponent:@"audioComment.ima4"];
+            
+            [df createDirectoryAtPath:[audio.path stringByDeletingLastPathComponent] withIntermediateDirectories:TRUE 
+                           attributes:nil error:nil];
+
+
+            
             comment.audio = audio;
             audio.comment = comment;
             
@@ -541,8 +552,6 @@ static NSString* OperationCount = @"OperationCount";
         document.uid = uid;
         
         document.title = [subDocument objectForKey:field_Title];
-        
-        document.path = [self documentDirectory: uid];
         
         document.dateModified = dateModified;
 

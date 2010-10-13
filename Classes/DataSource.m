@@ -584,7 +584,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 - (NSEntityDescription *)fileEntityDescription
 {
     if (fileEntityDescription == nil) {
-        fileEntityDescription = [[NSEntityDescription entityForName:@"AttachmentPagePainting" inManagedObjectContext:managedObjectContext] retain];
+        fileEntityDescription = [[NSEntityDescription entityForName:@"FileField" inManagedObjectContext:managedObjectContext] retain];
     }
     return fileEntityDescription;
 }
