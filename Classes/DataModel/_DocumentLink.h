@@ -21,11 +21,7 @@
 
 
 
-@property (nonatomic, retain) NSNumber *index;
-
-@property short indexValue;
-- (short)indexValue;
-- (void)setIndexValue:(short)value_;
+@property (nonatomic, retain) NSString *index;
 
 //- (BOOL)validateIndex:(id*)value_ error:(NSError**)error_;
 
@@ -45,11 +41,8 @@
 
 @interface _DocumentLink (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSNumber*)primitiveIndex;
-- (void)setPrimitiveIndex:(NSNumber*)value;
-
-- (short)primitiveIndexValue;
-- (void)setPrimitiveIndexValue:(short)value_;
+- (NSString*)primitiveIndex;
+- (void)setPrimitiveIndex:(NSString*)value;
 
 
 

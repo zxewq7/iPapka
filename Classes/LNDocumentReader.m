@@ -633,7 +633,7 @@ static NSString* OperationCount = @"OperationCount";
             for (NSDictionary *dictLink in links)
             {
                 NSString *linkUid = [dictLink objectForKey:field_Uid];
-                if ([link.uid isEqualToString :linkUid])
+                if ([link.index isEqualToString :linkUid])
                 {
                     exists = YES;
                     break;
@@ -655,7 +655,7 @@ static NSString* OperationCount = @"OperationCount";
             
             for (DocumentLink *l in existingLinks)
             {
-                if ([l.uid isEqualToString: linkUid])
+                if ([l.index isEqualToString: linkUid])
                 {
                     link = l;
                     break;
@@ -878,7 +878,7 @@ static NSString* OperationCount = @"OperationCount";
                 parentResolution.dateModified = resolution.dateModified;
             
             if (!parentResolution.uid)
-                parentResolution.uid = [resolution.uid stringByAppendingString:@".parentResolution"];
+                parentResolution.uid = [resolution.uid stringByAppendingString:@"/parentResolution"];
             
             resolution.parentResolution = parentResolution;
             parentResolution.resolution = resolution;

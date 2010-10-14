@@ -35,25 +35,6 @@
 
 
 
-- (short)indexValue {
-	NSNumber *result = [self index];
-	return [result shortValue];
-}
-
-- (void)setIndexValue:(short)value_ {
-	[self setIndex:[NSNumber numberWithShort:value_]];
-}
-
-- (short)primitiveIndexValue {
-	NSNumber *result = [self primitiveIndex];
-	return [result shortValue];
-}
-
-- (void)setPrimitiveIndexValue:(short)value_ {
-	[self setPrimitiveIndex:[NSNumber numberWithShort:value_]];
-}
-
-
 
 
 

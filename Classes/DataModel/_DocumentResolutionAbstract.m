@@ -57,14 +57,14 @@
 
 
 
-@dynamic text;
-
-
-
-
-
-
 @dynamic deadline;
+
+
+
+
+
+
+@dynamic text;
 
 
 
