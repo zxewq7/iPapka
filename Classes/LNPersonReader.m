@@ -28,6 +28,7 @@ static NSString* kFieldMiddle = @"middle";
     if ((self = [super init])) {
         
         url = [anUrl stringByAppendingString:@"/getExecutors?OpenAgent"];
+        [url retain];
         
         queue = [[ASINetworkQueue alloc] init];
         [queue setRequestDidFinishSelector:@selector(fetchComplete:)];
