@@ -93,19 +93,12 @@ static NSString* kPostFiledJson = @"json";
     isSyncing = YES;
     [self didChangeValueForKey:@"isSyncing"];
     
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[unsyncedDocuments sections] objectAtIndex:0];
-    NSUInteger numberOfObjects = [sectionInfo numberOfObjects];
-    
-    for (NSUInteger i = 0;i < numberOfObjects; i++)
-    {
-        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
-        Document *document = [unsyncedDocuments objectAtIndexPath:indexPath];
-        [self syncDocument:document];
-    }
+    NSUInteger numberOfObjects;
+    id <NSFetchedResultsSectionInfo> sectionInfo;
 
     if (![unsyncedFiles performFetch:&error])
 		NSAssert1(error == nil, @"Unhandled error executing unsynced files: %@", [error localizedDescription]);
-
+    
     sectionInfo = [[unsyncedFiles sections] objectAtIndex:0];
     numberOfObjects = [sectionInfo numberOfObjects];
     
@@ -115,6 +108,17 @@ static NSString* kPostFiledJson = @"json";
         FileField *file = [unsyncedFiles objectAtIndexPath:indexPath];
         [self syncFile:file];
     }
+    
+    sectionInfo = [[unsyncedDocuments sections] objectAtIndex:0];
+    numberOfObjects = [sectionInfo numberOfObjects];
+    
+    for (NSUInteger i = 0;i < numberOfObjects; i++)
+    {
+        NSIndexPath *indexPath = [NSIndexPath indexPathForRow:i inSection:0];
+        Document *document = [unsyncedDocuments objectAtIndexPath:indexPath];
+        [self syncDocument:document];
+    }
+
 
     allRequestsSent = YES;
     
