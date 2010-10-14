@@ -12,6 +12,8 @@
 #import "Folder.h";
 #import "UIButton+Additions.h"
 #import "Person.h"
+#import "DocumentSignature.h"
+#import "DocumentResolution.h"
 
 #define ROW_HEIGHT 94
 
@@ -148,7 +150,23 @@ static NSString* SyncingContext = @"SyncingContext";
         // Set appropriate labels for the cells.
     Document *doc = [fetchedResultsController objectAtIndexPath:indexPath];
     cell.textLabel.text = doc.title;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@: %@", NSLocalizedString(@"Author", "Author"), doc.author];
+    NSString *details;
+    
+    if ([doc isKindOfClass:[DocumentResolution class]])
+        details = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], document.author];
+    else if ([doc isKindOfClass:[DocumentSignature class]])
+    {
+        DocumentSignature *signature = (DocumentSignature *) doc;
+        if ([signature.correspondents count])
+            details = [NSString stringWithFormat:@"%@, %@, %@: %@", [dateFormatter stringFromDate: signature.registrationDate], signature.author, NSLocalizedString(@"correspondents", @"correspondents"), [signature.correspondents componentsJoinedByString:@", "]];
+        else
+            details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: signature.registrationDate], signature.author];
+    }
+    else
+        details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: doc.registrationDate], doc.author];
+    
+    cell.detailTextLabel.text = details;
+    
     cell.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
     return cell;
 }
