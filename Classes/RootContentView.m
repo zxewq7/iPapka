@@ -14,13 +14,9 @@
 #define kSignatureComment 1024
 
 
-#define kMargin 6.0f
+#define kMargin 7.0f
 
-#define kMarginLandscape 5.0f
-
-#define kTopMargin 5.0f
-
-#define kTopMarginLandscape 6.0f
+#define kTopMargin 7.0f
 
 @interface RootContentView(Private)
 -(void) setView:(UIView *) view withTag:(int) tag;
@@ -75,33 +71,15 @@
 {
     [super layoutSubviews];
 
-    CGFloat margin;
-    
-    CGFloat topMargin;
-    
     CGSize size = self.bounds.size;
-    
-    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-    
-    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown) //portrait
-    {
-        margin = kMargin;
-        topMargin = kTopMargin;
-        
-    }
-    else
-    {
-        margin = kMarginLandscape;
-        topMargin = kTopMarginLandscape;
-    }
     
     //documentInfo
     
     UIView *documentInfo = self.documentInfo;
     CGRect documentInfoFrame = documentInfo.frame;
-    documentInfoFrame.origin.x = margin;
-    documentInfoFrame.origin.y = topMargin;
-    documentInfoFrame.size.width = size.width - 2 * margin;
+    documentInfoFrame.origin.x = kMargin;
+    documentInfoFrame.origin.y = kTopMargin;
+    documentInfoFrame.size.width = size.width - 2 * kMargin;
     
     documentInfo.frame = documentInfoFrame;
     
@@ -124,7 +102,7 @@
     //attachments
     UIView *attachments = self.attachments;
     
-    CGRect attachmentsFrame = CGRectMake(margin, topMargin, size.width - 2 * margin, size.height - 2 * topMargin);
+    CGRect attachmentsFrame = CGRectMake(kMargin, kTopMargin, size.width - 2 * kMargin, size.height - 2 * kTopMargin);
     
     attachments.frame = attachmentsFrame;
 }
