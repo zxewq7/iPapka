@@ -12,6 +12,7 @@
 #import "Person.h"
 #import <QuartzCore/CALayer.h>
 #import "DocumentResolution.h"
+#import "DocumentSignature.h"
 
 #define kMinTableRows 4
 #define kTableRowHeight 60.0f
@@ -266,6 +267,14 @@
     
     if ([document isKindOfClass:[DocumentResolution class]])
         documentDetails.text = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], document.author];
+    else if ([document isKindOfClass:[DocumentSignature class]])
+    {
+        DocumentSignature *signature = (DocumentSignature *) document;
+        if (signature.correspondents)
+            documentDetails.text = [NSString stringWithFormat:@"%@, %@, %@: %@", [dateFormatter stringFromDate: document.registrationDate], document.author, NSLocalizedString(@"correspondents", @"correspondents"), [((DocumentSignature *)document).correspondents componentsJoinedByString:@", "]];
+        else
+            documentDetails.text = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], document.author];
+    }
     else
         documentDetails.text = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], document.author];
     

@@ -57,6 +57,7 @@ static NSString *field_Comment = @"userComment";
 static NSString *field_CommentFile = @"file";
 static NSString *field_Version = @"version";
 static NSString *field_URL = @"url";
+static NSString *field_Correspondents = @"corrs";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -593,6 +594,11 @@ static NSString* OperationCount = @"OperationCount";
             DocumentResolution *resolution = (DocumentResolution *)document;
             [self parseResolution:resolution fromDictionary:parsedDocument];
 
+        }
+        else if ([document isKindOfClass:[DocumentSignature class]])
+        {
+            DocumentSignature *signature = (DocumentSignature *)document;
+            signature.correspondents = [subDocument objectForKey:field_Correspondents];
         }
         
         //parse comment

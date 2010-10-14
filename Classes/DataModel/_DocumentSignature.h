@@ -5,6 +5,7 @@
 #import "Document.h"
 
 
+@class NSArray;
 
 @interface DocumentSignatureID : NSManagedObjectID {}
 @end
@@ -19,6 +20,12 @@
 
 
 
+@property (nonatomic, retain) NSArray *correspondents;
+
+//- (BOOL)validateCorrespondents:(id*)value_ error:(NSError**)error_;
+
+
+
 
 @end
 
@@ -27,6 +34,10 @@
 @end
 
 @interface _DocumentSignature (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSArray*)primitiveCorrespondents;
+- (void)setPrimitiveCorrespondents:(NSArray*)value;
+
 
 
 @end
