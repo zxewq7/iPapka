@@ -373,8 +373,15 @@
     
     dateLabel.text = [dateFormatter stringFromDate: resolution.registrationDate];
     
-    NSString *label = (resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil);
+    NSString *label;
+    if (resolution.deadline)
+        label = [NSString stringWithFormat:@"   %@   ", [dateFormatter stringFromDate:resolution.deadline]];
+    else
+        label = nil;
+
     [deadlineButton setTitle:label forState:UIControlStateNormal];
+    
+    [deadlineButton sizeToFit];
     
     performersViewController.document = resolution;
     
@@ -452,11 +459,12 @@
     document.deadline = deadline;
     
     if (deadline)
-        label = [dateFormatter stringFromDate:deadline];
+        label = [NSString stringWithFormat:@"   %@   ", [dateFormatter stringFromDate:deadline]];
     else
         label = nil;
     
     [deadlineButton setTitle:label forState:UIControlStateNormal];
+    [deadlineButton sizeToFit];
 }
 
 -(void) setManaged:(id) sender
