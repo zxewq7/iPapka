@@ -11,7 +11,7 @@
 #import "LNDocumentReader.h"
 #import "LNPersonReader.h"
 
-@class Folder, Document, Document, LNDocumentWriter;
+@class Folder, Document, Document, LNDocumentWriter, LNSettingsReader;
 
 @interface DataSource : NSObject<LNDocumentReaderDataSource, LNPersonReaderDataSource>
 {
@@ -29,6 +29,7 @@
     LNDocumentWriter             *documentWriter;
     LNDocumentReader             *documentReader;
     LNPersonReader               *personReader;
+    LNSettingsReader             *settingsReader;
     NSUInteger                   countDocumentsToSend;
     int                          syncStep;
 }

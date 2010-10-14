@@ -19,6 +19,7 @@
 #import "LNDocumentWriter.h"
 #import "FileField.h"
 #import "LNPersonReader.h"
+#import "LNSettingsReader.h"
 
 static NSString* SyncingContext = @"SyncingContext";
 
@@ -26,13 +27,15 @@ typedef enum
 {
     SyncStepSyncDocumentWriter = 0,
     SyncStepSyncDocumentReader = 1,
-    SyncStepSyncPersonReader = 2
+    SyncStepSyncPersonReader = 2,
+    SyncStepSyncSettingsReader = 3
 } SyncStep;
 
 @interface DataSource(Private)
 - (LNDocumentWriter *) documentWriter;
 - (LNDocumentReader *) documentReader;
 - (LNPersonReader *) personReader;
+- (LNSettingsReader *) settingsReader;
 - (NSEntityDescription *)documentEntityDescription;
 - (NSEntityDescription *)personEntityDescription;
 - (NSEntityDescription *)fileEntityDescription;
@@ -191,8 +194,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     if (isSyncing) //prevent multiple calls
         return;
     
-    syncStep = SyncStepSyncPersonReader;
-    [[self personReader] sync];
+    syncStep = SyncStepSyncSettingsReader;
+    [[self settingsReader] sync];
 }
 
 
@@ -438,6 +441,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [documentWriter release]; documentWriter = nil;
     
     [personReader release]; personReader = nil;
+    
+    [settingsReader release]; settingsReader = nil;
 	[super dealloc];
 }
 
@@ -457,6 +462,10 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         {
             switch (syncStep)
             {
+                case SyncStepSyncSettingsReader:
+                    syncStep = SyncStepSyncPersonReader;
+                    [[self personReader] sync];
+                    return;
                 case SyncStepSyncDocumentWriter:
                     syncStep = SyncStepSyncDocumentReader;
                     [[self documentReader] sync];
@@ -712,5 +721,18 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     else
         return nil;
 }
-
+- (LNSettingsReader *) settingsReader
+{
+    if (!settingsReader)
+    {
+        settingsReader = [[LNSettingsReader alloc] init];
+        
+        [settingsReader addObserver:self
+                       forKeyPath:@"isSyncing"
+                          options:0
+                          context:&SyncingContext];
+    }
+    
+    return settingsReader;
+}
 @end
