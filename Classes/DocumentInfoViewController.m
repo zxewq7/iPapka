@@ -264,19 +264,23 @@
     currentItems = document.attachmentsOrdered;
     
     documentTitle.text = document.title;
-    
+
+    NSString *details;
+
     if ([document isKindOfClass:[DocumentResolution class]])
-        documentDetails.text = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], document.author];
+        details = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], document.author];
     else if ([document isKindOfClass:[DocumentSignature class]])
     {
         DocumentSignature *signature = (DocumentSignature *) document;
-        if (signature.correspondents)
-            documentDetails.text = [NSString stringWithFormat:@"%@, %@, %@: %@", [dateFormatter stringFromDate: document.registrationDate], document.author, NSLocalizedString(@"correspondents", @"correspondents"), [((DocumentSignature *)document).correspondents componentsJoinedByString:@", "]];
+        if ([signature.correspondents count])
+            details = [NSString stringWithFormat:@"%@, %@, %@: %@", [dateFormatter stringFromDate: signature.registrationDate], signature.author, NSLocalizedString(@"correspondents", @"correspondents"), [signature.correspondents componentsJoinedByString:@", "]];
         else
-            documentDetails.text = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], document.author];
+            details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: signature.registrationDate], signature.author];
     }
     else
-        documentDetails.text = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], document.author];
+         details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], document.author];
+    
+    documentDetails.text = details;
     
     if ([currentItems count]) 
         attachmentIndex = 0;
