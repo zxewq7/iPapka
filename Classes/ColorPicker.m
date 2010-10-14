@@ -93,7 +93,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
 +(UIColor *) defaultColor
 {
-    return [ColorPicker colorForIndex:0];
+    return [ColorPicker colorForIndex:1];
 }
 
 #pragma mark -
