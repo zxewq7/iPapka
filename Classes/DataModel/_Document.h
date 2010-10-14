@@ -18,6 +18,7 @@
 
 
 
+@class NSArray;
 
 
 @interface DocumentID : NSManagedObjectID {}
@@ -37,21 +38,15 @@
 
 
 
-@property (nonatomic, retain) NSString *registrationNumber;
-
-//- (BOOL)validateRegistrationNumber:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSString *uid;
 
 //- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, retain) NSString *path;
+@property (nonatomic, retain) NSString *title;
 
-//- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -65,15 +60,27 @@
 
 
 
+@property (nonatomic, retain) NSString *path;
+
+//- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *registrationNumber;
+
+//- (BOOL)validateRegistrationNumber:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *dateModified;
+
+//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSDate *registrationDate;
 
 //- (BOOL)validateRegistrationDate:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *author;
-
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -83,9 +90,9 @@
 
 
 
-@property (nonatomic, retain) NSDate *dateModified;
+@property (nonatomic, retain) NSString *author;
 
-//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -99,6 +106,12 @@
 
 
 
+@property (nonatomic, retain) NSArray *correspondents;
+
+//- (BOOL)validateCorrespondents:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSNumber *status;
 
 @property short statusValue;
@@ -106,12 +119,6 @@
 - (void)setStatusValue:(short)value_;
 
 //- (BOOL)validateStatus:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *title;
-
-//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -149,16 +156,12 @@
 
 @interface _Document (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveRegistrationNumber;
-- (void)setPrimitiveRegistrationNumber:(NSString*)value;
-
-
 - (NSString*)primitiveUid;
 - (void)setPrimitiveUid:(NSString*)value;
 
 
-- (NSString*)primitivePath;
-- (void)setPrimitivePath:(NSString*)value;
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
 
 
 - (NSNumber*)primitiveSyncStatus;
@@ -168,20 +171,28 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_;
 
 
+- (NSString*)primitivePath;
+- (void)setPrimitivePath:(NSString*)value;
+
+
+- (NSString*)primitiveRegistrationNumber;
+- (void)setPrimitiveRegistrationNumber:(NSString*)value;
+
+
+- (NSDate*)primitiveDateModified;
+- (void)setPrimitiveDateModified:(NSDate*)value;
+
+
 - (NSDate*)primitiveRegistrationDate;
 - (void)setPrimitiveRegistrationDate:(NSDate*)value;
-
-
-- (NSString*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(NSString*)value;
 
 
 - (NSDate*)primitiveRegistrationDateStripped;
 - (void)setPrimitiveRegistrationDateStripped:(NSDate*)value;
 
 
-- (NSDate*)primitiveDateModified;
-- (void)setPrimitiveDateModified:(NSDate*)value;
+- (NSString*)primitiveAuthor;
+- (void)setPrimitiveAuthor:(NSString*)value;
 
 
 - (NSNumber*)primitiveIsRead;
@@ -191,15 +202,15 @@
 - (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
+- (NSArray*)primitiveCorrespondents;
+- (void)setPrimitiveCorrespondents:(NSArray*)value;
+
+
 - (NSNumber*)primitiveStatus;
 - (void)setPrimitiveStatus:(NSNumber*)value;
 
 - (short)primitiveStatusValue;
 - (void)setPrimitiveStatusValue:(short)value_;
-
-
-- (NSString*)primitiveTitle;
-- (void)setPrimitiveTitle:(NSString*)value;
 
 
 

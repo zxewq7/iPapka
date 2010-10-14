@@ -31,13 +31,6 @@
 
 
 
-@dynamic correspondents;
-
-
-
-
-
-
 
 
 @end

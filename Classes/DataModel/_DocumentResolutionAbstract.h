@@ -32,15 +32,15 @@
 
 
 
-@property (nonatomic, retain) NSDate *deadline;
-
-//- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSString *text;
 
 //- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *deadline;
+
+//- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -60,12 +60,12 @@
 - (void)setPrimitiveIsManagedValue:(BOOL)value_;
 
 
-- (NSDate*)primitiveDeadline;
-- (void)setPrimitiveDeadline:(NSDate*)value;
-
-
 - (NSString*)primitiveText;
 - (void)setPrimitiveText:(NSString*)value;
+
+
+- (NSDate*)primitiveDeadline;
+- (void)setPrimitiveDeadline:(NSDate*)value;
 
 
 

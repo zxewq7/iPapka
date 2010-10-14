@@ -35,13 +35,6 @@
 
 
 
-@dynamic registrationNumber;
-
-
-
-
-
-
 @dynamic uid;
 
 
@@ -49,7 +42,7 @@
 
 
 
-@dynamic path;
+@dynamic title;
 
 
 
@@ -82,14 +75,28 @@
 
 
 
+@dynamic path;
+
+
+
+
+
+
+@dynamic registrationNumber;
+
+
+
+
+
+
+@dynamic dateModified;
+
+
+
+
+
+
 @dynamic registrationDate;
-
-
-
-
-
-
-@dynamic author;
 
 
 
@@ -103,7 +110,7 @@
 
 
 
-@dynamic dateModified;
+@dynamic author;
 
 
 
@@ -136,6 +143,13 @@
 
 
 
+@dynamic correspondents;
+
+
+
+
+
+
 @dynamic status;
 
 
@@ -157,13 +171,6 @@
 - (void)setPrimitiveStatusValue:(short)value_ {
 	[self setPrimitiveStatus:[NSNumber numberWithShort:value_]];
 }
-
-
-
-
-
-@dynamic title;
-
 
 
 

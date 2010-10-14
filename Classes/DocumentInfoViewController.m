@@ -12,7 +12,6 @@
 #import "Person.h"
 #import <QuartzCore/CALayer.h>
 #import "DocumentResolution.h"
-#import "DocumentSignature.h"
 
 #define kMinTableRows 4
 #define kTableRowHeight 60.0f
@@ -267,18 +266,20 @@
 
     NSString *details;
 
-    if ([document isKindOfClass:[DocumentResolution class]])
-        details = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], document.author];
-    else if ([document isKindOfClass:[DocumentSignature class]])
+    if (!document)
+        details = nil;
+    else if ([document isKindOfClass:[DocumentResolution class]])
     {
-        DocumentSignature *signature = (DocumentSignature *) document;
-        if ([signature.correspondents count])
-            details = [NSString stringWithFormat:@"%@, %@, %@: %@", [dateFormatter stringFromDate: signature.registrationDate], signature.author, NSLocalizedString(@"correspondents", @"correspondents"), [signature.correspondents componentsJoinedByString:@", "]];
+        if ([document.correspondents count])
+            details = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], [document.correspondents componentsJoinedByString:@", "]];
         else
-            details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: signature.registrationDate], signature.author];
+            details = [NSString stringWithFormat:@"%@ %@ %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate]];
     }
+    else if ([document.correspondents count])
+        details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], [document.correspondents componentsJoinedByString:@", "]];
     else
-         details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], document.author];
+        details = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate: document.registrationDate]];
+
     
     documentDetails.text = details;
     

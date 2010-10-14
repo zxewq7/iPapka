@@ -12,7 +12,6 @@
 #import "Folder.h";
 #import "UIButton+Additions.h"
 #import "Person.h"
-#import "DocumentSignature.h"
 #import "DocumentResolution.h"
 
 #define ROW_HEIGHT 94
@@ -153,17 +152,16 @@ static NSString* SyncingContext = @"SyncingContext";
     NSString *details;
     
     if ([doc isKindOfClass:[DocumentResolution class]])
-        details = [NSString stringWithFormat:@"%@ %@ %@, %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate], doc.author];
-    else if ([doc isKindOfClass:[DocumentSignature class]])
     {
-        DocumentSignature *signature = (DocumentSignature *) doc;
-        if ([signature.correspondents count])
-            details = [NSString stringWithFormat:@"%@, %@, %@: %@", [dateFormatter stringFromDate: signature.registrationDate], signature.author, NSLocalizedString(@"correspondents", @"correspondents"), [signature.correspondents componentsJoinedByString:@", "]];
+        if ([doc.correspondents count])
+            details = [NSString stringWithFormat:@"%@ %@ %@, %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
         else
-            details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: signature.registrationDate], signature.author];
+            details = [NSString stringWithFormat:@"%@ %@ %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate]];
     }
+    else if ([doc.correspondents count])
+        details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
     else
-        details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: doc.registrationDate], doc.author];
+        details = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate: document.registrationDate]];
     
     cell.detailTextLabel.text = details;
     

@@ -566,6 +566,9 @@ static NSString* OperationCount = @"OperationCount";
         
         document.dateModified = dateModified;
         
+        document.correspondents = [subDocument objectForKey:field_Correspondents];
+
+        
         NSDate *dDegistrationDate = nil;
         NSString *sDegistrationDate = [subDocument objectForKey:field_RegistrationDate];
         if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
@@ -594,11 +597,6 @@ static NSString* OperationCount = @"OperationCount";
             DocumentResolution *resolution = (DocumentResolution *)document;
             [self parseResolution:resolution fromDictionary:parsedDocument];
 
-        }
-        else if ([document isKindOfClass:[DocumentSignature class]])
-        {
-            DocumentSignature *signature = (DocumentSignature *)document;
-            signature.correspondents = [subDocument objectForKey:field_Correspondents];
         }
         
         //parse comment
