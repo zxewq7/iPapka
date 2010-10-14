@@ -275,25 +275,33 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 - (NSSet *) documentReaderRootUids:(LNDocumentReader *) documentReader
 {
-    NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:self.documentEntityDescription];
-    [request setResultType:NSDictionaryResultType];
-    [request setReturnsDistinctResults:YES];
-    
-    [request setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+    [fetchRequest setResultType:NSDictionaryResultType];
+    [fetchRequest setReturnsDistinctResults:YES];
 
-    // Execute the fetch.
-    NSError *error;
+    NSArray *entityDescriptions = [NSArray arrayWithObjects:
+                        [NSEntityDescription entityForName:@"DocumentResolution" inManagedObjectContext:managedObjectContext],
+                        [NSEntityDescription entityForName:@"DocumentSignature" inManagedObjectContext:managedObjectContext], nil];
 
-    NSArray *fetchResults = [managedObjectContext executeFetchRequest:request error:&error];
-    
-    [request release];
+    NSMutableSet * result = [NSMutableSet setWithCapacity: 100];
 
-    NSAssert1(fetchResults != nil, @"Unhandled error executing document fetch: %@", [error localizedDescription]);
-    
-    NSMutableSet * result = [NSMutableSet setWithCapacity: [fetchResults count]];
-    for (NSDictionary *doc in fetchResults)
-        [result addObject: [doc objectForKey: @"uid"]];
+    for (NSEntityDescription *ed in entityDescriptions)
+    {
+        [fetchRequest setEntity:ed];
+        [fetchRequest setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
+
+        // Execute the fetch.
+        NSError *error;
+        
+        NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+        
+        NSAssert1(fetchResults != nil, @"Unhandled error executing document fetch: %@", [error localizedDescription]);
+        
+        for (NSDictionary *doc in fetchResults)
+            [result addObject: [doc objectForKey: @"uid"]];
+    }
+
+    [fetchRequest release];
 
     return result;
 }
