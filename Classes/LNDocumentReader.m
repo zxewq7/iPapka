@@ -665,8 +665,13 @@ static NSString* OperationCount = @"OperationCount";
             if (!link) //create new link
             {
                 link = [[self dataSource] documentReader:self createEntity:[DocumentLink class]];
+
+                link.index = [dictLink objectForKey:field_Uid];
+                
                 link.uid = [uid stringByAppendingPathComponent: [dictLink objectForKey:field_Uid]];
+
                 link.title = [dictLink objectForKey:field_LinkTitle];
+
                 link.dateModified = document.dateModified;
                 
                 link.author = document.author;
