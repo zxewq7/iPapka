@@ -50,7 +50,7 @@
     
     CGSize viewSize = self.view.bounds.size;
     
-    UIButton *buttonAdd = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    buttonAdd = [UIButton buttonWithType:UIButtonTypeContactAdd];
     
     [buttonAdd addTarget:self action:@selector(addPerformer:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -62,7 +62,7 @@
     buttonAdd.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin);
     [self.view addSubview: buttonAdd];
     
-    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - buttonAddFrame.size.width - 5, viewSize.height)];
+    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - buttonAddFrame.size.width - 5.0f, viewSize.height)];
     
     performersView.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
     performersView.spaceBetweenButtons = 5.0f;
@@ -135,14 +135,13 @@
 - (void)viewDidUnload {
     [super viewDidUnload];
 
-    [performersView release];
-    performersView = nil;
+    [performersView release]; performersView = nil;
 
-    [sortByLastDescriptors release];
-    sortByLastDescriptors = nil;
+    [sortByLastDescriptors release]; sortByLastDescriptors = nil;
     
-    [popoverController release];
-    personPickerViewController = nil;
+    [popoverController release]; personPickerViewController = nil;
+    
+    [buttonAdd release]; buttonAdd = nil;
 }
 
 
@@ -157,6 +156,8 @@
     [sortByLastDescriptors release]; sortByLastDescriptors = nil;
 
     [popoverController release]; personPickerViewController = nil;
+    
+    [buttonAdd release]; buttonAdd = nil;
 
     [super dealloc];
 }
@@ -172,6 +173,14 @@
     {
         if ([document isKindOfClass:[DocumentResolution class]])
         {
+            if (buttonAdd.hidden)
+            {
+                CGRect frame = performersView.frame;
+                frame.size.width -= buttonAdd.frame.size.width;
+                performersView.frame = frame;
+                buttonAdd.hidden = NO;
+            }
+
             NSSet *ps = ((DocumentResolution *)document).performers;
             performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
             for (Person *p in ps)
@@ -205,6 +214,14 @@
         }
         else if ([document isKindOfClass:[DocumentResolutionParent class]])
         {
+            if (!buttonAdd.hidden)
+            {
+                CGRect frame = performersView.frame;
+                frame.size.width += buttonAdd.frame.size.width;
+                performersView.frame = frame;
+                buttonAdd.hidden = YES;
+            }
+
             performers = [NSMutableArray arrayWithArray: ((DocumentResolutionParent *)document).performers];
             [performers retain];
             

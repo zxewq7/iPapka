@@ -18,6 +18,7 @@
     NSArray *sortByLastDescriptors;  
     UIPopoverController *popoverController;
     PersonPickerViewController *personPickerViewController;
+    UIButton *buttonAdd;
 }
 
 @property (nonatomic, retain) DocumentResolutionAbstract *document;
