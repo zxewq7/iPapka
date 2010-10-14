@@ -529,10 +529,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (!personReader)
     {
-        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
-        
-        personReader = [[LNPersonReader alloc] initWithUrl:serverUrl];
+        personReader = [[LNPersonReader alloc] init];
         
         personReader.dataSource = self;
         

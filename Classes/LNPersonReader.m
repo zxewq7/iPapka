@@ -13,42 +13,27 @@
 #import "SBJsonParser.h"
 #import "Person.h"
 
-static NSString* OperationCount = @"OperationCount";
-
 static NSString* kFieldUid = @"id";
 static NSString* kFieldFirst = @"first";
 static NSString* kFieldLast = @"last";
 static NSString* kFieldMiddle = @"middle";
 
 @implementation LNPersonReader
-@synthesize dataSource, isSyncing;
+@synthesize dataSource;
 
-- (id) initWithUrl:(NSString *) anUrl
+- (id) init
 {
-    if ((self = [super init])) {
+    if ((self = [super init])) 
+    {
         
-        url = [anUrl stringByAppendingString:@"/getExecutors?OpenAgent"];
+        url = [self.serverUrl stringByAppendingString:@"/getExecutors?OpenAgent"];
         [url retain];
-        
-        queue = [[ASINetworkQueue alloc] init];
-        [queue setRequestDidFinishSelector:@selector(fetchComplete:)];
-        [queue setRequestDidFailSelector:@selector(fetchFailed:)];
-        
-        [queue addObserver:self
-                forKeyPath:@"requestsCount"
-                   options:0
-                   context:&OperationCount];
-        
-        [queue setDelegate:self];
-        queue.maxConcurrentOperationCount = 1;
-        [queue setShouldCancelAllRequestsOnFailure:NO];
-        [queue go];
     }
     return self;
 }
 - (void) sync;
 {
-    allRequestsSent = NO;
+    self.allRequestsSent = NO;
     
     LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: url]];
     request.delegate = self;
@@ -57,141 +42,70 @@ static NSString* kFieldMiddle = @"middle";
 
     __block LNPersonReader *blockSelf = self;
 
-    request.requestHandler = ^(ASIHTTPRequest *request) {
-        NSString *error = [request error] == nil?
-        ([request responseStatusCode] == 200?
-         nil:
-         NSLocalizedString(@"Bad response", "Bad response")):
-        [[request error] localizedDescription];
-        if (error)
-            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
-        else
-        {
-            SBJsonParser *json = [[SBJsonParser alloc] init];
-            NSError *error = nil;
-            NSString *jsonString = [request responseString];
-            NSArray *parsedResponse = [json objectWithString:jsonString error:&error];
-            [json release];
-            if (parsedResponse == nil)
-            {
-                NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
-                return;
-            }
-            
-            NSMutableSet *allUids = [NSMutableSet setWithCapacity:[parsedResponse count]];
-            
-            for (NSDictionary *personDict in parsedResponse)
-            {
-                NSString *uid = [personDict objectForKey:kFieldUid];
-                NSString *first = [personDict objectForKey:kFieldFirst];
-                NSString *last = [personDict objectForKey:kFieldLast];
-                NSString *middle = [personDict objectForKey:kFieldMiddle];
-                
-                if (!(uid && first && last))
-                {
-                    NSLog(@"not enough person attributes, skipped %@", personDict);
-                    continue;
-                }
-                
-                Person *person = [mds personReader:blockSelf personWithUid:uid];
-                if (!person)
-                    person = [[blockSelf dataSource] personReaderCreatePerson:blockSelf];
-                person.uid = uid;
-                person.first = first;
-                person.last = last;
-                person.middle = middle;
-                
-                [allUids addObject: uid];
-            }
+    [self sendRequestWithUrl:url andHandler:^(BOOL err, NSString *response){
+        if (err)
+            return;
 
-            NSSet *currentUids = [mds personReaderAllPersonsUids:blockSelf];
-            
-            for (NSString *uid in currentUids)
-            {
-                if (![allUids containsObject: uid])
-                {
-                    Person *person = [mds personReader:blockSelf personWithUid:uid];
-                    if (person)
-                        [mds personReader:blockSelf removeObject:person];
-                }
-            }
-            
-            [mds personReaderCommit:blockSelf];
+        SBJsonParser *json = [[SBJsonParser alloc] init];
+        NSError *error = nil;
+        NSString *jsonString = response;
+        NSArray *parsedResponse = [json objectWithString:jsonString error:&error];
+        [json release];
+        if (parsedResponse == nil)
+        {
+            NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
+            return;
         }
         
-    };
-    [queue addOperation:request];
-    allRequestsSent = YES;
-}
-
-- (void)fetchComplete:(ASIHTTPRequest *)request
-{
-    void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
-    if (handler)
-        handler(request);
-}
-
-- (void)fetchFailed:(ASIHTTPRequest *)request
-{
-    void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
-    if (handler)
-        handler(request);
-}
-
-- (void)authenticationNeededForRequest:(ASIHTTPRequest *)request
-{
-    [[PasswordManager sharedPasswordManager] credentials:(request.authenticationRetryCount>0) handler:^(NSString *aLogin, NSString *aPassword, BOOL canceled){
-        if (canceled) 
-            [request cancelAuthentication];
-        else
+        NSMutableSet *allUids = [NSMutableSet setWithCapacity:[parsedResponse count]];
+        
+        for (NSDictionary *personDict in parsedResponse)
         {
-            if ([request authenticationNeeded] == ASIHTTPAuthenticationNeeded) 
+            NSString *uid = [personDict objectForKey:kFieldUid];
+            NSString *first = [personDict objectForKey:kFieldFirst];
+            NSString *last = [personDict objectForKey:kFieldLast];
+            NSString *middle = [personDict objectForKey:kFieldMiddle];
+            
+            if (!(uid && first && last))
             {
-                [request setUsername:aLogin];
-                [request setPassword:aPassword];
-                [request retryUsingSuppliedCredentials];
-            } else if ([request authenticationNeeded] == ASIProxyAuthenticationNeeded) 
+                blockSelf.hasError = YES;
+                NSLog(@"not enough person attributes, skipped %@", personDict);
+                continue;
+            }
+            
+            Person *person = [mds personReader:blockSelf personWithUid:uid];
+            if (!person)
+                person = [[blockSelf dataSource] personReaderCreatePerson:blockSelf];
+            person.uid = uid;
+            person.first = first;
+            person.last = last;
+            person.middle = middle;
+            
+            [allUids addObject: uid];
+        }
+        
+        NSSet *currentUids = [mds personReaderAllPersonsUids:blockSelf];
+        
+        for (NSString *uid in currentUids)
+        {
+            if (![allUids containsObject: uid])
             {
-                [request setProxyUsername:aLogin];
-                [request setProxyPassword:aPassword];
-                [request retryUsingSuppliedCredentials];
+                Person *person = [mds personReader:blockSelf personWithUid:uid];
+                if (person)
+                    [mds personReader:blockSelf removeObject:person];
             }
         }
+        
+        [mds personReaderCommit:blockSelf];
+        
     }];
-}
-
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == &OperationCount)
-    {
-		BOOL x = !allRequestsSent || (queue.requestsCount != 0);
-        if ( x != isSyncing )
-        {
-            [self willChangeValueForKey:@"isSyncing"];
-            isSyncing = x;
-            [self didChangeValueForKey:@"isSyncing"];
-        }
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
-    }
+    self.allRequestsSent = YES;
 }
 
 #pragma mark -
 #pragma mark Memory management
 - (void)dealloc 
 {
-    [queue removeObserver:self forKeyPath:OperationCount];
-    [queue reset];
-	[queue release]; queue = nil;
     [dataSource release];
     
     [super dealloc];

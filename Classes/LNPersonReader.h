@@ -7,8 +7,9 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LNNetwork.h"
 
-@class ASINetworkQueue, LNPersonReader, Person, NSManagedObject;
+@class LNPersonReader, Person, NSManagedObject;
 
 @protocol LNPersonReaderDataSource<NSObject>
 - (Person *) personReader:(LNPersonReader *) personReader personWithUid:(NSString *) uid;
@@ -19,18 +20,12 @@
 @end
 
 
-@interface LNPersonReader : NSObject 
+@interface LNPersonReader : LNNetwork 
 {
-    ASINetworkQueue *queue;
     NSString        *url;
     id<LNPersonReaderDataSource> dataSource;
-    BOOL isSyncing;
-    BOOL allRequestsSent;
 }
 
-- (id) initWithUrl:(NSString *) anUrl;
-
-@property (nonatomic, assign, readonly) BOOL isSyncing;
 @property (nonatomic, retain) id<LNPersonReaderDataSource> dataSource;
 
 - (void) sync;
