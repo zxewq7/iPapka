@@ -42,10 +42,11 @@ static NSString* ColorContext = @"ColorContext";
 }
 
 - (void)viewDidLoad {
-#define FIRST_BAR_HEIGHT 211.0f
-#define SPACE_BETWEEN_BUTTONS 18.0f
-#define SECOND_BAR_OFFSET 205.0f
-#define SECOND_BAR_HEIGHT 180.0f
+#define FIRST_BAR_OFFSET 15.0f
+#define FIRST_BAR_HEIGHT 193.0f
+#define SPACE_BETWEEN_BUTTONS 12.0f
+#define SECOND_BAR_OFFSET 216.0f
+#define SECOND_BAR_HEIGHT 159.0f
     [super viewDidLoad];
     
     CGSize contentSize = self.view.frame.size;
@@ -86,7 +87,7 @@ static NSString* ColorContext = @"ColorContext";
     [eraserButton retain];
 
     [self alignButtons:[NSArray arrayWithObjects:commentButton, penButton, markerButton, eraserButton, nil] 
-             topOffset:0
+             topOffset:FIRST_BAR_OFFSET
                barSize:CGSizeMake(contentSize.width, FIRST_BAR_HEIGHT)
    spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
 
