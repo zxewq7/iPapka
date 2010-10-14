@@ -10,6 +10,7 @@
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
 #import "PasswordManager.h"
+#import "SBJsonParser.h"
 
 static NSString* OperationCount = @"OperationCount";
 
@@ -64,7 +65,7 @@ static NSString* OperationCount = @"OperationCount";
     return request;
 }
 
--(void) sendRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSString *response)) handler
+-(void) jsonRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSObject *response)) handler
 {
     LNHttpRequest *request = [self requestWithUrl:url];
     
@@ -83,7 +84,22 @@ static NSString* OperationCount = @"OperationCount";
             handler(YES, nil);
         }
         else
-            handler(NO, [request responseString]);
+        {
+            SBJsonParser *json = [[SBJsonParser alloc] init];
+            NSError *error = nil;
+            NSString *jsonString = [request responseString];
+            NSDictionary *parsedResponse = [json objectWithString:jsonString error:&error];
+            [json release];
+            if (parsedResponse == nil)
+            {
+                blockSelf.hasError = YES;
+                NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
+                handler(NO, nil);
+                return;
+            }
+
+            handler(NO, parsedResponse);
+        }
         
     };
     

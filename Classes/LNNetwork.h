@@ -24,5 +24,5 @@
 @property (nonatomic, assign) BOOL hasError;
 
 -(LNHttpRequest *) requestWithUrl:(NSString *) url;
--(void) sendRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSString *response)) handler;
+-(void) jsonRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSObject *response)) handler;
 @end

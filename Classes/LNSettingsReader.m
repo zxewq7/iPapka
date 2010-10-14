@@ -7,7 +7,6 @@
 //
 
 #import "LNSettingsReader.h"
-#import "SBJsonParser.h"
 
 @implementation LNSettingsReader
 -(void) sync
@@ -17,21 +16,13 @@
     
     __block LNSettingsReader *blockSelf = self;
     
-    [self sendRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(BOOL err, NSString *response){
+    [self jsonRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(BOOL err, NSObject *response)
+    {
         if (err)
             return;
 
-        SBJsonParser *json = [[SBJsonParser alloc] init];
-        NSError *error = nil;
-        NSString *jsonString = response;
-        NSDictionary *parsedResponse = [json objectWithString:jsonString error:&error];
-        [json release];
-        if (parsedResponse == nil)
-        {
-            blockSelf.hasError = YES;
-            NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
-            return;
-        }
+        NSDictionary *parsedResponse = (NSDictionary *)response;
+
         NSDictionary *upload = [parsedResponse objectForKey:@"upload"];
         NSString *url = [upload objectForKey:@"url"];
         NSString *field = [upload objectForKey:@"fileField"];

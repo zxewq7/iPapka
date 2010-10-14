@@ -10,7 +10,6 @@
 #import "ASINetworkQueue.h"
 #import "LNHttpRequest.h"
 #import "PasswordManager.h"
-#import "SBJsonParser.h"
 #import "Person.h"
 
 static NSString* kFieldUid = @"id";
@@ -42,20 +41,12 @@ static NSString* kFieldMiddle = @"middle";
 
     __block LNPersonReader *blockSelf = self;
 
-    [self sendRequestWithUrl:url andHandler:^(BOOL err, NSString *response){
+    [self jsonRequestWithUrl:url andHandler:^(BOOL err, NSObject *response)
+    {
         if (err)
             return;
 
-        SBJsonParser *json = [[SBJsonParser alloc] init];
-        NSError *error = nil;
-        NSString *jsonString = response;
-        NSArray *parsedResponse = [json objectWithString:jsonString error:&error];
-        [json release];
-        if (parsedResponse == nil)
-        {
-            NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
-            return;
-        }
+        NSArray *parsedResponse = (NSArray *)response;
         
         NSMutableSet *allUids = [NSMutableSet setWithCapacity:[parsedResponse count]];
         
