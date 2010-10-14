@@ -156,7 +156,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:[NSEntityDescription entityForName:folder.entityName inManagedObjectContext:managedObjectContext]];
 	
-    NSString *format = @"(isRead==nil || isRead==NO)";
+    NSString *format = @"isRead==NO";
     if (folder.predicateString)
         format = [[format stringByAppendingString:@" && "] stringByAppendingString:folder.predicateString];
 
@@ -171,6 +171,20 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return count;
 }
 
+-(NSUInteger) countUnreadDocuments
+{
+    NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+	[fetchRequest setEntity:self.documentEntityDescription];
+	
+    [fetchRequest setPredicate: [NSPredicate predicateWithFormat:@"isRead==NO"]];
+	
+	NSError *error = nil;
+    NSUInteger count = [managedObjectContext countForFetchRequest:fetchRequest error:&error];
+    [fetchRequest release];
+    NSAssert1(count != NSNotFound, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
+    
+    return count;
+}
 
 -(void) refreshDocuments
 {

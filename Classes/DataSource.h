@@ -39,6 +39,7 @@
 -(NSFetchedResultsController *) documentsForFolder:(Folder *) folder;
 -(void) refreshDocuments;
 -(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder;
+-(NSUInteger) countUnreadDocuments;
 -(void) shutdown;
 -(void) commit;
 -(NSArray *) persons;
