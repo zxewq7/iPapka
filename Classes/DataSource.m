@@ -235,7 +235,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     
     for (NSManagedObject *object in deletedObjects)
     {
-        NSString *path = [object valueForKey:@"path"];
+        NSString *path = nil;
+        if ([object respondsToSelector:@selector(path)])
+            path = [object performSelector:@selector(path)];
         
         if (path)
             [df removeItemAtPath:path error:NULL];
