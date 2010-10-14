@@ -40,7 +40,11 @@ static NSString* kPostFiledJson = @"json";
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(Document *) document;
 - (void) syncFile:(FileField *) file;
+- (NSString *)postDocumentUrl;
+- (NSString *)postFileUrl;
+- (NSString *)postFileField;
 @end
+
 
 @implementation LNDocumentWriter
 @synthesize unsyncedDocuments, unsyncedFiles, isSyncing;
@@ -53,14 +57,6 @@ static NSString* kPostFiledJson = @"json";
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
         
         url = [anUrl retain];
-        
-        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-        
-        postDocumentUrl = [url stringByAppendingString:@"/ipad.transfer?OpenAgent&charset=utf-8"]; [postDocumentUrl retain];
-        
-        postFileUrl = [url stringByAppendingString:[currentDefaults stringForKey:@"serverUploadUrl"]]; [postFileUrl retain];
-        
-        postFileField = [currentDefaults stringForKey:@"serverUploadFileField"]; [postFileField retain];
         
         queue = [[ASINetworkQueue alloc] init];
         [queue setRequestDidFinishSelector:@selector(fetchComplete:)];
@@ -256,7 +252,7 @@ static NSString* kPostFiledJson = @"json";
     
     postData = [postData stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
     
-    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: postDocumentUrl]];
+    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: self.postDocumentUrl]];
     
     [request addRequestHeader:@"Content-Type" value:@"text/plain; charset=utf-8"];
     
@@ -288,7 +284,7 @@ static NSString* kPostFiledJson = @"json";
 
 - (void) syncFile:(FileField *) file
 {
-    LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: postFileUrl]];
+    LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: self.postFileUrl]];
     
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithCapacity:4];
     
@@ -344,7 +340,7 @@ static NSString* kPostFiledJson = @"json";
     [request setPostValue:jsonString forKey:kPostFiledJson];
     
     if (fileExists)
-        [request setFile:file.path forKey:postFileField];
+        [request setFile:file.path forKey:self.postFileField];
     
     request.delegate = self;
     
@@ -412,5 +408,26 @@ static NSString* kPostFiledJson = @"json";
                                change:change
                               context:context];
     }
+}
+
+- (NSString *)postDocumentUrl
+{
+    if (!postDocumentUrl)
+        postDocumentUrl = [url stringByAppendingString:@"/ipad.transfer?OpenAgent&charset=utf-8"];
+    return postDocumentUrl;
+}
+- (NSString *)postFileUrl
+{
+    if (!postFileUrl)
+        postFileUrl = [url stringByAppendingString:[[NSUserDefaults standardUserDefaults] stringForKey:@"serverUploadUrl"]];
+    return postFileUrl;
+}
+
+- (NSString *)postFileField
+{
+    if (!postFileField)
+        postFileField = [[NSUserDefaults standardUserDefaults] stringForKey:@"serverUploadFileField"];
+    
+    return postFileField;
 }
 @end
