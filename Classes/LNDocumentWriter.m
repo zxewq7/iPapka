@@ -413,20 +413,29 @@ static NSString* kPostFiledJson = @"json";
 - (NSString *)postDocumentUrl
 {
     if (!postDocumentUrl)
+    {
         postDocumentUrl = [url stringByAppendingString:@"/ipad.transfer?OpenAgent&charset=utf-8"];
+        [postDocumentUrl retain];
+    }
     return postDocumentUrl;
 }
 - (NSString *)postFileUrl
 {
     if (!postFileUrl)
+    {
         postFileUrl = [url stringByAppendingString:[[NSUserDefaults standardUserDefaults] stringForKey:@"serverUploadUrl"]];
+        [postFileUrl retain];
+    }
     return postFileUrl;
 }
 
 - (NSString *)postFileField
 {
     if (!postFileField)
+    {
         postFileField = [[NSUserDefaults standardUserDefaults] stringForKey:@"serverUploadFileField"];
+        [postFileField retain];
+    }
     
     return postFileField;
 }
