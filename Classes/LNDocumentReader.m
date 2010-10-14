@@ -451,6 +451,8 @@ static NSString* OperationCount = @"OperationCount";
                 else
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
                 
+                page.painting.syncStatusValue = SyncStatusSynced;
+                
                 page.painting = painting;
                 painting.page = page;
                 [attachment addPagesObject: page];
@@ -549,6 +551,8 @@ static NSString* OperationCount = @"OperationCount";
             comment.document = document;
         }
         
+        document.syncStatus = SyncStatusSynced;
+
         document.author = author;
         
         document.status = documentStatus;
@@ -560,7 +564,6 @@ static NSString* OperationCount = @"OperationCount";
         document.title = [subDocument objectForKey:field_Title];
         
         document.dateModified = dateModified;
-
         
         NSDate *dDegistrationDate = nil;
         NSString *sDegistrationDate = [subDocument objectForKey:field_RegistrationDate];
