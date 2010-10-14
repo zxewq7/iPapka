@@ -264,10 +264,11 @@
     
     documentTitle.text = document.title;
     
-    if (document.registrationNumber)
-        documentDetails.text = [NSString stringWithFormat:@"%@, %@, %@", document.registrationNumber, document.author, [dateFormatter stringFromDate: document.registrationDate]];
+    if ([document isKindOfClass:[DocumentResolution class]])
+        documentDetails.text = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], document.author];
     else
-        documentDetails.text = [NSString stringWithFormat:@"%@, %@", document.author, [dateFormatter stringFromDate: document.registrationDate]];
+        documentDetails.text = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], document.author];
+    
     if ([currentItems count]) 
         attachmentIndex = 0;
     else
