@@ -221,13 +221,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     
     for (NSManagedObject *object in deletedObjects)
     {
-        NSString *path = nil;
-        if ([object isKindOfClass:[Document class]])
-            path = [object valueForKey:@"path"];
-        else if ([object isKindOfClass:[Attachment class]])
-            path = [object valueForKey:@"path"];
-        else if ([object isKindOfClass:[AttachmentPage class]])
-            path = [object valueForKey:@"path"];
+        NSString *path = [object valueForKey:@"path"];
         
         if (path)
             [df removeItemAtPath:path error:NULL];
