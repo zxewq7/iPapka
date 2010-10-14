@@ -23,6 +23,19 @@ static NSString* OperationCount = @"OperationCount";
     return serverUrl;
 }
 
+
+-(void) allRequestsSent:(BOOL) value
+{
+    allRequestsSent = value;
+    BOOL x = !allRequestsSent || (queue.requestsCount != 0);
+    if ( x != isSyncing )
+    {
+        [self willChangeValueForKey:@"isSyncing"];
+        isSyncing = x;
+        [self didChangeValueForKey:@"isSyncing"];
+    }
+}
+
 - (id)init 
 {
     if ((self = [super init])) 
@@ -49,6 +62,32 @@ static NSString* OperationCount = @"OperationCount";
     LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: url]];
     request.delegate = self;
     return request;
+}
+
+-(void) sendRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSString *response)) handler
+{
+    LNHttpRequest *request = [self requestWithUrl:url];
+    
+    __block LNNetwork *blockSelf = self;
+    
+    request.requestHandler = ^(ASIHTTPRequest *request) {
+        NSString *error = [request error] == nil?
+        ([request responseStatusCode] == 200?
+         nil:
+         NSLocalizedString(@"Bad response", "Bad response")):
+        [[request error] localizedDescription];
+        if (error)
+        {
+            blockSelf.hasError = YES;
+            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
+            handler(YES, nil);
+        }
+        else
+            handler(NO, [request responseString]);
+        
+    };
+    
+    [queue addOperation:request];
 }
 
 - (void)fetchComplete:(ASIHTTPRequest *)request

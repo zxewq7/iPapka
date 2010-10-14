@@ -11,10 +11,10 @@
 @class ASINetworkQueue, LNHttpRequest;
 @interface LNNetwork : NSObject 
 {
-    ASINetworkQueue *queue;
-    BOOL isSyncing;
-    BOOL allRequestsSent;
-    BOOL hasError;
+@private ASINetworkQueue *queue;
+@private BOOL isSyncing;
+@private BOOL allRequestsSent;
+@private BOOL hasError;
 }
 
 @property (nonatomic, readonly) BOOL isSyncing;
@@ -24,4 +24,5 @@
 @property (nonatomic, assign) BOOL hasError;
 
 -(LNHttpRequest *) requestWithUrl:(NSString *) url;
+-(void) sendRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSString *response)) handler;
 @end
