@@ -153,7 +153,7 @@ static NSString* SyncingContext = @"SyncingContext";
     NSString *details;
     
     if ([doc isKindOfClass:[DocumentResolution class]])
-        details = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], document.author];
+        details = [NSString stringWithFormat:@"%@ %@ %@, %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate], doc.author];
     else if ([doc isKindOfClass:[DocumentSignature class]])
     {
         DocumentSignature *signature = (DocumentSignature *) doc;
