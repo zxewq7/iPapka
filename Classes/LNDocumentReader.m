@@ -844,8 +844,6 @@ static NSString* OperationCount = @"OperationCount";
     {
         DocumentResolution *resolution = (DocumentResolution *)aResolution;
 
-        NSDictionary *subDocument = [dictionary objectForKey:field_Subdocument];
-        
         //performers
         NSArray *performers = [dictionary objectForKey:field_Performers];
         for (NSString *uid in performers)
