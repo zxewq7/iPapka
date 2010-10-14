@@ -363,7 +363,7 @@
     }
     else //parent resolution
     {
-        resolution = parentResolution;
+        resolution = (DocumentResolutionAbstract *)parentResolution;
         deadlineButton.userInteractionEnabled = NO;
         performersViewController.view.userInteractionEnabled = NO;
         performersViewController.view.hidden = YES;
