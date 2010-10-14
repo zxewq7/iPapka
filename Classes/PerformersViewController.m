@@ -206,7 +206,7 @@
         else if ([document isKindOfClass:[DocumentResolutionParent class]])
         {
             performers = [NSMutableArray arrayWithArray: ((DocumentResolutionParent *)document).performers];
-            [performers performers];
+            [performers retain];
             
             NSUInteger countPerformers = [performers count];
             
