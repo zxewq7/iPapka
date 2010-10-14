@@ -449,8 +449,7 @@ static NSString* SyncingContext = @"SyncingContext";
     
     // Set the calendar's time zone to the default time zone.
     NSCalendar *calendar = [NSCalendar currentCalendar];
-    [calendar setTimeZone:[NSTimeZone defaultTimeZone]];
-    dateComponents = [calendar components:NSWeekdayCalendarUnit fromDate:date];
+    dateComponents = [calendar components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
     myDay = [dateComponents weekday];
     
     dateComponents = [calendar components:NSWeekdayCalendarUnit fromDate:date];
