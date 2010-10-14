@@ -174,6 +174,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void) refreshDocuments
 {
+    if (isSyncing) //prevent multiple calls
+        return;
+    
     syncStep = SyncStepSyncPersonReader;
     [[self personReader] sync];
 }
