@@ -358,15 +358,11 @@
     if (resolutionSwitcher.selectedSegmentIndex == 0) //resolution
     {
         deadlineButton.userInteractionEnabled = YES;
-        performersViewController.view.userInteractionEnabled = YES;
-        performersViewController.view.hidden = NO;
     }
     else //parent resolution
     {
         resolution = (DocumentResolutionAbstract *)parentResolution;
         deadlineButton.userInteractionEnabled = NO;
-        performersViewController.view.userInteractionEnabled = NO;
-        performersViewController.view.hidden = YES;
     }
         
     authorLabel.text = resolution.author;
@@ -380,7 +376,7 @@
     NSString *label = (resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil);
     [deadlineButton setTitle:label forState:UIControlStateNormal];
     
-    performersViewController.document = document;
+    performersViewController.document = resolution;
     
     audioCommentController.file = document.comment.audio;
     

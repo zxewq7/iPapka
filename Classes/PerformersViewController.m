@@ -10,6 +10,8 @@
 #import "ViewWithButtons.h"
 #import "UIButton+Additions.h"
 #import "DocumentResolution.h"
+#import "DocumentResolutionAbstract.h"
+#import "DocumentResolutionParent.h"
 #import "Person.h"
 #import "PersonPickerViewController.h"
 #import "DataSource.h"
@@ -22,7 +24,7 @@
 @implementation PerformersViewController
 @synthesize document;
 
--(void) setDocument:(DocumentResolution *) aDocument
+-(void) setDocument:(DocumentResolutionAbstract *) aDocument
 {
     if (document == aDocument)
         return;
@@ -93,9 +95,11 @@
 {
     __block PerformersViewController *blockSelf = self;
 
+    DocumentResolution *resolution = (DocumentResolution *) document;
+    
     [[DeleteItemViewController sharedDeleteItemViewController] showForView:(UIView *)sender handler:^(UIView *target){
         Person *performerToDelete  = [performers objectAtIndex:target.tag];
-        [document removePerformersObject:performerToDelete];
+        [resolution removePerformersObject:performerToDelete];
         [[DataSource sharedDataSource] commit];
         [blockSelf updateContent];
     }];
@@ -106,10 +110,12 @@
 {
     [popoverController dismissPopoverAnimated:YES];
 
+    DocumentResolution *resolution = (DocumentResolution *) document;
+    
     Person *p = personPickerViewController.person;
     if (p)
     {
-        [document addPerformersObject: p];
+        [resolution addPerformersObject: p];
         [[DataSource sharedDataSource] commit];
         [self updateContent];
         
@@ -160,39 +166,79 @@
 - (void) updateContent
 {
     [performers release];
+    NSMutableArray *performerButtons;
 
     if (document)
     {
-        NSSet *ps = document.performers;
-        performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
-        for (Person *p in ps)
-            [performers addObject: p];
-        
-        [performers sortUsingDescriptors: sortByLastDescriptors];
+        if ([document isKindOfClass:[DocumentResolution class]])
+        {
+            NSSet *ps = ((DocumentResolution *)document).performers;
+            performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
+            for (Person *p in ps)
+                [performers addObject: p];
+            
+            [performers sortUsingDescriptors: sortByLastDescriptors];
+
+            NSUInteger countPerformers = [performers count];
+            
+            performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
+
+            UIFont *font = [UIFont fontWithName:@"CharterC" size:16];
+
+            for (NSUInteger i=0; i < countPerformers; i++)
+            {
+                Person *performer = [performers objectAtIndex:i];
+                
+                UIButton *performerButton = [UIButton buttonWithBackgroundAndTitle:performer.fullName
+                                                                         titleFont:font
+                                                                            target:self
+                                                                          selector:@selector(removePerformer:)
+                                                                             frame:CGRectMake(0, 0, 29, 26)
+                                                                     addLabelWidth:YES
+                                                                             image:[UIImage imageNamed:@"ButtonPerformer.png"]
+                                                                      imagePressed:[UIImage imageNamed:@"ButtonPerformer.png"]
+                                                                      leftCapWidth:13.0f
+                                                                     darkTextColor:YES];
+                performerButton.tag = i;
+                [performerButtons addObject: performerButton];
+            }
+        }
+        else if ([document isKindOfClass:[DocumentResolutionParent class]])
+        {
+            performers = [NSMutableArray arrayWithArray: ((DocumentResolutionParent *)document).performers];
+            [performers performers];
+            
+            NSUInteger countPerformers = [performers count];
+            
+            performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
+            
+            UIFont *font = [UIFont fontWithName:@"CharterC" size:16];
+            UIColor *color = [UIColor clearColor];
+            
+            for (NSUInteger i=0; i < countPerformers; i++)
+            {
+                 NSString *performer = [performers objectAtIndex:i];
+                
+                UILabel *performerButton = [[UILabel alloc] initWithFrame:CGRectZero];
+                performerButton.backgroundColor = color;
+                performerButton.font = font;
+                performerButton.text = performer;
+                [performerButton sizeToFit];
+                performerButton.tag = i;
+                
+                [performerButtons addObject: performerButton];
+                
+                [performerButton release];
+            }
+            
+        }
     }
     else
-        performers = nil;
-
-    NSMutableArray *performerButtons = [NSMutableArray arrayWithCapacity: [performers count]];
-    
-    NSUInteger countPerformers = [performers count];
-    for (NSUInteger i=0; i < countPerformers; i++)
     {
-        Person *performer = [performers objectAtIndex:i];
-        
-        UIButton *performerButton = [UIButton buttonWithBackgroundAndTitle:performer.fullName
-                                                                 titleFont:[UIFont fontWithName:@"CharterC" size:16]
-                                                                    target:self
-                                                                  selector:@selector(removePerformer:)
-                                                                     frame:CGRectMake(0, 0, 29, 26)
-                                                             addLabelWidth:YES
-                                                                     image:[UIImage imageNamed:@"ButtonPerformer.png"]
-                                                              imagePressed:[UIImage imageNamed:@" ButtonPerformer.png"]
-                                                              leftCapWidth:13.0f
-                                                             darkTextColor:YES];
-        performerButton.tag = i;
-        [performerButtons addObject: performerButton];
+        performers = nil;
+        performerButtons = nil;
     }
+
     performersView.buttons = performerButtons;
 }
 
