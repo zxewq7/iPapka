@@ -161,7 +161,7 @@ static NSString* SyncingContext = @"SyncingContext";
     else if ([doc.correspondents count])
         details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
     else
-        details = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate: document.registrationDate]];
+        details = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate: doc.registrationDate]];
     
     cell.detailTextLabel.text = details;
     
