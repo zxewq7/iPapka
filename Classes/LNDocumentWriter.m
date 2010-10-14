@@ -197,6 +197,7 @@ static NSString* kPostFiledJson = @"json";
     
     switch (document.statusValue)
     {
+        case DocumentStatusNew:
         case DocumentStatusDraft:
             action = @"save";
             break;
@@ -252,14 +253,16 @@ static NSString* kPostFiledJson = @"json";
         return;
     }
     
+    postData = [postData stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
+    
     LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: postDocumentUrl]];
     
     [request addRequestHeader:@"Content-Type" value:@"text/plain; charset=utf-8"];
     
     request.delegate = self;
     request.requestMethod = @"POST";
-    
-    [request appendPostData: [postData dataUsingEncoding: NSUTF8StringEncoding]];
+    //string already escaped
+    [request appendPostData: [postData dataUsingEncoding: NSASCIIStringEncoding]];
     
     __block LNDocumentWriter *blockSelf = self;
     
