@@ -6,7 +6,6 @@
 
 
 
-
 @interface DocumentSignatureID : NSManagedObjectID {}
 @end
 
@@ -20,12 +19,6 @@
 
 
 
-@property (nonatomic, retain) NSString *registrationNumber;
-
-//- (BOOL)validateRegistrationNumber:(id*)value_ error:(NSError**)error_;
-
-
-
 
 @end
 
@@ -34,10 +27,6 @@
 @end
 
 @interface _DocumentSignature (CoreDataGeneratedPrimitiveAccessors)
-
-- (NSString*)primitiveRegistrationNumber;
-- (void)setPrimitiveRegistrationNumber:(NSString*)value;
-
 
 
 @end

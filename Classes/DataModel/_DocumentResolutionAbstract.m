@@ -57,13 +57,6 @@
 
 
 
-@dynamic registrationDate;
-
-
-
-
-
-
 @dynamic text;
 
 

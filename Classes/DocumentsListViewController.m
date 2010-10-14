@@ -128,7 +128,7 @@ static NSString* SyncingContext = @"SyncingContext";
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
     NSArray *objects = [sectionInfo objects];
     Document *doc = [objects objectAtIndex:0];
-    return [self sectionNameForDate:doc.strippedDateModified];
+    return [self sectionNameForDate:doc.registrationDateStripped];
 }
 
 

@@ -18,6 +18,8 @@
 
 
 
+
+
 @interface DocumentID : NSManagedObjectID {}
 @end
 
@@ -32,6 +34,12 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (DocumentID*)objectID;
+
+
+
+@property (nonatomic, retain) NSString *registrationNumber;
+
+//- (BOOL)validateRegistrationNumber:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -57,15 +65,27 @@
 
 
 
-@property (nonatomic, retain) NSDate *strippedDateModified;
+@property (nonatomic, retain) NSDate *registrationDate;
 
-//- (BOOL)validateStrippedDateModified:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateRegistrationDate:(id*)value_ error:(NSError**)error_;
 
 
 
 @property (nonatomic, retain) NSString *author;
 
 //- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *registrationDateStripped;
+
+//- (BOOL)validateRegistrationDateStripped:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *dateModified;
+
+//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -76,12 +96,6 @@
 - (void)setIsReadValue:(BOOL)value_;
 
 //- (BOOL)validateIsRead:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *dateModified;
-
-//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -135,6 +149,10 @@
 
 @interface _Document (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSString*)primitiveRegistrationNumber;
+- (void)setPrimitiveRegistrationNumber:(NSString*)value;
+
+
 - (NSString*)primitiveUid;
 - (void)setPrimitiveUid:(NSString*)value;
 
@@ -150,12 +168,20 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_;
 
 
-- (NSDate*)primitiveStrippedDateModified;
-- (void)setPrimitiveStrippedDateModified:(NSDate*)value;
+- (NSDate*)primitiveRegistrationDate;
+- (void)setPrimitiveRegistrationDate:(NSDate*)value;
 
 
 - (NSString*)primitiveAuthor;
 - (void)setPrimitiveAuthor:(NSString*)value;
+
+
+- (NSDate*)primitiveRegistrationDateStripped;
+- (void)setPrimitiveRegistrationDateStripped:(NSDate*)value;
+
+
+- (NSDate*)primitiveDateModified;
+- (void)setPrimitiveDateModified:(NSDate*)value;
 
 
 - (NSNumber*)primitiveIsRead;
@@ -163,10 +189,6 @@
 
 - (BOOL)primitiveIsReadValue;
 - (void)setPrimitiveIsReadValue:(BOOL)value_;
-
-
-- (NSDate*)primitiveDateModified;
-- (void)setPrimitiveDateModified:(NSDate*)value;
 
 
 - (NSNumber*)primitiveStatus;

@@ -375,7 +375,7 @@
     
     [resolutionText textChanged:nil];
     
-    dateLabel.text = [dateFormatter stringFromDate: resolution.dateModified];
+    dateLabel.text = [dateFormatter stringFromDate: resolution.registrationDate];
     
     NSString *label = (resolution.deadline?[dateFormatter stringFromDate: resolution.deadline]:nil);
     [deadlineButton setTitle:label forState:UIControlStateNormal];

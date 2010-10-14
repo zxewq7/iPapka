@@ -225,7 +225,7 @@
     
     [commentText textChanged:nil];
     
-    dateLabel.text = [dateFormatter stringFromDate: document.dateModified];
+    dateLabel.text = [dateFormatter stringFromDate: document.registrationDate];
     
     audioCommentController.file = document.comment.audio;
 

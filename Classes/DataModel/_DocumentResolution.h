@@ -8,7 +8,6 @@
 @class DocumentResolutionParent;
 
 
-
 @interface DocumentResolutionID : NSManagedObjectID {}
 @end
 
@@ -19,12 +18,6 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (DocumentResolutionID*)objectID;
-
-
-
-@property (nonatomic, retain) NSString *registrationNumber;
-
-//- (BOOL)validateRegistrationNumber:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -51,10 +44,6 @@
 @end
 
 @interface _DocumentResolution (CoreDataGeneratedPrimitiveAccessors)
-
-- (NSString*)primitiveRegistrationNumber;
-- (void)setPrimitiveRegistrationNumber:(NSString*)value;
-
 
 
 

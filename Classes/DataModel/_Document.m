@@ -35,6 +35,13 @@
 
 
 
+@dynamic registrationNumber;
+
+
+
+
+
+
 @dynamic uid;
 
 
@@ -75,7 +82,7 @@
 
 
 
-@dynamic strippedDateModified;
+@dynamic registrationDate;
 
 
 
@@ -83,6 +90,20 @@
 
 
 @dynamic author;
+
+
+
+
+
+
+@dynamic registrationDateStripped;
+
+
+
+
+
+
+@dynamic dateModified;
 
 
 
@@ -110,13 +131,6 @@
 - (void)setPrimitiveIsReadValue:(BOOL)value_ {
 	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
 }
-
-
-
-
-
-@dynamic dateModified;
-
 
 
 

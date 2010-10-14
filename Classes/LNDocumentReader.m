@@ -561,12 +561,29 @@ static NSString* OperationCount = @"OperationCount";
         
         document.dateModified = dateModified;
 
+        
+        NSDate *dDegistrationDate = nil;
+        NSString *sDegistrationDate = [subDocument objectForKey:field_RegistrationDate];
+        if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
+            dDegistrationDate = [parseFormatterSimple dateFromString:sDegistrationDate];
+        else
+            dDegistrationDate = document.dateModified;
+        
+        document.registrationDate = dDegistrationDate;
+
         NSCalendar *calendar = [NSCalendar currentCalendar];
         unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+        
+        NSDateComponents *comps = [calendar components:unitFlags fromDate:document.registrationDate];
+        
+        document.registrationDateStripped = [calendar dateFromComponents:comps];
 
-        NSDateComponents *comps = [calendar components:unitFlags fromDate:document.dateModified];
-
-        document.strippedDateModified = [calendar dateFromComponents:comps];
+        //registrationNumber
+        NSString *registrationNumber = [subDocument objectForKey:field_RegistrationNumber];
+        
+        if (registrationNumber && ![registrationNumber isEqualToString:@""])
+            document.registrationNumber = registrationNumber;
+        
         
         if ([document isKindOfClass:[DocumentResolution class]]) 
         {
@@ -821,14 +838,6 @@ static NSString* OperationCount = @"OperationCount";
     
     aResolution.deadline = dDeadline;
 
-    NSDate *dDegistrationDate = nil;
-    NSString *sDegistrationDate = [dictionary objectForKey:field_RegistrationDate];
-    if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
-        dDegistrationDate = [parseFormatterSimple dateFromString:sDeadline];
-    
-    aResolution.deadline = dDegistrationDate;
-
-    
     NSArray *performers = [dictionary objectForKey:field_Performers];
 
     if ([aResolution isKindOfClass:[DocumentResolution class]])
@@ -836,12 +845,6 @@ static NSString* OperationCount = @"OperationCount";
         DocumentResolution *resolution = (DocumentResolution *)aResolution;
 
         NSDictionary *subDocument = [dictionary objectForKey:field_Subdocument];
-        
-        //registrationNumber
-        NSString *registrationNumber = [subDocument objectForKey:field_RegistrationNumber];
-        
-        if (registrationNumber && ![registrationNumber isEqualToString:@""])
-            resolution.registrationNumber = registrationNumber;
         
         //performers
         NSArray *performers = [dictionary objectForKey:field_Performers];

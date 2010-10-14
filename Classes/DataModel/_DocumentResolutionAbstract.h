@@ -9,7 +9,6 @@
 
 
 
-
 @interface DocumentResolutionAbstractID : NSManagedObjectID {}
 @end
 
@@ -30,12 +29,6 @@
 - (void)setIsManagedValue:(BOOL)value_;
 
 //- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *registrationDate;
-
-//- (BOOL)validateRegistrationDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -65,10 +58,6 @@
 
 - (BOOL)primitiveIsManagedValue;
 - (void)setPrimitiveIsManagedValue:(BOOL)value_;
-
-
-- (NSDate*)primitiveRegistrationDate;
-- (void)setPrimitiveRegistrationDate:(NSDate*)value;
 
 
 - (NSString*)primitiveText;
