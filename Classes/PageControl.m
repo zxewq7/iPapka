@@ -132,6 +132,17 @@ static NSString *SliderContext = @"SliderContext";
     slider.maximumValue = numberOfPages - 1;
     slider.value = 0;
 
+    if (numberOfPages < 2)
+    {
+        slider.hidden = YES;
+        dotsView.hidden = YES;
+    }
+    else
+    {
+        slider.hidden = NO;
+        dotsView.hidden = NO;
+    }
+    
     [self updateContent];
 }
 
