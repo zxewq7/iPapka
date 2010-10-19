@@ -18,7 +18,7 @@
 #import "Folder.h"
 #import "ResolutionViewController.h"
 #import "RotateableImageView.h"
-#import "PageControlWithMenu.h"
+#import "PageControl.h"
 #import "DocumentResolution.h"
 #import "RootBackgroundView.h"
 #import "RootContentView.h"
@@ -125,26 +125,7 @@ static NSString* LinkContext          = @"LinkContext";
 
     //page control
     CGRect pageControlFrame = CGRectMake(0, viewFrame.size.height - 37, viewFrame.size.width, 37);
-    PageControlWithMenu *pageControl = [[PageControlWithMenu alloc] initWithFrame: pageControlFrame];
-    
-    pageControl.dotNormal = [UIImage imageNamed: @"DotNormal.png"];
-    pageControl.dotCurrent = [UIImage imageNamed: @"DotCurrent.png"];
-    
-    UILabel *pageControlLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-    pageControlLabel.backgroundColor = [UIColor clearColor];
-    pageControlLabel.font = [UIFont boldSystemFontOfSize: 14];
-    pageControlLabel.textColor = [UIColor blackColor];
-    pageControlLabel.shadowColor = [UIColor whiteColor];
-    pageControlLabel.shadowOffset = CGSizeMake(0.0, 1.0);
-    
-    pageControl.label = pageControlLabel;
-
-    [pageControlLabel release];
-    
-    pageControl.backgroundColor = [UIColor clearColor];
-    pageControl.backgroundView.image = [UIImage imageNamed: @"PageControlBackground.png"];
-    pageControl.backgroundView.frame = CGRectMake(0, 0, pageControlFrame.size.width, 40);
-    pageControl.backgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    PageControl *pageControl = [[PageControl alloc] initWithFrame: pageControlFrame];
     
     pageControl.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);
 

@@ -53,7 +53,12 @@
 		8124544212660A4600453AB8 /* DocumentResolutionParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8124544012660A4600453AB8 /* DocumentResolutionParent.m */; };
 		8124C7A0125DFB400031C07E /* BrushPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8124C79F125DFB400031C07E /* BrushPen.png */; };
 		8124C7FD125E15C90031C07E /* IntRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8124C7FC125E15C90031C07E /* IntRow.m */; };
-		8136DEF212436B6F008D68AB /* PageControlWithMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = 8136DEF112436B6F008D68AB /* PageControlWithMenu.m */; };
+		813011E1126DD664002ADE40 /* CalloutViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DC126DD664002ADE40 /* CalloutViewBackground.png */; };
+		813011E2126DD664002ADE40 /* CalloutViewBottomAnchor.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */; };
+		813011E3126DD664002ADE40 /* CalloutViewLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */; };
+		813011E4126DD664002ADE40 /* CalloutViewRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DF126DD664002ADE40 /* CalloutViewRightCap.png */; };
+		813011E8126DDE05002ADE40 /* PageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 813011E7126DDE05002ADE40 /* PageControl.m */; };
+		813011EB126DDFF2002ADE40 /* AZZCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 813011EA126DDFF2002ADE40 /* AZZCalloutView.m */; };
 		8136DF7D12437A5D008D68AB /* AZZBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8136DF7C12437A5D008D68AB /* AZZBubbleView.m */; };
 		8136E05F12439120008D68AB /* PageControlBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 8136E05E12439120008D68AB /* PageControlBackground.png */; };
 		813A3CDE123B477F00E6C382 /* ButtonMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDC123B477F00E6C382 /* ButtonMarker.png */; };
@@ -274,8 +279,14 @@
 		8124C79F125DFB400031C07E /* BrushPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushPen.png; sourceTree = "<group>"; };
 		8124C7FB125E15C90031C07E /* IntRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntRow.h; path = ../IntRow.h; sourceTree = "<group>"; };
 		8124C7FC125E15C90031C07E /* IntRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntRow.m; path = ../IntRow.m; sourceTree = "<group>"; };
-		8136DEF012436B6F008D68AB /* PageControlWithMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControlWithMenu.h; sourceTree = "<group>"; };
-		8136DEF112436B6F008D68AB /* PageControlWithMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControlWithMenu.m; sourceTree = "<group>"; };
+		813011DC126DD664002ADE40 /* CalloutViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewBackground.png; sourceTree = "<group>"; };
+		813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewBottomAnchor.png; sourceTree = "<group>"; };
+		813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewLeftCap.png; sourceTree = "<group>"; };
+		813011DF126DD664002ADE40 /* CalloutViewRightCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewRightCap.png; sourceTree = "<group>"; };
+		813011E6126DDE05002ADE40 /* PageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PageControl.h; sourceTree = "<group>"; };
+		813011E7126DDE05002ADE40 /* PageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControl.m; sourceTree = "<group>"; };
+		813011E9126DDFF2002ADE40 /* AZZCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZCalloutView.h; path = thirdparty/AZZCalloutView.h; sourceTree = "<group>"; };
+		813011EA126DDFF2002ADE40 /* AZZCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZCalloutView.m; path = thirdparty/AZZCalloutView.m; sourceTree = "<group>"; };
 		8136DF7B12437A5D008D68AB /* AZZBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZZBubbleView.h; sourceTree = "<group>"; };
 		8136DF7C12437A5D008D68AB /* AZZBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZZBubbleView.m; sourceTree = "<group>"; };
 		8136E05E12439120008D68AB /* PageControlBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageControlBackground.png; sourceTree = "<group>"; };
@@ -567,6 +578,10 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				813011DC126DD664002ADE40 /* CalloutViewBackground.png */,
+				813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */,
+				813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */,
+				813011DF126DD664002ADE40 /* CalloutViewRightCap.png */,
 				81C47F87125E397300F60C49 /* PaletteBlack.png */,
 				81C47F88125E397300F60C49 /* PaletteBlackSelected.png */,
 				81C47F89125E397300F60C49 /* PaletteBlue.png */,
@@ -646,6 +661,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				813011E6126DDE05002ADE40 /* PageControl.h */,
+				813011E7126DDE05002ADE40 /* PageControl.m */,
 				8124C7FB125E15C90031C07E /* IntRow.h */,
 				8124C7FC125E15C90031C07E /* IntRow.m */,
 				81CA24E812469DB900A50613 /* RootBackgroundView.h */,
@@ -658,8 +675,6 @@
 				81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */,
 				8136DF7B12437A5D008D68AB /* AZZBubbleView.h */,
 				8136DF7C12437A5D008D68AB /* AZZBubbleView.m */,
-				8136DEF012436B6F008D68AB /* PageControlWithMenu.h */,
-				8136DEF112436B6F008D68AB /* PageControlWithMenu.m */,
 				81E500281241616A00D697EA /* RotateableImageView.h */,
 				81E500291241616A00D697EA /* RotateableImageView.m */,
 				8165420212379B3B008FC80F /* ImageScrollView.h */,
@@ -825,6 +840,8 @@
 		8165422412379B44008FC80F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				813011E9126DDFF2002ADE40 /* AZZCalloutView.h */,
+				813011EA126DDFF2002ADE40 /* AZZCalloutView.m */,
 				81775FCC1251F74E002A2D3D /* JSON */,
 				8165427312379C6A008FC80F /* SynthesizeSingleton.h */,
 				81EA7EB71259F823007D4A7C /* KeychainItemWrapper.h */,
@@ -1061,6 +1078,10 @@
 				81C47F9C125E397300F60C49 /* PaletteRedSelected.png in Resources */,
 				81C47F9D125E397300F60C49 /* PaletteYellow.png in Resources */,
 				81C47F9E125E397300F60C49 /* PaletteYellowSelected.png in Resources */,
+				813011E1126DD664002ADE40 /* CalloutViewBackground.png in Resources */,
+				813011E2126DD664002ADE40 /* CalloutViewBottomAnchor.png in Resources */,
+				813011E3126DD664002ADE40 /* CalloutViewLeftCap.png in Resources */,
+				813011E4126DD664002ADE40 /* CalloutViewRightCap.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1094,7 +1115,6 @@
 				81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */,
 				81A1B761123E557C0089C988 /* ResolutionViewController.m in Sources */,
 				81E5002A1241616A00D697EA /* RotateableImageView.m in Sources */,
-				8136DEF212436B6F008D68AB /* PageControlWithMenu.m in Sources */,
 				8136DF7D12437A5D008D68AB /* AZZBubbleView.m in Sources */,
 				81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */,
 				81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */,
@@ -1152,6 +1172,8 @@
 				8124544212660A4600453AB8 /* DocumentResolutionParent.m in Sources */,
 				8151B8CC12674C3F00AAFEA9 /* LNSettingsReader.m in Sources */,
 				8151B8CF12674CAB00AAFEA9 /* LNNetwork.m in Sources */,
+				813011E8126DDE05002ADE40 /* PageControl.m in Sources */,
+				813011EB126DDFF2002ADE40 /* AZZCalloutView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -10,7 +10,7 @@
 #import "ImageScrollView.h"
 #import "Attachment.h"
 #import "AttachmentPageViewController.h"
-#import "PageControlWithMenu.h"
+#import "PageControl.h"
 #import "Document.h"
 #import "DataSource.h"
 
@@ -40,7 +40,7 @@ typedef enum _TapPosition{
     paintingTools.delegate = self;
 }
 
--(void) setPageControl:(PageControlWithMenu *) aPageControl
+-(void) setPageControl:(PageControl *) aPageControl
 {
     if (pageControl == aPageControl)
         return;
