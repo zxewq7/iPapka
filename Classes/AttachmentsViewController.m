@@ -269,8 +269,6 @@ typedef enum _TapPosition{
 -(void) setCommenting:(BOOL) state
 {
     commenting = state;
-//    pagingScrollView.canCancelContentTouches = !commenting;
-//    pagingScrollView.delaysContentTouches = !commenting;
     [currentPage setCommenting:commenting];
     if (!commenting)
     {
