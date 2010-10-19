@@ -31,6 +31,5 @@
 @property (nonatomic, assign) NSUInteger currentPage;
 @property (nonatomic, assign) NSUInteger numberOfPages;
 
--(void) show;
--(void) hide;
+-(void) hide:(BOOL) hide animated:(BOOL) animated;
 @end

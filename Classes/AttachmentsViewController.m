@@ -47,7 +47,7 @@ typedef enum _TapPosition{
     pageControl = [aPageControl retain];
     [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
     pageControl.numberOfPages = [attachment.pagesOrdered count];
-    [pageControl hide];
+    pageControl.hidden = YES;
 }
 
 -(void) setAttachment:(Attachment *) anAttachment
@@ -214,14 +214,8 @@ typedef enum _TapPosition{
 {
     TapPosition tapPosition = [self tapPosition:[gestureRecognizer locationInView:self.view]];
     
-    if (tapPosition == TapPositionMiddle)
-    {
-        //fade in/out pageControl
-        if (pageControl.hidden)
-            [pageControl show];
-        else
-            [pageControl hide];
-    }
+    if (tapPosition == TapPositionMiddle) //fade in/out pageControl
+        [pageControl hide:!pageControl.hidden animated:YES];
     else if (tapPosition == TapPositionTop || tapPosition == TapPositionBottom)
     {
         NSInteger currentIndex = currentPageIndex + (tapPosition == TapPositionTop?-1:1);

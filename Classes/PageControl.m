@@ -179,36 +179,43 @@ static NSString *SliderContext = @"SliderContext";
     return round(slider.value);
 }
 
--(void) show
+-(void) hide:(BOOL) hide animated:(BOOL) animated
 {
-    if (!self.hidden)
-        return;
-
-    self.hidden = NO;
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.25f];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
-    
-    self.alpha = 1.0;
-    
-    [UIView commitAnimations];
-}
-
--(void) hide
-{
-    if (self.hidden)
-        return;
-    
-    [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.25f];
-    [UIView setAnimationDelegate:self];
-    [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
-    
-    self.alpha = 0.0;
-    
-    [UIView commitAnimations];
+    if (hide)
+    {
+        if (animated && !self.hidden)
+        {
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.25f];
+            [UIView setAnimationDelegate:self];
+            [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
+            
+            self.alpha = 0.0;
+            
+            [UIView commitAnimations];
+        }
+        else
+            self.hidden = YES;
+    }
+    else
+    {
+        if (animated && self.hidden)
+        {
+            self.alpha = 0.0;
+            self.hidden = NO;
+            
+            [UIView beginAnimations:nil context:NULL];
+            [UIView setAnimationDuration:0.25f];
+            [UIView setAnimationDelegate:nil];
+            [UIView setAnimationDidStopSelector:nil];
+            
+            self.alpha = 1.0;
+            
+            [UIView commitAnimations];
+        }
+        else
+            self.hidden = NO;
+    }
 }
 
 #pragma mark -
