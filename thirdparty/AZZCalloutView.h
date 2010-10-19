@@ -10,6 +10,21 @@
 
 
 @interface AZZCalloutView : UIView 
+{
+    UIImageView *leftView;
+    
+    UIImageView *centerView;
+    
+    UIImageView *rightView;
+    
+    UIImageView *leftBackgroundView;
+    
+    UIImageView *rigthBackgroundView;
+    
+    UIView *contentView;
+    
+    CGFloat minWidth;
+}
 
 -(void) show;
 -(void) hide;

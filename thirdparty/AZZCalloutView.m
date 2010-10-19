@@ -8,8 +8,6 @@
 
 #import "AZZCalloutView.h"
 
-#define kAZZContentView 1001
-
 @implementation AZZCalloutView
 
 
@@ -31,36 +29,35 @@
         CGFloat centerWidth = centerAnchor.size.width;
         CGSize capSize = leftCap.size;
         
-        UIImageView *leftView = [[UIImageView alloc] initWithImage:leftCap];
+        leftView = [[UIImageView alloc] initWithImage:leftCap];
         CGRect leftViewFrame = CGRectMake(0, 0, capSize.width, capSize.height);
         leftView.frame = leftViewFrame;
         leftView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
 
-        UIImageView *centerView = [[UIImageView alloc] initWithImage:centerAnchor];
+        centerView = [[UIImageView alloc] initWithImage:centerAnchor];
         CGRect centerViewFrame = centerView.frame;
         centerViewFrame.origin.x = (frame.size.width - centerWidth)/2;
         centerView.frame = centerViewFrame;
         centerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         
-        UIImageView *rightView = [[UIImageView alloc] initWithImage:rightCap];
+        rightView = [[UIImageView alloc] initWithImage:rightCap];
         CGRect rightViewFrame = CGRectMake(frame.size.width - capSize.width, 0, capSize.width, capSize.height);
         rightView.frame = rightViewFrame;
-        rightView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        rightView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 
-        UIImageView *leftBackgroundView = [[UIImageView alloc] initWithImage:backgroundStretched];
+        leftBackgroundView = [[UIImageView alloc] initWithImage:backgroundStretched];
         CGRect leftBackgroundViewFrame = CGRectMake(leftViewFrame.origin.x + leftViewFrame.size.width, 0, centerViewFrame.origin.x - leftViewFrame.origin.x - leftViewFrame.size.width, capSize.height);
         leftBackgroundView.frame = leftBackgroundViewFrame;
-        leftBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        leftBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
 
         
-        UIImageView *rigthBackgroundView = [[UIImageView alloc] initWithImage:backgroundStretched];
+        rigthBackgroundView = [[UIImageView alloc] initWithImage:backgroundStretched];
         CGRect rigthBackgroundViewFrame = CGRectMake(centerViewFrame.origin.x + centerViewFrame.size.width, 0, rightViewFrame.origin.x - centerViewFrame.origin.x - centerViewFrame.size.width, capSize.height);
         rigthBackgroundView.frame = rigthBackgroundViewFrame;
-        rigthBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        rigthBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 
         CGRect contentViewFrame = CGRectMake(10, 4, frame.size.width - 2*10, 45 - 4*2);
-        UIView *contentView = [[UIView alloc] initWithFrame:contentViewFrame];
-        contentView.tag = kAZZContentView;
+        contentView = [[UIView alloc] initWithFrame:contentViewFrame];
 
         [self addSubview:leftView];
         [self addSubview:leftBackgroundView];
@@ -69,15 +66,43 @@
         [self addSubview:rigthBackgroundView];
         [self addSubview:contentView];
         
-        [leftView release];
-        [centerView release];
-        [rightView release];
-        [leftBackgroundView release];
-        [rigthBackgroundView release];
-        [contentView release];
+        minWidth = centerWidth + 2 * capSize.width + 1;
     }
     return self;
 }
+
+- (void)layoutSubviews 
+{
+    [super layoutSubviews];
+    
+    CGRect leftViewFrame = leftView.frame;
+    
+    CGRect centerViewFrame = centerView.frame;
+    
+    CGRect leftBackgroundViewFrame = CGRectMake(leftViewFrame.origin.x + leftViewFrame.size.width, 0, centerViewFrame.origin.x - leftViewFrame.origin.x - leftViewFrame.size.width, leftViewFrame.size.height);
+    leftBackgroundView.frame = leftBackgroundViewFrame;
+    
+    CGRect rightViewFrame = rightView.frame;
+    
+    CGRect rigthBackgroundViewFrame = CGRectMake(centerViewFrame.origin.x + centerViewFrame.size.width, 0, rightViewFrame.origin.x - centerViewFrame.origin.x - centerViewFrame.size.width, rightViewFrame.size.height);
+    rigthBackgroundView.frame = rigthBackgroundViewFrame;
+    
+    if (self.frame.size.width < minWidth)
+    {
+        CGRect f = self.frame;
+        f.size.width = minWidth;
+        self.frame = f;
+        leftBackgroundView.hidden = YES;
+        rigthBackgroundView.hidden = YES;
+        [self setNeedsLayout];
+    }
+    else
+    {
+        leftBackgroundView.hidden = NO;
+        rigthBackgroundView.hidden = NO;
+    }
+}
+
 
 -(void) show
 {
@@ -111,7 +136,7 @@
 
 -(UIView*) contentView
 {
-    return [self viewWithTag:kAZZContentView];
+    return contentView;
 }
 
 - (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
@@ -119,4 +144,20 @@
     self.hidden = (self.alpha == 0.0);
 }
 
+- (void)dealloc 
+{
+    [leftView release];
+    
+    [centerView release];
+    
+    [rightView release];
+    
+    [leftBackgroundView release];
+    
+    [rigthBackgroundView release];
+    
+    [contentView release];
+
+    [super dealloc];
+}
 @end
