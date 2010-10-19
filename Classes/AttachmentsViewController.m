@@ -21,7 +21,7 @@ typedef enum _TapPosition{
 } TapPosition;
 
 @interface AttachmentsViewController(Private)
-- (TapPosition) tapPosition:(UIGestureRecognizer *)gestureRecognizer;
+- (TapPosition) tapPosition:(CGPoint) location;
 - (void) setPages;
 @end
 
@@ -47,7 +47,7 @@ typedef enum _TapPosition{
     pageControl = [aPageControl retain];
     [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
     pageControl.numberOfPages = [attachment.pagesOrdered count];
-    pageControl.hidden = YES;
+    [pageControl hide];
 }
 
 -(void) setAttachment:(Attachment *) anAttachment
@@ -199,7 +199,7 @@ typedef enum _TapPosition{
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    TapPosition tapPosition = [self tapPosition:gestureRecognizer];
+    TapPosition tapPosition = [self tapPosition:[touch locationInView:self.view]];
     
     if (tapPosition == TapPositionMiddle)
         return YES;
@@ -209,7 +209,7 @@ typedef enum _TapPosition{
 
 -(void) handleTapFrom:(UIGestureRecognizer *)gestureRecognizer
 {
-    TapPosition tapPosition = [self tapPosition:gestureRecognizer];
+    TapPosition tapPosition = [self tapPosition:[gestureRecognizer locationInView:self.view]];
     
     if (tapPosition == TapPositionMiddle)
     {
@@ -264,10 +264,9 @@ typedef enum _TapPosition{
 @end
 
 @implementation AttachmentsViewController(Private)
-- (TapPosition) tapPosition:(UIGestureRecognizer *)gestureRecognizer
+- (TapPosition) tapPosition:(CGPoint) location
 {
     CGSize size = self.view.frame.size;
-    CGPoint location = [gestureRecognizer locationInView:self.view];
     
     if ((size.height - location.y)<100.0f)
         return TapPositionBottom;
