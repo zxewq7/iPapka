@@ -14,8 +14,6 @@
 #import "Document.h"
 #import "DataSource.h"
 
-static NSString *HidePageControlAnimationId = @"HidePageControlAnimationId";
-
 typedef enum _TapPosition{
     TapPositionTop = 0,
     TapPositionMiddle = 1,
@@ -50,7 +48,6 @@ typedef enum _TapPosition{
     [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
     pageControl.numberOfPages = [attachment.pagesOrdered count];
     pageControl.hidden = YES;
-    pageControl.alpha = 0.0;
 }
 
 -(void) setAttachment:(Attachment *) anAttachment
@@ -217,16 +214,10 @@ typedef enum _TapPosition{
     if (tapPosition == TapPositionMiddle)
     {
         //fade in/out pageControl
-        [UIView beginAnimations:HidePageControlAnimationId context:nil];
-        [UIView setAnimationDuration:0.5];
-        [UIView setAnimationTransition:UIViewAnimationTransitionNone forView:self.view.window cache:YES];
-        [UIView setAnimationDelegate:self]; 
-        [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
         if (pageControl.hidden)
-            pageControl.hidden = NO;
-        pageControl.alpha = pageControl.alpha == 0.0?1.0:0.0;
-        [UIView commitAnimations];
-
+            [pageControl show];
+        else
+            [pageControl hide];
     }
     else if (tapPosition == TapPositionTop || tapPosition == TapPositionBottom)
     {
@@ -241,12 +232,6 @@ typedef enum _TapPosition{
         //emulate pager tap
         [self pageAction:pageControl];
     }
-}
-
-- (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
-{
-    if (animationID == HidePageControlAnimationId)
-        pageControl.hidden = (pageControl.alpha == 0.0);
 }
 #pragma mark -
 #pragma mark View controller rotation methods

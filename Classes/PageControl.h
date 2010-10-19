@@ -30,4 +30,7 @@
 
 @property (nonatomic, assign) NSUInteger currentPage;
 @property (nonatomic, assign) NSUInteger numberOfPages;
+
+-(void) show;
+-(void) hide;
 @end

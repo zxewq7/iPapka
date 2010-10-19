@@ -179,6 +179,75 @@ static NSString *SliderContext = @"SliderContext";
     return round(slider.value);
 }
 
+-(void) show
+{
+    if (!self.hidden)
+        return;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
+    
+    self.alpha = 1.0;
+    
+    [UIView commitAnimations];
+}
+
+-(void) hide
+{
+    if (self.hidden)
+        return;
+    
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationDelegate:self];
+    [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
+    
+    self.alpha = 0.0;
+    
+    [UIView commitAnimations];
+}
+
+#pragma mark -
+#pragma mark Memory management
+
+- (void)dealloc 
+{
+    [dotsView release]; dotsView = nil;
+    
+    [dotImage release]; dotImage = nil;
+    
+    [slider release]; slider = nil;
+    
+    [calloutView release]; calloutView = nil;
+
+    [calloutViewTimer invalidate];
+    [calloutViewTimer release]; calloutViewTimer = nil;
+    
+    [pageNumberLabel release]; pageNumberLabel = nil;
+    
+    [calloutPageNumberLabel release]; calloutPageNumberLabel = nil;
+    
+    [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Private
+
+-(void) updateContent
+{
+    NSString *pageString = [NSString stringWithFormat: @"%d %@ %d", self.currentPage + 1, NSLocalizedString(@"of", "of"), self.numberOfPages];
+    pageNumberLabel.text = pageString;
+    calloutPageNumberLabel.text = pageString;
+}
+
+- (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
+{
+    self.hidden = (self.alpha == 0.0);
+}
+
+
 -(void)sliderChanged:(id) sender
 {
     [self updateContent];
@@ -221,35 +290,5 @@ static NSString *SliderContext = @"SliderContext";
             [[NSRunLoop currentRunLoop] addTimer:calloutViewTimer forMode:NSDefaultRunLoopMode];
         }
 	}
-}
-
-- (void)dealloc 
-{
-    [dotsView release]; dotsView = nil;
-    
-    [dotImage release]; dotImage = nil;
-    
-    [slider release]; slider = nil;
-    
-    [calloutView release]; calloutView = nil;
-
-    [calloutViewTimer invalidate];
-    [calloutViewTimer release]; calloutViewTimer = nil;
-    
-    [pageNumberLabel release]; pageNumberLabel = nil;
-    
-    [calloutPageNumberLabel release]; calloutPageNumberLabel = nil;
-    
-    [super dealloc];
-}
-
-#pragma mark -
-#pragma mark Private
-
--(void) updateContent
-{
-    NSString *pageString = [NSString stringWithFormat: @"%d %@ %d", self.currentPage + 1, NSLocalizedString(@"of", "of"), self.numberOfPages];
-    pageNumberLabel.text = pageString;
-    calloutPageNumberLabel.text = pageString;
 }
 @end
