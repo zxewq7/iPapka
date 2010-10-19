@@ -203,11 +203,11 @@ static NSString *SliderContext = @"SliderContext";
         calloutViewFrame.origin.y = rect.origin.y - calloutViewFrame.size.height;
         calloutView.frame = calloutViewFrame;
         
-        
         if (slider.tracking) 
         {
 			if (calloutView.hidden)
 				[calloutView show];
+            [self updateContent];
 		} 
         else
         {
