@@ -13,7 +13,8 @@
 {
     UISlider *slider;
     AZZCalloutView *calloutView;
-    UILabel *infoLabel;
+    UILabel *pageNumberLabel;
+    UILabel *calloutPageNumberLabel;
     UIView *dotsView;
     
     UIImage *dotImage;

@@ -11,6 +11,10 @@
 
 static NSString *SliderContext = @"SliderContext";
 
+@interface PageControl(Private)
+-(void) updateContent;
+@end
+
 @implementation PageControl
 @synthesize numberOfPages, currentPage;
 
@@ -55,7 +59,6 @@ static NSString *SliderContext = @"SliderContext";
         
         [self addSubview:calloutView];
         
-        
         CGRect sliderFrame = CGRectMake(0,0,frame.size.width, frame.size.height);
         slider = [[UISlider alloc] initWithFrame:sliderFrame];
         slider.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -74,6 +77,25 @@ static NSString *SliderContext = @"SliderContext";
         slider.continuous = YES;
 
         [self addSubview:slider];
+        
+        pageNumberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        pageNumberLabel.backgroundColor = [UIColor clearColor];
+        pageNumberLabel.font = [UIFont boldSystemFontOfSize: 14];
+        pageNumberLabel.textColor = [UIColor blackColor];
+        pageNumberLabel.shadowColor = [UIColor whiteColor];
+        pageNumberLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+        
+        pageNumberLabel.text = @"999 of 999";
+        [pageNumberLabel sizeToFit];
+        
+        CGSize pageNumberLabelSize = pageNumberLabel.frame.size;
+        
+        pageNumberLabel.frame = CGRectMake(frame.size.width - pageNumberLabelSize.width, (frame.size.height - pageNumberLabelSize.height)/2, pageNumberLabelSize.width, pageNumberLabelSize.height);
+        pageNumberLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        
+        pageNumberLabel.text = nil;
+        
+        [self addSubview:pageNumberLabel];
     }
     return self;
 }
@@ -110,10 +132,12 @@ static NSString *SliderContext = @"SliderContext";
     slider.maximumValue = numberOfPages - 1;
     slider.value = 0;
 
+    [self updateContent];
 }
 
 - (void)setCurrentPage:(NSUInteger) number
 {
+    [self updateContent];
     [slider setValue:number animated:YES];
 }
 
@@ -124,8 +148,7 @@ static NSString *SliderContext = @"SliderContext";
 
 -(void)sliderChanged:(id) sender
 {
-    NSLog(@"%f %f", round(slider.value), slider.value);
-
+    [self updateContent];
     [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -180,6 +203,17 @@ static NSString *SliderContext = @"SliderContext";
     [calloutViewTimer invalidate];
     [calloutViewTimer release]; calloutViewTimer = nil;
     
+    [pageNumberLabel release]; pageNumberLabel = nil;
+    
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark Private
+
+-(void) updateContent
+{
+    NSString *pageString = [NSString stringWithFormat: @"%d %@ %d", self.currentPage + 1, NSLocalizedString(@"of", "of"), self.numberOfPages];
+    pageNumberLabel.text = pageString;
 }
 @end
