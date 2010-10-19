@@ -253,9 +253,9 @@ static NSString *SliderContext = @"SliderContext";
 
 -(void) updateContent
 {
-    NSString *pageString = [NSString stringWithFormat: @"%d %@ %d", self.currentPage + 1, NSLocalizedString(@"of", "of"), self.numberOfPages];
-    titleLabel.text = pageString;
-    calloutTitleLabel.text = pageString;
+    NSUInteger pageNumber = self.currentPage + 1;
+    titleLabel.text = [NSString stringWithFormat: @"%d %@ %d", pageNumber, NSLocalizedString(@"of", "of"), self.numberOfPages];
+    calloutTitleLabel.text = [NSString stringWithFormat: @"%@ %d", NSLocalizedString(@"Page", "Page"), pageNumber];
 }
 
 - (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
