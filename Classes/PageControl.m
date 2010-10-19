@@ -183,9 +183,11 @@ static NSString *SliderContext = @"SliderContext";
 {
     if (!self.hidden)
         return;
+
+    self.hidden = NO;
     
     [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationDuration:0.25f];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
     
@@ -200,7 +202,7 @@ static NSString *SliderContext = @"SliderContext";
         return;
     
     [UIView beginAnimations:nil context:NULL];
-    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationDuration:0.25f];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
     
