@@ -29,6 +29,7 @@ static NSString *SliderContext = @"SliderContext";
         dotSize = dotImage.size;
 
         
+        //background
         UIImage *background = [UIImage imageNamed:@"PageControlBackground.png"];
         
         self.bounds = CGRectMake(0,0,frame.size.width, background.size.height);
@@ -44,6 +45,7 @@ static NSString *SliderContext = @"SliderContext";
 
         [backgroundView release];
         
+        //dots
         CGRect dotsViewFrame = CGRectMake(0, (self.frame.size.height - dotSize.height)/2, 0, dotSize.height);
         dotsView = [[UIView alloc] initWithFrame:dotsViewFrame];
         dotsView.frame = dotsViewFrame;
@@ -51,6 +53,7 @@ static NSString *SliderContext = @"SliderContext";
         
         [self addSubview:dotsView];
 
+        //callout
         CGRect calloutViewFrame = CGRectMake(0, -50, 100, 57);
         
         calloutView = [[AZZCalloutView alloc] initWithFrame:calloutViewFrame];
@@ -58,29 +61,31 @@ static NSString *SliderContext = @"SliderContext";
         UIView *calloutContentView = calloutView.contentView;
         CGSize calloutContentViewSize = calloutContentView.bounds.size;
         
-        calloutPageNumberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        calloutPageNumberLabel.backgroundColor = [UIColor clearColor];
-        calloutPageNumberLabel.font = [UIFont boldSystemFontOfSize: 14];
-        calloutPageNumberLabel.textColor = [UIColor whiteColor];
-        calloutPageNumberLabel.shadowColor = [UIColor blackColor];
-        calloutPageNumberLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+        //callout title
+        calloutTitleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        calloutTitleLabel.backgroundColor = [UIColor clearColor];
+        calloutTitleLabel.font = [UIFont boldSystemFontOfSize: 14];
+        calloutTitleLabel.textColor = [UIColor whiteColor];
+        calloutTitleLabel.shadowColor = [UIColor blackColor];
+        calloutTitleLabel.shadowOffset = CGSizeMake(0.0, 1.0);
         
-        calloutPageNumberLabel.text = @"999 of 999";
-        [calloutPageNumberLabel sizeToFit];
+        calloutTitleLabel.text = @"999 of 999";
+        [calloutTitleLabel sizeToFit];
 
-        CGSize calloutPageNumberLabelSize = calloutPageNumberLabel.frame.size;
+        CGSize calloutTitleLabelSize = calloutTitleLabel.frame.size;
         
-        calloutPageNumberLabel.frame = CGRectMake(0, (calloutContentViewSize.height - calloutPageNumberLabelSize.height)/2, calloutPageNumberLabelSize.width, calloutPageNumberLabelSize.height);
-        calloutPageNumberLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        calloutTitleLabel.frame = CGRectMake(0, (calloutContentViewSize.height - calloutTitleLabelSize.height)/2, calloutTitleLabelSize.width, calloutTitleLabelSize.height);
+        calloutTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
         
-        calloutPageNumberLabel.text = nil;
+        calloutTitleLabel.text = nil;
         
-        [calloutContentView addSubview: calloutPageNumberLabel];
-
+        [calloutContentView addSubview: calloutTitleLabel];
+        
         calloutView.hidden = YES;
         
         [self addSubview:calloutView];
         
+        //slider
         CGRect sliderFrame = CGRectMake(0,0,frame.size.width, frame.size.height);
         slider = [[UISlider alloc] initWithFrame:sliderFrame];
         slider.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
@@ -100,24 +105,25 @@ static NSString *SliderContext = @"SliderContext";
 
         [self addSubview:slider];
         
-        pageNumberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        pageNumberLabel.backgroundColor = [UIColor clearColor];
-        pageNumberLabel.font = [UIFont boldSystemFontOfSize: 14];
-        pageNumberLabel.textColor = [UIColor blackColor];
-        pageNumberLabel.shadowColor = [UIColor whiteColor];
-        pageNumberLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+        //page number
+        titleLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        titleLabel.backgroundColor = [UIColor clearColor];
+        titleLabel.font = [UIFont boldSystemFontOfSize: 14];
+        titleLabel.textColor = [UIColor blackColor];
+        titleLabel.shadowColor = [UIColor whiteColor];
+        titleLabel.shadowOffset = CGSizeMake(0.0, 1.0);
         
-        pageNumberLabel.text = @"999 of 999";
-        [pageNumberLabel sizeToFit];
+        titleLabel.text = @"999 of 999";
+        [titleLabel sizeToFit];
         
-        CGSize pageNumberLabelSize = pageNumberLabel.frame.size;
+        CGSize titleLabelSize = titleLabel.frame.size;
         
-        pageNumberLabel.frame = CGRectMake(frame.size.width - pageNumberLabelSize.width, (frame.size.height - pageNumberLabelSize.height)/2, pageNumberLabelSize.width, pageNumberLabelSize.height);
-        pageNumberLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+        titleLabel.frame = CGRectMake(frame.size.width - titleLabelSize.width, (frame.size.height - titleLabelSize.height)/2, titleLabelSize.width, titleLabelSize.height);
+        titleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         
-        pageNumberLabel.text = nil;
+        titleLabel.text = nil;
         
-        [self addSubview:pageNumberLabel];
+        [self addSubview:titleLabel];
     }
     return self;
 }
@@ -234,9 +240,10 @@ static NSString *SliderContext = @"SliderContext";
     [calloutViewTimer invalidate];
     [calloutViewTimer release]; calloutViewTimer = nil;
     
-    [pageNumberLabel release]; pageNumberLabel = nil;
+    [titleLabel release]; titleLabel = nil;
     
-    [calloutPageNumberLabel release]; calloutPageNumberLabel = nil;
+    [calloutTitleLabel release]; calloutTitleLabel = nil;
+    
     
     [super dealloc];
 }
@@ -247,8 +254,8 @@ static NSString *SliderContext = @"SliderContext";
 -(void) updateContent
 {
     NSString *pageString = [NSString stringWithFormat: @"%d %@ %d", self.currentPage + 1, NSLocalizedString(@"of", "of"), self.numberOfPages];
-    pageNumberLabel.text = pageString;
-    calloutPageNumberLabel.text = pageString;
+    titleLabel.text = pageString;
+    calloutTitleLabel.text = pageString;
 }
 
 - (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
