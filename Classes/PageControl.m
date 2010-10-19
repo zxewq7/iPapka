@@ -54,7 +54,29 @@ static NSString *SliderContext = @"SliderContext";
         CGRect calloutViewFrame = CGRectMake(0, -50, 100, 57);
         
         calloutView = [[AZZCalloutView alloc] initWithFrame:calloutViewFrame];
+
+        UIView *calloutContentView = calloutView.contentView;
+        CGSize calloutContentViewSize = calloutContentView.bounds.size;
         
+        calloutPageNumberLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+        calloutPageNumberLabel.backgroundColor = [UIColor clearColor];
+        calloutPageNumberLabel.font = [UIFont boldSystemFontOfSize: 14];
+        calloutPageNumberLabel.textColor = [UIColor whiteColor];
+        calloutPageNumberLabel.shadowColor = [UIColor blackColor];
+        calloutPageNumberLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+        
+        calloutPageNumberLabel.text = @"999 of 999";
+        [calloutPageNumberLabel sizeToFit];
+
+        CGSize calloutPageNumberLabelSize = calloutPageNumberLabel.frame.size;
+        
+        calloutPageNumberLabel.frame = CGRectMake(0, (calloutContentViewSize.height - calloutPageNumberLabelSize.height)/2, calloutPageNumberLabelSize.width, calloutPageNumberLabelSize.height);
+        calloutPageNumberLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        
+        calloutPageNumberLabel.text = nil;
+        
+        [calloutContentView addSubview: calloutPageNumberLabel];
+
         calloutView.hidden = YES;
         
         [self addSubview:calloutView];
@@ -216,6 +238,8 @@ static NSString *SliderContext = @"SliderContext";
     
     [pageNumberLabel release]; pageNumberLabel = nil;
     
+    [calloutPageNumberLabel release]; calloutPageNumberLabel = nil;
+    
     [super dealloc];
 }
 
@@ -226,5 +250,6 @@ static NSString *SliderContext = @"SliderContext";
 {
     NSString *pageString = [NSString stringWithFormat: @"%d %@ %d", self.currentPage + 1, NSLocalizedString(@"of", "of"), self.numberOfPages];
     pageNumberLabel.text = pageString;
+    calloutPageNumberLabel.text = pageString;
 }
 @end
