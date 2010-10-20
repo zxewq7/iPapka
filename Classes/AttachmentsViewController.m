@@ -10,9 +10,9 @@
 #import "ImageScrollView.h"
 #import "Attachment.h"
 #import "AttachmentPageViewController.h"
-#import "PageControl.h"
 #import "Document.h"
 #import "DataSource.h"
+#import "AttachmentPage.h"
 
 typedef enum _TapPosition{
     TapPositionTop = 0,
@@ -48,6 +48,7 @@ typedef enum _TapPosition{
     [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
     pageControl.numberOfPages = [attachment.pagesOrdered count];
     pageControl.hidden = YES;
+    pageControl.delegate = self;
 }
 
 -(void) setAttachment:(Attachment *) anAttachment
@@ -159,6 +160,18 @@ typedef enum _TapPosition{
         // Commit the changes
         [UIView commitAnimations];
     }
+}
+
+#pragma mark -
+#pragma mark PageControlDelegate
+-(NSArray*) pageControl:(PageControl *) aPageControl iconsForPage:(NSUInteger) aPage
+{
+    AttachmentPage *page = [attachment.pagesOrdered objectAtIndex: aPage];
+    
+    if (page.hasPaintings)
+        return [NSArray arrayWithObject:[UIImage imageNamed:@"IconPainting.png"]];
+    
+    return nil;
 }
 
 #pragma mark -

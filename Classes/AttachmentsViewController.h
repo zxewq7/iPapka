@@ -8,9 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "PaintingToolsViewController.h"
+#import "PageControl.h"
 
-@class AttachmentPageViewController, Attachment, PageControl, PaintingToolsViewController;
-@interface AttachmentsViewController : UIViewController<UIGestureRecognizerDelegate, PaintingToolsDelegate>
+@class AttachmentPageViewController, Attachment, PaintingToolsViewController;
+@interface AttachmentsViewController : UIViewController<UIGestureRecognizerDelegate, PaintingToolsDelegate, PageControlDelegate>
 {
     AttachmentPageViewController *currentPage;
     AttachmentPageViewController *nextPage;

@@ -95,6 +95,8 @@
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
 		81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585487123BC2F100A827E6 /* UITabBar+Additions.m */; };
 		815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DDC5512450C3F00F72600 /* PersonPickerViewController.m */; };
+		81600837126E091B00C5A7DF /* IconAudio.png in Resources */ = {isa = PBXBuildFile; fileRef = 81600835126E091B00C5A7DF /* IconAudio.png */; };
+		81600838126E091B00C5A7DF /* IconText.png in Resources */ = {isa = PBXBuildFile; fileRef = 81600836126E091B00C5A7DF /* IconText.png */; };
 		816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541BE12379AA3008FC80F /* UIKit.framework */; };
 		816541C112379AA3008FC80F /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541C012379AA3008FC80F /* Foundation.framework */; };
 		816541C312379AA3008FC80F /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541C212379AA3008FC80F /* CoreGraphics.framework */; };
@@ -189,6 +191,7 @@
 		81E5B49C123BB3900068617E /* ButtonSignature.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5B49A123BB3900068617E /* ButtonSignature.png */; };
 		81E5FE7B1240EEBA00D697EA /* Papers-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE791240EEBA00D697EA /* Papers-Landscape.png */; };
 		81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE7A1240EEBA00D697EA /* Papers.png */; };
+		81E6425C126DFC30001EE1B4 /* IconPainting.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E6425B126DFC30001EE1B4 /* IconPainting.png */; };
 		81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */; };
 		81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */; };
 /* End PBXBuildFile section */
@@ -342,6 +345,8 @@
 		81585487123BC2F100A827E6 /* UITabBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Additions.m"; sourceTree = "<group>"; };
 		815DDC5412450C3F00F72600 /* PersonPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonPickerViewController.h; sourceTree = "<group>"; };
 		815DDC5512450C3F00F72600 /* PersonPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonPickerViewController.m; sourceTree = "<group>"; };
+		81600835126E091B00C5A7DF /* IconAudio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconAudio.png; sourceTree = "<group>"; };
+		81600836126E091B00C5A7DF /* IconText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconText.png; sourceTree = "<group>"; };
 		816541BB12379AA3008FC80F /* iPapka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPapka.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		816541BE12379AA3008FC80F /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		816541C012379AA3008FC80F /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -484,6 +489,7 @@
 		81E5B49A123BB3900068617E /* ButtonSignature.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSignature.png; sourceTree = "<group>"; };
 		81E5FE791240EEBA00D697EA /* Papers-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Papers-Landscape.png"; sourceTree = "<group>"; };
 		81E5FE7A1240EEBA00D697EA /* Papers.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Papers.png; sourceTree = "<group>"; };
+		81E6425B126DFC30001EE1B4 /* IconPainting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconPainting.png; sourceTree = "<group>"; };
 		81EA7EB71259F823007D4A7C /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = thirdparty/KeychainItemWrapper.h; sourceTree = "<group>"; };
 		81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = thirdparty/KeychainItemWrapper.m; sourceTree = "<group>"; };
 		81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecordStop.png; sourceTree = "<group>"; };
@@ -578,6 +584,9 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				81600835126E091B00C5A7DF /* IconAudio.png */,
+				81600836126E091B00C5A7DF /* IconText.png */,
+				81E6425B126DFC30001EE1B4 /* IconPainting.png */,
 				813011DC126DD664002ADE40 /* CalloutViewBackground.png */,
 				813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */,
 				813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */,
@@ -1082,6 +1091,9 @@
 				813011E2126DD664002ADE40 /* CalloutViewBottomAnchor.png in Resources */,
 				813011E3126DD664002ADE40 /* CalloutViewLeftCap.png in Resources */,
 				813011E4126DD664002ADE40 /* CalloutViewRightCap.png in Resources */,
+				81E6425C126DFC30001EE1B4 /* IconPainting.png in Resources */,
+				81600837126E091B00C5A7DF /* IconAudio.png in Resources */,
+				81600838126E091B00C5A7DF /* IconText.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

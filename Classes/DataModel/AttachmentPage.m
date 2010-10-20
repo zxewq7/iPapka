@@ -1,5 +1,6 @@
 #import "AttachmentPage.h"
 #import "Attachment.h"
+#import "AttachmentPagePainting.h"
 
 @implementation AttachmentPage
 
@@ -23,4 +24,21 @@
     
     return [UIImage imageWithContentsOfFile:path];
 }
+
+-(BOOL) hasPaintings
+{
+    AttachmentPagePainting *painting = [self painting];
+    return [painting hasPainting];
+}
+
+-(BOOL) hasAudio
+{
+    return NO;
+}
+
+-(BOOL) hasText
+{
+    return NO;
+}
+
 @end

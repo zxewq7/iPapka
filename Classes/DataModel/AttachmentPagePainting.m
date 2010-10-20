@@ -13,4 +13,10 @@
     return [UIImage imageWithContentsOfFile:path];
 }
 
+-(BOOL) hasPainting
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    return [df fileExistsAtPath: self.path];
+}
+
 @end
