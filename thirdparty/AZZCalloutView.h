@@ -29,4 +29,5 @@
 -(void) show;
 -(void) hide;
 @property (readonly) UIView *contentView;
+- (CGFloat) optimalWidth:(CGFloat) width;
 @end

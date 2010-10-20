@@ -24,27 +24,24 @@
     
     minWidth = centerWidth + 2 * capSize.width;
 
-    CGRect frame = CGRectMake(f.origin.x, f.origin.y, f.size.width < minWidth? minWidth: f.size.width, capSize.height);
+    CGRect frame = CGRectMake(f.origin.x, f.origin.y, [self optimalWidth:f.size.width], capSize.height);
 
     if ((self = [super initWithFrame:frame])) 
     {
         UIImage *background = [UIImage imageNamed:@"CalloutViewBackground.png"];
         
         UIImage *backgroundStretched = [background stretchableImageWithLeftCapWidth:0.0f topCapHeight:0.0f];
-    
-
-        
         
         leftView = [[UIImageView alloc] initWithImage:leftCap];
         CGRect leftViewFrame = CGRectMake(0, 0, capSize.width, capSize.height);
         leftView.frame = leftViewFrame;
-        leftView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
 
         centerView = [[UIImageView alloc] initWithImage:centerAnchor];
         CGRect centerViewFrame = centerView.frame;
-        centerViewFrame.origin.x = (frame.size.width - centerWidth)/2;
+        centerViewFrame.origin.x = round ((frame.size.width - centerWidth) / 2);
+        centerViewFrame.origin.y = 0;
         centerView.frame = centerViewFrame;
-        centerView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        centerView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin;
         
         rightView = [[UIImageView alloc] initWithImage:rightCap];
         CGRect rightViewFrame = CGRectMake(frame.size.width - capSize.width, 0, capSize.width, capSize.height);
@@ -54,13 +51,11 @@
         leftBackgroundView = [[UIImageView alloc] initWithImage:backgroundStretched];
         CGRect leftBackgroundViewFrame = CGRectMake(leftViewFrame.origin.x + leftViewFrame.size.width, 0, centerViewFrame.origin.x - leftViewFrame.origin.x - leftViewFrame.size.width, capSize.height);
         leftBackgroundView.frame = leftBackgroundViewFrame;
-        leftBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
 
         
         rigthBackgroundView = [[UIImageView alloc] initWithImage:backgroundStretched];
         CGRect rigthBackgroundViewFrame = CGRectMake(centerViewFrame.origin.x + centerViewFrame.size.width, 0, rightViewFrame.origin.x - centerViewFrame.origin.x - centerViewFrame.size.width, capSize.height);
         rigthBackgroundView.frame = rigthBackgroundViewFrame;
-        rigthBackgroundView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
 
         CGRect contentViewFrame = CGRectMake(10, 4, frame.size.width - 2*10, 45 - 4*2);
         contentView = [[UIView alloc] initWithFrame:contentViewFrame];
@@ -73,12 +68,11 @@
         [self addSubview:rightView];
         [self addSubview:rigthBackgroundView];
         [self addSubview:contentView];
-        
     }
     return self;
 }
 
-- (void)layoutSubviews 
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     
@@ -94,15 +88,15 @@
     CGRect rigthBackgroundViewFrame = CGRectMake(centerViewFrame.origin.x + centerViewFrame.size.width, 0, rightViewFrame.origin.x - centerViewFrame.origin.x - centerViewFrame.size.width, rightViewFrame.size.height);
     rigthBackgroundView.frame = rigthBackgroundViewFrame;
     
-    if (self.frame.size.width < minWidth)
-    {
-        CGRect f = self.frame;
-        f.size.width = minWidth;
-        self.frame = f;
-        [self setNeedsLayout];
-    }
 }
 
+- (CGFloat) optimalWidth:(CGFloat) width
+{
+    if (width < minWidth)
+        return minWidth;
+    else
+        return minWidth + 2 * round((width - minWidth) / 2);
+}
 
 -(void) show
 {
