@@ -22,7 +22,7 @@
     CGFloat centerWidth = centerAnchor.size.width;
     CGSize capSize = leftCap.size;
     
-    minWidth = centerWidth + 2 * capSize.width;
+    minWidth = centerWidth + 2 * capSize.width + 20;
 
     CGRect frame = CGRectMake(f.origin.x, f.origin.y, [self optimalWidth:f.size.width], capSize.height);
 
@@ -60,7 +60,6 @@
         CGRect contentViewFrame = CGRectMake(10, 4, frame.size.width - 2*10, 45 - 4*2);
         contentView = [[UIView alloc] initWithFrame:contentViewFrame];
         contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-        contentView.backgroundColor = [UIColor redColor];
 
         [self addSubview:leftView];
         [self addSubview:leftBackgroundView];
@@ -96,6 +95,11 @@
         return minWidth;
     else
         return minWidth + 2 * round((width - minWidth) / 2);
+}
+
+- (CGFloat) optimalContentWidth:(CGFloat) width
+{
+    return [self optimalWidth:width] - 20;
 }
 
 -(void) show
