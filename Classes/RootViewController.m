@@ -252,10 +252,12 @@ static NSString* LinkContext          = @"LinkContext";
     
     [self.view bringSubviewToFront: clipperViewController.view];
     [clipperViewController counfigureTapzones];
-    [self updateContent];
     
     [backgroundView release];
+    
+    canEdit = YES;
 
+    [self updateContent];
 }
 
 #pragma mark - 
@@ -703,6 +705,18 @@ static NSString* LinkContext          = @"LinkContext";
 
     attachmentsViewController.attachment = self.document.firstAttachment;
 
+    if (!self.document)
+    {
+        infoButton.hidden = YES;
+        resolutionButton.hidden = YES;
+        backButton.hidden = YES;
+        signatureCommentButton.hidden = YES;
+        [self setCanEdit: NO];
+        return;
+    }
+
+    infoButton.hidden = NO;
+    
     if ([self.document isKindOfClass: [DocumentResolution class]])
     {
         resolutionViewController.document = (DocumentResolution *)self.document;
