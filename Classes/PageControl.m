@@ -16,14 +16,12 @@ static NSString *SliderContext = @"SliderContext";
 @end
 
 @implementation PageControl
-@synthesize numberOfPages, currentPage;
+@synthesize numberOfPages, currentPage, delegate;
 
 - (id)initWithFrame:(CGRect)frame 
 {
     if ((self = [super initWithFrame:frame])) 
     {
-        self.frame =  frame;
-     
         dotImage = [UIImage imageNamed:@"DotNormal.png"];
         [dotImage retain];
         dotSize = dotImage.size;
@@ -54,9 +52,10 @@ static NSString *SliderContext = @"SliderContext";
         [self addSubview:dotsView];
 
         //callout
-        CGRect calloutViewFrame = CGRectMake(0, -50, 100, 57);
+        calloutView = [[AZZCalloutView alloc] initWithFrame:CGRectZero];
         
-        calloutView = [[AZZCalloutView alloc] initWithFrame:calloutViewFrame];
+        CGRect calloutViewFrame = calloutView.frame;
+        calloutViewFrame.origin.y = -calloutViewFrame.size.height;
 
         UIView *calloutContentView = calloutView.contentView;
         CGSize calloutContentViewSize = calloutContentView.bounds.size;
@@ -68,18 +67,26 @@ static NSString *SliderContext = @"SliderContext";
         calloutTitleLabel.textColor = [UIColor whiteColor];
         calloutTitleLabel.shadowColor = [UIColor blackColor];
         calloutTitleLabel.shadowOffset = CGSizeMake(0.0, 1.0);
+        calloutTitleLabel.textAlignment = UITextAlignmentCenter;
         
-        calloutTitleLabel.text = @"999 of 999";
+        calloutTitleLabel.text = @"Page 999";
         [calloutTitleLabel sizeToFit];
 
         CGSize calloutTitleLabelSize = calloutTitleLabel.frame.size;
         
-        calloutTitleLabel.frame = CGRectMake(0, (calloutContentViewSize.height - calloutTitleLabelSize.height)/2, calloutTitleLabelSize.width, calloutTitleLabelSize.height);
-        calloutTitleLabel.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+        CGRect calloutTitleLabelFrame = CGRectMake(0, (calloutContentViewSize.height - calloutTitleLabelSize.height)/2, calloutTitleLabelSize.width, calloutTitleLabelSize.height);
+        calloutTitleLabel.frame = calloutTitleLabelFrame;
         
         calloutTitleLabel.text = nil;
         
         [calloutContentView addSubview: calloutTitleLabel];
+
+        
+        //callout icons
+        CGRect calloutIconsViewFrame = CGRectMake(calloutTitleLabelFrame.origin.x + calloutTitleLabelFrame.size.width+5.0f, 0, calloutTitleLabelSize.width, calloutContentViewSize.height);
+        calloutIconsView = [[UIView alloc] initWithFrame:calloutIconsViewFrame];
+
+        [calloutContentView addSubview: calloutIconsView];
         
         calloutView.hidden = YES;
         
@@ -244,6 +251,9 @@ static NSString *SliderContext = @"SliderContext";
     
     [calloutTitleLabel release]; calloutTitleLabel = nil;
     
+    [calloutIconsView release]; calloutIconsView = nil;
+    
+    self.delegate = nil;
     
     [super dealloc];
 }
@@ -256,6 +266,57 @@ static NSString *SliderContext = @"SliderContext";
     NSUInteger pageNumber = self.currentPage + 1;
     titleLabel.text = [NSString stringWithFormat: @"%d %@ %d", pageNumber, NSLocalizedString(@"of", "of"), self.numberOfPages];
     calloutTitleLabel.text = [NSString stringWithFormat: @"%@ %d", NSLocalizedString(@"Page", "Page"), pageNumber];
+    [calloutTitleLabel sizeToFit];
+    
+    CGRect calloutTitleLabelFrame = calloutTitleLabel.frame;
+
+    
+    NSArray *icons = [self.delegate pageControl:self iconsForPage:self.currentPage];
+    
+    NSUInteger numberOfIcons = [icons count];
+    CGRect calloutIconsViewFrame = calloutIconsView.frame;
+
+    NSArray *subviews = [calloutIconsView subviews];
+    for (UIView * icon in subviews)
+        [icon removeFromSuperview];
+
+    
+    if (numberOfIcons)
+    {
+        CGSize iconSize = ((UIImage *)[icons objectAtIndex:0]).size;
+        CGRect iconFrame = CGRectMake(0, (calloutIconsViewFrame.size.height - iconSize.height) / 2, iconSize.width, iconSize.height);
+        
+        for (UIImage *icon in icons)
+        {
+            UIImageView *iconView = [[UIImageView alloc] initWithImage: icon];
+            iconView.frame = iconFrame;
+            [calloutIconsView addSubview: iconView];
+            [iconView release];
+            iconFrame.origin.x += iconSize.width;
+        }
+        calloutIconsViewFrame.origin.x = calloutTitleLabelFrame.origin.x + calloutTitleLabelFrame.size.width + 5.0f;
+        calloutIconsViewFrame.size.width = iconFrame.origin.x;
+    }
+    else
+        calloutIconsViewFrame.size.width = 0.0f;
+    
+    calloutIconsView.frame = calloutIconsViewFrame;
+    
+    CGRect calloutViewFrame = calloutView.frame;
+    
+    if (calloutIconsViewFrame.size.width == 0.0f)
+    {
+        calloutViewFrame.size.width = [calloutView optimalWidth:calloutTitleLabelFrame.size.width];
+        calloutView.frame = calloutViewFrame;
+        
+        calloutTitleLabelFrame.size.width = [calloutView optimalContentWidth:calloutTitleLabelFrame.size.width];
+        calloutTitleLabel.frame = calloutTitleLabelFrame;
+    }
+    else
+    {
+        calloutViewFrame.size.width = [calloutView optimalWidth:calloutIconsViewFrame.origin.x + calloutIconsViewFrame.size.width + calloutIconsViewFrame.size.width / numberOfIcons];
+        calloutView.frame = calloutViewFrame;
+    }
 }
 
 - (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
@@ -266,7 +327,6 @@ static NSString *SliderContext = @"SliderContext";
 
 -(void)sliderChanged:(id) sender
 {
-    [self updateContent];
     [self sendActionsForControlEvents:UIControlEventTouchUpInside];
 }
 
@@ -284,7 +344,7 @@ static NSString *SliderContext = @"SliderContext";
         CGRect rect = sliderThumbView.frame;
         CGRect calloutViewFrame = calloutView.frame;
         
-        calloutViewFrame.origin.x = rect.origin.x - round(calloutViewFrame.size.width / 2) + slider.frame.origin.x + round(rect.size.width / 2);
+        calloutViewFrame.origin.x = rect.origin.x - (calloutViewFrame.size.width / 2) + slider.frame.origin.x + (rect.size.width / 2);
         calloutViewFrame.origin.y = rect.origin.y - calloutViewFrame.size.height;
         calloutView.frame = calloutViewFrame;
         
@@ -292,6 +352,7 @@ static NSString *SliderContext = @"SliderContext";
         {
 			if (calloutView.hidden)
 				[calloutView show];
+            
             [self updateContent];
 		} 
         else

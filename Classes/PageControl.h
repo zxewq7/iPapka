@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+@class PageControl;
+@protocol PageControlDelegate<NSObject>
+
+-(NSArray*) pageControl:(PageControl *) aPageControl iconsForPage:(NSUInteger) aPage;
+
+@end
+
 @class AZZCalloutView;
 @interface PageControl : UIControl 
 {
@@ -26,10 +33,15 @@
     NSUInteger numberOfPages;
     
     NSTimer *calloutViewTimer;
+    
+    id<PageControlDelegate> delegate;
+    
+    UIView *calloutIconsView;
 }
 
 @property (nonatomic, assign) NSUInteger currentPage;
 @property (nonatomic, assign) NSUInteger numberOfPages;
+@property (nonatomic, retain) id<PageControlDelegate> delegate;
 
 -(void) hide:(BOOL) hide animated:(BOOL) animated;
 @end
