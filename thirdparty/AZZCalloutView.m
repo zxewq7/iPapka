@@ -11,23 +11,29 @@
 @implementation AZZCalloutView
 
 
-- (id)initWithFrame:(CGRect)frame {
+- (id)initWithFrame:(CGRect)f {
+
+    UIImage *leftCap = [UIImage imageNamed:@"CalloutViewLeftCap.png"];
+    
+    UIImage *centerAnchor = [UIImage imageNamed:@"CalloutViewBottomAnchor.png"];
+    
+    UIImage *rightCap = [UIImage imageNamed:@"CalloutViewRightCap.png"];
+    
+    CGFloat centerWidth = centerAnchor.size.width;
+    CGSize capSize = leftCap.size;
+    
+    minWidth = centerWidth + 2 * capSize.width;
+
+    CGRect frame = CGRectMake(f.origin.x, f.origin.y, f.size.width < minWidth? minWidth: f.size.width, capSize.height);
+
     if ((self = [super initWithFrame:frame])) 
     {
-        self.frame = frame;
-
         UIImage *background = [UIImage imageNamed:@"CalloutViewBackground.png"];
         
         UIImage *backgroundStretched = [background stretchableImageWithLeftCapWidth:0.0f topCapHeight:0.0f];
-        
-        UIImage *leftCap = [UIImage imageNamed:@"CalloutViewLeftCap.png"];
+    
 
-        UIImage *centerAnchor = [UIImage imageNamed:@"CalloutViewBottomAnchor.png"];
-
-        UIImage *rightCap = [UIImage imageNamed:@"CalloutViewRightCap.png"];
         
-        CGFloat centerWidth = centerAnchor.size.width;
-        CGSize capSize = leftCap.size;
         
         leftView = [[UIImageView alloc] initWithImage:leftCap];
         CGRect leftViewFrame = CGRectMake(0, 0, capSize.width, capSize.height);
@@ -58,6 +64,8 @@
 
         CGRect contentViewFrame = CGRectMake(10, 4, frame.size.width - 2*10, 45 - 4*2);
         contentView = [[UIView alloc] initWithFrame:contentViewFrame];
+        contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+        contentView.backgroundColor = [UIColor redColor];
 
         [self addSubview:leftView];
         [self addSubview:leftBackgroundView];
@@ -66,7 +74,6 @@
         [self addSubview:rigthBackgroundView];
         [self addSubview:contentView];
         
-        minWidth = centerWidth + 2 * capSize.width + 1;
     }
     return self;
 }
@@ -92,14 +99,7 @@
         CGRect f = self.frame;
         f.size.width = minWidth;
         self.frame = f;
-        leftBackgroundView.hidden = YES;
-        rigthBackgroundView.hidden = YES;
         [self setNeedsLayout];
-    }
-    else
-    {
-        leftBackgroundView.hidden = NO;
-        rigthBackgroundView.hidden = NO;
     }
 }
 
