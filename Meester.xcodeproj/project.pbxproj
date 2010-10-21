@@ -59,7 +59,6 @@
 		813011E4126DD664002ADE40 /* CalloutViewRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DF126DD664002ADE40 /* CalloutViewRightCap.png */; };
 		813011E8126DDE05002ADE40 /* PageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 813011E7126DDE05002ADE40 /* PageControl.m */; };
 		813011EB126DDFF2002ADE40 /* AZZCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 813011EA126DDFF2002ADE40 /* AZZCalloutView.m */; };
-		8136DF7D12437A5D008D68AB /* AZZBubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8136DF7C12437A5D008D68AB /* AZZBubbleView.m */; };
 		8136E05F12439120008D68AB /* PageControlBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 8136E05E12439120008D68AB /* PageControlBackground.png */; };
 		813A3CDE123B477F00E6C382 /* ButtonMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDC123B477F00E6C382 /* ButtonMarker.png */; };
 		813A3CDF123B477F00E6C382 /* ButtonMarkerSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */; };
@@ -290,8 +289,6 @@
 		813011E7126DDE05002ADE40 /* PageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PageControl.m; sourceTree = "<group>"; };
 		813011E9126DDFF2002ADE40 /* AZZCalloutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZCalloutView.h; path = thirdparty/AZZCalloutView.h; sourceTree = "<group>"; };
 		813011EA126DDFF2002ADE40 /* AZZCalloutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZCalloutView.m; path = thirdparty/AZZCalloutView.m; sourceTree = "<group>"; };
-		8136DF7B12437A5D008D68AB /* AZZBubbleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZZBubbleView.h; sourceTree = "<group>"; };
-		8136DF7C12437A5D008D68AB /* AZZBubbleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZZBubbleView.m; sourceTree = "<group>"; };
 		8136E05E12439120008D68AB /* PageControlBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageControlBackground.png; sourceTree = "<group>"; };
 		813A3CDC123B477F00E6C382 /* ButtonMarker.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMarker.png; sourceTree = "<group>"; };
 		813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMarkerSelected.png; sourceTree = "<group>"; };
@@ -682,8 +679,6 @@
 				8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */,
 				81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */,
 				81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */,
-				8136DF7B12437A5D008D68AB /* AZZBubbleView.h */,
-				8136DF7C12437A5D008D68AB /* AZZBubbleView.m */,
 				81E500281241616A00D697EA /* RotateableImageView.h */,
 				81E500291241616A00D697EA /* RotateableImageView.m */,
 				8165420212379B3B008FC80F /* ImageScrollView.h */,
@@ -1127,7 +1122,6 @@
 				81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */,
 				81A1B761123E557C0089C988 /* ResolutionViewController.m in Sources */,
 				81E5002A1241616A00D697EA /* RotateableImageView.m in Sources */,
-				8136DF7D12437A5D008D68AB /* AZZBubbleView.m in Sources */,
 				81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */,
 				81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */,
 				8149BA5D1244BA3B00D028EE /* ViewWithButtons.m in Sources */,
