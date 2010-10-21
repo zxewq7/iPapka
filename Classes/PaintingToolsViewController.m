@@ -51,13 +51,13 @@ static NSString* ColorContext = @"ColorContext";
     
     CGSize contentSize = self.view.frame.size;
 
-    commentButton = [UIButton imageButton:self
-                                 selector:@selector(selectTool:)
-                                    image:[UIImage imageNamed:@"ButtonComment.png"]
-                            imageSelected:[UIImage imageNamed:@"ButtonCommentSelected.png"]];
-    commentButton.tag = PaintingToolComment;
-    
-    [commentButton retain];
+//    commentButton = [UIButton imageButton:self
+//                                 selector:@selector(selectTool:)
+//                                    image:[UIImage imageNamed:@"ButtonComment.png"]
+//                            imageSelected:[UIImage imageNamed:@"ButtonCommentSelected.png"]];
+//    commentButton.tag = PaintingToolComment;
+//    
+//    [commentButton retain];
     
     penButton = [UIButton imageButton:self
                              selector:@selector(selectTool:)
@@ -86,10 +86,10 @@ static NSString* ColorContext = @"ColorContext";
     
     [eraserButton retain];
 
-    [self alignButtons:[NSArray arrayWithObjects:commentButton, penButton, markerButton, eraserButton, nil] 
-             topOffset:FIRST_BAR_OFFSET
-               barSize:CGSizeMake(contentSize.width, FIRST_BAR_HEIGHT)
-   spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
+//    [self alignButtons:[NSArray arrayWithObjects:commentButton, penButton, markerButton, eraserButton, nil] 
+//             topOffset:FIRST_BAR_OFFSET
+//               barSize:CGSizeMake(contentSize.width, FIRST_BAR_HEIGHT)
+//   spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
 
     paletteButton = [UIButton imageButton:self
                                  selector:@selector(pickColor:)
@@ -97,24 +97,31 @@ static NSString* ColorContext = @"ColorContext";
                             imageSelected:[UIImage imageNamed:@"ButtonPaletteSelected.png"]];
     [paletteButton retain];
 
-    rotateCCVButton = [UIButton imageButton:self
-                                   selector:@selector(rotate:)
-                                      image:[UIImage imageNamed:@"ButtonRotateCCV.png"]
-                              imageSelected:[UIImage imageNamed:@"ButtonRotateCCV.png"]];
-
-    [rotateCCVButton retain];
-
-    rotateCVButton = [UIButton  imageButton:self
-                                   selector:@selector(rotate:)
-                                      image:[UIImage imageNamed:@"ButtonRotateCV.png"]
-                              imageSelected:[UIImage imageNamed:@"ButtonRotateCV.png"]];
-
-    [rotateCVButton retain];
-
-    [self alignButtons:[NSArray arrayWithObjects:paletteButton, rotateCCVButton, rotateCVButton, nil] 
-             topOffset:SECOND_BAR_OFFSET
-               barSize:CGSizeMake(contentSize.width, SECOND_BAR_HEIGHT)
+    [self alignButtons:[NSArray arrayWithObjects:penButton, markerButton, eraserButton, paletteButton, nil] 
+             topOffset:FIRST_BAR_OFFSET
+               barSize:CGSizeMake(contentSize.width, FIRST_BAR_HEIGHT)
    spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
+
+    
+
+//    rotateCCVButton = [UIButton imageButton:self
+//                                   selector:@selector(rotate:)
+//                                      image:[UIImage imageNamed:@"ButtonRotateCCV.png"]
+//                              imageSelected:[UIImage imageNamed:@"ButtonRotateCCV.png"]];
+//
+//    [rotateCCVButton retain];
+//
+//    rotateCVButton = [UIButton  imageButton:self
+//                                   selector:@selector(rotate:)
+//                                      image:[UIImage imageNamed:@"ButtonRotateCV.png"]
+//                              imageSelected:[UIImage imageNamed:@"ButtonRotateCV.png"]];
+//
+//    [rotateCVButton retain];
+
+//    [self alignButtons:[NSArray arrayWithObjects:paletteButton, rotateCCVButton, rotateCVButton, nil] 
+//             topOffset:SECOND_BAR_OFFSET
+//               barSize:CGSizeMake(contentSize.width, SECOND_BAR_HEIGHT)
+//   spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
 }
 
 -(void) selectTool:(id) sender
