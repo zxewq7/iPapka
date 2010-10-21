@@ -111,6 +111,18 @@ static NSString* OperationCount = @"OperationCount";
     [queue addOperation:request];
 }
 
+-(void) beginRequests
+{
+    self.allRequestsSent = NO;
+    self.hasError = NO;
+}
+
+-(void) endRequests
+{
+    self.allRequestsSent = YES;
+}
+
+
 - (void)fetchComplete:(ASIHTTPRequest *)request
 {
     void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
@@ -188,7 +200,7 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) checkSyncing
 {
-    BOOL x = requestComplete && allRequestsSent && (queue.requestsCount == 0);
+    BOOL x = !(requestComplete && allRequestsSent && (queue.requestsCount == 0));
     if ( x != isSyncing )
     {
         [self willChangeValueForKey:@"isSyncing"];

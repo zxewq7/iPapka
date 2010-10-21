@@ -32,10 +32,7 @@ static NSString* kFieldMiddle = @"middle";
 }
 - (void) sync;
 {
-    self.allRequestsSent = NO;
-    
-    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: url]];
-    request.delegate = self;
+    [self beginRequests];
     
     id<LNPersonReaderDataSource> mds = [self dataSource];
 
@@ -90,7 +87,7 @@ static NSString* kFieldMiddle = @"middle";
         [mds personReaderCommit:blockSelf];
         
     }];
-    self.allRequestsSent = YES;
+    [self endRequests];
 }
 
 #pragma mark -

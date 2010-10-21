@@ -11,11 +11,9 @@
 @implementation LNSettingsReader
 -(void) sync
 {
-    self.allRequestsSent = NO;
-    self.hasError = NO;
-    
     __block LNSettingsReader *blockSelf = self;
     
+    [self beginRequests];
     [self jsonRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(BOOL err, NSObject *response)
     {
         if (err)
@@ -44,6 +42,6 @@
         
     }];
     
-    self.allRequestsSent = YES;
+    [self endRequests];
 }
 @end
