@@ -91,10 +91,13 @@
 
 - (CGFloat) optimalWidthForContent:(CGFloat) width
 {
-    if (width < (minWidth - 2 * capSize.width))
-        return minWidth;
+    CGFloat result;
+    if (width < (minWidth - 2.0f * capSize.width))
+        result = minWidth;
     else
-        return minWidth + 2 * round((width - minWidth) / 2) + 2 * capSize.width;
+        result = (minWidth + 2.0f * round((width - minWidth + 2.0f * capSize.width) / 2.0f));
+
+    return result;
 }
 
 - (CGFloat) contentWidth
