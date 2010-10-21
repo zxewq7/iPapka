@@ -24,11 +24,13 @@
     UIView *contentView;
     
     CGFloat minWidth;
+    
+    CGSize capSize;
 }
 
 -(void) show;
 -(void) hide;
 @property (readonly) UIView *contentView;
-- (CGFloat) optimalWidth:(CGFloat) width;
-- (CGFloat) optimalContentWidth:(CGFloat) width;
+- (CGFloat) optimalWidthForContent:(CGFloat) width;
+- (CGFloat) contentWidth;
 @end

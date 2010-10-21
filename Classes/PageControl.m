@@ -306,15 +306,15 @@ static NSString *SliderContext = @"SliderContext";
     
     if (calloutIconsViewFrame.size.width == 0.0f)
     {
-        calloutViewFrame.size.width = [calloutView optimalWidth:calloutTitleLabelFrame.size.width];
+        calloutViewFrame.size.width = [calloutView optimalWidthForContent:calloutTitleLabelFrame.size.width];
         calloutView.frame = calloutViewFrame;
         
-        calloutTitleLabelFrame.size.width = [calloutView optimalContentWidth:calloutTitleLabelFrame.size.width];
+        calloutTitleLabelFrame.size.width = [calloutView contentWidth];
         calloutTitleLabel.frame = calloutTitleLabelFrame;
     }
     else
     {
-        calloutViewFrame.size.width = [calloutView optimalWidth:calloutIconsViewFrame.origin.x + calloutIconsViewFrame.size.width + calloutIconsViewFrame.size.width / numberOfIcons];
+        calloutViewFrame.size.width = [calloutView optimalWidthForContent:calloutIconsViewFrame.origin.x + calloutIconsViewFrame.size.width];
         calloutView.frame = calloutViewFrame;
     }
 }

@@ -20,11 +20,11 @@
     UIImage *rightCap = [UIImage imageNamed:@"CalloutViewRightCap.png"];
     
     CGFloat centerWidth = centerAnchor.size.width;
-    CGSize capSize = leftCap.size;
+    capSize = leftCap.size;
     
-    minWidth = centerWidth + 2 * capSize.width + 20;
+    minWidth = centerWidth + 2 * capSize.width;
 
-    CGRect frame = CGRectMake(f.origin.x, f.origin.y, [self optimalWidth:f.size.width], capSize.height);
+    CGRect frame = CGRectMake(f.origin.x, f.origin.y, [self optimalWidthForContent:f.size.width], capSize.height);
 
     if ((self = [super initWithFrame:frame])) 
     {
@@ -57,7 +57,7 @@
         CGRect rigthBackgroundViewFrame = CGRectMake(centerViewFrame.origin.x + centerViewFrame.size.width, 0, rightViewFrame.origin.x - centerViewFrame.origin.x - centerViewFrame.size.width, capSize.height);
         rigthBackgroundView.frame = rigthBackgroundViewFrame;
 
-        CGRect contentViewFrame = CGRectMake(10, 4, frame.size.width - 2*10, 45 - 4*2);
+        CGRect contentViewFrame = CGRectMake(capSize.width, 4, frame.size.width - 2 * capSize.width, 45 - 4*2);
         contentView = [[UIView alloc] initWithFrame:contentViewFrame];
         contentView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
@@ -89,17 +89,17 @@
     
 }
 
-- (CGFloat) optimalWidth:(CGFloat) width
+- (CGFloat) optimalWidthForContent:(CGFloat) width
 {
-    if (width < minWidth)
+    if (width < (minWidth - 2 * capSize.width))
         return minWidth;
     else
-        return minWidth + 2 * round((width - minWidth) / 2);
+        return minWidth + 2 * round((width - minWidth) / 2) + 2 * capSize.width;
 }
 
-- (CGFloat) optimalContentWidth:(CGFloat) width
+- (CGFloat) contentWidth
 {
-    return [self optimalWidth:width] - 20;
+    return self.frame.size.width - 2 * capSize.width;
 }
 
 -(void) show
