@@ -14,6 +14,10 @@
 
 static NSString* OperationCount = @"OperationCount";
 
+@interface LNNetwork (Private)
+-(void) checkSyncing;
+@end
+
 @implementation LNNetwork
 @synthesize isSyncing, queue, allRequestsSent, hasError;
 
@@ -70,6 +74,7 @@ static NSString* OperationCount = @"OperationCount";
     LNHttpRequest *request = [self requestWithUrl:url];
     
     __block LNNetwork *blockSelf = self;
+    requestComplete = NO;
     
     request.requestHandler = ^(ASIHTTPRequest *request) {
         NSString *error = [request error] == nil?
@@ -111,6 +116,9 @@ static NSString* OperationCount = @"OperationCount";
     void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
     if (handler)
         handler(request);
+    
+    requestComplete = YES;
+    [self checkSyncing];
 }
 
 - (void)fetchFailed:(ASIHTTPRequest *)request
@@ -118,6 +126,9 @@ static NSString* OperationCount = @"OperationCount";
     void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
     if (handler)
         handler(request);
+    
+    requestComplete = YES;
+    [self checkSyncing];
 }
 
 - (void)authenticationNeededForRequest:(ASIHTTPRequest *)request
@@ -150,13 +161,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     if (context == &OperationCount)
     {
-		BOOL x = !allRequestsSent || (queue.requestsCount != 0);
-        if ( x != isSyncing )
-        {
-            [self willChangeValueForKey:@"isSyncing"];
-            isSyncing = x;
-            [self didChangeValueForKey:@"isSyncing"];
-        }
+		[self checkSyncing];
     }
     else
     {
@@ -178,4 +183,17 @@ static NSString* OperationCount = @"OperationCount";
     [super dealloc];
 }
 
+#pragma mark -
+#pragma mark Private
+
+-(void) checkSyncing
+{
+    BOOL x = requestComplete && allRequestsSent && (queue.requestsCount == 0);
+    if ( x != isSyncing )
+    {
+        [self willChangeValueForKey:@"isSyncing"];
+        isSyncing = x;
+        [self didChangeValueForKey:@"isSyncing"];
+    }
+}
 @end

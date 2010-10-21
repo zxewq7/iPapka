@@ -19,7 +19,7 @@
 					<key>attachments</key>
 					<dict/>
 					<key>change date</key>
-					<date>2010-10-14T14:23:12Z</date>
+					<date>2010-10-21T08:34:24Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -29,7 +29,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>c54a7dfaab5b063b9744a4bf853be3af
+					<string>01e0896c3e22a439be7ccf8ed43ab5e4
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -256,31 +256,6 @@
 								<string>Comment</string>
 								<key>ru</key>
 								<string>Комментарий</string>
-							</dict>
-							<key>snapshots</key>
-							<dict/>
-						</dict>
-						<dict>
-							<key>change date</key>
-							<date>2001-01-01T00:00:00Z</date>
-							<key>changed values</key>
-							<array/>
-							<key>class</key>
-							<string>BLStringKeyObject</string>
-							<key>comment</key>
-							<string>correspondents</string>
-							<key>errors</key>
-							<array/>
-							<key>flags</key>
-							<integer>0</integer>
-							<key>key</key>
-							<string>correspondents</string>
-							<key>localizations</key>
-							<dict>
-								<key>en</key>
-								<string>correspondents</string>
-								<key>ru</key>
-								<string>корреспонденты</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -643,6 +618,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>Page</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Page</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Page</string>
+								<key>ru</key>
+								<string>Страница</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>page</string>
 							<key>errors</key>
 							<array/>
@@ -655,7 +655,7 @@
 								<key>en</key>
 								<string>page</string>
 								<key>ru</key>
-								<string>страница</string>
+								<string>Страница</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -1093,6 +1093,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>Unable to synchronyze</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Unable to synchronyze</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Unable to synchronyze</string>
+								<key>ru</key>
+								<string>Не могу синхронизироваться</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>Username</string>
 							<key>errors</key>
 							<array/>
@@ -1334,6 +1359,31 @@
 								<string>Author</string>
 								<key>ru</key>
 								<string>Автор</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>correspondents</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>correspondents</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>correspondents</string>
+								<key>ru</key>
+								<string>корреспонденты</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>

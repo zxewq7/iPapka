@@ -15,6 +15,7 @@
 @private BOOL isSyncing;
 @private BOOL allRequestsSent;
 @private BOOL hasError;
+@private BOOL requestComplete;
 }
 
 @property (nonatomic, readonly) BOOL isSyncing;
