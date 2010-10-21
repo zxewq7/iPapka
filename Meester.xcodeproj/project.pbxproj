@@ -179,6 +179,7 @@
 		81D60429123ACBEA00CEAF75 /* PaintingToolsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */; };
 		81DE8A2C1266090600C50D9B /* _DocumentResolutionAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DE8A291266090600C50D9B /* _DocumentResolutionAbstract.m */; };
 		81DE8A2D1266090600C50D9B /* DocumentResolutionAbstract.m in Sources */ = {isa = PBXBuildFile; fileRef = 81DE8A2B1266090600C50D9B /* DocumentResolutionAbstract.m */; };
+		81E0E2791270698000A80CF8 /* AZZUIImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E0E2781270698000A80CF8 /* AZZUIImage.m */; };
 		81E284C51254FFF6001ED66E /* _Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E284C41254FFF6001ED66E /* _Document.m */; };
 		81E285081255018D001ED66E /* _Attachment.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E285071255018D001ED66E /* _Attachment.m */; };
 		81E2853112550292001ED66E /* _Person.m in Sources */ = {isa = PBXBuildFile; fileRef = 81E2853012550292001ED66E /* _Person.m */; };
@@ -470,6 +471,8 @@
 		81DE8A291266090600C50D9B /* _DocumentResolutionAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DocumentResolutionAbstract.m; sourceTree = "<group>"; };
 		81DE8A2A1266090600C50D9B /* DocumentResolutionAbstract.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentResolutionAbstract.h; sourceTree = "<group>"; };
 		81DE8A2B1266090600C50D9B /* DocumentResolutionAbstract.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentResolutionAbstract.m; sourceTree = "<group>"; };
+		81E0E2771270698000A80CF8 /* AZZUIImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZUIImage.h; path = thirdparty/AZZUIImage.h; sourceTree = "<group>"; };
+		81E0E2781270698000A80CF8 /* AZZUIImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZUIImage.m; path = thirdparty/AZZUIImage.m; sourceTree = "<group>"; };
 		81E284C31254FFF6001ED66E /* _Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Document.h; sourceTree = "<group>"; };
 		81E284C41254FFF6001ED66E /* _Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _Document.m; sourceTree = "<group>"; };
 		81E285061255018D001ED66E /* _Attachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _Attachment.h; sourceTree = "<group>"; };
@@ -844,6 +847,8 @@
 		8165422412379B44008FC80F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				81E0E2771270698000A80CF8 /* AZZUIImage.h */,
+				81E0E2781270698000A80CF8 /* AZZUIImage.m */,
 				813011E9126DDFF2002ADE40 /* AZZCalloutView.h */,
 				813011EA126DDFF2002ADE40 /* AZZCalloutView.m */,
 				81775FCC1251F74E002A2D3D /* JSON */,
@@ -1180,6 +1185,7 @@
 				8151B8CF12674CAB00AAFEA9 /* LNNetwork.m in Sources */,
 				813011E8126DDE05002ADE40 /* PageControl.m in Sources */,
 				813011EB126DDFF2002ADE40 /* AZZCalloutView.m in Sources */,
+				81E0E2791270698000A80CF8 /* AZZUIImage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -23,6 +23,7 @@
 #import "AttachmentPagePainting.h"
 #import "DocumentResolutionParent.h"
 #import "DocumentResolutionAbstract.h"
+#import "AZZUIImage.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -85,6 +86,7 @@ static NSString *url_LinkAttachmentFetchPaintingFormat = @"/document/%@/link/%@/
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(DocumentResolutionAbstract *) resolution fromDictionary:(NSDictionary *) dictionary;
 - (void) fetchResources;
+- (void) optimizeImage:(NSString *) path;
 @end
 static NSString* OperationCount = @"OperationCount";
 
@@ -793,6 +795,7 @@ static NSString* OperationCount = @"OperationCount";
     {
         if ([request error] == nil  && [request responseStatusCode] == 200)
         {
+            [self optimizeImage:page.pathImage];
             page.syncStatusValue = SyncStatusSynced;
         }
         else
@@ -824,6 +827,10 @@ static NSString* OperationCount = @"OperationCount";
     {
         if ([request error] == nil  && [request responseStatusCode] == 200)
         {
+
+            if ([file isKindOfClass:[AttachmentPagePainting class]])
+                [self optimizeImage:file.path];
+            
             file.syncStatusValue = SyncStatusSynced;
         }
         else
@@ -909,5 +916,26 @@ static NSString* OperationCount = @"OperationCount";
     NSArray *unfetchedFiles = [self.dataSource documentReaderUnfetchedFiles:self];
     for(FileField *file in unfetchedFiles)
         [self fetchFile:file];
+}
+
+- (void) optimizeImage:(NSString *) path
+{
+    UIImage *image = [UIImage imageWithContentsOfFile:path];
+    
+    CGSize size = image.size;
+    
+    CGFloat maxSize = MAX(size.width, size.height);
+
+    CGFloat scale = 0.0f;
+    
+    if (maxSize > 1024.0f)
+        scale = 1024.0f / maxSize;
+    
+    if (scale != 0.0f)
+    {
+        UIImage *scaledImage = [image scaleToSize:CGSizeMake(size.width * scale, size.height * scale)];
+        NSData *data = UIImagePNGRepresentation(scaledImage);
+        [data writeToFile: path atomically:YES];
+    }
 }
 @end
