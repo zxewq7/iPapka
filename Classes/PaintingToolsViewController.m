@@ -124,6 +124,19 @@ static NSString* ColorContext = @"ColorContext";
 //   spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
 }
 
+-(void) cancel
+{
+    if (self.tool != PaintingToolNone)
+    {
+        UIButton *button = (UIButton *)[self.view viewWithTag:self.tool];
+        button.selected = NO;
+    }
+    self.tool = PaintingToolNone;
+    
+    if ([delegate respondsToSelector:@selector(paintingView:tool:)])
+        [delegate paintingView:self tool:self.tool];
+}
+
 -(void) selectTool:(id) sender
 {
     UIButton *toolButton = (UIButton *)sender;

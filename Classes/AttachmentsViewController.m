@@ -288,6 +288,9 @@ typedef enum _TapPosition{
 }
 - (void) setPages
 {
+    //cancel all paintings
+    [paintingTools cancel];
+    
     NSUInteger numberOfPages = pageControl.numberOfPages;
     NSUInteger currentIndex = pageControl.currentPage;
     NSInteger direction = (pageControl.currentPage < currentPageIndex?-1:1);
