@@ -13,6 +13,7 @@
 #import "UIButton+Additions.h"
 #import "Person.h"
 #import "DocumentResolution.h"
+#import "DocumentCellView.h"
 
 #define ROW_HEIGHT 94
 
@@ -140,15 +141,34 @@ static NSString* SyncingContext = @"SyncingContext";
         // Dequeue or create a cell of the appropriate type.
     UITableViewCell *cell = [self.tableView dequeueReusableCellWithIdentifier:CellIdentifier];
 	if (cell == nil) {
-		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
-        cell.textLabel.highlightedTextColor = [UIColor whiteColor];
-        cell.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
-        cell.detailTextLabel.textColor = [UIColor darkGrayColor];
+		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        
+        DocumentCellView *contentView = [[DocumentCellView alloc] initWithFrame:CGRectMake(0, 0, 540, aTableView.rowHeight)];
+
+        contentView.textLabel.font = [UIFont boldSystemFontOfSize:18.f];
+        contentView.textLabel.highlightedTextColor = [UIColor whiteColor];
+        
+        contentView.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
+        contentView.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
+        contentView.detailTextLabel.textColor = [UIColor darkGrayColor];
+
+        [cell.contentView addSubview:contentView];
+
+        [contentView release];
+
 	}
+    DocumentCellView *contentView = [cell.contentView.subviews objectAtIndex:0];
     
         // Set appropriate labels for the cells.
     Document *doc = [fetchedResultsController objectAtIndexPath:indexPath];
-    cell.textLabel.text = doc.title;
+
+    contentView.textLabel.text = doc.title;
+    
+    if ([document.attachments count] > 1 || [document.links count])
+        contentView.attachmentImageView.image = [UIImage imageNamed:@"Attachment.png"];
+    else
+        contentView.attachmentImageView.image = nil;
+
     NSString *details;
     
     if ([doc isKindOfClass:[DocumentResolution class]])
@@ -163,9 +183,9 @@ static NSString* SyncingContext = @"SyncingContext";
     else
         details = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate: doc.registrationDate]];
     
-    cell.detailTextLabel.text = details;
+    contentView.detailTextLabel.text = details;
     
-    cell.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
+    contentView.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
     return cell;
 }
 
