@@ -679,6 +679,10 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81779279127352000026650E /* FormLogoView.h */,
+				8177927A127352000026650E /* FormLogoView.m */,
+				819B5C8812730D7000594E0D /* DocumentCellView.h */,
+				819B5C8912730D7000594E0D /* DocumentCellView.m */,
 				813011E6126DDE05002ADE40 /* PageControl.h */,
 				813011E7126DDE05002ADE40 /* PageControl.m */,
 				8124C7FB125E15C90031C07E /* IntRow.h */,
@@ -792,10 +796,6 @@
 				8155A5F61237AF8500A15FE5 /* Model */,
 				8155A5F51237AF6F00A15FE5 /* Controller */,
 				8155A5F41237AF4800A15FE5 /* View */,
-				81779279127352000026650E /* FormLogoView.h */,
-				8177927A127352000026650E /* FormLogoView.m */,
-				819B5C8812730D7000594E0D /* DocumentCellView.h */,
-				819B5C8912730D7000594E0D /* DocumentCellView.m */,
 				816541E812379B3B008FC80F /* AppDelegate.h */,
 				816541E912379B3B008FC80F /* AppDelegate.m */,
 			);
