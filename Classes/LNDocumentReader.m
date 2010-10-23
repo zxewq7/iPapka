@@ -517,7 +517,7 @@ static NSString* OperationCount = @"OperationCount";
         }
         
         NSString *dateModifiedString = [parsedDocument objectForKey:field_Modified];
-#warning fake date modified
+#warning wrong date modified
         dateModifiedString = @"20101022T183214,25+04";
         
         NSDate *dateModified = nil;
@@ -586,6 +586,15 @@ static NSString* OperationCount = @"OperationCount";
         
         document.correspondents = [subDocument objectForKey:field_Correspondents];
 
+        NSNumber *priority = [parsedDocument objectForKey:field_Priority];
+#warning wrong priority
+        priority = [NSNumber numberWithInt:0];
+        
+        if ([priority intValue]>0)
+            document.priorityValue = DocumentPriorityHigh;
+        else
+            document.priorityValue = DocumentPriorityNormal;
+        
         
         NSDate *dDegistrationDate = nil;
         NSString *sDegistrationDate = [subDocument objectForKey:field_RegistrationDate];

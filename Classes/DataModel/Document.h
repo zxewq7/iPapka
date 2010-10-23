@@ -13,6 +13,13 @@ typedef enum _SyncStatus {
     SyncStatusNeedSyncFromServer = 2,
 } SyncStatus;
 
+typedef enum _DocumentPriority 
+{
+    DocumentPriorityNormal = 0,
+	DocumentPriorityHigh = 1
+} DocumentPriority;
+
+
 @class Attachment;
 
 @interface Document : _Document 
