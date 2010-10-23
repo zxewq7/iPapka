@@ -158,7 +158,6 @@ static NSString* ColorContext = @"ColorContext";
 
 -(void) pickColor:(id) sender
 {
-    paletteButton.selected = YES;
     if (!colorPicker)
     {
         colorPicker = [[ColorPicker alloc] init];
@@ -166,7 +165,7 @@ static NSString* ColorContext = @"ColorContext";
                       forKeyPath:@"color"
                         options:0
                          context:&ColorContext];
-
+        colorPicker.color = self.color;
     }
     if (!popoverController)
     {
@@ -174,10 +173,10 @@ static NSString* ColorContext = @"ColorContext";
         popoverController.delegate = self;
     }
     
-    colorPicker.color = self.color;
     UIView *button = (UIView *)sender;
     CGRect targetRect = button.frame;
 	[popoverController presentPopoverFromRect: targetRect inView:[button superview] permittedArrowDirections:UIPopoverArrowDirectionLeft animated:YES];
+    paletteButton.selected = YES;
 }
 
 #pragma mark -
