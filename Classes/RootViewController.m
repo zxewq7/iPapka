@@ -102,7 +102,7 @@ static NSString* LinkContext          = @"LinkContext";
     //clipper
     clipperViewController = [[ClipperViewController alloc] init];
     CGRect clipperFrame = clipperViewController.view.frame;
-    clipperFrame.origin.x = (viewBounds.size.width - clipperFrame.size.width)/2;
+    clipperFrame.origin.x = round((viewBounds.size.width - clipperFrame.size.width) / 2);
     clipperFrame.origin.y = 0;
     clipperViewController.view.frame = clipperFrame;
     clipperViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
