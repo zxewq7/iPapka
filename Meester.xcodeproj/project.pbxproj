@@ -129,6 +129,8 @@
 		81775FDA1251F74E002A2D3D /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FD31251F74E002A2D3D /* SBJsonBase.m */; };
 		81775FDB1251F74E002A2D3D /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FD51251F74E002A2D3D /* SBJsonParser.m */; };
 		81775FDC1251F74E002A2D3D /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FD71251F74E002A2D3D /* SBJsonWriter.m */; };
+		8177927B127352000026650E /* FormLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8177927A127352000026650E /* FormLogoView.m */; };
+		8177927D127353D50026650E /* DefaultFormLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8177927C127353D50026650E /* DefaultFormLogo.png */; };
 		817FF5A11272FE8F00B17C7E /* Attachment.png in Resources */ = {isa = PBXBuildFile; fileRef = 817FF5A01272FE8F00B17C7E /* Attachment.png */; };
 		8180B8511265DBDB00558A73 /* LNPersonReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8180B8501265DBDB00558A73 /* LNPersonReader.m */; };
 		8180B8C21265FD1F00558A73 /* _DocumentLink.m in Sources */ = {isa = PBXBuildFile; fileRef = 8180B8BF1265FD1F00558A73 /* _DocumentLink.m */; };
@@ -155,7 +157,6 @@
 		81A1B761123E557C0089C988 /* ResolutionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A1B760123E557C0089C988 /* ResolutionViewController.m */; };
 		81B104BB1243AD2100AFB109 /* DotCurrent.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104B91243AD2100AFB109 /* DotCurrent.png */; };
 		81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104BA1243AD2100AFB109 /* DotNormal.png */; };
-		81B105AE1243C28F00AFB109 /* ResolutionLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B105AD1243C28F00AFB109 /* ResolutionLogo.png */; };
 		81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B105C01243C44700AFB109 /* PerformersViewController.m */; };
 		81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */; };
 		81B2730B1248EED60012FE9A /* AZZAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */; };
@@ -408,6 +409,9 @@
 		81775FD51251F74E002A2D3D /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
 		81775FD61251F74E002A2D3D /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
 		81775FD71251F74E002A2D3D /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		81779279127352000026650E /* FormLogoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FormLogoView.h; sourceTree = "<group>"; };
+		8177927A127352000026650E /* FormLogoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FormLogoView.m; sourceTree = "<group>"; };
+		8177927C127353D50026650E /* DefaultFormLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DefaultFormLogo.png; sourceTree = "<group>"; };
 		817FF5A01272FE8F00B17C7E /* Attachment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Attachment.png; sourceTree = "<group>"; };
 		8180B84F1265DBDB00558A73 /* LNPersonReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNPersonReader.h; sourceTree = "<group>"; };
 		8180B8501265DBDB00558A73 /* LNPersonReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNPersonReader.m; sourceTree = "<group>"; };
@@ -441,7 +445,6 @@
 		81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
 		81B104B91243AD2100AFB109 /* DotCurrent.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotCurrent.png; sourceTree = "<group>"; };
 		81B104BA1243AD2100AFB109 /* DotNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotNormal.png; sourceTree = "<group>"; };
-		81B105AD1243C28F00AFB109 /* ResolutionLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResolutionLogo.png; sourceTree = "<group>"; };
 		81B105BF1243C44700AFB109 /* PerformersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformersViewController.h; sourceTree = "<group>"; };
 		81B105C01243C44700AFB109 /* PerformersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformersViewController.m; sourceTree = "<group>"; };
 		81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewWithPlaceholder.h; sourceTree = "<group>"; };
@@ -589,6 +592,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				8177927C127353D50026650E /* DefaultFormLogo.png */,
 				817FF5A01272FE8F00B17C7E /* Attachment.png */,
 				81600835126E091B00C5A7DF /* IconAudio.png */,
 				81600836126E091B00C5A7DF /* IconText.png */,
@@ -620,7 +624,6 @@
 				8157959D12468130002A42C0 /* ButtonRecord.png */,
 				8157959B1246802B002A42C0 /* TwoRows.png */,
 				8149BA8A1244D77700D028EE /* ButtonPerformer.png */,
-				81B105AD1243C28F00AFB109 /* ResolutionLogo.png */,
 				81B104B91243AD2100AFB109 /* DotCurrent.png */,
 				81B104BA1243AD2100AFB109 /* DotNormal.png */,
 				8136E05E12439120008D68AB /* PageControlBackground.png */,
@@ -789,6 +792,8 @@
 				8155A5F61237AF8500A15FE5 /* Model */,
 				8155A5F51237AF6F00A15FE5 /* Controller */,
 				8155A5F41237AF4800A15FE5 /* View */,
+				81779279127352000026650E /* FormLogoView.h */,
+				8177927A127352000026650E /* FormLogoView.m */,
 				819B5C8812730D7000594E0D /* DocumentCellView.h */,
 				819B5C8912730D7000594E0D /* DocumentCellView.m */,
 				816541E812379B3B008FC80F /* AppDelegate.h */,
@@ -1070,7 +1075,6 @@
 				8136E05F12439120008D68AB /* PageControlBackground.png in Resources */,
 				81B104BB1243AD2100AFB109 /* DotCurrent.png in Resources */,
 				81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */,
-				81B105AE1243C28F00AFB109 /* ResolutionLogo.png in Resources */,
 				8149BA8B1244D77700D028EE /* ButtonPerformer.png in Resources */,
 				8157959C1246802B002A42C0 /* TwoRows.png in Resources */,
 				8157959E12468130002A42C0 /* ButtonRecord.png in Resources */,
@@ -1103,6 +1107,7 @@
 				81600837126E091B00C5A7DF /* IconAudio.png in Resources */,
 				81600838126E091B00C5A7DF /* IconText.png in Resources */,
 				817FF5A11272FE8F00B17C7E /* Attachment.png in Resources */,
+				8177927D127353D50026650E /* DefaultFormLogo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1196,6 +1201,7 @@
 				813011EB126DDFF2002ADE40 /* AZZCalloutView.m in Sources */,
 				81E0E2791270698000A80CF8 /* AZZUIImage.m in Sources */,
 				819B5C8A12730D7000594E0D /* DocumentCellView.m in Sources */,
+				8177927B127352000026650E /* FormLogoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
