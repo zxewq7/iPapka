@@ -96,13 +96,13 @@
     
         // center horizontally
     if (frameToCenter.size.width < boundsSize.width)
-        frameToCenter.origin.x = (boundsSize.width - frameToCenter.size.width) / 2;
+        frameToCenter.origin.x = round((boundsSize.width - frameToCenter.size.width) / 2);
     else
         frameToCenter.origin.x = 0;
     
         // center vertically
     if (frameToCenter.size.height < boundsSize.height)
-        frameToCenter.origin.y = (boundsSize.height - frameToCenter.size.height) / 2;
+        frameToCenter.origin.y = round((boundsSize.height - frameToCenter.size.height) / 2);
     else
         frameToCenter.origin.y = 0;
     
@@ -226,8 +226,8 @@
         // 2a: convert our desired center point back to our own coordinate space
     CGPoint boundsCenter = [self convertPoint:oldCenter fromView:imageView];
         // 2b: calculate the content offset that would yield that center point
-    CGPoint offset = CGPointMake(boundsCenter.x - self.bounds.size.width / 2.0, 
-                                 boundsCenter.y - self.bounds.size.height / 2.0);
+    CGPoint offset = CGPointMake(boundsCenter.x - round(self.bounds.size.width / 2.0), 
+                                 boundsCenter.y - round(self.bounds.size.height / 2.0));
         // 2c: restore offset, adjusted to be within the allowable range
     CGPoint maxOffset = [self maximumContentOffset];
     CGPoint minOffset = [self minimumContentOffset];

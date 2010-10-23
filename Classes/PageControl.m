@@ -44,7 +44,7 @@ static NSString *SliderContext = @"SliderContext";
         [backgroundView release];
         
         //dots
-        CGRect dotsViewFrame = CGRectMake(0, round((self.frame.size.height - dotSize.height)/2), 0, dotSize.height);
+        CGRect dotsViewFrame = CGRectMake(0, round((self.frame.size.height - dotSize.height) / 2), 0, dotSize.height);
         dotsView = [[UIView alloc] initWithFrame:dotsViewFrame];
         dotsView.frame = dotsViewFrame;
         
@@ -73,7 +73,7 @@ static NSString *SliderContext = @"SliderContext";
 
         CGSize calloutTitleLabelSize = calloutTitleLabel.frame.size;
         
-        CGRect calloutTitleLabelFrame = CGRectMake(0, (calloutContentViewSize.height - calloutTitleLabelSize.height)/2, calloutTitleLabelSize.width, calloutTitleLabelSize.height);
+        CGRect calloutTitleLabelFrame = CGRectMake(0, round((calloutContentViewSize.height - calloutTitleLabelSize.height) / 2), calloutTitleLabelSize.width, calloutTitleLabelSize.height);
         calloutTitleLabel.frame = calloutTitleLabelFrame;
         
         calloutTitleLabel.text = nil;
@@ -123,7 +123,7 @@ static NSString *SliderContext = @"SliderContext";
         
         CGSize titleLabelSize = titleLabel.frame.size;
         
-        titleLabel.frame = CGRectMake(frame.size.width - titleLabelSize.width, (frame.size.height - titleLabelSize.height)/2, titleLabelSize.width, titleLabelSize.height);
+        titleLabel.frame = CGRectMake(frame.size.width - titleLabelSize.width, round((frame.size.height - titleLabelSize.height) / 2), titleLabelSize.width, titleLabelSize.height);
         titleLabel.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
         
         titleLabel.text = nil;
@@ -171,7 +171,7 @@ static NSString *SliderContext = @"SliderContext";
         dotsWidth = dotSize.width * floor(maxWidth / dotSize.width);
     CGRect dotsFrame = dotsView.frame;
     dotsFrame.size.width = dotsWidth;
-    dotsFrame.origin.x = (viewWidth - dotsWidth)/2;
+    dotsFrame.origin.x = round((viewWidth - dotsWidth) / 2);
     dotsView.frame = dotsFrame;
     slider.frame = dotsFrame;
     
@@ -296,7 +296,7 @@ static NSString *SliderContext = @"SliderContext";
     if (numberOfIcons)
     {
         CGSize iconSize = ((UIImage *)[icons objectAtIndex:0]).size;
-        CGRect iconFrame = CGRectMake(0, (calloutIconsViewFrame.size.height - iconSize.height) / 2, iconSize.width, iconSize.height);
+        CGRect iconFrame = CGRectMake(0, round((calloutIconsViewFrame.size.height - iconSize.height) / 2), iconSize.width, iconSize.height);
         
         for (UIImage *icon in icons)
         {
@@ -356,7 +356,7 @@ static NSString *SliderContext = @"SliderContext";
         CGRect rect = sliderThumbView.frame;
         CGRect calloutViewFrame = calloutView.frame;
         
-        calloutViewFrame.origin.x = rect.origin.x - (calloutViewFrame.size.width / 2) + slider.frame.origin.x + (rect.size.width / 2);
+        calloutViewFrame.origin.x = rect.origin.x - round(calloutViewFrame.size.width / 2) + slider.frame.origin.x + round(rect.size.width / 2);
         calloutViewFrame.origin.y = rect.origin.y - calloutViewFrame.size.height;
         calloutView.frame = calloutViewFrame;
         

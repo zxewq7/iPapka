@@ -77,7 +77,7 @@
     
     [resolutionSwitcher sizeToFit];
     CGSize switcherSize = resolutionSwitcher.frame.size;
-    resolutionSwitcher.frame = CGRectMake((viewSize.width - switcherSize.width)/2, 44, switcherSize.width, switcherSize.height);
+    resolutionSwitcher.frame = CGRectMake(round((viewSize.width - switcherSize.width) / 2), 44, switcherSize.width, switcherSize.height);
     
     [resolutionSwitcher addTarget:self action:@selector(showParentResolution:) forControlEvents:UIControlEventValueChanged];
     
@@ -87,7 +87,7 @@
     UIImageView *logo = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"ResolutionLogo.png"]];
     
     CGSize logoSize = logo.frame.size;
-    CGRect logoFrame = CGRectMake((viewSize.width - logoSize.width)/2, 83, logoSize.width, logoSize.height);
+    CGRect logoFrame = CGRectMake(round((viewSize.width - logoSize.width) / 2), 83, logoSize.width, logoSize.height);
     logo.frame = logoFrame;
     
     [self.view addSubview: logo];
@@ -209,7 +209,7 @@
 
     twoRows.frame = twoRowsFrame;
     
-    CGFloat oneRowHeight = twoRowsFrame.size.height/2;
+    CGFloat oneRowHeight = round(twoRowsFrame.size.height / 2);
     
     //label Managed
     UILabel *labelManaged = [[UILabel alloc] initWithFrame: CGRectZero];
@@ -245,7 +245,7 @@
     
     managedButtonFrame.origin.x = twoRowsFrame.size.width - managedButtonFrame.size.width - 12.0f;;
     
-    managedButtonFrame.origin.y = (oneRowHeight - labelManagedFrame.size.height)/2;
+    managedButtonFrame.origin.y = round((oneRowHeight - labelManagedFrame.size.height) / 2);
     
     managedButton.frame = managedButtonFrame;
     

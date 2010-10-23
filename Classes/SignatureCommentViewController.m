@@ -68,7 +68,7 @@
     UIImageView *logo = [[UIImageView alloc] initWithImage: [UIImage imageNamed: @"ResolutionLogo.png"]];
     
     CGSize logoSize = logo.frame.size;
-    CGRect logoFrame = CGRectMake((viewSize.width - logoSize.width)/2, 83, logoSize.width, logoSize.height);
+    CGRect logoFrame = CGRectMake(round((viewSize.width - logoSize.width) / 2), 83, logoSize.width, logoSize.height);
     logo.frame = logoFrame;
     
     [self.view addSubview: logo];

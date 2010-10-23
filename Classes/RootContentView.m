@@ -87,7 +87,7 @@
     UIView *resolution = self.resolution;
     
     CGRect resolutionFrame = resolution.frame;
-    resolutionFrame.origin.x = (size.width-resolutionFrame.size.width)/2;
+    resolutionFrame.origin.x = round((size.width-resolutionFrame.size.width) / 2);
     resolutionFrame.origin.y = 0;
     resolution.frame = resolutionFrame;
 
@@ -95,7 +95,7 @@
     UIView *signatureComment = self.signatureComment;
 
     CGRect signatureCommentFrame = signatureComment.frame;
-    signatureCommentFrame.origin.x = (size.width-signatureCommentFrame.size.width)/2;
+    signatureCommentFrame.origin.x = round((size.width-signatureCommentFrame.size.width) / 2);
     signatureCommentFrame.origin.y = 0;
     signatureComment.frame = signatureCommentFrame;
 

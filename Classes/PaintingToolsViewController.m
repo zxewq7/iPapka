@@ -284,8 +284,8 @@ static NSString* ColorContext = @"ColorContext";
     UIView *firstButton = [buttons objectAtIndex:0];
     CGSize buttonSize = firstButton.bounds.size;
     //first button without space before
-    CGFloat y = (barSize.height - (buttonSize.height + spaceBetweenButtons) * [buttons count] + spaceBetweenButtons)/2+topOffset;
-    CGFloat x = (barSize.width - buttonSize.width)/2;
+    CGFloat y = round((barSize.height - (buttonSize.height + spaceBetweenButtons) * [buttons count] + spaceBetweenButtons) / 2)+topOffset;
+    CGFloat x = round((barSize.width - buttonSize.width) / 2);
     for(UIView *button in buttons)
     {
         CGRect frame = CGRectMake(x, y, buttonSize.width, buttonSize.height);

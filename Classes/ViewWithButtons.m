@@ -97,7 +97,7 @@
                 CGRect lastInRowButton = buttonFrames[i-1];
                 CGFloat width = lastInRowButton.origin.x + lastInRowButton.size.width;
 
-                CGFloat delta = (boundsSize.width - width) / 2;
+                CGFloat delta = round((boundsSize.width - width) / 2);
                 if (delta > 0.0f)
                 {
                     for (NSUInteger ii = rowStart; ii < i; ii++)
@@ -111,7 +111,7 @@
 
         CGRect lastInRowButton = buttonFrames[numButtons-1];
         CGFloat width = lastInRowButton.origin.x + lastInRowButton.size.width;
-        CGFloat delta = (boundsSize.width - width) / 2;
+        CGFloat delta = round((boundsSize.width - width) / 2);
         if (delta > 0.0f) //fix x in row
         {
             for (NSUInteger ii = rowStart; ii < numButtons; ii++)

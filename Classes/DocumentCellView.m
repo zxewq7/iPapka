@@ -49,7 +49,7 @@
     //imageView
     CGSize imageViewSize = imageView.image.size;
     CGRect imageViewFrame = CGRectMake(kLeftMargin, 
-                                       (size.height - imageViewSize.height) / 2, 
+                                       round((size.height - imageViewSize.height) / 2), 
                                        imageViewSize.width, 
                                        imageViewSize.height);
     imageView.frame = imageViewFrame;
@@ -71,7 +71,7 @@
     CGFloat textLabelMinusWidth = (attachmentImageViewSize.width >0 ?(attachmentImageViewSize.width + kSpaceBetweenTextLabelAndAttachmentImageView):0);
     
     CGRect textLabelFrame = CGRectMake(labelLeftMargin, 
-                                       (size.height - labelsHeight) / 2, 
+                                       round((size.height - labelsHeight) / 2), 
                                        ((textLabel.bounds.size.width + textLabelMinusWidth) > labelWidth?(labelWidth - textLabelMinusWidth):textLabel.bounds.size.width), 
                                        textLabel.bounds.size.height);
     textLabel.frame = textLabelFrame;
@@ -86,7 +86,7 @@
     
     //attachmentImageView
     CGRect attachmentImageViewFrame = CGRectMake(textLabelFrame.origin.x + textLabelFrame.size.width + kSpaceBetweenTextLabelAndAttachmentImageView, 
-                                       textLabelFrame.origin.y + (textLabelFrame.size.height - attachmentImageViewSize.height)/2, 
+                                       textLabelFrame.origin.y + round((textLabelFrame.size.height - attachmentImageViewSize.height) / 2), 
                                        attachmentImageViewSize.width, 
                                        attachmentImageViewSize.height);
     attachmentImageView.frame = attachmentImageViewFrame;

@@ -105,7 +105,7 @@
     [content layoutSubviews];
     
     CGRect contentFrame = content.frame;
-    contentFrame.origin.x = (size.width-contentFrame.size.width)/2;
+    contentFrame.origin.x = round((size.width-contentFrame.size.width) / 2);
     contentFrame.origin.y = 43;
     content.frame = contentFrame;
 
@@ -115,7 +115,7 @@
     [paper layoutSubviews];
     
     CGRect paperFrame = paper.frame;
-    paperFrame.origin.x = (size.width-paperFrame.size.width)/2;
+    paperFrame.origin.x = round((size.width-paperFrame.size.width) / 2);
     paperFrame.origin.y = 43;
     paper.frame = paperFrame;
     
