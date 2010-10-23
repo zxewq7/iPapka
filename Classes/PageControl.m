@@ -44,10 +44,9 @@ static NSString *SliderContext = @"SliderContext";
         [backgroundView release];
         
         //dots
-        CGRect dotsViewFrame = CGRectMake(0, (self.frame.size.height - dotSize.height)/2, 0, dotSize.height);
+        CGRect dotsViewFrame = CGRectMake(0, round((self.frame.size.height - dotSize.height)/2), 0, dotSize.height);
         dotsView = [[UIView alloc] initWithFrame:dotsViewFrame];
         dotsView.frame = dotsViewFrame;
-        dotsView.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         
         [self addSubview:dotsView];
 
@@ -95,7 +94,6 @@ static NSString *SliderContext = @"SliderContext";
         //slider
         CGRect sliderFrame = CGRectMake(0,0,frame.size.width, frame.size.height);
         slider = [[UISlider alloc] initWithFrame:sliderFrame];
-        slider.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
         
         [slider setMinimumTrackImage:nil forState:UIControlStateNormal];
         [slider setMaximumTrackImage:nil forState:UIControlStateNormal];
@@ -142,27 +140,6 @@ static NSString *SliderContext = @"SliderContext";
 
     numberOfPages = number;
     
-    CGFloat dotsWidth = numberOfPages * dotSize.width;
-    CGFloat viewWidth = self.frame.size.width;
-    
-    if (dotsWidth > viewWidth)
-        dotsWidth = dotSize.width * floor(viewWidth / dotSize.width);
-    CGRect dotsFrame = dotsView.frame;
-    dotsFrame.size.width = dotsWidth;
-    dotsFrame.origin.x = (viewWidth - dotsWidth)/2;
-    dotsView.frame = dotsFrame;
-    slider.frame = dotsFrame;
-    
-    NSUInteger numberOfDots = floor(dotsWidth / dotSize.width);
-    
-    for (NSUInteger i = 0; i < numberOfDots; i++)
-    {
-        UIImageView *dotView = [[UIImageView alloc] initWithImage:dotImage];
-        CGRect dotsViewFrame = dotView.frame;
-        dotsViewFrame.origin.x = i*dotSize.width;
-        dotView.frame = dotsViewFrame;
-        [dotsView addSubview: dotView];
-    }
     slider.minimumValue = 0;
     slider.maximumValue = numberOfPages - 1;
     slider.value = 0;
@@ -179,6 +156,41 @@ static NSString *SliderContext = @"SliderContext";
     }
     
     [self updateContent];
+    [self setNeedsLayout];
+}
+
+- (void)layoutSubviews 
+{
+    [super layoutSubviews];
+    
+    CGFloat dotsWidth = numberOfPages * dotSize.width;
+    CGFloat viewWidth = self.frame.size.width;
+    CGFloat maxWidth = viewWidth - 150;
+    
+    if (dotsWidth > maxWidth)
+        dotsWidth = dotSize.width * floor(maxWidth / dotSize.width);
+    CGRect dotsFrame = dotsView.frame;
+    dotsFrame.size.width = dotsWidth;
+    dotsFrame.origin.x = (viewWidth - dotsWidth)/2;
+    dotsView.frame = dotsFrame;
+    slider.frame = dotsFrame;
+    
+    NSUInteger numberOfDots = floor(dotsWidth / dotSize.width);
+    
+    NSUInteger currentNumberOfDots = [dotsView.subviews count];
+    
+    for (NSUInteger i = currentNumberOfDots; i < numberOfDots; i++)
+    {
+        UIImageView *dotView = [[UIImageView alloc] initWithImage:dotImage];
+        CGRect dotsViewFrame = dotView.frame;
+        dotsViewFrame.origin.x = i*dotSize.width;
+        dotView.frame = dotsViewFrame;
+        [dotsView addSubview: dotView];
+    }
+    
+    for (NSUInteger i = numberOfDots; i < currentNumberOfDots; i++)
+        [[dotsView.subviews lastObject] removeFromSuperview];
+    
 }
 
 - (void)setCurrentPage:(NSUInteger) number
