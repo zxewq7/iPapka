@@ -35,6 +35,32 @@
 
 
 
+@dynamic priority;
+
+
+
+- (short)priorityValue {
+	NSNumber *result = [self priority];
+	return [result shortValue];
+}
+
+- (void)setPriorityValue:(short)value_ {
+	[self setPriority:[NSNumber numberWithShort:value_]];
+}
+
+- (short)primitivePriorityValue {
+	NSNumber *result = [self primitivePriority];
+	return [result shortValue];
+}
+
+- (void)setPrimitivePriorityValue:(short)value_ {
+	[self setPrimitivePriority:[NSNumber numberWithShort:value_]];
+}
+
+
+
+
+
 @dynamic uid;
 
 
@@ -43,6 +69,27 @@
 
 
 @dynamic title;
+
+
+
+
+
+
+@dynamic path;
+
+
+
+
+
+
+@dynamic registrationNumber;
+
+
+
+
+
+
+@dynamic dateModified;
 
 
 
@@ -75,28 +122,14 @@
 
 
 
-@dynamic path;
-
-
-
-
-
-
-@dynamic registrationNumber;
-
-
-
-
-
-
-@dynamic dateModified;
-
-
-
-
-
-
 @dynamic registrationDate;
+
+
+
+
+
+
+@dynamic version;
 
 
 

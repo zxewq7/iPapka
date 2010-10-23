@@ -18,6 +18,8 @@
 
 
 
+
+
 @class NSArray;
 
 
@@ -38,6 +40,16 @@
 
 
 
+@property (nonatomic, retain) NSNumber *priority;
+
+@property short priorityValue;
+- (short)priorityValue;
+- (void)setPriorityValue:(short)value_;
+
+//- (BOOL)validatePriority:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSString *uid;
 
 //- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
@@ -47,16 +59,6 @@
 @property (nonatomic, retain) NSString *title;
 
 //- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *syncStatus;
-
-@property short syncStatusValue;
-- (short)syncStatusValue;
-- (void)setSyncStatusValue:(short)value_;
-
-//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -78,9 +80,25 @@
 
 
 
+@property (nonatomic, retain) NSNumber *syncStatus;
+
+@property short syncStatusValue;
+- (short)syncStatusValue;
+- (void)setSyncStatusValue:(short)value_;
+
+//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSDate *registrationDate;
 
 //- (BOOL)validateRegistrationDate:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *version;
+
+//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -156,19 +174,19 @@
 
 @interface _Document (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSNumber*)primitivePriority;
+- (void)setPrimitivePriority:(NSNumber*)value;
+
+- (short)primitivePriorityValue;
+- (void)setPrimitivePriorityValue:(short)value_;
+
+
 - (NSString*)primitiveUid;
 - (void)setPrimitiveUid:(NSString*)value;
 
 
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;
-
-
-- (NSNumber*)primitiveSyncStatus;
-- (void)setPrimitiveSyncStatus:(NSNumber*)value;
-
-- (short)primitiveSyncStatusValue;
-- (void)setPrimitiveSyncStatusValue:(short)value_;
 
 
 - (NSString*)primitivePath;
@@ -183,8 +201,19 @@
 - (void)setPrimitiveDateModified:(NSDate*)value;
 
 
+- (NSNumber*)primitiveSyncStatus;
+- (void)setPrimitiveSyncStatus:(NSNumber*)value;
+
+- (short)primitiveSyncStatusValue;
+- (void)setPrimitiveSyncStatusValue:(short)value_;
+
+
 - (NSDate*)primitiveRegistrationDate;
 - (void)setPrimitiveRegistrationDate:(NSDate*)value;
+
+
+- (NSString*)primitiveVersion;
+- (void)setPrimitiveVersion:(NSString*)value;
 
 
 - (NSDate*)primitiveRegistrationDateStripped;

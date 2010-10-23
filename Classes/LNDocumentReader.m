@@ -36,8 +36,7 @@ static NSString *view_EntryDataFirstElement = @"0";
 
 static NSString *field_Title       = @"subject";
 static NSString *field_Author      = @"author";
-static NSString *field_Modified    = @"$modified";
-static NSString *field_DocumentModified    = @"modified";
+static NSString *field_Modified    = @"modified";
 static NSString *field_Subdocument = @"document";
 static NSString *field_Deadline    = @"deadline";
 static NSString *field_RegistrationDate    = @"regDate";
@@ -59,6 +58,7 @@ static NSString *field_CommentFile = @"file";
 static NSString *field_Version = @"version";
 static NSString *field_URL = @"url";
 static NSString *field_Correspondents = @"corrs";
+static NSString *field_Priority = @"priority";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -311,15 +311,19 @@ static NSString* OperationCount = @"OperationCount";
         
         NSDictionary *values = [self extractValuesFromViewColumn: entryData];
         
-        NSDate *dateModified = [values objectForKey:field_Modified];
+        NSString *version = [values objectForKey:field_Version];
         
-        NSAssert(dateModified != nil, @"Unable to find dateModified in view");
+#warning wrong document version
+        
+        version = @"unknown";
+        
+        NSAssert(version != nil, @"Unable to find version in view");
 
         Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document)
             [uidsToFetch addObject: uid];
-        else if ([document.dateModified compare: dateModified] == NSOrderedAscending)
+        else if (![document.version isEqualToString: version])
             [uidsToFetch addObject: uid];
         
         [fetchedUids addObject: uid];
@@ -512,15 +516,25 @@ static NSString* OperationCount = @"OperationCount";
             return;
         }
         
-        NSString *dateModifiedString = [parsedDocument objectForKey:field_DocumentModified];
-        NSDate *dateModified = [parseFormatterDst dateFromString:dateModifiedString];
+        NSString *dateModifiedString = [parsedDocument objectForKey:field_Modified];
+#warning fake date modified
+        dateModifiedString = @"20101022T183214,25+04";
+        
+        NSDate *dateModified = nil;
 
-        if (!dateModified)
+        if (!dateModifiedString || !(dateModified = [parseFormatterDst dateFromString:dateModifiedString]))
         {
             NSLog(@"unknown document date modified, document skipped: %@", uid);
             return;
         }
+
+        NSString *documentVersion = [parsedDocument objectForKey:field_Version];
         
+        if (!documentVersion)
+        {
+            NSLog(@"unknown document version, document skipped: %@", uid);
+            return;
+        }
         
         Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
         
@@ -553,6 +567,8 @@ static NSString* OperationCount = @"OperationCount";
             document.comment = comment;
             comment.document = document;
         }
+        
+        document.version = documentVersion;
         
         document.syncStatus = SyncStatusSynced;
 
