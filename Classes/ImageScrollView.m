@@ -10,7 +10,7 @@
 
 
 @implementation ImageScrollView
-@synthesize painting, paintingDelegate, color;
+@synthesize painting, paintingDelegate, color, isModified;
 
 -(void) setColor:(UIColor *) aColor
 {
@@ -153,6 +153,8 @@
         self.transform = CGAffineTransformMakeRotation(0);
         self.transform = CGAffineTransformMakeRotation(currentAngle);
     }
+    
+    isModified = NO;
 }
 
 - (void)setMaxMinZoomScalesForCurrentBounds
@@ -160,10 +162,10 @@
     CGSize boundsSize = self.bounds.size;
     CGSize imageSize = imageView.bounds.size;
     
-    NSUInteger minWidth = boundsSize.width;
+    NSUInteger minWidth = ceil(MIN(imageSize.width, boundsSize.width) / 32 ) * 32;
     
     //we need max zoomscales aligned to 32 multplier for drawings
-    NSUInteger maxWidth = ceil(imageSize.width / 32 ) * 32;
+    NSUInteger maxWidth = ceil(imageSize.width * 1.5f);
 
     CGFloat minScale = minWidth / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     
@@ -294,6 +296,8 @@
     
     savedPaintingView = [[UIImageView alloc] initWithImage:image];
     savedPaintingView.frame = CGRectMake(0, 0, imageOriginalSize.width, imageOriginalSize.height);
+    
+    isModified = paintingView.isModified;
     
     [paintingView removeFromSuperview];
     [paintingView release]; paintingView = nil;

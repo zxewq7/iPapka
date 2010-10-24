@@ -142,14 +142,17 @@
 
 - (void) saveContent
 {
-    NSString *paintingPath = page.painting.path;
-    UIImage *painting = imageView.painting;
-
-    if (painting)
+    if (imageView.isModified)
     {
-        NSData *paintingData = UIImagePNGRepresentation(painting);
-        [paintingData writeToFile: paintingPath atomically:YES];
-        page.painting.dateModified = [NSDate date];
+        NSString *paintingPath = page.painting.path;
+        UIImage *painting = imageView.painting;
+        
+        if (painting)
+        {
+            NSData *paintingData = UIImagePNGRepresentation(painting);
+            [paintingData writeToFile: paintingPath atomically:YES];
+            page.painting.dateModified = [NSDate date];
+        }
     }
 }
 

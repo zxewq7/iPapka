@@ -26,6 +26,7 @@
 @synthesize paintingDelegate;
 @synthesize stamps;
 @synthesize color;
+@synthesize isModified;
 
 -(void)setImage:(UIImage *) aDrawings;
 {
@@ -37,6 +38,7 @@
         savedContent = [aDrawings retain];
     }
     modifiedContentSaved = YES;
+    isModified = NO;
 }
 
 - (void) paintTexture:(UIImage *) aTexture
@@ -337,6 +339,7 @@
     [numberOfPoints release];
     numberOfPoints = [[IntRow alloc] init];
     numberOfPoints.maxSize = 5;
+    isModified = YES;
 }
 
     // Handles the continuation of a touch.

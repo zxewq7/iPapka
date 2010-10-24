@@ -68,6 +68,7 @@ typedef enum
     CGFloat minPenScale;
     CGFloat maxPenScale;
     CGFloat penScale;
+    BOOL isModified;
 }
 
 @property(nonatomic, readwrite) CGPoint location;
@@ -77,6 +78,8 @@ typedef enum
 @property(nonatomic, retain, readwrite, getter=image, setter=setImage:) UIImage *image;
 @property(nonatomic, retain, readwrite) NSMutableArray *stamps;
 @property(nonatomic, retain, readwrite) id<PaintingViewDelegate> paintingDelegate;
+
+@property(readonly) BOOL isModified;
 - (void) erase;
 - (void) saveContent;
 - (void) enableMarker:(BOOL) enabled;

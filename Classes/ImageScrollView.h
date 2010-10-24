@@ -10,8 +10,10 @@
     CGFloat             currentAngle;
     id<PaintingViewDelegate> paintingDelegate;
     UIColor             *color;
+    BOOL                isModified;
 }
 @property (nonatomic, retain) UIImage *painting;
+@property (readonly)          BOOL isModified;
 @property (nonatomic, retain) id<PaintingViewDelegate> paintingDelegate;
 @property (nonatomic, retain) UIColor *color;
 

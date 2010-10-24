@@ -449,7 +449,6 @@ static NSString* OperationCount = @"OperationCount";
                 page.numberValue = i;
                 page.syncStatusValue = SyncStatusNeedSyncFromServer;
                 AttachmentPagePainting *painting = [[self dataSource] documentReader:self createEntity:[AttachmentPagePainting class]];
-                painting.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
                 
                 if ([document isKindOfClass:[DocumentLink class]])
                 {
@@ -464,6 +463,8 @@ static NSString* OperationCount = @"OperationCount";
                 page.painting = painting;
 
                 page.attachment = attachment;
+                
+                painting.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
             }
         }
         
