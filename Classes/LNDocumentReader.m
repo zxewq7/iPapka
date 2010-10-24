@@ -458,14 +458,9 @@ static NSString* OperationCount = @"OperationCount";
                 else
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
                 
-                page.painting.syncStatusValue = SyncStatusSynced;
-                
-                page.painting = painting;
+                painting.syncStatusValue = SyncStatusSynced;
                 painting.page = page;
-                [attachment addPagesObject: page];
             }
-
-            [document addAttachmentsObject: attachment];
         }
         
         NSArray *paintings = [dictAttachment objectForKey:field_AttachmentPagePainting];
