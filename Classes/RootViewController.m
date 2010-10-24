@@ -23,6 +23,7 @@
 #import "RootBackgroundView.h"
 #import "RootContentView.h"
 #import "SignatureCommentViewController.h"
+#import "DataSource.h"
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
 static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
@@ -30,6 +31,7 @@ static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
 static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
 static NSString* LinkContext          = @"LinkContext";
+static NSString* SyncingContext       = @"SyncingContext";
 
 @interface RootViewController(Private)
 - (void) createToolbar;
@@ -258,6 +260,12 @@ static NSString* LinkContext          = @"LinkContext";
     canEdit = YES;
 
     [self updateContent];
+    
+    [[DataSource sharedDataSource] addObserver:self
+                                    forKeyPath:@"isSyncing"
+                                       options:0
+                                       context:&SyncingContext];
+
 }
 
 #pragma mark - 
@@ -471,6 +479,13 @@ static NSString* LinkContext          = @"LinkContext";
         {
             attachmentsViewController.attachment = linkedDocument.firstAttachment;
             documentInfoViewController.document = linkedDocument;
+        }
+    }
+    else if (context == &SyncingContext)
+    {
+        if (![DataSource sharedDataSource].isSyncing && (self.document == nil)) //set first document if no document
+        {
+            self.document = folder.firstDocument;
         }
     }
     else
