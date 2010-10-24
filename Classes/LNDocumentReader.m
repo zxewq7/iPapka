@@ -446,7 +446,6 @@ static NSString* OperationCount = @"OperationCount";
                 AttachmentPage *page = [[self dataSource] documentReader:self createEntity:[AttachmentPage class]];
                 page.numberValue = i;
                 page.syncStatusValue = SyncStatusNeedSyncFromServer;
-                page.attachment = attachment;
                 AttachmentPagePainting *painting = [[self dataSource] documentReader:self createEntity:[AttachmentPagePainting class]];
                 painting.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
                 
@@ -458,14 +457,24 @@ static NSString* OperationCount = @"OperationCount";
                 else
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
                 
-                page.painting.syncStatusValue = SyncStatusSynced;
+                painting.syncStatusValue = SyncStatusSynced;
                 
                 page.painting = painting;
-                painting.page = page;
-                [attachment addPagesObject: page];
+//                painting.page = page;
+                
+//                [attachment addPagesObject:page];
+//                NSMutableArray *pages = [attachment mutableOrderedValueForKey:@"pages"];
+//                if (i)
+//                    [[attachment mutableOrderedValueForKey:@"pages"] insertObject:page atIndex:i];
+//                else
+//                    [[attachment mutableSetValueForKey:@"pages"] addObject:page];
+//                [pages addObject:page];
+//                [attachment insertObject:page inOrderedValueForKey:@"pages" atIndex:i];
+                page.attachment = attachment;
+
             }
 
-            [document addAttachmentsObject: attachment];
+//            [document addAttachmentsObject: attachment];
         }
         
         NSArray *paintings = [dictAttachment objectForKey:field_AttachmentPagePainting];
