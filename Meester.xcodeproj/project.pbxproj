@@ -64,7 +64,6 @@
 		813A3CDF123B477F00E6C382 /* ButtonMarkerSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */; };
 		813A3D41123B4D5C00E6C382 /* ButtonPalette.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3D40123B4D5C00E6C382 /* ButtonPalette.png */; };
 		813A3D4B123B4F1400E6C382 /* ButtonPaletteSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */; };
-		813EF90912491E9700E52803 /* AZZAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 813EF90812491E9700E52803 /* AZZAudioPlayer.m */; };
 		813EF9A512492CA400E52803 /* ButtonPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 813EF9A412492CA400E52803 /* ButtonPlay.png */; };
 		813EF9E51249332600E52803 /* ButtonStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 813EF9E41249332600E52803 /* ButtonStop.png */; };
 		8141DD7A1259DC2400C6C24D /* PasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8141DD791259DC2400C6C24D /* PasswordManager.m */; };
@@ -94,6 +93,8 @@
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
 		81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585487123BC2F100A827E6 /* UITabBar+Additions.m */; };
 		815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DDC5512450C3F00F72600 /* PersonPickerViewController.m */; };
+		815DE5AA12742EBA00D26CE8 /* AZZAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DE5A712742EBA00D26CE8 /* AZZAudioPlayer.m */; };
+		815DE5AB12742EBA00D26CE8 /* AZZAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DE5A912742EBA00D26CE8 /* AZZAudioRecorder.m */; };
 		81600837126E091B00C5A7DF /* IconAudio.png in Resources */ = {isa = PBXBuildFile; fileRef = 81600835126E091B00C5A7DF /* IconAudio.png */; };
 		81600838126E091B00C5A7DF /* IconText.png in Resources */ = {isa = PBXBuildFile; fileRef = 81600836126E091B00C5A7DF /* IconText.png */; };
 		816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541BE12379AA3008FC80F /* UIKit.framework */; };
@@ -159,7 +160,6 @@
 		81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104BA1243AD2100AFB109 /* DotNormal.png */; };
 		81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B105C01243C44700AFB109 /* PerformersViewController.m */; };
 		81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */; };
-		81B2730B1248EED60012FE9A /* AZZAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */; };
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
 		81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */; };
 		81C47F93125E397300F60C49 /* PaletteBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F87125E397300F60C49 /* PaletteBlack.png */; };
@@ -298,8 +298,6 @@
 		813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonMarkerSelected.png; sourceTree = "<group>"; };
 		813A3D40123B4D5C00E6C382 /* ButtonPalette.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPalette.png; sourceTree = "<group>"; };
 		813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPaletteSelected.png; sourceTree = "<group>"; };
-		813EF90712491E9700E52803 /* AZZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZZAudioPlayer.h; sourceTree = "<group>"; };
-		813EF90812491E9700E52803 /* AZZAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZZAudioPlayer.m; sourceTree = "<group>"; };
 		813EF9A412492CA400E52803 /* ButtonPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPlay.png; sourceTree = "<group>"; };
 		813EF9E41249332600E52803 /* ButtonStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonStop.png; sourceTree = "<group>"; };
 		8141DD781259DC2400C6C24D /* PasswordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordManager.h; sourceTree = "<group>"; };
@@ -346,6 +344,10 @@
 		81585487123BC2F100A827E6 /* UITabBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Additions.m"; sourceTree = "<group>"; };
 		815DDC5412450C3F00F72600 /* PersonPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonPickerViewController.h; sourceTree = "<group>"; };
 		815DDC5512450C3F00F72600 /* PersonPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonPickerViewController.m; sourceTree = "<group>"; };
+		815DE5A612742EBA00D26CE8 /* AZZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZAudioPlayer.h; path = thirdparty/AZZAudioPlayer.h; sourceTree = "<group>"; };
+		815DE5A712742EBA00D26CE8 /* AZZAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZAudioPlayer.m; path = thirdparty/AZZAudioPlayer.m; sourceTree = "<group>"; };
+		815DE5A812742EBA00D26CE8 /* AZZAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZAudioRecorder.h; path = thirdparty/AZZAudioRecorder.h; sourceTree = "<group>"; };
+		815DE5A912742EBA00D26CE8 /* AZZAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZAudioRecorder.m; path = thirdparty/AZZAudioRecorder.m; sourceTree = "<group>"; };
 		81600835126E091B00C5A7DF /* IconAudio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconAudio.png; sourceTree = "<group>"; };
 		81600836126E091B00C5A7DF /* IconText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconText.png; sourceTree = "<group>"; };
 		816541BB12379AA3008FC80F /* iPapka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPapka.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -449,8 +451,6 @@
 		81B105C01243C44700AFB109 /* PerformersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformersViewController.m; sourceTree = "<group>"; };
 		81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewWithPlaceholder.h; sourceTree = "<group>"; };
 		81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewWithPlaceholder.m; sourceTree = "<group>"; };
-		81B273091248EED60012FE9A /* AZZAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AZZAudioRecorder.h; sourceTree = "<group>"; };
-		81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AZZAudioRecorder.m; sourceTree = "<group>"; };
 		81B5C1131242792200B8E9B8 /* Paper-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper-Landscape.png"; sourceTree = "<group>"; };
 		81B7090E12635FFF006B5D53 /* LNFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNFormDataRequest.h; sourceTree = "<group>"; };
 		81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNFormDataRequest.m; sourceTree = "<group>"; };
@@ -861,6 +861,10 @@
 			isa = PBXGroup;
 			children = (
 				81775FCC1251F74E002A2D3D /* JSON */,
+				815DE5A612742EBA00D26CE8 /* AZZAudioPlayer.h */,
+				815DE5A712742EBA00D26CE8 /* AZZAudioPlayer.m */,
+				815DE5A812742EBA00D26CE8 /* AZZAudioRecorder.h */,
+				815DE5A912742EBA00D26CE8 /* AZZAudioRecorder.m */,
 				81E0E2771270698000A80CF8 /* AZZUIImage.h */,
 				81E0E2781270698000A80CF8 /* AZZUIImage.m */,
 				813011E9126DDFF2002ADE40 /* AZZCalloutView.h */,
@@ -941,10 +945,6 @@
 			children = (
 				819CA55412579C9B00AF308E /* NSString+Additions.h */,
 				819CA55512579C9B00AF308E /* NSString+Additions.m */,
-				813EF90712491E9700E52803 /* AZZAudioPlayer.h */,
-				813EF90812491E9700E52803 /* AZZAudioPlayer.m */,
-				81B273091248EED60012FE9A /* AZZAudioRecorder.h */,
-				81B2730A1248EED60012FE9A /* AZZAudioRecorder.m */,
 			);
 			name = Audio;
 			sourceTree = "<group>";
@@ -1148,8 +1148,6 @@
 				811B583412454D1000BEB158 /* ColorPicker.m in Sources */,
 				81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */,
 				81C674911248BDFC002C272D /* RootContentView.m in Sources */,
-				81B2730B1248EED60012FE9A /* AZZAudioRecorder.m in Sources */,
-				813EF90912491E9700E52803 /* AZZAudioPlayer.m in Sources */,
 				810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */,
 				81775FC61251F6F0002A2D3D /* LNDocumentReader.m in Sources */,
 				81775FC71251F6F0002A2D3D /* LNDocumentWriter.m in Sources */,
@@ -1202,6 +1200,8 @@
 				81E0E2791270698000A80CF8 /* AZZUIImage.m in Sources */,
 				819B5C8A12730D7000594E0D /* DocumentCellView.m in Sources */,
 				8177927B127352000026650E /* FormLogoView.m in Sources */,
+				815DE5AA12742EBA00D26CE8 /* AZZAudioPlayer.m in Sources */,
+				815DE5AB12742EBA00D26CE8 /* AZZAudioRecorder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
