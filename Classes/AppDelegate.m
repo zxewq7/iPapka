@@ -93,12 +93,29 @@
     self.rootViewController.folder = lastFolder;
     [self.window addSubview:rootViewController.view];
     [self.window makeKeyAndVisible];
-#warning disabled refresh at startup
-//    [[DataSource sharedDataSource] refreshDocuments];
+    
+    NSInteger interval = [currentDefaults integerForKey:@"serverSynchronizationInterval"];
+    
+    if (interval)
+    {
+        syncTimer = [NSTimer scheduledTimerWithTimeInterval:(interval * 60.0)
+                                                     target:self 
+                                                   selector:@selector(sync) 
+                                                   userInfo:nil
+                                                    repeats:YES];
+        [[DataSource sharedDataSource] sync:YES];
+    }
+}
+
+-(void) sync
+{
+    [[DataSource sharedDataSource] sync:NO];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 
+    [syncTimer invalidate]; [syncTimer release]; syncTimer = nil;
+    
     DataSource *ds = [DataSource sharedDataSource];
 
     NSUInteger unreadCount = [ds countUnreadDocuments];
@@ -110,10 +127,12 @@
     [[Logger sharedLogger] removeLogFile];
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
 
     self.window = nil;
     self.rootViewController = nil;
+    [syncTimer invalidate]; [syncTimer release]; syncTimer = nil;
     [super dealloc];
 }
 @end

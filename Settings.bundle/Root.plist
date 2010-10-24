@@ -44,7 +44,7 @@
 			<key>Title</key>
 			<string>Automatic synchronization</string>
 			<key>Key</key>
-			<string>serverAutoSynchronization</string>
+			<string>serverSynchronizationInterval</string>
 			<key>DefaultValue</key>
 			<integer>10</integer>
 			<key>Values</key>

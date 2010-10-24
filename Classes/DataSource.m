@@ -189,11 +189,11 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     return count;
 }
 
--(void) refreshDocuments
+-(void) sync:(BOOL) value
 {
     if (isSyncing) //prevent multiple calls
         return;
-    
+    showErrors = value;
     syncStep = SyncStepSyncSettingsReader;
     [[self settingsReader] sync];
 }
@@ -462,14 +462,17 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         {
             if (self.settingsReader.hasError || self.personReader.hasError || self.documentReader.hasErrors)
             {
-                UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Synchronization error", "Synchronization error")
-                                                                 message:NSLocalizedString(@"Unable to synchronyze", "Unable to synchronyze")
-                                                                delegate:nil
-                                                       cancelButtonTitle:NSLocalizedString(@"OK", "OK")
-                                                       otherButtonTitles:nil];
-                [prompt show];
-                [prompt release];
-                
+                if (showErrors)
+                {
+                    
+                    UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Synchronization error", "Synchronization error")
+                                                                     message:NSLocalizedString(@"Unable to synchronyze", "Unable to synchronyze")
+                                                                    delegate:nil
+                                                           cancelButtonTitle:NSLocalizedString(@"OK", "OK")
+                                                           otherButtonTitles:nil];
+                    [prompt show];
+                    [prompt release];
+                }
             }
             else
             {

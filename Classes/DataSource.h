@@ -32,13 +32,14 @@
     LNSettingsReader             *settingsReader;
     NSUInteger                   countDocumentsToSend;
     int                          syncStep;
+    BOOL                         showErrors;
 }
 + (DataSource *)sharedDataSource;
 @property (nonatomic)                   BOOL                isSyncing;
 @property (nonatomic, retain, readonly) NSDate              *lastSynced;
 
 -(NSFetchedResultsController *) documentsForFolder:(Folder *) folder;
--(void) refreshDocuments;
+-(void) sync:(BOOL) showErrors;
 -(NSUInteger) countUnreadDocumentsForFolder:(Folder *) folder;
 -(NSUInteger) countUnreadDocuments;
 -(void) shutdown;

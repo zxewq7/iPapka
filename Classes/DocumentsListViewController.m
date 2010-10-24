@@ -308,7 +308,7 @@ static NSString* SyncingContext = @"SyncingContext";
 #pragma mark actions
 -(void)refreshDocuments:(id)sender
 {
-    [[DataSource sharedDataSource] refreshDocuments];
+    [[DataSource sharedDataSource] sync:YES];
 }
 -(void)dismiss:(id)sender
 {

@@ -17,7 +17,7 @@
 
     RootViewController      *rootViewController;
     
-    UIImageView *splashView;
+    NSTimer                 *syncTimer;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow                 *window;
