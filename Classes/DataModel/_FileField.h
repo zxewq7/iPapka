@@ -2,7 +2,7 @@
 // Make changes to FileField.h instead.
 
 #import <CoreData/CoreData.h>
-
+#import "BWOrderedManagedObject.h"
 
 
 
@@ -16,7 +16,7 @@
 @interface FileFieldID : NSManagedObjectID {}
 @end
 
-@interface _FileField : NSManagedObject {}
+@interface _FileField : BWOrderedManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;

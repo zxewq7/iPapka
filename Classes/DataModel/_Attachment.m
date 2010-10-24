@@ -8,8 +8,6 @@
 
 @implementation _Attachment
 
-@dynamic pagesOrdered;
-
 
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
@@ -41,6 +39,13 @@
 
 
 @dynamic title;
+
+
+
+
+
+
+@dynamic pagesOrdering;
 
 
 

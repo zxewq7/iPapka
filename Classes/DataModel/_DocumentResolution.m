@@ -31,6 +31,13 @@
 
 
 
+@dynamic performersOrdering;
+
+
+
+
+
+
 @dynamic performers;
 
 	

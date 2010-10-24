@@ -8,10 +8,6 @@
 
 @implementation _Document
 
-@dynamic linksOrdered;
-
-@dynamic attachmentsOrdered;
-
 
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
@@ -31,6 +27,13 @@
 - (DocumentID*)objectID {
 	return (DocumentID*)[super objectID];
 }
+
+
+
+
+@dynamic attachmentsOrdering;
+
+
 
 
 
@@ -68,8 +71,27 @@
 
 
 
-@dynamic title;
+@dynamic syncStatus;
 
+
+
+- (short)syncStatusValue {
+	NSNumber *result = [self syncStatus];
+	return [result shortValue];
+}
+
+- (void)setSyncStatusValue:(short)value_ {
+	[self setSyncStatus:[NSNumber numberWithShort:value_]];
+}
+
+- (short)primitiveSyncStatusValue {
+	NSNumber *result = [self primitiveSyncStatus];
+	return [result shortValue];
+}
+
+- (void)setPrimitiveSyncStatusValue:(short)value_ {
+	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
+}
 
 
 
@@ -96,27 +118,8 @@
 
 
 
-@dynamic syncStatus;
+@dynamic title;
 
-
-
-- (short)syncStatusValue {
-	NSNumber *result = [self syncStatus];
-	return [result shortValue];
-}
-
-- (void)setSyncStatusValue:(short)value_ {
-	[self setSyncStatus:[NSNumber numberWithShort:value_]];
-}
-
-- (short)primitiveSyncStatusValue {
-	NSNumber *result = [self primitiveSyncStatus];
-	return [result shortValue];
-}
-
-- (void)setPrimitiveSyncStatusValue:(short)value_ {
-	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
-}
 
 
 
@@ -177,6 +180,13 @@
 
 
 @dynamic correspondents;
+
+
+
+
+
+
+@dynamic linksOrdering;
 
 
 

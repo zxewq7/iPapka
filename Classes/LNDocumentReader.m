@@ -439,6 +439,8 @@ static NSString* OperationCount = @"OperationCount";
             attachment.uid = [dictAttachment objectForKey:field_Uid];
             attachment.document = document;
             
+            [[self dataSource] documentReaderCommit: self];
+            
             NSUInteger pageCount = [[dictAttachment objectForKey:field_AttachmentPageCount] intValue];
             
             for (NSUInteger i = 0; i < pageCount ; i++) //create page stubs
@@ -446,7 +448,6 @@ static NSString* OperationCount = @"OperationCount";
                 AttachmentPage *page = [[self dataSource] documentReader:self createEntity:[AttachmentPage class]];
                 page.numberValue = i;
                 page.syncStatusValue = SyncStatusNeedSyncFromServer;
-                page.attachment = attachment;
                 AttachmentPagePainting *painting = [[self dataSource] documentReader:self createEntity:[AttachmentPagePainting class]];
                 painting.path = [page.path stringByAppendingPathComponent:@"drawings.png"];
                 
@@ -459,7 +460,10 @@ static NSString* OperationCount = @"OperationCount";
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
                 
                 painting.syncStatusValue = SyncStatusSynced;
-                painting.page = page;
+
+                page.painting = painting;
+
+                page.attachment = attachment;
             }
         }
         
@@ -478,6 +482,7 @@ static NSString* OperationCount = @"OperationCount";
             }
             page.painting.syncStatusValue = SyncStatusNeedSyncFromServer;
         }
+        [[self dataSource] documentReaderCommit: self];
     }
 }
 
@@ -706,11 +711,11 @@ static NSString* OperationCount = @"OperationCount";
                 
                 link.path = [[document.path stringByAppendingPathComponent:@"links"] stringByAppendingPathComponent:link.uid];
                 
+                [[self dataSource] documentReaderCommit: self];
+                
                 NSArray *linkAttachments = [dictLink objectForKey:field_Attachments];
                 
                 [self parseAttachments:link attachments: linkAttachments];
-                
-                [document addLinksObject: link];
             }
         }
         
@@ -892,10 +897,7 @@ static NSString* OperationCount = @"OperationCount";
                 continue;
             Person *performer = [[self dataSource] documentReader:self personWithUid: uid];
             if (performer)
-            {
-                [resolution addPerformersObject: performer];
                 [performer addResolutionsObject: resolution];
-            }
             else
                 NSLog(@"Unknown person: %@", uid);
         }

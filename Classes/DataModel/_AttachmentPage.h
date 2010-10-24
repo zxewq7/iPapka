@@ -2,7 +2,7 @@
 // Make changes to AttachmentPage.h instead.
 
 #import <CoreData/CoreData.h>
-
+#import "BWOrderedManagedObject.h"
 
 @class Attachment;
 @class AttachmentPagePainting;
@@ -14,7 +14,7 @@
 @interface AttachmentPageID : NSManagedObjectID {}
 @end
 
-@interface _AttachmentPage : NSManagedObject {}
+@interface _AttachmentPage : BWOrderedManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;

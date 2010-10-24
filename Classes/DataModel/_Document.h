@@ -2,12 +2,13 @@
 // Make changes to Document.h instead.
 
 #import <CoreData/CoreData.h>
-
+#import "BWOrderedManagedObject.h"
 
 @class Attachment;
 @class Comment;
 @class DocumentLink;
 
+@class NSObject;
 
 
 
@@ -21,22 +22,25 @@
 
 
 @class NSArray;
+@class NSObject;
 
 
 @interface DocumentID : NSManagedObjectID {}
 @end
 
-@interface _Document : NSManagedObject {}
-
-@property (nonatomic, readonly) NSArray *linksOrdered;
-
-@property (nonatomic, readonly) NSArray *attachmentsOrdered;
+@interface _Document : BWOrderedManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (DocumentID*)objectID;
+
+
+
+@property (nonatomic, retain) NSObject *attachmentsOrdering;
+
+//- (BOOL)validateAttachmentsOrdering:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -56,9 +60,13 @@
 
 
 
-@property (nonatomic, retain) NSString *title;
+@property (nonatomic, retain) NSNumber *syncStatus;
 
-//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+@property short syncStatusValue;
+- (short)syncStatusValue;
+- (void)setSyncStatusValue:(short)value_;
+
+//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -80,13 +88,9 @@
 
 
 
-@property (nonatomic, retain) NSNumber *syncStatus;
+@property (nonatomic, retain) NSString *title;
 
-@property short syncStatusValue;
-- (short)syncStatusValue;
-- (void)setSyncStatusValue:(short)value_;
-
-//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -127,6 +131,12 @@
 @property (nonatomic, retain) NSArray *correspondents;
 
 //- (BOOL)validateCorrespondents:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSObject *linksOrdering;
+
+//- (BOOL)validateLinksOrdering:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -174,6 +184,10 @@
 
 @interface _Document (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSObject*)primitiveAttachmentsOrdering;
+- (void)setPrimitiveAttachmentsOrdering:(NSObject*)value;
+
+
 - (NSNumber*)primitivePriority;
 - (void)setPrimitivePriority:(NSNumber*)value;
 
@@ -185,8 +199,11 @@
 - (void)setPrimitiveUid:(NSString*)value;
 
 
-- (NSString*)primitiveTitle;
-- (void)setPrimitiveTitle:(NSString*)value;
+- (NSNumber*)primitiveSyncStatus;
+- (void)setPrimitiveSyncStatus:(NSNumber*)value;
+
+- (short)primitiveSyncStatusValue;
+- (void)setPrimitiveSyncStatusValue:(short)value_;
 
 
 - (NSString*)primitivePath;
@@ -201,11 +218,8 @@
 - (void)setPrimitiveDateModified:(NSDate*)value;
 
 
-- (NSNumber*)primitiveSyncStatus;
-- (void)setPrimitiveSyncStatus:(NSNumber*)value;
-
-- (short)primitiveSyncStatusValue;
-- (void)setPrimitiveSyncStatusValue:(short)value_;
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
 
 
 - (NSDate*)primitiveRegistrationDate;
@@ -233,6 +247,10 @@
 
 - (NSArray*)primitiveCorrespondents;
 - (void)setPrimitiveCorrespondents:(NSArray*)value;
+
+
+- (NSObject*)primitiveLinksOrdering;
+- (void)setPrimitiveLinksOrdering:(NSObject*)value;
 
 
 - (NSNumber*)primitiveStatus;

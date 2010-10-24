@@ -8,4 +8,8 @@
     return [[self.document.path stringByAppendingPathComponent:@"attachments"] stringByAppendingPathComponent: self.uid];
 }
 
+- (NSMutableArray*) pagesOrdered
+{
+    return [self mutableOrderedValueForKey:@"pages"];
+}
 @end

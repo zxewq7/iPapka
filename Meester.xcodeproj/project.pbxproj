@@ -95,6 +95,7 @@
 		815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DDC5512450C3F00F72600 /* PersonPickerViewController.m */; };
 		815DE5AA12742EBA00D26CE8 /* AZZAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DE5A712742EBA00D26CE8 /* AZZAudioPlayer.m */; };
 		815DE5AB12742EBA00D26CE8 /* AZZAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DE5A912742EBA00D26CE8 /* AZZAudioRecorder.m */; };
+		815DE5B2127437F700D26CE8 /* BWOrderedManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DE5B1127437F700D26CE8 /* BWOrderedManagedObject.m */; };
 		81600837126E091B00C5A7DF /* IconAudio.png in Resources */ = {isa = PBXBuildFile; fileRef = 81600835126E091B00C5A7DF /* IconAudio.png */; };
 		81600838126E091B00C5A7DF /* IconText.png in Resources */ = {isa = PBXBuildFile; fileRef = 81600836126E091B00C5A7DF /* IconText.png */; };
 		816541BF12379AA3008FC80F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 816541BE12379AA3008FC80F /* UIKit.framework */; };
@@ -348,6 +349,8 @@
 		815DE5A712742EBA00D26CE8 /* AZZAudioPlayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZAudioPlayer.m; path = thirdparty/AZZAudioPlayer.m; sourceTree = "<group>"; };
 		815DE5A812742EBA00D26CE8 /* AZZAudioRecorder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZAudioRecorder.h; path = thirdparty/AZZAudioRecorder.h; sourceTree = "<group>"; };
 		815DE5A912742EBA00D26CE8 /* AZZAudioRecorder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZAudioRecorder.m; path = thirdparty/AZZAudioRecorder.m; sourceTree = "<group>"; };
+		815DE5B0127437F700D26CE8 /* BWOrderedManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BWOrderedManagedObject.h; path = thirdparty/BWOrderedManagedObject.h; sourceTree = "<group>"; };
+		815DE5B1127437F700D26CE8 /* BWOrderedManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BWOrderedManagedObject.m; path = thirdparty/BWOrderedManagedObject.m; sourceTree = "<group>"; };
 		81600835126E091B00C5A7DF /* IconAudio.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconAudio.png; sourceTree = "<group>"; };
 		81600836126E091B00C5A7DF /* IconText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconText.png; sourceTree = "<group>"; };
 		816541BB12379AA3008FC80F /* iPapka.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iPapka.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -860,6 +863,8 @@
 		8165422412379B44008FC80F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				815DE5B0127437F700D26CE8 /* BWOrderedManagedObject.h */,
+				815DE5B1127437F700D26CE8 /* BWOrderedManagedObject.m */,
 				81775FCC1251F74E002A2D3D /* JSON */,
 				815DE5A612742EBA00D26CE8 /* AZZAudioPlayer.h */,
 				815DE5A712742EBA00D26CE8 /* AZZAudioPlayer.m */,
@@ -1202,6 +1207,7 @@
 				8177927B127352000026650E /* FormLogoView.m in Sources */,
 				815DE5AA12742EBA00D26CE8 /* AZZAudioPlayer.m in Sources */,
 				815DE5AB12742EBA00D26CE8 /* AZZAudioRecorder.m in Sources */,
+				815DE5B2127437F700D26CE8 /* BWOrderedManagedObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
