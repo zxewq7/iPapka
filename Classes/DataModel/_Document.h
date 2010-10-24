@@ -2,7 +2,7 @@
 // Make changes to Document.h instead.
 
 #import <CoreData/CoreData.h>
-
+#import "BWOrderedManagedObject.h"
 
 @class Attachment;
 @class Comment;
@@ -26,7 +26,7 @@
 @interface DocumentID : NSManagedObjectID {}
 @end
 
-@interface _Document : NSManagedObject {}
+@interface _Document : BWOrderedManagedObject {}
 
 @property (nonatomic, readonly) NSArray *linksOrdered;
 

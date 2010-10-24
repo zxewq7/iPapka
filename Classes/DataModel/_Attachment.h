@@ -2,20 +2,19 @@
 // Make changes to Attachment.h instead.
 
 #import <CoreData/CoreData.h>
-
+#import "BWOrderedManagedObject.h"
 
 @class Document;
 @class AttachmentPage;
 
 
 
+@class NSArray;
 
 @interface AttachmentID : NSManagedObjectID {}
 @end
 
-@interface _Attachment : NSManagedObject {}
-
-@property (nonatomic, readonly) NSArray *pagesOrdered;
+@interface _Attachment : BWOrderedManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -34,6 +33,12 @@
 @property (nonatomic, retain) NSString *title;
 
 //- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSArray *pagesOrdering;
+
+//- (BOOL)validatePagesOrdering:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -67,6 +72,10 @@
 
 - (NSString*)primitiveTitle;
 - (void)setPrimitiveTitle:(NSString*)value;
+
+
+- (NSArray*)primitivePagesOrdering;
+- (void)setPrimitivePagesOrdering:(NSArray*)value;
 
 
 

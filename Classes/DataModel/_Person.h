@@ -2,7 +2,7 @@
 // Make changes to Person.h instead.
 
 #import <CoreData/CoreData.h>
-
+#import "BWOrderedManagedObject.h"
 
 @class DocumentResolution;
 
@@ -14,7 +14,7 @@
 @interface PersonID : NSManagedObjectID {}
 @end
 
-@interface _Person : NSManagedObject {}
+@interface _Person : BWOrderedManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;

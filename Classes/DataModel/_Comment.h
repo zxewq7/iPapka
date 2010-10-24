@@ -2,7 +2,7 @@
 // Make changes to Comment.h instead.
 
 #import <CoreData/CoreData.h>
-
+#import "BWOrderedManagedObject.h"
 
 @class Document;
 @class CommentAudio;
@@ -13,7 +13,7 @@
 @interface CommentID : NSManagedObjectID {}
 @end
 
-@interface _Comment : NSManagedObject {}
+@interface _Comment : BWOrderedManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
