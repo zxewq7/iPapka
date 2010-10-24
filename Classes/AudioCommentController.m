@@ -226,7 +226,7 @@ static NSString *AudioContext = @"AudioContext";
     
     [labelComment release]; labelComment = nil;
     
-    [timer invalidate]; timer = nil;
+    [timer invalidate]; [timer release]; timer = nil;
 }
 
 
@@ -246,7 +246,7 @@ static NSString *AudioContext = @"AudioContext";
     
     [labelComment release]; labelComment = nil;
     
-    [timer invalidate]; timer = nil;
+    [timer invalidate]; [timer release]; timer = nil;
     
     [super dealloc];
 }
@@ -407,7 +407,7 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void) stopTimer
 {
-    [timer invalidate]; timer = nil;
+    [timer invalidate]; [timer release]; timer = nil;
 }
 
 -(void) updateDuration:(NSTimer *)timer
