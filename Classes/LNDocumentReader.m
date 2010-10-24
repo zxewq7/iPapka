@@ -896,10 +896,7 @@ static NSString* OperationCount = @"OperationCount";
                 continue;
             Person *performer = [[self dataSource] documentReader:self personWithUid: uid];
             if (performer)
-            {
-                [resolution addPerformersObject: performer];
                 [performer addResolutionsObject: resolution];
-            }
             else
                 NSLog(@"Unknown person: %@", uid);
         }

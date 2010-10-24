@@ -15,7 +15,6 @@
     NSMutableArray *performers;
     ViewWithButtons *performersView;
     DocumentResolutionAbstract *document;
-    NSArray *sortByLastDescriptors;  
     UIPopoverController *popoverController;
     PersonPickerViewController *personPickerViewController;
     UIButton *buttonAdd;

@@ -7,6 +7,7 @@
 @class Person;
 @class DocumentResolutionParent;
 
+@class NSObject;
 
 @interface DocumentResolutionID : NSManagedObjectID {}
 @end
@@ -18,6 +19,12 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (DocumentResolutionID*)objectID;
+
+
+
+@property (nonatomic, retain) NSObject *performersOrdering;
+
+//- (BOOL)validatePerformersOrdering:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -44,6 +51,10 @@
 @end
 
 @interface _DocumentResolution (CoreDataGeneratedPrimitiveAccessors)
+
+- (NSObject*)primitivePerformersOrdering;
+- (void)setPrimitivePerformersOrdering:(NSObject*)value;
+
 
 
 

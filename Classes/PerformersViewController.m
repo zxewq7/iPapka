@@ -40,14 +40,6 @@
 {
     [super viewDidLoad];
     
-    NSSortDescriptor *sortDescriptor = 
-    [[NSSortDescriptor alloc] initWithKey:@"last" 
-                                ascending:YES];
-    
-    sortByLastDescriptors = [[NSArray alloc] 
-                                initWithObjects:sortDescriptor, nil];  
-    [sortDescriptor release];
-    
     CGSize viewSize = self.view.bounds.size;
     
     buttonAdd = [UIButton buttonWithType:UIButtonTypeContactAdd];
@@ -137,8 +129,6 @@
 
     [performersView release]; performersView = nil;
 
-    [sortByLastDescriptors release]; sortByLastDescriptors = nil;
-    
     [popoverController release]; personPickerViewController = nil;
     
     [buttonAdd release]; buttonAdd = nil;
@@ -152,8 +142,6 @@
     [performers release]; performers = nil;
 
     [performersView release]; performersView = nil;
-
-    [sortByLastDescriptors release]; sortByLastDescriptors = nil;
 
     [popoverController release]; personPickerViewController = nil;
     
@@ -181,13 +169,10 @@
                 buttonAdd.hidden = NO;
             }
 
-            NSSet *ps = ((DocumentResolution *)document).performers;
-            performers = [[NSMutableArray alloc] initWithCapacity:[ps count]];
-            for (Person *p in ps)
-                [performers addObject: p];
-            
-            [performers sortUsingDescriptors: sortByLastDescriptors];
+            performers = ((DocumentResolution *)document).performersOrdered;
 
+            [performers retain];
+            
             NSUInteger countPerformers = [performers count];
             
             performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
