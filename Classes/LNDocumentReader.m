@@ -439,6 +439,8 @@ static NSString* OperationCount = @"OperationCount";
             attachment.uid = [dictAttachment objectForKey:field_Uid];
             attachment.document = document;
             
+            [[self dataSource] documentReaderCommit: self];
+            
             NSUInteger pageCount = [[dictAttachment objectForKey:field_AttachmentPageCount] intValue];
             
             for (NSUInteger i = 0; i < pageCount ; i++) //create page stubs

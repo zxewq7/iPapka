@@ -9,7 +9,7 @@
 
 
 
-@class NSArray;
+@class NSObject;
 
 @interface AttachmentID : NSManagedObjectID {}
 @end
@@ -36,7 +36,7 @@
 
 
 
-@property (nonatomic, retain) NSArray *pagesOrdering;
+@property (nonatomic, retain) NSObject *pagesOrdering;
 
 //- (BOOL)validatePagesOrdering:(id*)value_ error:(NSError**)error_;
 
@@ -74,8 +74,8 @@
 - (void)setPrimitiveTitle:(NSString*)value;
 
 
-- (NSArray*)primitivePagesOrdering;
-- (void)setPrimitivePagesOrdering:(NSArray*)value;
+- (NSObject*)primitivePagesOrdering;
+- (void)setPrimitivePagesOrdering:(NSObject*)value;
 
 
 

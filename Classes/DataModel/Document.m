@@ -11,4 +11,9 @@
     else
         return nil;
 }
+
+- (NSMutableArray*) attachmentsOrdered
+{
+    return [self mutableOrderedValueForKey:@"attachments"];
+}
 @end
