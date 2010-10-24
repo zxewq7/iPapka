@@ -8,7 +8,7 @@
 
 #import "DeleteItemViewController.h"
 #import "SynthesizeSingleton.h"
-
+#import "UIButton+Additions.h"
 
 @implementation DeleteItemViewController
 SYNTHESIZE_SINGLETON_FOR_CLASS(DeleteItemViewController);
@@ -37,11 +37,20 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DeleteItemViewController);
 - (void)viewDidLoad 
 {
     self.contentSizeForViewInPopover = CGSizeMake(200,40);
-    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    [button setTitle:NSLocalizedString(@"Delete", "Delete") forState:UIControlStateNormal];
-    button.backgroundColor = [UIColor redColor];
-    button.frame = CGRectMake(0, 0, self.contentSizeForViewInPopover.width, self.contentSizeForViewInPopover.height);
-    [button addTarget:self action:@selector(remove:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *button = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Delete", "Delete")
+                                                    titleFont:[UIFont boldSystemFontOfSize:14]
+                                                       target:self
+                                                     selector:@selector(remove:)
+                                                        frame:CGRectMake(0, 0, self.contentSizeForViewInPopover.width, self.contentSizeForViewInPopover.height)
+                                                addLabelWidth:NO
+                                                        image:[UIImage imageNamed:@"ButtonRed.png"]
+                                                 imagePressed:[UIImage imageNamed:@"ButtonRed.png"]
+                                                 leftCapWidth:12.0
+                                                darkTextColor:NO];
+
+    [button setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
+    button.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+
     [popoverController dismissPopoverAnimated:YES];
     
     [self.view addSubview:button];
