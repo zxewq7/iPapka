@@ -14,8 +14,10 @@
     BOOL redirectEnabled;
     NSString *logPath;
     UIViewController * controller;
+    FILE *logFile;
 }
 + (Logger *)sharedLogger;
 @property (nonatomic) BOOL redirectEnabled;
 -(void) showLogForController:(UIViewController *) controller;
+-(void) removeLogFile;
 @end

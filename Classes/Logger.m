@@ -26,7 +26,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Logger);
         //redirect NSLog to file
         //http://blog.coriolis.ch/2009/01/09/redirect-nslog-to-a-file-on-the-iphone/
         if (self.logPath)
-            freopen([self.logPath cStringUsingEncoding:NSASCIIStringEncoding],"w+",stderr);
+            logFile = freopen([self.logPath cStringUsingEncoding:NSASCIIStringEncoding],"a+",stderr);
         else
         {
             NSLog(@"Unable to redirect log to file");
@@ -34,6 +34,19 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Logger);
         }
         
     }
+    else
+    {
+        if (logFile != NULL)
+        {
+            fclose(logFile);
+            logFile = NULL;
+        }
+    }
+}
+-(void) removeLogFile
+{
+    self.redirectEnabled = NO;
+    remove([self.logPath cStringUsingEncoding:NSASCIIStringEncoding]);
 }
 
 -(void) showLogForController:(UIViewController *) aController

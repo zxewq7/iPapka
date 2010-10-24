@@ -106,6 +106,8 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:unreadCount];
 
     [ds shutdown];
+    
+    [[Logger sharedLogger] removeLogFile];
 }
 
 - (void)dealloc {
