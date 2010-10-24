@@ -8,8 +8,6 @@
 
 @implementation _Document
 
-@dynamic linksOrdered;
-
 
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
@@ -182,6 +180,13 @@
 
 
 @dynamic correspondents;
+
+
+
+
+
+
+@dynamic linksOrdering;
 
 
 

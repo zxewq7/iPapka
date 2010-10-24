@@ -687,8 +687,10 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                     NSFetchedPropertyDescription *fetchedProperty = (NSFetchedPropertyDescription *)property;
                     NSFetchRequest *fetchRequest = [fetchedProperty fetchRequest];
                     NSSortDescriptor *sort = nil;
-                    if ([[property name] isEqualToString:@"linksOrdered"])
-                        sort = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];                    
+
+//                    if ([[property name] isEqualToString:@"linksOrdered"])
+//                        sort = [[NSSortDescriptor alloc] initWithKey:@"title" ascending:YES];                    
+
                     if (sort)
                         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
                     

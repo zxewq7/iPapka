@@ -710,11 +710,11 @@ static NSString* OperationCount = @"OperationCount";
                 
                 link.path = [[document.path stringByAppendingPathComponent:@"links"] stringByAppendingPathComponent:link.uid];
                 
+                [[self dataSource] documentReaderCommit: self];
+                
                 NSArray *linkAttachments = [dictLink objectForKey:field_Attachments];
                 
                 [self parseAttachments:link attachments: linkAttachments];
-                
-                [document addLinksObject: link];
             }
         }
         

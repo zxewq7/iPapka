@@ -22,14 +22,13 @@
 
 
 @class NSArray;
+@class NSObject;
 
 
 @interface DocumentID : NSManagedObjectID {}
 @end
 
 @interface _Document : BWOrderedManagedObject {}
-
-@property (nonatomic, readonly) NSArray *linksOrdered;
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -132,6 +131,12 @@
 @property (nonatomic, retain) NSArray *correspondents;
 
 //- (BOOL)validateCorrespondents:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSObject *linksOrdering;
+
+//- (BOOL)validateLinksOrdering:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -242,6 +247,10 @@
 
 - (NSArray*)primitiveCorrespondents;
 - (void)setPrimitiveCorrespondents:(NSArray*)value;
+
+
+- (NSObject*)primitiveLinksOrdering;
+- (void)setPrimitiveLinksOrdering:(NSObject*)value;
 
 
 - (NSNumber*)primitiveStatus;

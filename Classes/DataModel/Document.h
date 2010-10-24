@@ -25,4 +25,5 @@ typedef enum _DocumentPriority
 @interface Document : _Document 
 @property (nonatomic, readonly) Attachment *firstAttachment;
 @property (readonly) NSMutableArray* attachmentsOrdered;
+@property (readonly) NSMutableArray* linksOrdered;
 @end

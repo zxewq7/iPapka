@@ -16,4 +16,9 @@
 {
     return [self mutableOrderedValueForKey:@"attachments"];
 }
+
+- (NSMutableArray*) linksOrdered
+{
+    return [self mutableOrderedValueForKey:@"links"];
+}
 @end
