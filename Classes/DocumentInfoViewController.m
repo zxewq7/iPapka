@@ -234,6 +234,8 @@
     [dateFormatter release]; dateFormatter = nil;
     
     [tableView release]; tableView = nil;
+    
+    [currentItems release]; currentItems = nil;
 
     [super dealloc];
 }
@@ -242,13 +244,17 @@
 #pragma mark actions
 -(void) switchFilter:(id) sender
 {
+    [currentItems release]; currentItems = nil;
+    
     switch(filter.selectedSegmentIndex)
     {
         case 0:
             currentItems = document.attachmentsOrdered;
+            [currentItems retain];
             break;
         case 1:
             currentItems = document.linksOrdered;
+            [currentItems retain];
             break;
         default:
             NSAssert1 (NO, @"Invalid filter value: %d", filter.selectedSegmentIndex);
@@ -260,7 +266,9 @@
 @implementation  DocumentInfoViewController(Private)
 -(void) updateContent;
 {
+    [currentItems release];
     currentItems = document.attachmentsOrdered;
+    [currentItems retain];
     
     documentTitle.text = document.title;
 
