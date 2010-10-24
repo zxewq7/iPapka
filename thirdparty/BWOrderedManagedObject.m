@@ -202,39 +202,9 @@ NSString* BWOrderedChangeContext = @"BWOrderedChangeContext";
 	NSArray*			ordering = [self orderingForKey:key];
 	NSURL*				objectURI = [ordering objectAtIndex:index];
 	NSManagedObjectID*	objectID = [[[self managedObjectContext] persistentStoreCoordinator] managedObjectIDForURIRepresentation:objectURI];
+	NSManagedObject*	object = [[self managedObjectContext] objectWithID:objectID];
 	
-    if (!objectID)
-        return nil;
-    
-    NSManagedObject *objectForID = [[self managedObjectContext] objectWithID:objectID];
-    if (![objectForID isFault])
-        return objectForID;
-    
-    NSFetchRequest *request = [[[NSFetchRequest alloc] init] autorelease];
-    [request setEntity:[objectID entity]];
-    
-    // Equivalent to
-    // predicate = [NSPredicate predicateWithFormat:@"SELF = %@", objectForID];
-    NSPredicate *predicate =
-    [NSComparisonPredicate
-     predicateWithLeftExpression:
-     [NSExpression expressionForEvaluatedObject]
-     rightExpression:
-     [NSExpression expressionForConstantValue:objectForID]
-     modifier:NSDirectPredicateModifier
-     type:NSEqualToPredicateOperatorType
-     options:0];
-    [request setPredicate:predicate];
-    
-    NSError *error = nil;
-    NSArray *results = [[self managedObjectContext] executeFetchRequest:request error:&error];
-    NSAssert1(results != nil, @"Unhandled error executing fetch: %@", [error localizedDescription]);
-
-    if ([results count] > 0 )
-        return [results objectAtIndex:0];
-    
-    return nil;
-    
+	return object;    
 }
 
 - (void)insertObject:(NSManagedObject*)object inOrderedValueForKey:(NSString*)key atIndex:(NSUInteger)index
