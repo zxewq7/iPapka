@@ -460,21 +460,8 @@ static NSString* OperationCount = @"OperationCount";
                 painting.syncStatusValue = SyncStatusSynced;
                 
                 page.painting = painting;
-//                painting.page = page;
-                
-//                [attachment addPagesObject:page];
-//                NSMutableArray *pages = [attachment mutableOrderedValueForKey:@"pages"];
-//                if (i)
-//                    [[attachment mutableOrderedValueForKey:@"pages"] insertObject:page atIndex:i];
-//                else
-//                    [[attachment mutableSetValueForKey:@"pages"] addObject:page];
-//                [pages addObject:page];
-//                [attachment insertObject:page inOrderedValueForKey:@"pages" atIndex:i];
                 page.attachment = attachment;
-
             }
-
-//            [document addAttachmentsObject: attachment];
         }
         
         NSArray *paintings = [dictAttachment objectForKey:field_AttachmentPagePainting];
@@ -492,6 +479,7 @@ static NSString* OperationCount = @"OperationCount";
             }
             page.painting.syncStatusValue = SyncStatusNeedSyncFromServer;
         }
+        [[self dataSource] documentReaderCommit: self];
     }
 }
 
