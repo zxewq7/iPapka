@@ -240,6 +240,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             }
         }
         
+        if ([[sourceDocument valueForKey:@"status"] intValue] == DocumentStatusNew)
+            [sourceDocument setValue:[NSNumber numberWithInt:DocumentStatusDraft] forKey:@"status"];
+            
         [sourceDocument setValue:[NSDate date] forKey:@"dateModified"];
     }
 
