@@ -91,7 +91,7 @@ static NSString *url_LinkAttachmentFetchPaintingFormat = @"/document/%@/link/%@/
 static NSString* OperationCount = @"OperationCount";
 
 @implementation LNDocumentReader
-@synthesize isSyncing, dataSource, hasErrors;
+@synthesize isSyncing, dataSource, hasErrors, allRequestsSent;
 
 - (id) initWithUrl:(NSString *) anUrl andViews:(NSArray *) views
 {
@@ -148,6 +148,19 @@ static NSString* OperationCount = @"OperationCount";
     return self;
 }
 
+-(void) setAllRequestsSent:(BOOL) value
+{
+    allRequestsSent = value;
+    BOOL x = !allRequestsSent || (_networkQueue.requestsCount != 0);
+    if ( x != isSyncing )
+    {
+        [self willChangeValueForKey:@"isSyncing"];
+        isSyncing = x;
+        [self didChangeValueForKey:@"isSyncing"];
+    }
+}
+
+
 #pragma mark -
 #pragma mark Memory management
 -(void)dealloc
@@ -190,7 +203,7 @@ static NSString* OperationCount = @"OperationCount";
     
     hasErrors = NO;
     
-    allRequestsSent = NO;
+    self.allRequestsSent = NO;
     
     for (NSString *url in viewUrls)
     {
@@ -217,29 +230,29 @@ static NSString* OperationCount = @"OperationCount";
                 viewsLeftToFetch--;
             }
             
-            if (viewsLeftToFetch == 0 && !hasErrors) //all view fetched and no errors
+            if (viewsLeftToFetch == 0) //all view fetched and no errors
             {
-                NSSet *rootUids = [[blockSelf dataSource] documentReaderRootUids:blockSelf];
-                //remove obsoleted documents
-                for (NSString *uid in rootUids)
+                if (!hasErrors)
                 {
-                    if (![blockSelf->fetchedUids containsObject: uid])
+                    NSSet *rootUids = [[blockSelf dataSource] documentReaderRootUids:blockSelf];
+                    //remove obsoleted documents
+                    for (NSString *uid in rootUids)
                     {
-                        Document *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
-                        if (obj)
-                            [[blockSelf dataSource] documentReader:blockSelf removeObject: obj];
+                        if (![blockSelf->fetchedUids containsObject: uid])
+                        {
+                            Document *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
+                            if (obj)
+                                [[blockSelf dataSource] documentReader:blockSelf removeObject: obj];
+                        }
                     }
+                    if ([blockSelf->uidsToFetch count])
+                        [blockSelf fetchDocuments];
+                    else
+                        blockSelf.allRequestsSent = YES;
                 }
-                [blockSelf fetchDocuments];
+                else
+                    blockSelf.allRequestsSent = YES;
             }
-
-            if (!_networkQueue.requestsCount)// nothing running
-            {
-                [self willChangeValueForKey:@"isSyncing"];
-                isSyncing = NO;
-                [self didChangeValueForKey:@"isSyncing"];
-            }
-
         };
         [_networkQueue addOperation:request];
     }
@@ -367,7 +380,7 @@ static NSString* OperationCount = @"OperationCount";
                 {
                     [blockSelf fetchResources];
                     
-                    blockSelf->allRequestsSent = YES;
+                    blockSelf.allRequestsSent = YES;
                 }
             };
             [_networkQueue addOperation:request];
@@ -376,7 +389,7 @@ static NSString* OperationCount = @"OperationCount";
     else
     {
         [self fetchResources];
-        allRequestsSent = YES;
+        self.allRequestsSent = YES;
     }
     
 
@@ -730,7 +743,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     if (context == &OperationCount)
     {
-		BOOL x = !allRequestsSent || (_networkQueue.requestsCount != 0);
+		BOOL x = !self.allRequestsSent || (_networkQueue.requestsCount != 0);
         if ( x != isSyncing )
         {
             [self willChangeValueForKey:@"isSyncing"];

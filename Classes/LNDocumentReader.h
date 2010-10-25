@@ -58,6 +58,7 @@
 - (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
 @property (nonatomic, readonly)         BOOL                  isSyncing;
 @property (nonatomic, readonly)         BOOL                  hasErrors;
+@property (nonatomic, readonly)         BOOL                  allRequestsSent;
 @property (nonatomic, retain) id<LNDocumentReaderDataSource>  dataSource;
 - (void) sync;
 - (void) purgeCache;
