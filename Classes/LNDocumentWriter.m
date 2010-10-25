@@ -7,25 +7,17 @@
 //
 
 #import "LNDocumentWriter.h"
-#import "ASINetworkQueue.h"
-#import "LNHttpRequest.h"
 #import "Document.h"
-#import "SBJsonWriter.h"
 #import "DocumentResolution.h"
 #import "DocumentSignature.h"
 #import "DataSource.h"
 #import "Person.h"
-#import "PasswordManager.h"
 #import "FileField.h"
-#import "LNFormDataRequest.h"
 #import "Comment.h"
 #import "CommentAudio.h"
-#import "SBJsonParser.h"
 #import "AttachmentPagePainting.h"
 #import "Attachment.h"
 #import "AttachmentPage.h"
-
-static NSString* OperationCount = @"OperationCount";
 
 static NSString* kFieldVersion = @"version";
 static NSString* kFieldParentId = @"parentid";
@@ -35,44 +27,24 @@ static NSString* kFieldPerformers = @"performers";
 static NSString* kFieldText = @"text";
 static NSString* kFieldType = @"type";
 static NSString* kFieldFile = @"file";
-static NSString* kPostFiledJson = @"json";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(Document *) document;
 - (void) syncFile:(FileField *) file;
-- (NSString *)postDocumentUrl;
 - (NSString *)postFileUrl;
 - (NSString *)postFileField;
 @end
 
 
 @implementation LNDocumentWriter
-@synthesize unsyncedDocuments, unsyncedFiles, isSyncing;
+@synthesize unsyncedDocuments, unsyncedFiles;
 
-- (id) initWithUrl:(NSString *) anUrl
+- (id) init
 {
     if ((self = [super init])) {
         parseFormatterSimple = [[NSDateFormatter alloc] init];
         //20100811
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
-        
-        url = [anUrl retain];
-        
-        queue = [[ASINetworkQueue alloc] init];
-        [queue setRequestDidFinishSelector:@selector(fetchComplete:)];
-        [queue setRequestDidFailSelector:@selector(fetchFailed:)];
-
-        [queue addObserver:self
-                        forKeyPath:@"requestsCount"
-                           options:0
-                           context:&OperationCount];
-
-        [queue setDelegate:self];
-#warning only one request at time
-        queue.maxConcurrentOperationCount = 1;
-        [queue setShouldCancelAllRequestsOnFailure:NO];
-        [queue go];
-        
     }
     return self;
 }
@@ -80,19 +52,15 @@ static NSString* kPostFiledJson = @"json";
 
 - (void) sync
 {
-    if (isSyncing) //prevent multiple syncs
+    if (self.isSyncing) //prevent multiple syncs
         return;
     
-    allRequestsSent = NO;
+    [self beginSession];
     
     NSError *error = nil;
 	if (![unsyncedDocuments performFetch:&error])
 		NSAssert1(error == nil, @"Unhandled error executing unsynced documents: %@", [error localizedDescription]);
 
-    [self willChangeValueForKey:@"isSyncing"];
-    isSyncing = YES;
-    [self didChangeValueForKey:@"isSyncing"];
-    
     NSUInteger numberOfObjects;
     id <NSFetchedResultsSectionInfo> sectionInfo;
 
@@ -120,60 +88,11 @@ static NSString* kPostFiledJson = @"json";
     }
 
 
-    allRequestsSent = YES;
-    
-    if (!queue.requestsCount)// nothing running
-    {
-        [self willChangeValueForKey:@"isSyncing"];
-        isSyncing = NO;
-        [self didChangeValueForKey:@"isSyncing"];
-    }
-}
-
-- (void)fetchComplete:(ASIHTTPRequest *)request
-{
-    void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
-    if (handler)
-        handler(request);
-}
-
-- (void)fetchFailed:(ASIHTTPRequest *)request
-{
-    void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
-    if (handler)
-        handler(request);
-}
-
-- (void)authenticationNeededForRequest:(ASIHTTPRequest *)request
-{
-    [[PasswordManager sharedPasswordManager] credentials:(request.authenticationRetryCount>0) handler:^(NSString *aLogin, NSString *aPassword, BOOL canceled){
-        if (canceled) 
-            [request cancelAuthentication];
-        else
-        {
-            if ([request authenticationNeeded] == ASIHTTPAuthenticationNeeded) 
-            {
-                [request setUsername:aLogin];
-                [request setPassword:aPassword];
-                [request retryUsingSuppliedCredentials];
-            } else if ([request authenticationNeeded] == ASIProxyAuthenticationNeeded) 
-            {
-                [request setProxyUsername:aLogin];
-                [request setProxyPassword:aPassword];
-                [request retryUsingSuppliedCredentials];
-            }
-        }
-    }];
+    [self endSession];
 }
 
 - (void)dealloc {
-    [queue removeObserver:self forKeyPath:OperationCount];
-    [queue reset];
-	[queue release]; queue = nil;
-    
     [parseFormatterSimple release]; parseFormatterSimple = nil;
-    
-    [postDocumentUrl release]; postDocumentUrl =  nil;
     
     [postFileUrl release]; postFileUrl = nil;
     
@@ -239,59 +158,22 @@ static NSString* kPostFiledJson = @"json";
             [dictDocument setObject:resolution.text forKey:kFieldText];
     }
     
-    
-    SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
-    
-    NSError *error = nil;
-    NSString *postData = [jsonWriter stringWithObject:dictDocument error: &error];
-    
-    [jsonWriter release];
-    
-    if (error)
+    [self jsonPostRequestWithUrl:self.postFileUrl
+                        postData:[NSDictionary dictionaryWithObjectsAndKeys:dictDocument, self.postFileField, nil]
+                           files:nil 
+                      andHandler:^(BOOL error, id response)
     {
-        NSString *err  = @"Unable to create json string";
-        NSLog(@"%@", err);
-        return;
-    }
-    
-    postData = [postData stringByAddingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
-    
-    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: self.postDocumentUrl]];
-    
-    [request addRequestHeader:@"Content-Type" value:@"text/plain; charset=utf-8"];
-    
-    request.delegate = self;
-    request.requestMethod = @"POST";
-    //string already escaped
-    [request appendPostData: [postData dataUsingEncoding: NSASCIIStringEncoding]];
-    
-    __block LNDocumentWriter *blockSelf = self;
-    
-    request.requestHandler = ^(ASIHTTPRequest *request) {
-        NSString *error = [request error] == nil?
-        ([request responseStatusCode] == 200?
-         nil:
-         NSLocalizedString(@"Bad response", "Bad response")):
-        [[request error] localizedDescription];
         if (error)
-            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
-        else
-        {
-            document.syncStatusValue = SyncStatusSynced;
-            [[DataSource sharedDataSource] commit];
-        }
-        
-    };
-    
-    [queue addOperation:request];    
+            return;
+        document.syncStatusValue = SyncStatusSynced;
+        [[DataSource sharedDataSource] commit];
+    }];  
 }
 
 - (void) syncFile:(FileField *) file
 {
-    LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: self.postFileUrl]];
-    
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithCapacity:4];
-    
+
     NSFileManager *df = [NSFileManager defaultManager];
     
     BOOL fileExists = [df isReadableFileAtPath:file.path];
@@ -303,7 +185,7 @@ static NSString* kPostFiledJson = @"json";
         
         [jsonDict setObject:comment.document.uid forKey:kFieldParentId];
         [jsonDict setObject:@"userComment" forKey:kFieldType];
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"application/audio":@"null"), @"content", nil] forKey:kFieldFile];
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"audio":@"null"), @"content", nil] forKey:kFieldFile];
         
         if (audio.version)
             [jsonDict setObject:audio.version forKey:kFieldVersion];
@@ -325,104 +207,33 @@ static NSString* kPostFiledJson = @"json";
         
     }
     else
-        NSAssert1(NO, @"Unknown file to sync: %@", [file class]);
-
-    SBJsonWriter *jsonWriter = [[SBJsonWriter alloc] init];
-    
-    NSError *error = nil;
-    NSString *jsonString = [jsonWriter stringWithObject:jsonDict error: &error];
-    
-    [jsonWriter release];
-    
-    if (error)
     {
-        NSString *err  = @"Unable to create json string";
-        NSLog(@"%@", err);
+        NSLog(@"Unknown file to sync: %@", [file class]);
         return;
     }
 
-    [request setPostValue:jsonString forKey:kPostFiledJson];
-    
-    if (fileExists)
-        [request setFile:file.path forKey:self.postFileField];
-    
-    request.delegate = self;
-    
-    
-    __block LNDocumentWriter *blockSelf = self;
-    
-    request.requestHandler = ^(ASIHTTPRequest *request) {
-        NSString *error = [request error] == nil?
-        ([request responseStatusCode] == 200?
-         nil:
-         NSLocalizedString(@"Bad response", "Bad response")):
-        [[request error] localizedDescription];
-        if (error)
-            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
-        else
-        {
-            SBJsonParser *json = [[SBJsonParser alloc] init];
-            NSError *error = nil;
-            NSString *jsonString = [request responseString];
-            NSDictionary *parsedResponse = [json objectWithString:jsonString error:&error];
-            [json release];
-            if (parsedResponse == nil)
-            {
-                NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
-                return;
-            }
-            
-            NSString *uid = [parsedResponse valueForKey:kFieldUid];
-            NSString *version = [parsedResponse valueForKey:kFieldVersion];
-            if (uid == nil || version == nil)
-            {
-                NSLog(@"error parsing response:", jsonString);
-                return;
-            }
-            file.uid = uid;
-            file.version = version;
-            file.syncStatusValue = SyncStatusSynced;
-            [[DataSource sharedDataSource] commit];
-        }
-        
-    };
-    
-    [queue addOperation:request];    
+    [self jsonPostRequestWithUrl:self.postFileUrl
+                        postData:[NSDictionary dictionaryWithObjectsAndKeys:jsonDict, self.postFileField, nil]
+                           files:nil 
+                      andHandler:^(BOOL error, id response)
+     {
+         if (error)
+             return;
+         NSString *uid = [response valueForKey:kFieldUid];
+         NSString *version = [response valueForKey:kFieldVersion];
+         if (uid == nil || version == nil)
+         {
+             NSLog(@"error parsing response: %@", response);
+             return;
+         }
+         file.uid = uid;
+         file.version = version;
+         file.syncStatusValue = SyncStatusSynced;
+         [[DataSource sharedDataSource] commit];
+         
+     }];  
 }
 
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == &OperationCount)
-    {
-		BOOL x = !allRequestsSent || (queue.requestsCount != 0);
-        if ( x != isSyncing )
-        {
-            [self willChangeValueForKey:@"isSyncing"];
-            isSyncing = x;
-            [self didChangeValueForKey:@"isSyncing"];
-        }
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
-    }
-}
-
-- (NSString *)postDocumentUrl
-{
-    if (!postDocumentUrl)
-    {
-        postDocumentUrl = [url stringByAppendingString:@"/ipad.transfer?OpenAgent&charset=utf-8"];
-        [postDocumentUrl retain];
-    }
-    return postDocumentUrl;
-}
 - (NSString *)postFileUrl
 {
     if (!postFileUrl)

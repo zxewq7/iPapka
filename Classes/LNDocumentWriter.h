@@ -8,27 +8,22 @@
 
 #import <Foundation/Foundation.h>
 #import <CoreData/NSFetchedResultsController.h>
+#import "LNNetwork.h"
 
 @class ASINetworkQueue;
 
-@interface LNDocumentWriter : NSObject<NSFetchedResultsControllerDelegate> 
+@interface LNDocumentWriter : LNNetwork<NSFetchedResultsControllerDelegate> 
 {
-    ASINetworkQueue *queue;
     NSString        *url;
     NSDateFormatter *parseFormatterSimple;
-    NSString        *postDocumentUrl;
     NSString        *postFileUrl;
     NSString        *postFileField;
     NSFetchedResultsController *unsyncedDocuments;
     NSFetchedResultsController *unsyncedFiles;
-    BOOL             allRequestsSent;
 }
-
-- (id) initWithUrl:(NSString *) anUrl;
 
 @property (nonatomic, retain) NSFetchedResultsController *unsyncedDocuments;
 @property (nonatomic, retain) NSFetchedResultsController *unsyncedFiles;
-@property (nonatomic, assign, readonly) BOOL isSyncing;
 
 - (void) sync;
 @end

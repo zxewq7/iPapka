@@ -566,9 +566,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (!documentWriter)
     {
-        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
-        documentWriter = [[LNDocumentWriter alloc] initWithUrl: serverUrl];
+        documentWriter = [[LNDocumentWriter alloc] init];
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
         [fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
