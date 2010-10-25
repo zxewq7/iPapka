@@ -288,9 +288,9 @@ NSString* BWOrderedChangeContext = @"BWOrderedChangeContext";
 		BOOL				changedOrdering = NO;
 
 		//NSLog(@"%@ changed: removedObjects = %@, addedObjects = %@", object, removedObjects, addedObjects);
-		if ([removedObjects isEqual:[NSNull null]])
+		if ([removedObjects isEqual:[NSNull null]] || ([removedObjects respondsToSelector:@selector(isFault)] && [removedObjects performSelector:@selector(isFault)]))
 			removedObjects = nil;
-		if ([addedObjects isEqual:[NSNull null]])
+		if ([addedObjects isEqual:[NSNull null]]  || ([addedObjects respondsToSelector:@selector(isFault)] && [addedObjects performSelector:@selector(isFault)]))
 			addedObjects = nil;
 		enumerator = [removedObjects objectEnumerator];
 		while (managedObject = [enumerator nextObject]) 
