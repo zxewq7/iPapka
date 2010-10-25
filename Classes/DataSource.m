@@ -213,9 +213,10 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     {
         NSDictionary *changedValues = [object changedValues];
         NSUInteger numberOfProperties = [changedValues count];
-        if ([changedValues objectForKey: @"syncStatus"]) //ignore objects with changed sync status
-            continue;
+        numberOfProperties += ([changedValues objectForKey: @"syncStatus"] == nil?0:1);
 
+        NSManagedObject *sourceDocument = nil;
+        
         if ([object isKindOfClass:[Document class]])
         {
             
@@ -223,14 +224,23 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 numberOfProperties--;
             
             if (numberOfProperties > 0) //set syncStatus to SyncStatusNeedSyncToServer
+            {
                 [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
+                sourceDocument = object;
+            }
                 
         }
         else if ([object isKindOfClass:[FileField class]])
 
         {
-            [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
+            if (numberOfProperties > 0)
+            {
+                [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
+                sourceDocument = [[[object valueForKey:@"page"] valueForKey:@"attachment"] valueForKey:@"document"];
+            }
         }
+        
+        [sourceDocument setValue:[NSDate date] forKey:@"dateModified"];
     }
 
     NSSet *deletedObjects = [managedObjectContext deletedObjects];
