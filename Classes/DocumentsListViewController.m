@@ -412,9 +412,6 @@ static NSString* SyncingContext = @"SyncingContext";
 	if (![fetchedResultsController performFetch:&error])
 		NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
 
-    NSLog(@"%@", fetchedResultsController.fetchedObjects);
-
-    
     [self.tableView reloadData];
     
     
