@@ -47,6 +47,7 @@ typedef enum
 - (NSPredicate *)personUidPredicateTemplate;
 - (NSManagedObjectModel *)managedObjectModel;
 - (Person *) personWithUid:(NSString *) anUid;
+- (void) showErrorMessage;
 @end
 
 @implementation DataSource
@@ -482,41 +483,46 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (context == &SyncingContext)
     {
-        BOOL ss = self.documentReader.isSyncing || self.documentWriter.isSyncing || self.personReader.isSyncing;
+        BOOL ss = self.documentReader.isSyncing || self.documentWriter.isSyncing || self.personReader.isSyncing || self.settingsReader.isSyncing;
         
         if (!ss)
         {
-            if (self.settingsReader.hasError || self.personReader.hasError || self.documentReader.hasErrors || self.documentWriter.hasError)
+            switch (syncStep)
             {
-                if (showErrors)
-                {
-                    
-                    UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Synchronization error", "Synchronization error")
-                                                                     message:NSLocalizedString(@"Unable to synchronyze", "Unable to synchronyze")
-                                                                    delegate:nil
-                                                           cancelButtonTitle:NSLocalizedString(@"OK", "OK")
-                                                           otherButtonTitles:nil];
-                    [prompt show];
-                    [prompt release];
-                }
-            }
-            else
-            {
-                switch (syncStep)
-                {
-                    case SyncStepSyncSettingsReader:
+                case SyncStepSyncSettingsReader:
+                    if (self.settingsReader.hasError)
+                        [self showErrorMessage];
+                    else
+                    {
                         syncStep = SyncStepSyncPersonReader;
                         [[self personReader] sync];
                         return;
-                    case SyncStepSyncDocumentWriter:
+                    }
+                    break;
+                case SyncStepSyncDocumentWriter:
+                    if (self.documentWriter.hasError)
+                        [self showErrorMessage];
+                    else
+                    {
                         syncStep = SyncStepSyncDocumentReader;
                         [[self documentReader] sync];
                         return;
-                    case SyncStepSyncPersonReader:
+                    }
+                    break;
+                case SyncStepSyncPersonReader:
+                    if (self.personReader.hasError)
+                        [self showErrorMessage];
+                    else
+                    {
                         syncStep = SyncStepSyncDocumentWriter;
                         [[self documentWriter] sync];
                         return;
-                }
+                    }
+                    break;
+                case SyncStepSyncDocumentReader:
+                    if (self.documentReader.hasErrors)
+                        [self showErrorMessage];
+                    break;
             }
         }
         
@@ -759,5 +765,20 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     }
     
     return settingsReader;
+}
+
+- (void) showErrorMessage
+{
+    if (showErrors)
+    {
+        
+        UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Synchronization error", "Synchronization error")
+                                                         message:NSLocalizedString(@"Unable to synchronyze", "Unable to synchronyze")
+                                                        delegate:nil
+                                               cancelButtonTitle:NSLocalizedString(@"OK", "OK")
+                                               otherButtonTitles:nil];
+        [prompt show];
+        [prompt release];
+    }
 }
 @end
