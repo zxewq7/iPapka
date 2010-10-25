@@ -33,7 +33,7 @@ static NSString* OperationCount = @"OperationCount";
 }
 
 
--(void) allRequestsSent:(BOOL) value
+-(void) setAllRequestsSent:(BOOL) value
 {
     allRequestsSent = value;
     BOOL x = !allRequestsSent || (queue.requestsCount != 0);
@@ -189,6 +189,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     self.allRequestsSent = NO;
     self.hasError = NO;
+    isSyncing = YES;
 }
 
 -(void) endSession
