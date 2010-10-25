@@ -14,6 +14,7 @@
 #import "Person.h"
 #import "DocumentResolution.h"
 #import "DocumentCellView.h"
+#import "NSDateFormatter+Additions.h"
 
 #define ROW_HEIGHT 94
 
@@ -23,7 +24,6 @@ static NSString* SyncingContext = @"SyncingContext";
 - (void) createToolbars;
 - (void)updateSyncStatus;
 - (void)updateContent;
-- (NSString *)sectionNameForDate:(NSDate *) date;
 @end
 
 
@@ -130,7 +130,8 @@ static NSString* SyncingContext = @"SyncingContext";
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
     NSArray *objects = [sectionInfo objects];
     Document *doc = [objects objectAtIndex:0];
-    return [self sectionNameForDate:doc.registrationDateStripped];
+
+    return [dateFormatter stringForDateFromNow:doc.registrationDateStripped];
 }
 
 
@@ -475,45 +476,6 @@ static NSString* SyncingContext = @"SyncingContext";
         }
     }
     
-}
-
-- (NSString *)sectionNameForDate:(NSDate *) date
-{
-    NSString *result = nil;
-    NSDateComponents *dateComponents;
-    NSInteger myDay, tzDay;
-    
-    // Set the calendar's time zone to the default time zone.
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    dateComponents = [calendar components:NSWeekdayCalendarUnit fromDate:[NSDate date]];
-    myDay = [dateComponents weekday];
-    
-    dateComponents = [calendar components:NSWeekdayCalendarUnit fromDate:date];
-    tzDay = [dateComponents weekday];
-    
-    NSRange dayRange = [calendar maximumRangeOfUnit:NSWeekdayCalendarUnit];
-    NSInteger maxDay = NSMaxRange(dayRange) - 1;
-    
-    if (myDay == tzDay)
-        result = NSLocalizedString(@"Today", "Today");
-    else 
-    {
-        if ((tzDay - myDay) > 0)
-            result = NSLocalizedString(@"Tomorrow", "Tomorrow");
-        else
-            result = NSLocalizedString(@"Yesterday", "Yesterday");
-        // Special cases for days at the end of the week
-        if ((myDay == maxDay) && (tzDay == 1))
-            result = NSLocalizedString(@"Tomorrow", "Tomorrow");
-
-        if ((myDay == 1) && (tzDay == maxDay))
-            result = NSLocalizedString(@"Yesterday", "Yesterday");
-    }
-    
-    if (!result)
-        result = [dateFormatter stringFromDate: date];
-
-	return result;
 }
 
 - (void)updateContent

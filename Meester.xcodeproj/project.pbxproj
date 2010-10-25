@@ -53,6 +53,7 @@
 		8124544212660A4600453AB8 /* DocumentResolutionParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8124544012660A4600453AB8 /* DocumentResolutionParent.m */; };
 		8124C7A0125DFB400031C07E /* BrushPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8124C79F125DFB400031C07E /* BrushPen.png */; };
 		8124C7FD125E15C90031C07E /* IntRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8124C7FC125E15C90031C07E /* IntRow.m */; };
+		812C3D641275874E00F9E32B /* NSDateFormatter+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 812C3D631275874E00F9E32B /* NSDateFormatter+Additions.m */; };
 		813011E1126DD664002ADE40 /* CalloutViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DC126DD664002ADE40 /* CalloutViewBackground.png */; };
 		813011E2126DD664002ADE40 /* CalloutViewBottomAnchor.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */; };
 		813011E3126DD664002ADE40 /* CalloutViewLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */; };
@@ -287,6 +288,8 @@
 		8124C79F125DFB400031C07E /* BrushPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushPen.png; sourceTree = "<group>"; };
 		8124C7FB125E15C90031C07E /* IntRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IntRow.h; path = ../IntRow.h; sourceTree = "<group>"; };
 		8124C7FC125E15C90031C07E /* IntRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntRow.m; path = ../IntRow.m; sourceTree = "<group>"; };
+		812C3D621275874E00F9E32B /* NSDateFormatter+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDateFormatter+Additions.h"; path = "thirdparty/NSDateFormatter+Additions.h"; sourceTree = "<group>"; };
+		812C3D631275874E00F9E32B /* NSDateFormatter+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDateFormatter+Additions.m"; path = "thirdparty/NSDateFormatter+Additions.m"; sourceTree = "<group>"; };
 		813011DC126DD664002ADE40 /* CalloutViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewBackground.png; sourceTree = "<group>"; };
 		813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewBottomAnchor.png; sourceTree = "<group>"; };
 		813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewLeftCap.png; sourceTree = "<group>"; };
@@ -867,6 +870,8 @@
 			isa = PBXGroup;
 			children = (
 				81775FCC1251F74E002A2D3D /* JSON */,
+				812C3D621275874E00F9E32B /* NSDateFormatter+Additions.h */,
+				812C3D631275874E00F9E32B /* NSDateFormatter+Additions.m */,
 				815DE5B0127437F700D26CE8 /* BWOrderedManagedObject.h */,
 				815DE5B1127437F700D26CE8 /* BWOrderedManagedObject.m */,
 				815DE5A612742EBA00D26CE8 /* AZZAudioPlayer.h */,
@@ -1212,6 +1217,7 @@
 				815DE5AA12742EBA00D26CE8 /* AZZAudioPlayer.m in Sources */,
 				815DE5AB12742EBA00D26CE8 /* AZZAudioRecorder.m in Sources */,
 				815DE5B2127437F700D26CE8 /* BWOrderedManagedObject.m in Sources */,
+				812C3D641275874E00F9E32B /* NSDateFormatter+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
