@@ -35,16 +35,14 @@ static NSString* kFieldMiddle = @"middle";
 
     __block LNPersonReader *blockSelf = self;
 
-    [self jsonRequestWithUrl:url andHandler:^(BOOL err, NSObject *response)
+    [self jsonRequestWithUrl:url andHandler:^(BOOL err, id response)
     {
         if (err)
             return;
 
-        NSArray *parsedResponse = (NSArray *)response;
+        NSMutableSet *allUids = [NSMutableSet setWithCapacity:[response count]];
         
-        NSMutableSet *allUids = [NSMutableSet setWithCapacity:[parsedResponse count]];
-        
-        for (NSDictionary *personDict in parsedResponse)
+        for (NSDictionary *personDict in response)
         {
             NSString *uid = [personDict objectForKey:kFieldUid];
             NSString *first = [personDict objectForKey:kFieldFirst];

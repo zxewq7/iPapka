@@ -14,14 +14,12 @@
     __block LNSettingsReader *blockSelf = self;
     
     [self beginSession];
-    [self jsonRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(BOOL err, NSObject *response)
+    [self jsonRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(BOOL err, id response)
     {
         if (err)
             return;
 
-        NSDictionary *parsedResponse = (NSDictionary *)response;
-
-        NSDictionary *upload = [parsedResponse objectForKey:@"upload"];
+        NSDictionary *upload = [response objectForKey:@"upload"];
         NSString *url = [upload objectForKey:@"url"];
         NSString *field = [upload objectForKey:@"fileField"];
         
