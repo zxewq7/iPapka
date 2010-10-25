@@ -26,6 +26,7 @@ static NSString* kFieldPerformers = @"performers";
 static NSString* kFieldText = @"text";
 static NSString* kFieldType = @"type";
 static NSString* kFieldFile = @"file";
+static NSString* kPostDataField = @"json";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(Document *) document;
@@ -158,7 +159,7 @@ static NSString* kFieldFile = @"file";
     }
     
     [self jsonPostRequestWithUrl:self.postFileUrl
-                        postData:[NSDictionary dictionaryWithObjectsAndKeys:dictDocument, self.postFileField, nil]
+                        postData:[NSDictionary dictionaryWithObjectsAndKeys:dictDocument, kPostDataField, nil]
                            files:nil 
                       andHandler:^(BOOL error, id response)
     {
@@ -222,8 +223,8 @@ static NSString* kFieldFile = @"file";
     }
 
     [self jsonPostRequestWithUrl:self.postFileUrl
-                        postData:[NSDictionary dictionaryWithObjectsAndKeys:jsonDict, self.postFileField, nil]
-                           files:nil 
+                        postData:[NSDictionary dictionaryWithObjectsAndKeys:jsonDict, kPostDataField, nil]
+                           files:[NSDictionary dictionaryWithObjectsAndKeys:file.path, self.postFileField, nil] 
                       andHandler:^(BOOL error, id response)
      {
          if (error)
