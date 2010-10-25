@@ -221,7 +221,7 @@ static NSString* SyncingContext = @"SyncingContext";
     }
     else
     {
-        contentView.detailTextLabel2.text = [NSString stringWithFormat:@"%@ %@ %@ %@", NSLocalizedString(@"Modified", @"DocumentList->Modified"), [dateFormatter stringFromDate: doc.dateModified]];
+        contentView.detailTextLabel2.text = [NSString stringWithFormat:@"%@ %@ %@ %@", NSLocalizedString(@"Modified", @"DocumentList->Modified"), [dateFormatter stringFromDate: doc.dateModified], NSLocalizedString(@"at", @"documentList-> modified at time"), [timeFormatter stringFromDate: doc.dateModified]];
          contentView.detailTextLabel2.enabled = YES;
     }
 
