@@ -26,6 +26,6 @@
 
 -(LNHttpRequest *) requestWithUrl:(NSString *) url;
 -(void) jsonRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSObject *response)) handler;
--(void) beginRequests;
--(void) endRequests;
+-(void) beginSession;
+-(void) endSession;
 @end

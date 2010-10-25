@@ -32,7 +32,7 @@ static NSString* kFieldMiddle = @"middle";
 }
 - (void) sync;
 {
-    [self beginRequests];
+    [self beginSession];
     
     id<LNPersonReaderDataSource> mds = [self dataSource];
 
@@ -87,7 +87,7 @@ static NSString* kFieldMiddle = @"middle";
         [mds personReaderCommit:blockSelf];
         
     }];
-    [self endRequests];
+    [self endSession];
 }
 
 #pragma mark -

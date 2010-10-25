@@ -13,7 +13,7 @@
 {
     __block LNSettingsReader *blockSelf = self;
     
-    [self beginRequests];
+    [self beginSession];
     [self jsonRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(BOOL err, NSObject *response)
     {
         if (err)
@@ -42,6 +42,6 @@
         
     }];
     
-    [self endRequests];
+    [self endSession];
 }
 @end

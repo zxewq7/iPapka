@@ -111,13 +111,13 @@ static NSString* OperationCount = @"OperationCount";
     [queue addOperation:request];
 }
 
--(void) beginRequests
+-(void) beginSession
 {
     self.allRequestsSent = NO;
     self.hasError = NO;
 }
 
--(void) endRequests
+-(void) endSession
 {
     self.allRequestsSent = YES;
 }
