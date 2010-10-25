@@ -20,7 +20,7 @@
 			<key>Key</key>
 			<string>serverUrl</string>
 			<key>DefaultValue</key>
-			<string>http://195.208.68.133/cm35/prvz.nsf</string>
+			<string>http://ibm26.inttrust.ru/cm/prvz.nsf</string>
 			<key>KeyboardType</key>
 			<string>URL</string>
 			<key>AutocapitalizationType</key>
