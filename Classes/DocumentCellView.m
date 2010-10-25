@@ -7,15 +7,16 @@
 //
 
 #import "DocumentCellView.h"
+#import "SegmentedLabel.h"
 
-#define kLeftMargin 5.f
+#define kLeftMargin 10.f
 #define kRightMargin 5.f
-#define kLabelsSpaceBetweenImageView 5.f
-#define kSpaceBetweenLabels 5.f
+#define kLabelsSpaceBetweenImageView 10.f
+#define kSpaceBetweenLabels 1.f
 #define kSpaceBetweenTextLabelAndAttachmentImageView 5.f
 
 @implementation DocumentCellView
-@synthesize textLabel, detailTextLabel, attachmentImageView, imageView;
+@synthesize textLabel, detailTextLabel1, detailTextLabel2, detailTextLabel3, attachmentImageView, imageView;
 
 - (id)initWithFrame:(CGRect)frame 
 {
@@ -28,10 +29,18 @@
         textLabel.backgroundColor = [UIColor clearColor];
         [self addSubview:textLabel];
         
-        detailTextLabel = [[UILabel alloc] initWithFrame:CGRectZero];
-        detailTextLabel.backgroundColor = [UIColor clearColor];
-        [self addSubview:detailTextLabel];
-        
+        detailTextLabel1 = [[UILabel alloc] initWithFrame:CGRectZero];
+        detailTextLabel1.backgroundColor = [UIColor clearColor];
+        [self addSubview:detailTextLabel1];
+
+        detailTextLabel2 = [[UILabel alloc] initWithFrame:CGRectZero];
+        detailTextLabel2.backgroundColor = [UIColor clearColor];
+        [self addSubview:detailTextLabel2];
+
+        detailTextLabel3 = [[SegmentedLabel alloc] initWithFrame:CGRectZero];
+        detailTextLabel3.backgroundColor = [UIColor clearColor];
+        [self addSubview:detailTextLabel3];
+
         attachmentImageView = [[UIImageView alloc] initWithFrame:CGRectZero];
         [self addSubview:attachmentImageView];
 
@@ -46,25 +55,21 @@
 
     CGSize size = self.bounds.size;
     
-    //imageView
     CGSize imageViewSize = imageView.image.size;
-    CGRect imageViewFrame = CGRectMake(kLeftMargin, 
-                                       round((size.height - imageViewSize.height) / 2), 
-                                       imageViewSize.width, 
-                                       imageViewSize.height);
-    imageView.frame = imageViewFrame;
 
     CGSize attachmentImageViewSize = attachmentImageView.image.size;
     
     [textLabel sizeToFit];
     
-    [detailTextLabel sizeToFit];
+    [detailTextLabel1 sizeToFit];
     
-    CGFloat labelLeftMargin = imageViewFrame.origin.x + imageViewSize.width + kLabelsSpaceBetweenImageView;
+    [detailTextLabel2 sizeToFit];
+    
+    CGFloat labelLeftMargin = kLeftMargin + imageViewSize.width + kLabelsSpaceBetweenImageView;
     
     CGFloat labelWidth = size.width - labelLeftMargin - kRightMargin;
     
-    CGFloat labelsHeight = textLabel.bounds.size.height + detailTextLabel.bounds.size.height + kSpaceBetweenLabels;
+    CGFloat labelsHeight = textLabel.bounds.size.height + detailTextLabel1.bounds.size.height + detailTextLabel2.bounds.size.height + detailTextLabel3.bounds.size.height + kSpaceBetweenLabels;
     
     //textLabel
     
@@ -76,27 +81,55 @@
                                        textLabel.bounds.size.height);
     textLabel.frame = textLabelFrame;
     
-    //detailsTextLabel
-    CGRect detailTextLabelFrame = CGRectMake(labelLeftMargin, 
+    //detailsTextLabel1
+    CGRect detailTextLabel1Frame = CGRectMake(labelLeftMargin, 
                                        textLabelFrame.origin.y + textLabelFrame.size.height + kSpaceBetweenLabels, 
-                                       (detailTextLabel.bounds.size.width > labelWidth?labelWidth:detailTextLabel.bounds.size.width),
-                                       detailTextLabel.bounds.size.height);
+                                       (detailTextLabel1.bounds.size.width > labelWidth?labelWidth:detailTextLabel1.bounds.size.width),
+                                       detailTextLabel1.bounds.size.height);
 
-    detailTextLabel.frame = detailTextLabelFrame;
+    detailTextLabel1.frame = detailTextLabel1Frame;
+
+    //detailsTextLabel2
+    CGRect detailTextLabel2Frame = CGRectMake(labelLeftMargin, 
+                                             detailTextLabel1Frame.origin.y + detailTextLabel1Frame.size.height + kSpaceBetweenLabels, 
+                                              (detailTextLabel2.bounds.size.width > labelWidth?labelWidth:detailTextLabel2.bounds.size.width),
+                                              detailTextLabel2.bounds.size.height);
+    
+    detailTextLabel2.frame = detailTextLabel2Frame;
+
+    //detailsTextLabel3
+    CGRect detailTextLabel3Frame = CGRectMake(labelLeftMargin, 
+                                              detailTextLabel2Frame.origin.y + detailTextLabel2Frame.size.height + kSpaceBetweenLabels, 
+                                              detailTextLabel3.bounds.size.width,
+                                              detailTextLabel3.bounds.size.height);
+    
+    detailTextLabel3.frame = detailTextLabel3Frame;
+
     
     //attachmentImageView
-    CGRect attachmentImageViewFrame = CGRectMake(textLabelFrame.origin.x + textLabelFrame.size.width + kSpaceBetweenTextLabelAndAttachmentImageView, 
-                                       textLabelFrame.origin.y + round((textLabelFrame.size.height - attachmentImageViewSize.height) / 2), 
+    CGRect attachmentImageViewFrame = CGRectMake(detailTextLabel3Frame.origin.x + detailTextLabel3Frame.size.width + kSpaceBetweenTextLabelAndAttachmentImageView, 
+                                       detailTextLabel3Frame.origin.y + round((detailTextLabel3Frame.size.height - attachmentImageViewSize.height) / 2), 
                                        attachmentImageViewSize.width, 
                                        attachmentImageViewSize.height);
     attachmentImageView.frame = attachmentImageViewFrame;
+    
+    //imageView
+    CGRect imageViewFrame = CGRectMake(kLeftMargin, 
+                                       textLabelFrame.origin.y + round((textLabelFrame.size.height - imageViewSize.height) / 2), 
+                                       imageViewSize.width, 
+                                       imageViewSize.height);
+    imageView.frame = imageViewFrame;
 }
 
 - (void)dealloc 
 {
     [textLabel release]; textLabel = nil;
     
-    [detailTextLabel release]; detailTextLabel = nil;
+    [detailTextLabel1 release]; detailTextLabel1 = nil;
+    
+    [detailTextLabel2 release]; detailTextLabel2 = nil;
+    
+    [detailTextLabel3 release]; detailTextLabel3 = nil;
     
     [attachmentImageView release]; attachmentImageView = nil;
     

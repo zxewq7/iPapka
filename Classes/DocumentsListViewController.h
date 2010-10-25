@@ -24,6 +24,7 @@
 {
 	
     NSDateFormatter         *dateFormatter;
+    NSDateFormatter         *timeFormatter;
     Folder                  *folder;
     NSUInteger              filterIndex;
     UILabel                 *titleLabel;
@@ -36,11 +37,8 @@
     UITabBar                *filtersBar;
     NSFetchedResultsController *fetchedResultsController;
 }
-@property (nonatomic, retain) NSDateFormatter           *dateFormatter;
 @property (nonatomic, retain, setter=setFolder:) Folder *folder;
 
-@property (nonatomic, retain) NSDateFormatter           *activityDateFormatter;
-@property (nonatomic, retain) NSDateFormatter           *activityTimeFormatter;
 @property (nonatomic, retain) id<DocumentsListDelegate> delegate;
 @property (nonatomic, retain) Document           *document;
 -(void)dismiss:(id)sender;

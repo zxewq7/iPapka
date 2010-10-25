@@ -15,6 +15,7 @@
 #import "DocumentResolution.h"
 #import "DocumentCellView.h"
 #import "NSDateFormatter+Additions.h"
+#import "SegmentedLabel.h"
 
 #define ROW_HEIGHT 94
 
@@ -31,10 +32,7 @@ static NSString* SyncingContext = @"SyncingContext";
 
 #pragma mark -
 #pragma mark properties
-@synthesize dateFormatter;
 @synthesize folder;
-@synthesize activityDateFormatter; 
-@synthesize activityTimeFormatter;
 @synthesize delegate;
 @synthesize document;
 
@@ -60,23 +58,24 @@ static NSString* SyncingContext = @"SyncingContext";
     self.tableView.backgroundView = backgroundView;
     [backgroundView release];
     
-    self.dateFormatter = [[[NSDateFormatter alloc] init] autorelease];
+    dateFormatter = [[NSDateFormatter alloc] init];
     dateFormatter.dateStyle = NSDateFormatterLongStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
 
-    self.activityDateFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [self.activityDateFormatter setDateStyle:NSDateFormatterShortStyle];
-    [self.activityDateFormatter setTimeStyle:NSDateFormatterNoStyle];
+    timeFormatter = [[NSDateFormatter alloc] init];
+    timeFormatter.dateStyle = NSDateFormatterNoStyle;
+    timeFormatter.timeStyle = NSDateFormatterShortStyle;
+
     
-    self.activityTimeFormatter = [[[NSDateFormatter alloc] init] autorelease];
-    [self.activityTimeFormatter setDateStyle:NSDateFormatterNoStyle];
-    [self.activityTimeFormatter setTimeStyle:NSDateFormatterShortStyle];
+    activityDateFormatter = [[NSDateFormatter alloc] init];
+    activityDateFormatter.dateStyle = NSDateFormatterShortStyle;
+    activityDateFormatter.timeStyle = NSDateFormatterNoStyle;
+    
+    activityTimeFormatter = [[NSDateFormatter alloc] init];
+    activityTimeFormatter.dateStyle = NSDateFormatterNoStyle;
+    activityTimeFormatter.timeStyle = NSDateFormatterShortStyle;
     
     [self createToolbars];
-    
-    NSError *error;
-	if (![fetchedResultsController performFetch:&error])
-		NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
     
     [[DataSource sharedDataSource] addObserver:self
                                     forKeyPath:@"isSyncing"
@@ -146,13 +145,47 @@ static NSString* SyncingContext = @"SyncingContext";
         
         DocumentCellView *contentView = [[DocumentCellView alloc] initWithFrame:CGRectMake(0, 0, 540, aTableView.rowHeight)];
 
-        contentView.textLabel.font = [UIFont boldSystemFontOfSize:18.f];
+        contentView.textLabel.font = [UIFont boldSystemFontOfSize:20.f];
         contentView.textLabel.highlightedTextColor = [UIColor whiteColor];
         
-        contentView.detailTextLabel.font = [UIFont systemFontOfSize:14.f];
-        contentView.detailTextLabel.highlightedTextColor = [UIColor whiteColor];
-        contentView.detailTextLabel.textColor = [UIColor darkGrayColor];
+        contentView.detailTextLabel1.font = [UIFont systemFontOfSize:14.f];
+        contentView.detailTextLabel1.highlightedTextColor = [UIColor whiteColor];
 
+        contentView.detailTextLabel2.font = [UIFont systemFontOfSize:14.f];
+        contentView.detailTextLabel2.highlightedTextColor = [UIColor whiteColor];
+        contentView.detailTextLabel2.textColor = [UIColor colorWithRed:0.137 green:0.467 blue:0.929 alpha:1.0];
+        
+        UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectZero];
+        label1.textColor = [UIColor colorWithRed:0.804 green:0.024 blue:0.024 alpha:1.0];
+        label1.highlightedTextColor = [UIColor whiteColor];
+        label1.font = [UIFont boldSystemFontOfSize:12.f];
+        label1.backgroundColor = [UIColor clearColor];
+        
+        UILabel *label2 = [[UILabel alloc] initWithFrame:CGRectZero];
+        label2.textColor = [UIColor colorWithRed:0.718 green:0.635 blue:0.173 alpha:1.0];
+        label2.highlightedTextColor = [UIColor whiteColor];
+        label2.font = [UIFont boldSystemFontOfSize:12.f];
+        label2.backgroundColor = [UIColor clearColor];
+        
+        UILabel *label3 = [[UILabel alloc] initWithFrame:CGRectZero];
+        label3.textColor = [UIColor colorWithRed:0.118 green:0.506 blue:0.051 alpha:1.0];
+        label3.highlightedTextColor = [UIColor whiteColor];
+        label3.font = [UIFont boldSystemFontOfSize:12.f];
+        label3.backgroundColor = [UIColor clearColor];
+
+        UILabel *label4 = [[UILabel alloc] initWithFrame:CGRectZero];
+        label4.textColor = [UIColor blackColor];
+        label4.highlightedTextColor = [UIColor whiteColor];
+        label4.font = [UIFont systemFontOfSize:12.f];
+        label4.backgroundColor = [UIColor clearColor];
+        
+        contentView.detailTextLabel3.labels = [NSArray arrayWithObjects:label1, label2, label3, label4, nil];
+        
+        [label1 release];
+        [label2 release];
+        [label3 release];
+        [label4 release];
+        
         [cell.contentView addSubview:contentView];
 
         [contentView release];
@@ -165,26 +198,127 @@ static NSString* SyncingContext = @"SyncingContext";
 
     contentView.textLabel.text = doc.title;
     
-    if ([document.attachments count] > 1 || [document.links count])
-        contentView.attachmentImageView.image = [UIImage imageNamed:@"Attachment.png"];
-    else
-        contentView.attachmentImageView.image = nil;
-
-    NSString *details;
+    NSString *details1;
     
     if ([doc isKindOfClass:[DocumentResolution class]])
     {
         if ([doc.correspondents count])
-            details = [NSString stringWithFormat:@"%@ %@ %@, %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
+            details1 = [NSString stringWithFormat:@"%@ %@ %@, %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
         else
-            details = [NSString stringWithFormat:@"%@ %@ %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate]];
+            details1 = [NSString stringWithFormat:@"%@ %@ %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate]];
     }
     else if ([doc.correspondents count])
-        details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
+        details1 = [NSString stringWithFormat:@"%@ %@, %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
     else
-        details = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate: doc.registrationDate]];
+        details1 = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate]];
     
-    contentView.detailTextLabel.text = details;
+    contentView.detailTextLabel1.text = details1;
+    
+    if (doc.statusValue == DocumentStatusNew)
+    {
+        contentView.detailTextLabel2.text = NSLocalizedString(@"Unmodified", @"DocumentList->Unmodified");
+        contentView.detailTextLabel2.enabled = NO;
+    }
+    else
+    {
+        contentView.detailTextLabel2.text = [NSString stringWithFormat:@"%@ %@ %@ %@", NSLocalizedString(@"Modified", @"DocumentList->Modified"), [dateFormatter stringFromDate: doc.dateModified]];
+         contentView.detailTextLabel2.enabled = YES;
+    }
+
+    NSMutableArray *labels = [[NSMutableArray alloc] initWithCapacity:4];
+    BOOL isPriority = (doc.priorityValue > 0);
+    BOOL isStatus = NO;
+    
+    if (isPriority)
+        [labels addObject: [NSLocalizedString(@"Important", @"Important") uppercaseString]];
+    else
+        [labels addObject: @""];
+    
+    switch (doc.statusValue)
+    {
+        case DocumentStatusAccepted:
+            if (isPriority)
+                [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]]];
+            else
+                [labels addObject: [NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]];
+            
+            [labels addObject: @""];
+            
+            isStatus = YES;
+            break;
+        case DocumentStatusDeclined:
+            if (isPriority)
+                [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Declined", @"Declined") uppercaseString]]];
+            else
+                [labels addObject: [NSLocalizedString(@"Declined", @"Declined") uppercaseString]];
+            
+            [labels addObject: @""];
+            
+            isStatus = YES;
+            break;
+        default:
+            [labels addObject: @""];
+            [labels addObject: @""];
+            break;
+    }
+    
+    if ([doc.attachments count] > 1 || [doc.links count])
+    {
+        NSString *attachmentsString;
+        NSString *attachmentsName;
+        
+        switch ([doc.attachments count])
+        {
+            case 1:
+                attachmentsName = NSLocalizedString(@"attachment", @"attachment");
+                break;
+            case 2:
+            case 3:
+            case 4:
+                attachmentsName = NSLocalizedString(@"attachment24", @"number of attachments from 2 to 4");
+                break;
+            default:
+                attachmentsName = NSLocalizedString(@"attachments", @"attachments");
+                break;
+        }
+        
+        if ([doc.links count])
+        {
+            NSString *linksName;
+            
+            switch ([doc.links count])
+            {
+                case 1:
+                    linksName = NSLocalizedString(@"linked document", @"linked document");
+                    break;
+                case 2:
+                case 3:
+                case 4:
+                    linksName = NSLocalizedString(@"linked document24", @"number of linked documents from 2 to 4");
+                    break;
+                default:
+                    linksName = NSLocalizedString(@"linked documents", @"linked documents");
+                    break;
+            }
+
+            attachmentsString = [NSString stringWithFormat:@"%@ %d %@ %@ %d %@",(isStatus || isPriority ? @", ":@""), [doc.attachments count], attachmentsName, NSLocalizedString(@"and", "and"), [doc.links count], linksName];
+        }
+        else
+            attachmentsString = [NSString stringWithFormat:@"%@ %d %@",(isStatus || isPriority ? @", ":@""), [doc.attachments count], attachmentsName];
+        
+        [labels addObject: attachmentsString];
+        
+        contentView.attachmentImageView.image = [UIImage imageNamed:@"Attachment.png"];
+    }
+    else
+    {
+        [labels addObject: @""];
+        contentView.attachmentImageView.image = nil;
+    }
+    
+    contentView.detailTextLabel3.texts = labels;
+    
+    [labels release];
     
     contentView.imageView.image = doc.isReadValue?[UIImage imageNamed:@"ReadMark.png"]:[UIImage imageNamed:@"UnreadMark.png"];
     return cell;
@@ -278,10 +412,14 @@ static NSString* SyncingContext = @"SyncingContext";
 	if (![fetchedResultsController performFetch:&error])
 		NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
 
+    NSLog(@"%@", fetchedResultsController.fetchedObjects);
+
+    
     [self.tableView reloadData];
     
-    if (selectedDocumentIndexPath)
-        [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+    
+//    if (selectedDocumentIndexPath)
+//        [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
 
 }
 #pragma mark -
@@ -326,17 +464,15 @@ static NSString* SyncingContext = @"SyncingContext";
 -(void) viewDidUnload 
 {
 	[super viewDidUnload];
-    self.dateFormatter = nil;
-    [titleLabel release];
-    titleLabel = nil;
-    [detailsLabel release];
-    detailsLabel = nil;
-    self.activityDateFormatter = nil;
-    self.activityTimeFormatter = nil;
-    [selectedDocumentIndexPath release];
-    selectedDocumentIndexPath = nil;
-    [filtersBar release];
-    filtersBar = nil;
+    [dateFormatter release]; dateFormatter = nil;
+    [titleLabel release]; titleLabel = nil;
+    [detailsLabel release]; detailsLabel = nil;
+    [activityDateFormatter release]; activityDateFormatter = nil;
+    [activityTimeFormatter release]; activityDateFormatter = nil;
+    [selectedDocumentIndexPath release]; selectedDocumentIndexPath = nil;
+    [filtersBar release]; filtersBar = nil;
+    [timeFormatter release]; timeFormatter = nil;
+
     
     [[DataSource sharedDataSource] removeObserver:self
                                        forKeyPath:@"isSyncing"];
@@ -345,14 +481,14 @@ static NSString* SyncingContext = @"SyncingContext";
 
 - (void)dealloc 
 {
-    self.dateFormatter = nil;
+    [dateFormatter release]; dateFormatter = nil;
     self.folder = nil;
     [titleLabel release];
     titleLabel = nil;
     [detailsLabel release];
     detailsLabel = nil;
-    self.activityDateFormatter = nil;
-    self.activityTimeFormatter = nil;
+    [activityDateFormatter release]; activityDateFormatter = nil;
+    [activityTimeFormatter release]; activityDateFormatter = nil;
     self.delegate = nil;
     self.document =  nil;
     [selectedDocumentIndexPath release];
@@ -363,6 +499,8 @@ static NSString* SyncingContext = @"SyncingContext";
 
     [[DataSource sharedDataSource] removeObserver:self
                                        forKeyPath:@"isSyncing"];
+    
+    [timeFormatter release]; timeFormatter = nil;
     [super dealloc];
 }
 @end
@@ -448,7 +586,7 @@ static NSString* SyncingContext = @"SyncingContext";
     {
         NSDate *lastSynced = ds.lastSynced;
         if (lastSynced)
-            detailsLabel.text = [NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Synchronized", "Synchronized"), [self.activityTimeFormatter stringFromDate:lastSynced], [self.activityDateFormatter stringFromDate:lastSynced]];
+            detailsLabel.text = [NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Synchronized", "Synchronized"), [activityTimeFormatter stringFromDate:lastSynced], [activityDateFormatter stringFromDate:lastSynced]];
         
         //update filter badges
         NSArray *filters = folder.filters;
@@ -483,8 +621,6 @@ static NSString* SyncingContext = @"SyncingContext";
     //deselect selected row
     if (folder)
     {
-        Folder *filter;
-        
         //find filter for document
         NSArray *filters = folder.filters;
         NSUInteger filtersCount = [folder.filters count];
@@ -501,18 +637,13 @@ static NSString* SyncingContext = @"SyncingContext";
                     break;
                 }
             }
-            
-            filter = [filters objectAtIndex: filterIndex];
         }
-        else
-            filter = folder;
+
+        UITabBarItem *item = [filtersBar.items objectAtIndex: filterIndex];
         
-        fetchedResultsController.delegate = nil;
-        [fetchedResultsController release];
-        fetchedResultsController = filter.documents;
-        [fetchedResultsController retain];
-        fetchedResultsController.delegate = self;
-        filtersBar.selectedItem = [filtersBar.items objectAtIndex: filterIndex];
+        filtersBar.selectedItem = item;
+        
+        [self tabBar:filtersBar didSelectItem: item];
     }
     else
         filterIndex = NSNotFound;
