@@ -7,9 +7,6 @@
 //
 
 #import "LNPersonReader.h"
-#import "ASINetworkQueue.h"
-#import "LNHttpRequest.h"
-#import "PasswordManager.h"
 #import "Person.h"
 
 static NSString* kFieldUid = @"id";
