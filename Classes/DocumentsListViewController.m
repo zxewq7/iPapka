@@ -275,10 +275,10 @@ static NSString* SyncingContext = @"SyncingContext";
             case 2:
             case 3:
             case 4:
-                attachmentsName = NSLocalizedString(@"attachment24", @"number of attachments from 2 to 4");
+                attachmentsName = NSLocalizedString(@"attachment24", @"number of attachments from 2 to 4 in genitivus");
                 break;
             default:
-                attachmentsName = NSLocalizedString(@"attachments", @"attachments");
+                attachmentsName = NSLocalizedString(@"attachments_genitivus", @"attachments in genitivus");
                 break;
         }
         
@@ -294,10 +294,10 @@ static NSString* SyncingContext = @"SyncingContext";
                 case 2:
                 case 3:
                 case 4:
-                    linksName = NSLocalizedString(@"linked document24", @"number of linked documents from 2 to 4");
+                    linksName = NSLocalizedString(@"linked document24", @"number of linked documents from 2 to 4 in genitivus");
                     break;
                 default:
-                    linksName = NSLocalizedString(@"linked documents", @"linked documents");
+                    linksName = NSLocalizedString(@"linked documents_genitivus", @"linked documents");
                     break;
             }
 

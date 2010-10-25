@@ -19,7 +19,7 @@
 					<key>attachments</key>
 					<dict/>
 					<key>change date</key>
-					<date>2010-10-21T08:34:24Z</date>
+					<date>2010-10-25T15:08:25Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -29,7 +29,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>01e0896c3e22a439be7ccf8ed43ab5e4
+					<string>12db7ead7429382356b51de0aa43b163
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -56,6 +56,56 @@
 								<string>Accept</string>
 								<key>ru</key>
 								<string>Утвердить</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Accepted</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Accepted</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Accepted</string>
+								<key>ru</key>
+								<string>Утвержден</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>and</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>and</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>and</string>
+								<key>ru</key>
+								<string>и</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -131,6 +181,106 @@
 								<string>Archived signatures</string>
 								<key>ru</key>
 								<string>Подписание</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>documentList-&gt; modified at time</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>at</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>at</string>
+								<key>ru</key>
+								<string>в</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>attachment</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>attachment</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>attachment</string>
+								<key>ru</key>
+								<string>файл</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>number of attachments from 2 to 4 in genitivus</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>attachment24</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>attachment24</string>
+								<key>ru</key>
+								<string>файла</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>attachments in genitivus</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>attachments_genitivus</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>attachments_genitivus</string>
+								<key>ru</key>
+								<string>файлов</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -318,6 +468,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>Declined</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Declined</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Declined</string>
+								<key>ru</key>
+								<string>Возвращен</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>Delete</string>
 							<key>errors</key>
 							<array/>
@@ -468,6 +643,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>Important</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Important</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Important</string>
+								<key>ru</key>
+								<string>Срочный</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>Information</string>
 							<key>errors</key>
 							<array/>
@@ -481,6 +681,81 @@
 								<string>Information</string>
 								<key>ru</key>
 								<string>Информация</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>linked document</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>linked document</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>linked document</string>
+								<key>ru</key>
+								<string>связаный документ</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>number of linked documents from 2 to 4 in genitivus</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>linked document24</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>linked document24</string>
+								<key>ru</key>
+								<string>связаных документа</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>linked documents</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>linked documents_genitivus</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>linked documents_genitivus</string>
+								<key>ru</key>
+								<string>связаных документов</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -568,6 +843,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>DocumentList-&gt;Modified</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Modified</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Modified</string>
+								<key>ru</key>
+								<string>Редактировался</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>of</string>
 							<key>errors</key>
 							<array/>
@@ -618,17 +918,17 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
-							<string>Page</string>
+							<string>page</string>
 							<key>errors</key>
 							<array/>
 							<key>flags</key>
 							<integer>0</integer>
 							<key>key</key>
-							<string>Page</string>
+							<string>page</string>
 							<key>localizations</key>
 							<dict>
 								<key>en</key>
-								<string>Page</string>
+								<string>page</string>
 								<key>ru</key>
 								<string>Страница</string>
 							</dict>
@@ -643,17 +943,17 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
-							<string>page</string>
+							<string>Page</string>
 							<key>errors</key>
 							<array/>
 							<key>flags</key>
 							<integer>0</integer>
 							<key>key</key>
-							<string>page</string>
+							<string>Page</string>
 							<key>localizations</key>
 							<dict>
 								<key>en</key>
-								<string>page</string>
+								<string>Page</string>
 								<key>ru</key>
 								<string>Страница</string>
 							</dict>
@@ -993,56 +1293,6 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
-							<string>Today</string>
-							<key>errors</key>
-							<array/>
-							<key>flags</key>
-							<integer>0</integer>
-							<key>key</key>
-							<string>Today</string>
-							<key>localizations</key>
-							<dict>
-								<key>en</key>
-								<string>Today</string>
-								<key>ru</key>
-								<string>Сегодня</string>
-							</dict>
-							<key>snapshots</key>
-							<dict/>
-						</dict>
-						<dict>
-							<key>change date</key>
-							<date>2001-01-01T00:00:00Z</date>
-							<key>changed values</key>
-							<array/>
-							<key>class</key>
-							<string>BLStringKeyObject</string>
-							<key>comment</key>
-							<string>Tomorrow</string>
-							<key>errors</key>
-							<array/>
-							<key>flags</key>
-							<integer>0</integer>
-							<key>key</key>
-							<string>Tomorrow</string>
-							<key>localizations</key>
-							<dict>
-								<key>en</key>
-								<string>Tomorrow</string>
-								<key>ru</key>
-								<string>Завтра</string>
-							</dict>
-							<key>snapshots</key>
-							<dict/>
-						</dict>
-						<dict>
-							<key>change date</key>
-							<date>2001-01-01T00:00:00Z</date>
-							<key>changed values</key>
-							<array/>
-							<key>class</key>
-							<string>BLStringKeyObject</string>
-							<key>comment</key>
 							<string>Unable to play audio</string>
 							<key>errors</key>
 							<array/>
@@ -1118,6 +1368,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>DocumentList-&gt;Unmodified</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Unmodified</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Unmodified</string>
+								<key>ru</key>
+								<string>Не редактировался</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>Username</string>
 							<key>errors</key>
 							<array/>
@@ -1181,31 +1456,6 @@
 								<string>Voice</string>
 								<key>ru</key>
 								<string>Голосовой</string>
-							</dict>
-							<key>snapshots</key>
-							<dict/>
-						</dict>
-						<dict>
-							<key>change date</key>
-							<date>2001-01-01T00:00:00Z</date>
-							<key>changed values</key>
-							<array/>
-							<key>class</key>
-							<string>BLStringKeyObject</string>
-							<key>comment</key>
-							<string>Yesterday</string>
-							<key>errors</key>
-							<array/>
-							<key>flags</key>
-							<integer>0</integer>
-							<key>key</key>
-							<string>Yesterday</string>
-							<key>localizations</key>
-							<dict>
-								<key>en</key>
-								<string>Yesterday</string>
-								<key>ru</key>
-								<string>Вчера</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -1384,6 +1634,131 @@
 								<string>correspondents</string>
 								<key>ru</key>
 								<string>корреспонденты</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Today</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Today</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Today</string>
+								<key>ru</key>
+								<string>Сегодня</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Tomorrow</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Tomorrow</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Tomorrow</string>
+								<key>ru</key>
+								<string>Завтра</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Yesterday</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Yesterday</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Yesterday</string>
+								<key>ru</key>
+								<string>Вчера</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array>
+								<string>&lt;reference&gt;</string>
+							</array>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>attachments</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>attachments</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>attachments</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array>
+								<string>&lt;reference&gt;</string>
+							</array>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>linked documents</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>linked documents</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>linked documents</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
