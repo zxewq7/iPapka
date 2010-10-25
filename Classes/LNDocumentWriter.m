@@ -20,7 +20,6 @@
 #import "AttachmentPage.h"
 
 static NSString* kFieldVersion = @"version";
-static NSString* kFieldParentId = @"parentid";
 static NSString* kFieldUid = @"id";
 static NSString* kFieldDeadline = @"deadline";
 static NSString* kFieldPerformers = @"performers";
@@ -183,9 +182,14 @@ static NSString* kFieldFile = @"file";
         CommentAudio *audio = (CommentAudio *) file;
         Comment *comment = audio.comment;
         
-        [jsonDict setObject:comment.document.uid forKey:kFieldParentId];
-        [jsonDict setObject:@"userComment" forKey:kFieldType];
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"audio":@"null"), @"content", nil] forKey:kFieldFile];
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:comment.document.uid, @"docid", nil] 
+                     forKey:@"parent"];
+        
+        [jsonDict setObject:@"userComment" 
+                     forKey:kFieldType];
+        
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"audio":@"null"), @"content", nil] 
+                     forKey:kFieldFile];
         
         if (audio.version)
             [jsonDict setObject:audio.version forKey:kFieldVersion];
@@ -196,11 +200,16 @@ static NSString* kFieldFile = @"file";
     {
         AttachmentPagePainting *painting = (AttachmentPagePainting *) file;
         
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:painting.page.attachment.document.uid, @"id",
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:painting.page.attachment.document.uid, @"docid",
                                                                        painting.page.attachment.uid, @"fileid",
-                                                                       painting.page.number, @"pagenum", nil] forKey:@"parent"];
-        [jsonDict setObject:@"drawing" forKey:kFieldType];
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"image/png":@"null"), @"content", nil] forKey:kFieldFile];
+                                                                       painting.page.number, @"pagenum", nil] 
+                     forKey:@"parent"];
+        
+        [jsonDict setObject:@"drawing" 
+                     forKey:kFieldType];
+        
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"image/png":@"null"), @"content", nil] 
+                     forKey:kFieldFile];
         
         if (painting.version)
             [jsonDict setObject:painting.version forKey:kFieldVersion];
@@ -238,7 +247,7 @@ static NSString* kFieldFile = @"file";
 {
     if (!postFileUrl)
     {
-        postFileUrl = [url stringByAppendingString:[[NSUserDefaults standardUserDefaults] stringForKey:@"serverUploadUrl"]];
+        postFileUrl = [self.serverUrl stringByAppendingString:[[NSUserDefaults standardUserDefaults] stringForKey:@"serverUploadUrl"]];
         [postFileUrl retain];
     }
     return postFileUrl;
