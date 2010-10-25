@@ -78,12 +78,12 @@ static NSString* OperationCount = @"OperationCount";
         NSString *error = [request error] == nil?
         ([request responseStatusCode] == 200?
          nil:
-         NSLocalizedString(@"Bad response", "Bad response")):
+         [NSString stringWithFormat:@"Bad response: %d", [request responseStatusCode]]):
         [[request error] localizedDescription];
         if (error)
         {
             blockSelf.hasError = YES;
-            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
+            NSLog(@"error fetching url %@\n%@\n%@", [request originalURL], error, [request responseString]);
             handler(YES, nil);
         }
         else
@@ -153,12 +153,12 @@ static NSString* OperationCount = @"OperationCount";
         NSString *error = [request error] == nil?
         ([request responseStatusCode] == 200?
          nil:
-         NSLocalizedString(@"Bad response", "Bad response")):
+         [NSString stringWithFormat:@"Bad response: %d", [request responseStatusCode]]):
         [[request error] localizedDescription];
         if (error)
         {
             blockSelf.hasError = YES;
-            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
+            NSLog(@"error fetching url %@\n%@\n%@", [request originalURL], error, [request responseString]);
             handler(YES, nil);
         }
         else
