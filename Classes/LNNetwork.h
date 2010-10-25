@@ -24,8 +24,14 @@
 @property (nonatomic, assign) BOOL allRequestsSent;
 @property (nonatomic, assign) BOOL hasError;
 
--(LNHttpRequest *) requestWithUrl:(NSString *) url;
--(void) jsonRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSObject *response)) handler;
+-(void) jsonRequestWithUrl:(NSString *)url 
+                andHandler:(void (^)(BOOL error, id response)) handler;
+
+-(void) jsonPostRequestWithUrl:(NSString *)url 
+                      postData:(NSDictionary *) postData 
+                         files:(NSDictionary *) files 
+                    andHandler:(void (^)(BOOL error, id response)) handler;
+
 -(void) beginSession;
 -(void) endSession;
 @end

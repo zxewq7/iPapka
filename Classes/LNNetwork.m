@@ -11,11 +11,15 @@
 #import "LNHttpRequest.h"
 #import "PasswordManager.h"
 #import "SBJsonParser.h"
+#import "SBJsonWriter.h"
+#import "LNFormDataRequest.h"
 
 static NSString* OperationCount = @"OperationCount";
 
 @interface LNNetwork (Private)
 -(void) checkSyncing;
+-(LNHttpRequest *) requestWithUrl:(NSString *) url;
+-(LNFormDataRequest *) formRequestWithUrl:(NSString *) url;
 @end
 
 @implementation LNNetwork
@@ -62,14 +66,8 @@ static NSString* OperationCount = @"OperationCount";
     return self;
 }
 
--(LNHttpRequest *) requestWithUrl:(NSString *) url
-{
-    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: url]];
-    request.delegate = self;
-    return request;
-}
-
--(void) jsonRequestWithUrl:(NSString *)url andHandler:(void (^)(BOOL error, NSObject *response)) handler
+-(void) jsonRequestWithUrl:(NSString *)url 
+                andHandler:(void (^)(BOOL error, id response)) handler
 {
     LNHttpRequest *request = [self requestWithUrl:url];
     
@@ -105,11 +103,87 @@ static NSString* OperationCount = @"OperationCount";
 
             handler(NO, parsedResponse);
         }
-        
     };
     
     [queue addOperation:request];
 }
+
+-(void) jsonPostRequestWithUrl:(NSString *)url 
+                      postData:(NSDictionary *) postData 
+                         files:(NSDictionary *) files 
+                    andHandler:(void (^)(BOOL error, id response)) handler
+{
+    LNFormDataRequest *request = [self formRequestWithUrl:url];;
+    
+    SBJsonWriter *jsonWriter = [[[SBJsonWriter alloc] init] autorelease];
+
+    NSError *error = nil;
+
+    
+    for (NSString *fieldName in [postData keyEnumerator])
+    {
+        id data = [postData valueForKey: fieldName];
+
+        NSString *jsonString = [jsonWriter stringWithObject:data error: &error];
+        if (error)
+        {
+            NSString *err  = @"Unable to create json string";
+            NSLog(@"%@", err);
+            return;
+        }
+
+        [request setPostValue:jsonString forKey:fieldName];
+    }
+    
+    NSFileManager *df = [NSFileManager defaultManager];
+    
+    for (NSString *fieldName in [files keyEnumerator])
+    {
+        NSString *filePath = [files valueForKey:fieldName];
+        
+        if ([df isReadableFileAtPath:filePath])
+            [request setFile:filePath forKey:fieldName];
+    }
+
+    
+    __block LNNetwork *blockSelf = self;
+    
+    request.requestHandler = ^(ASIHTTPRequest *request) {
+        
+        NSString *error = [request error] == nil?
+        ([request responseStatusCode] == 200?
+         nil:
+         NSLocalizedString(@"Bad response", "Bad response")):
+        [[request error] localizedDescription];
+        if (error)
+        {
+            blockSelf.hasError = YES;
+            NSLog(@"error fetching url %@\n%@", [request originalURL], error);
+            handler(YES, nil);
+        }
+        else
+        {
+            SBJsonParser *json = [[SBJsonParser alloc] init];
+            NSError *error = nil;
+            NSString *jsonString = [request responseString];
+            NSDictionary *parsedResponse = [json objectWithString:jsonString error:&error];
+            [json release];
+            if (parsedResponse == nil)
+            {
+                blockSelf.hasError = YES;
+                NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
+                handler(NO, nil);
+                return;
+            }
+            
+            handler(NO, parsedResponse);
+        }
+    };
+    
+    [queue addOperation:request];      
+}
+
+
 
 -(void) beginSession
 {
@@ -207,5 +281,19 @@ static NSString* OperationCount = @"OperationCount";
         isSyncing = x;
         [self didChangeValueForKey:@"isSyncing"];
     }
+}
+
+-(LNHttpRequest *) requestWithUrl:(NSString *) url
+{
+    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: url]];
+    request.delegate = self;
+    return request;
+}
+
+-(LNFormDataRequest *) formRequestWithUrl:(NSString *) url
+{
+    LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: url]];
+    request.delegate = self;
+    return request;
 }
 @end
