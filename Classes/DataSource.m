@@ -20,6 +20,9 @@
 #import "FileField.h"
 #import "LNPersonReader.h"
 #import "LNSettingsReader.h"
+#import "CommentAudio.h"
+#import "Comment.h"
+#import "AttachmentPagePainting.h"
 
 static NSString* SyncingContext = @"SyncingContext";
 
@@ -215,7 +218,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         NSUInteger numberOfProperties = [changedValues count];
         numberOfProperties += ([changedValues objectForKey: @"syncStatus"] == nil?0:1);
 
-        NSManagedObject *sourceDocument = nil;
+        Document *sourceDocument = nil;
         
         if ([object isKindOfClass:[Document class]])
         {
@@ -226,24 +229,34 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             if (numberOfProperties > 0) //set syncStatus to SyncStatusNeedSyncToServer
             {
                 [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
-                sourceDocument = object;
+                sourceDocument = (Document *)object;
             }
                 
         }
-        else if ([object isKindOfClass:[FileField class]])
+        else if ([object isKindOfClass:[CommentAudio class]])
+        {
+            if (numberOfProperties > 0)
+            {
+                CommentAudio *audio = (CommentAudio *) object;
+                audio.syncStatusValue = SyncStatusNeedSyncToServer;
+                sourceDocument = audio.comment.document;
+            }
+        }
+        else if ([object isKindOfClass:[AttachmentPagePainting class]])
 
         {
             if (numberOfProperties > 0)
             {
-                [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
-                sourceDocument = [[[object valueForKey:@"page"] valueForKey:@"attachment"] valueForKey:@"document"];
+                AttachmentPagePainting *painting = (AttachmentPagePainting *) object;
+                painting.syncStatusValue = SyncStatusNeedSyncToServer;
+                sourceDocument = painting.page.attachment.document;
             }
         }
         
-        if ([[sourceDocument valueForKey:@"status"] intValue] == DocumentStatusNew)
-            [sourceDocument setValue:[NSNumber numberWithInt:DocumentStatusDraft] forKey:@"status"];
-            
-        [sourceDocument setValue:[NSDate date] forKey:@"dateModified"];
+        if (sourceDocument.syncStatusValue == DocumentStatusNew)
+            sourceDocument.syncStatusValue = DocumentStatusDraft;
+
+        sourceDocument.dateModified = [NSDate date];
     }
 
     NSSet *deletedObjects = [managedObjectContext deletedObjects];
