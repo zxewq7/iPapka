@@ -210,54 +210,53 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void)commit
 {
-    NSError *error = nil;
-    NSSet *updatedObjects = [managedObjectContext updatedObjects];
-    
-    for (NSManagedObject *object in updatedObjects)
+    if (!self.isSyncing) //skip when syncing
     {
-        NSDictionary *changedValues = [object changedValues];
-        NSUInteger numberOfProperties = [changedValues count];
-        numberOfProperties += ([changedValues objectForKey: @"syncStatus"] == nil?0:1);
-
-        Document *sourceDocument = nil;
+        NSSet *updatedObjects = [managedObjectContext updatedObjects];
         
-        if ([object isKindOfClass:[Document class]])
+        for (NSManagedObject *object in updatedObjects)
         {
+            NSDictionary *changedValues = [object changedValues];
+            NSUInteger numberOfProperties = [changedValues count];
+            numberOfProperties -= ([changedValues objectForKey: @"syncStatus"] == nil?0:1);
             
-            if ([changedValues objectForKey: @"isRead"]) //ignore these properties
-                numberOfProperties--;
+            if (!numberOfProperties) //no properties to analyse
+                continue;
             
-            if (numberOfProperties > 0) //set syncStatus to SyncStatusNeedSyncToServer
+            Document *sourceDocument = nil;
+            
+            if ([object isKindOfClass:[Document class]])
             {
-                [object setValue:[NSNumber numberWithInt:SyncStatusNeedSyncToServer] forKey:@"syncStatus"];
-                sourceDocument = (Document *)object;
-            }
                 
-        }
-        else if ([object isKindOfClass:[CommentAudio class]])
-        {
-            if (numberOfProperties > 0)
-            {
-                CommentAudio *audio = (CommentAudio *) object;
-                audio.syncStatusValue = SyncStatusNeedSyncToServer;
-                sourceDocument = audio.comment.document;
+                if (!([changedValues objectForKey: @"isRead"] != nil && numberOfProperties == 1)) //ignore isRead
+                    sourceDocument = (Document *)object;
+                
             }
-        }
-        else if ([object isKindOfClass:[AttachmentPagePainting class]])
-
-        {
-            if (numberOfProperties > 0)
+            else if (numberOfProperties > 0) //other documents
             {
-                AttachmentPagePainting *painting = (AttachmentPagePainting *) object;
-                painting.syncStatusValue = SyncStatusNeedSyncToServer;
-                sourceDocument = painting.page.attachment.document;
+                if ([object isKindOfClass:[CommentAudio class]])
+                {
+                    CommentAudio *audio = (CommentAudio *) object;
+                    audio.syncStatusValue = SyncStatusNeedSyncToServer;
+                    sourceDocument = audio.comment.document;
+                }
+                else if ([object isKindOfClass:[AttachmentPagePainting class]])
+                {
+                    AttachmentPagePainting *painting = (AttachmentPagePainting *) object;
+                    painting.syncStatusValue = SyncStatusNeedSyncToServer;
+                    sourceDocument = painting.page.attachment.document;
+                }
             }
-        }
-        
-        if (sourceDocument.syncStatusValue == DocumentStatusNew)
-            sourceDocument.syncStatusValue = DocumentStatusDraft;
-
-        sourceDocument.dateModified = [NSDate date];
+            
+            if (sourceDocument)
+            {
+                if (sourceDocument.syncStatusValue == DocumentStatusNew)
+                    sourceDocument.syncStatusValue = DocumentStatusDraft;
+                
+                sourceDocument.dateModified = [NSDate date];            
+                sourceDocument.syncStatusValue = SyncStatusNeedSyncToServer;
+            }
+        }        
     }
 
     NSSet *deletedObjects = [managedObjectContext deletedObjects];
@@ -272,6 +271,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         if (path)
             [df removeItemAtPath:path error:NULL];
     }
+
+    
+    NSError *error = nil;
 
     if (![managedObjectContext save:&error])
     {
