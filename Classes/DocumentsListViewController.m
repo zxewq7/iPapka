@@ -483,18 +483,14 @@ static NSString* SyncingContext = @"SyncingContext";
 {
     [dateFormatter release]; dateFormatter = nil;
     self.folder = nil;
-    [titleLabel release];
-    titleLabel = nil;
-    [detailsLabel release];
-    detailsLabel = nil;
+    [titleLabel release]; titleLabel = nil;
+    [detailsLabel release]; detailsLabel = nil;
     [activityDateFormatter release]; activityDateFormatter = nil;
     [activityTimeFormatter release]; activityDateFormatter = nil;
     self.delegate = nil;
     self.document =  nil;
-    [selectedDocumentIndexPath release];
-    selectedDocumentIndexPath = nil;
-    [filtersBar release];
-    filtersBar = nil;
+    [selectedDocumentIndexPath release]; selectedDocumentIndexPath = nil;
+    [filtersBar release]; filtersBar = nil;
     [fetchedResultsController release]; fetchedResultsController = nil;
 
     [[DataSource sharedDataSource] removeObserver:self
