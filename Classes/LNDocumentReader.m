@@ -313,10 +313,6 @@ static NSString* OperationCount = @"OperationCount";
         
         NSString *version = [values objectForKey:field_Version];
         
-#warning wrong document version
-        
-        version = @"unknown";
-        
         NSAssert(version != nil, @"Unable to find version in view");
 
         Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
@@ -518,8 +514,6 @@ static NSString* OperationCount = @"OperationCount";
         }
         
         NSString *dateModifiedString = [parsedDocument objectForKey:field_Modified];
-#warning wrong date modified
-        dateModifiedString = @"20101022T183214,25+04";
         
         NSDate *dateModified = nil;
 
@@ -588,8 +582,6 @@ static NSString* OperationCount = @"OperationCount";
         document.correspondents = [subDocument objectForKey:field_Correspondents];
 
         NSNumber *priority = [parsedDocument objectForKey:field_Priority];
-#warning wrong priority
-        priority = [NSNumber numberWithInt:0];
         
         if ([priority intValue]>0)
             document.priorityValue = DocumentPriorityHigh;
