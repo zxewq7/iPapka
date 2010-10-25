@@ -486,7 +486,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         if (!ss)
         {
-            if (self.settingsReader.hasError || self.personReader.hasError || self.documentReader.hasErrors)
+            if (self.settingsReader.hasError || self.personReader.hasError || self.documentReader.hasErrors || self.documentWriter.hasError)
             {
                 if (showErrors)
                 {

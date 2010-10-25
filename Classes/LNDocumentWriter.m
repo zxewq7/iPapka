@@ -236,7 +236,6 @@ static NSString* kPostDataField = @"json";
          if (uid == nil || version == nil)
          {
              NSLog(@"error parsing response: %@", response);
-             blockSelf.hasError = YES;
              return;
          }
          file.uid = uid;
