@@ -165,6 +165,7 @@ static NSString* kPostDataField = @"json";
     {
         if (error)
             return;
+        
         document.syncStatusValue = SyncStatusSynced;
         [[DataSource sharedDataSource] commit];
     }];  
@@ -229,11 +230,13 @@ static NSString* kPostDataField = @"json";
      {
          if (error)
              return;
+         
          NSString *uid = [response valueForKey:kFieldUid];
          NSString *version = [response valueForKey:kFieldVersion];
          if (uid == nil || version == nil)
          {
              NSLog(@"error parsing response: %@", response);
+             blockSelf.hasError = YES;
              return;
          }
          file.uid = uid;
