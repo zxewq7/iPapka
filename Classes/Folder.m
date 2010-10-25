@@ -153,16 +153,17 @@
 - (NSFetchedResultsController*) documents
 {
     NSFetchedResultsController *documents = [[DataSource sharedDataSource] documentsForFolder:self];
-    NSError *error = nil;
-    if (![documents performFetch:&error])
-        NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
     return documents;
 }
 
 - (Document*) firstDocument
 {
     NSFetchedResultsController *documents = self.documents;
-    
+
+    NSError *error = nil;
+    if (![documents performFetch:&error])
+        NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
+
     NSUInteger sectionsCount = [[documents sections] count];
     
     for (NSUInteger sectionIndex = 0; sectionIndex < sectionsCount; sectionIndex++)
