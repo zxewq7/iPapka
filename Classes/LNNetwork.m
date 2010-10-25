@@ -83,7 +83,7 @@ static NSString* OperationCount = @"OperationCount";
         if (error)
         {
             blockSelf.hasError = YES;
-            NSLog(@"error fetching url %@\n%@\n%@", [request originalURL], error, [request responseString]);
+            NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
             handler(YES, nil);
         }
         else
@@ -96,7 +96,7 @@ static NSString* OperationCount = @"OperationCount";
             if (parsedResponse == nil)
             {
                 blockSelf.hasError = YES;
-                NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
+                NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
                 handler(NO, nil);
                 return;
             }
@@ -158,7 +158,7 @@ static NSString* OperationCount = @"OperationCount";
         if (error)
         {
             blockSelf.hasError = YES;
-            NSLog(@"error fetching url %@\n%@\n%@", [request originalURL], error, [request responseString]);
+            NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
             handler(YES, nil);
         }
         else
@@ -171,7 +171,7 @@ static NSString* OperationCount = @"OperationCount";
             if (parsedResponse == nil)
             {
                 blockSelf.hasError = YES;
-                NSLog(@"error parsing response, error:%@ response: %@", error, jsonString);
+                NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
                 handler(NO, nil);
                 return;
             }
