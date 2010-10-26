@@ -19,7 +19,7 @@
 					<key>attachments</key>
 					<dict/>
 					<key>change date</key>
-					<date>2010-10-25T15:08:25Z</date>
+					<date>2010-10-26T10:17:50Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -29,7 +29,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>12db7ead7429382356b51de0aa43b163
+					<string>81e0a0fa731292606a2179c413783a51
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -856,6 +856,31 @@
 								<string>Modified</string>
 								<key>ru</key>
 								<string>Редактировался</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>resolution-&gt;deadline-&gt;Not set</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Not set</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Not set</string>
+								<key>ru</key>
+								<string>Не указана</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>

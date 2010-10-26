@@ -89,6 +89,7 @@
 		8151B8CF12674CAB00AAFEA9 /* LNNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 8151B8CE12674CAB00AAFEA9 /* LNNetwork.m */; };
 		8152BCCC1276E0FB004A1D15 /* BlankLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8152BCCB1276E0FB004A1D15 /* BlankLogoView.m */; };
 		8152BCCE1276E127004A1D15 /* BlankLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8152BCCD1276E127004A1D15 /* BlankLogo.png */; };
+		8152BCD11276FCB5004A1D15 /* DocumentInfoDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8152BCD01276FCB5004A1D15 /* DocumentInfoDetailsView.m */; };
 		815657C21257574A0019A88D /* AudioCommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815657C11257574A0019A88D /* AudioCommentController.m */; };
 		815658181257820A0019A88D /* ButtonRecordRemove.png in Resources */ = {isa = PBXBuildFile; fileRef = 815658171257820A0019A88D /* ButtonRecordRemove.png */; };
 		8157959C1246802B002A42C0 /* TwoRows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959B1246802B002A42C0 /* TwoRows.png */; };
@@ -342,6 +343,8 @@
 		8152BCCA1276E0FB004A1D15 /* BlankLogoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlankLogoView.h; sourceTree = "<group>"; };
 		8152BCCB1276E0FB004A1D15 /* BlankLogoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlankLogoView.m; sourceTree = "<group>"; };
 		8152BCCD1276E127004A1D15 /* BlankLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlankLogo.png; sourceTree = "<group>"; };
+		8152BCCF1276FCB5004A1D15 /* DocumentInfoDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoDetailsView.h; sourceTree = "<group>"; };
+		8152BCD01276FCB5004A1D15 /* DocumentInfoDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoDetailsView.m; sourceTree = "<group>"; };
 		815657C01257574A0019A88D /* AudioCommentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCommentController.h; sourceTree = "<group>"; };
 		815657C11257574A0019A88D /* AudioCommentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioCommentController.m; sourceTree = "<group>"; };
 		815658171257820A0019A88D /* ButtonRecordRemove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecordRemove.png; sourceTree = "<group>"; };
@@ -691,6 +694,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8152BCCF1276FCB5004A1D15 /* DocumentInfoDetailsView.h */,
+				8152BCD01276FCB5004A1D15 /* DocumentInfoDetailsView.m */,
 				8152BCCA1276E0FB004A1D15 /* BlankLogoView.h */,
 				8152BCCB1276E0FB004A1D15 /* BlankLogoView.m */,
 				819B5C8812730D7000594E0D /* DocumentCellView.h */,
@@ -1224,6 +1229,7 @@
 				812C3D641275874E00F9E32B /* NSDateFormatter+Additions.m in Sources */,
 				81C157F21276D8A50087B147 /* AZZSegmentedLabel.m in Sources */,
 				8152BCCC1276E0FB004A1D15 /* BlankLogoView.m in Sources */,
+				8152BCD11276FCB5004A1D15 /* DocumentInfoDetailsView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
