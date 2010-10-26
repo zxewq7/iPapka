@@ -237,12 +237,13 @@ static NSString* SyncingContext = @"SyncingContext";
     switch (doc.statusValue)
     {
         case DocumentStatusAccepted:
+            [labels addObject: @""];
+
             if (isPriority)
                 [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]]];
             else
                 [labels addObject: [NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]];
             
-            [labels addObject: @""];
             
             isStatus = YES;
             break;
