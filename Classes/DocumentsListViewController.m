@@ -91,8 +91,11 @@ static NSString* SyncingContext = @"SyncingContext";
 - (void)viewDidAppear:(BOOL)animated
 {
     [self.navigationController setToolbarHidden:NO];
-    if (selectedDocumentIndexPath)
-        [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+    
+    NSIndexPath *index = [fetchedResultsController indexPathForObject:self.document];
+    
+    if (index)
+        [self.tableView selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionMiddle];
     
     NSArray *filters = folder.filters;
     NSUInteger filtersCount = [filters count];
@@ -416,8 +419,10 @@ static NSString* SyncingContext = @"SyncingContext";
     [self.tableView reloadData];
     
     
-//    if (selectedDocumentIndexPath)
-//        [self.tableView selectRowAtIndexPath:selectedDocumentIndexPath animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+    NSIndexPath *index = [fetchedResultsController indexPathForObject:self.document];
+    
+    if (index)
+        [self.tableView selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionMiddle];
 
 }
 #pragma mark -
@@ -467,7 +472,6 @@ static NSString* SyncingContext = @"SyncingContext";
     [detailsLabel release]; detailsLabel = nil;
     [activityDateFormatter release]; activityDateFormatter = nil;
     [activityTimeFormatter release]; activityDateFormatter = nil;
-    [selectedDocumentIndexPath release]; selectedDocumentIndexPath = nil;
     [filtersBar release]; filtersBar = nil;
     [timeFormatter release]; timeFormatter = nil;
 
@@ -487,7 +491,6 @@ static NSString* SyncingContext = @"SyncingContext";
     [activityTimeFormatter release]; activityDateFormatter = nil;
     self.delegate = nil;
     self.document =  nil;
-    [selectedDocumentIndexPath release]; selectedDocumentIndexPath = nil;
     [filtersBar release]; filtersBar = nil;
     [fetchedResultsController release]; fetchedResultsController = nil;
 
