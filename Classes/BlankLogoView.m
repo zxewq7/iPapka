@@ -6,10 +6,10 @@
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "FormLogoView.h"
+#import "BlankLogoView.h"
 
 
-@implementation FormLogoView
+@implementation BlankLogoView
 
 
 - (id)initWithFrame:(CGRect)frame 
@@ -24,7 +24,7 @@
         imageLogo = [UIImage imageWithContentsOfFile:blankLogoPath];
     
     if (!imageLogo)
-        imageLogo = [UIImage imageNamed: @"DefaultFormLogo.png"];
+        imageLogo = [UIImage imageNamed: @"BlankLogo.png"];
     
     UIImageView *imageView = [[UIImageView alloc] initWithImage:imageLogo];
 

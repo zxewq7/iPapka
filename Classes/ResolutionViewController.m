@@ -17,7 +17,7 @@
 #import "AudioCommentController.h"
 #import "CommentAudio.h"
 #import "Comment.h"
-#import "FormLogoView.h"
+#import "BlankLogoView.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
@@ -85,7 +85,7 @@
     [self.view addSubview: resolutionSwitcher];
     
     //logo
-    FormLogoView *logo = [[FormLogoView alloc] initWithFrame:CGRectZero];
+    BlankLogoView *logo = [[BlankLogoView alloc] initWithFrame:CGRectZero];
     
     CGSize logoSize = logo.frame.size;
     CGRect logoFrame = CGRectMake(round((viewSize.width - logoSize.width) / 2), 83, logoSize.width, logoSize.height);

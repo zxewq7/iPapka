@@ -9,6 +9,6 @@
 #import <UIKit/UIKit.h>
 
 
-@interface FormLogoView : UIView 
+@interface BlankLogoView : UIView 
 
 @end
