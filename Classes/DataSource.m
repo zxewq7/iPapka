@@ -250,8 +250,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             
             if (sourceDocument)
             {
-                if (sourceDocument.syncStatusValue == DocumentStatusNew)
-                    sourceDocument.syncStatusValue = DocumentStatusDraft;
+                if (sourceDocument.statusValue == DocumentStatusNew)
+                    sourceDocument.statusValue = DocumentStatusDraft;
                 
                 sourceDocument.dateModified = [NSDate date];            
                 sourceDocument.syncStatusValue = SyncStatusNeedSyncToServer;
