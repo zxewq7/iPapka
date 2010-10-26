@@ -14,7 +14,19 @@
 
 - (id)initWithFrame:(CGRect)frame 
 {
-    UIImageView *imageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed: @"DefaultFormLogo.png"]];
+    UIImage *imageLogo = nil;
+    
+    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+    
+    NSString *blankLogoPath = [currentDefaults valueForKey:@"blankLogoPath"];
+    
+    if (blankLogoPath)
+        imageLogo = [UIImage imageWithContentsOfFile:blankLogoPath];
+    
+    if (!imageLogo)
+        imageLogo = [UIImage imageNamed: @"DefaultFormLogo.png"];
+    
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:imageLogo];
 
     CGRect f = imageView.frame;
     f.origin.x = frame.origin.x;
