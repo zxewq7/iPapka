@@ -15,7 +15,7 @@
 #import "DocumentResolution.h"
 #import "DocumentCellView.h"
 #import "NSDateFormatter+Additions.h"
-#import "SegmentedLabel.h"
+#import "AZZSegmentedLabel.h"
 
 #define ROW_HEIGHT 94
 

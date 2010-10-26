@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 
 
-@interface SegmentedLabel : UIView 
+@interface AZZSegmentedLabel : UIView 
 {
     NSArray *labels;
     NSArray *texts;

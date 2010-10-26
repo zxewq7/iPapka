@@ -6,10 +6,10 @@
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "SegmentedLabel.h"
+#import "AZZSegmentedLabel.h"
 
 
-@implementation SegmentedLabel
+@implementation AZZSegmentedLabel
 @synthesize labels, texts;
 
 -(void)setLabels:(NSArray *)theLabels

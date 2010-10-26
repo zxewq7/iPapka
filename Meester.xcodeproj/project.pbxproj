@@ -54,7 +54,6 @@
 		8124C7A0125DFB400031C07E /* BrushPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8124C79F125DFB400031C07E /* BrushPen.png */; };
 		8124C7FD125E15C90031C07E /* IntRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8124C7FC125E15C90031C07E /* IntRow.m */; };
 		812C3D641275874E00F9E32B /* NSDateFormatter+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 812C3D631275874E00F9E32B /* NSDateFormatter+Additions.m */; };
-		812C3D671275914900F9E32B /* SegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 812C3D661275914900F9E32B /* SegmentedLabel.m */; };
 		813011E1126DD664002ADE40 /* CalloutViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DC126DD664002ADE40 /* CalloutViewBackground.png */; };
 		813011E2126DD664002ADE40 /* CalloutViewBottomAnchor.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */; };
 		813011E3126DD664002ADE40 /* CalloutViewLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */; };
@@ -165,6 +164,7 @@
 		81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */; };
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
 		81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */; };
+		81C157F21276D8A50087B147 /* AZZSegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C157F11276D8A50087B147 /* AZZSegmentedLabel.m */; };
 		81C47F93125E397300F60C49 /* PaletteBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F87125E397300F60C49 /* PaletteBlack.png */; };
 		81C47F94125E397300F60C49 /* PaletteBlackSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F88125E397300F60C49 /* PaletteBlackSelected.png */; };
 		81C47F95125E397300F60C49 /* PaletteBlue.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F89125E397300F60C49 /* PaletteBlue.png */; };
@@ -291,8 +291,6 @@
 		8124C7FC125E15C90031C07E /* IntRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IntRow.m; path = ../IntRow.m; sourceTree = "<group>"; };
 		812C3D621275874E00F9E32B /* NSDateFormatter+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDateFormatter+Additions.h"; path = "thirdparty/NSDateFormatter+Additions.h"; sourceTree = "<group>"; };
 		812C3D631275874E00F9E32B /* NSDateFormatter+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDateFormatter+Additions.m"; path = "thirdparty/NSDateFormatter+Additions.m"; sourceTree = "<group>"; };
-		812C3D651275914900F9E32B /* SegmentedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SegmentedLabel.h; sourceTree = "<group>"; };
-		812C3D661275914900F9E32B /* SegmentedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SegmentedLabel.m; sourceTree = "<group>"; };
 		813011DC126DD664002ADE40 /* CalloutViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewBackground.png; sourceTree = "<group>"; };
 		813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewBottomAnchor.png; sourceTree = "<group>"; };
 		813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewLeftCap.png; sourceTree = "<group>"; };
@@ -464,6 +462,8 @@
 		81B5C1131242792200B8E9B8 /* Paper-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper-Landscape.png"; sourceTree = "<group>"; };
 		81B7090E12635FFF006B5D53 /* LNFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNFormDataRequest.h; sourceTree = "<group>"; };
 		81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNFormDataRequest.m; sourceTree = "<group>"; };
+		81C157F01276D8A50087B147 /* AZZSegmentedLabel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZSegmentedLabel.h; path = thirdparty/AZZSegmentedLabel.h; sourceTree = "<group>"; };
+		81C157F11276D8A50087B147 /* AZZSegmentedLabel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZSegmentedLabel.m; path = thirdparty/AZZSegmentedLabel.m; sourceTree = "<group>"; };
 		81C47F87125E397300F60C49 /* PaletteBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlack.png; sourceTree = "<group>"; };
 		81C47F88125E397300F60C49 /* PaletteBlackSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlackSelected.png; sourceTree = "<group>"; };
 		81C47F89125E397300F60C49 /* PaletteBlue.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteBlue.png; sourceTree = "<group>"; };
@@ -691,8 +691,6 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				812C3D651275914900F9E32B /* SegmentedLabel.h */,
-				812C3D661275914900F9E32B /* SegmentedLabel.m */,
 				81779279127352000026650E /* FormLogoView.h */,
 				8177927A127352000026650E /* FormLogoView.m */,
 				819B5C8812730D7000594E0D /* DocumentCellView.h */,
@@ -874,6 +872,8 @@
 		8165422412379B44008FC80F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				81C157F01276D8A50087B147 /* AZZSegmentedLabel.h */,
+				81C157F11276D8A50087B147 /* AZZSegmentedLabel.m */,
 				81775FCC1251F74E002A2D3D /* JSON */,
 				812C3D621275874E00F9E32B /* NSDateFormatter+Additions.h */,
 				812C3D631275874E00F9E32B /* NSDateFormatter+Additions.m */,
@@ -1223,7 +1223,7 @@
 				815DE5AB12742EBA00D26CE8 /* AZZAudioRecorder.m in Sources */,
 				815DE5B2127437F700D26CE8 /* BWOrderedManagedObject.m in Sources */,
 				812C3D641275874E00F9E32B /* NSDateFormatter+Additions.m in Sources */,
-				812C3D671275914900F9E32B /* SegmentedLabel.m in Sources */,
+				81C157F21276D8A50087B147 /* AZZSegmentedLabel.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

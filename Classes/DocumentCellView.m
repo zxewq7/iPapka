@@ -7,7 +7,7 @@
 //
 
 #import "DocumentCellView.h"
-#import "SegmentedLabel.h"
+#import "AZZSegmentedLabel.h"
 
 #define kLeftMargin 10.f
 #define kRightMargin 5.f
@@ -37,7 +37,7 @@
         detailTextLabel2.backgroundColor = [UIColor clearColor];
         [self addSubview:detailTextLabel2];
 
-        detailTextLabel3 = [[SegmentedLabel alloc] initWithFrame:CGRectZero];
+        detailTextLabel3 = [[AZZSegmentedLabel alloc] initWithFrame:CGRectZero];
         detailTextLabel3.backgroundColor = [UIColor clearColor];
         [self addSubview:detailTextLabel3];
 
