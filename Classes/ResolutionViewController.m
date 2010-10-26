@@ -378,7 +378,7 @@
     if (resolution.deadline)
         label = [NSString stringWithFormat:@"   %@   ", [dateFormatter stringFromDate:resolution.deadline]];
     else
-        label = nil;
+        label = [NSString stringWithFormat:@"   %@   ", NSLocalizedString(@"Not set", "resolution->deadline->Not set")];
 
     [deadlineButton setTitle:label forState:UIControlStateNormal];
     
