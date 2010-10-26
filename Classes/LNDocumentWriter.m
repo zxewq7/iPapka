@@ -97,26 +97,26 @@ static NSString* kPostDataField = @"json";
     
     [dictDocument setObject:document.uid forKey:kFieldUid];
     
-    NSString *action;
+    NSString *status;
     
     switch (document.statusValue)
     {
         case DocumentStatusNew:
         case DocumentStatusDraft:
-            action = @"save";
+            status = @"draft";
             break;
         case DocumentStatusAccepted:
-            action = @"approve";
+            status = @"approved";
             break;
         case DocumentStatusDeclined:
-            action = @"reject";
+            status = @"rejected";
             break;
         default:
             NSLog(@"unknown status %d dor document %@", document.statusValue, document.uid);
             return;
     }
     
-    [dictDocument setObject:action forKey:@"action"];
+    [dictDocument setObject:status forKey:@"status"];
     
     if ([document isKindOfClass: [DocumentResolution class]])
     {
