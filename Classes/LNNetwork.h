@@ -32,6 +32,10 @@
                          files:(NSDictionary *) files 
                     andHandler:(void (^)(BOOL error, id response)) handler;
 
+-(void) fileRequestWithUrl:(NSString *)url 
+                      path:(NSString *)path 
+                andHandler:(void (^)(BOOL error, NSString* path)) handler;
+
 -(void) beginSession;
 -(void) endSession;
 @end

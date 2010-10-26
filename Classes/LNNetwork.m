@@ -20,6 +20,7 @@ static NSString* OperationCount = @"OperationCount";
 -(void) checkSyncing;
 -(LNHttpRequest *) requestWithUrl:(NSString *) url;
 -(LNFormDataRequest *) formRequestWithUrl:(NSString *) url;
+-(BOOL) hasRequestError:(ASIHTTPRequest *) request;
 @end
 
 @implementation LNNetwork
@@ -66,6 +67,30 @@ static NSString* OperationCount = @"OperationCount";
     return self;
 }
 
+-(void) fileRequestWithUrl:(NSString *)url 
+                      path:(NSString *)path 
+                andHandler:(void (^)(BOOL error, NSString* path)) handler
+{
+    LNHttpRequest *request = [self requestWithUrl:url];
+
+    [request setDownloadDestinationPath:path];
+
+    __block LNNetwork *blockSelf = self;
+    requestComplete = NO;
+    
+    request.requestHandler = ^(ASIHTTPRequest *request) {
+        if ([blockSelf hasRequestError:request])
+        {
+            blockSelf.hasError = YES;
+            handler(YES, nil);
+        }
+        else
+            handler(NO, path);
+    };
+    
+    [queue addOperation:request];
+}
+
 -(void) jsonRequestWithUrl:(NSString *)url 
                 andHandler:(void (^)(BOOL error, id response)) handler
 {
@@ -75,15 +100,9 @@ static NSString* OperationCount = @"OperationCount";
     requestComplete = NO;
     
     request.requestHandler = ^(ASIHTTPRequest *request) {
-        NSString *error = [request error] == nil?
-        ([request responseStatusCode] == 200?
-         nil:
-         [NSString stringWithFormat:@"Bad response: %d", [request responseStatusCode]]):
-        [[request error] localizedDescription];
-        if (error)
+        if ([blockSelf hasRequestError:request])
         {
             blockSelf.hasError = YES;
-            NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
             handler(YES, nil);
         }
         else
@@ -150,15 +169,9 @@ static NSString* OperationCount = @"OperationCount";
     
     request.requestHandler = ^(ASIHTTPRequest *request) {
         
-        NSString *error = [request error] == nil?
-        ([request responseStatusCode] == 200?
-         nil:
-         [NSString stringWithFormat:@"Bad response: %d", [request responseStatusCode]]):
-        [[request error] localizedDescription];
-        if (error)
+        if ([blockSelf hasRequestError:request])
         {
             blockSelf.hasError = YES;
-            NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
             handler(YES, nil);
         }
         else
@@ -296,5 +309,22 @@ static NSString* OperationCount = @"OperationCount";
     LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: url]];
     request.delegate = self;
     return request;
+}
+
+-(BOOL) hasRequestError:(ASIHTTPRequest *) request
+{
+    NSString *error = [request error] == nil?
+    ([request responseStatusCode] == 200?
+     nil:
+     [NSString stringWithFormat:@"Bad response: %d", [request responseStatusCode]]):
+    [[request error] localizedDescription];
+    if (error)
+    {
+        NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
+        return YES;
+    }
+    else
+        return NO;
+    
 }
 @end
