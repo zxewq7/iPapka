@@ -81,6 +81,7 @@ static NSString* SyncingContext = @"SyncingContext";
                                     forKeyPath:@"isSyncing"
                                        options:0
                                        context:&SyncingContext];
+    [self updateSyncStatus];
     [self updateContent];
 }
 
@@ -97,20 +98,6 @@ static NSString* SyncingContext = @"SyncingContext";
     if (index)
         [self.tableView selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionMiddle];
     
-    NSArray *filters = folder.filters;
-    NSUInteger filtersCount = [filters count];
-    NSMutableArray *toolbarItems = [NSMutableArray arrayWithCapacity: filtersCount];
-    for (NSUInteger i=0; i < filtersCount; i++)
-    {
-        Folder *f = [filters objectAtIndex:i];
-        UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:f.localizedName image:f.icon tag:i];
-        item.tag = i;
-        [toolbarItems addObject:item];
-        [item release];
-    }
-    filtersBar.items = toolbarItems;
-    filtersBar.selectedItem = filterIndex == NSNotFound?nil:[toolbarItems objectAtIndex: filterIndex];
-    [self updateSyncStatus];
 }
 
 #pragma mark -
@@ -615,26 +602,28 @@ static NSString* SyncingContext = @"SyncingContext";
 
 - (void)updateContent
 {
+
     //deselect selected row
     if (folder)
     {
-        //find filter for document
         NSArray *filters = folder.filters;
-        NSUInteger filtersCount = [folder.filters count];
-        
-        if (filtersCount)
+        NSUInteger filtersCount = [filters count];
+        NSMutableArray *toolbarItems = [NSMutableArray arrayWithCapacity: filtersCount];
+        for (NSUInteger i=0; i < filtersCount; i++)
         {
-            filterIndex = 0;
-            for (NSUInteger i=0; i < filtersCount; i++)
+            Folder *f = [filters objectAtIndex:i];
+            UITabBarItem *item = [[UITabBarItem alloc] initWithTitle:f.localizedName image:f.icon tag:i];
+            item.tag = i;
+            [toolbarItems addObject:item];
+            [item release];
+            
+            if ([document isKindOfClass: f.entityClass] && [f.predicate evaluateWithObject: document])
             {
-                Folder *f = [filters objectAtIndex: i];
-                if ([document isKindOfClass: f.entityClass] && [f.predicate evaluateWithObject: document])
-                {
-                    filterIndex = i;
-                    break;
-                }
+                filterIndex = i;
             }
+
         }
+        filtersBar.items = toolbarItems;
 
         UITabBarItem *item = [filtersBar.items objectAtIndex: filterIndex];
         
