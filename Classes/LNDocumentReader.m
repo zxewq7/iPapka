@@ -56,7 +56,6 @@ static NSString *field_Status = @"status";
 static NSString *field_Comment = @"userComment";
 static NSString *field_CommentFile = @"file";
 static NSString *field_Version = @"version";
-static NSString *field_URL = @"url";
 static NSString *field_Correspondents = @"corrs";
 static NSString *field_Priority = @"priority";
 static NSString *field_Pagenum = @"pagenum";
@@ -73,6 +72,8 @@ static NSString *url_AttachmentFetchPaintingFormat = @"/document/%@/file/%@/page
 static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/file/%@/page/%@";
 
 static NSString *url_LinkAttachmentFetchPaintingFormat = @"/document/%@/link/%@/file/%@/page/%@/drawing";
+
+static NSString *url_AudioCommentFormat = @"/document/%@/userComment";
 
 @interface LNDocumentReader(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -565,6 +566,8 @@ static NSString* OperationCount = @"OperationCount";
             document.path = [self documentDirectory: uid];
             
             Comment *comment = [[self dataSource] documentReader:self createEntity:[Comment class]];
+            comment.document = document;
+
             CommentAudio *audio = [[self dataSource] documentReader:self createEntity:[CommentAudio class]];
             audio.path = [[document.path stringByAppendingPathComponent:@"comments"] stringByAppendingPathComponent:@"audioComment.caf"];
             
@@ -573,11 +576,7 @@ static NSString* OperationCount = @"OperationCount";
 
 
             
-            comment.audio = audio;
             audio.comment = comment;
-            
-            document.comment = comment;
-            comment.document = document;
         }
         
         document.version = documentVersion;
@@ -648,10 +647,9 @@ static NSString* OperationCount = @"OperationCount";
                 CommentAudio *audio = comment.audio;
                 
                 NSString *version = [commentFile valueForKey:field_Version];
-                NSString *url = [commentFile valueForKey:field_URL];
                 if (![audio.version isEqualToString: version])
                 {
-                    audio.url = url;
+                    audio.url = [NSString stringWithFormat:url_AudioCommentFormat, document.uid];
                     audio.syncStatusValue = SyncStatusNeedSyncFromServer;
                 }
             }
