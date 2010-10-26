@@ -59,6 +59,7 @@ static NSString *field_Version = @"version";
 static NSString *field_URL = @"url";
 static NSString *field_Correspondents = @"corrs";
 static NSString *field_Priority = @"priority";
+static NSString *field_Pagenum = @"pagenum";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -478,19 +479,22 @@ static NSString* OperationCount = @"OperationCount";
         }
         
         NSArray *paintings = [dictAttachment objectForKey:field_AttachmentPagePainting];
-        for (NSNumber *pageNumber in paintings)
+        for (NSDictionary *painting in paintings)
         {
-            NSSet *pages = attachment.pages;
-            AttachmentPage *page = nil;
-            for (AttachmentPage *p in pages)
+            NSString *paintingId = [painting valueForKey:field_Uid];
+            NSString *paintingVersion = [painting valueForKey:field_Version];
+            NSNumber *paintingPageNumber = [painting valueForKey:field_Pagenum];
+            
+            AttachmentPage *page = [attachment.pagesOrdered objectAtIndex:[paintingPageNumber intValue]];
+            
+            AttachmentPagePainting *painting = page.painting;
+            
+            if (![painting.version isEqualToString:paintingVersion] || ![painting.uid isEqualToString:paintingId])
             {
-                if ([p.number isEqualToNumber: pageNumber])
-                {
-                    page = p;
-                    break;
-                }
+                painting.version = paintingVersion;
+                painting.uid = paintingId;
+                painting.syncStatusValue = SyncStatusNeedSyncFromServer;
             }
-            page.painting.syncStatusValue = SyncStatusNeedSyncFromServer;
         }
         [[self dataSource] documentReaderCommit: self];
     }
