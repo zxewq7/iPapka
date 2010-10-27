@@ -186,6 +186,7 @@ static NSString *SliderContext = @"SliderContext";
         dotsViewFrame.origin.x = i*dotSize.width;
         dotView.frame = dotsViewFrame;
         [dotsView addSubview: dotView];
+        [dotView release];
     }
     
     for (NSUInteger i = numberOfDots; i < currentNumberOfDots; i++)
