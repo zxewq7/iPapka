@@ -24,9 +24,13 @@ static NSString* kFieldUid = @"id";
 static NSString* kFieldDeadline = @"deadline";
 static NSString* kFieldPerformers = @"performers";
 static NSString* kFieldText = @"text";
-static NSString* kFieldType = @"type";
 static NSString* kFieldFile = @"file";
 static NSString* kPostDataField = @"json";
+static NSString* kFieldParent = @"parent";
+static NSString* kFieldDocument = @"document";
+static NSString* kFieldPage = @"page";
+static NSString* kFieldAudio = @"audio";
+static NSString* kFieldDrawing = @"drawing";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(Document *) document;
@@ -168,44 +172,30 @@ static NSString* kPostDataField = @"json";
     NSFileManager *df = [NSFileManager defaultManager];
     
     BOOL fileExists = [df isReadableFileAtPath:file.path];
+
+    NSString *fileField;
     
     if ([file isKindOfClass: [CommentAudio class]])
     {
         CommentAudio *audio = (CommentAudio *) file;
-        Comment *comment = audio.comment;
         
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:comment.document.uid, @"docid", nil] 
-                     forKey:@"parent"];
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:audio.comment.document.uid, kFieldDocument,
+                            nil] 
+                     forKey:kFieldParent];
+
+        fileField = kFieldAudio;
         
-        [jsonDict setObject:@"userComment" 
-                     forKey:kFieldType];
-        
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"audio":@"null"), @"content", nil] 
-                     forKey:kFieldFile];
-        
-        if (audio.version)
-            [jsonDict setObject:audio.version forKey:kFieldVersion];
-        if (comment.text)
-            [jsonDict setObject:comment.text forKey:kFieldText];
     }
     else if ([file isKindOfClass: [AttachmentPagePainting class]])
     {
         AttachmentPagePainting *painting = (AttachmentPagePainting *) file;
         
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:painting.page.attachment.document.uid, @"docid",
-                                                                       painting.page.attachment.uid, @"fileid",
-                                                                       painting.page.number, @"pagenum", nil] 
-                     forKey:@"parent"];
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:painting.page.attachment.document.uid, kFieldDocument,
+                                                                       painting.page.attachment.uid, kFieldFile,
+                                                                       painting.page.number,kFieldPage, nil] 
+                     forKey:kFieldParent];
         
-        [jsonDict setObject:@"drawing" 
-                     forKey:kFieldType];
-        
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:(fileExists?@"image/png":@"null"), @"content", nil] 
-                     forKey:kFieldFile];
-        
-        if (painting.version)
-            [jsonDict setObject:painting.version forKey:kFieldVersion];
-        
+        fileField = kFieldDrawing;
     }
     else
     {
@@ -213,6 +203,19 @@ static NSString* kPostDataField = @"json";
         return;
     }
 
+    id fileContent;
+    
+    if (fileExists)
+        fileContent =  [NSDictionary dictionaryWithObjectsAndKeys:file.version, kFieldVersion,
+                 file.uid, kFieldUid,
+                 nil];
+    else
+        fileContent = @"null";
+    
+    [jsonDict setObject:fileContent
+                 forKey:fileField];
+
+    
     [self jsonPostRequestWithUrl:self.postFileUrl
                         postData:[NSDictionary dictionaryWithObjectsAndKeys:jsonDict, kPostDataField, nil]
                            files:[NSDictionary dictionaryWithObjectsAndKeys:file.path, self.postFileField, nil] 
