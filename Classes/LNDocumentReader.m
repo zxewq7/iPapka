@@ -50,6 +50,7 @@ static NSString *field_Attachments = @"files";
 static NSString *field_AttachmentName = @"name";
 static NSString *field_AttachmentPageCount = @"pageCount";
 static NSString *field_AttachmentPagePainting = @"drawings";
+static NSString *field_ContainerId = @"parent";
 static NSString *field_Links = @"links";
 static NSString *field_LinkTitle = @"info";
 static NSString *field_Status = @"status";
@@ -58,6 +59,7 @@ static NSString *field_CommentFile = @"file";
 static NSString *field_Version = @"version";
 static NSString *field_Correspondents = @"corrs";
 static NSString *field_Priority = @"priority";
+static NSString *field_PageNumber = @"pageNum";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -485,9 +487,11 @@ static NSString* OperationCount = @"OperationCount";
         NSArray *paintings = [dictAttachment objectForKey:field_AttachmentPagePainting];
         for (NSDictionary *painting in paintings)
         {
+            NSDictionary *parent = [painting valueForKey:field_ContainerId];
+            
             NSString *paintingId = [painting valueForKey:field_Uid];
             NSString *paintingVersion = [painting valueForKey:field_Version];
-            NSNumber *paintingPageNumber = [numberFormatter numberFromString:paintingId];
+            NSNumber *paintingPageNumber = [parent valueForKey:field_PageNumber];
             
             if (!(paintingId && paintingVersion && paintingPageNumber))
             {
@@ -499,7 +503,7 @@ static NSString* OperationCount = @"OperationCount";
             
             AttachmentPagePainting *painting = page.painting;
             
-            if (![painting.version isEqualToString:paintingVersion] || ![painting.uid isEqualToString:paintingId])
+            if (!([painting.version isEqualToString:paintingVersion] && [painting.uid isEqualToString:paintingId]))
             {
                 painting.version = paintingVersion;
                 painting.uid = paintingId;
