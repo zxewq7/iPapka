@@ -58,7 +58,6 @@ static NSString *field_CommentFile = @"file";
 static NSString *field_Version = @"version";
 static NSString *field_Correspondents = @"corrs";
 static NSString *field_Priority = @"priority";
-static NSString *field_Pagenum = @"pagenum";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -115,6 +114,9 @@ static NSString* OperationCount = @"OperationCount";
         parseFormatterSimple = [[NSDateFormatter alloc] init];
             //20100811
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
+
+        numberFormatter = [[NSNumberFormatter alloc] init];
+        [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
         
         NSMutableArray *vs = [[NSMutableArray alloc] initWithCapacity: [views count]];
         for (NSString *vn in views)
@@ -182,6 +184,7 @@ static NSString* OperationCount = @"OperationCount";
     [uidsToFetch release]; uidsToFetch = nil;
     [fetchedUids release]; fetchedUids = nil;
     [statusDictionary release];
+    [numberFormatter release]; numberFormatter = nil;
     
     [super dealloc];
 }
@@ -484,7 +487,13 @@ static NSString* OperationCount = @"OperationCount";
         {
             NSString *paintingId = [painting valueForKey:field_Uid];
             NSString *paintingVersion = [painting valueForKey:field_Version];
-            NSNumber *paintingPageNumber = [painting valueForKey:field_Pagenum];
+            NSNumber *paintingPageNumber = [numberFormatter numberFromString:paintingId];
+            
+            if (!(paintingId && paintingVersion && paintingPageNumber))
+            {
+                NSLog(@"invalid drawings object: %@/%@/%@", document.uid, attachment.uid, paintingId);
+                continue;
+            }
             
             AttachmentPage *page = [attachment.pagesOrdered objectAtIndex:[paintingPageNumber intValue]];
             

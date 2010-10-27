@@ -54,6 +54,8 @@
     BOOL                            allRequestsSent;
     
     NSString                        *baseUrl;
+    
+    NSNumberFormatter               *numberFormatter;
 }
 - (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
 @property (nonatomic, readonly)         BOOL                  isSyncing;
