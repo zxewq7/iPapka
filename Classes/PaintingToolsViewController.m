@@ -22,10 +22,11 @@ static NSString* ColorContext = @"ColorContext";
 @implementation PaintingToolsViewController
 @synthesize delegate, color, tool;
 
-- (id)init {
-    if ((self = [super init])) {
-        color = [ColorPicker defaultColor];
-        [color retain];
+- (id)init 
+{
+    if ((self = [super init])) 
+    {
+        self.color = [ColorPicker defaultColor];
     }
     return self;
 }
