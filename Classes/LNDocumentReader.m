@@ -54,8 +54,7 @@ static NSString *field_ContainerId = @"parent";
 static NSString *field_Links = @"links";
 static NSString *field_LinkTitle = @"info";
 static NSString *field_Status = @"status";
-static NSString *field_Comment = @"userComment";
-static NSString *field_CommentFile = @"file";
+static NSString *field_CommentAudio = @"audio";
 static NSString *field_Version = @"version";
 static NSString *field_Correspondents = @"corrs";
 static NSString *field_Priority = @"priority";
@@ -74,7 +73,7 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/fi
 
 static NSString *url_LinkAttachmentFetchPaintingFormat = @"/document/%@/link/%@/file/%@/page/%@/drawing";
 
-static NSString *url_AudioCommentFormat = @"/document/%@/userComment";
+static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
 @interface LNDocumentReader(Private)
 - (void)fetchComplete:(ASIHTTPRequest *)request;
@@ -493,7 +492,11 @@ static NSString* OperationCount = @"OperationCount";
             NSString *paintingVersion = [painting valueForKey:field_Version];
             NSNumber *paintingPageNumber = [parent valueForKey:field_PageNumber];
             
-            if (!(paintingId && paintingVersion && paintingPageNumber))
+            if (!(paintingId && 
+                  paintingVersion && 
+                  paintingPageNumber && 
+                  [paintingPageNumber intValue] >= 0 && 
+                  [paintingPageNumber intValue] < [attachment.pages count]))
             {
                 NSLog(@"invalid drawings object: %@/%@/%@", document.uid, attachment.uid, paintingId);
                 continue;
@@ -649,24 +652,24 @@ static NSString* OperationCount = @"OperationCount";
         }
         
         //parse comment
-        NSDictionary *userComment = [parsedDocument valueForKey:field_Comment];
-        if (userComment && [userComment count])
+        NSDictionary *commentAudio = [parsedDocument valueForKey:field_CommentAudio];
+        if (commentAudio)
         {
-            Comment *comment = document.comment;
-            comment.text = [userComment objectForKey:field_Text];
-            NSDictionary *commentFile = [userComment valueForKey:field_CommentFile];
-            if (commentFile)
+            CommentAudio *audio = document.comment.audio;
+            
+            NSString *version = [commentAudio valueForKey:field_Version];
+            NSString *uid = [commentAudio valueForKey:field_Uid];
+            if (!([audio.version isEqualToString: version] && [audio.uid isEqualToString: uid]))
             {
-                CommentAudio *audio = comment.audio;
-                
-                NSString *version = [commentFile valueForKey:field_Version];
-                if (![audio.version isEqualToString: version])
-                {
-                    audio.url = [NSString stringWithFormat:url_AudioCommentFormat, document.uid];
-                    audio.syncStatusValue = SyncStatusNeedSyncFromServer;
-                }
+                audio.uid = uid;
+                audio.version = version;
+                audio.url = [NSString stringWithFormat:url_AudioCommentFormat, document.uid];
+                audio.syncStatusValue = SyncStatusNeedSyncFromServer;
             }
         }
+        
+        if ([document isKindOfClass:[DocumentSignature class]])
+            document.comment.text = [parsedDocument valueForKey:field_Text];
         
         //parse attachments
         NSArray *attachments = [subDocument objectForKey:field_Attachments];
