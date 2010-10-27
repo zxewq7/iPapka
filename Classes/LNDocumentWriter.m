@@ -140,10 +140,10 @@ static NSString* kFieldDrawing = @"drawing";
             
             [performersArray release];
         }
-        
-        if (resolution.text)
-            [dictDocument setObject:resolution.text forKey:kFieldText];
     }
+    
+    if (document.text)
+        [dictDocument setObject:document.text forKey:kFieldText];
     
     [self jsonPostRequestWithUrl:self.postFileUrl
                         postData:[NSDictionary dictionaryWithObjectsAndKeys:dictDocument, kPostDataField, nil]
