@@ -206,7 +206,7 @@ static NSString* kFieldDrawing = @"drawing";
     id fileContent;
     
     if (fileExists)
-        fileContent =  [NSDictionary dictionaryWithObjectsAndKeys:file.version, kFieldVersion,
+        fileContent =  [NSDictionary dictionaryWithObjectsAndKeys:(file.version?file.version:@"null"), kFieldVersion,
                  file.uid, kFieldUid,
                  nil];
     else
