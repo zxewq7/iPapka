@@ -141,6 +141,12 @@ static NSString* kPostDataField = @"json";
         if (resolution.text)
             [dictDocument setObject:resolution.text forKey:kFieldText];
     }
+    else if ([document isKindOfClass: [DocumentSignature class]])
+    {
+        DocumentSignature *sugnature = (DocumentSignature *)document;
+        if (sugnature.comment.text)
+            [dictDocument setObject:sugnature.comment.text forKey:kFieldText];
+    }
     
     [self jsonPostRequestWithUrl:self.postFileUrl
                         postData:[NSDictionary dictionaryWithObjectsAndKeys:dictDocument, kPostDataField, nil]
