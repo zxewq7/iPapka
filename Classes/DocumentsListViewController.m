@@ -143,7 +143,6 @@ static NSString* SyncingContext = @"SyncingContext";
 
         contentView.detailTextLabel2.font = [UIFont systemFontOfSize:14.f];
         contentView.detailTextLabel2.highlightedTextColor = [UIColor whiteColor];
-        contentView.detailTextLabel2.textColor = [UIColor colorWithRed:0.137 green:0.467 blue:0.929 alpha:1.0];
         
         UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectZero];
         label1.textColor = [UIColor colorWithRed:0.804 green:0.024 blue:0.024 alpha:1.0];
@@ -207,12 +206,12 @@ static NSString* SyncingContext = @"SyncingContext";
     if (doc.statusValue == DocumentStatusNew)
     {
         contentView.detailTextLabel2.text = NSLocalizedString(@"Unmodified", @"DocumentList->Unmodified");
-        contentView.detailTextLabel2.enabled = NO;
+        contentView.detailTextLabel2.textColor = [UIColor darkGrayColor];
     }
     else
     {
         contentView.detailTextLabel2.text = [NSString stringWithFormat:@"%@ %@ %@ %@", NSLocalizedString(@"Modified", @"DocumentList->Modified"), [dateFormatter stringFromDate: doc.dateModified], NSLocalizedString(@"at", @"documentList-> modified at time"), [timeFormatter stringFromDate: doc.dateModified]];
-         contentView.detailTextLabel2.enabled = YES;
+        contentView.detailTextLabel2.textColor = [UIColor colorWithRed:0.137 green:0.467 blue:0.929 alpha:1.0];
     }
 
     NSMutableArray *labels = [[NSMutableArray alloc] initWithCapacity:4];
