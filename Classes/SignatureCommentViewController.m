@@ -12,7 +12,6 @@
 #import "DataSource.h"
 #import "AudioCommentController.h"
 #import "Person.h"
-#import "Comment.h"
 #import "CommentAudio.h"
 #import "BlankLogoView.h"
 
@@ -203,7 +202,7 @@
 {
     [self updateHeight];
     
-    document.comment.text = commentText.text;
+    document.text = commentText.text;
     
     [[DataSource sharedDataSource] commit];
     return YES;
@@ -222,13 +221,13 @@
 {
     authorLabel.text = document.author;
     
-    commentText.text = document.comment.text;
+    commentText.text = document.text;
     
     [commentText textChanged:nil];
     
     dateLabel.text = [dateFormatter stringFromDate: document.registrationDate];
     
-    audioCommentController.file = document.comment.audio;
+    audioCommentController.file = document.audio;
 
     [self updateHeight];
 }

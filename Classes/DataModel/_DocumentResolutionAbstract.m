@@ -57,13 +57,6 @@
 
 
 
-@dynamic text;
-
-
-
-
-
-
 @dynamic deadline;
 
 

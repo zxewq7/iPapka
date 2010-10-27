@@ -19,7 +19,6 @@
 #import "Person.h"
 #import "PasswordManager.h"
 #import "CommentAudio.h"
-#import "Comment.h"
 #import "AttachmentPagePainting.h"
 #import "DocumentResolutionParent.h"
 #import "DocumentResolutionAbstract.h"
@@ -581,9 +580,6 @@ static NSString* OperationCount = @"OperationCount";
 
             document.path = [self documentDirectory: uid];
             
-            Comment *comment = [[self dataSource] documentReader:self createEntity:[Comment class]];
-            comment.document = document;
-
             CommentAudio *audio = [[self dataSource] documentReader:self createEntity:[CommentAudio class]];
             audio.path = [[document.path stringByAppendingPathComponent:@"comments"] stringByAppendingPathComponent:@"audioComment.caf"];
             
@@ -592,7 +588,7 @@ static NSString* OperationCount = @"OperationCount";
 
 
             
-            audio.comment = comment;
+            audio.document = document;
         }
         
         document.version = documentVersion;
@@ -612,6 +608,8 @@ static NSString* OperationCount = @"OperationCount";
         document.dateModified = dateModified;
         
         document.correspondents = [subDocument objectForKey:field_Correspondents];
+        
+        document.text = [parsedDocument objectForKey:field_Text];
 
         NSNumber *priority = [parsedDocument objectForKey:field_Priority];
         
@@ -655,7 +653,7 @@ static NSString* OperationCount = @"OperationCount";
         NSDictionary *commentAudio = [parsedDocument valueForKey:field_CommentAudio];
         if (commentAudio)
         {
-            CommentAudio *audio = document.comment.audio;
+            CommentAudio *audio = document.audio;
             
             NSString *version = [commentAudio valueForKey:field_Version];
             NSString *uid = [commentAudio valueForKey:field_Uid];
@@ -667,9 +665,6 @@ static NSString* OperationCount = @"OperationCount";
                 audio.syncStatusValue = SyncStatusNeedSyncFromServer;
             }
         }
-        
-        if ([document isKindOfClass:[DocumentSignature class]])
-            document.comment.text = [parsedDocument valueForKey:field_Text];
         
         //parse attachments
         NSArray *attachments = [subDocument objectForKey:field_Attachments];

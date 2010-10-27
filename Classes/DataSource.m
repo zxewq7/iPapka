@@ -21,7 +21,6 @@
 #import "LNPersonReader.h"
 #import "LNSettingsReader.h"
 #import "CommentAudio.h"
-#import "Comment.h"
 #import "AttachmentPagePainting.h"
 
 static NSString* SyncingContext = @"SyncingContext";
@@ -238,7 +237,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 {
                     CommentAudio *audio = (CommentAudio *) object;
                     audio.syncStatusValue = SyncStatusNeedSyncToServer;
-                    sourceDocument = audio.comment.document;
+                    sourceDocument = audio.document;
                 }
                 else if ([object isKindOfClass:[AttachmentPagePainting class]])
                 {

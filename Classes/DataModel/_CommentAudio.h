@@ -4,7 +4,7 @@
 #import <CoreData/CoreData.h>
 #import "FileField.h"
 
-@class Comment;
+@class Document;
 
 
 @interface CommentAudioID : NSManagedObjectID {}
@@ -21,8 +21,8 @@
 
 
 
-@property (nonatomic, retain) Comment* comment;
-//- (BOOL)validateComment:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, retain) Document* document;
+//- (BOOL)validateDocument:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -36,8 +36,8 @@
 
 
 
-- (Comment*)primitiveComment;
-- (void)setPrimitiveComment:(Comment*)value;
+- (Document*)primitiveDocument;
+- (void)setPrimitiveDocument:(Document*)value;
 
 
 @end

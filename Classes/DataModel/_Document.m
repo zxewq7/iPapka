@@ -104,13 +104,6 @@
 
 
 
-@dynamic registrationNumber;
-
-
-
-
-
-
 @dynamic dateModified;
 
 
@@ -125,6 +118,13 @@
 
 
 
+@dynamic registrationNumber;
+
+
+
+
+
+
 @dynamic registrationDate;
 
 
@@ -132,7 +132,7 @@
 
 
 
-@dynamic version;
+@dynamic text;
 
 
 
@@ -146,7 +146,7 @@
 
 
 
-@dynamic author;
+@dynamic version;
 
 
 
@@ -174,6 +174,13 @@
 - (void)setPrimitiveIsReadValue:(BOOL)value_ {
 	[self setPrimitiveIsRead:[NSNumber numberWithBool:value_]];
 }
+
+
+
+
+
+@dynamic author;
+
 
 
 
@@ -230,7 +237,7 @@
 }
 	
 
-@dynamic comment;
+@dynamic audio;
 
 	
 

@@ -5,10 +5,11 @@
 #import "BWOrderedManagedObject.h"
 
 @class Attachment;
-@class Comment;
+@class CommentAudio;
 @class DocumentLink;
 
 @class NSObject;
+
 
 
 
@@ -76,12 +77,6 @@
 
 
 
-@property (nonatomic, retain) NSString *registrationNumber;
-
-//- (BOOL)validateRegistrationNumber:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSDate *dateModified;
 
 //- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
@@ -94,15 +89,21 @@
 
 
 
+@property (nonatomic, retain) NSString *registrationNumber;
+
+//- (BOOL)validateRegistrationNumber:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSDate *registrationDate;
 
 //- (BOOL)validateRegistrationDate:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, retain) NSString *version;
+@property (nonatomic, retain) NSString *text;
 
-//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -112,9 +113,9 @@
 
 
 
-@property (nonatomic, retain) NSString *author;
+@property (nonatomic, retain) NSString *version;
 
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -125,6 +126,12 @@
 - (void)setIsReadValue:(BOOL)value_;
 
 //- (BOOL)validateIsRead:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *author;
+
+//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -156,8 +163,8 @@
 
 
 
-@property (nonatomic, retain) Comment* comment;
-//- (BOOL)validateComment:(id*)value_ error:(NSError**)error_;
+@property (nonatomic, retain) CommentAudio* audio;
+//- (BOOL)validateAudio:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -210,10 +217,6 @@
 - (void)setPrimitivePath:(NSString*)value;
 
 
-- (NSString*)primitiveRegistrationNumber;
-- (void)setPrimitiveRegistrationNumber:(NSString*)value;
-
-
 - (NSDate*)primitiveDateModified;
 - (void)setPrimitiveDateModified:(NSDate*)value;
 
@@ -222,20 +225,24 @@
 - (void)setPrimitiveTitle:(NSString*)value;
 
 
+- (NSString*)primitiveRegistrationNumber;
+- (void)setPrimitiveRegistrationNumber:(NSString*)value;
+
+
 - (NSDate*)primitiveRegistrationDate;
 - (void)setPrimitiveRegistrationDate:(NSDate*)value;
 
 
-- (NSString*)primitiveVersion;
-- (void)setPrimitiveVersion:(NSString*)value;
+- (NSString*)primitiveText;
+- (void)setPrimitiveText:(NSString*)value;
 
 
 - (NSDate*)primitiveRegistrationDateStripped;
 - (void)setPrimitiveRegistrationDateStripped:(NSDate*)value;
 
 
-- (NSString*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(NSString*)value;
+- (NSString*)primitiveVersion;
+- (void)setPrimitiveVersion:(NSString*)value;
 
 
 - (NSNumber*)primitiveIsRead;
@@ -243,6 +250,10 @@
 
 - (BOOL)primitiveIsReadValue;
 - (void)setPrimitiveIsReadValue:(BOOL)value_;
+
+
+- (NSString*)primitiveAuthor;
+- (void)setPrimitiveAuthor:(NSString*)value;
 
 
 - (NSArray*)primitiveCorrespondents;
@@ -267,8 +278,8 @@
 
 
 
-- (Comment*)primitiveComment;
-- (void)setPrimitiveComment:(Comment*)value;
+- (CommentAudio*)primitiveAudio;
+- (void)setPrimitiveAudio:(CommentAudio*)value;
 
 
 

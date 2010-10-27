@@ -16,7 +16,6 @@
 #import "DataSource.h"
 #import "AudioCommentController.h"
 #import "CommentAudio.h"
-#import "Comment.h"
 #import "BlankLogoView.h"
 
 #define RIGHT_MARGIN 24.0f
@@ -386,7 +385,7 @@
     
     performersViewController.document = resolution;
     
-    audioCommentController.file = document.comment.audio;
+    audioCommentController.file = document.audio;
     
     managedButton.on = resolution.isManagedValue;
     

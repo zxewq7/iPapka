@@ -13,7 +13,6 @@
 #import "DataSource.h"
 #import "Person.h"
 #import "FileField.h"
-#import "Comment.h"
 #import "CommentAudio.h"
 #import "AttachmentPagePainting.h"
 #import "Attachment.h"
@@ -145,12 +144,6 @@ static NSString* kFieldDrawing = @"drawing";
         if (resolution.text)
             [dictDocument setObject:resolution.text forKey:kFieldText];
     }
-    else if ([document isKindOfClass: [DocumentSignature class]])
-    {
-        DocumentSignature *sugnature = (DocumentSignature *)document;
-        if (sugnature.comment.text)
-            [dictDocument setObject:sugnature.comment.text forKey:kFieldText];
-    }
     
     [self jsonPostRequestWithUrl:self.postFileUrl
                         postData:[NSDictionary dictionaryWithObjectsAndKeys:dictDocument, kPostDataField, nil]
@@ -179,7 +172,7 @@ static NSString* kFieldDrawing = @"drawing";
     {
         CommentAudio *audio = (CommentAudio *) file;
         
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:audio.comment.document.uid, kFieldDocument,
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:audio.document.uid, kFieldDocument,
                             nil] 
                      forKey:kFieldParent];
 

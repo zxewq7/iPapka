@@ -31,7 +31,7 @@
 
 
 
-@dynamic comment;
+@dynamic document;
 
 	
 

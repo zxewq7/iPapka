@@ -8,7 +8,6 @@
 
 
 
-
 @interface DocumentResolutionAbstractID : NSManagedObjectID {}
 @end
 
@@ -32,12 +31,6 @@
 
 
 
-@property (nonatomic, retain) NSString *text;
-
-//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSDate *deadline;
 
 //- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
@@ -58,10 +51,6 @@
 
 - (BOOL)primitiveIsManagedValue;
 - (void)setPrimitiveIsManagedValue:(BOOL)value_;
-
-
-- (NSString*)primitiveText;
-- (void)setPrimitiveText:(NSString*)value;
 
 
 - (NSDate*)primitiveDeadline;
