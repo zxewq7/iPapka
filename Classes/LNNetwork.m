@@ -132,7 +132,10 @@ static NSString* OperationCount = @"OperationCount";
                          files:(NSDictionary *) files 
                     andHandler:(void (^)(BOOL error, id response)) handler
 {
-    LNFormDataRequest *request = [self formRequestWithUrl:url];;
+    LNFormDataRequest *request = [self formRequestWithUrl:url];
+    
+    request.postFormat = ASIMultipartFormDataPostFormat;
+    request.stringEncoding = NSUTF8StringEncoding;
     
     SBJsonWriter *jsonWriter = [[[SBJsonWriter alloc] init] autorelease];
 
