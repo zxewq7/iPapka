@@ -23,7 +23,7 @@
 
 
 // Automatically set on build
-NSString *ASIHTTPRequestVersion = @"v1.7-39 2010-08-12";
+NSString *ASIHTTPRequestVersion = @"v1.7-56 2010-08-30";
 
 NSString* const NetworkRequestErrorDomain = @"ASIHTTPRequestErrorDomain";
 
@@ -130,10 +130,12 @@ static id <ASICacheDelegate> defaultCache = nil;
 // Used for tracking when requests are using the network
 static unsigned int runningRequestCount = 0;
 
-#if TARGET_OS_IPHONE
-// Use [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:NO] if you want to manage it yourself
+
+// You can use [ASIHTTPRequest setShouldUpdateNetworkActivityIndicator:NO] if you want to manage it yourself
+// Alternatively, override showNetworkActivityIndicator / hideNetworkActivityIndicator
+// By default this does nothing on Mac OS X, but again override the above methods for a different behaviour
 static BOOL shouldUpdateNetworkActivityIndicator = YES;
-#endif
+
 
 //**Queue stuff**/
 
@@ -316,6 +318,9 @@ static NSOperationQueue *sharedQueue = nil;
 	if (request) {
 		CFRelease(request);
 	}
+	if (clientCertificateIdentity) {
+		CFRelease(clientCertificateIdentity);
+	}
 	[self cancelLoad];
 	[queue release];
 	[userInfo release];
@@ -354,12 +359,12 @@ static NSOperationQueue *sharedQueue = nil;
 	[postBodyWriteStream release];
 	[postBodyReadStream release];
 	[PACurl release];
+	[clientCertificates release];
 	[responseStatusMessage release];
 	[connectionInfo release];
 	[requestID release];
 	[super dealloc];
 }
-
 
 #pragma mark setup request
 
@@ -647,6 +652,7 @@ static NSOperationQueue *sharedQueue = nil;
 		}
 
 		[self setComplete:NO];
+		[self setDidUseCachedResponse:NO];
 		
 		if (![self url]) {
 			[self failWithError:ASIUnableToCreateRequestError];
@@ -934,10 +940,41 @@ static NSOperationQueue *sharedQueue = nil;
         return;
     }
 
-	// Tell CFNetwork not to validate SSL certificates
-	if (![self validatesSecureCertificate] && [[[[self url] scheme] lowercaseString] isEqualToString:@"https"]) {
-		CFReadStreamSetProperty((CFReadStreamRef)[self readStream], kCFStreamPropertySSLSettings, [NSMutableDictionary dictionaryWithObject:(NSString *)kCFBooleanFalse forKey:(NSString *)kCFStreamSSLValidatesCertificateChain]); 
-	}
+
+    
+    
+    //
+    // Handle SSL certificate settings
+    //
+
+    if([[[[self url] scheme] lowercaseString] isEqualToString:@"https"]) {
+
+        NSMutableDictionary *sslProperties = [NSMutableDictionary dictionaryWithCapacity:1];
+
+        // Tell CFNetwork not to validate SSL certificates
+        if (![self validatesSecureCertificate]) {
+            [sslProperties setObject:(NSString *)kCFBooleanFalse forKey:(NSString *)kCFStreamSSLValidatesCertificateChain];
+        }
+
+        // Tell CFNetwork to use a client certificate
+        if (clientCertificateIdentity) {
+
+			NSMutableArray *certificates = [NSMutableArray arrayWithCapacity:[clientCertificates count]+1];
+
+			// The first object in the array is our SecIdentityRef
+			[certificates addObject:(id)clientCertificateIdentity];
+
+			// If we've added any additional certificates, add them too
+			for (id cert in clientCertificates) {
+				[certificates addObject:cert];
+			}
+            [sslProperties setObject:certificates forKey:(NSString *)kCFStreamSSLCertificates];
+        }
+
+        CFReadStreamSetProperty((CFReadStreamRef)[self readStream], kCFStreamPropertySSLSettings, sslProperties);
+    }
+
+    
 	
 	//
 	// Handle proxy settings
@@ -1045,7 +1082,7 @@ static NSOperationQueue *sharedQueue = nil;
 			// Check if we should have expired this connection
 			} else if ([[[self connectionInfo] objectForKey:@"expires"] timeIntervalSinceNow] < 0) {
 				#if DEBUG_PERSISTENT_CONNECTIONS
-				NSLog(@"Not re-using connection #%hi because it has expired",[[[self connectionInfo] objectForKey:@"id"] intValue]);
+				NSLog(@"Not re-using connection #%i because it has expired",[[[self connectionInfo] objectForKey:@"id"] intValue]);
 				#endif
 				[persistentConnectionsPool removeObject:[self connectionInfo]];
 				[self setConnectionInfo:nil];
@@ -1090,7 +1127,7 @@ static NSOperationQueue *sharedQueue = nil;
 		CFReadStreamSetProperty((CFReadStreamRef)[self readStream],  kCFStreamPropertyHTTPAttemptPersistentConnection, kCFBooleanTrue);
 		
 		#if DEBUG_PERSISTENT_CONNECTIONS
-		NSLog(@"Request #%@ will use connection #%hi",[self requestID],[[[self connectionInfo] objectForKey:@"id"] intValue]);
+		NSLog(@"Request #%@ will use connection #%i",[self requestID],[[[self connectionInfo] objectForKey:@"id"] intValue]);
 		#endif
 		
 		
@@ -1373,6 +1410,8 @@ static NSOperationQueue *sharedQueue = nil;
 	[headRequest setTimeOutSeconds:[self timeOutSeconds]];
 	[headRequest setUseHTTPVersionOne:[self useHTTPVersionOne]];
 	[headRequest setValidatesSecureCertificate:[self validatesSecureCertificate]];
+    [headRequest setClientCertificateIdentity:clientCertificateIdentity];
+	[headRequest setClientCertificates:[[clientCertificates copy] autorelease]];
 	[headRequest setPACurl:[self PACurl]];
 	[headRequest setShouldPresentCredentialsBeforeChallenge:[self shouldPresentCredentialsBeforeChallenge]];
 	[headRequest setNumberOfTimesToRetryOnTimeout:[self numberOfTimesToRetryOnTimeout]];
@@ -1846,11 +1885,14 @@ static NSOperationQueue *sharedQueue = nil;
 				[self setPostLength:0];
 
 				// Perhaps there are other headers we should be preserving, but it's hard to know what we need to keep and what to throw away.
-				NSString *userAgent = [[self requestHeaders] objectForKey:@"User-Agent"];
-				if (userAgent) {
-					[self setRequestHeaders:[NSMutableDictionary dictionaryWithObject:userAgent forKey:@"User-Agent"]];
-				} else {
-					[self setRequestHeaders:nil];
+				NSString *userAgentHeader = [[self requestHeaders] objectForKey:@"User-Agent"];
+				NSString *acceptHeader = [[self requestHeaders] objectForKey:@"Accept"];
+				[self setRequestHeaders:nil];
+				if (userAgentHeader) {
+					[self addRequestHeader:@"User-Agent" value:userAgentHeader];
+				}
+				if (acceptHeader) {
+					[self addRequestHeader:@"Accept" value:acceptHeader];
 				}
 				[self setHaveBuiltRequestHeaders:NO];
 			} else {
@@ -1871,7 +1913,7 @@ static NSOperationQueue *sharedQueue = nil;
 			[self setRequestCookies:[NSMutableArray array]];
 			
 			#if DEBUG_REQUEST_STATUS
-				NSLog(@"Request will redirect (code: %hi): %@",[self responseStatusCode],self);
+				NSLog(@"Request will redirect (code: %i): %@",[self responseStatusCode],self);
 			#endif
 			
 		}
@@ -1886,7 +1928,7 @@ static NSOperationQueue *sharedQueue = nil;
 		}
 
 		if (cLength) {
-			SInt32 length = CFStringGetIntValue((CFStringRef)cLength);
+			unsigned long long length = strtoull([cLength UTF8String], NULL, 0);
 
 			// Workaround for Apache HEAD requests for dynamically generated content returning the wrong Content-Length when using gzip
 			if ([self mainRequest] && [self allowCompressedResponse] && length == 20 && [self showAccurateProgress] && [self shouldResetDownloadProgress]) {
@@ -2725,7 +2767,7 @@ static NSOperationQueue *sharedQueue = nil;
 - (void)handleStreamComplete
 {	
 #if DEBUG_REQUEST_STATUS
-	NSLog(@"Request %@ finished downloading data",self);
+	NSLog(@"Request %@ finished downloading data (%qu bytes)",self, [self totalBytesRead]);
 #endif
 	
 	[self setDownloadComplete:YES];
@@ -2791,7 +2833,7 @@ static NSOperationQueue *sharedQueue = nil;
 	}
 	
 	// Save to the cache
-	if ([self downloadCache]) {
+	if ([self downloadCache] && ![self didUseCachedResponse]) {
 		[[self downloadCache] storeResponseForRequest:self maxAge:[self secondsToCache]];
 	}
 	
@@ -2813,7 +2855,7 @@ static NSOperationQueue *sharedQueue = nil;
 		[self destroyReadStream];
 	}
 	
-	if (![self needsRedirect] && ![self authenticationNeeded]) {
+	if (![self needsRedirect] && ![self authenticationNeeded] && ![self didUseCachedResponse]) {
 		
 		if (fileError) {
 			[self failWithError:fileError];
@@ -2885,10 +2927,10 @@ static NSOperationQueue *sharedQueue = nil;
 			return NO;
 		}
 	}
-        
+
 	// only 200 responses are stored in the cache, so let the client know
 	// this was a successful response
-	self.responseStatusCode = 200;
+	[self setResponseStatusCode:200];
         
 	[self setDidUseCachedResponse:YES];
 	
@@ -2991,11 +3033,12 @@ static NSOperationQueue *sharedQueue = nil;
 
 		if ([self readStreamIsScheduled]) {
 			runningRequestCount--;
-			#if TARGET_OS_IPHONE
 			if (shouldUpdateNetworkActivityIndicator && runningRequestCount == 0) {
-				[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+				// Wait half a second before turning off the indicator
+				// This can prevent flicker when you have a single request finish and then immediately start another request
+				// We will cancel hiding the activity indicator if we start again
+				[[self class] performSelector:@selector(hideNetworkActivityIndicator) withObject:nil afterDelay:0.5];
 			}
-			#endif
 		}
 
 		[self setReadStreamIsScheduled:NO];
@@ -3015,11 +3058,10 @@ static NSOperationQueue *sharedQueue = nil;
 
 		[connectionsLock lock];
 		runningRequestCount++;
-		#if TARGET_OS_IPHONE
 		if (shouldUpdateNetworkActivityIndicator) {
-			[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+			[NSObject cancelPreviousPerformRequestsWithTarget:[self class] selector:@selector(hideNetworkActivityIndicator) object:nil];
+			[[self class] showNetworkActivityIndicator];
 		}
-		#endif
 		[connectionsLock unlock];
 
 		// Reset the timeout
@@ -3029,17 +3071,19 @@ static NSOperationQueue *sharedQueue = nil;
 	}
 }
 
+
 - (void)unscheduleReadStream
 {
 	if ([self readStream] && [self readStreamIsScheduled]) {
 
 		[connectionsLock lock];
 		runningRequestCount--;
-		#if TARGET_OS_IPHONE
 		if (shouldUpdateNetworkActivityIndicator && runningRequestCount == 0) {
-			[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+			// Wait half a second before turning off the indicator
+			// This can prevent flicker when you have a single request finish and then immediately start another request
+			// We will cancel hiding the activity indicator if we start again
+			[[self class] performSelector:@selector(hideNetworkActivityIndicator) withObject:nil afterDelay:0.5];
 		}
-		#endif
 		[connectionsLock unlock];
 
 		[[self readStream] removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:[self runLoopMode]];
@@ -3062,7 +3106,7 @@ static NSOperationQueue *sharedQueue = nil;
 		NSDictionary *existingConnection = [persistentConnectionsPool objectAtIndex:i];
 		if (![existingConnection objectForKey:@"request"] && [[existingConnection objectForKey:@"expires"] timeIntervalSinceNow] <= 0) {
 #if DEBUG_PERSISTENT_CONNECTIONS
-			NSLog(@"Closing connection #%hi because it has expired",[[existingConnection objectForKey:@"id"] intValue]);
+			NSLog(@"Closing connection #%i because it has expired",[[existingConnection objectForKey:@"id"] intValue]);
 #endif
 			NSInputStream *stream = [existingConnection objectForKey:@"stream"];
 			if (stream) {
@@ -3122,6 +3166,8 @@ static NSOperationQueue *sharedQueue = nil;
 	[newRequest setUseHTTPVersionOne:[self useHTTPVersionOne]];
 	[newRequest setShouldRedirect:[self shouldRedirect]];
 	[newRequest setValidatesSecureCertificate:[self validatesSecureCertificate]];
+    [newRequest setClientCertificateIdentity:clientCertificateIdentity];
+	[newRequest setClientCertificates:[[clientCertificates copy] autorelease]];
 	[newRequest setPACurl:[self PACurl]];
 	[newRequest setShouldPresentCredentialsBeforeChallenge:[self shouldPresentCredentialsBeforeChallenge]];
 	[newRequest setNumberOfTimesToRetryOnTimeout:[self numberOfTimesToRetryOnTimeout]];
@@ -3142,6 +3188,22 @@ static NSOperationQueue *sharedQueue = nil;
 {
 	defaultTimeOutSeconds = newTimeOutSeconds;
 }
+
+
+#pragma mark client certificate
+
+- (void)setClientCertificateIdentity:(SecIdentityRef)anIdentity {
+    if(clientCertificateIdentity) {
+        CFRelease(clientCertificateIdentity);
+    }
+    
+    clientCertificateIdentity = anIdentity;
+    
+	if (clientCertificateIdentity) {
+		CFRetain(clientCertificateIdentity);
+	}
+}
+
 
 #pragma mark session credentials
 
@@ -3627,8 +3689,8 @@ static NSOperationQueue *sharedQueue = nil;
 
 + (NSString *)defaultUserAgentString
 {
-	NSBundle *bundle = [NSBundle mainBundle];
-	
+	NSBundle *bundle = [NSBundle bundleForClass:[self class]];
+
 	// Attempt to find a name for this application
 	NSString *appName = [bundle objectForInfoDictionaryKey:@"CFBundleDisplayName"];
 	if (!appName) {
@@ -3924,13 +3986,13 @@ static NSOperationQueue *sharedQueue = nil;
 + (void)registerForNetworkReachabilityNotifications
 {
 	[[Reachability reachabilityForInternetConnection] startNotifier];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:@"kNetworkReachabilityChangedNotification" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reachabilityChanged:) name:kReachabilityChangedNotification object:nil];
 }
 
 
 + (void)unsubscribeFromNetworkReachabilityNotifications
 {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:@"kNetworkReachabilityChangedNotification" object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:kReachabilityChangedNotification object:nil];
 }
 
 + (BOOL)isNetworkReachableViaWWAN
@@ -3977,14 +4039,27 @@ static NSOperationQueue *sharedQueue = nil;
 	[connectionsLock unlock];
 	return inUse;
 }
-#if TARGET_OS_IPHONE
+
 + (void)setShouldUpdateNetworkActivityIndicator:(BOOL)shouldUpdate
 {
 	[connectionsLock lock];
 	shouldUpdateNetworkActivityIndicator = shouldUpdate;
 	[connectionsLock unlock];
 }
+
++ (void)showNetworkActivityIndicator
+{
+#if TARGET_OS_IPHONE
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
 #endif
+}
+
++ (void)hideNetworkActivityIndicator
+{
+#if TARGET_OS_IPHONE
+	[[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];	
+#endif
+}
 
 
 #pragma mark threading behaviour
@@ -4022,8 +4097,6 @@ static NSOperationQueue *sharedQueue = nil;
 	CFRunLoopRemoveSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);
 	CFRelease(source);
 }
-
-
 
 #pragma mark miscellany 
 
@@ -4187,4 +4260,5 @@ static NSOperationQueue *sharedQueue = nil;
 @synthesize cacheStoragePolicy;
 @synthesize didUseCachedResponse;
 @synthesize secondsToCache;
+@synthesize clientCertificates;
 @end

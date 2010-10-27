@@ -332,6 +332,10 @@ extern unsigned long const ASIWWANBandwidthThrottleAmount;
 	
 	// When NO, requests will not check the secure certificate is valid (use for self-signed certificates during development, DO NOT USE IN PRODUCTION) Default is YES
 	BOOL validatesSecureCertificate;
+    
+    // If not nil and the URL scheme is https, CFNetwork configured to supply a client certificate
+    SecIdentityRef clientCertificateIdentity;
+	NSArray *clientCertificates;
 	
 	// Details on the proxy to use - you could set these yourself, but it's probably best to let ASIHTTPRequest detect the system proxy settings
 	NSString *proxyHost;
@@ -600,6 +604,10 @@ extern unsigned long const ASIWWANBandwidthThrottleAmount;
 + (NSTimeInterval)defaultTimeOutSeconds;
 + (void)setDefaultTimeOutSeconds:(NSTimeInterval)newTimeOutSeconds;
 
+#pragma mark client certificate
+
+- (void)setClientCertificateIdentity:(SecIdentityRef)anIdentity;
+
 #pragma mark session credentials
 
 + (NSMutableArray *)sessionProxyCredentialsStore;
@@ -725,9 +733,14 @@ extern unsigned long const ASIWWANBandwidthThrottleAmount;
 #pragma mark network activity
 
 + (BOOL)isNetworkInUse;
-#if TARGET_OS_IPHONE
+
 + (void)setShouldUpdateNetworkActivityIndicator:(BOOL)shouldUpdate;
-#endif
+
+// Shows the network activity spinner thing on iOS. You may wish to override this to do something else in Mac projects
++ (void)showNetworkActivityIndicator;
+
+// Hides the network activity spinner thing on iOS
++ (void)hideNetworkActivityIndicator;
 
 #pragma mark miscellany
 
@@ -841,4 +854,5 @@ extern unsigned long const ASIWWANBandwidthThrottleAmount;
 @property (assign) ASICacheStoragePolicy cacheStoragePolicy;
 @property (assign, readonly) BOOL didUseCachedResponse;
 @property (assign) NSTimeInterval secondsToCache;
+@property (retain) NSArray *clientCertificates;
 @end
