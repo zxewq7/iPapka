@@ -28,7 +28,7 @@ static NSString* kFieldFile = @"file";
 static NSString* kPostDataField = @"json";
 static NSString* kFieldParent = @"parent";
 static NSString* kFieldDocument = @"document";
-static NSString* kFieldPage = @"page";
+static NSString* kFieldPage = @"pageNum";
 static NSString* kFieldAudio = @"audio";
 static NSString* kFieldDrawing = @"drawing";
 
@@ -224,8 +224,22 @@ static NSString* kFieldDrawing = @"drawing";
          if (error)
              return;
          
-         NSString *uid = [response valueForKey:kFieldUid];
-         NSString *version = [response valueForKey:kFieldVersion];
+         NSString *fileField;
+         
+         if ([file isKindOfClass: [CommentAudio class]])
+             fileField = kFieldAudio;
+         else if ([file isKindOfClass: [AttachmentPagePainting class]])
+             fileField = kFieldDrawing;
+         else
+         {
+             NSLog(@"Unknown file type: %@", [file class]);
+             return;
+         }
+         
+         NSDictionary *object = [response valueForKey:fileField];
+         
+         NSString *uid = [object valueForKey:kFieldUid];
+         NSString *version = [object valueForKey:kFieldVersion];
          if (uid == nil || version == nil)
          {
              NSLog(@"error parsing response: %@", response);
