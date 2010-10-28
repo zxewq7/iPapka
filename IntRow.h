@@ -11,13 +11,11 @@
 @class ListElement;
 @interface IntRow : NSObject 
 {
-    ListElement *top;
-    ListElement *last;
+    NSMutableArray *queue;
     NSUInteger maxSize;
-    NSUInteger size;
 }
 
-- (void) add: (NSUInteger) value;
-@property (readonly) NSUInteger median;
+- (void) add: (NSInteger) value;
+@property (readonly) NSInteger median;
 @property NSUInteger maxSize;
 @end

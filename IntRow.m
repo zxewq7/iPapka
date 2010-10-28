@@ -8,106 +8,42 @@
 
 #import "IntRow.h"
 
-@interface ListElement : NSObject 
-{
-    NSUInteger value;
-    ListElement *next;
-    ListElement *prev;
-}
-@property (nonatomic) NSUInteger value;
-@property (nonatomic, retain) ListElement *next;
-@property (nonatomic, retain) ListElement *prev;
-@end
-
-@implementation ListElement
-@synthesize value, next, prev;
-
-- (void)dealloc 
-{
-    self.next.prev = nil;
-    self.next = nil;
-    self.prev.next = nil;
-    self.prev = nil;
-    [super dealloc];
-}
-
-@end
-
 @implementation IntRow
-@synthesize maxSize;
+@synthesize maxSize, median;
 - (id)init
 {
     if ((self = [super init])) 
     {
-        top = nil;
-        last = nil;
+        queue = [[NSMutableArray alloc] init];
         maxSize = 0;
-        size = 0;
     }
     return self;
 }
 
--(void) add: (NSUInteger) value
+-(void) add: (NSInteger) value
 {
-    ListElement *newElement = [[ListElement alloc] init];
-    newElement.value = value;
+    NSNumber *newElement = [[NSNumber alloc] initWithInteger:value];
     
-    if (size == 0)
-    {
-        top = newElement;
-    }
-    else if (size == 1)
-    {
-        last = newElement;
-        top.next = last;
-        last.prev = top;
-    }
-    else
-    {
-        newElement.next = top;
-        newElement.prev = nil;
-
-        top.prev = newElement;
-
-        [top release];
-
-        top = newElement;
-    }
-
-    size ++;
-    if (maxSize && maxSize < size)
-    {
-        ListElement *prev = last.prev;
-        prev.next = nil;
-        last.prev = nil;
-        [last release];
-        last = [prev retain];
-        size --;
-    }
+    [queue insertObject:newElement atIndex:0];
+    
+    [newElement release];
+    
+    if (maxSize && maxSize < [queue count])
+        [queue removeLastObject];
 }
 
-- (NSUInteger) median
+- (NSInteger) median
 {
-    if (!size)
-        return 0;
+    NSInteger m = 0;
+    for (NSNumber *x in queue)
+        m += [x integerValue];
     
-    NSUInteger median = 0;
-    for (ListElement *x = top; x; x = x.next)
-        median += x.value;
-    
-    return median / size;
+    return m / [queue count];
 }
 
 - (void)dealloc 
 {
-    for (ListElement *x = last; x; x = x.prev)
-        x.prev.next = nil;
-
-    last.prev = nil;
-
-    [last release];
-
-    [top release];
+    [queue release];
 
     [super dealloc];
 }
