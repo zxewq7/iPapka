@@ -8,12 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class Document, Attachment;
+@class Document, Attachment, DocumentInfoDetailsView;
 @interface DocumentInfoViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
     Document    *document;
-    UILabel            *documentTitle;
-    UILabel            *documentDetails;
+    DocumentInfoDetailsView  *documentInfo;
     UISegmentedControl *filter;
     NSDateFormatter    *dateFormatter;
     NSArray            *currentItems;

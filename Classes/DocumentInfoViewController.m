@@ -12,6 +12,8 @@
 #import "Person.h"
 #import <QuartzCore/CALayer.h>
 #import "DocumentResolution.h"
+#import "DocumentInfoDetailsView.h"
+#import "AZZSegmentedLabel.h"
 
 #define kMinTableRows 4
 #define kTableRowHeight 60.0f
@@ -53,43 +55,17 @@
     containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
     containerView.userInteractionEnabled = YES;
     
-    documentTitle = [[UILabel alloc] initWithFrame: CGRectZero];
-    documentTitle.text = @"Test";
-    documentTitle.textColor = [UIColor blackColor];
-    documentTitle.textAlignment = UITextAlignmentCenter;
-    documentTitle.font = [UIFont fontWithName:@"CharterC" size:24];
-    documentTitle.backgroundColor = [UIColor clearColor];
+    documentInfo = [[DocumentInfoDetailsView alloc] initWithFrame:CGRectZero];
     
-    documentTitle.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [documentTitle sizeToFit];
+    CGRect documentInfoFrame = CGRectMake(5.f, 40, containerViewFrame.size.width - 10.f, 45.f);
+    
+    documentInfo.frame = documentInfoFrame;
+    
+    documentInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 
-    CGRect documentTitleFrame = documentTitle.frame;
-
-    documentTitleFrame.origin.x = 0;
-    documentTitleFrame.origin.y = 48.0f;
-    documentTitleFrame.size.width = containerViewFrame.size.width;
+    [containerView addSubview:documentInfo];
     
-    documentTitle.frame = documentTitleFrame;
     
-    [containerView addSubview:documentTitle];
-    
-    documentDetails = [[UILabel alloc] initWithFrame:CGRectZero];
-    documentDetails.text = @"Test";
-    documentDetails.textColor = [UIColor darkGrayColor];
-    documentDetails.textAlignment = UITextAlignmentCenter;
-    documentDetails.font = [UIFont fontWithName:@"CharterC" size:14];
-    documentDetails.backgroundColor = [UIColor clearColor];
-    
-    [documentDetails sizeToFit];
-    
-    CGRect documentDetailsFrame = documentDetails.frame;
-    documentDetailsFrame.origin.x = 0;
-    documentDetailsFrame.origin.y = documentTitleFrame.origin.y + documentTitleFrame.size.height + 8.0f;
-    documentDetailsFrame.size.width = containerViewFrame.size.width;
-    documentDetails.frame = documentDetailsFrame;
-    
-    documentDetails.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    [containerView addSubview:documentDetails];
     
     //filter
     filter = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Files", "Files"),
@@ -101,8 +77,8 @@
 
     [filter sizeToFit];
     CGRect filterFrame = filter.frame;
-    filterFrame.origin.x = (documentTitle.frame.size.width - filterFrame.size.width)/2;
-    filterFrame.origin.y = documentDetailsFrame.origin.y + documentDetailsFrame.size.height + 20.0f;
+    filterFrame.origin.x = (documentInfoFrame.size.width - filterFrame.size.width)/2;
+    filterFrame.origin.y = documentInfoFrame.origin.y + documentInfoFrame.size.height + 20.0f;
     filter.frame = filterFrame;
     filter.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
 
@@ -148,16 +124,10 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    [documentTitle release];
-    documentTitle = nil;
-    [documentDetails release];
-    documentDetails = nil;
-    [filter release];
-    filter = nil;
-    [dateFormatter release];
-    dateFormatter = nil;
-    [tableView release];
-    tableView = nil;
+    [documentInfo release]; documentInfo = nil;
+    [filter release]; filter = nil;
+    [dateFormatter release]; dateFormatter = nil;
+    [tableView release]; tableView = nil;
 }
 #pragma mark -
 #pragma mark Table view selection
@@ -225,9 +195,7 @@
     self.link = nil;
     self.attachment = nil;
 
-    [documentTitle release]; documentTitle = nil;
-    
-    [documentDetails release]; documentDetails = nil;
+    [documentInfo release]; documentInfo = nil;
     
     [filter release]; filter = nil;
     
@@ -270,10 +238,49 @@
     currentItems = document.attachmentsOrdered;
     [currentItems retain];
     
-    documentTitle.text = document.title;
+    documentInfo.textLabel.text = document.title;
 
+    NSMutableArray *labels = [[NSMutableArray alloc] initWithCapacity:4];
+    BOOL isPriority = (document.priorityValue > 0);
+    BOOL isStatus = NO;
+    
+    if (isPriority)
+        [labels addObject: [NSLocalizedString(@"Important", @"Important") uppercaseString]];
+    else
+        [labels addObject: @""];
+    
+    switch (document.statusValue)
+    {
+        case DocumentStatusAccepted:
+            [labels addObject: @""];
+            
+            if (isPriority)
+                [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]]];
+            else
+                [labels addObject: [NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]];
+            
+            isStatus = YES;
+            break;
+        case DocumentStatusDeclined:
+            if (isPriority)
+                [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Declined", @"Declined") uppercaseString]]];
+            else
+                [labels addObject: [NSLocalizedString(@"Declined", @"Declined") uppercaseString]];
+            
+            [labels addObject: @""];
+            
+            isStatus = YES;
+            break;
+        default:
+            [labels addObject: @""];
+            [labels addObject: @""];
+            break;
+    }
+    
+    documentInfo.detailTextLabel1.texts = labels;
+    
     NSString *details;
-
+    
     if (!document)
         details = nil;
     else if ([document isKindOfClass:[DocumentResolution class]])
@@ -284,12 +291,15 @@
             details = [NSString stringWithFormat:@"%@ %@ %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate]];
     }
     else if ([document.correspondents count])
-        details = [NSString stringWithFormat:@"%@, %@", [dateFormatter stringFromDate: document.registrationDate], [document.correspondents componentsJoinedByString:@", "]];
+        details = [NSString stringWithFormat:@"%@ %@, %@",  NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], [document.correspondents componentsJoinedByString:@", "]];
     else
-        details = [NSString stringWithFormat:@"%@", [dateFormatter stringFromDate: document.registrationDate]];
+        details = [NSString stringWithFormat:@"%@ %@",  NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate]];
+    
+    
+    documentInfo.detailTextLabel2.text = (isStatus || isPriority)? [@", " stringByAppendingString:details]:details;
 
     
-    documentDetails.text = details;
+    [documentInfo setNeedsLayout];
     
     if ([currentItems count]) 
         attachmentIndex = 0;
