@@ -11,7 +11,6 @@
 #import "Attachment.h"
 #import "AttachmentPageViewController.h"
 #import "Document.h"
-#import "DataSource.h"
 #import "AttachmentPage.h"
 
 typedef enum _TapPosition{
@@ -265,11 +264,6 @@ typedef enum _TapPosition{
 {
     commenting = state;
     [currentPage setCommenting:commenting];
-    if (!commenting)
-    {
-        [currentPage saveContent];
-        [[DataSource sharedDataSource] commit];
-    }
 }
 @end
 

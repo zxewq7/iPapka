@@ -12,6 +12,11 @@
 @implementation ImageScrollView
 @synthesize painting, paintingDelegate, color, isModified;
 
+-(BOOL) isModified
+{
+    return paintingView.isModified;
+}
+
 -(void) setColor:(UIColor *) aColor
 {
     if (color == aColor)
@@ -153,8 +158,6 @@
         self.transform = CGAffineTransformMakeRotation(0);
         self.transform = CGAffineTransformMakeRotation(currentAngle);
     }
-    
-    isModified = NO;
 }
 
 - (void)setMaxMinZoomScalesForCurrentBounds
@@ -296,8 +299,6 @@
     
     savedPaintingView = [[UIImageView alloc] initWithImage:image];
     savedPaintingView.frame = CGRectMake(0, 0, imageOriginalSize.width, imageOriginalSize.height);
-    
-    isModified = paintingView.isModified;
     
     [paintingView removeFromSuperview];
     [paintingView release]; paintingView = nil;

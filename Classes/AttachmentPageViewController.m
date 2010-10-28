@@ -10,6 +10,8 @@
 #import "ImageScrollView.h"
 #import "AttachmentPage.h"
 #import "AttachmentPagePainting.h"
+#import "DataSource.h"
+
 
     // This is defined in Math.h
 #define M_PI   3.14159265358979323846264338327950288   /* pi */
@@ -27,6 +29,8 @@
 {
     if (page == aPage)
         return;
+
+    [self saveContent];
 
     [page release];
     page = [aPage retain];
@@ -137,6 +141,9 @@
 
 -(void) setCommenting:(BOOL) state
 {
+    if (!state)
+        [self saveContent];
+    
     [imageView setCommenting:state];
 }
 
@@ -152,6 +159,7 @@
             NSData *paintingData = UIImagePNGRepresentation(painting);
             [paintingData writeToFile: paintingPath atomically:YES];
             page.painting.dateModified = [NSDate date];
+            [[DataSource sharedDataSource] commit];
         }
     }
 }
