@@ -225,6 +225,8 @@
     
     [commentText textChanged:nil];
     
+    commentText.editable = !document.isReadonly;
+    
     dateLabel.text = [dateFormatter stringFromDate: document.registrationDate];
     
     audioCommentController.file = document.audio;

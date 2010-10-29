@@ -371,6 +371,8 @@
     
     [resolutionText textChanged:nil];
     
+    resolutionText.editable = !document.isReadonly;
+    
     dateLabel.text = [dateFormatter stringFromDate: resolution.registrationDate];
     
     NSString *label;
