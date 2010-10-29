@@ -472,6 +472,8 @@ static NSString* OperationCount = @"OperationCount";
                 else
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
                 
+                painting.uid = @"drawings";
+                
                 painting.syncStatusValue = SyncStatusSynced;
 
                 page.painting = painting;
