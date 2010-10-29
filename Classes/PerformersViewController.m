@@ -155,20 +155,35 @@
 - (void) updateContent
 {
     [performers release];
-    NSMutableArray *performerButtons;
+    performers = nil;
+    NSMutableArray *performerButtons = nil;
 
+    BOOL wasHidden = buttonAdd.hidden;
+    
+    buttonAdd.hidden = document.isReadonly;
+    
+    //hide or show add performer button
+    if (wasHidden != buttonAdd.hidden)
+    {
+        CGRect frame = performersView.frame;
+        if (buttonAdd.hidden)
+        {
+            frame.size.width += buttonAdd.frame.size.width;
+            performersView.frame = frame;
+        }
+        else
+        {
+            frame.size.width -= buttonAdd.frame.size.width;
+            performersView.frame = frame;
+        }
+    }
+    
     if (document)
     {
+        UIFont *font = [UIFont fontWithName:@"CharterC" size:16];
+        
         if ([document isKindOfClass:[DocumentResolution class]])
         {
-            if (buttonAdd.hidden)
-            {
-                CGRect frame = performersView.frame;
-                frame.size.width -= buttonAdd.frame.size.width;
-                performersView.frame = frame;
-                buttonAdd.hidden = NO;
-            }
-
             performers = ((DocumentResolution *)document).performersOrdered;
 
             [performers retain];
@@ -177,8 +192,6 @@
             
             performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
 
-            UIFont *font = [UIFont fontWithName:@"CharterC" size:16];
-
             for (NSUInteger i=0; i < countPerformers; i++)
             {
                 Person *performer = [performers objectAtIndex:i];
@@ -186,7 +199,7 @@
                 UIButton *performerButton = [UIButton buttonWithBackgroundAndTitle:performer.fullName
                                                                          titleFont:font
                                                                             target:self
-                                                                          selector:@selector(removePerformer:)
+                                                                          selector:(document.isReadonly?nil:@selector(removePerformer:))
                                                                              frame:CGRectMake(0, 0, 29, 26)
                                                                      addLabelWidth:YES
                                                                              image:[UIImage imageNamed:@"ButtonPerformer.png"]
@@ -199,14 +212,6 @@
         }
         else if ([document isKindOfClass:[DocumentResolutionParent class]])
         {
-            if (!buttonAdd.hidden)
-            {
-                CGRect frame = performersView.frame;
-                frame.size.width += buttonAdd.frame.size.width;
-                performersView.frame = frame;
-                buttonAdd.hidden = YES;
-            }
-
             performers = [NSMutableArray arrayWithArray: ((DocumentResolutionParent *)document).performers];
             [performers retain];
             
@@ -214,7 +219,6 @@
             
             performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
             
-            UIFont *font = [UIFont fontWithName:@"CharterC" size:16];
             UIColor *color = [UIColor clearColor];
             
             for (NSUInteger i=0; i < countPerformers; i++)
@@ -234,11 +238,6 @@
             }
             
         }
-    }
-    else
-    {
-        performers = nil;
-        performerButtons = nil;
     }
 
     performersView.buttons = performerButtons;
