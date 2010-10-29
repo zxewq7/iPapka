@@ -1,7 +1,8 @@
 #import "DocumentLink.h"
 
 @implementation DocumentLink
-
-// Custom logic goes here.
-
+-(BOOL) isReadonly
+{
+    return YES;
+}
 @end
