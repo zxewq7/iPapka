@@ -830,7 +830,7 @@
 								<key>en</key>
 								<string>Managed</string>
 								<key>ru</key>
-								<string>Проект находится на контроле</string>
+								<string>Контроль</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
