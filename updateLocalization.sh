@@ -1,3 +1,3 @@
 #!/bin/sh
 
-genstrings -o en.lproj TranslationResources.m Classes/*.m
+genstrings -o en.lproj TranslationResources.m Classes/*.m thirdparty/*.m

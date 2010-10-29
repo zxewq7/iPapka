@@ -19,7 +19,7 @@
 					<key>attachments</key>
 					<dict/>
 					<key>change date</key>
-					<date>2010-10-26T10:17:50Z</date>
+					<date>2010-10-29T10:38:41Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -29,7 +29,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>81e0a0fa731292606a2179c413783a51
+					<string>632747c90c2f3c6f231f6ffafe162f80
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -1318,6 +1318,56 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>Today</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Today</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Today</string>
+								<key>ru</key>
+								<string>Сегодня</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Tomorrow</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Tomorrow</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Tomorrow</string>
+								<key>ru</key>
+								<string>Завтра</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>Unable to play audio</string>
 							<key>errors</key>
 							<array/>
@@ -1481,6 +1531,31 @@
 								<string>Voice</string>
 								<key>ru</key>
 								<string>Голосовой</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Yesterday</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Yesterday</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Yesterday</string>
+								<key>ru</key>
+								<string>Вчера</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
