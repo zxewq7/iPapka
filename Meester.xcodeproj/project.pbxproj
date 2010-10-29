@@ -768,6 +768,8 @@
 		8155A5F71237AFB500A15FE5 /* Additions */ = {
 			isa = PBXGroup;
 			children = (
+				819CA55412579C9B00AF308E /* NSString+Additions.h */,
+				819CA55512579C9B00AF308E /* NSString+Additions.m */,
 				81585486123BC2F100A827E6 /* UITabBar+Additions.h */,
 				81585487123BC2F100A827E6 /* UITabBar+Additions.m */,
 				81585473123BC24000A827E6 /* UIToolbar+Additions.h */,
@@ -798,7 +800,6 @@
 			isa = PBXGroup;
 			children = (
 				81775FBF1251F6E0002A2D3D /* LN */,
-				81B273051248EEA20012FE9A /* Audio */,
 				8155A5F71237AFB500A15FE5 /* Additions */,
 				8155A5F61237AF8500A15FE5 /* Model */,
 				8155A5F51237AF6F00A15FE5 /* Controller */,
@@ -951,15 +952,6 @@
 				81ADD41D1237A02F001E830A /* libASIHTTPRequest.a */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		81B273051248EEA20012FE9A /* Audio */ = {
-			isa = PBXGroup;
-			children = (
-				819CA55412579C9B00AF308E /* NSString+Additions.h */,
-				819CA55512579C9B00AF308E /* NSString+Additions.m */,
-			);
-			name = Audio;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
