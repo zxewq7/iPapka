@@ -582,7 +582,7 @@ static NSString* OperationCount = @"OperationCount";
             
             CommentAudio *audio = [[self dataSource] documentReader:self createEntity:[CommentAudio class]];
             audio.path = [[document.path stringByAppendingPathComponent:@"comments"] stringByAppendingPathComponent:@"audioComment.caf"];
-            
+            audio.uid = @"audio";
             [df createDirectoryAtPath:[audio.path stringByDeletingLastPathComponent] withIntermediateDirectories:TRUE 
                            attributes:nil error:nil];
 
