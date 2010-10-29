@@ -720,7 +720,7 @@ static NSString* OperationCount = @"OperationCount";
 
                 link.index = [dictLink objectForKey:field_Uid];
                 
-                link.uid = [uid stringByAppendingPathComponent: [dictLink objectForKey:field_Uid]];
+                link.uid = [uid stringByAppendingPathComponent:[@"links" stringByAppendingPathComponent:[dictLink objectForKey:field_Uid]]];
 
                 link.title = [dictLink objectForKey:field_LinkTitle];
 
