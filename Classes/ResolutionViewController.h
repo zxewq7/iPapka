@@ -13,6 +13,7 @@
 {
     UISegmentedControl *resolutionSwitcher;
     UIButton           *deadlineButton;
+    UILabel            *deadlineLabel;
     TextViewWithPlaceholder         *resolutionText;
     UILabel            *authorLabel;
     UILabel            *dateLabel;

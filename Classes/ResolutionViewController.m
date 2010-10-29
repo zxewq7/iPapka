@@ -133,12 +133,35 @@
                                                imagePressed:[UIImage imageNamed:@"ButtonDate.png"]
                                                leftCapWidth:10.0f
                                               darkTextColor:YES];
-    CGSize deadlineButtonSize = deadlineButton.frame.size;
-    CGRect dateButtonFrame = CGRectMake(deadlinePhraseFrame.origin.x + deadlinePhraseFrame.size.width + 10, deadlinePhraseFrame.origin.y - (deadlineButtonSize.height - deadlinePhraseFrame.size.height), deadlineButtonSize.width, deadlineButtonSize.height);
+    CGRect deadlineButtonFrame = deadlineButton.frame;
+    deadlineButtonFrame.origin.x = deadlinePhraseFrame.origin.x + deadlinePhraseFrame.size.width + 10;
+    deadlineButtonFrame.origin.y = deadlinePhraseFrame.origin.y - round((deadlineButtonFrame.size.height - deadlinePhraseFrame.size.height) / 2);
     
-    deadlineButton.frame = dateButtonFrame;
+    deadlineButton.frame = deadlineButtonFrame;
     
     [self.view addSubview: deadlineButton];
+    
+    //deadLine label
+    deadlineLabel = [[UILabel alloc] initWithFrame:CGRectZero];
+
+    deadlineLabel.font = deadlineButton.titleLabel.font;
+    
+    deadlineLabel.text = @" 12 August 2010 ";
+    
+    [deadlineLabel sizeToFit];
+    
+    CGRect deadlineLabelFrame = deadlineLabel.frame;
+
+    deadlineLabelFrame.origin.x = deadlinePhraseFrame.origin.x + deadlinePhraseFrame.size.width + 5;
+    deadlineLabelFrame.origin.y = deadlinePhraseFrame.origin.y - round((deadlineLabelFrame.size.height - deadlinePhraseFrame.size.height) / 2);
+    
+    deadlineLabel.frame = deadlineLabelFrame;
+    
+    
+    deadlineLabel.backgroundColor = [UIColor clearColor];
+    
+    [self.view addSubview: deadlineLabel];
+    
     
     //resolution text
     CGRect resolutionTextFrame = CGRectMake(LEFT_MARGIN, deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + 23, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, MIN_RESOLUTION_TEXT_HEIGHT);
@@ -295,6 +318,8 @@
     [managedButton release]; managedButton = nil;
     
     [audioCommentController release]; audioCommentController = nil;
+    
+    [deadlineLabel release]; deadlineLabel = nil;
 }
 
 
@@ -318,6 +343,8 @@
     [performersViewController release]; performersViewController = nil;
     
     [managedButton release]; managedButton = nil;
+    
+    [deadlineLabel release]; deadlineLabel = nil;
     
     [audioCommentController release]; audioCommentController = nil;
     
@@ -381,10 +408,22 @@
     else
         label = [NSString stringWithFormat:@"   %@   ", NSLocalizedString(@"Not set", "resolution->deadline->Not set")];
 
-    [deadlineButton setTitle:label forState:UIControlStateNormal];
-    
-    [deadlineButton sizeToFit];
-    
+    if (document.isReadonly)
+    {
+        deadlineLabel.text = label;
+        [deadlineLabel sizeToFit];
+        deadlineLabel.hidden = NO;
+
+        deadlineButton.hidden = YES;
+    }
+    else
+    {
+        [deadlineButton setTitle:label forState:UIControlStateNormal];
+        [deadlineButton sizeToFit];
+        deadlineButton.hidden = NO;
+        
+        deadlineLabel.hidden = YES;
+    }
     performersViewController.document = resolution;
     
     audioCommentController.file = document.audio;
