@@ -14,12 +14,12 @@
     NSArray *buttons;
     CGFloat spaceBetweenButtons;
     CGFloat spaceBetweenRows;
-    UIControlContentVerticalAlignment contentVerticalAlignment;
+    UIControlContentHorizontalAlignment contentHorizontalAlignment;
 }
 
-@property (nonatomic, retain) NSArray *buttons;
 @property (nonatomic, assign) CGFloat spaceBetweenButtons;
 @property (nonatomic, assign) CGFloat spaceBetweenRows;
-@property (nonatomic, assign) UIControlContentVerticalAlignment contentVerticalAlignment;
+@property (nonatomic, assign) UIControlContentHorizontalAlignment contentHorizontalAlignment;
 
+-(void) setSubviews:(NSArray*) subviews;
 @end

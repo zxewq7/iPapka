@@ -9,32 +9,23 @@
 #import "ViewWithButtons.h"
 
 @implementation ViewWithButtons
-@synthesize spaceBetweenButtons, spaceBetweenRows, contentVerticalAlignment;
-@dynamic buttons;
+@synthesize spaceBetweenButtons, spaceBetweenRows, contentHorizontalAlignment;
 
--(void) setContentVerticalAlignment:(UIControlContentVerticalAlignment)aContentVerticalAlignment
+-(void) setContentHorizontalAlignment:(UIControlContentHorizontalAlignment)aContentHorizontalAlignment
 {
-    contentVerticalAlignment = aContentVerticalAlignment;
+    contentHorizontalAlignment = aContentHorizontalAlignment;
     [self setNeedsLayout];
 }
 
--(void) setButtons:(NSArray *) newButtons
+-(void) setSubviews:(NSArray*) subviews;
 {
-    [buttons release];
-    
-    if (newButtons)
-        buttons = [newButtons retain];
-    else
-        buttons = nil;
     
     NSArray *svs = self.subviews;
     for (UIView * sv in svs)
         [sv removeFromSuperview];
     
-    for (UIView *button in buttons)
-        [self addSubview: button];
-    
-    [self setNeedsLayout];
+    for (UIView *view in subviews)
+        [self addSubview: view];
 }
 
 -(NSArray *) buttons
@@ -47,6 +38,7 @@
     if ((self = [super initWithFrame:frame])) {
         spaceBetweenButtons = 0.0f;
         spaceBetweenRows = 0.0f;
+        self.autoresizesSubviews = NO;
     }
     return self;
 }
@@ -54,8 +46,8 @@
 - (void)layoutSubviews 
 {
     [super layoutSubviews];
-
-    NSUInteger numButtons = [buttons count];
+    NSArray *subviews = self.subviews;
+    NSUInteger numButtons = [subviews count];
     
     if (!numButtons)
         return;
@@ -68,7 +60,7 @@
     
     for (NSUInteger i = 0; i < numButtons; i++)
     {
-        UIView *button = [buttons objectAtIndex: i];
+        UIView *button = [subviews objectAtIndex: i];
         CGRect buttonFrame = button.frame;
         
         if ((x + buttonFrame.size.width) > boundsSize.width)
@@ -84,7 +76,7 @@
         x += buttonFrame.size.width + spaceBetweenButtons;
     }
     
-    if (contentVerticalAlignment == UIControlContentVerticalAlignmentCenter)
+    if (NO && contentHorizontalAlignment == UIControlContentHorizontalAlignmentCenter)
     {
         CGFloat prevY = 0.0f;
         NSUInteger rowStart = 0;
@@ -121,15 +113,20 @@
     
     for (NSUInteger i = 0; i < numButtons; i++)
     {
-        UIView *button = [buttons objectAtIndex: i];
-        button.frame = buttonFrames[i];
+        UIView *button = [subviews objectAtIndex: i];
+        button.backgroundColor = [UIColor yellowColor];
+        CGRect buttonFrame = buttonFrames[i];
+        button.frame = buttonFrame;
     }
     
     free(buttonFrames);
 }
 
-- (void)dealloc {
-    [super dealloc];
-    self.buttons = nil;
+- (CGSize)sizeThatFits:(CGSize)size
+{
+    [self layoutSubviews];
+    UIView *lastButton = [self.subviews lastObject];
+    CGRect lastButtonFrame = lastButton.frame;
+    return CGSizeMake(self.frame.size.width, lastButtonFrame.origin.y + lastButtonFrame.size.height);
 }
 @end

@@ -54,13 +54,14 @@
     buttonAdd.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin);
     [self.view addSubview: buttonAdd];
     
-    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - buttonAddFrame.size.width - 5.0f, viewSize.height)];
+    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - buttonAddFrame.size.width - 5.0f, 200)];
+    performersView.tag = 1001;
     
-    performersView.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+    performersView.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     performersView.spaceBetweenButtons = 5.0f;
     performersView.spaceBetweenRows = 5.0f;
     
-    performersView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    performersView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
     [self.view addSubview: performersView];
 }
 
@@ -192,6 +193,8 @@
             
             performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
 
+            UIImage *buttonBackground = [UIImage imageNamed:@"ButtonPerformer.png"];
+            
             for (NSUInteger i=0; i < countPerformers; i++)
             {
                 Person *performer = [performers objectAtIndex:i];
@@ -202,10 +205,11 @@
                                                                           selector:(document.isReadonly?nil:@selector(removePerformer:))
                                                                              frame:CGRectMake(0, 0, 29, 26)
                                                                      addLabelWidth:YES
-                                                                             image:[UIImage imageNamed:@"ButtonPerformer.png"]
-                                                                      imagePressed:[UIImage imageNamed:@"ButtonPerformer.png"]
+                                                                             image:buttonBackground
+                                                                      imagePressed:buttonBackground
                                                                       leftCapWidth:13.0f
                                                                      darkTextColor:YES];
+
                 performerButton.tag = i;
                 [performerButtons addObject: performerButton];
             }
@@ -240,7 +244,10 @@
         }
     }
 
-    performersView.buttons = performerButtons;
+    performersView.subviews = performerButtons;
+    [performersView sizeToFit];
+    [self.view sizeToFit];
+    [self.view.superview setNeedsLayout];
 }
 
 @end

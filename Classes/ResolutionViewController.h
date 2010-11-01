@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class DocumentResolution, DatePickerController, PerformersViewController, TextViewWithPlaceholder, AudioCommentController;
+@class DocumentResolution, DatePickerController, PerformersViewController, TextViewWithPlaceholder, AudioCommentController, ResolutionContentView;
 @interface ResolutionViewController : UIViewController <UITextViewDelegate, UIPopoverControllerDelegate>
 {
     UISegmentedControl *resolutionSwitcher;
@@ -24,6 +24,8 @@
     PerformersViewController *performersViewController;
     UISwitch            *managedButton;
     AudioCommentController *audioCommentController;
+    ResolutionContentView *contentView;
+    CGSize              minSize;
 }
 
 @property (nonatomic, retain) DocumentResolution    *document;

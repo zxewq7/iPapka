@@ -17,10 +17,11 @@
 #import "AudioCommentController.h"
 #import "CommentAudio.h"
 #import "BlankLogoView.h"
+#import "ResolutionContentView.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
-#define MIN_RESOLUTION_TEXT_HEIGHT 100.0f
+#define MIN_CONTENT_HEIGHT 400.0f
 
 @interface ResolutionViewController (Private)
 -(void) updateContent;
@@ -44,6 +45,9 @@
 - (void)loadView
 {
     UIImage *image = [[UIImage imageNamed: @"ResolutionBackground.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:100.0];
+    
+    minSize = image.size;
+    
     UIImageView *backgroundView = [[UIImageView alloc] initWithImage: image];
     
     self.view = backgroundView;
@@ -68,6 +72,12 @@
     //visible image width
     viewSize.width = 562.0;
 
+    CGRect contentViewFrame = CGRectMake(0, 44, viewSize.width, MIN_CONTENT_HEIGHT);
+    
+    contentView = [[ResolutionContentView alloc] initWithFrame: contentViewFrame];
+    contentView.backgroundColor = [UIColor redColor];
+    contentView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
+
     
     //filter
     resolutionSwitcher = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Resolution", "Resolution"),
@@ -76,33 +86,22 @@
     resolutionSwitcher.segmentedControlStyle = UISegmentedControlStyleBar;
     
     [resolutionSwitcher sizeToFit];
-    CGSize switcherSize = resolutionSwitcher.frame.size;
-    resolutionSwitcher.frame = CGRectMake(round((viewSize.width - switcherSize.width) / 2), 44, switcherSize.width, switcherSize.height);
     
     [resolutionSwitcher addTarget:self action:@selector(showParentResolution:) forControlEvents:UIControlEventValueChanged];
     
-    [self.view addSubview: resolutionSwitcher];
+    [contentView addSubview: resolutionSwitcher withTag:ResolutionContentViewSwitcher];
     
     //logo
     BlankLogoView *logo = [[BlankLogoView alloc] initWithFrame:CGRectZero];
     
-    CGSize logoSize = logo.frame.size;
-    CGRect logoFrame = CGRectMake(round((viewSize.width - logoSize.width) / 2), 83, logoSize.width, logoSize.height);
-    logo.frame = logoFrame;
-    
-    [self.view addSubview: logo];
+    [contentView addSubview: logo withTag:ResolutionContentViewLogo];
     
     [logo release];
     
     //performersViewController
     performersViewController = [[PerformersViewController alloc] init];
-    performersViewController.view.backgroundColor = [UIColor clearColor];
-    CGRect performersFrame = CGRectMake(0, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width, (26 + 2)* 3); //3 rows
-    performersViewController.view.frame = performersFrame;
     
-    performersViewController.view.autoresizingMask = UIViewAutoresizingNone;
-    
-    [self.view addSubview: performersViewController.view];
+    [contentView addSubview: performersViewController.view withTag:ResolutionContentViewPerformers];
     
     //deadline phrase
     UILabel *deadlinePhrase = [[UILabel alloc] initWithFrame: CGRectZero];
@@ -114,12 +113,7 @@
     
     [deadlinePhrase sizeToFit];
     
-    CGSize deadlineSize = deadlinePhrase.frame.size;
-    
-    CGRect deadlinePhraseFrame = CGRectMake(LEFT_MARGIN, performersFrame.origin.y + performersFrame.size.height + 26, deadlineSize.width, deadlineSize.height);
-    deadlinePhrase.frame = deadlinePhraseFrame;
-    
-    [self.view addSubview: deadlinePhrase];
+    [contentView addSubview: deadlinePhrase withTag:ResolutionContentViewDeadlinePhrase];
     [deadlinePhrase release];
     
     //deadline button
@@ -133,13 +127,8 @@
                                                imagePressed:[UIImage imageNamed:@"ButtonDate.png"]
                                                leftCapWidth:10.0f
                                               darkTextColor:YES];
-    CGRect deadlineButtonFrame = deadlineButton.frame;
-    deadlineButtonFrame.origin.x = deadlinePhraseFrame.origin.x + deadlinePhraseFrame.size.width + 10;
-    deadlineButtonFrame.origin.y = deadlinePhraseFrame.origin.y - round((deadlineButtonFrame.size.height - deadlinePhraseFrame.size.height) / 2);
     
-    deadlineButton.frame = deadlineButtonFrame;
-    
-    [self.view addSubview: deadlineButton];
+    [contentView addSubview: deadlineButton withTag:ResolutionContentViewDeadlineButton];
     
     //deadLine label
     deadlineLabel = [[UILabel alloc] initWithFrame:CGRectZero];
@@ -147,25 +136,17 @@
     deadlineLabel.font = deadlineButton.titleLabel.font;
     
     deadlineLabel.text = @" 12 August 2010 ";
-    
+
+    deadlineLabel.backgroundColor = [UIColor clearColor];
+
     [deadlineLabel sizeToFit];
     
-    CGRect deadlineLabelFrame = deadlineLabel.frame;
-
-    deadlineLabelFrame.origin.x = deadlinePhraseFrame.origin.x + deadlinePhraseFrame.size.width + 5;
-    deadlineLabelFrame.origin.y = deadlinePhraseFrame.origin.y - round((deadlineLabelFrame.size.height - deadlinePhraseFrame.size.height) / 2);
     
-    deadlineLabel.frame = deadlineLabelFrame;
-    
-    
-    deadlineLabel.backgroundColor = [UIColor clearColor];
-    
-    [self.view addSubview: deadlineLabel];
+    [contentView addSubview: deadlineLabel withTag:ResolutionContentViewDeadlineLabel];
     
     
     //resolution text
-    CGRect resolutionTextFrame = CGRectMake(LEFT_MARGIN, deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + 23, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, MIN_RESOLUTION_TEXT_HEIGHT);
-    resolutionText = [[TextViewWithPlaceholder alloc] initWithFrame: resolutionTextFrame];
+    resolutionText = [[TextViewWithPlaceholder alloc] initWithFrame: CGRectZero];
     
 	resolutionText.textColor = [UIColor blackColor];
 	resolutionText.font = [UIFont fontWithName:@"CharterC" size:16];
@@ -179,9 +160,7 @@
 	resolutionText.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
 	resolutionText.scrollEnabled = YES;
     
-    resolutionText.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
-
-    [self.view addSubview: resolutionText];
+    [contentView addSubview: resolutionText withTag:ResolutionContentViewResolutionText];
     
     //author
     authorLabel = [[UILabel alloc] initWithFrame: CGRectZero];
@@ -193,14 +172,7 @@
     
     [authorLabel sizeToFit];
     
-    CGSize authorSize = authorLabel.frame.size;
-    
-    CGRect authorFrame = CGRectMake(0, resolutionTextFrame.origin.y + resolutionTextFrame.size.height + 20, viewSize.width - RIGHT_MARGIN, authorSize.height);
-    authorLabel.frame = authorFrame;
-    
-    authorLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    
-    [self.view addSubview: authorLabel];
+    [contentView addSubview: authorLabel withTag:ResolutionContentViewAuthorLabel];
     
     //date
     dateLabel = [[UILabel alloc] initWithFrame: CGRectZero];
@@ -212,21 +184,16 @@
     
     [dateLabel sizeToFit];
     
-    CGSize dateSize = dateLabel.frame.size;
-    
-    CGRect dateFrame = CGRectMake(0, authorFrame.origin.y + authorFrame.size.height + 20, viewSize.width, dateSize.height);
-    dateLabel.frame = dateFrame;
-    
-    dateLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    
-    [self.view addSubview: dateLabel];
-    
+    [contentView addSubview: dateLabel withTag:ResolutionContentViewDateLabel];
+
+    [self.view addSubview:contentView];
+
     UIImage *twoRowsImage = [UIImage imageNamed: @"TwoRows.png"];
     UIImageView *twoRows = [[UIImageView alloc] initWithImage: [twoRowsImage stretchableImageWithLeftCapWidth:12.0f topCapHeight:0.0f]];
     
     twoRows.userInteractionEnabled = YES;
     
-    CGRect twoRowsFrame = CGRectMake(LEFT_MARGIN, dateFrame.origin.y + 35, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, twoRows.frame.size.height);
+    CGRect twoRowsFrame = CGRectMake(LEFT_MARGIN, contentViewFrame.origin.y + contentViewFrame.size.height + 35, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, twoRows.frame.size.height);
 
     twoRows.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
 
@@ -320,6 +287,8 @@
     [audioCommentController release]; audioCommentController = nil;
     
     [deadlineLabel release]; deadlineLabel = nil;
+    
+    [contentView release]; contentView = nil;
 }
 
 
@@ -349,6 +318,8 @@
     [audioCommentController release]; audioCommentController = nil;
     
     self.document = nil;
+    
+    [contentView release]; contentView = nil;
     [super dealloc];
 
 }
@@ -358,7 +329,8 @@
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    [self updateHeight];
+    if ([resolutionText.text length])
+        [resolutionText scrollRangeToVisible: NSMakeRange(0, 1)];
     
     document.text = resolutionText.text;
     
@@ -440,33 +412,23 @@
 
 -(void) updateHeight;
 {
-    CGRect textViewFrame = resolutionText.frame;
-    UILabel *label = [[UILabel alloc] initWithFrame: textViewFrame];
-    label.numberOfLines = 0;
-    label.font = resolutionText.font;
-    label.text = resolutionText.text;
-    [label sizeToFit];
-    CGFloat heightDelta = label.frame.size.height - textViewFrame.size.height;
-    [label release];
-    
     CGRect viewFrame = self.view.frame;
-    if (MIN_RESOLUTION_TEXT_HEIGHT < (textViewFrame.size.height + heightDelta))
-    {
-        viewFrame.size.height += heightDelta;
-        CGFloat maxHeight = self.view.superview.frame.size.height + viewFrame.origin.y;
-        if (viewFrame.size.height > maxHeight)
-            viewFrame.size.height = maxHeight;
-        self.view.frame = viewFrame;
-        [resolutionText scrollRangeToVisible: NSMakeRange(0, 1)];
-    }
-    else
-    {
-        viewFrame.size.height -= textViewFrame.size.height - MIN_RESOLUTION_TEXT_HEIGHT;
-        self.view.frame = viewFrame;
-    }
-    if ([resolutionText.text length])
-        [resolutionText scrollRangeToVisible: NSMakeRange(0, 1)];
     
+    viewFrame.size.height = minSize.height + contentView.contentSize.height;
+    
+    NSLog(@"%f", contentView.contentSize.height);
+    
+    CGFloat maxHeight = self.view.superview.frame.size.height + viewFrame.origin.y;
+    
+    if (maxHeight < 1)
+        return;
+
+    if (viewFrame.size.height > maxHeight)
+        viewFrame.size.height = maxHeight;
+    else if (viewFrame.size.height < minSize.height)
+        viewFrame.size.height = minSize.height;
+
+    self.view.frame = viewFrame;
 }
 #pragma mark -
 #pragma mark actions

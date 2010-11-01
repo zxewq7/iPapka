@@ -199,6 +199,7 @@
 		81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE7A1240EEBA00D697EA /* Papers.png */; };
 		81E6425C126DFC30001EE1B4 /* IconPainting.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E6425B126DFC30001EE1B4 /* IconPainting.png */; };
 		81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */; };
+		81FBA5D7127EF34C00A70025 /* ResolutionContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FBA5D6127EF34C00A70025 /* ResolutionContentView.m */; };
 		81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */; };
 /* End PBXBuildFile section */
 
@@ -508,6 +509,8 @@
 		81E6425B126DFC30001EE1B4 /* IconPainting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconPainting.png; sourceTree = "<group>"; };
 		81EA7EB71259F823007D4A7C /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = thirdparty/KeychainItemWrapper.h; sourceTree = "<group>"; };
 		81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = thirdparty/KeychainItemWrapper.m; sourceTree = "<group>"; };
+		81FBA5D5127EF34C00A70025 /* ResolutionContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionContentView.h; sourceTree = "<group>"; };
+		81FBA5D6127EF34C00A70025 /* ResolutionContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionContentView.m; sourceTree = "<group>"; };
 		81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecordStop.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -684,6 +687,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81FBA5D5127EF34C00A70025 /* ResolutionContentView.h */,
+				81FBA5D6127EF34C00A70025 /* ResolutionContentView.m */,
 				8152BCCF1276FCB5004A1D15 /* DocumentInfoDetailsView.h */,
 				8152BCD01276FCB5004A1D15 /* DocumentInfoDetailsView.m */,
 				8152BCCA1276E0FB004A1D15 /* BlankLogoView.h */,
@@ -1210,6 +1215,7 @@
 				81C157F21276D8A50087B147 /* AZZSegmentedLabel.m in Sources */,
 				8152BCCC1276E0FB004A1D15 /* BlankLogoView.m in Sources */,
 				8152BCD11276FCB5004A1D15 /* DocumentInfoDetailsView.m in Sources */,
+				81FBA5D7127EF34C00A70025 /* ResolutionContentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
