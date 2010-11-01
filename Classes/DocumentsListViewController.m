@@ -408,7 +408,13 @@ static NSString* SyncingContext = @"SyncingContext";
     NSIndexPath *index = [fetchedResultsController indexPathForObject:self.document];
     
     if (index)
+    {
+        NSIndexPath *prevSelected = self.tableView.indexPathForSelectedRow;
+        if (prevSelected)
+            [self.tableView deselectRowAtIndexPath:index animated:NO];
+        
         [self.tableView selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+    }
 
 }
 #pragma mark -
