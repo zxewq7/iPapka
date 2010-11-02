@@ -10,4 +10,9 @@
 
 
 @interface EmptyPageView : UIView 
+{
+    UIImageView *imageView;
+    UILabel *titleLabel;
+    UILabel *detailsLabel;
+}
 @end

@@ -19,7 +19,7 @@
 					<key>attachments</key>
 					<dict/>
 					<key>change date</key>
-					<date>2010-10-29T10:38:41Z</date>
+					<date>2010-11-02T21:41:49Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -29,7 +29,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>632747c90c2f3c6f231f6ffafe162f80
+					<string>baf56d0487b8a929cf83fa3bd537ca32
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -993,6 +993,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>Page is not loaded</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Page is not loaded</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Page is not loaded</string>
+								<key>ru</key>
+								<string>Страница не загружена</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>pages from 2 to 4 in instrumentalis</string>
 							<key>errors</key>
 							<array/>
@@ -1356,6 +1381,31 @@
 								<string>Tomorrow</string>
 								<key>ru</key>
 								<string>Завтра</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Try to look again later</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Try to look again later</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Try to look again later</string>
+								<key>ru</key>
+								<string>Попробуйте посмотреть позже</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -1859,6 +1909,56 @@
 							<dict>
 								<key>en</key>
 								<string>linked documents</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array>
+								<string>&lt;reference&gt;</string>
+							</array>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Cannot load page</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Cannot load page</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Cannot load page</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array>
+								<string>&lt;reference&gt;</string>
+							</array>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Try again later</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Try again later</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Try again later</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
