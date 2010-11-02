@@ -60,7 +60,6 @@
     performersView.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     performersView.spaceBetweenButtons = 5.0f;
     performersView.spaceBetweenRows = 5.0f;
-    
     performersView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
     [self.view addSubview: performersView];
 }
@@ -247,6 +246,13 @@
     performersView.subviews = performerButtons;
     [performersView sizeToFit];
     [self.view sizeToFit];
+    
+    //fix performersView position
+    CGRect performersViewFrame = performersView.frame;
+    performersViewFrame.origin.y = 0;
+    performersViewFrame.origin.x = 0;
+    performersView.frame = performersViewFrame;
+    
     [self.view.superview setNeedsLayout];
 }
 
