@@ -92,8 +92,7 @@ typedef enum _TapPosition{
 
     nextPage.view.hidden = YES;
     
-    CGSize size = self.view.frame.size;
-    CGRect pageFrame = CGRectMake(0, 0, size.width, size.height);
+    CGRect pageFrame = self.view.bounds;
     currentPage.view.frame = pageFrame;
     nextPage.view.frame = pageFrame;
     
