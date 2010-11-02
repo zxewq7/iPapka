@@ -114,7 +114,6 @@
     for (NSUInteger i = 0; i < numButtons; i++)
     {
         UIView *button = [subviews objectAtIndex: i];
-        button.backgroundColor = [UIColor yellowColor];
         CGRect buttonFrame = buttonFrames[i];
         button.frame = buttonFrame;
     }
