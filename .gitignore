@@ -17,3 +17,5 @@ build
 */*/*.xcodeproj/*.mode1v3
 */*/*.xcodeproj/xcuserdata/
 */*/*.xcodeproj/project.xcworkspace/xcuserdata/
+
+MBProgressHUD

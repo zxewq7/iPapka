@@ -24,6 +24,7 @@
 #import "RootContentView.h"
 #import "SignatureCommentViewController.h"
 #import "DataSource.h"
+#import "MBProgressHUD.h"
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
 static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
@@ -260,12 +261,19 @@ static NSString* SyncingContext       = @"SyncingContext";
     canEdit = YES;
 
     [self updateContent];
-    
+
+    blockView = [[MBProgressHUD alloc] initWithView:self.view];
+	
+    blockView.mode = MBProgressHUDModeIndeterminate;
+	
+    [self.view addSubview:blockView];
+	
+    blockView.labelText = NSLocalizedString(@"Synchronizing", "Synchronizing");
+	
     [[DataSource sharedDataSource] addObserver:self
                                     forKeyPath:@"isSyncing"
                                        options:0
                                        context:&SyncingContext];
-
 }
 
 #pragma mark - 
@@ -297,6 +305,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     [backButton release]; backButton = nil;
     [signatureCommentButton release]; signatureCommentButton = nil;
     [signatureCommentViewController release]; signatureCommentViewController = nil;
+    [blockView release]; blockView = nil;
 }
 
 - (void) dealloc
@@ -318,6 +327,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     [backButton release]; backButton = nil;
     [signatureCommentButton release]; signatureCommentButton = nil;
     [signatureCommentViewController release]; signatureCommentViewController = nil;
+    [blockView release]; blockView = nil;
     
 	[super dealloc];
 }
@@ -485,10 +495,17 @@ static NSString* SyncingContext       = @"SyncingContext";
     }
     else if (context == &SyncingContext)
     {
-        if (![DataSource sharedDataSource].isSyncing && (self.document == nil)) //set first document if no document
+        BOOL isSyncing = [DataSource sharedDataSource].isSyncing;
+        
+        if (!isSyncing && (self.document == nil)) //set first document if no document
         {
             self.document = folder.firstDocument;
         }
+        
+        if (isSyncing)
+            [blockView show:YES];
+        else
+            [blockView hide:YES];
     }
     else
     {
