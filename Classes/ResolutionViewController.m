@@ -25,7 +25,6 @@
 
 @interface ResolutionViewController (Private)
 -(void) updateContent;
--(void) updateHeight;
 @end
 
 @implementation ResolutionViewController
@@ -335,6 +334,8 @@
     document.text = resolutionText.text;
     
     [[DataSource sharedDataSource] commit];
+    
+    [contentView setNeedsLayout];
     return YES;
 }
 
@@ -401,8 +402,6 @@
     audioCommentController.file = document.audio;
     
     managedButton.on = resolution.isManagedValue;
-    
-    [self updateHeight];
 }
 
 - (void) showParentResolution:(id) sender
@@ -410,26 +409,6 @@
     [self updateContent];
 }
 
--(void) updateHeight;
-{
-    CGRect viewFrame = self.view.frame;
-    
-    viewFrame.size.height = minSize.height + contentView.contentSize.height;
-    
-    NSLog(@"%f", contentView.contentSize.height);
-    
-    CGFloat maxHeight = self.view.superview.frame.size.height + viewFrame.origin.y;
-    
-    if (maxHeight < 1)
-        return;
-
-    if (viewFrame.size.height > maxHeight)
-        viewFrame.size.height = maxHeight;
-    else if (viewFrame.size.height < minSize.height)
-        viewFrame.size.height = minSize.height;
-
-    self.view.frame = viewFrame;
-}
 #pragma mark -
 #pragma mark actions
 -(void) pickDeadline:(id) sender
