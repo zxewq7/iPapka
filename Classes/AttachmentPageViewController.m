@@ -11,6 +11,7 @@
 #import "AttachmentPage.h"
 #import "AttachmentPagePainting.h"
 #import "DataSource.h"
+#import "EmptyPageView.h"
 
 
     // This is defined in Math.h
@@ -18,7 +19,6 @@
 
     // Our conversion definition
 #define DEGREES_TO_RADIANS(angle) ((angle / 180.0) * M_PI)
-
 
 @implementation AttachmentPageViewController
 @synthesize page;
@@ -35,28 +35,46 @@
     [page release];
     page = [aPage retain];
     
-    [imageView displayImage: page.image angle: DEGREES_TO_RADIANS(page.angleValue)];
-    
-    imageView.painting = page.painting.image;
-    
-    CGPoint restorePoint = [imageView pointToCenterAfterRotation];
-    CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
-    [imageView setMaxMinZoomScalesForCurrentBounds];
-    [imageView restoreCenterPoint:restorePoint scale:restoreScale];
+    UIImage *pageImage = page.image;
+    if (pageImage)
+    {
+        emptyPageView.hidden = YES;
+        [imageView displayImage: pageImage angle: DEGREES_TO_RADIANS(page.angleValue)];
+        
+        imageView.painting = page.painting.image;
+        
+        CGPoint restorePoint = [imageView pointToCenterAfterRotation];
+        CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
+        [imageView setMaxMinZoomScalesForCurrentBounds];
+        [imageView restoreCenterPoint:restorePoint scale:restoreScale];
+    }
+    else
+    {
+        [imageView displayImage: nil angle: 0];
+        
+        imageView.painting = nil;
+
+        emptyPageView.hidden = NO;
+    }
 }
 
-- (void)loadView 
-{    
-    imageView = [[ImageScrollView alloc] initWithFrame: CGRectZero];
-    imageView.paintingDelegate = self;
-
-    self.view = imageView;
-
-    [self.view setOpaque: NO];
-
-}
 - (void)viewDidLoad {
     [super viewDidLoad];
+
+    imageView = [[ImageScrollView alloc] initWithFrame: self.view.bounds];
+    
+    imageView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
+
+    imageView.paintingDelegate = self;
+    
+    [self.view addSubview:imageView];
+    
+    [imageView setOpaque: NO];
+    
+    emptyPageView = [[EmptyPageView alloc] initWithFrame:self.view.bounds];
+    emptyPageView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
+
+    [self.view addSubview:emptyPageView];
 }
 
 
@@ -78,14 +96,15 @@
 
 - (void)viewDidUnload {
     [super viewDidUnload];
-    [imageView release];
-    imageView=nil;
+    [imageView release]; imageView = nil;
+    [emptyPageView release]; emptyPageView = nil;
 }
 
 
 - (void)dealloc 
 {
-    [imageView release];
+    [imageView release]; imageView = nil;
+    [emptyPageView release]; emptyPageView = nil;
     self.page = nil;
     self.color = nil;
     [super dealloc];

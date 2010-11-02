@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "PaintingView.h"
 
-@class AttachmentPage, ImageScrollView;
+@class AttachmentPage, ImageScrollView, EmptyPageView;
 @interface AttachmentPageViewController : UIViewController<PaintingViewDelegate>
 {
-    AttachmentPage       *page;
-    ImageScrollView   *imageView;
+    AttachmentPage  *page;
+    ImageScrollView *imageView;
+    EmptyPageView   *emptyPageView;
 }
 
 @property (nonatomic, retain) AttachmentPage       *page;

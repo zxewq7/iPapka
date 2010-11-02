@@ -29,6 +29,7 @@
 		810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 810CE95B1251D66C00933B9E /* Data.xcdatamodeld */; };
 		81113FB2126087C400132C39 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81113FB1126087C400132C39 /* MessageUI.framework */; };
 		811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811456061258AC9300B755EB /* SignatureCommentViewController.m */; };
+		811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 811460AC1280AD6C005C16D0 /* EmptyPageView.m */; };
 		811B583412454D1000BEB158 /* ColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B583312454D1000BEB158 /* ColorPicker.m */; };
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
 		811DF44B1237A11300903D30 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42E1237A11300903D30 /* BrushErase.png */; };
@@ -259,6 +260,8 @@
 		81113FB1126087C400132C39 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		811456051258AC9300B755EB /* SignatureCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureCommentViewController.h; sourceTree = "<group>"; };
 		811456061258AC9300B755EB /* SignatureCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureCommentViewController.m; sourceTree = "<group>"; };
+		811460AB1280AD6C005C16D0 /* EmptyPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyPageView.h; sourceTree = "<group>"; };
+		811460AC1280AD6C005C16D0 /* EmptyPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyPageView.m; sourceTree = "<group>"; };
 		811B583212454D1000BEB158 /* ColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPicker.h; sourceTree = "<group>"; };
 		811B583312454D1000BEB158 /* ColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorPicker.m; sourceTree = "<group>"; };
 		811DF42D1237A11300903D30 /* BrushComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushComment.png; sourceTree = "<group>"; };
@@ -690,6 +693,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				811460AB1280AD6C005C16D0 /* EmptyPageView.h */,
+				811460AC1280AD6C005C16D0 /* EmptyPageView.m */,
 				81FBA5D5127EF34C00A70025 /* ResolutionContentView.h */,
 				81FBA5D6127EF34C00A70025 /* ResolutionContentView.m */,
 				8152BCCF1276FCB5004A1D15 /* DocumentInfoDetailsView.h */,
@@ -1230,6 +1235,7 @@
 				8152BCD11276FCB5004A1D15 /* DocumentInfoDetailsView.m in Sources */,
 				81FBA5D7127EF34C00A70025 /* ResolutionContentView.m in Sources */,
 				8178288B128072C700A4C8DC /* MBProgressHUD.m in Sources */,
+				811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
