@@ -90,11 +90,13 @@
     CGRect resolutionTextFrame = CGRectMake(LEFT_MARGIN, 
                                             deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + 23, 
                                             viewSize.width - RIGHT_MARGIN - LEFT_MARGIN,
-                                            MAX(resolutionText.contentSize.height + 10.f, MIN_RESOLUTION_TEXT_HEIGHT));
-
+                                            MIN_RESOLUTION_TEXT_HEIGHT);
+    
     resolutionText.frame = resolutionTextFrame;
     
-    resolutionText.backgroundColor = [UIColor yellowColor];
+    resolutionTextFrame.size.height = MAX(resolutionText.contentSize.height + 10.f, MIN_RESOLUTION_TEXT_HEIGHT);
+
+    resolutionText.frame = resolutionTextFrame;
     
     //author
     UIView *authorLabel = [self viewWithTag:ResolutionContentViewAuthorLabel];
