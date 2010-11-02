@@ -11,7 +11,7 @@
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
-#define MIN_RESOLUTION_TEXT_HEIGHT 100.0f
+#define MIN_RESOLUTION_TEXT_HEIGHT 80.0f
 
 @implementation ResolutionContentView
 
@@ -85,9 +85,16 @@
     deadlineLabel.frame = CGRectMake(0,200,100,10);
     
     //resolution text
-    CGRect resolutionTextFrame = CGRectMake(LEFT_MARGIN, deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + 23, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, MIN_RESOLUTION_TEXT_HEIGHT);
-    UIView *resolutionText = [self viewWithTag:ResolutionContentViewResolutionText];
+    UITextView *resolutionText = (UITextView *)[self viewWithTag:ResolutionContentViewResolutionText];
+
+    CGRect resolutionTextFrame = CGRectMake(LEFT_MARGIN, 
+                                            deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + 23, 
+                                            viewSize.width - RIGHT_MARGIN - LEFT_MARGIN,
+                                            MAX(resolutionText.contentSize.height + 10.f, MIN_RESOLUTION_TEXT_HEIGHT));
+
     resolutionText.frame = resolutionTextFrame;
+    
+    resolutionText.backgroundColor = [UIColor yellowColor];
     
     //author
     UIView *authorLabel = [self viewWithTag:ResolutionContentViewAuthorLabel];
@@ -106,8 +113,6 @@
     dateLabel.frame = dateFrame;
     
     self.contentSize = CGSizeMake(self.frame.size.width, dateFrame.origin.y + dateFrame.size.height);
-
-    NSLog(@"SIZE %f", dateFrame.origin.y + dateFrame.size.height);
 }
 
 -(void) addSubview:(UIView *) view withTag:(ResolutionContentViewView) tag;
