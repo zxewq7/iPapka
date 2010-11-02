@@ -74,7 +74,6 @@
     CGRect contentViewFrame = CGRectMake(0, 44, viewSize.width, MIN_CONTENT_HEIGHT);
     
     contentView = [[ResolutionContentView alloc] initWithFrame: contentViewFrame];
-    contentView.backgroundColor = [UIColor redColor];
     contentView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
 
     
