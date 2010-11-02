@@ -55,7 +55,6 @@
     [self.view addSubview: buttonAdd];
     
     performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - buttonAddFrame.size.width - 5.0f, 200)];
-    performersView.tag = 1001;
     
     performersView.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     performersView.spaceBetweenButtons = 5.0f;
@@ -244,14 +243,22 @@
     }
 
     performersView.subviews = performerButtons;
+    
+    //resize content
     [performersView sizeToFit];
-    [self.view sizeToFit];
     
     //fix performersView position
     CGRect performersViewFrame = performersView.frame;
     performersViewFrame.origin.y = 0;
     performersViewFrame.origin.x = 0;
     performersView.frame = performersViewFrame;
+    
+    //fix view size
+    CGRect viewFrame = self.view.frame;
+
+    viewFrame.size.height = MAX(performersViewFrame.size.height, buttonAdd.frame.origin.y + buttonAdd.frame.size.height);
+    
+    self.view.frame = viewFrame;
     
     [self.view.superview setNeedsLayout];
 }

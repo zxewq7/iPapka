@@ -50,12 +50,9 @@
     
     //performersViewController
     UIView *performersView = (ViewWithButtons *)[self viewWithTag:ResolutionContentViewPerformers];
-    ViewWithButtons *buttonsView = (ViewWithButtons *)[performersView viewWithTag:1001];
     
-    CGRect performersFrame = CGRectMake(0, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width, buttonsView.frame.size.height);
+    CGRect performersFrame = CGRectMake(0, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width, performersView.frame.size.height);
     performersView.frame = performersFrame;
-    buttonsView.backgroundColor = [UIColor greenColor];
-    performersView.backgroundColor = [UIColor blueColor];
     
     //deadline phrase
     UIView *deadlinePhrase = [self viewWithTag:ResolutionContentViewDeadlinePhrase];;
