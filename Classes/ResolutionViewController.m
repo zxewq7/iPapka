@@ -21,7 +21,7 @@
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
-#define MIN_CONTENT_HEIGHT 400.0f
+#define MIN_CONTENT_HEIGHT 450.0f
 
 @interface ResolutionViewController (Private)
 -(void) updateContent;
