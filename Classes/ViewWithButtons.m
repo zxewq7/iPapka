@@ -76,7 +76,7 @@
         x += buttonFrame.size.width + spaceBetweenButtons;
     }
     
-    if (NO && contentHorizontalAlignment == UIControlContentHorizontalAlignmentCenter)
+    if (contentHorizontalAlignment == UIControlContentHorizontalAlignmentCenter)
     {
         CGFloat prevY = 0.0f;
         NSUInteger rowStart = 0;
