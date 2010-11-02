@@ -156,7 +156,7 @@
     
 	resolutionText.returnKeyType = UIReturnKeyDefault;
 	resolutionText.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
-	resolutionText.scrollEnabled = YES;
+	resolutionText.scrollEnabled = NO;
     
     [contentView addSubview: resolutionText withTag:ResolutionContentViewResolutionText];
     
