@@ -331,8 +331,8 @@ static NSString* SyncingContext       = @"SyncingContext";
 
 -(void) backFromLink :(id) sender
 {
-    resolutionButton.hidden = NO;
     backButton.hidden = YES;
+    [self updateContent];
     
     [UIView beginAnimations:nil context:NULL];
     [UIView setAnimationDuration:.5];
@@ -460,6 +460,7 @@ static NSString* SyncingContext       = @"SyncingContext";
         {
             
             resolutionButton.hidden = YES;
+            signatureCommentButton.hidden = YES;
             backButton.hidden = NO;
             
             [UIView beginAnimations:nil context:NULL];
@@ -480,6 +481,7 @@ static NSString* SyncingContext       = @"SyncingContext";
             attachmentsViewController.attachment = linkedDocument.firstAttachment;
             documentInfoViewController.document = linkedDocument;
         }
+        paintingToolsViewController.view.hidden = YES;
     }
     else if (context == &SyncingContext)
     {
@@ -688,8 +690,6 @@ static NSString* SyncingContext       = @"SyncingContext";
 }
 -(void) setCanEdit:(BOOL) value
 {
-    if (canEdit == value)
-        return;
     canEdit = value;
     if (canEdit)
     {
