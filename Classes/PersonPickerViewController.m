@@ -11,7 +11,7 @@
 #import "DataSource.h"
 
 @implementation PersonPickerViewController
-@synthesize person, selector, target;
+@synthesize person, action, target;
 #pragma mark -
 #pragma mark View lifecycle
 
@@ -57,8 +57,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
     person = [persons objectAtIndex: indexPath.row];
-    if( [target respondsToSelector:selector] )
-        [target performSelector:selector withObject:self];    
+    [target performSelector:action withObject:self];    
 }
 
 
@@ -82,7 +81,7 @@
     
     self.target = nil;
     
-    self.selector = nil;
+    self.action = nil;
 
     [super dealloc];
 }

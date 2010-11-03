@@ -13,11 +13,11 @@
 {
     NSArray *persons;
     Person *person;
-    SEL selector;
+    SEL action;
     id target;
 }
 
 @property (nonatomic, retain) Person *person;
-@property (nonatomic, assign) SEL selector;
+@property (nonatomic, assign) SEL action;
 @property (nonatomic, retain) id target;
 @end

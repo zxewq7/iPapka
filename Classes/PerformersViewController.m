@@ -94,7 +94,7 @@
     {
         PersonPickerViewController *picker = [[PersonPickerViewController alloc] init];
         picker.target = self;
-        picker.selector = @selector(setPerformer:);
+        picker.action = @selector(setPerformer:);
         personPopoverController = [[UIPopoverController alloc] initWithContentViewController: picker];
         [picker release];
     }
