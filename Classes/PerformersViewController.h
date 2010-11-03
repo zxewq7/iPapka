@@ -8,16 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@class ViewWithButtons, DocumentResolutionAbstract, PersonPickerViewController;
+@class ViewWithButtons, DocumentResolutionAbstract;
 
 @interface PerformersViewController : UIViewController
 {
     NSMutableArray *performers;
     ViewWithButtons *performersView;
     DocumentResolutionAbstract *document;
-    UIPopoverController *popoverController;
-    PersonPickerViewController *personPickerViewController;
-    UIButton *buttonAdd;
+    UIPopoverController *personPopoverController;
+    UIPopoverController *personReorderPopoverController;
+    UIView *editToolbar;
 }
 
 @property (nonatomic, retain) DocumentResolutionAbstract *document;
