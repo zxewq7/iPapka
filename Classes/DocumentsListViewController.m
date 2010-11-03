@@ -26,6 +26,7 @@ static NSString* SyncingContext = @"SyncingContext";
 - (void)updateSyncStatus;
 - (void)updateContent;
 - (void)updateBadges;
+- (void)selectCurrentDocument;
 @end
 
 
@@ -94,10 +95,7 @@ static NSString* SyncingContext = @"SyncingContext";
 {
     [self.navigationController setToolbarHidden:NO];
     
-    NSIndexPath *index = [fetchedResultsController indexPathForObject:self.document];
-    
-    if (index)
-        [self.tableView selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionMiddle];
+    [self selectCurrentDocument];
     
 }
 
@@ -377,6 +375,8 @@ static NSString* SyncingContext = @"SyncingContext";
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    [self selectCurrentDocument];
+
     [self.tableView endUpdates];
 }
 
@@ -404,19 +404,7 @@ static NSString* SyncingContext = @"SyncingContext";
 		NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
 
     [self.tableView reloadData];
-    
-    
-    NSIndexPath *index = [fetchedResultsController indexPathForObject:self.document];
-    
-    if (index)
-    {
-        NSIndexPath *prevSelected = self.tableView.indexPathForSelectedRow;
-        if (prevSelected)
-            [self.tableView deselectRowAtIndexPath:index animated:NO];
-        
-        [self.tableView selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionMiddle];
-    }
-
+    [self selectCurrentDocument];
 }
 #pragma mark -
 #pragma mark Observer
@@ -646,6 +634,20 @@ static NSString* SyncingContext = @"SyncingContext";
         
         NSInteger count = f.countUnread;
         item.badgeValue = count>0?[NSString stringWithFormat:@"%d", count]:nil;
+    }
+}
+
+- (void)selectCurrentDocument
+{
+    NSIndexPath *index = [fetchedResultsController indexPathForObject:self.document];
+    NSIndexPath *prevSelected = self.tableView.indexPathForSelectedRow;
+    if (index && !prevSelected || (prevSelected.row != index.row && prevSelected.section != index.section))
+    {
+        
+        if (prevSelected)
+            [self.tableView deselectRowAtIndexPath:index animated:NO];
+        
+        [self.tableView selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionMiddle];
     }
 }
 @end
