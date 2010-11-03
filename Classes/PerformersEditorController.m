@@ -24,6 +24,7 @@
     
     self.contentSizeForViewInPopover = CGSizeMake(300, self.tableView.rowHeight * [document.performersOrdered count]);
 
+    [self.tableView reloadData];
 }
 
 #pragma mark -
