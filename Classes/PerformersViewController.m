@@ -77,7 +77,7 @@
     
     [self.view addSubview: editToolbar];
     
-    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - buttonAddFrame.size.width - 5.0f, 200)];
+    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - editToolbar.frame.size.width - 5.0f, 200)];
     
     performersView.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     performersView.spaceBetweenButtons = 5.0f;

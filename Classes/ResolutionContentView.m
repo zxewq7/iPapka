@@ -51,7 +51,7 @@
     //performersViewController
     UIView *performersView = (ViewWithButtons *)[self viewWithTag:ResolutionContentViewPerformers];
     
-    CGRect performersFrame = CGRectMake(0, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width, performersView.frame.size.height);
+    CGRect performersFrame = CGRectMake(LEFT_MARGIN, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width - LEFT_MARGIN - RIGHT_MARGIN, performersView.frame.size.height);
     performersView.frame = performersFrame;
     
     //deadline phrase
