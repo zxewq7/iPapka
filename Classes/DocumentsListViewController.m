@@ -25,6 +25,7 @@ static NSString* SyncingContext = @"SyncingContext";
 - (void) createToolbars;
 - (void)updateSyncStatus;
 - (void)updateContent;
+- (void)updateBadges;
 @end
 
 
@@ -577,30 +578,7 @@ static NSString* SyncingContext = @"SyncingContext";
         if (lastSynced)
             detailsLabel.text = [NSString stringWithFormat:@"%@ %@ %@", NSLocalizedString(@"Synchronized", "Synchronized"), [activityTimeFormatter stringFromDate:lastSynced], [activityDateFormatter stringFromDate:lastSynced]];
         
-        //update filter badges
-        NSArray *filters = folder.filters;
-        NSUInteger filtersCount = [filters count];
-        NSArray *toolbarItems = filtersBar.items;
-        NSUInteger buttonsCount = [toolbarItems count];
-        
-        for (NSUInteger i=0; i < buttonsCount; i++)
-        {
-            UITabBarItem *item = [toolbarItems objectAtIndex: i];
-
-            NSUInteger fi = item.tag;
-            
-            if (fi >= filtersCount)
-            {
-                NSLog(@"Invalid filter index: %d", fi);
-                continue;
-            }
-            
-
-            Folder *f = [filters objectAtIndex:fi];
-
-            NSInteger count = f.countUnread;
-            item.badgeValue = count>0?[NSString stringWithFormat:@"%d", count]:nil;
-        }
+        [self updateBadges];
     }
     
 }
@@ -640,5 +618,34 @@ static NSString* SyncingContext = @"SyncingContext";
         filterIndex = NSNotFound;
     
     titleLabel.text = folder.localizedName;
+    
+    [self updateBadges];
+}
+
+- (void)updateBadges
+{
+    NSArray *filters = folder.filters;
+    NSUInteger filtersCount = [filters count];
+    NSArray *toolbarItems = filtersBar.items;
+    NSUInteger buttonsCount = [toolbarItems count];
+    
+    for (NSUInteger i=0; i < buttonsCount; i++)
+    {
+        UITabBarItem *item = [toolbarItems objectAtIndex: i];
+        
+        NSUInteger fi = item.tag;
+        
+        if (fi >= filtersCount)
+        {
+            NSLog(@"Invalid filter index: %d", fi);
+            continue;
+        }
+        
+        
+        Folder *f = [filters objectAtIndex:fi];
+        
+        NSInteger count = f.countUnread;
+        item.badgeValue = count>0?[NSString stringWithFormat:@"%d", count]:nil;
+    }
 }
 @end
