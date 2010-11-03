@@ -21,9 +21,6 @@
         document = [aDocument retain];
     }
     
-    
-    self.contentSizeForViewInPopover = CGSizeMake(300, self.tableView.rowHeight * [document.performersOrdered count]);
-
     [self.tableView reloadData];
 }
 
@@ -35,6 +32,8 @@
     [super viewDidLoad];
 
     self.tableView.editing = YES;
+    
+    self.contentSizeForViewInPopover = CGSizeMake(300, self.tableView.rowHeight * 10);
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
@@ -89,20 +88,10 @@
 - (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath 
 {
     NSMutableArray *array = document.performersOrdered;
-    NSUInteger count = [array count];
     
     id object = [array objectAtIndex:fromIndexPath.row];
     [array removeObjectAtIndex:fromIndexPath.row];
-    count--;
-    
-    NSInteger newIndex = toIndexPath.row + (toIndexPath.row?(toIndexPath.row + (toIndexPath.row > fromIndexPath.row)?-1:1):0);
-    
-    if (newIndex < 0)
-        newIndex = 0;
-    else if (newIndex >= count)
-        newIndex = count - 1;
-    
-    [array insertObject:object atIndex:newIndex];
+    [array insertObject:object atIndex:toIndexPath.row];
     
     [self.target performSelector:self.action withObject:self];
 }
