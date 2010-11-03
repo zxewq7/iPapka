@@ -1,8 +1,15 @@
 #import "AttachmentPage.h"
 #import "Attachment.h"
 #import "AttachmentPagePainting.h"
+#import "Document.h"
 
 @implementation AttachmentPage
+
+-(BOOL) isImageExists
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    return [df fileExistsAtPath: self.pathImage];
+}
 
 -(NSString *)path
 {
@@ -16,13 +23,10 @@
 
 -(UIImage *) image
 {
-    NSString *path = self.pathImage;
-    
-    NSFileManager *df = [NSFileManager defaultManager];
-    if (![df fileExistsAtPath: path])
+    if (!self.isImageExists)
         return nil;
-    
-    return [UIImage imageWithContentsOfFile:path];
+
+    return [UIImage imageWithContentsOfFile:self.pathImage];
 }
 
 -(BOOL) hasPaintings
@@ -41,4 +45,10 @@
     return NO;
 }
 
+-(BOOL) isEditable
+{
+    return self.attachment.document.isEditable && 
+        self.syncStatusValue != SyncStatusNeedSyncFromServer &&
+        self.isImageExists;
+}
 @end

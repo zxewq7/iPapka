@@ -7,4 +7,5 @@
 @property (readonly) BOOL  hasPaintings;
 @property (readonly) BOOL  hasAudio;
 @property (readonly) BOOL  hasText;
+@property (readonly) BOOL  isEditable;
 @end
