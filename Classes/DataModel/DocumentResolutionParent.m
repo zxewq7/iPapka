@@ -1,8 +1,8 @@
 #import "DocumentResolutionParent.h"
 
 @implementation DocumentResolutionParent
--(BOOL) isReadonly
+-(BOOL) isEditable
 {
-    return YES;
+    return NO;
 }
 @end

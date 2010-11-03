@@ -211,7 +211,7 @@
 
     BOOL wasHidden = editToolbar.hidden;
     
-    editToolbar.hidden = document.isReadonly;
+    editToolbar.hidden = !document.isEditable;
     
     //hide or show add performer button
     if (wasHidden != editToolbar.hidden)
@@ -252,7 +252,7 @@
                 UIButton *performerButton = [UIButton buttonWithBackgroundAndTitle:performer.fullName
                                                                          titleFont:font
                                                                             target:self
-                                                                          selector:(document.isReadonly?nil:@selector(removePerformer:))
+                                                                          selector:(document.isEditable?@selector(removePerformer:):nil)
                                                                              frame:CGRectMake(0, 0, 29, 26)
                                                                      addLabelWidth:YES
                                                                              image:buttonBackground

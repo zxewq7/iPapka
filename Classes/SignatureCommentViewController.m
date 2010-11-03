@@ -225,7 +225,7 @@
     
     [commentText textChanged:nil];
     
-    commentText.editable = !document.isReadonly;
+    commentText.editable = document.isEditable;
     
     dateLabel.text = [dateFormatter stringFromDate: document.registrationDate];
     

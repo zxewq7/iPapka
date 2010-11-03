@@ -370,7 +370,7 @@
     
     [resolutionText textChanged:nil];
     
-    resolutionText.editable = !document.isReadonly;
+    resolutionText.editable = document.isEditable;
     
     dateLabel.text = [dateFormatter stringFromDate: resolution.registrationDate];
     
@@ -380,21 +380,21 @@
     else
         label = [NSString stringWithFormat:@"   %@   ", NSLocalizedString(@"Not set", "resolution->deadline->Not set")];
 
-    if (document.isReadonly)
-    {
-        deadlineLabel.text = label;
-        [deadlineLabel sizeToFit];
-        deadlineLabel.hidden = NO;
-
-        deadlineButton.hidden = YES;
-    }
-    else
+    if (document.isEditable)
     {
         [deadlineButton setTitle:label forState:UIControlStateNormal];
         [deadlineButton sizeToFit];
         deadlineButton.hidden = NO;
         
         deadlineLabel.hidden = YES;
+    }
+    else
+    {
+        deadlineLabel.text = label;
+        [deadlineLabel sizeToFit];
+        deadlineLabel.hidden = NO;
+        
+        deadlineButton.hidden = YES;
     }
     performersViewController.document = resolution;
     

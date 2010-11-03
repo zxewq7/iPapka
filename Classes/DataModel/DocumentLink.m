@@ -1,8 +1,8 @@
 #import "DocumentLink.h"
 
 @implementation DocumentLink
--(BOOL) isReadonly
+-(BOOL) isEditable
 {
-    return YES;
+    return NO;
 }
 @end

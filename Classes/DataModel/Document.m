@@ -22,8 +22,8 @@
     return [self mutableOrderedValueForKey:@"links"];
 }
 
--(BOOL) isReadonly
+-(BOOL) isEditable
 {
-    return !(self.statusValue == DocumentStatusDraft || self.statusValue == DocumentStatusNew);
+    return (self.statusValue == DocumentStatusDraft || self.statusValue == DocumentStatusNew);
 }
 @end

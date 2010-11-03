@@ -26,5 +26,5 @@ typedef enum _DocumentPriority
 @property (nonatomic, readonly) Attachment *firstAttachment;
 @property (readonly) NSMutableArray* attachmentsOrdered;
 @property (readonly) NSMutableArray* linksOrdered;
-@property (readonly) BOOL isReadonly;
+@property (readonly) BOOL isEditable;
 @end
