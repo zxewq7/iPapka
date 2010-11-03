@@ -13,6 +13,19 @@
 @implementation PerformersEditorController
 @synthesize document, target, action;
 
+-(void) setDocument:(DocumentResolution *)aDocument
+{
+    if (document != aDocument)
+    {
+        [document release];
+        document = [aDocument retain];
+    }
+    
+    
+    self.contentSizeForViewInPopover = CGSizeMake(300, self.tableView.rowHeight * [document.performersOrdered count]);
+
+}
+
 #pragma mark -
 #pragma mark View lifecycle
 
