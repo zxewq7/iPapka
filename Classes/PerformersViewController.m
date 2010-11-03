@@ -139,18 +139,26 @@
     if (!personReorderPopoverController)
     {
         PerformersEditorController *picker = [[PerformersEditorController alloc] init];
-        picker.document = (DocumentResolution *)self.document;
         picker.target = self;
-        picker.action = @selector(updateContent);
+        picker.action = @selector(setReorderedPerformers:);
         
-        personPopoverController = [[UIPopoverController alloc] initWithContentViewController: picker];
+        personReorderPopoverController = [[UIPopoverController alloc] initWithContentViewController: picker];
         [picker release];
     }
+
+    PerformersEditorController *picker = (PerformersEditorController *)personReorderPopoverController.contentViewController;
     
+    picker.document = (DocumentResolution *)self.document;
+
     UIView *button = (UIView *)sender;
-	[personPopoverController presentPopoverFromRect: button.bounds inView:button permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+	[personReorderPopoverController presentPopoverFromRect: button.bounds inView:button permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
 }
 
+-(void) setReorderedPerformers:(id) sender
+{
+    [[DataSource sharedDataSource] commit];
+    [self updateContent];
+}
 #pragma mark -
 #pragma mark Rotation support
 
