@@ -79,7 +79,7 @@
     deadlineLabelFrame.origin.x = deadlinePhraseFrame.origin.x + deadlinePhraseFrame.size.width + 5;
     deadlineLabelFrame.origin.y = deadlinePhraseFrame.origin.y - round((deadlineLabelFrame.size.height - deadlinePhraseFrame.size.height) / 2);
     
-    deadlineLabel.frame = CGRectMake(0,200,100,10);
+    deadlineLabel.frame = deadlineLabelFrame;
     
     //resolution text
     UITextView *resolutionText = (UITextView *)[self viewWithTag:ResolutionContentViewResolutionText];
