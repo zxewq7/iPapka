@@ -102,7 +102,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 #pragma mark -
 #pragma mark methods
--(NSArray *) persons
+-(NSFetchedResultsController *) persons
 {
 	NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
 	[fetchRequest setEntity:[NSEntityDescription entityForName:@"Person" inManagedObjectContext:managedObjectContext]];
@@ -117,12 +117,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [sortDescriptors release];
     [sortDescriptor release];
 	
-	NSError *error = nil;
-    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-    [fetchRequest release];
-    NSAssert1(fetchResults != nil, @"Unhandled error executing fetch folder content: %@", [error localizedDescription]);
     
-    return fetchResults;    
+    NSFetchedResultsController *fetchedResultsController = 
+    [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
+                                        managedObjectContext:managedObjectContext 
+                                          sectionNameKeyPath:@"lastInitial" cacheName:@"Persons"];
+    
+    return [fetchedResultsController autorelease];    
 }
 
 -(NSFetchedResultsController *) documentsForFolder:(Folder *) folder

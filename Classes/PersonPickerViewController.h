@@ -7,12 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <CoreData/NSFetchedResultsController.h>
 
 @class Person;
-@interface PersonPickerViewController : UITableViewController 
+@interface PersonPickerViewController : UITableViewController<NSFetchedResultsControllerDelegate>
 {
     NSArray *persons;
-    Person *person;
+    NSFetchedResultsController *fetchedResultsController;
     SEL action;
     id target;
 }

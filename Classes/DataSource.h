@@ -44,5 +44,5 @@
 -(NSUInteger) countUnreadDocuments;
 -(void) shutdown;
 -(void) commit;
--(NSArray *) persons;
+-(NSFetchedResultsController *) persons;
 @end

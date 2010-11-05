@@ -17,6 +17,14 @@
     return fullName;
 }
 
+- (NSString *) lastInitial 
+{
+    [self willAccessValueForKey:@"lastInitial"];
+    NSString * initial = [[self last] substringToIndex:1];
+    [self didAccessValueForKey:@"lastInitial"];
+    return initial;
+}
+
 - (void)dealloc 
 {
     [fullName release];

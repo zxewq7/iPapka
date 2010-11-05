@@ -45,6 +45,13 @@
 
 
 
+@dynamic lastInitial;
+
+
+
+
+
+
 @dynamic uid;
 
 

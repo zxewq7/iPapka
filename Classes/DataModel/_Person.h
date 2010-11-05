@@ -11,6 +11,7 @@
 
 
 
+
 @interface PersonID : NSManagedObjectID {}
 @end
 
@@ -33,6 +34,12 @@
 @property (nonatomic, retain) NSString *last;
 
 //- (BOOL)validateLast:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *lastInitial;
+
+//- (BOOL)validateLastInitial:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -73,6 +80,10 @@
 
 - (NSString*)primitiveLast;
 - (void)setPrimitiveLast:(NSString*)value;
+
+
+- (NSString*)primitiveLastInitial;
+- (void)setPrimitiveLastInitial:(NSString*)value;
 
 
 - (NSString*)primitiveUid;
