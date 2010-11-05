@@ -1,7 +1,9 @@
 #import "CommentAudio.h"
+#import "Document.h"
 
 @implementation CommentAudio
-
-// Custom logic goes here.
-
+-(BOOL) isEditable
+{
+    return self.document.isEditable;
+}
 @end

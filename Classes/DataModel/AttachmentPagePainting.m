@@ -1,4 +1,5 @@
 #import "AttachmentPagePainting.h"
+#import "AttachmentPage.h"
 
 @implementation AttachmentPagePainting
 
@@ -19,4 +20,8 @@
     return [df fileExistsAtPath: self.path];
 }
 
+-(BOOL) isEditable
+{
+    return self.page.isEditable;
+}
 @end

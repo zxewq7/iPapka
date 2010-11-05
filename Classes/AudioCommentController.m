@@ -365,8 +365,8 @@ static NSString *AudioContext = @"AudioContext";
     else
     {
         playButton.hidden = !exists;
-        removeButton.hidden = !exists;
-        recordButton.hidden = exists;
+        removeButton.hidden = !exists || !file.isEditable;
+        recordButton.hidden = exists || !file.isEditable;
         labelComment.enabled = NO;
         labelComment.hidden = exists;
     }
