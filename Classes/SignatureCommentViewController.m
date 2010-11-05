@@ -224,8 +224,11 @@
     commentText.text = document.text;
     
     [commentText textChanged:nil];
-    
-    commentText.editable = document.isEditable;
+
+#warning obsoleted in iOS 4
+    //due to bug in 3.2 with editable property (showing keybouar), use this trick
+    //http://stackoverflow.com/questions/2133335/iphone-uitextview-which-is-disabled-becomes-first-responder-when-re-enabled
+    commentText.userInteractionEnabled = document.isEditable;
     
     dateLabel.text = [dateFormatter stringFromDate: document.registrationDate];
     
