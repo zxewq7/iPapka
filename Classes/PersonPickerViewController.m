@@ -4,6 +4,7 @@
 //
 //  Created by Vladimir Solomenchuk on 18.09.10.
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
+// based on http://stackoverflow.com/questions/1112521/nsfetchedresultscontroller-with-sections-created-by-first-letter-of-a-string
 //
 
 #import "PersonPickerViewController.h"
