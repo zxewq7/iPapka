@@ -405,6 +405,9 @@
     audioCommentController.file = resolution.audio;
     
     managedButton.on = resolution.isManagedValue;
+    
+    //scroll content to top
+    [contentView scrollRectToVisible:CGRectZero animated:NO];
 }
 
 - (void) showParentResolution:(id) sender
