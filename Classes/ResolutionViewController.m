@@ -373,7 +373,7 @@
 #warning obsoleted in iOS 4
     //due to bug in 3.2 with editable property (showing keybouar), use this trick
     //http://stackoverflow.com/questions/2133335/iphone-uitextview-which-is-disabled-becomes-first-responder-when-re-enabled
-    resolutionText.userInteractionEnabled = document.isEditable;
+    resolutionText.userInteractionEnabled = resolution.isEditable;
 
     
     dateLabel.text = [dateFormatter stringFromDate: resolution.registrationDate];
@@ -384,7 +384,7 @@
     else
         label = [NSString stringWithFormat:@"   %@   ", NSLocalizedString(@"Not set", "resolution->deadline->Not set")];
 
-    if (document.isEditable)
+    if (resolution.isEditable)
     {
         [deadlineButton setTitle:label forState:UIControlStateNormal];
         [deadlineButton sizeToFit];
@@ -402,7 +402,7 @@
     }
     performersViewController.document = resolution;
     
-    audioCommentController.file = document.audio;
+    audioCommentController.file = resolution.audio;
     
     managedButton.on = resolution.isManagedValue;
 }
