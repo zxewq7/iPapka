@@ -100,7 +100,7 @@
     }
     
     UIView *button = (UIView *)sender;
-	[personPopoverController presentPopoverFromRect: button.bounds inView:button permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+	[personPopoverController presentPopoverFromRect: button.bounds inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 -(void) removePerformer:(id) sender
@@ -151,7 +151,7 @@
     picker.document = (DocumentResolution *)self.document;
 
     UIView *button = (UIView *)sender;
-	[personReorderPopoverController presentPopoverFromRect: button.bounds inView:button permittedArrowDirections:UIPopoverArrowDirectionRight animated:YES];
+	[personReorderPopoverController presentPopoverFromRect: button.bounds inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
 }
 
 -(void) setReorderedPerformers:(id) sender
