@@ -21,7 +21,7 @@
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
-#define MIN_CONTENT_HEIGHT 450.0f
+#define MIN_CONTENT_HEIGHT 460.0f
 
 @interface ResolutionViewController (Private)
 -(void) updateContent;
@@ -191,7 +191,7 @@
     
     twoRows.userInteractionEnabled = YES;
     
-    CGRect twoRowsFrame = CGRectMake(LEFT_MARGIN, contentViewFrame.origin.y + contentViewFrame.size.height + 35, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, twoRows.frame.size.height);
+    CGRect twoRowsFrame = CGRectMake(LEFT_MARGIN, contentViewFrame.origin.y + contentViewFrame.size.height + 20, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, twoRows.frame.size.height);
 
     twoRows.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
 

@@ -11,7 +11,7 @@
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
-#define MIN_RESOLUTION_TEXT_HEIGHT 80.0f
+#define MIN_RESOLUTION_TEXT_HEIGHT 85.0f
 
 @implementation ResolutionContentView
 
@@ -100,7 +100,7 @@
 
     CGSize authorSize = authorLabel.frame.size;
     
-    CGRect authorFrame = CGRectMake(0, resolutionTextFrame.origin.y + resolutionTextFrame.size.height + 20, viewSize.width - RIGHT_MARGIN, authorSize.height);
+    CGRect authorFrame = CGRectMake(0, resolutionTextFrame.origin.y + resolutionTextFrame.size.height + 15, viewSize.width - RIGHT_MARGIN, authorSize.height);
     authorLabel.frame = authorFrame;
     
     //date
@@ -108,7 +108,7 @@
 
     CGSize dateSize = dateLabel.frame.size;
     
-    CGRect dateFrame = CGRectMake(0, authorFrame.origin.y + authorFrame.size.height + 20, viewSize.width, dateSize.height);
+    CGRect dateFrame = CGRectMake(0, authorFrame.origin.y + authorFrame.size.height + 15, viewSize.width, dateSize.height);
     dateLabel.frame = dateFrame;
     
     self.contentSize = CGSizeMake(self.frame.size.width, dateFrame.origin.y + dateFrame.size.height);
