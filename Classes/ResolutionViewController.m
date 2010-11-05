@@ -406,6 +406,8 @@
     
     managedButton.on = resolution.isManagedValue;
     
+    managedButton.enabled = resolution.isEditable;
+    
     //scroll content to top
     [contentView scrollRectToVisible:CGRectZero animated:NO];
 }
