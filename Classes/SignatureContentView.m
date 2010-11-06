@@ -8,8 +8,6 @@
 
 #import "SignatureContentView.h"
 
-#define RIGHT_MARGIN 24.0f
-#define LEFT_MARGIN 24.0f
 #define MIN_COMMENT_TEXT_HEIGHT 345.0f
 
 @implementation SignatureContentView
@@ -40,9 +38,9 @@
     //signature text
     UITextView *commentText = (UITextView *)[self viewWithTag:SignatureContentViewCommentText];
     
-    CGRect commentTextFrame = CGRectMake(LEFT_MARGIN, 
+    CGRect commentTextFrame = CGRectMake(0, 
                                             logoFrame.origin.y + logoFrame.size.height + 18, 
-                                            viewSize.width - RIGHT_MARGIN - LEFT_MARGIN,
+                                            viewSize.width,
                                             MIN_COMMENT_TEXT_HEIGHT);
     
     commentText.frame = commentTextFrame;
@@ -56,7 +54,7 @@
     
     CGSize authorSize = authorLabel.frame.size;
     
-    CGRect authorFrame = CGRectMake(0, commentTextFrame.origin.y + commentTextFrame.size.height + 15, viewSize.width - RIGHT_MARGIN, authorSize.height);
+    CGRect authorFrame = CGRectMake(0, commentTextFrame.origin.y + commentTextFrame.size.height + 15, viewSize.width, authorSize.height);
     authorLabel.frame = authorFrame;
     
     //date

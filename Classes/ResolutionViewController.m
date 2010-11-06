@@ -71,7 +71,7 @@
     //visible image width
     viewSize.width = 562.0;
 
-    CGRect contentViewFrame = CGRectMake(0, 44, viewSize.width, MIN_CONTENT_HEIGHT);
+    CGRect contentViewFrame = CGRectMake(LEFT_MARGIN, 44, viewSize.width - LEFT_MARGIN - RIGHT_MARGIN, MIN_CONTENT_HEIGHT);
     
     contentView = [[ResolutionContentView alloc] initWithFrame: contentViewFrame];
     contentView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);

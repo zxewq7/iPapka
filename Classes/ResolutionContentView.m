@@ -9,8 +9,6 @@
 #import "ResolutionContentView.h"
 #import "ViewWithButtons.h"
 
-#define RIGHT_MARGIN 24.0f
-#define LEFT_MARGIN 24.0f
 #define MIN_RESOLUTION_TEXT_HEIGHT 175.0f
 
 @implementation ResolutionContentView
@@ -51,7 +49,7 @@
     //performersViewController
     UIView *performersView = (ViewWithButtons *)[self viewWithTag:ResolutionContentViewPerformers];
     
-    CGRect performersFrame = CGRectMake(LEFT_MARGIN, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width - LEFT_MARGIN - RIGHT_MARGIN, performersView.frame.size.height);
+    CGRect performersFrame = CGRectMake(0, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width, performersView.frame.size.height);
     performersView.frame = performersFrame;
     
     //deadline phrase
@@ -59,7 +57,7 @@
 
     CGSize deadlineSize = deadlinePhrase.frame.size;
     
-    CGRect deadlinePhraseFrame = CGRectMake(LEFT_MARGIN, performersFrame.origin.y + performersFrame.size.height + 26, deadlineSize.width, deadlineSize.height);
+    CGRect deadlinePhraseFrame = CGRectMake(0, performersFrame.origin.y + performersFrame.size.height + 26, deadlineSize.width, deadlineSize.height);
     deadlinePhrase.frame = deadlinePhraseFrame;
     
     
@@ -84,9 +82,9 @@
     //resolution text
     UITextView *resolutionText = (UITextView *)[self viewWithTag:ResolutionContentViewResolutionText];
 
-    CGRect resolutionTextFrame = CGRectMake(LEFT_MARGIN, 
+    CGRect resolutionTextFrame = CGRectMake(0, 
                                             deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + 23, 
-                                            viewSize.width - RIGHT_MARGIN - LEFT_MARGIN,
+                                            viewSize.width,
                                             MIN_RESOLUTION_TEXT_HEIGHT);
     
     resolutionText.frame = resolutionTextFrame;
@@ -103,7 +101,7 @@
 
     CGSize authorSize = authorLabel.frame.size;
     
-    CGRect authorFrame = CGRectMake(0, resolutionTextFrame.origin.y + resolutionTextFrame.size.height + 15, viewSize.width - RIGHT_MARGIN, authorSize.height);
+    CGRect authorFrame = CGRectMake(0, resolutionTextFrame.origin.y + resolutionTextFrame.size.height + 15, viewSize.width, authorSize.height);
     authorLabel.frame = authorFrame;
     
     //date

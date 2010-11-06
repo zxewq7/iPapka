@@ -65,7 +65,7 @@
     //visible image width
     viewSize.width = 562.0;
 
-    CGRect contentViewFrame = CGRectMake(0, 83, viewSize.width, MIN_CONTENT_HEIGHT);
+    CGRect contentViewFrame = CGRectMake(LEFT_MARGIN, 83, viewSize.width - LEFT_MARGIN - RIGHT_MARGIN, MIN_CONTENT_HEIGHT);
     
     contentView = [[SignatureContentView alloc] initWithFrame: contentViewFrame];
     contentView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
