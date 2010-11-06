@@ -126,6 +126,7 @@
 		816D76F1125B16380042BD8E /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 816D76F0125B16380042BD8E /* iTunesArtwork */; };
 		8173D9F11248EFC00045C2EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9F01248EFC00045C2EF /* AVFoundation.framework */; };
 		8173D9FB1248F1D40045C2EF /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9FA1248F1D40045C2EF /* CoreAudio.framework */; };
+		8175D0DB12856D5C00512AE1 /* SignatureContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8175D0DA12856D5C00512AE1 /* SignatureContentView.m */; };
 		81775FC61251F6F0002A2D3D /* LNDocumentReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC11251F6F0002A2D3D /* LNDocumentReader.m */; };
 		81775FC71251F6F0002A2D3D /* LNDocumentWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC31251F6F0002A2D3D /* LNDocumentWriter.m */; };
 		81775FC81251F6F0002A2D3D /* LNHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC51251F6F0002A2D3D /* LNHttpRequest.m */; };
@@ -409,6 +410,8 @@
 		816D76F0125B16380042BD8E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
 		8173D9F01248EFC00045C2EF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		8173D9FA1248F1D40045C2EF /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
+		8175D0D912856D5C00512AE1 /* SignatureContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureContentView.h; sourceTree = "<group>"; };
+		8175D0DA12856D5C00512AE1 /* SignatureContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureContentView.m; sourceTree = "<group>"; };
 		81775FC01251F6F0002A2D3D /* LNDocumentReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentReader.h; sourceTree = "<group>"; };
 		81775FC11251F6F0002A2D3D /* LNDocumentReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDocumentReader.m; sourceTree = "<group>"; };
 		81775FC21251F6F0002A2D3D /* LNDocumentWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentWriter.h; sourceTree = "<group>"; };
@@ -699,6 +702,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				8175D0D912856D5C00512AE1 /* SignatureContentView.h */,
+				8175D0DA12856D5C00512AE1 /* SignatureContentView.m */,
 				811460AB1280AD6C005C16D0 /* EmptyPageView.h */,
 				811460AC1280AD6C005C16D0 /* EmptyPageView.m */,
 				81FBA5D5127EF34C00A70025 /* ResolutionContentView.h */,
@@ -740,8 +745,6 @@
 				816C3BE812608D2F00139BA3 /* Logger.m */,
 				8141DD781259DC2400C6C24D /* PasswordManager.h */,
 				8141DD791259DC2400C6C24D /* PasswordManager.m */,
-				811456051258AC9300B755EB /* SignatureCommentViewController.h */,
-				811456061258AC9300B755EB /* SignatureCommentViewController.m */,
 				815657C01257574A0019A88D /* AudioCommentController.h */,
 				815657C11257574A0019A88D /* AudioCommentController.m */,
 				8144AD4D12395DA8006B2AD7 /* RootViewController.h */,
@@ -752,6 +755,8 @@
 				81B105C01243C44700AFB109 /* PerformersViewController.m */,
 				81A1B75F123E557C0089C988 /* ResolutionViewController.h */,
 				81A1B760123E557C0089C988 /* ResolutionViewController.m */,
+				811456051258AC9300B755EB /* SignatureCommentViewController.h */,
+				811456061258AC9300B755EB /* SignatureCommentViewController.m */,
 				81D60427123ACBEA00CEAF75 /* PaintingToolsViewController.h */,
 				81D60428123ACBEA00CEAF75 /* PaintingToolsViewController.m */,
 				8144AD2F12395B82006B2AD7 /* DocumentsListViewController.h */,
@@ -1246,6 +1251,7 @@
 				8178288B128072C700A4C8DC /* MBProgressHUD.m in Sources */,
 				811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */,
 				81FB04CF1281988100276CC8 /* PerformersEditorController.m in Sources */,
+				8175D0DB12856D5C00512AE1 /* SignatureContentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

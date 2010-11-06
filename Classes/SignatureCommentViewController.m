@@ -14,10 +14,11 @@
 #import "Person.h"
 #import "CommentAudio.h"
 #import "BlankLogoView.h"
+#import "SignatureContentView.h"
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
-#define MIN_COMMENT_TEXT_HEIGHT 300.0f
+#define MIN_CONTENT_HEIGHT 460.0f
 
 @interface SignatureCommentViewController (Private)
 -(void) updateContent;
@@ -63,21 +64,21 @@
     
     //visible image width
     viewSize.width = 562.0;
+
+    CGRect contentViewFrame = CGRectMake(0, 83, viewSize.width, MIN_CONTENT_HEIGHT);
+    
+    contentView = [[SignatureContentView alloc] initWithFrame: contentViewFrame];
+    contentView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
     
     //logo
     BlankLogoView *logo = [[BlankLogoView alloc] initWithFrame:CGRectZero];
     
-    CGSize logoSize = logo.frame.size;
-    CGRect logoFrame = CGRectMake(round((viewSize.width - logoSize.width) / 2), 83, logoSize.width, logoSize.height);
-    logo.frame = logoFrame;
-    
-    [self.view addSubview: logo];
+    [contentView addSubview: logo withTag:SignatureContentViewLogo];
     
     [logo release];
     
-    //resolution text
-    CGRect commentTextFrame = CGRectMake(LEFT_MARGIN, logoFrame.origin.y + logoFrame.size.height + 18, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, MIN_COMMENT_TEXT_HEIGHT);
-    commentText = [[TextViewWithPlaceholder alloc] initWithFrame: commentTextFrame];
+    //comment text
+    commentText = [[TextViewWithPlaceholder alloc] initWithFrame: CGRectZero];
     
 	commentText.textColor = [UIColor blackColor];
 	commentText.font = [UIFont fontWithName:@"CharterC" size:16];
@@ -89,11 +90,9 @@
     
 	commentText.returnKeyType = UIReturnKeyDefault;
 	commentText.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
-	commentText.scrollEnabled = YES;
+	commentText.scrollEnabled = NO;
     
-    commentText.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
-    
-    [self.view addSubview: commentText];
+    [contentView addSubview:commentText withTag:SignatureContentViewCommentText];
     
     //author
     authorLabel = [[UILabel alloc] initWithFrame: CGRectZero];
@@ -105,14 +104,7 @@
     
     [authorLabel sizeToFit];
     
-    CGSize authorSize = authorLabel.frame.size;
-    
-    CGRect authorFrame = CGRectMake(0, commentTextFrame.origin.y + commentTextFrame.size.height + 20, viewSize.width - RIGHT_MARGIN, authorSize.height);
-    authorLabel.frame = authorFrame;
-    
-    authorLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    
-    [self.view addSubview: authorLabel];
+    [contentView addSubview: authorLabel withTag:SignatureContentViewAuthorLabel];
     
     //date
     dateLabel = [[UILabel alloc] initWithFrame: CGRectZero];
@@ -124,21 +116,16 @@
     
     [dateLabel sizeToFit];
     
-    CGSize dateSize = dateLabel.frame.size;
+    [contentView addSubview: dateLabel withTag:SignatureContentViewDateLabel];
     
-    CGRect dateFrame = CGRectMake(0, authorFrame.origin.y + authorFrame.size.height + 20, viewSize.width, dateSize.height);
-    dateLabel.frame = dateFrame;
-    
-    dateLabel.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    
-    [self.view addSubview: dateLabel];
+    [self.view addSubview:contentView];
     
     UIImage *oneRowImage = [UIImage imageNamed: @"OneRow.png"];
     UIImageView *oneRow = [[UIImageView alloc] initWithImage: [oneRowImage stretchableImageWithLeftCapWidth:12.0f topCapHeight:0.0f]];
     
     oneRow.userInteractionEnabled = YES;
     
-    CGRect oneRowFrame = CGRectMake(LEFT_MARGIN, dateFrame.origin.y + 35, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, oneRow .frame.size.height);
+    CGRect oneRowFrame = CGRectMake(LEFT_MARGIN, contentViewFrame.origin.y + contentViewFrame.size.height + 35, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, oneRow .frame.size.height);
     
     oneRow.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
     
@@ -176,6 +163,8 @@
     [dateFormatter release]; dateFormatter = nil;
     
     [audioCommentController release]; audioCommentController = nil;
+    
+    [contentView release]; contentView = nil;
 }
 
 
@@ -190,6 +179,8 @@
     
     [audioCommentController release]; audioCommentController = nil;
     
+    [contentView release]; contentView = nil;
+    
     self.document = nil;
     [super dealloc];
     
@@ -200,11 +191,14 @@
 
 - (BOOL)textViewShouldEndEditing:(UITextView *)textView
 {
-    [self updateHeight];
-    
+    if ([commentText.text length])
+        [commentText scrollRangeToVisible: NSMakeRange(0, 1)];
+
     document.text = commentText.text;
     
     [[DataSource sharedDataSource] commit];
+    
+    [contentView setNeedsLayout];
     return YES;
 }
 
@@ -233,41 +227,15 @@
     dateLabel.text = [dateFormatter stringFromDate: document.registrationDate];
     
     audioCommentController.file = document.audio;
-
-    [self updateHeight];
+    
+    [contentView setNeedsLayout];
+    
+    //scroll content to top
+    [contentView scrollRectToVisible:CGRectZero animated:NO];
 }
 
 - (void) showParentResolution:(id) sender
 {
     [self updateContent];
-}
-
--(void) updateHeight;
-{
-    CGRect textViewFrame = commentText.frame;
-    UILabel *label = [[UILabel alloc] initWithFrame: textViewFrame];
-    label.numberOfLines = 0;
-    label.font = commentText.font;
-    label.text = commentText.text;
-    [label sizeToFit];
-    CGFloat heightDelta = label.frame.size.height - textViewFrame.size.height;
-    [label release];
-    
-    CGRect viewFrame = self.view.frame;
-    if (MIN_COMMENT_TEXT_HEIGHT < (textViewFrame.size.height + heightDelta))
-    {
-        viewFrame.size.height += heightDelta;
-        CGFloat maxHeight = self.view.superview.frame.size.height + viewFrame.origin.y;
-        if (viewFrame.size.height > maxHeight)
-            viewFrame.size.height = maxHeight;
-        self.view.frame = viewFrame;
-    }
-    else
-    {
-        viewFrame.size.height -= textViewFrame.size.height - MIN_COMMENT_TEXT_HEIGHT;
-        self.view.frame = viewFrame;
-    }
-    if ([commentText.text length])
-        [commentText scrollRangeToVisible: NSMakeRange(0, 1)];
 }
 @end

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 
-@class DocumentSignature, TextViewWithPlaceholder, AudioCommentController;
+@class DocumentSignature, TextViewWithPlaceholder, AudioCommentController, SignatureContentView;
 @interface SignatureCommentViewController : UIViewController <UITextViewDelegate>
 {
     TextViewWithPlaceholder *commentText;
@@ -18,6 +18,7 @@
     DocumentSignature       *document;
     NSDateFormatter         *dateFormatter;
     AudioCommentController  *audioCommentController;
+    SignatureContentView    *contentView;
 }
 
 @property (nonatomic, retain) DocumentSignature    *document;
