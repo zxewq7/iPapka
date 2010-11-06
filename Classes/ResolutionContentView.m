@@ -11,7 +11,7 @@
 
 #define RIGHT_MARGIN 24.0f
 #define LEFT_MARGIN 24.0f
-#define MIN_RESOLUTION_TEXT_HEIGHT 85.0f
+#define MIN_RESOLUTION_TEXT_HEIGHT 175.0f
 
 @implementation ResolutionContentView
 
@@ -93,6 +93,9 @@
     
     resolutionTextFrame.size.height = MAX(resolutionText.contentSize.height + 10.f, MIN_RESOLUTION_TEXT_HEIGHT);
 
+    resolutionTextFrame.size.height = MAX(resolutionTextFrame.size.height, performersFrame.size.height - 63);
+
+    
     resolutionText.frame = resolutionTextFrame;
     
     //author
