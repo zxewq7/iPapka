@@ -68,7 +68,7 @@
     
     [editToolbar addSubview:buttonReorder];
     
-    editToolbar.frame = CGRectMake(viewSize.width - MAX(buttonReorderFrame.size.width, buttonAddFrame.size.width) - 5.f, 
+    editToolbar.frame = CGRectMake(viewSize.width - MAX(buttonReorderFrame.size.width, buttonAddFrame.size.width), 
                                    0, 
                                    MAX(buttonReorderFrame.size.width, buttonAddFrame.size.width),
                                    buttonReorderFrame.origin.y + buttonReorderFrame.size.height);
