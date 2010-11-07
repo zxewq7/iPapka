@@ -9,7 +9,7 @@
 #import "ResolutionContentView.h"
 #import "ViewWithButtons.h"
 
-#define MIN_RESOLUTION_TEXT_HEIGHT 175.0f
+#define MIN_RESOLUTION_TEXT_HEIGHT 20.0f
 
 @implementation ResolutionContentView
 
@@ -31,6 +31,8 @@
     
     CGSize viewSize = self.bounds.size;
     
+    viewSize.width -= self.contentInset.right + self.contentInset.left;
+    
     //filter
     UIView *resolutionSwitcher = [self viewWithTag:ResolutionContentViewSwitcher];
 
@@ -49,7 +51,10 @@
     //performersViewController
     UIView *performersView = (ViewWithButtons *)[self viewWithTag:ResolutionContentViewPerformers];
     
-    CGRect performersFrame = CGRectMake(0, logoFrame.origin.y + logoFrame.size.height+18, viewSize.width, performersView.frame.size.height);
+    CGRect performersFrame = CGRectMake(0, 
+                                        logoFrame.origin.y + logoFrame.size.height+18, 
+                                        viewSize.width + self.contentInset.right,
+                                        performersView.frame.size.height);
     performersView.frame = performersFrame;
     
     //deadline phrase
@@ -93,7 +98,6 @@
 
     resolutionTextFrame.size.height = MAX(resolutionTextFrame.size.height, performersFrame.size.height - 63);
 
-    
     resolutionText.frame = resolutionTextFrame;
     
     //author
