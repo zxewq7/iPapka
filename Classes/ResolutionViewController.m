@@ -45,7 +45,7 @@
 }
 - (void)loadView
 {
-    UIImage *image = [[UIImage imageNamed: @"ResolutionBackground.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:100.0];
+    UIImage *image = [[UIImage imageNamed: @"BlankBackground.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:100.0];
     
     minSize = image.size;
     

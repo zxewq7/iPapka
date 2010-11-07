@@ -27,6 +27,7 @@
 		810BBBFD1251FEE900BD88EB /* DocumentResolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF01251FEE900BD88EB /* DocumentResolution.m */; };
 		810BBBFE1251FEE900BD88EB /* DocumentSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF21251FEE900BD88EB /* DocumentSignature.m */; };
 		810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 810CE95B1251D66C00933B9E /* Data.xcdatamodeld */; };
+		810E19771286E1CC004DBEC3 /* BlankBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E19761286E1CC004DBEC3 /* BlankBackground.png */; };
 		81113FB2126087C400132C39 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81113FB1126087C400132C39 /* MessageUI.framework */; };
 		811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811456061258AC9300B755EB /* SignatureCommentViewController.m */; };
 		811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 811460AC1280AD6C005C16D0 /* EmptyPageView.m */; };
@@ -158,7 +159,6 @@
 		81A1B678123E3EA00089C988 /* ButtonRefresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B677123E3EA00089C988 /* ButtonRefresh.png */; };
 		81A1B737123E52810089C988 /* ButtonSquareBlack.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B735123E52810089C988 /* ButtonSquareBlack.png */; };
 		81A1B738123E52810089C988 /* ButtonSquareBlackSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B736123E52810089C988 /* ButtonSquareBlackSelected.png */; };
-		81A1B75E123E554D0089C988 /* ResolutionBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B75D123E554D0089C988 /* ResolutionBackground.png */; };
 		81A1B761123E557C0089C988 /* ResolutionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81A1B760123E557C0089C988 /* ResolutionViewController.m */; };
 		81B104BB1243AD2100AFB109 /* DotCurrent.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104B91243AD2100AFB109 /* DotCurrent.png */; };
 		81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104BA1243AD2100AFB109 /* DotNormal.png */; };
@@ -260,6 +260,7 @@
 		810BBBF11251FEE900BD88EB /* DocumentSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentSignature.h; sourceTree = "<group>"; };
 		810BBBF21251FEE900BD88EB /* DocumentSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSignature.m; sourceTree = "<group>"; };
 		810CE95C1251D66C00933B9E /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
+		810E19761286E1CC004DBEC3 /* BlankBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlankBackground.png; sourceTree = "<group>"; };
 		81113FB1126087C400132C39 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		811456051258AC9300B755EB /* SignatureCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureCommentViewController.h; sourceTree = "<group>"; };
 		811456061258AC9300B755EB /* SignatureCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureCommentViewController.m; sourceTree = "<group>"; };
@@ -458,7 +459,6 @@
 		81A1B677123E3EA00089C988 /* ButtonRefresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRefresh.png; sourceTree = "<group>"; };
 		81A1B735123E52810089C988 /* ButtonSquareBlack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSquareBlack.png; sourceTree = "<group>"; };
 		81A1B736123E52810089C988 /* ButtonSquareBlackSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSquareBlackSelected.png; sourceTree = "<group>"; };
-		81A1B75D123E554D0089C988 /* ResolutionBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ResolutionBackground.png; sourceTree = "<group>"; };
 		81A1B75F123E557C0089C988 /* ResolutionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionViewController.h; sourceTree = "<group>"; };
 		81A1B760123E557C0089C988 /* ResolutionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionViewController.m; sourceTree = "<group>"; };
 		81ADD4181237A02E001E830A /* ASIHTTPRequest.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ASIHTTPRequest.xcodeproj; path = thirdparty/ASIHTTPRequest/ASIHTTPRequest.xcodeproj; sourceTree = "<group>"; };
@@ -613,6 +613,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				810E19761286E1CC004DBEC3 /* BlankBackground.png */,
 				81FB04D41281A4F200276CC8 /* ButtonReorder.png */,
 				8152BCCD1276E127004A1D15 /* BlankLogo.png */,
 				81D1A97E1274A81D00D43A92 /* ButtonRed.png */,
@@ -654,7 +655,6 @@
 				81E500631241656700D697EA /* RootBackground-Landscape.png */,
 				81E5FE791240EEBA00D697EA /* Papers-Landscape.png */,
 				81E5FE7A1240EEBA00D697EA /* Papers.png */,
-				81A1B75D123E554D0089C988 /* ResolutionBackground.png */,
 				81A1B735123E52810089C988 /* ButtonSquareBlack.png */,
 				81A1B736123E52810089C988 /* ButtonSquareBlackSelected.png */,
 				81A1B677123E3EA00089C988 /* ButtonRefresh.png */,
@@ -1108,7 +1108,6 @@
 				81A1B678123E3EA00089C988 /* ButtonRefresh.png in Resources */,
 				81A1B737123E52810089C988 /* ButtonSquareBlack.png in Resources */,
 				81A1B738123E52810089C988 /* ButtonSquareBlackSelected.png in Resources */,
-				81A1B75E123E554D0089C988 /* ResolutionBackground.png in Resources */,
 				81E5FE7B1240EEBA00D697EA /* Papers-Landscape.png in Resources */,
 				81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */,
 				81E500641241656800D697EA /* RootBackground-Landscape.png in Resources */,
@@ -1151,6 +1150,7 @@
 				81D1A97F1274A81D00D43A92 /* ButtonRed.png in Resources */,
 				8152BCCE1276E127004A1D15 /* BlankLogo.png in Resources */,
 				81FB04D51281A4F200276CC8 /* ButtonReorder.png in Resources */,
+				810E19771286E1CC004DBEC3 /* BlankBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
