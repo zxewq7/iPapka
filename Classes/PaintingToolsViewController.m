@@ -65,6 +65,8 @@ static NSString* ColorContext = @"ColorContext";
                                 image:[UIImage imageNamed:@"ButtonPen.png"]
                         imageSelected:[UIImage imageNamed:@"ButtonPenSelected.png"]];
     
+    [penButton setImage:[UIImage imageNamed:@"ButtonPenSelected.png"] forState:UIControlStateHighlighted];
+    
     penButton.tag = PaintingToolPen;
     
     [penButton retain];
@@ -74,6 +76,8 @@ static NSString* ColorContext = @"ColorContext";
                                    image:[UIImage imageNamed:@"ButtonMarker.png"]
                            imageSelected:[UIImage imageNamed:@"ButtonMarkerSelected.png"]];
 
+    [markerButton setImage:[UIImage imageNamed:@"ButtonMarkerSelected.png"] forState:UIControlStateHighlighted];
+    
     markerButton.tag = PaintingToolMarker;
     
     [markerButton retain];
@@ -83,6 +87,8 @@ static NSString* ColorContext = @"ColorContext";
                                    image:[UIImage imageNamed:@"ButtonErase.png"]
                            imageSelected:[UIImage imageNamed:@"ButtonEraseSelected.png"]];
 
+    [eraserButton setImage:[UIImage imageNamed:@"ButtonEraseSelected.png"] forState:UIControlStateHighlighted];
+    
     eraserButton.tag = PaintingToolEraser;
     
     [eraserButton retain];
@@ -96,6 +102,9 @@ static NSString* ColorContext = @"ColorContext";
                                  selector:@selector(pickColor:)
                                     image:[UIImage imageNamed:@"ButtonPalette.png"]
                             imageSelected:[UIImage imageNamed:@"ButtonPaletteSelected.png"]];
+    
+    [paletteButton setImage:[UIImage imageNamed:@"ButtonPaletteSelected.png"] forState:UIControlStateHighlighted];
+    
     [paletteButton retain];
 
     [self alignButtons:[NSArray arrayWithObjects:penButton, markerButton, eraserButton, paletteButton, nil] 
