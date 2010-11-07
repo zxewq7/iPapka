@@ -575,7 +575,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     for (NSUInteger i = 0; i < foldersCount; i++)
     {
         Folder *f = [folders objectAtIndex:i];
-        UIButton *button = [UIButton imageButtonWithTitle:[@" " stringByAppendingString: f.localizedName]
+        UIButton *button = [UIButton imageButtonWithTitle:[@"  " stringByAppendingString: f.localizedName]
                                                             target:self
                                                           selector:@selector(showDocuments:)
                                                              image:f.icon
