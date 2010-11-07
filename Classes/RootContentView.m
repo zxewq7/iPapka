@@ -14,7 +14,8 @@
 #define kSignatureComment 1024
 
 
-#define kMargin 7.0f
+#define kLeftMargin 7.0f
+#define kRightMargin 10.0f
 
 #define kTopMargin 7.0f
 
@@ -77,9 +78,9 @@
     
     UIView *documentInfo = self.documentInfo;
     CGRect documentInfoFrame = documentInfo.frame;
-    documentInfoFrame.origin.x = kMargin;
+    documentInfoFrame.origin.x = kLeftMargin;
     documentInfoFrame.origin.y = kTopMargin;
-    documentInfoFrame.size.width = size.width - 2 * kMargin;
+    documentInfoFrame.size.width = size.width - kLeftMargin - kRightMargin;
     
     documentInfo.frame = documentInfoFrame;
     
@@ -102,7 +103,7 @@
     //attachments
     UIView *attachments = self.attachments;
     
-    CGRect attachmentsFrame = CGRectMake(kMargin, kTopMargin, size.width - 2 * kMargin, size.height - 2 * kTopMargin);
+    CGRect attachmentsFrame = CGRectMake(kLeftMargin, kTopMargin, size.width - kLeftMargin - kRightMargin, size.height - 2 * kTopMargin);
     
     attachments.frame = attachmentsFrame;
 }
