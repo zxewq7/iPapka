@@ -19,8 +19,8 @@
 #import "BlankLogoView.h"
 #import "ResolutionContentView.h"
 
-#define RIGHT_MARGIN 24.0f
-#define LEFT_MARGIN 24.0f
+#define RIGHT_MARGIN 30.0f
+#define LEFT_MARGIN 30.0f
 #define MIN_CONTENT_HEIGHT 460.0f
 
 @interface ResolutionViewController (Private)
@@ -71,10 +71,11 @@
     //visible image width
     viewSize.width = 562.0;
 
-    CGRect contentViewFrame = CGRectMake(LEFT_MARGIN, 44, viewSize.width - LEFT_MARGIN - RIGHT_MARGIN, MIN_CONTENT_HEIGHT);
+    CGRect contentViewFrame = CGRectMake(0, 44, viewSize.width, MIN_CONTENT_HEIGHT);
     
     contentView = [[ResolutionContentView alloc] initWithFrame: contentViewFrame];
     contentView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
+    contentView.contentInset = UIEdgeInsetsMake(0, LEFT_MARGIN, 0, RIGHT_MARGIN);
 
     
     //filter
