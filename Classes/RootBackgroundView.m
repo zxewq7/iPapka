@@ -139,7 +139,12 @@
 
     //signatureCommentButton
     UIView *signatureCommentButton = self.signatureCommentButton;
-    signatureCommentButton.frame = resolutionButtonFrame;
+    CGRect signatureCommentButtonFrame = signatureCommentButton.frame;
+    
+    signatureCommentButtonFrame.origin.x = resolutionButtonFrame.origin.x;
+    signatureCommentButtonFrame.origin.y = resolutionButtonFrame.origin.y;
+    
+    signatureCommentButton.frame = signatureCommentButtonFrame;
 
     
     //backButton
