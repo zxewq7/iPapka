@@ -16,8 +16,10 @@
 #import "BlankLogoView.h"
 #import "SignatureContentView.h"
 
-#define RIGHT_MARGIN 24.0f
-#define LEFT_MARGIN 24.0f
+#define RIGHT_MARGIN 30.0f
+#define LEFT_MARGIN 30.0f
+//plus shadow 26
+#define BOTTOM_MARGIN 56.0f
 #define MIN_CONTENT_HEIGHT 460.0f
 
 @interface SignatureCommentViewController (Private)
@@ -68,7 +70,6 @@
     CGRect contentViewFrame = CGRectMake(LEFT_MARGIN, 83, viewSize.width - LEFT_MARGIN - RIGHT_MARGIN, MIN_CONTENT_HEIGHT);
     
     contentView = [[SignatureContentView alloc] initWithFrame: contentViewFrame];
-    contentView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
     
     //logo
     BlankLogoView *logo = [[BlankLogoView alloc] initWithFrame:CGRectZero];
@@ -125,10 +126,8 @@
     
     oneRow.userInteractionEnabled = YES;
     
-    CGRect oneRowFrame = CGRectMake(LEFT_MARGIN, contentViewFrame.origin.y + contentViewFrame.size.height + 35, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, oneRow .frame.size.height);
-    
-    oneRow.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
-    
+    CGRect oneRowFrame = CGRectMake(LEFT_MARGIN, viewSize.height - oneRow.frame.size.height - BOTTOM_MARGIN, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, oneRow.frame.size.height);
+
     oneRow.frame = oneRowFrame;
 
     [self.view addSubview: oneRow];
