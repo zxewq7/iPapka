@@ -217,7 +217,7 @@
     
     labelManagedFrame.origin.x = 10.0f;
     
-    labelManagedFrame.origin.y = (oneRowHeight - labelManagedFrame.size.height)/2;
+    labelManagedFrame.origin.y = round((oneRowHeight - labelManagedFrame.size.height) / 2);
     
     labelManaged.frame = labelManagedFrame;
     
