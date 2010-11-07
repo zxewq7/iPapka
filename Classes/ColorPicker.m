@@ -7,6 +7,7 @@
 //
 
 #import "ColorPicker.h"
+#import "UIColor-Expanded.h"
 
 //FUNCTIONS:
 /*
@@ -85,6 +86,7 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
 @interface ColorPicker (Private)
 + (UIColor *) colorForIndex:(NSUInteger) index;
+- (NSIndexPath *) indexForColor:(UIColor *) aColor;
 @end
 
 @implementation ColorPicker
@@ -105,10 +107,26 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     [super viewDidLoad];
     self.contentSizeForViewInPopover = CGSizeMake(kTableWidth, self.tableView.rowHeight * kPaletteSize);
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.clearsSelectionOnViewWillAppear = NO;
+    [self.tableView reloadData];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
     return YES;
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+    NSIndexPath *prevSelected = self.tableView.indexPathForSelectedRow;
+    NSIndexPath *index = [self indexForColor:self.color];
+    if (index && !prevSelected || (prevSelected.row != index.row && prevSelected.section != index.section))
+    {
+        
+        if (prevSelected)
+            [self.tableView deselectRowAtIndexPath:index animated:NO];
+        
+        [self.tableView selectRowAtIndexPath:index animated:NO scrollPosition:UITableViewScrollPositionNone];
+    }
 }
 
 
@@ -210,5 +228,22 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
     HSL2RGB((CGFloat)(index - 1) / (CGFloat)(kPaletteSize - 1), kSaturation, kLuminosity, &components[0], &components[1], &components[2]);
     return [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:0];
 }
+
+- (NSIndexPath *) indexForColor:(UIColor *) aColor
+{
+    NSIndexPath *result = [NSIndexPath indexPathForRow:0 inSection:0];
+    for (int i = 0; i < kPaletteSize; i++)
+    {
+        UIColor *c = [ColorPicker colorForIndex:i];
+        if (c.red == aColor.red && c.green == aColor.green && c.blue == aColor.blue)
+        {
+            result = [NSIndexPath indexPathForRow:i inSection:0];
+            break;
+        }
+    }
+    
+    return result;
+}
+
 @end
 
