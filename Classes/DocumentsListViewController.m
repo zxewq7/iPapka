@@ -489,39 +489,41 @@ static NSString* SyncingContext = @"SyncingContext";
     //create bottom toolbar
     //http://stackoverflow.com/questions/1072604/whats-the-right-way-to-add-a-toolbar-to-a-uitableview
     
-    //Create a refresh button
-    UIButton *refreshButton = [UIButton buttonWithBackgroundAndTitle:@""
-                                                          titleFont:nil
+    UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Close", "Close")
+                                                          titleFont:[UIFont boldSystemFontOfSize:12]
                                                              target:self
-                                                           selector:@selector(refreshDocuments:)
-                                                              frame:CGRectMake(0, 0, 30, 30)
-                                                      addLabelWidth:NO
+                                                           selector:@selector(dismiss:)
+                                                              frame:CGRectMake(0, 0, 20, 30)
+                                                      addLabelWidth:YES
                                                               image:[UIImage imageNamed:@"ButtonSquare.png"]
                                                        imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
                                                        leftCapWidth:10.0f
                                                       darkTextColor:NO];
-
+    UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
+    self.navigationItem.leftBarButtonItem = cancelBarButton;
+    [cancelBarButton release];
+    
+    
+    //Create a refresh button
+    UIButton *refreshButton = [UIButton buttonWithBackgroundAndTitle:@""
+                                                           titleFont:nil
+                                                              target:self
+                                                            selector:@selector(refreshDocuments:)
+                                                               frame:CGRectMake(0, 0, 30, 30)
+                                                       addLabelWidth:NO
+                                                               image:[UIImage imageNamed:@"ButtonSquare.png"]
+                                                        imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
+                                                        leftCapWidth:10.0f
+                                                       darkTextColor:NO];
+    
 	[refreshButton setImage:[UIImage imageNamed:@"ButtonRefresh.png"] forState:UIControlStateNormal];
-
+    
     UIBarButtonItem *refreshBarButton = [[UIBarButtonItem alloc] initWithCustomView:refreshButton];
     
-    self.navigationItem.leftBarButtonItem = refreshBarButton;
+    self.navigationItem.rightBarButtonItem = refreshBarButton;
     [refreshBarButton release];
 
-    //add extra spaces to front of label, cause of button with left arrow
-    UIButton *cancelButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString:NSLocalizedString(@"Close", "Close")]
-                                                          titleFont:[UIFont boldSystemFontOfSize:12]
-                                                             target:self
-                                                           selector:@selector(dismiss:)
-                                                              frame:CGRectMake(0, 0, 25, 30)
-                                                      addLabelWidth:YES
-                                                              image:[UIImage imageNamed:@"BackBarButton.png"]
-                                                       imagePressed:[UIImage imageNamed:@"BackBarButtonSelected.png"]
-                                                       leftCapWidth:20.0f
-                                                      darkTextColor:NO];
-    UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
-    self.navigationItem.rightBarButtonItem = cancelBarButton;
-    [cancelBarButton release];
+    
     //http://www.developers-life.com/customizing-uinavigationbar.html
     UIView *containerView =[[UIView alloc] initWithFrame:CGRectMake(0, 170, 300, 44)];
     
