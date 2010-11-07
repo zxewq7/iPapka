@@ -7,7 +7,7 @@
 //
 
 #import "SignatureCommentViewController.h"
-#import "TextViewWithPlaceholder.h"
+#import "SSTextView.h"
 #import "DocumentSignature.h"
 #import "DataSource.h"
 #import "AudioCommentController.h"
@@ -79,7 +79,7 @@
     [logo release];
     
     //comment text
-    commentText = [[TextViewWithPlaceholder alloc] initWithFrame: CGRectZero];
+    commentText = [[SSTextView alloc] initWithFrame: CGRectZero];
     
 	commentText.textColor = [UIColor blackColor];
 	commentText.font = [UIFont fontWithName:@"CharterC" size:16];
@@ -215,8 +215,6 @@
     authorLabel.text = document.author;
     
     commentText.text = document.text;
-    
-    [commentText textChanged:nil];
 
 #warning obsoleted in iOS 4
     //due to bug in 3.2 with editable property (showing keybouar), use this trick

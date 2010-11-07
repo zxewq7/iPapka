@@ -9,7 +9,7 @@
 #import "ResolutionViewController.h"
 #import "PerformersViewController.h"
 #import "UIButton+Additions.h"
-#import "TextViewWithPlaceholder.h"
+#import "SSTextView.h"
 #import "DocumentResolution.h"
 #import "Person.h"
 #import "DatePickerController.h"
@@ -146,7 +146,7 @@
     
     
     //resolution text
-    resolutionText = [[TextViewWithPlaceholder alloc] initWithFrame: CGRectZero];
+    resolutionText = [[SSTextView alloc] initWithFrame: CGRectZero];
     
 	resolutionText.textColor = [UIColor blackColor];
 	resolutionText.font = [UIFont fontWithName:@"CharterC" size:16];
@@ -371,8 +371,6 @@
     
     resolutionText.text = resolution.text;
     
-    [resolutionText textChanged:nil];
-
 #warning obsoleted in iOS 4
     //due to bug in 3.2 with editable property (showing keybouar), use this trick
     //http://stackoverflow.com/questions/2133335/iphone-uitextview-which-is-disabled-becomes-first-responder-when-re-enabled

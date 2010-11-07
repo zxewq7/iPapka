@@ -28,6 +28,7 @@
 		810BBBFE1251FEE900BD88EB /* DocumentSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 810BBBF21251FEE900BD88EB /* DocumentSignature.m */; };
 		810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 810CE95B1251D66C00933B9E /* Data.xcdatamodeld */; };
 		810E19771286E1CC004DBEC3 /* BlankBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 810E19761286E1CC004DBEC3 /* BlankBackground.png */; };
+		810E197A1286EC41004DBEC3 /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810E19791286EC41004DBEC3 /* SSTextView.m */; };
 		81113FB2126087C400132C39 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81113FB1126087C400132C39 /* MessageUI.framework */; };
 		811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811456061258AC9300B755EB /* SignatureCommentViewController.m */; };
 		811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 811460AC1280AD6C005C16D0 /* EmptyPageView.m */; };
@@ -163,7 +164,6 @@
 		81B104BB1243AD2100AFB109 /* DotCurrent.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104B91243AD2100AFB109 /* DotCurrent.png */; };
 		81B104BC1243AD2100AFB109 /* DotNormal.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B104BA1243AD2100AFB109 /* DotNormal.png */; };
 		81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B105C01243C44700AFB109 /* PerformersViewController.m */; };
-		81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */; };
 		81B5C1141242792200B8E9B8 /* Paper-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81B5C1131242792200B8E9B8 /* Paper-Landscape.png */; };
 		81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */; };
 		81C157F21276D8A50087B147 /* AZZSegmentedLabel.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C157F11276D8A50087B147 /* AZZSegmentedLabel.m */; };
@@ -261,6 +261,8 @@
 		810BBBF21251FEE900BD88EB /* DocumentSignature.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSignature.m; sourceTree = "<group>"; };
 		810CE95C1251D66C00933B9E /* Data.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Data.xcdatamodel; sourceTree = "<group>"; };
 		810E19761286E1CC004DBEC3 /* BlankBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlankBackground.png; sourceTree = "<group>"; };
+		810E19781286EC41004DBEC3 /* SSTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SSTextView.h; path = thirdparty/SSTextView.h; sourceTree = "<group>"; };
+		810E19791286EC41004DBEC3 /* SSTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SSTextView.m; path = thirdparty/SSTextView.m; sourceTree = "<group>"; };
 		81113FB1126087C400132C39 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		811456051258AC9300B755EB /* SignatureCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureCommentViewController.h; sourceTree = "<group>"; };
 		811456061258AC9300B755EB /* SignatureCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureCommentViewController.m; sourceTree = "<group>"; };
@@ -466,8 +468,6 @@
 		81B104BA1243AD2100AFB109 /* DotNormal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DotNormal.png; sourceTree = "<group>"; };
 		81B105BF1243C44700AFB109 /* PerformersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PerformersViewController.h; sourceTree = "<group>"; };
 		81B105C01243C44700AFB109 /* PerformersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PerformersViewController.m; sourceTree = "<group>"; };
-		81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextViewWithPlaceholder.h; sourceTree = "<group>"; };
-		81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextViewWithPlaceholder.m; sourceTree = "<group>"; };
 		81B5C1131242792200B8E9B8 /* Paper-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Paper-Landscape.png"; sourceTree = "<group>"; };
 		81B7090E12635FFF006B5D53 /* LNFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNFormDataRequest.h; sourceTree = "<group>"; };
 		81B7090F12635FFF006B5D53 /* LNFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNFormDataRequest.m; sourceTree = "<group>"; };
@@ -724,8 +724,6 @@
 				81C674901248BDFC002C272D /* RootContentView.m */,
 				8149BA5B1244BA3B00D028EE /* ViewWithButtons.h */,
 				8149BA5C1244BA3B00D028EE /* ViewWithButtons.m */,
-				81B106FD1243DA6B00AFB109 /* TextViewWithPlaceholder.h */,
-				81B106FE1243DA6B00AFB109 /* TextViewWithPlaceholder.m */,
 				81E500281241616A00D697EA /* RotateableImageView.h */,
 				81E500291241616A00D697EA /* RotateableImageView.m */,
 				8165420212379B3B008FC80F /* ImageScrollView.h */,
@@ -894,6 +892,8 @@
 		8165422412379B44008FC80F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				810E19781286EC41004DBEC3 /* SSTextView.h */,
+				810E19791286EC41004DBEC3 /* SSTextView.m */,
 				81782888128072B100A4C8DC /* MBProgressHUD */,
 				81C157F01276D8A50087B147 /* AZZSegmentedLabel.h */,
 				81C157F11276D8A50087B147 /* AZZSegmentedLabel.m */,
@@ -1185,7 +1185,6 @@
 				81A1B761123E557C0089C988 /* ResolutionViewController.m in Sources */,
 				81E5002A1241616A00D697EA /* RotateableImageView.m in Sources */,
 				81B105C11243C44700AFB109 /* PerformersViewController.m in Sources */,
-				81B106FF1243DA6B00AFB109 /* TextViewWithPlaceholder.m in Sources */,
 				8149BA5D1244BA3B00D028EE /* ViewWithButtons.m in Sources */,
 				815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */,
 				811B583412454D1000BEB158 /* ColorPicker.m in Sources */,
@@ -1252,6 +1251,7 @@
 				811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */,
 				81FB04CF1281988100276CC8 /* PerformersEditorController.m in Sources */,
 				8175D0DB12856D5C00512AE1 /* SignatureContentView.m in Sources */,
+				810E197A1286EC41004DBEC3 /* SSTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

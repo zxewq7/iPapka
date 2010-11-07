@@ -9,10 +9,10 @@
 #import <UIKit/UIKit.h>
 
 
-@class DocumentSignature, TextViewWithPlaceholder, AudioCommentController, SignatureContentView;
+@class DocumentSignature, SSTextView, AudioCommentController, SignatureContentView;
 @interface SignatureCommentViewController : UIViewController <UITextViewDelegate>
 {
-    TextViewWithPlaceholder *commentText;
+    SSTextView              *commentText;
     UILabel                 *authorLabel;
     UILabel                 *dateLabel;
     DocumentSignature       *document;
