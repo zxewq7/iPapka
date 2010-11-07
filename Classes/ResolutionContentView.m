@@ -120,7 +120,7 @@
     CGRect dateFrame = CGRectMake(0, authorFrame.origin.y + authorFrame.size.height + SPACE_BETWEEN_ROWS, viewSize.width, dateSize.height);
     dateLabel.frame = dateFrame;
     
-    self.contentSize = CGSizeMake(self.frame.size.width, dateFrame.origin.y + dateFrame.size.height);
+    self.contentSize = CGSizeMake(viewSize.width, dateFrame.origin.y + dateFrame.size.height);
 }
 
 -(void) addSubview:(UIView *) view withTag:(ResolutionContentViewView) tag;
