@@ -9,7 +9,7 @@
 #import "ResolutionContentView.h"
 #import "ViewWithButtons.h"
 
-#define MIN_RESOLUTION_TEXT_HEIGHT 20.0f
+#define SPACE_BETWEEN_ROWS 15.0f
 
 @implementation ResolutionContentView
 
@@ -85,35 +85,39 @@
     deadlineLabel.frame = deadlineLabelFrame;
     
     //resolution text
+    
+    UIView *authorLabel = [self viewWithTag:ResolutionContentViewAuthorLabel];
+    
+    CGSize authorSize = authorLabel.frame.size;
+
+    UIView *dateLabel = [self viewWithTag:ResolutionContentViewDateLabel];
+    
+    CGSize dateSize = dateLabel.frame.size;
+
+    
     UITextView *resolutionText = (UITextView *)[self viewWithTag:ResolutionContentViewResolutionText];
+    
+    CGFloat optimalTextHeight = viewSize.height - (deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + SPACE_BETWEEN_ROWS) - (SPACE_BETWEEN_ROWS + authorSize.height) - (SPACE_BETWEEN_ROWS + dateSize.height);
 
     CGRect resolutionTextFrame = CGRectMake(0, 
-                                            deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + 23, 
+                                            deadlinePhraseFrame.origin.y + deadlinePhraseFrame.size.height + SPACE_BETWEEN_ROWS, 
                                             viewSize.width,
-                                            MIN_RESOLUTION_TEXT_HEIGHT);
+                                            20.f);
     
     resolutionText.frame = resolutionTextFrame;
     
-    resolutionTextFrame.size.height = MAX(resolutionText.contentSize.height + 10.f, MIN_RESOLUTION_TEXT_HEIGHT);
-
-    resolutionTextFrame.size.height = MAX(resolutionTextFrame.size.height, performersFrame.size.height - 63);
+    resolutionTextFrame.size.height = MAX(resolutionText.contentSize.height, optimalTextHeight);
 
     resolutionText.frame = resolutionTextFrame;
     
     //author
-    UIView *authorLabel = [self viewWithTag:ResolutionContentViewAuthorLabel];
-
-    CGSize authorSize = authorLabel.frame.size;
     
-    CGRect authorFrame = CGRectMake(0, resolutionTextFrame.origin.y + resolutionTextFrame.size.height + 15, viewSize.width, authorSize.height);
+    CGRect authorFrame = CGRectMake(0, resolutionTextFrame.origin.y + resolutionTextFrame.size.height + SPACE_BETWEEN_ROWS, viewSize.width, authorSize.height);
     authorLabel.frame = authorFrame;
     
     //date
-    UIView *dateLabel = [self viewWithTag:ResolutionContentViewDateLabel];
-
-    CGSize dateSize = dateLabel.frame.size;
     
-    CGRect dateFrame = CGRectMake(0, authorFrame.origin.y + authorFrame.size.height + 15, viewSize.width, dateSize.height);
+    CGRect dateFrame = CGRectMake(0, authorFrame.origin.y + authorFrame.size.height + SPACE_BETWEEN_ROWS, viewSize.width, dateSize.height);
     dateLabel.frame = dateFrame;
     
     self.contentSize = CGSizeMake(self.frame.size.width, dateFrame.origin.y + dateFrame.size.height);
