@@ -21,6 +21,8 @@
 
 #define RIGHT_MARGIN 30.0f
 #define LEFT_MARGIN 30.0f
+//plus shadow 26
+#define BOTTOM_MARGIN 56.0f
 #define MIN_CONTENT_HEIGHT 460.0f
 
 @interface ResolutionViewController (Private)
@@ -66,7 +68,7 @@
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
 
     
-    CGSize viewSize = self.view.frame.size;
+    CGSize viewSize = self.view.bounds.size;
 
     //visible image width
     viewSize.width = 562.0;
@@ -74,7 +76,6 @@
     CGRect contentViewFrame = CGRectMake(0, 44, viewSize.width, MIN_CONTENT_HEIGHT);
     
     contentView = [[ResolutionContentView alloc] initWithFrame: contentViewFrame];
-    contentView.autoresizingMask = (UIViewAutoresizingFlexibleHeight);
     contentView.contentInset = UIEdgeInsetsMake(0, LEFT_MARGIN, 0, RIGHT_MARGIN);
 
     
@@ -195,9 +196,7 @@
     
     twoRows.userInteractionEnabled = YES;
     
-    CGRect twoRowsFrame = CGRectMake(LEFT_MARGIN, contentViewFrame.origin.y + contentViewFrame.size.height + 20, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, twoRows.frame.size.height);
-
-    twoRows.autoresizingMask = UIViewAutoresizingFlexibleTopMargin;
+    CGRect twoRowsFrame = CGRectMake(LEFT_MARGIN, viewSize.height - twoRows.frame.size.height - BOTTOM_MARGIN, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, twoRows.frame.size.height);
 
     twoRows.frame = twoRowsFrame;
     
