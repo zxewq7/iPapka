@@ -499,6 +499,9 @@ static NSString* SyncingContext = @"SyncingContext";
                                                        imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
                                                        leftCapWidth:10.0f
                                                       darkTextColor:NO];
+    [cancelButton setTitleShadowColor:[UIColor blackColor] forState:UIControlStateNormal];
+    cancelButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+    
     UIBarButtonItem *cancelBarButton = [[UIBarButtonItem alloc] initWithCustomView:cancelButton];
     self.navigationItem.leftBarButtonItem = cancelBarButton;
     [cancelBarButton release];
@@ -532,9 +535,12 @@ static NSString* SyncingContext = @"SyncingContext";
     CGRect titleFrame = CGRectMake(0, 5.0, containerSize.width, 20);
     titleLabel = [[UILabel alloc] initWithFrame:titleFrame];
     titleLabel.backgroundColor = [UIColor clearColor];
-    titleLabel.font = [UIFont boldSystemFontOfSize:20.0];
+    titleLabel.font = [UIFont boldSystemFontOfSize:18.0];
     titleLabel.textAlignment = UITextAlignmentCenter;
     titleLabel.textColor = [UIColor whiteColor];
+    titleLabel.shadowColor = [UIColor blackColor];
+    titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+
     
     CGRect detailsFrame = CGRectMake(0, 25.0, containerSize.width, 20);
     detailsLabel = [[UILabel alloc] initWithFrame: detailsFrame];
@@ -542,6 +548,8 @@ static NSString* SyncingContext = @"SyncingContext";
     detailsLabel.font = [UIFont boldSystemFontOfSize:12.0];
     detailsLabel.textAlignment = UITextAlignmentCenter;
     detailsLabel.textColor = [UIColor whiteColor];
+    detailsLabel.shadowColor = [UIColor blackColor];
+    detailsLabel.shadowOffset = CGSizeMake(0.0, -1.0);
 
     [containerView addSubview: titleLabel];
     [containerView addSubview: detailsLabel];
