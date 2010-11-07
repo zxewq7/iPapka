@@ -157,7 +157,10 @@
 	resolutionText.returnKeyType = UIReturnKeyDefault;
 	resolutionText.keyboardType = UIKeyboardTypeDefault;	// use the default type input method (entire keyboard)
 	resolutionText.scrollEnabled = NO;
-    
+
+    //remove right-left margins
+    resolutionText.contentInset = UIEdgeInsetsMake(-4,-8,0,0);
+
     [contentView addSubview: resolutionText withTag:ResolutionContentViewResolutionText];
     
     //author

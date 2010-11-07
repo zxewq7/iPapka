@@ -49,6 +49,9 @@
     
     commentText.frame = commentTextFrame;
     
+    //remove right-left margins
+    commentText.contentInset = UIEdgeInsetsMake(-4,-8,0,0);
+    
     //author
     UIView *authorLabel = [self viewWithTag:SignatureContentViewAuthorLabel];
     
