@@ -490,7 +490,6 @@ static NSString* SyncingContext       = @"SyncingContext";
             attachmentsViewController.attachment = linkedDocument.firstAttachment;
             documentInfoViewController.document = linkedDocument;
         }
-        paintingToolsViewController.view.hidden = YES;
     }
     else if (context == &SyncingContext)
     {
@@ -720,9 +719,6 @@ static NSString* SyncingContext       = @"SyncingContext";
 
         declineButton.hidden = NO;
         declineButton.enabled = YES;
-        
-        paintingToolsViewController.view.hidden = NO;
-        paintingToolsViewController.view.userInteractionEnabled = YES;
     }
     else
     {
@@ -731,9 +727,6 @@ static NSString* SyncingContext       = @"SyncingContext";
 
         declineButton.hidden = YES;
         declineButton.enabled = NO;
-
-        paintingToolsViewController.view.hidden = YES;
-        paintingToolsViewController.view.userInteractionEnabled = NO;
     }
 }
 -(void) updateContent

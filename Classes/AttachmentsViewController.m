@@ -303,5 +303,7 @@ typedef enum _TapPosition{
         currentPage.page = nil;
         nextPage.page = nil;
     }
+    
+    paintingTools.view.hidden = !currentPage.page.isEditable;
 }
 @end
