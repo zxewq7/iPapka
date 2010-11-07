@@ -433,12 +433,11 @@ static NSString* SyncingContext       = @"SyncingContext";
 {
     if (context == &ClipperOpenedContext)
     {
-        if (resolutionButton.selected) //hide resolution
+        if (resolutionButton.selected && clipperViewController.opened) //hide resolution
             [self showResolution:resolutionButton];
 
-        if (signatureCommentButton.selected) //hide signature comment
+        if (signatureCommentButton.selected && clipperViewController.opened) //hide signature comment
             [self showSignatureComment:signatureCommentButton];
-
         
         [UIView beginAnimations:OpenClipperAnimationId context:NULL];
         [UIView setAnimationDuration:.5];
@@ -522,6 +521,9 @@ static NSString* SyncingContext       = @"SyncingContext";
 {
     resolutionButton.selected = !resolutionButton.selected;
     
+    if (resolutionButton.selected && clipperViewController.opened)
+        clipperViewController.opened = NO;
+    
     attachmentsViewController.view.userInteractionEnabled = !resolutionButton.selected;
     
     [UIView beginAnimations:nil context:NULL];
@@ -538,6 +540,9 @@ static NSString* SyncingContext       = @"SyncingContext";
 - (void) showSignatureComment:(id) sender
 {
     signatureCommentButton.selected = !signatureCommentButton.selected;
+
+    if (resolutionButton.selected && clipperViewController.opened)
+        clipperViewController.opened = NO;
     
     attachmentsViewController.view.userInteractionEnabled = !signatureCommentButton.selected;
     
