@@ -131,7 +131,7 @@
     UIView *resolutionButton = self.resolutionButton;
 
     CGRect resolutionButtonFrame = resolutionButton.frame;
-    resolutionButtonFrame.origin.x = contentFrame.origin.x + 1;
+    resolutionButtonFrame.origin.x = contentFrame.origin.x + 6.f;
     resolutionButtonFrame.origin.y = 12.0f;
     resolutionButton.frame = resolutionButtonFrame;
 
@@ -150,18 +150,17 @@
     //backButton
     UIView *backButton = self.backButton;
     CGRect backButtonFrame = backButton.frame;
-    backButtonFrame.origin.x = contentFrame.origin.x + 1;
-    backButtonFrame.origin.y = 12.0f;
+    backButtonFrame.origin.x = resolutionButtonFrame.origin.x;
+    backButtonFrame.origin.y = resolutionButtonFrame.origin.y;
     backButton.frame = backButtonFrame;
 
     
     //infoButton
     UIView *infoButton = self.infoButton;
     CGRect infoButtonFrame = infoButton.frame;
-    infoButtonFrame.origin.x = contentFrame.origin.x + contentFrame.size.width - infoButtonFrame.size.width;
+    infoButtonFrame.origin.x = contentFrame.origin.x + contentFrame.size.width - infoButtonFrame.size.width - 6.f;
     infoButtonFrame.origin.y = 12.0f;
     infoButton.frame = infoButtonFrame;
-
 }
 
 - (void)dealloc 
