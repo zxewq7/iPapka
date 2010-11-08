@@ -78,16 +78,16 @@ static NSString* kFieldDrawing = @"drawing";
     [self endSession];
 }
 
-- (void)dealloc {
+- (void)dealloc 
+{
     [parseFormatterSimple release]; parseFormatterSimple = nil;
     
     [postFileUrl release]; postFileUrl = nil;
     
     [postFileField release]; postFileField = nil;
     
-    [unsyncedDocuments release]; unsyncedDocuments = nil;
-    [unsyncedFiles release]; unsyncedFiles = nil;
-    
+    self.unsyncedDocuments = nil;
+    self.unsyncedFiles = nil;
     
     [super dealloc];
 }
