@@ -26,11 +26,7 @@
     NSEntityDescription          *pageEntityDescription;
     NSPredicate                  *personUidPredicateTemplate;
     BOOL                         isSyncing;
-    LNDocumentWriter             *documentWriter;
-    LNDocumentReader             *documentReader;
-    LNPersonReader               *personReader;
-    LNSettingsReader             *settingsReader;
-    NSUInteger                   countDocumentsToSend;
+    NSMutableArray               *readers;
     int                          syncStep;
     BOOL                         showErrors;
 }

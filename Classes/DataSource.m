@@ -22,22 +22,13 @@
 #import "LNSettingsReader.h"
 #import "CommentAudio.h"
 #import "AttachmentPagePainting.h"
+#import "LNResourcesReader.h"
+#import "LNNetwork.h"
 
 static NSString* SyncingContext = @"SyncingContext";
 
-typedef enum
-{
-    SyncStepSyncDocumentWriter = 0,
-    SyncStepSyncDocumentReader = 1,
-    SyncStepSyncPersonReader = 2,
-    SyncStepSyncSettingsReader = 3
-} SyncStep;
-
 @interface DataSource(Private)
-- (LNDocumentWriter *) documentWriter;
-- (LNDocumentReader *) documentReader;
-- (LNPersonReader *) personReader;
-- (LNSettingsReader *) settingsReader;
+- (NSArray *) readers;
 - (NSEntityDescription *)documentEntityDescription;
 - (NSEntityDescription *)personEntityDescription;
 - (NSEntityDescription *)fileEntityDescription;
@@ -198,8 +189,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     if (isSyncing) //prevent multiple calls
         return;
     showErrors = value;
-    syncStep = SyncStepSyncSettingsReader;
-    [[self settingsReader] sync];
+    syncStep = 0;
+    
+    [[self.readers objectAtIndex:syncStep] sync];
 }
 
 
@@ -451,7 +443,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [managedObjectContext release];
     [managedObjectModel release];
     [persistentStoreCoordinator release];
-    [documentReader release];
     [documentEntityDescription release];
     [personEntityDescription release];
     [documentUidPredicateTemplate release];
@@ -460,18 +451,12 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [documentReader removeObserver:self
+    for (id reader in readers)
+        [reader removeObserver:self
                         forKeyPath:@"isSyncing"];
 
-    [documentReader release]; documentReader = nil;
-    
-    [documentWriter removeObserver:self
-                        forKeyPath:@"isSyncing"];
-    [documentWriter release]; documentWriter = nil;
-    
-    [personReader release]; personReader = nil;
-    
-    [settingsReader release]; settingsReader = nil;
+    [readers release]; readers = nil;
+
 	[super dealloc];
 }
 
@@ -485,47 +470,21 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (context == &SyncingContext)
     {
-        BOOL ss = self.documentReader.isSyncing || self.documentWriter.isSyncing || self.personReader.isSyncing || self.settingsReader.isSyncing;
+        LNNetwork *currentReader = [self.readers objectAtIndex:syncStep];
+        BOOL ss = currentReader.isSyncing;
         
         if (!ss)
         {
-            switch (syncStep)
+            if (currentReader.hasError)
+                [self showErrorMessage];
+            else
             {
-                case SyncStepSyncSettingsReader:
-                    if (self.settingsReader.hasError)
-                        [self showErrorMessage];
-                    else
-                    {
-                        syncStep = SyncStepSyncPersonReader;
-                        [[self personReader] sync];
-                        return;
-                    }
-                    break;
-                case SyncStepSyncDocumentWriter:
-                    if (self.documentWriter.hasError)
-                        [self showErrorMessage];
-                    else
-                    {
-                        syncStep = SyncStepSyncDocumentReader;
-                        [[self documentReader] sync];
-                        return;
-                    }
-                    break;
-                case SyncStepSyncPersonReader:
-                    if (self.personReader.hasError)
-                        [self showErrorMessage];
-                    else
-                    {
-                        syncStep = SyncStepSyncDocumentWriter;
-                        [[self documentWriter] sync];
-                        return;
-                    }
-                    break;
-                case SyncStepSyncDocumentReader:
-                    if (self.documentReader.hasError)
-                        [self showErrorMessage];
-                    break;
+                syncStep++;
+                
+                if (syncStep < [self.readers count])
+                    return;
             }
+
         }
         
         self.isSyncing = ss;
@@ -545,115 +504,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 @end
 
 @implementation DataSource(Private)
-- (LNDocumentReader *) documentReader
-{
-    if (!documentReader)
-    {
-        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-        NSString *serverUrl = [currentDefaults objectForKey:@"serverUrl"];
-        NSString *serverDatabaseViewInbox = [currentDefaults objectForKey:@"serverDatabaseViewInbox"];
-        NSString *serverDatabaseViewArchive = [currentDefaults objectForKey:@"serverDatabaseViewArchive"];
-        
-        documentReader = [[LNDocumentReader alloc] initWithUrl:serverUrl andViews:[NSArray arrayWithObjects: serverDatabaseViewInbox, serverDatabaseViewArchive, nil]];
-        
-        documentReader.dataSource = self;
-        
-        [documentReader addObserver:self
-                         forKeyPath:@"isSyncing"
-                            options:0
-                            context:&SyncingContext];
-    }
-    
-    return documentReader;
-}
-- (LNPersonReader *) personReader
-{
-    if (!personReader)
-    {
-        personReader = [[LNPersonReader alloc] init];
-        
-        personReader.dataSource = self;
-        
-        [personReader addObserver:self
-                         forKeyPath:@"isSyncing"
-                            options:0
-                            context:&SyncingContext];
-    }
-    
-    return personReader;
-}
-
-- (LNDocumentWriter *) documentWriter
-{
-    if (!documentWriter)
-    {
-        documentWriter = [[LNDocumentWriter alloc] init];
-        
-        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
-        [fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
-        
-        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
-
-        NSSortDescriptor *sortDescriptor = 
-        [[NSSortDescriptor alloc] initWithKey:@"dateModified" 
-                                    ascending:NO];
-        
-        NSArray *sortDescriptors = [[NSArray alloc] 
-                                    initWithObjects:sortDescriptor, nil];  
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        [sortDescriptors release];
-        [sortDescriptor release];
-
-        
-        NSFetchedResultsController *fetchedResultsController = 
-        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
-                                            managedObjectContext:managedObjectContext 
-                                              sectionNameKeyPath:nil
-                                                       cacheName:@"UnsyncedDocuments"];
-        [fetchRequest release];
-        
-        documentWriter.unsyncedDocuments = fetchedResultsController;
-        
-        [fetchedResultsController release];
-        
-
-        fetchRequest = [[NSFetchRequest alloc] init];
-        [fetchRequest setEntity:[NSEntityDescription entityForName:@"FileField" inManagedObjectContext:managedObjectContext]];
-        
-        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
-        
-        sortDescriptor = 
-        [[NSSortDescriptor alloc] initWithKey:@"dateModified" 
-                                    ascending:NO];
-        
-        sortDescriptors = [[NSArray alloc] 
-                                    initWithObjects:sortDescriptor, nil];  
-        [fetchRequest setSortDescriptors:sortDescriptors];
-        [sortDescriptors release];
-        [sortDescriptor release];
-
-        
-        fetchedResultsController = 
-        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
-                                            managedObjectContext:managedObjectContext 
-                                              sectionNameKeyPath:nil
-                                                       cacheName:@"UnsyncedFiles"];
-        [fetchRequest release];
-        
-        documentWriter.unsyncedFiles = fetchedResultsController;
-        
-        [fetchedResultsController release];
-        
-        
-        [documentWriter addObserver:self
-                         forKeyPath:@"isSyncing"
-                            options:0
-                            context:&SyncingContext];
-
-    }
-    return documentWriter;
-}
-
 - (NSEntityDescription *)documentEntityDescription 
 {
     if (documentEntityDescription == nil) {
@@ -754,20 +604,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     else
         return nil;
 }
-- (LNSettingsReader *) settingsReader
-{
-    if (!settingsReader)
-    {
-        settingsReader = [[LNSettingsReader alloc] init];
-        
-        [settingsReader addObserver:self
-                       forKeyPath:@"isSyncing"
-                          options:0
-                          context:&SyncingContext];
-    }
-    
-    return settingsReader;
-}
 
 - (void) showErrorMessage
 {
@@ -782,5 +618,139 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         [prompt show];
         [prompt release];
     }
+}
+
+- (NSArray *) readers
+{
+    if (!readers)
+    {
+        NSSortDescriptor *sortDescriptor = 
+        [[NSSortDescriptor alloc] initWithKey:@"dateModified" 
+                                    ascending:NO];
+        
+        NSArray *sortDescriptors = [[NSArray alloc] 
+                                    initWithObjects:sortDescriptor, nil];  
+        [sortDescriptor release];
+        
+        
+        readers = [[NSMutableArray alloc] initWithCapacity:5];
+        
+        //settings reader
+        LNSettingsReader *settingsReader = [[LNSettingsReader alloc] init];
+        [readers addObject:settingsReader];
+        
+        //persons reader
+        LNPersonReader *personReader = [[LNPersonReader alloc] init];
+        personReader.dataSource = self;
+        [readers addObject:personReader];
+        
+        //document reader
+        LNDocumentReader *documentReader = [[LNDocumentReader alloc] init];
+        
+        documentReader.dataSource = self;
+        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+        documentReader.views = [NSArray arrayWithObjects:[currentDefaults objectForKey:@"serverDatabaseViewInbox"],
+                                [currentDefaults objectForKey:@"serverDatabaseViewArchive"],
+                                nil];
+        
+        [readers addObject:documentReader];
+        
+        LNResourcesReader *resourcesReader = [[LNResourcesReader alloc] init];
+        
+        NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:[NSEntityDescription entityForName:@"AttachmentPage" inManagedObjectContext:managedObjectContext]];
+        
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncFromServer]];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        NSFetchedResultsController *fetchedResultsController = 
+        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
+                                            managedObjectContext:managedObjectContext 
+                                              sectionNameKeyPath:nil
+                                                       cacheName:@"UnsyncedPagesToRead"];
+        [fetchRequest release];
+        
+        resourcesReader.unsyncedPages = fetchedResultsController;
+        
+        [fetchedResultsController release];
+        
+        
+        fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:[NSEntityDescription entityForName:@"FileField" inManagedObjectContext:managedObjectContext]];
+        
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncFromServer]];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        
+        fetchedResultsController = 
+        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
+                                            managedObjectContext:managedObjectContext 
+                                              sectionNameKeyPath:nil
+                                                       cacheName:@"UnsyncedFilesToRead"];
+        [fetchRequest release];
+        
+        resourcesReader.unsyncedFiles = fetchedResultsController;
+        
+        [fetchedResultsController release];    
+        
+        [readers addObject:resourcesReader];
+        
+        //document writer
+        LNDocumentWriter *documentWriter = [[LNDocumentWriter alloc] init];
+        
+        fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
+        
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        fetchedResultsController = 
+        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
+                                            managedObjectContext:managedObjectContext 
+                                              sectionNameKeyPath:nil
+                                                       cacheName:@"UnsyncedDocumentsToWrite"];
+        [fetchRequest release];
+        
+        documentWriter.unsyncedDocuments = fetchedResultsController;
+        
+        [fetchedResultsController release];
+        
+        
+        fetchRequest = [[NSFetchRequest alloc] init];
+        [fetchRequest setEntity:[NSEntityDescription entityForName:@"FileField" inManagedObjectContext:managedObjectContext]];
+        
+        [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
+        
+        [fetchRequest setSortDescriptors:sortDescriptors];
+        
+        
+        fetchedResultsController = 
+        [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
+                                            managedObjectContext:managedObjectContext 
+                                              sectionNameKeyPath:nil
+                                                       cacheName:@"UnsyncedFilesToWrite"];
+        [fetchRequest release];
+        
+        documentWriter.unsyncedFiles = fetchedResultsController;
+        
+        [fetchedResultsController release];
+        
+        
+        [sortDescriptors release];
+        
+        [readers addObject:documentWriter];
+        
+        [readers makeObjectsPerformSelector:@selector(release)];
+        
+        for (id reader in readers)
+            [reader addObserver:self
+                     forKeyPath:@"isSyncing"
+                        options:0
+                        context:&SyncingContext];
+    }
+    return readers;
 }
 @end
