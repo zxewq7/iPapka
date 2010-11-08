@@ -18,6 +18,4 @@
 
 @property (nonatomic, retain) NSFetchedResultsController *unsyncedFiles;
 @property (nonatomic, retain) NSFetchedResultsController *unsyncedPages;
-
--(void) sync;
 @end

@@ -10,5 +10,4 @@
 #import "LNNetwork.h"
 
 @interface LNSettingsReader : LNNetwork 
--(void) sync;
 @end

@@ -27,6 +27,4 @@
 }
 
 @property (nonatomic, retain) id<LNPersonReaderDataSource> dataSource;
-
-- (void) sync;
 @end

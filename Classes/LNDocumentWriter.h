@@ -23,6 +23,4 @@
 
 @property (nonatomic, retain) NSFetchedResultsController *unsyncedDocuments;
 @property (nonatomic, retain) NSFetchedResultsController *unsyncedFiles;
-
-- (void) sync;
 @end
