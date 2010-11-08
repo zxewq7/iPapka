@@ -482,7 +482,10 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 syncStep++;
                 
                 if (syncStep < [self.readers count])
+                {
+                    [[self.readers objectAtIndex:syncStep] sync];
                     return;
+                }
             }
 
         }
