@@ -38,4 +38,5 @@
 
 -(void) beginSession;
 -(void) endSession;
+-(void) sync;
 @end

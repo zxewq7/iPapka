@@ -26,6 +26,11 @@ static NSString* OperationCount = @"OperationCount";
 @implementation LNNetwork
 @synthesize isSyncing, queue, allRequestsSent, hasError;
 
+-(void) sync
+{
+    NSAssert(NO, @"sync method MUST be replaced");
+}
+
 -(NSString *) serverUrl
 {
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
