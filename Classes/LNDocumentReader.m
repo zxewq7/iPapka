@@ -12,17 +12,12 @@
 #import "DocumentSignature.h"
 #import "DocumentLink.h"
 #import "Attachment.h"
-#import "LNHttpRequest.h"
-#import "ASINetworkQueue.h"
-#import "SBJsonParser.h"
 #import "AttachmentPage.h"
 #import "Person.h"
-#import "PasswordManager.h"
 #import "CommentAudio.h"
 #import "AttachmentPagePainting.h"
 #import "DocumentResolutionParent.h"
 #import "DocumentResolutionAbstract.h"
-#import "AZZUIImage.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -71,26 +66,38 @@ static NSString *url_LinkAttachmentFetchPaintingFormat = @"/document/%@/link/%@/
 static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
 @interface LNDocumentReader(Private)
-- (void)fetchComplete:(ASIHTTPRequest *)request;
-- (void)fetchFailed:(ASIHTTPRequest *)request;
-- (void)parseViewData:(NSString *) jsonString;
+- (void)parseViewData:(id) parsedData;
 - (void)fetchDocuments;
 - (void)parseDocumentData:(NSDictionary *) parsedDocument;
 - (NSString *) documentDirectory:(NSString *) anUid;
-- (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(DocumentResolutionAbstract *) resolution fromDictionary:(NSDictionary *) dictionary;
 @end
-static NSString* OperationCount = @"OperationCount";
 
 @implementation LNDocumentReader
-@synthesize isSyncing, dataSource, hasErrors, allRequestsSent;
+@synthesize dataSource, views;
 
-- (id) initWithUrl:(NSString *) anUrl andViews:(NSArray *) views
+-(void) setViews:(NSArray *)vs
+{
+    if (views == vs)
+        return;
+    [views release];
+    views = [vs retain];
+    
+    NSMutableArray *vsu = [[NSMutableArray alloc] initWithCapacity: [views count]];
+    
+    NSString *serverUrl = self.serverUrl;
+    
+    for (NSString *vn in views)
+        [vsu addObject: [NSString stringWithFormat:url_FetchViewFormat, serverUrl, vn]];
+
+    [views release];
+    viewUrls = vsu;
+}
+
+- (id)init 
 {
     if ((self = [super init])) {
-        
-        baseUrl = [anUrl retain];
         
         NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
         _databaseDirectory = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
@@ -110,13 +117,7 @@ static NSString* OperationCount = @"OperationCount";
         numberFormatter = [[NSNumberFormatter alloc] init];
         [numberFormatter setNumberStyle:NSNumberFormatterDecimalStyle];
         
-        NSMutableArray *vs = [[NSMutableArray alloc] initWithCapacity: [views count]];
-        for (NSString *vn in views)
-            [vs addObject: [NSString stringWithFormat:url_FetchViewFormat, baseUrl, vn]];
-        
-        viewUrls = vs;
-        
-        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, baseUrl, @"%@"];
+        urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, self.serverUrl, @"%@"];
 
         statusDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:DocumentStatusDraft], @"draft",
                                                                               [NSNumber numberWithInt:DocumentStatusNew], @"new",
@@ -124,44 +125,14 @@ static NSString* OperationCount = @"OperationCount";
                                                                               [NSNumber numberWithInt:DocumentStatusAccepted], @"approved",
                                                                               nil];
         [statusDictionary retain];
-        
-        _networkQueue = [[ASINetworkQueue alloc] init];
-        [_networkQueue setRequestDidFinishSelector:@selector(fetchComplete:)];
-        [_networkQueue setRequestDidFailSelector:@selector(fetchFailed:)];
-        [_networkQueue setDelegate:self];
-#warning only one request at time
-        _networkQueue.maxConcurrentOperationCount = 1;
-        [_networkQueue setShouldCancelAllRequestsOnFailure:NO];
-        [_networkQueue go];
-        
-        [_networkQueue addObserver:self
-                        forKeyPath:@"requestsCount"
-                        options:0
-                        context:&OperationCount];
     }
     return self;
 }
-
--(void) setAllRequestsSent:(BOOL) value
-{
-    allRequestsSent = value;
-    BOOL x = !allRequestsSent || (_networkQueue.requestsCount != 0);
-    if ( x != isSyncing )
-    {
-        [self willChangeValueForKey:@"isSyncing"];
-        isSyncing = x;
-        [self didChangeValueForKey:@"isSyncing"];
-    }
-}
-
 
 #pragma mark -
 #pragma mark Memory management
 -(void)dealloc
 {
-    [_networkQueue removeObserver:self forKeyPath:OperationCount];
-    [_networkQueue reset];
-	[_networkQueue release];
     [_databaseDirectory release];
 	self.dataSource = nil;
     [viewUrls release];
@@ -173,6 +144,7 @@ static NSString* OperationCount = @"OperationCount";
     [fetchedUids release]; fetchedUids = nil;
     [statusDictionary release];
     [numberFormatter release]; numberFormatter = nil;
+    self.views = nil;
     
     [super dealloc];
 }
@@ -181,9 +153,8 @@ static NSString* OperationCount = @"OperationCount";
 #pragma mark Methods
 -(void) sync
 {
-    if (isSyncing) //prevent spam syncing requests
-        return;
-
+    [self beginSession];
+    
     [uidsToFetch release];
     
     [fetchedUids release];
@@ -194,29 +165,18 @@ static NSString* OperationCount = @"OperationCount";
     
     viewsLeftToFetch = [viewUrls count];
     
-    hasErrors = NO;
-    
-    self.allRequestsSent = NO;
     
     for (NSString *url in viewUrls)
     {
-        LNHttpRequest *request = [self makeRequestWithUrl: url];
-        
         __block LNDocumentReader *blockSelf = self;
         
-        request.requestHandler = ^(ASIHTTPRequest *request) {
-            NSString *error = [request error] == nil?
-            ([request responseStatusCode] == 200?
-             nil:
-             NSLocalizedString(@"Bad response", "Bad response")):
-            [[request error] localizedDescription];
-            if (error == nil)
-                [blockSelf parseViewData:[request responseString]];
-            else
-            {
-                NSLog(@"error fetching url %@\n%@", [request originalURL], error);
-                hasErrors = YES;
-            }
+        [self jsonRequestWithUrl:url 
+                      andHandler:^(BOOL err, id response)
+        {
+            if (err)
+                return;
+            
+            [blockSelf parseViewData:response];
             
             @synchronized (blockSelf)
             {
@@ -225,7 +185,7 @@ static NSString* OperationCount = @"OperationCount";
             
             if (viewsLeftToFetch == 0) //all view fetched and no errors
             {
-                if (!hasErrors)
+                if (!self.hasError)
                 {
                     NSSet *rootUids = [[blockSelf dataSource] documentReaderRootUids:blockSelf];
                     //remove obsoleted documents
@@ -241,13 +201,12 @@ static NSString* OperationCount = @"OperationCount";
                     if ([blockSelf->uidsToFetch count])
                         [blockSelf fetchDocuments];
                     else
-                        blockSelf.allRequestsSent = YES;
+                        [blockSelf endSession];
                 }
                 else
-                    blockSelf.allRequestsSent = YES;
+                    [blockSelf endSession];
             }
-        };
-        [_networkQueue addOperation:request];
+        }];
     }
 }
 
@@ -260,54 +219,9 @@ static NSString* OperationCount = @"OperationCount";
 @end
 
 @implementation LNDocumentReader(Private)
-#pragma mark -
-#pragma mark ASINetworkQueue delegate
-- (void)fetchComplete:(ASIHTTPRequest *)request
-{
-    void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
-    if (handler)
-        handler(request);
-}
 
-- (void)fetchFailed:(ASIHTTPRequest *)request
+- (void)parseViewData:(id) parsedView
 {
-    void (^handler)(ASIHTTPRequest *request) = ((LNHttpRequest *)request).requestHandler;
-    if (handler)
-        handler(request);
-}
-
-- (void)authenticationNeededForRequest:(ASIHTTPRequest *)request
-{
-    [[PasswordManager sharedPasswordManager] credentials:(request.authenticationRetryCount>0) handler:^(NSString *aLogin, NSString *aPassword, BOOL canceled){
-        if (canceled) 
-            [request cancelAuthentication];
-        else
-        {
-            if ([request authenticationNeeded] == ASIHTTPAuthenticationNeeded) 
-            {
-                [request setUsername:aLogin];
-                [request setPassword:aPassword];
-                [request retryUsingSuppliedCredentials];
-            } else if ([request authenticationNeeded] == ASIProxyAuthenticationNeeded) 
-            {
-                [request setProxyUsername:aLogin];
-                [request setProxyPassword:aPassword];
-                [request retryUsingSuppliedCredentials];
-            }
-        }
-    }];
-}
-
-- (void)parseViewData:(NSString *) jsonString
-{
-    SBJsonParser *json = [[SBJsonParser alloc] init];
-    NSError *error = nil;
-    NSDictionary *parsedView = [json objectWithString:jsonString error:&error];
-    [json release];
-    if (parsedView == nil) {
-        NSLog(@"error parsing view, error:%@", error);
-        return;
-    }
     NSArray *entries = [parsedView objectForKey:view_RootEntry]; 
     for (NSDictionary *entry in entries) 
     {
@@ -342,47 +256,25 @@ static NSString* OperationCount = @"OperationCount";
     {
         for (NSString *uid in uidsToFetch)
         {
-            NSString *anUrl = [NSString stringWithFormat:urlFetchDocumentFormat, uid];
-            LNHttpRequest *request = [blockSelf makeRequestWithUrl: anUrl];
-            
-            request.requestHandler = ^(ASIHTTPRequest *request) {
-                if ([request error] == nil  && [request responseStatusCode] == 200) //remove document if error
-                {
-                    NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
-                    SBJsonParser *json = [[SBJsonParser alloc] init];
-                    NSError *error = nil;
-                    NSDictionary *parsedDocument = [json objectWithString:jsonString error:&error];
-                    [jsonString release];
-                    [json release];
-                    if (parsedDocument == nil) 
-                        NSLog(@"error parsing document %@, error:%@", uid, error);
-                    else
-                        [blockSelf parseDocumentData:parsedDocument];
-                }
-                else
-                {
-                    NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
-                }
-                
-                @synchronized (blockSelf)
-                {
-                    documentsLeftToFetch--;
-                }
-                
-                if (documentsLeftToFetch == 0) //fetch all resources
-                {
-                    blockSelf.allRequestsSent = YES;
-                }
-            };
-            [_networkQueue addOperation:request];
+            NSString *url = [NSString stringWithFormat:urlFetchDocumentFormat, uid];
+            [self jsonRequestWithUrl:url 
+                          andHandler:^(BOOL err, id response)
+             {
+                 if (!err)
+                         [blockSelf parseDocumentData:response];
+                 
+                 @synchronized (blockSelf)
+                 {
+                     documentsLeftToFetch--;
+                 }
+                 
+                 if (documentsLeftToFetch == 0)
+                     [blockSelf endSession];
+             }];
         }
     }
     else
-    {
-        self.allRequestsSent = YES;
-    }
-    
-
+        [blockSelf endSession];
 }
 
 - (NSString *) documentDirectory:(NSString *) anUid
@@ -729,36 +621,6 @@ static NSString* OperationCount = @"OperationCount";
     }
 }
 
-- (LNHttpRequest *) makeRequestWithUrl:(NSString *) anUrl
-{
-    LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: anUrl]];
-    request.delegate = self;
-    return request;
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath
-                      ofObject:(id)object
-                        change:(NSDictionary *)change
-                       context:(void *)context
-{
-    if (context == &OperationCount)
-    {
-		BOOL x = !self.allRequestsSent || (_networkQueue.requestsCount != 0);
-        if ( x != isSyncing )
-        {
-            [self willChangeValueForKey:@"isSyncing"];
-            isSyncing = x;
-            [self didChangeValueForKey:@"isSyncing"];
-        }
-    }
-    else
-    {
-        [super observeValueForKeyPath:keyPath
-                             ofObject:object
-                               change:change
-                              context:context];
-    }
-}
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData
 {
     NSMutableDictionary *result = [NSMutableDictionary dictionary];

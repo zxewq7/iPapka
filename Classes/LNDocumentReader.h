@@ -7,11 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "LNNetwork.h"
 
 @class Document, DocumentResolution, DocumentSignature, AttachmentPage, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person, CommentAudio, Comment, AttachmentPagePainting;
 
 @protocol LNDocumentReaderDataSource<NSObject>
 - (Document *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
+
 - (Person *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) uid;
 
 - (id) documentReader:(LNDocumentReader *) documentReader createEntity:(Class) entityClass;
@@ -21,20 +23,14 @@
 - (void) documentReader:(LNDocumentReader *) documentReader removeObject:(NSManagedObject *) object;
 
 - (void) documentReaderCommit:(LNDocumentReader *) documentReader;
-
-- (NSArray *) documentReaderUnfetchedPages:(LNDocumentReader *) documentReader;
-
-- (NSArray *) documentReaderUnfetchedFiles:(LNDocumentReader *) documentReader;
 @end
 
 
-@interface LNDocumentReader : NSObject
+@interface LNDocumentReader : LNNetwork
 {
-    ASINetworkQueue                 *_networkQueue;
     NSString                        *_databaseDirectory;
     NSDateFormatter                 *parseFormatterDst;
     NSDateFormatter                 *parseFormatterSimple;
-    BOOL                            isSyncing;
     
     NSArray                         *viewUrls;
     NSString                        *urlFetchDocumentFormat;
@@ -48,18 +44,11 @@
     
     NSDictionary                    *statusDictionary;
     
-    BOOL                            hasErrors;
-    BOOL                            allRequestsSent;
-    
-    NSString                        *baseUrl;
-    
     NSNumberFormatter               *numberFormatter;
+    
+    NSArray                         *views;
 }
-- (id) initWithUrl:(NSString *) url andViews:(NSArray *) views;
-@property (nonatomic, readonly)         BOOL                  isSyncing;
-@property (nonatomic, readonly)         BOOL                  hasErrors;
-@property (nonatomic, readonly)         BOOL                  allRequestsSent;
 @property (nonatomic, retain) id<LNDocumentReaderDataSource>  dataSource;
-- (void) sync;
+@property (nonatomic, retain) NSArray*  views;
 - (void) purgeCache;
 @end

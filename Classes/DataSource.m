@@ -522,7 +522,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                     }
                     break;
                 case SyncStepSyncDocumentReader:
-                    if (self.documentReader.hasErrors)
+                    if (self.documentReader.hasError)
                         [self showErrorMessage];
                     break;
             }
