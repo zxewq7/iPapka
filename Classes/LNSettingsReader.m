@@ -62,7 +62,6 @@
                                    {
                                        if (error)
                                            [blockSelf removeBlankLogo];
-
                                        else
                                        {
                                            [currentDefaults setObject:blankLogoVersion forKey:@"blankLogoVersion"];
