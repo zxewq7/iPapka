@@ -71,6 +71,13 @@ static NSString* OperationCount = @"OperationCount";
                       path:(NSString *)path 
                 andHandler:(void (^)(BOOL error, NSString* path)) handler
 {
+    NSFileManager *df = [NSFileManager defaultManager];
+    
+    [df createDirectoryAtPath:[path stringByDeletingLastPathComponent] 
+  withIntermediateDirectories:TRUE 
+                   attributes:nil 
+                        error:nil];
+
     LNHttpRequest *request = [self requestWithUrl:url];
 
     [request setDownloadDestinationPath:path];
@@ -82,6 +89,7 @@ static NSString* OperationCount = @"OperationCount";
         if ([blockSelf hasRequestError:request])
         {
             blockSelf.hasError = YES;
+            [df removeItemAtPath:path error:NULL];
             handler(YES, nil);
         }
         else
