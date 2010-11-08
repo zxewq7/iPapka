@@ -134,6 +134,7 @@
 		8173D9F11248EFC00045C2EF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9F01248EFC00045C2EF /* AVFoundation.framework */; };
 		8173D9FB1248F1D40045C2EF /* CoreAudio.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8173D9FA1248F1D40045C2EF /* CoreAudio.framework */; };
 		8175D0DB12856D5C00512AE1 /* SignatureContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8175D0DA12856D5C00512AE1 /* SignatureContentView.m */; };
+		8176F80E128816CE00EC3F57 /* LNResourcesReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 8176F80D128816CE00EC3F57 /* LNResourcesReader.m */; };
 		81775FC61251F6F0002A2D3D /* LNDocumentReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC11251F6F0002A2D3D /* LNDocumentReader.m */; };
 		81775FC71251F6F0002A2D3D /* LNDocumentWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC31251F6F0002A2D3D /* LNDocumentWriter.m */; };
 		81775FC81251F6F0002A2D3D /* LNHttpRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 81775FC51251F6F0002A2D3D /* LNHttpRequest.m */; };
@@ -426,6 +427,8 @@
 		8173D9FA1248F1D40045C2EF /* CoreAudio.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreAudio.framework; path = System/Library/Frameworks/CoreAudio.framework; sourceTree = SDKROOT; };
 		8175D0D912856D5C00512AE1 /* SignatureContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureContentView.h; sourceTree = "<group>"; };
 		8175D0DA12856D5C00512AE1 /* SignatureContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureContentView.m; sourceTree = "<group>"; };
+		8176F80C128816CE00EC3F57 /* LNResourcesReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNResourcesReader.h; sourceTree = "<group>"; };
+		8176F80D128816CE00EC3F57 /* LNResourcesReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNResourcesReader.m; sourceTree = "<group>"; };
 		81775FC01251F6F0002A2D3D /* LNDocumentReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentReader.h; sourceTree = "<group>"; };
 		81775FC11251F6F0002A2D3D /* LNDocumentReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LNDocumentReader.m; sourceTree = "<group>"; };
 		81775FC21251F6F0002A2D3D /* LNDocumentWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LNDocumentWriter.h; sourceTree = "<group>"; };
@@ -941,6 +944,8 @@
 		81775FBF1251F6E0002A2D3D /* LN */ = {
 			isa = PBXGroup;
 			children = (
+				8176F80C128816CE00EC3F57 /* LNResourcesReader.h */,
+				8176F80D128816CE00EC3F57 /* LNResourcesReader.m */,
 				8151B8CD12674CAB00AAFEA9 /* LNNetwork.h */,
 				8151B8CE12674CAB00AAFEA9 /* LNNetwork.m */,
 				8151B8CA12674C3F00AAFEA9 /* LNSettingsReader.h */,
@@ -1289,6 +1294,7 @@
 				814BF0C312880216006F37AD /* SBJsonStreamWriter.m in Sources */,
 				814BF0C412880216006F37AD /* SBJsonWriter.m in Sources */,
 				8141131F12880C7500BEFD32 /* IntRow.m in Sources */,
+				8176F80E128816CE00EC3F57 /* LNResourcesReader.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -38,8 +38,6 @@
     
     NSArray                         *viewUrls;
     NSString                        *urlFetchDocumentFormat;
-    NSString                        *urlAttachmentFetchPageFormat;
-    NSString                        *urlLinkAttachmentFetchPageFormat;
     
     id<LNDocumentReaderDataSource> dataSource;
     NSMutableSet                    *uidsToFetch;

@@ -63,12 +63,8 @@ static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
 static NSString *url_FetchViewFormat     = @"%@/%@?ReadViewEntries&OutputFormat=json";
 static NSString *url_FetchDocumentFormat = @"%@/document/%@";
-    //document/id/file/file.id/page/pagenum
-static NSString *url_AttachmentFetchPageFormat = @"%@/document/%@/file/%@/page/%@";
 
 static NSString *url_AttachmentFetchPaintingFormat = @"/document/%@/file/%@/page/%@/drawing";
-    //document/id/link/link.id/file/file.id/page/pagenum
-static NSString *url_LinkAttachmentFetchPageFormat = @"%@/document/%@/link/%@/file/%@/page/%@";
 
 static NSString *url_LinkAttachmentFetchPaintingFormat = @"/document/%@/link/%@/file/%@/page/%@/drawing";
 
@@ -81,13 +77,9 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 - (void)fetchDocuments;
 - (void)parseDocumentData:(NSDictionary *) parsedDocument;
 - (NSString *) documentDirectory:(NSString *) anUid;
-- (void)fetchPage:(AttachmentPage *)painting;
-- (void)fetchFile:(FileField *)page;
 - (LNHttpRequest *) makeRequestWithUrl:(NSString *) url;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(DocumentResolutionAbstract *) resolution fromDictionary:(NSDictionary *) dictionary;
-- (void) fetchResources;
-- (void) optimizeImage:(NSString *) path;
 @end
 static NSString* OperationCount = @"OperationCount";
 
@@ -125,8 +117,6 @@ static NSString* OperationCount = @"OperationCount";
         viewUrls = vs;
         
         urlFetchDocumentFormat = [[NSString alloc] initWithFormat:url_FetchDocumentFormat, baseUrl, @"%@"];
-        urlAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_AttachmentFetchPageFormat, baseUrl, @"%@", @"%@", @"%@"];
-        urlLinkAttachmentFetchPageFormat = [[NSString alloc] initWithFormat:url_LinkAttachmentFetchPageFormat, baseUrl, @"%@", @"%@", @"%@", @"%@"];
 
         statusDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:DocumentStatusDraft], @"draft",
                                                                               [NSNumber numberWithInt:DocumentStatusNew], @"new",
@@ -179,8 +169,6 @@ static NSString* OperationCount = @"OperationCount";
     [parseFormatterSimple release];
 
     [urlFetchDocumentFormat release];
-    [urlAttachmentFetchPageFormat release];
-    [urlLinkAttachmentFetchPageFormat release];
     [uidsToFetch release]; uidsToFetch = nil;
     [fetchedUids release]; fetchedUids = nil;
     [statusDictionary release];
@@ -383,8 +371,6 @@ static NSString* OperationCount = @"OperationCount";
                 
                 if (documentsLeftToFetch == 0) //fetch all resources
                 {
-                    [blockSelf fetchResources];
-                    
                     blockSelf.allRequestsSent = YES;
                 }
             };
@@ -393,7 +379,6 @@ static NSString* OperationCount = @"OperationCount";
     }
     else
     {
-        [self fetchResources];
         self.allRequestsSent = YES;
     }
     
@@ -808,88 +793,6 @@ static NSString* OperationCount = @"OperationCount";
     
     return result;
 }
-- (void)fetchPage:(AttachmentPage *)page
-{
-    NSFileManager *df = [NSFileManager defaultManager];
-    
-    [df createDirectoryAtPath:page.path withIntermediateDirectories:TRUE 
-                   attributes:nil error:nil];
-
-    NSString *urlPattern;
-    
-    Attachment *attachment = page.attachment;
-    Document *rootDocument = attachment.document;
-
-    if ([rootDocument isKindOfClass:[DocumentLink class]]) //link
-    {
-        DocumentLink *link = (DocumentLink *)rootDocument;
-
-        rootDocument = link.document;
-        
-        urlPattern = [NSString stringWithFormat:urlLinkAttachmentFetchPageFormat, rootDocument.uid, link.index, @"%@", @"%d"];
-    }
-    else
-        urlPattern = [NSString stringWithFormat:urlAttachmentFetchPageFormat, rootDocument.uid, @"%@", @"%d"];
-    
-    NSString *anUrl = [NSString stringWithFormat:urlPattern, attachment.uid, [page.number intValue]];
-    
-
-    LNHttpRequest *r = [self makeRequestWithUrl: anUrl];
-    
-    [r setDownloadDestinationPath:page.pathImage];
-    r.requestHandler = ^(ASIHTTPRequest *request) 
-    {
-        if ([request error] == nil  && [request responseStatusCode] == 200)
-        {
-            [self optimizeImage:page.pathImage];
-            page.syncStatusValue = SyncStatusSynced;
-        }
-        else
-        {
-            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
-            //remove bugged response
-            [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
-        }
-        [[self dataSource] documentReaderCommit: self];
-    };
-
-    [_networkQueue addOperation:r];
-}
-
-- (void)fetchFile:(FileField *)file
-{
-    NSFileManager *df = [NSFileManager defaultManager];
-    
-    [df createDirectoryAtPath:[file.path stringByDeletingLastPathComponent] withIntermediateDirectories:TRUE 
-                   attributes:nil error:nil];
-    
-    NSString *anUrl = [baseUrl stringByAppendingString:file.url];
-    
-    
-    LNHttpRequest *r = [self makeRequestWithUrl: anUrl];
-    
-    [r setDownloadDestinationPath:file.path];
-    r.requestHandler = ^(ASIHTTPRequest *request) 
-    {
-        if ([request error] == nil  && [request responseStatusCode] == 200)
-        {
-
-            if ([file isKindOfClass:[AttachmentPagePainting class]])
-                [self optimizeImage:file.path];
-            
-            file.syncStatusValue = SyncStatusSynced;
-        }
-        else
-        {
-            NSLog(@"error fetching url: %@\nerror: %@\nresponseCode:%d", [request originalURL], [[request error] localizedDescription], [request responseStatusCode]);
-            //remove bugged response
-            [df removeItemAtPath:[request downloadDestinationPath] error:NULL];
-        }
-        [[self dataSource] documentReaderCommit: self];
-    };
-    
-    [_networkQueue addOperation:r];
-}
 
 - (void) parseResolution:(DocumentResolutionAbstract *) aResolution fromDictionary:(NSDictionary *) dictionary
 {
@@ -948,37 +851,6 @@ static NSString* OperationCount = @"OperationCount";
         //performers
         DocumentResolutionParent *resolution = (DocumentResolutionParent *)aResolution;
         resolution.performers = performers;
-    }
-}
-- (void) fetchResources
-{
-    NSArray *unfetchedPages = [self.dataSource documentReaderUnfetchedPages:self];
-    for(AttachmentPage *page in unfetchedPages)
-        [self fetchPage:page];
-    
-    NSArray *unfetchedFiles = [self.dataSource documentReaderUnfetchedFiles:self];
-    for(FileField *file in unfetchedFiles)
-        [self fetchFile:file];
-}
-
-- (void) optimizeImage:(NSString *) path
-{
-    UIImage *image = [UIImage imageWithContentsOfFile:path];
-    
-    CGSize size = image.size;
-    
-    CGFloat maxSize = MAX(size.width, size.height);
-
-    CGFloat scale = 0.0f;
-    
-    if (maxSize > 1024.0f)
-        scale = 1024.0f / maxSize;
-    
-    if (scale != 0.0f)
-    {
-        UIImage *scaledImage = [image scaleToSize:CGSizeMake(size.width * scale, size.height * scale)];
-        NSData *data = UIImagePNGRepresentation(scaledImage);
-        [data writeToFile: path atomically:YES];
     }
 }
 @end
