@@ -1,6 +1,6 @@
     //
 //  DeleteItemViewController.m
-//  Meester
+//  iPapka
 //
 //  Created by Vladimir Solomenchuk on 04.10.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.

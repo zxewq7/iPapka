@@ -1,6 +1,6 @@
 //
 //  AZZUIImage.h
-//  Meester
+//  iPapka
 //
 //  Created by Vladimir Solomenchuk on 21.10.10.
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.

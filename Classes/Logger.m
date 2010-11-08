@@ -1,6 +1,6 @@
 //
 //  Logger.m
-//  Meester
+//  iPapka
 //
 //  Created by Vladimir Solomenchuk on 09.10.10.
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
@@ -64,7 +64,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(Logger);
         
         MFMailComposeViewController* mailController = [[MFMailComposeViewController alloc] init];
         mailController.mailComposeDelegate = self;
-        [mailController setSubject:@"Meester log"];
+        [mailController setSubject:@"iPapka log"];
         
         [mailController setMessageBody:logContent isHTML:NO]; 
         [controller presentModalViewController:mailController animated:YES];

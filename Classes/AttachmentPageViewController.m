@@ -1,6 +1,6 @@
     //
 //  AttachmentPageViewController.m
-//  Meester
+//  iPapka
 //
 //  Created by Vladimir Solomenchuk on 27.08.10.
 //  Copyright 2010 __MyCompanyName__. All rights reserved.
