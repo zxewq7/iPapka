@@ -84,7 +84,9 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
                         path:page.pathImage
                 andHandler:^(BOOL error, NSString* path)
      {
-         if (!error)
+         if (error)
+             blockSelf.hasError = NO;
+         else
          {
              [self optimizeImage:page.pathImage];
              page.syncStatusValue = SyncStatusSynced;
@@ -104,7 +106,9 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
                         path:file.path
                   andHandler:^(BOOL error, NSString* path)
      {
-         if (!error)
+         if (error)
+             blockSelf.hasError = NO;
+         else
          {
              file.syncStatusValue = SyncStatusSynced;
              [[DataSource sharedDataSource] commit];

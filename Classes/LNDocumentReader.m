@@ -260,8 +260,10 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             [self jsonRequestWithUrl:url 
                           andHandler:^(BOOL err, id response)
              {
-                 if (!err)
-                         [blockSelf parseDocumentData:response];
+                 if (err)
+                     blockSelf.hasError = NO; //ignore error
+                 else
+                    [blockSelf parseDocumentData:response];
                  
                  @synchronized (blockSelf)
                  {
