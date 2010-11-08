@@ -627,14 +627,22 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (!readers)
     {
-        NSSortDescriptor *sortDescriptor = 
-        [[NSSortDescriptor alloc] initWithKey:@"dateModified" 
+        NSSortDescriptor *dateModifiedSortDescriptor = 
+        [[NSSortDescriptor alloc] initWithKey:@"uid" 
                                     ascending:NO];
         
-        NSArray *sortDescriptors = [[NSArray alloc] 
-                                    initWithObjects:sortDescriptor, nil];  
-        [sortDescriptor release];
+        NSArray *dateModifiedSortDescriptors = [[NSArray alloc] 
+                                    initWithObjects:dateModifiedSortDescriptor, nil];  
+        [dateModifiedSortDescriptor release];
         
+        
+        NSSortDescriptor *pageNumberSortDescriptor = 
+        [[NSSortDescriptor alloc] initWithKey:@"number" 
+                                    ascending:NO];
+        
+        NSArray *pageNumberSortDescriptors = [[NSArray alloc] 
+                                              initWithObjects:pageNumberSortDescriptor, nil];  
+        [pageNumberSortDescriptor release];
         
         readers = [[NSMutableArray alloc] initWithCapacity:5];
         
@@ -658,6 +666,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [readers addObject:documentReader];
         
+        //resources reader
         LNResourcesReader *resourcesReader = [[LNResourcesReader alloc] init];
         
         NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
@@ -665,7 +674,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncFromServer]];
         
-        [fetchRequest setSortDescriptors:sortDescriptors];
+        [fetchRequest setSortDescriptors:pageNumberSortDescriptors];
         
         NSFetchedResultsController *fetchedResultsController = 
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
@@ -684,7 +693,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncFromServer]];
         
-        [fetchRequest setSortDescriptors:sortDescriptors];
+        [fetchRequest setSortDescriptors:dateModifiedSortDescriptors];
         
         
         fetchedResultsController = 
@@ -708,7 +717,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
         
-        [fetchRequest setSortDescriptors:sortDescriptors];
+        [fetchRequest setSortDescriptors:dateModifiedSortDescriptors];
         
         fetchedResultsController = 
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
@@ -727,7 +736,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
         
-        [fetchRequest setSortDescriptors:sortDescriptors];
+        [fetchRequest setSortDescriptors:dateModifiedSortDescriptors];
         
         
         fetchedResultsController = 
@@ -742,7 +751,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         [fetchedResultsController release];
         
         
-        [sortDescriptors release];
+        [dateModifiedSortDescriptors release];
+        
+        [pageNumberSortDescriptor release];
         
         [readers addObject:documentWriter];
         
