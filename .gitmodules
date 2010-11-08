@@ -1,3 +1,6 @@
 [submodule "MBProgressHUD"]
 	path = MBProgressHUD
 	url = http://github.com/matej/MBProgressHUD.git
+[submodule "asi-http-request"]
+	path = asi-http-request
+	url = https://github.com/pokeb/asi-http-request.git
