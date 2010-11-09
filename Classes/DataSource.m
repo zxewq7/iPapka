@@ -753,7 +753,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [dateModifiedSortDescriptors release];
         
-        [pageNumberSortDescriptor release];
+        [pageNumberSortDescriptors release];
         
         [readers addObject:documentWriter];
         
