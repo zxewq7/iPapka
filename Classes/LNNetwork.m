@@ -122,7 +122,7 @@ static NSString* OperationCount = @"OperationCount";
         {
             SBJsonParser *json = [[SBJsonParser alloc] init];
             NSError *error = nil;
-            NSString *jsonString = [request responseString];
+            NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
             NSDictionary *parsedResponse = [json objectWithString:jsonString error:&error];
             [json release];
             if (parsedResponse == nil)
@@ -194,7 +194,7 @@ static NSString* OperationCount = @"OperationCount";
         {
             SBJsonParser *json = [[SBJsonParser alloc] init];
             NSError *error = nil;
-            NSString *jsonString = [request responseString];
+            NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
             NSDictionary *parsedResponse = [json objectWithString:jsonString error:&error];
             [json release];
             if (parsedResponse == nil)
