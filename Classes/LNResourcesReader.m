@@ -12,7 +12,6 @@
 #import "DocumentLink.h"
 #import "Document.h"
 #import "Attachment.h"
-#import "AZZUIImage.h"
 #import "DataSource.h"
 
 //document/id/file/file.id/page/pagenum
@@ -24,7 +23,6 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
 @interface LNResourcesReader(Private) 
 -(void)readFile:(FileField *) file;
 -(void)readPage:(AttachmentPage *) page;
-- (void)optimizeImage:(NSString *) path;
 @end
 
 @implementation LNResourcesReader
@@ -88,7 +86,6 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
              blockSelf.hasError = NO;
          else
          {
-             [self optimizeImage:page.pathImage];
              page.syncStatusValue = SyncStatusSynced;
              [[DataSource sharedDataSource] commit];
          }
@@ -114,26 +111,5 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
              [[DataSource sharedDataSource] commit];
          }
      }];
-}
-
-- (void) optimizeImage:(NSString *) path
-{
-    UIImage *image = [UIImage imageWithContentsOfFile:path];
-    
-    CGSize size = image.size;
-    
-    CGFloat maxSize = MAX(size.width, size.height);
-    
-    CGFloat scale = 0.0f;
-    
-    if (maxSize > 1024.0f)
-        scale = 1024.0f / maxSize;
-    
-    if (scale != 0.0f)
-    {
-        UIImage *scaledImage = [image scaleToSize:CGSizeMake(size.width * scale, size.height * scale)];
-        NSData *data = UIImagePNGRepresentation(scaledImage);
-        [data writeToFile: path atomically:YES];
-    }
 }
 @end
