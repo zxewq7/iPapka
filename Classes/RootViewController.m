@@ -116,6 +116,8 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     [self.view addSubview:clipperViewController.view];
     
+    [clipperViewController counfigureTapzones];
+    
     contentHeightOffset = toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset];
 
     //paper view
@@ -311,10 +313,6 @@ static NSString* SyncingContext       = @"SyncingContext";
     contentView.resolution = resolutionViewController.view;
     contentView.signatureComment = signatureCommentViewController.view;
 
-    [self.view addSubview: attachmentsViewController.pageControl];
-    
-    [self.view bringSubviewToFront: clipperViewController.view];
-    [clipperViewController counfigureTapzones];
     
     canEdit = YES;
 
