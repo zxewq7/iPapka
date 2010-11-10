@@ -20,7 +20,6 @@
 #import "RotateableImageView.h"
 #import "PageControl.h"
 #import "DocumentResolution.h"
-#import "RootBackgroundView.h"
 #import "RootContentView.h"
 #import "SignatureCommentViewController.h"
 #import "DataSource.h"
@@ -87,7 +86,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     CGRect toolbarFrame = toolbar.bounds;
 
-    RootBackgroundView *backgroundView = [[RootBackgroundView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]];
+    RotateableImageView *backgroundView = [[[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"RootBackground.png"]] autorelease];
     backgroundView.portraitImage = [UIImage imageNamed: @"RootBackground.png"];
     backgroundView.landscapeImage = [UIImage imageNamed: @"RootBackground-Landscape.png"];
     backgroundView.autoresizingMask = (UIViewAutoresizingFlexibleWidth |
@@ -100,12 +99,12 @@ static NSString* SyncingContext       = @"SyncingContext";
     backgroundView.userInteractionEnabled = YES;
     [self.view addSubview:backgroundView];
     
-    CGRect viewBounds = self.view.bounds;
+    CGSize viewSize = self.view.bounds.size;
 
     //clipper
     clipperViewController = [[ClipperViewController alloc] init];
     CGRect clipperFrame = clipperViewController.view.frame;
-    clipperFrame.origin.x = round((viewBounds.size.width - clipperFrame.size.width) / 2);
+    clipperFrame.origin.x = round((viewSize.width - clipperFrame.size.width) / 2);
     clipperFrame.origin.y = 0;
     clipperViewController.view.frame = clipperFrame;
     clipperViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
@@ -115,45 +114,115 @@ static NSString* SyncingContext       = @"SyncingContext";
                                     options:0
                                     context:&ClipperOpenedContext];
     
+    [self.view addSubview:clipperViewController.view];
+    
     contentHeightOffset = toolbarFrame.origin.y+toolbarFrame.size.height+[clipperViewController contentOffset];
 
+    //paper view
+    RotateableImageView *paperView = [[[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"Papers.png"]] autorelease];
+    paperView.portraitImage = [UIImage imageNamed: @"Papers.png"];
+    paperView.landscapeImage = [UIImage imageNamed: @"Papers-Landscape.png"];
+
+    CGRect paperViewFrame = paperView.frame;
+    paperViewFrame.origin.x = round((viewSize.width - paperViewFrame.size.width) / 2);
+    paperViewFrame.origin.y = 43;
+    paperView.frame = paperViewFrame;
+    
+    paperView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+
+    [backgroundView addSubview:paperView];
+    
+    //fix paintingtools frame
+    
+    paintingToolsViewController = [[PaintingToolsViewController alloc] init];
+    
+    CGRect paintingToolsFrame = paintingToolsViewController.view.frame;
+    paintingToolsFrame.origin.x = 4.0f;
+    paintingToolsFrame.origin.y = 60.0f;
+    paintingToolsViewController.view.frame = paintingToolsFrame;
+    
+    paintingToolsViewController.view.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+    
+    [backgroundView addSubview:paintingToolsViewController.view];
+
+    
     //contentView
     contentView = [[RootContentView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
     contentView.portraitImage = [UIImage imageNamed: @"Paper.png"];
     contentView.landscapeImage = [UIImage imageNamed: @"Paper-Landscape.png"];
     contentView.userInteractionEnabled = YES;
+    
+    CGRect contentViewFrame = contentView.frame;
+    contentViewFrame.origin.x = round((backgroundViewFrame.size.width - contentViewFrame.size.width) / 2);
+    contentViewFrame.origin.y = 43;
+    contentView.frame = contentViewFrame;
+    contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
 
-    //attachments view
-    attachmentsViewController = [[AttachmentsViewController alloc] init];
+    [backgroundView addSubview:contentView];
 
     //page control
     CGRect pageControlFrame = CGRectMake(0, viewFrame.size.height - 37, viewFrame.size.width, 37);
-    PageControl *pageControl = [[PageControl alloc] initWithFrame: pageControlFrame];
+    PageControl *pageControl = [[[PageControl alloc] initWithFrame: pageControlFrame] autorelease];
     
     pageControl.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);
 
-    attachmentsViewController.pageControl = pageControl;
-    [pageControl release];
-
-    //attachmentPicker view
-    documentInfoViewController = [[DocumentInfoViewController alloc] init];
+    [self.view addSubview:pageControl];
     
-    [documentInfoViewController addObserver:self
-                                 forKeyPath:@"attachment"
-                                    options:0
-                                    context:&AttachmentContext];
-
-    [documentInfoViewController addObserver:self
-                                 forKeyPath:@"link"
-                                    options:0
-                                    context:&LinkContext];
-
-    paintingToolsViewController = [[PaintingToolsViewController alloc] init];
-
-    paintingToolsViewController.delegate = attachmentsViewController;
     
-    //default color for attachmentView
-    attachmentsViewController.paintingTools = paintingToolsViewController;
+    //resolution button
+    resolutionButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Resolution", "Resolution")
+                                                    titleFont:[UIFont boldSystemFontOfSize:12]
+                                                       target:self
+                                                     selector:@selector(showResolution:)
+                                                        frame:CGRectMake(0, 0, 20, 30)
+                                                addLabelWidth:YES
+                                                        image:[UIImage imageNamed:@"ButtonSquare.png"]
+                                                 imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
+                                                 leftCapWidth:10.0f
+                                                darkTextColor:NO];
+    
+    [resolutionButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
+    resolutionButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+    
+    CGRect resolutionButtonFrame = resolutionButton.frame;
+    resolutionButtonFrame.origin.x = contentViewFrame.origin.x + 6.f;
+    resolutionButtonFrame.origin.y = 12.0f;
+    resolutionButton.frame = resolutionButtonFrame;
+    
+    resolutionButton.frame = resolutionButtonFrame;
+
+    resolutionButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
+    
+    [resolutionButton retain];
+    
+    [backgroundView addSubview:resolutionButton];
+    
+    //signatureCommentButton
+    signatureCommentButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Comment", "Comment")
+                                                          titleFont:[UIFont boldSystemFontOfSize:12]
+                                                             target:self
+                                                           selector:@selector(showSignatureComment:)
+                                                              frame:CGRectMake(0, 0, 20, 30)
+                                                      addLabelWidth:YES
+                                                              image:[UIImage imageNamed:@"ButtonSquare.png"]
+                                                       imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
+                                                       leftCapWidth:10.0f
+                                                      darkTextColor:NO];
+    
+    [signatureCommentButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
+    signatureCommentButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+
+    CGRect signatureCommentButtonFrame = signatureCommentButton.frame;
+    
+    signatureCommentButtonFrame.origin.x = resolutionButtonFrame.origin.x;
+    signatureCommentButtonFrame.origin.y = resolutionButtonFrame.origin.y;
+    
+    signatureCommentButton.frame = signatureCommentButtonFrame;
+    signatureCommentButton.autoresizingMask = resolutionButton.autoresizingMask;
+    
+    [signatureCommentButton retain];
+
+    [backgroundView addSubview:signatureCommentButton];
 
     //back button
     //add extra spaces to front of label, cause of button with left arrow
@@ -170,43 +239,18 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     [backButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
     backButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
+
+    CGRect backButtonFrame = backButton.frame;
+    backButtonFrame.origin.x = resolutionButtonFrame.origin.x;
+    backButtonFrame.origin.y = resolutionButtonFrame.origin.y;
+    backButton.frame = backButtonFrame;
+    backButton.autoresizingMask = resolutionButton.autoresizingMask;
     
     [backButton retain];
     
-    //resolution button
-    resolutionButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Resolution", "Resolution")
-                                              titleFont:[UIFont boldSystemFontOfSize:12]
-                                                 target:self
-                                               selector:@selector(showResolution:)
-                                                  frame:CGRectMake(0, 0, 20, 30)
-                                          addLabelWidth:YES
-                                                  image:[UIImage imageNamed:@"ButtonSquare.png"]
-                                           imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
-                                           leftCapWidth:10.0f
-                                          darkTextColor:NO];
-
-    [resolutionButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
-    resolutionButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-
-    [resolutionButton retain];
-
-    //signatureCommentButton
-    signatureCommentButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Comment", "Comment")
-                                                    titleFont:[UIFont boldSystemFontOfSize:12]
-                                                       target:self
-                                                     selector:@selector(showSignatureComment:)
-                                                        frame:CGRectMake(0, 0, 20, 30)
-                                                addLabelWidth:YES
-                                                        image:[UIImage imageNamed:@"ButtonSquare.png"]
-                                                 imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
-                                                 leftCapWidth:10.0f
-                                                darkTextColor:NO];
+    [backgroundView addSubview:backButton];
     
-    [signatureCommentButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
-    signatureCommentButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
     
-    [signatureCommentButton retain];
-
     //info button
     infoButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Information", "Information")
                                               titleFont:[UIFont boldSystemFontOfSize:12]
@@ -218,12 +262,44 @@ static NSString* SyncingContext       = @"SyncingContext";
                                            imagePressed:[UIImage imageNamed:@"ButtonSquareSelected.png"]
                                            leftCapWidth:10.0f
                                           darkTextColor:NO];
-
+    
     [infoButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
     infoButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-
+    
+    CGRect infoButtonFrame = infoButton.frame;
+    infoButtonFrame.origin.x = contentViewFrame.origin.x + contentViewFrame.size.width - infoButtonFrame.size.width - 6.f;
+    infoButtonFrame.origin.y = 12.0f;
+    infoButton.frame = infoButtonFrame; 
+    infoButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
     
     [infoButton retain];
+    
+    [backgroundView addSubview:infoButton];
+    
+    //attachments view
+    attachmentsViewController = [[AttachmentsViewController alloc] init];
+
+    attachmentsViewController.pageControl = pageControl;
+
+    //attachmentPicker view
+    documentInfoViewController = [[DocumentInfoViewController alloc] init];
+    
+    [documentInfoViewController addObserver:self
+                                 forKeyPath:@"attachment"
+                                    options:0
+                                    context:&AttachmentContext];
+
+    [documentInfoViewController addObserver:self
+                                 forKeyPath:@"link"
+                                    options:0
+                                    context:&LinkContext];
+
+    paintingToolsViewController.delegate = attachmentsViewController;
+    
+    //default color for attachmentView
+    attachmentsViewController.paintingTools = paintingToolsViewController;
+
+
     
     resolutionViewController = [[ResolutionViewController alloc] init];
     resolutionViewController.view.hidden = YES;
@@ -235,28 +311,10 @@ static NSString* SyncingContext       = @"SyncingContext";
     contentView.resolution = resolutionViewController.view;
     contentView.signatureComment = signatureCommentViewController.view;
 
-    //paper
-    RotateableImageView *paperView = [[RotateableImageView alloc] initWithImage:[UIImage imageNamed:@"Papers.png"]];
-    paperView.portraitImage = [UIImage imageNamed: @"Papers.png"];
-    paperView.landscapeImage = [UIImage imageNamed: @"Papers-Landscape.png"];
-
-    backgroundView.paper = paperView;
-    backgroundView.paintingTools = paintingToolsViewController.view;
-    backgroundView.content = contentView;
-    backgroundView.resolutionButton = resolutionButton;
-    backgroundView.signatureCommentButton = signatureCommentButton;
-    backgroundView.infoButton = infoButton;
-    backgroundView.backButton = backButton;
-
-    [paperView release];
-
-    [self.view addSubview:clipperViewController.view];
     [self.view addSubview: attachmentsViewController.pageControl];
     
     [self.view bringSubviewToFront: clipperViewController.view];
     [clipperViewController counfigureTapzones];
-    
-    [backgroundView release];
     
     canEdit = YES;
 

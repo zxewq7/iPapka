@@ -181,7 +181,6 @@
 		81C47F9D125E397300F60C49 /* PaletteYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F91125E397300F60C49 /* PaletteYellow.png */; };
 		81C47F9E125E397300F60C49 /* PaletteYellowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F92125E397300F60C49 /* PaletteYellowSelected.png */; };
 		81C674911248BDFC002C272D /* RootContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C674901248BDFC002C272D /* RootContentView.m */; };
-		81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81CA24E912469DB900A50613 /* RootBackgroundView.m */; };
 		81D1A97F1274A81D00D43A92 /* ButtonRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D1A97E1274A81D00D43A92 /* ButtonRed.png */; };
 		81D3EBD21258BEA2002FCCDC /* OneRow.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D3EBD11258BEA2002FCCDC /* OneRow.png */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
@@ -489,8 +488,6 @@
 		81C47F92125E397300F60C49 /* PaletteYellowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteYellowSelected.png; sourceTree = "<group>"; };
 		81C6748F1248BDFC002C272D /* RootContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootContentView.h; sourceTree = "<group>"; };
 		81C674901248BDFC002C272D /* RootContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootContentView.m; sourceTree = "<group>"; };
-		81CA24E812469DB900A50613 /* RootBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootBackgroundView.h; sourceTree = "<group>"; };
-		81CA24E912469DB900A50613 /* RootBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootBackgroundView.m; sourceTree = "<group>"; };
 		81D1A97E1274A81D00D43A92 /* ButtonRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRed.png; sourceTree = "<group>"; };
 		81D3EBD11258BEA2002FCCDC /* OneRow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OneRow.png; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
@@ -737,8 +734,6 @@
 				819B5C8912730D7000594E0D /* DocumentCellView.m */,
 				813011E6126DDE05002ADE40 /* PageControl.h */,
 				813011E7126DDE05002ADE40 /* PageControl.m */,
-				81CA24E812469DB900A50613 /* RootBackgroundView.h */,
-				81CA24E912469DB900A50613 /* RootBackgroundView.m */,
 				81C6748F1248BDFC002C272D /* RootContentView.h */,
 				81C674901248BDFC002C272D /* RootContentView.m */,
 				8149BA5B1244BA3B00D028EE /* ViewWithButtons.h */,
@@ -1222,7 +1217,6 @@
 				8149BA5D1244BA3B00D028EE /* ViewWithButtons.m in Sources */,
 				815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */,
 				811B583412454D1000BEB158 /* ColorPicker.m in Sources */,
-				81CA24EA12469DB900A50613 /* RootBackgroundView.m in Sources */,
 				81C674911248BDFC002C272D /* RootContentView.m in Sources */,
 				810CE95D1251D66C00933B9E /* Data.xcdatamodeld in Sources */,
 				81775FC61251F6F0002A2D3D /* LNDocumentReader.m in Sources */,
