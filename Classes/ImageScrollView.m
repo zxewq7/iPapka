@@ -168,7 +168,7 @@
     NSUInteger minWidth = ceil(MIN(imageSize.width, boundsSize.width) / 32 ) * 32;
     
     //we need max zoomscales aligned to 32 multplier for drawings
-    NSUInteger maxWidth = ceil(imageSize.width * 1.5f);
+    NSUInteger maxWidth = ceil(minWidth * 1.5f);
 
     CGFloat minScale = minWidth / imageSize.width;    // the scale needed to perfectly fit the image width-wise
     
