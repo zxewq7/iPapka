@@ -680,13 +680,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
                                             managedObjectContext:managedObjectContext 
                                               sectionNameKeyPath:nil
-                                                       cacheName:@"UnsyncedPagesToRead"];
+                                                       cacheName:nil];
+        
         [fetchRequest release];
         
         resourcesReader.unsyncedPages = fetchedResultsController;
         
         [fetchedResultsController release];
-        
         
         fetchRequest = [[NSFetchRequest alloc] init];
         [fetchRequest setEntity:[NSEntityDescription entityForName:@"FileField" inManagedObjectContext:managedObjectContext]];
@@ -700,7 +700,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
                                             managedObjectContext:managedObjectContext 
                                               sectionNameKeyPath:nil
-                                                       cacheName:@"UnsyncedFilesToRead"];
+                                                       cacheName:nil];
         [fetchRequest release];
         
         resourcesReader.unsyncedFiles = fetchedResultsController;
@@ -723,7 +723,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
                                             managedObjectContext:managedObjectContext 
                                               sectionNameKeyPath:nil
-                                                       cacheName:@"UnsyncedDocumentsToWrite"];
+                                                       cacheName:nil];
         [fetchRequest release];
         
         documentWriter.unsyncedDocuments = fetchedResultsController;
@@ -738,12 +738,11 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [fetchRequest setSortDescriptors:dateModifiedSortDescriptors];
         
-        
         fetchedResultsController = 
         [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
                                             managedObjectContext:managedObjectContext 
                                               sectionNameKeyPath:nil
-                                                       cacheName:@"UnsyncedFilesToWrite"];
+                                                       cacheName:nil];
         [fetchRequest release];
         
         documentWriter.unsyncedFiles = fetchedResultsController;
