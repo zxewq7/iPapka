@@ -611,13 +611,13 @@ static NSString* SyncingContext = @"SyncingContext";
         filtersBar.selectedItem = item;
         
         [self tabBar:filtersBar didSelectItem: item];
+        
+        titleLabel.text = folder.localizedName;
+        
+        [self updateBadges];
     }
     else
         filterIndex = NSNotFound;
-    
-    titleLabel.text = folder.localizedName;
-    
-    [self updateBadges];
 }
 
 - (void)updateBadges
