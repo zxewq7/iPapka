@@ -37,13 +37,17 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
     if (![unsyncedFiles performFetch:&error])
 		NSAssert1(error == nil, @"Unhandled error executing unsynced files: %@", [error localizedDescription]);
 
-    for (FileField *file in [unsyncedFiles fetchedObjects])
+    NSArray *objects = [unsyncedFiles fetchedObjects];
+    
+    for (FileField *file in objects)
         [self readFile:file];
 
     if (![unsyncedPages performFetch:&error])
 		NSAssert1(error == nil, @"Unhandled error executing unsynced pages: %@", [error localizedDescription]);
     
-    for (AttachmentPage *page in [unsyncedPages fetchedObjects])
+    objects = [unsyncedPages fetchedObjects];
+    
+    for (AttachmentPage *page in objects)
         [self readPage:page];
 
     [self endSession];
