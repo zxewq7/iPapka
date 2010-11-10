@@ -100,8 +100,6 @@
     tableView.layer.borderWidth = 1.0f;
     tableView.layer.borderColor = [UIColor colorWithRed:0.878 green:0.878 blue:0.878 alpha:1.0].CGColor;
     
-
-    
     //clear table background
     //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
     tableView.backgroundView = nil;
