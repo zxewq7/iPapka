@@ -42,11 +42,6 @@
         [imageView displayImage: pageImage angle: DEGREES_TO_RADIANS(page.angleValue)];
         
         imageView.painting = page.painting.image;
-        
-        CGPoint restorePoint = [imageView pointToCenterAfterRotation];
-        CGFloat restoreScale = [imageView scaleToRestoreAfterRotation];
-        [imageView setMaxMinZoomScalesForCurrentBounds];
-        [imageView restoreCenterPoint:restorePoint scale:restoreScale];
     }
     else
     {
