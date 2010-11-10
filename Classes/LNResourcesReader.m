@@ -52,6 +52,8 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
 - (void)dealloc 
 {
     self.unsyncedFiles = nil;
+    
+    self.unsyncedPages = nil;
 
     [super dealloc];
 }
