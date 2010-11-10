@@ -497,6 +497,8 @@ static NSString* SyncingContext       = @"SyncingContext";
 {
     self.document.statusValue = DocumentStatusDeclined;
 
+    [[DataSource sharedDataSource] commit];
+    
     [self moveToArchive];
 }
 
@@ -731,39 +733,28 @@ static NSString* SyncingContext       = @"SyncingContext";
     if (clipperViewController.opened)
         clipperViewController.opened = NO;
 
-    documentInfoViewController.view.hidden = YES;
-    
     [UIView beginAnimations:ArchiveAnimationId context:NULL];
-    [UIView setAnimationDuration:0.5f];
+    [UIView setAnimationDuration:0.75f];
+    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
     [UIView setAnimationDelegate:self];
     [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
-    
-    attachmentsViewController.view.alpha = 0.0;
-    
-    [UIView commitAnimations];
 
-//    [UIView beginAnimations:ArchiveAnimationId context:NULL];
-//    [UIView setAnimationDuration:0.75f];
-//    [UIView setAnimationCurve:UIViewAnimationCurveEaseIn];
-//    [UIView setAnimationDelegate:self];
-//    [UIView setAnimationDidStopSelector:@selector(animationDidStopped:finished:context:)];
-
-//#warning inaccurate positioning when move to archive
-//    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
-//    
-//    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
-//        attachmentsViewController.view.transform = CGAffineTransformScale (
-//                                                                           CGAffineTransformMakeTranslation(-200.0, -475.0),
-//                                                                           0.1,
-//                                                                           0.1
-//                                                                           );
-//        
-//    else
-//        attachmentsViewController.view.transform = CGAffineTransformScale (
-//                                                                           CGAffineTransformMakeTranslation(-300.0, -375.0),
-//                                                                           0.1,
-//                                                                           0.1
-//                                                                           );
+#warning inaccurate positioning when move to archive
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    
+    if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
+        attachmentsViewController.view.transform = CGAffineTransformScale (
+                                                                           CGAffineTransformMakeTranslation(-200.0, -475.0),
+                                                                           0.1,
+                                                                           0.1
+                                                                           );
+        
+    else
+        attachmentsViewController.view.transform = CGAffineTransformScale (
+                                                                           CGAffineTransformMakeTranslation(-300.0, -375.0),
+                                                                           0.1,
+                                                                           0.1
+                                                                           );
 
     //http://ameyashetti.wordpress.com/2009/08/17/view-animation-tutorial/
     //    attachmentsViewController.view.transform = CGAffineTransformConcat(
@@ -780,22 +771,17 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     //    attachmentsViewController.view.frame = CGRectZero;
     
-//    [UIView commitAnimations];    
+    [UIView commitAnimations];    
 }
 - (void)animationDidStopped:(NSString *)animationID finished:(NSNumber *)finished context:(void *)context
 {
     if (animationID == ArchiveAnimationId)
     {
-//        attachmentsViewController.view.hidden = YES;
-//        attachmentsViewController.view.transform = CGAffineTransformIdentity;
-//        attachmentsViewController.view.hidden = NO;
-//        [UIView setAnimationDelegate:nil];
-//        [UIView setAnimationDidStopSelector:nil];
-        
-        attachmentsViewController.view.alpha = 1.0;
-        documentInfoViewController.view.hidden = NO;
-        
-        [[DataSource sharedDataSource] commit];
+        attachmentsViewController.view.hidden = YES;
+        attachmentsViewController.view.transform = CGAffineTransformIdentity;
+        attachmentsViewController.view.hidden = NO;
+        [UIView setAnimationDelegate:nil];
+        [UIView setAnimationDidStopSelector:nil];
         
         //set first document in current folder
         self.document = folder.firstDocument;
