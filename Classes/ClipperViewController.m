@@ -93,12 +93,6 @@
     [super dealloc];
 }
 
-- (void) silentClose
-{
-    opened = NO;
-    ((UIImageView *)self.view).image = [UIImage imageNamed:opened?@"ClipperOpened.png":@"ClipperClosed.png"];
-}
-
 - (CGFloat) contentOffset
 {
     return 42.0f;
