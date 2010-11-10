@@ -43,7 +43,7 @@ typedef enum _PaintingTool {
 }
 @property (nonatomic, retain) id<PaintingToolsDelegate> delegate;
 @property (nonatomic, assign) PaintingTool              tool;
-@property (nonatomic, assign) UIColor                   *color;
+@property (nonatomic, retain) UIColor                   *color;
 
 -(void) cancel;
 @end
