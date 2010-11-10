@@ -20,7 +20,6 @@
 #import "RotateableImageView.h"
 #import "PageControl.h"
 #import "DocumentResolution.h"
-#import "RootContentView.h"
 #import "SignatureCommentViewController.h"
 #import "DataSource.h"
 #import "MBProgressHUD.h"
@@ -32,6 +31,11 @@ static NSString* ClipperOpenedContext = @"ClipperOpenedContext";
 static NSString* AttachmentContext    = @"AttachmentContext";
 static NSString* LinkContext          = @"LinkContext";
 static NSString* SyncingContext       = @"SyncingContext";
+
+#define kLeftMargin 7.0f
+#define kRightMargin 10.0f
+
+#define kTopMargin 7.0f
 
 @interface RootViewController(Private)
 - (void) createToolbar;
@@ -149,7 +153,7 @@ static NSString* SyncingContext       = @"SyncingContext";
 
     
     //contentView
-    contentView = [[RootContentView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
+    contentView = [[RotateableImageView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
     contentView.portraitImage = [UIImage imageNamed: @"Paper.png"];
     contentView.landscapeImage = [UIImage imageNamed: @"Paper-Landscape.png"];
     contentView.userInteractionEnabled = YES;
@@ -278,41 +282,73 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     [backgroundView addSubview:infoButton];
     
-    //attachments view
-    attachmentsViewController = [[AttachmentsViewController alloc] init];
-
-    attachmentsViewController.pageControl = pageControl;
-
-    //attachmentPicker view
+    //documentInfo
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
     
+    CGRect documentInfoFrame = documentInfoViewController.view.frame;
+    documentInfoFrame.origin.x = kLeftMargin;
+    documentInfoFrame.origin.y = kTopMargin;
+    documentInfoFrame.size.width = contentViewFrame.size.width - kLeftMargin - kRightMargin;
+    
+    documentInfoViewController.view.frame = documentInfoFrame;
+    
+    documentInfoViewControllerSize = documentInfoFrame.size;
+
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"attachment"
                                     options:0
                                     context:&AttachmentContext];
-
+    
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"link"
                                     options:0
                                     context:&LinkContext];
+    
+    [contentView addSubview:documentInfoViewController.view];
+    
+    //attachments
+    attachmentsViewController = [[AttachmentsViewController alloc] init];
+
+    CGRect attachmentsFrame = CGRectMake(kLeftMargin, kTopMargin, contentViewFrame.size.width - kLeftMargin - kRightMargin, contentViewFrame.size.height - 2 * kTopMargin);
+
+    attachmentsViewController.view.frame = attachmentsFrame;
+    
+    attachmentsViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    
+    attachmentsViewController.pageControl = pageControl;
 
     paintingToolsViewController.delegate = attachmentsViewController;
     
     //default color for attachmentView
     attachmentsViewController.paintingTools = paintingToolsViewController;
-
-
     
+    [contentView addSubview:attachmentsViewController.view];
+
+
     resolutionViewController = [[ResolutionViewController alloc] init];
+
     resolutionViewController.view.hidden = YES;
+    
+    CGRect resolutionFrame = resolutionViewController.view.frame;
+    resolutionFrame.origin.x = round((contentViewFrame.size.width-resolutionFrame.size.width) / 2);
+    resolutionFrame.origin.y = 0;
+    resolutionViewController.view.frame = resolutionFrame;
+
+    resolutionViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
+    
+    [contentView addSubview:resolutionViewController.view];
+    
     signatureCommentViewController = [[SignatureCommentViewController alloc] init];
     signatureCommentViewController.view.hidden = YES;
     
-    contentView.documentInfo = documentInfoViewController.view;
-    contentView.attachments = attachmentsViewController.view;
-    contentView.resolution = resolutionViewController.view;
-    contentView.signatureComment = signatureCommentViewController.view;
+    CGRect signatureCommentFrame = signatureCommentViewController.view.frame;
+    signatureCommentFrame.origin.x = round((contentViewFrame.size.width-signatureCommentFrame.size.width) / 2);
+    signatureCommentFrame.origin.y = 0;
+    signatureCommentViewController.view.frame = signatureCommentFrame;
+    
+    signatureCommentViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
 
+    [contentView addSubview:signatureCommentViewController.view];
     
     canEdit = YES;
 
@@ -340,7 +376,6 @@ static NSString* SyncingContext       = @"SyncingContext";
 
 - (void)willAnimateRotationToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
 {
-    [clipperViewController silentClose];
     if ([attachmentsViewController respondsToSelector:@selector(willAnimateRotationToInterfaceOrientation:duration:)]) 
         [attachmentsViewController willAnimateRotationToInterfaceOrientation:toInterfaceOrientation duration:duration];
 }
@@ -498,10 +533,11 @@ static NSString* SyncingContext       = @"SyncingContext";
         [UIView beginAnimations:OpenClipperAnimationId context:NULL];
         [UIView setAnimationDuration:.5];
 
-        CGSize documentInfoViewControllerSize = documentInfoViewController.view.frame.size;
-        
         CGRect attachmentsViewOldFrame = attachmentsViewController.view.frame;
-        CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*documentInfoViewControllerSize.height, attachmentsViewOldFrame.size.width, attachmentsViewOldFrame.size.height);
+        CGRect attachmentsViewFrame = CGRectMake(attachmentsViewOldFrame.origin.x,
+                                                 attachmentsViewOldFrame.origin.y+(clipperViewController.opened?1:-1)*documentInfoViewControllerSize.height,
+                                                 attachmentsViewOldFrame.size.width, 
+                                                 attachmentsViewOldFrame.size.height);
         attachmentsViewController.view.frame = attachmentsViewFrame;
 
         [UIView commitAnimations];

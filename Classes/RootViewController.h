@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "DocumentsListViewController.h"
 
-@class Document, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController, RootContentView, SignatureCommentViewController, MBProgressHUD;
+@class Document, AttachmentsViewController, ClipperViewController, Folder, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController, RotateableImageView, SignatureCommentViewController, MBProgressHUD;
 
 @interface RootViewController : UIViewController<DocumentsListDelegate>
 {
@@ -21,7 +21,7 @@
     DocumentInfoViewController  *documentInfoViewController;
     PaintingToolsViewController *paintingToolsViewController;
     CGFloat                     contentHeightOffset;
-    RootContentView             *contentView;
+    RotateableImageView         *contentView;
     BOOL                        canEdit;
     UIButton                    *declineButton;
     UIButton                    *acceptButton;
@@ -32,6 +32,7 @@
     ResolutionViewController    *resolutionViewController;
     SignatureCommentViewController *signatureCommentViewController;
     MBProgressHUD               *blockView;
+    CGSize documentInfoViewControllerSize;
 }
 
 @property (nonatomic, retain, setter=setDocument:) Document *document;
