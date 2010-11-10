@@ -58,7 +58,7 @@
     
     CGSize imageSize = image.size;
     
-    self.bounds = CGRectMake(0, 0, imageSize.width, imageSize.height);
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, imageSize.width, imageSize.height);
     self.image = image;
     
     prevOrientationPortrait = currentOrientationPortrait;
