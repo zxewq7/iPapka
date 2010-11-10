@@ -24,8 +24,8 @@
     
     NSError *error = nil;
     
-    NSAssert1([fetchedResultsController performFetch:&error], @"Unhandled error executing fetch persons: %@", [error localizedDescription]);
-
+    if (![fetchedResultsController performFetch:&error]) 
+        NSAssert1(NO, @"Unhandled error executing fetch persons: %@", [error localizedDescription]);
 }
 
 
