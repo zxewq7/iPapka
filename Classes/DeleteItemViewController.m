@@ -30,7 +30,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(DeleteItemViewController);
     if (!popoverController)
         popoverController = [[UIPopoverController alloc] initWithContentViewController: self];
     
-    [popoverController presentPopoverFromRect: targetView.frame inView:[targetView superview] permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
+    [popoverController presentPopoverFromRect: targetView.bounds inView:targetView permittedArrowDirections:UIPopoverArrowDirectionAny animated:YES];
 }
 
 
