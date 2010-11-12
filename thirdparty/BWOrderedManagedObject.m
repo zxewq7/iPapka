@@ -77,6 +77,18 @@
 	[container replaceObjectInOrderedValueForKey:key atIndex:index withObject:anObject];
 }
 
+- (NSUInteger)indexOfObject:(id)anObject
+{
+    NSUInteger count = [container countOfOrderedValueForKey:key];
+
+    for (NSUInteger i = 0; i < count; i++)
+    {
+        id object = [container objectInOrderedValueForKey:key atIndex:i];
+        if ([object isEqual:anObject])
+            return i;
+    }
+    return NSNotFound;
+}
 @end
 
 NSString* BWOrderedChangeContext = @"BWOrderedChangeContext";
