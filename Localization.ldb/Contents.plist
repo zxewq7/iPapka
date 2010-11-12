@@ -323,7 +323,7 @@
 					<key>attachments</key>
 					<dict/>
 					<key>change date</key>
-					<date>2010-10-11T18:02:27Z</date>
+					<date>2010-11-08T10:43:05Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -333,7 +333,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>22869742a27fd837824bec4df687c29b
+					<string>0ce8178e40d1e54a260d9944eb6a8796
 </string>
 					<key>name</key>
 					<string>InfoPlist.strings</string>
@@ -351,13 +351,13 @@
 							<key>errors</key>
 							<array/>
 							<key>flags</key>
-							<integer>0</integer>
+							<integer>1</integer>
 							<key>key</key>
 							<string>NSHumanReadableCopyright</string>
 							<key>localizations</key>
 							<dict>
 								<key>en</key>
-								<string>©Aramzamzam.net, 2010</string>
+								<string>©Intertrust Company, 2010</string>
 								<key>ru</key>
 								<string>©Intertrust Company, 2010</string>
 							</dict>
@@ -403,7 +403,7 @@
 					<key>attachments</key>
 					<dict/>
 					<key>change date</key>
-					<date>2010-11-02T21:41:49Z</date>
+					<date>2010-11-12T10:14:49Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -413,7 +413,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>baf56d0487b8a929cf83fa3bd537ca32
+					<string>b506be81aef263a9f300c34a4365bd01
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -690,31 +690,6 @@
 								<string>Back</string>
 								<key>ru</key>
 								<string>Назад</string>
-							</dict>
-							<key>snapshots</key>
-							<dict/>
-						</dict>
-						<dict>
-							<key>change date</key>
-							<date>2001-01-01T00:00:00Z</date>
-							<key>changed values</key>
-							<array/>
-							<key>class</key>
-							<string>BLStringKeyObject</string>
-							<key>comment</key>
-							<string>Bad response</string>
-							<key>errors</key>
-							<array/>
-							<key>flags</key>
-							<integer>0</integer>
-							<key>key</key>
-							<string>Bad response</string>
-							<key>localizations</key>
-							<dict>
-								<key>en</key>
-								<string>Bad response</string>
-								<key>ru</key>
-								<string>Неверный ответ сервера</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -1177,6 +1152,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>List</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>List</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>List</string>
+								<key>ru</key>
+								<string>Список</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>Listen comment</string>
 							<key>errors</key>
 							<array/>
@@ -1540,6 +1540,31 @@
 								<string>Recording</string>
 								<key>ru</key>
 								<string>Запись</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Reorder</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Reorder</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Reorder</string>
+								<key>ru</key>
+								<string>Упорядочить</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -1996,7 +2021,33 @@
 						</dict>
 					</array>
 					<key>old objects</key>
-					<array/>
+					<array>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Bad response</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Bad response</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Bad response</string>
+								<key>ru</key>
+								<string>Неверный ответ сервера</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+					</array>
 					<key>plist file</key>
 					<false/>
 					<key>snapshots</key>

@@ -47,7 +47,7 @@
     
     CGSize viewSize = self.view.bounds.size;
     
-    filterSwitcher = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Add", "Add"), NSLocalizedString(@"Reorder", "Reorder"), nil]];
+    filterSwitcher = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"List", "List"), NSLocalizedString(@"Reorder", "Reorder"), nil]];
     filterSwitcher.segmentedControlStyle = UISegmentedControlStyleBar;
     
     [filterSwitcher sizeToFit];
