@@ -16,7 +16,6 @@
     ViewWithButtons *performersView;
     DocumentResolutionAbstract *document;
     UIPopoverController *personPopoverController;
-    UIPopoverController *personReorderPopoverController;
     UIView *editToolbar;
 }
 

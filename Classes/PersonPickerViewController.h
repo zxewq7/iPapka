@@ -10,15 +10,17 @@
 #import <CoreData/NSFetchedResultsController.h>
 
 @class Person;
-@interface PersonPickerViewController : UITableViewController<NSFetchedResultsControllerDelegate>
+@interface PersonPickerViewController : UIViewController<NSFetchedResultsControllerDelegate, UITableViewDelegate, UITableViewDataSource>
 {
-    NSArray *persons;
+    NSMutableArray *persons;
     NSFetchedResultsController *fetchedResultsController;
     SEL action;
     id target;
+    UITableView *tableView;
+    UISegmentedControl *filterSwitcher;
 }
 
-@property (nonatomic, retain) Person *person;
 @property (nonatomic, assign) SEL action;
 @property (nonatomic, retain) id target;
+@property (nonatomic, retain) NSMutableArray *persons;
 @end

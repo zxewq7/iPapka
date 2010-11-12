@@ -11,13 +11,64 @@
 #import "Person.h"
 #import "DataSource.h"
 
+@interface PersonPickerViewController(Private)
+-(UITableView *) tableView;
+@end
+
 @implementation PersonPickerViewController
-@synthesize person, action, target;
+@synthesize persons, action, target;
+
+-(void) setPersons:(NSMutableArray *)ps
+{
+    if (ps != persons)
+    {
+        [persons release];
+        persons = [ps retain];
+    }
+    
+    [self.tableView reloadData];
+}
+
 #pragma mark -
 #pragma mark View lifecycle
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    CGSize viewSize = self.view.bounds.size;
+    
+    filterSwitcher = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Add", "Add"), NSLocalizedString(@"Reorder", "Reorder"), nil]];
+    filterSwitcher.segmentedControlStyle = UISegmentedControlStyleBar;
+    
+    [filterSwitcher sizeToFit];
+    
+    [filterSwitcher addTarget:self action:@selector(switchFilter:) forControlEvents:UIControlEventValueChanged];
+    
+    filterSwitcher.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    CGRect filterSwitcherFrame = filterSwitcher.frame;
+    filterSwitcherFrame.origin.x = 0;
+    filterSwitcherFrame.origin.y = 0;
+    filterSwitcherFrame.size.width = viewSize.width;
+    
+    filterSwitcher.frame = filterSwitcherFrame;
+    
+    filterSwitcher.selectedSegmentIndex = 0;
+    
+    [self.view addSubview: filterSwitcher];
+    
+    CGRect tableViewFrame = CGRectMake(0, filterSwitcherFrame.size.height, viewSize.width, viewSize.height - filterSwitcherFrame.size.height);
+    
+    tableView = [[UITableView alloc] initWithFrame:tableViewFrame style: UITableViewStylePlain];
+    
+    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
+    [self.view addSubview: tableView];
+    
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    
     fetchedResultsController = [[DataSource sharedDataSource] persons];
     [fetchedResultsController retain];
     fetchedResultsController.delegate = self;
@@ -40,32 +91,66 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)aTableView 
 {
-	return [[fetchedResultsController sections] count];
+    switch (filterSwitcher.selectedSegmentIndex)
+    {
+        case 0:
+            return [[fetchedResultsController sections] count];
+        default:
+            return 1;
+    }
 }
 
 - (NSInteger)tableView:(UITableView *)aTableView numberOfRowsInSection:(NSInteger)section 
 {
-    id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
-    return [sectionInfo numberOfObjects];
+    id <NSFetchedResultsSectionInfo> sectionInfo;
+    
+    switch (filterSwitcher.selectedSegmentIndex)
+    {
+        case 0:
+            sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
+            return [sectionInfo numberOfObjects];
+        case 1:
+            return [self.persons count];
+        default:
+            return 0;
+    }
 }
 
 - (NSString *)tableView:(UITableView *)aTableView titleForHeaderInSection:(NSInteger)section {
     // Section title is the region name
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
 
-    return [sectionInfo name];
+    if (filterSwitcher.selectedSegmentIndex == 0)
+        return [sectionInfo name];
+    else
+        return nil;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+- (UITableViewCell *)tableView:(UITableView *)tv cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     
     static NSString *CellIdentifier = @"PersonCell";
     
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) {
+    if (cell == nil) 
+    {
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+        cell.selectionStyle = UITableViewCellSeparatorStyleNone;
     }
     
-    Person *p = [fetchedResultsController objectAtIndexPath:indexPath];
+    Person *p = nil;;
+    
+    switch (filterSwitcher.selectedSegmentIndex)
+    {
+        case 0:
+            p = [fetchedResultsController objectAtIndexPath:indexPath];
+            cell.showsReorderControl = NO;
+            break;
+        case 1:
+            p = [self.persons objectAtIndex:indexPath.row];
+            cell.showsReorderControl = YES;
+            break;
+    }
+
     cell.textLabel.text = p.fullName;
     
     return cell;
@@ -73,6 +158,9 @@
 
 - (NSArray *)sectionIndexTitlesForTableView:(UITableView *)tableView 
 {
+    if (filterSwitcher.selectedSegmentIndex)
+        return nil;
+    
     NSArray *sections = [fetchedResultsController sections];
     NSMutableArray *index = [NSMutableArray arrayWithCapacity:[sections count]];
     
@@ -87,8 +175,46 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    person = [fetchedResultsController objectAtIndexPath:indexPath];
-    [target performSelector:action withObject:self];    
+    Person *person = nil;
+    
+    switch (filterSwitcher.selectedSegmentIndex)
+    {
+        case 0:
+            person = [fetchedResultsController objectAtIndexPath:indexPath];
+            [self.persons addObject:person];
+            [target performSelector:action withObject:self];
+            break;
+    }
+}
+
+- (void)tableView:(UITableView *)tv commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    
+    if (editingStyle == UITableViewCellEditingStyleDelete) 
+    {
+        [self.persons removeObjectAtIndex:indexPath.row];
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+
+        [self.target performSelector:self.action withObject:self];
+    }   
+}
+
+
+- (void)tableView:(UITableView *)tableView moveRowAtIndexPath:(NSIndexPath *)fromIndexPath toIndexPath:(NSIndexPath *)toIndexPath 
+{
+    NSMutableArray *array = self.persons;
+    
+    id object = [array objectAtIndex:fromIndexPath.row];
+    [array removeObjectAtIndex:fromIndexPath.row];
+    [array insertObject:object atIndex:toIndexPath.row];
+    
+    [self.target performSelector:self.action withObject:self];
+}
+
+
+- (BOOL)tableView:(UITableView *)tableView canMoveRowAtIndexPath:(NSIndexPath *)indexPath 
+{
+    return YES;
 }
 
 #pragma mark -
@@ -102,32 +228,36 @@
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeObject:(id)anObject atIndexPath:(NSIndexPath *)indexPath forChangeType:(NSFetchedResultsChangeType)type newIndexPath:(NSIndexPath *)newIndexPath {
     
-    UITableView *tableView = self.tableView;
-    
+    if (filterSwitcher.selectedSegmentIndex)
+        return;
+
     switch(type) {
             
         case NSFetchedResultsChangeInsert:
-            [tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeDelete:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeUpdate:
-            [tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             break;
             
         case NSFetchedResultsChangeMove:
-            [tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
             // Reloading the section inserts a new row and ensures that titles are updated appropriately.
-            [tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
+            [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:newIndexPath.section] withRowAnimation:UITableViewRowAnimationFade];
             break;
     }
 }
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
+
+    if (filterSwitcher.selectedSegmentIndex)
+        return;
     
     switch(type) {
             
@@ -147,6 +277,13 @@
     
     [self.tableView endUpdates];
 }
+#pragma mark
+#pragma actions
+-(void)switchFilter:(id) sender
+{
+    self.tableView.editing = (filterSwitcher.selectedSegmentIndex == 1);
+    [self.tableView reloadData];
+}
 
 #pragma mark -
 #pragma mark Memory management
@@ -155,6 +292,8 @@
     [super viewDidUnload];
     
     [fetchedResultsController release]; fetchedResultsController = nil;
+    [tableView release]; tableView = nil;
+    [filterSwitcher release]; filterSwitcher = nil;
 }
 
 
@@ -162,13 +301,23 @@
 {
     [fetchedResultsController release]; fetchedResultsController = nil;
     
-    self.person = nil;
+    self.persons = nil;
     
     self.target = nil;
     
     self.action = nil;
+    
+    [tableView release]; tableView = nil;
+    
+    [filterSwitcher release]; filterSwitcher = nil;
 
     [super dealloc];
+}
+
+#pragma Private
+-(UITableView *) tableView
+{
+    return tableView;
 }
 @end
 

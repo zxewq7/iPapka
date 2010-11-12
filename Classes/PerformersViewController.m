@@ -16,7 +16,6 @@
 #import "PersonPickerViewController.h"
 #import "DataSource.h"
 #import "DeleteItemViewController.h"
-#import "PerformersEditorController.h"
 
 @interface PerformersViewController (Private)
 - (void) updateContent;
@@ -47,7 +46,7 @@
     
     UIButton *buttonAdd = [UIButton buttonWithType:UIButtonTypeContactAdd];
     
-    [buttonAdd addTarget:self action:@selector(addPerformer:) forControlEvents:UIControlEventTouchUpInside];
+    [buttonAdd addTarget:self action:@selector(editPerformers:) forControlEvents:UIControlEventTouchUpInside];
     
     CGRect buttonAddFrame = buttonAdd.frame;
     buttonAddFrame.origin.y = 0;
@@ -88,16 +87,21 @@
 
 #pragma mark -
 #pragma mark actions
--(void) addPerformer:(id) sender
+-(void) editPerformers:(id) sender
 {
     if (!personPopoverController)
     {
         PersonPickerViewController *picker = [[PersonPickerViewController alloc] init];
         picker.target = self;
-        picker.action = @selector(setPerformer:);
+        picker.action = @selector(performersEdited:);
         personPopoverController = [[UIPopoverController alloc] initWithContentViewController: picker];
         [picker release];
     }
+    
+    PersonPickerViewController *picker = (PersonPickerViewController *)personPopoverController.contentViewController;
+    
+    picker.persons = ((DocumentResolution *)self.document).performersOrdered;
+
     
     UIView *button = (UIView *)sender;
 	[personPopoverController presentPopoverFromRect: button.bounds inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
@@ -117,44 +121,7 @@
     }];
 }
 
-
--(void) setPerformer:(id) sender
-{
-    [personPopoverController dismissPopoverAnimated:YES];
-
-    DocumentResolution *resolution = (DocumentResolution *) document;
-    
-    Person *p = ((PersonPickerViewController *)sender).person;
-    if (p)
-    {
-        [resolution addPerformersObject: p];
-        [[DataSource sharedDataSource] commit];
-        [self updateContent];
-        
-    }
-}
-
--(void) reorderPerformers:(id) sender
-{
-    if (!personReorderPopoverController)
-    {
-        PerformersEditorController *picker = [[PerformersEditorController alloc] init];
-        picker.target = self;
-        picker.action = @selector(setReorderedPerformers:);
-        
-        personReorderPopoverController = [[UIPopoverController alloc] initWithContentViewController: picker];
-        [picker release];
-    }
-
-    PerformersEditorController *picker = (PerformersEditorController *)personReorderPopoverController.contentViewController;
-    
-    picker.document = (DocumentResolution *)self.document;
-
-    UIView *button = (UIView *)sender;
-	[personReorderPopoverController presentPopoverFromRect: button.bounds inView:button permittedArrowDirections:UIPopoverArrowDirectionUp animated:YES];
-}
-
--(void) setReorderedPerformers:(id) sender
+-(void) performersEdited:(id) sender
 {
     [[DataSource sharedDataSource] commit];
     [self updateContent];
@@ -178,8 +145,6 @@
 
     [personPopoverController release]; personPopoverController = nil;
     
-    [personReorderPopoverController release]; personReorderPopoverController = nil;
-    
     [editToolbar release]; editToolbar = nil;
 }
 
@@ -196,8 +161,6 @@
     
     [editToolbar release]; editToolbar = nil;
 
-    [personReorderPopoverController release]; personReorderPopoverController = nil;
-    
     [super dealloc];
 }
 
