@@ -492,6 +492,8 @@ static NSString* SyncingContext       = @"SyncingContext";
 - (void) acceptDocument:(id) sender
 {
     self.document.statusValue = DocumentStatusAccepted;
+    
+    [[DataSource sharedDataSource] commit];
 
     [self moveToArchive];
 }
