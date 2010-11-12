@@ -36,6 +36,15 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    fetchedResultsController = [[DataSource sharedDataSource] persons];
+    [fetchedResultsController retain];
+    fetchedResultsController.delegate = self;
+    
+    NSError *error = nil;
+    
+    if (![fetchedResultsController performFetch:&error]) 
+        NSAssert1(NO, @"Unhandled error executing fetch persons: %@", [error localizedDescription]);
+    
     CGSize viewSize = self.view.bounds.size;
     
     filterSwitcher = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Add", "Add"), NSLocalizedString(@"Reorder", "Reorder"), nil]];
@@ -68,15 +77,6 @@
     
     tableView.delegate = self;
     tableView.dataSource = self;
-    
-    fetchedResultsController = [[DataSource sharedDataSource] persons];
-    [fetchedResultsController retain];
-    fetchedResultsController.delegate = self;
-    
-    NSError *error = nil;
-    
-    if (![fetchedResultsController performFetch:&error]) 
-        NSAssert1(NO, @"Unhandled error executing fetch persons: %@", [error localizedDescription]);
 }
 
 
@@ -222,6 +222,9 @@
 
 - (void)controllerWillChangeContent:(NSFetchedResultsController *)controller {
     // The fetch controller is about to start sending change notifications, so prepare the table view for updates.
+    if (filterSwitcher.selectedSegmentIndex)
+        return;
+
     [self.tableView beginUpdates];
 }
 
@@ -274,6 +277,8 @@
 
 - (void)controllerDidChangeContent:(NSFetchedResultsController *)controller {
     // The fetch controller has sent all current change notifications, so tell the table view to process all updates.
+    if (filterSwitcher.selectedSegmentIndex)
+        return;
     
     [self.tableView endUpdates];
 }
