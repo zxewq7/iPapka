@@ -194,6 +194,17 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     [[self.readers objectAtIndex:syncStep] sync];
 }
 
+-(NSArray *) folders
+{
+    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+    NSData *foldersData = [currentDefaults objectForKey:@"folders"];
+    
+    NSAssert(foldersData != nil, @"No folders found");
+    
+    NSArray *folders = [NSKeyedUnarchiver unarchiveObjectWithData:foldersData];
+    
+    return folders;
+}
 
 -(void) shutdown
 {

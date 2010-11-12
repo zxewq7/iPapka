@@ -31,8 +31,9 @@
     BOOL                         showErrors;
 }
 + (DataSource *)sharedDataSource;
-@property (nonatomic)                   BOOL                isSyncing;
-@property (nonatomic, retain, readonly) NSDate              *lastSynced;
+@property (nonatomic)           BOOL    isSyncing;
+@property (nonatomic, readonly) NSDate  *lastSynced;
+@property (nonatomic, readonly) NSArray *folders;
 
 -(NSFetchedResultsController *) documentsForFolder:(Folder *) folder;
 -(void) sync:(BOOL) showErrors;
