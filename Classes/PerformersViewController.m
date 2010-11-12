@@ -42,41 +42,20 @@
     
     CGSize viewSize = self.view.bounds.size;
     
-    editToolbar = [[UIView alloc] initWithFrame:CGRectZero];
-    
-    UIButton *buttonAdd = [UIButton buttonWithType:UIButtonTypeContactAdd];
+    buttonAdd = [UIButton buttonWithType:UIButtonTypeContactAdd];
     
     [buttonAdd addTarget:self action:@selector(editPerformers:) forControlEvents:UIControlEventTouchUpInside];
     
     CGRect buttonAddFrame = buttonAdd.frame;
+    buttonAddFrame.origin.x = viewSize.width - buttonAddFrame.size.width;
     buttonAddFrame.origin.y = 0;
-    buttonAddFrame.origin.x = 0;
     buttonAdd.frame = buttonAddFrame;
+
+    buttonAdd.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin);
+
+    [self.view addSubview:buttonAdd];
     
-    [editToolbar addSubview:buttonAdd];
-    
-    UIButton *buttonReorder = [UIButton imageButton:self
-                                           selector:@selector(reorderPerformers:)
-                                              image:[UIImage imageNamed:@"ButtonReorder.png"]
-                                      imageSelected:[UIImage imageNamed:@"ButtonReorder.png"]];
-    
-    CGRect buttonReorderFrame = buttonReorder.frame;
-    buttonReorderFrame.origin.y = buttonAddFrame.origin.y + buttonAddFrame.size.height + 5.0f;
-    buttonReorderFrame.origin.x = 0;
-    buttonReorder.frame = buttonReorderFrame;
-    
-    [editToolbar addSubview:buttonReorder];
-    
-    editToolbar.frame = CGRectMake(viewSize.width - MAX(buttonReorderFrame.size.width, buttonAddFrame.size.width), 
-                                   0, 
-                                   MAX(buttonReorderFrame.size.width, buttonAddFrame.size.width),
-                                   buttonReorderFrame.origin.y + buttonReorderFrame.size.height);
-    
-    editToolbar.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin);
-    
-    [self.view addSubview: editToolbar];
-    
-    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - editToolbar.frame.size.width - 5.0f, 200)];
+    performersView = [[ViewWithButtons alloc] initWithFrame: CGRectMake(0, 0, viewSize.width - buttonAdd.frame.size.width - 5.0f, 200)];
     
     performersView.contentHorizontalAlignment = UIControlContentHorizontalAlignmentCenter;
     performersView.spaceBetweenButtons = 5.0f;
@@ -145,7 +124,7 @@
 
     [personPopoverController release]; personPopoverController = nil;
     
-    [editToolbar release]; editToolbar = nil;
+    [buttonAdd release]; buttonAdd = nil;
 }
 
 
@@ -159,7 +138,7 @@
 
     [personPopoverController release]; personPopoverController = nil;
     
-    [editToolbar release]; editToolbar = nil;
+    [buttonAdd release]; buttonAdd = nil;
 
     [super dealloc];
 }
@@ -172,22 +151,22 @@
     performers = nil;
     NSMutableArray *performerButtons = nil;
 
-    BOOL wasHidden = editToolbar.hidden;
+    BOOL wasHidden = buttonAdd.hidden;
     
-    editToolbar.hidden = !document.isEditable;
+    buttonAdd.hidden = !document.isEditable;
     
     //hide or show add performer button
-    if (wasHidden != editToolbar.hidden)
+    if (wasHidden != buttonAdd.hidden)
     {
         CGRect frame = performersView.frame;
-        if (editToolbar.hidden)
+        if (buttonAdd.hidden)
         {
-            frame.size.width += editToolbar.frame.size.width;
+            frame.size.width += buttonAdd.frame.size.width;
             performersView.frame = frame;
         }
         else
         {
-            frame.size.width -= editToolbar.frame.size.width;
+            frame.size.width -= buttonAdd.frame.size.width;
             performersView.frame = frame;
         }
     }
@@ -271,7 +250,7 @@
     //fix view size
     CGRect viewFrame = self.view.frame;
 
-    viewFrame.size.height = MAX(performersViewFrame.size.height, editToolbar.frame.origin.y + editToolbar.frame.size.height);
+    viewFrame.size.height = MAX(performersViewFrame.size.height, buttonAdd.frame.origin.y + buttonAdd.frame.size.height);
     
     self.view.frame = viewFrame;
     

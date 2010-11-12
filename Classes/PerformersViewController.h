@@ -16,7 +16,7 @@
     ViewWithButtons *performersView;
     DocumentResolutionAbstract *document;
     UIPopoverController *personPopoverController;
-    UIView *editToolbar;
+    UIButton *buttonAdd;
 }
 
 @property (nonatomic, retain) DocumentResolutionAbstract *document;

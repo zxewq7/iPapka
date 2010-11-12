@@ -208,7 +208,6 @@
 		81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE7A1240EEBA00D697EA /* Papers.png */; };
 		81E6425C126DFC30001EE1B4 /* IconPainting.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E6425B126DFC30001EE1B4 /* IconPainting.png */; };
 		81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */; };
-		81FB04D51281A4F200276CC8 /* ButtonReorder.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FB04D41281A4F200276CC8 /* ButtonReorder.png */; };
 		81FBA5D7127EF34C00A70025 /* ResolutionContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81FBA5D6127EF34C00A70025 /* ResolutionContentView.m */; };
 		81FC1EEB124B2817001CC3C9 /* ButtonRecordStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */; };
 /* End PBXBuildFile section */
@@ -533,7 +532,6 @@
 		81E6425B126DFC30001EE1B4 /* IconPainting.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = IconPainting.png; sourceTree = "<group>"; };
 		81EA7EB71259F823007D4A7C /* KeychainItemWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = KeychainItemWrapper.h; path = thirdparty/KeychainItemWrapper.h; sourceTree = "<group>"; };
 		81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = KeychainItemWrapper.m; path = thirdparty/KeychainItemWrapper.m; sourceTree = "<group>"; };
-		81FB04D41281A4F200276CC8 /* ButtonReorder.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonReorder.png; sourceTree = "<group>"; };
 		81FBA5D5127EF34C00A70025 /* ResolutionContentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResolutionContentView.h; sourceTree = "<group>"; };
 		81FBA5D6127EF34C00A70025 /* ResolutionContentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ResolutionContentView.m; sourceTree = "<group>"; };
 		81FC1EEA124B2817001CC3C9 /* ButtonRecordStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecordStop.png; sourceTree = "<group>"; };
@@ -624,7 +622,6 @@
 			isa = PBXGroup;
 			children = (
 				810E19761286E1CC004DBEC3 /* BlankBackground.png */,
-				81FB04D41281A4F200276CC8 /* ButtonReorder.png */,
 				8152BCCD1276E127004A1D15 /* BlankLogo.png */,
 				81D1A97E1274A81D00D43A92 /* ButtonRed.png */,
 				817FF5A01272FE8F00B17C7E /* Attachment.png */,
@@ -1168,7 +1165,6 @@
 				817FF5A11272FE8F00B17C7E /* Attachment.png in Resources */,
 				81D1A97F1274A81D00D43A92 /* ButtonRed.png in Resources */,
 				8152BCCE1276E127004A1D15 /* BlankLogo.png in Resources */,
-				81FB04D51281A4F200276CC8 /* ButtonReorder.png in Resources */,
 				810E19771286E1CC004DBEC3 /* BlankBackground.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
