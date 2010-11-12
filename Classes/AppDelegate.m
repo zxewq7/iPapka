@@ -64,7 +64,6 @@
                                archive,
                                nil];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
-    [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:[inbox.filters objectAtIndex:0]] forKey:@"lastFolder"];
     
     [defaultValues setObject:@"ProcessedRest" forKey:@"serverDatabaseViewArchive"];
     [defaultValues setObject:@"documents" forKey:@"serverDatabaseViewInbox"];
@@ -85,12 +84,6 @@
         [currentDefaults setObject:currentVersion forKey:@"version"];
     }
     
-    NSData *lastFolderData = [currentDefaults objectForKey:@"lastFolder"];
-    Folder *lastFolder = nil;
-    if (lastFolderData != nil)
-        lastFolder = [NSKeyedUnarchiver unarchiveObjectWithData:lastFolderData];
-    
-    self.rootViewController.folder = lastFolder;
     [self.window addSubview:rootViewController.view];
     [self.window makeKeyAndVisible];
     

@@ -44,23 +44,14 @@ static NSString* SyncingContext       = @"SyncingContext";
 - (void) updateContent;
 - (void) showResolution:(id) sender;
 - (void) showSignatureComment:(id) sender;
+- (void) findAndSetDocumentInFolder;
 @end
 
 @implementation RootViewController
 
 #pragma mark -
 #pragma mark Properties
-@synthesize document, folder;
-
--(void) setFolder:(Folder *) aFolder
-{
-    if (folder == aFolder)
-        return;
-    [folder release];
-    folder = [aFolder retain];
-
-    self.document = folder.firstDocument;
-}
+@synthesize document;
 
 -(void) setDocument:(Document *) aDocument
 {
@@ -366,6 +357,8 @@ static NSString* SyncingContext       = @"SyncingContext";
                                     forKeyPath:@"isSyncing"
                                        options:0
                                        context:&SyncingContext];
+    
+    [self findAndSetDocumentInFolder];
 }
 
 #pragma mark - 
@@ -402,7 +395,6 @@ static NSString* SyncingContext       = @"SyncingContext";
 - (void) dealloc
 {
     self.document = nil;
-    self.folder = nil;
 
     [attachmentsViewController release]; attachmentsViewController = nil;
     [clipperViewController removeObserver:self forKeyPath:@"opened"];
@@ -591,7 +583,7 @@ static NSString* SyncingContext       = @"SyncingContext";
         
         if (!isSyncing && (self.document == nil)) //set first document if no document
         {
-            self.document = folder.firstDocument;
+            [self findAndSetDocumentInFolder];
         }
         
         if (isSyncing)
@@ -654,12 +646,7 @@ static NSString* SyncingContext       = @"SyncingContext";
 {
     [toolbar release];
     
-    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *foldersData = [currentDefaults objectForKey:@"folders"];
-    
-    NSAssert(foldersData != nil, @"No folders found");
-    
-    NSArray *folders = [NSKeyedUnarchiver unarchiveObjectWithData:foldersData];
+    NSArray *folders = [DataSource sharedDataSource].folders;
 
     NSUInteger foldersCount = [folders count];
     
@@ -784,7 +771,7 @@ static NSString* SyncingContext       = @"SyncingContext";
         [UIView setAnimationDidStopSelector:nil];
         
         //set first document in current folder
-        self.document = folder.firstDocument;
+        [self findAndSetDocumentInFolder];
     }
 }
 -(void) setCanEdit:(BOOL) value
@@ -848,5 +835,26 @@ static NSString* SyncingContext       = @"SyncingContext";
     backButton.hidden = YES;
     
     [self setCanEdit: ((self.document.statusValue == DocumentStatusDraft || self.document.statusValue == DocumentStatusNew))];
+}
+
+- (void) findAndSetDocumentInFolder
+{
+    NSArray *folders = [DataSource sharedDataSource].folders;
+    
+    for (Folder *folder in folders)
+    {
+        for (Folder *filter in folder.filters)
+        {
+            Document *d = filter.firstDocument;
+            if (d)
+            {
+                self.document = d;
+                return;
+            }
+        }
+        
+        break; //only for first folder
+    }
+    self.document = nil;
 }
 @end
