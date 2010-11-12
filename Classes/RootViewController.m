@@ -143,29 +143,6 @@ static NSString* SyncingContext       = @"SyncingContext";
     [backgroundView addSubview:paintingToolsViewController.view];
 
     
-    //contentView
-    contentView = [[RotateableImageView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
-    contentView.portraitImage = [UIImage imageNamed: @"Paper.png"];
-    contentView.landscapeImage = [UIImage imageNamed: @"Paper-Landscape.png"];
-    contentView.userInteractionEnabled = YES;
-    
-    CGRect contentViewFrame = contentView.frame;
-    contentViewFrame.origin.x = round((backgroundViewFrame.size.width - contentViewFrame.size.width) / 2);
-    contentViewFrame.origin.y = 43;
-    contentView.frame = contentViewFrame;
-    contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
-
-    [backgroundView addSubview:contentView];
-
-    //page control
-    CGRect pageControlFrame = CGRectMake(0, viewFrame.size.height - 37, viewFrame.size.width, 37);
-    PageControl *pageControl = [[[PageControl alloc] initWithFrame: pageControlFrame] autorelease];
-    
-    pageControl.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);
-
-    [self.view addSubview:pageControl];
-    
-    
     //resolution button
     resolutionButton = [UIButton buttonWithBackgroundAndTitle:NSLocalizedString(@"Resolution", "Resolution")
                                                     titleFont:[UIFont boldSystemFontOfSize:12]
@@ -182,12 +159,12 @@ static NSString* SyncingContext       = @"SyncingContext";
     resolutionButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
     
     CGRect resolutionButtonFrame = resolutionButton.frame;
-    resolutionButtonFrame.origin.x = contentViewFrame.origin.x + 6.f;
+    resolutionButtonFrame.origin.x = 47;
     resolutionButtonFrame.origin.y = 12.0f;
     resolutionButton.frame = resolutionButtonFrame;
     
     resolutionButton.frame = resolutionButtonFrame;
-
+    
     resolutionButton.autoresizingMask = UIViewAutoresizingFlexibleRightMargin;
     
     [resolutionButton retain];
@@ -208,7 +185,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     [signatureCommentButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
     signatureCommentButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-
+    
     CGRect signatureCommentButtonFrame = signatureCommentButton.frame;
     
     signatureCommentButtonFrame.origin.x = resolutionButtonFrame.origin.x;
@@ -218,9 +195,9 @@ static NSString* SyncingContext       = @"SyncingContext";
     signatureCommentButton.autoresizingMask = resolutionButton.autoresizingMask;
     
     [signatureCommentButton retain];
-
+    
     [backgroundView addSubview:signatureCommentButton];
-
+    
     //back button
     //add extra spaces to front of label, cause of button with left arrow
     backButton = [UIButton buttonWithBackgroundAndTitle:[@"  " stringByAppendingString: NSLocalizedString(@"Back", "Back")]
@@ -236,7 +213,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     [backButton setTitleShadowColor:[UIColor colorWithRed:0 green:0 blue:0 alpha:.5] forState:UIControlStateNormal];
     backButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
-
+    
     CGRect backButtonFrame = backButton.frame;
     backButtonFrame.origin.x = resolutionButtonFrame.origin.x;
     backButtonFrame.origin.y = resolutionButtonFrame.origin.y;
@@ -264,7 +241,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     infoButton.titleLabel.shadowOffset = CGSizeMake(0.0, -1.0);
     
     CGRect infoButtonFrame = infoButton.frame;
-    infoButtonFrame.origin.x = contentViewFrame.origin.x + contentViewFrame.size.width - infoButtonFrame.size.width - 6.f;
+    infoButtonFrame.origin.x = 720 - infoButtonFrame.size.width;
     infoButtonFrame.origin.y = 12.0f;
     infoButton.frame = infoButtonFrame; 
     infoButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
@@ -272,6 +249,29 @@ static NSString* SyncingContext       = @"SyncingContext";
     [infoButton retain];
     
     [backgroundView addSubview:infoButton];
+
+    
+    //contentView
+    contentView = [[RotateableImageView alloc] initWithImage: [UIImage imageNamed: @"Paper.png"]];
+    contentView.portraitImage = [UIImage imageNamed: @"Paper.png"];
+    contentView.landscapeImage = [UIImage imageNamed: @"Paper-Landscape.png"];
+    contentView.userInteractionEnabled = YES;
+    
+    CGRect contentViewFrame = contentView.frame;
+    contentViewFrame.origin.x = round((backgroundViewFrame.size.width - contentViewFrame.size.width) / 2);
+    contentViewFrame.origin.y = 43;
+    contentView.frame = contentViewFrame;
+    contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+
+    [backgroundView addSubview:contentView];
+
+    //page control
+    CGRect pageControlFrame = CGRectMake(0, viewFrame.size.height - 37, viewFrame.size.width, 37);
+    PageControl *pageControl = [[[PageControl alloc] initWithFrame: pageControlFrame] autorelease];
+    
+    pageControl.autoresizingMask = (UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleWidth);
+
+    [self.view addSubview:pageControl];
     
     //documentInfo
     documentInfoViewController = [[DocumentInfoViewController alloc] init];
@@ -727,14 +727,14 @@ static NSString* SyncingContext       = @"SyncingContext";
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     
     if (orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)
-        attachmentsViewController.view.transform = CGAffineTransformScale (
+        contentView.transform = CGAffineTransformScale (
                                                                            CGAffineTransformMakeTranslation(-200.0, -475.0),
                                                                            0.1,
                                                                            0.1
                                                                            );
         
     else
-        attachmentsViewController.view.transform = CGAffineTransformScale (
+        contentView.transform = CGAffineTransformScale (
                                                                            CGAffineTransformMakeTranslation(-300.0, -375.0),
                                                                            0.1,
                                                                            0.1
@@ -761,9 +761,9 @@ static NSString* SyncingContext       = @"SyncingContext";
 {
     if (animationID == ArchiveAnimationId)
     {
-        attachmentsViewController.view.hidden = YES;
-        attachmentsViewController.view.transform = CGAffineTransformIdentity;
-        attachmentsViewController.view.hidden = NO;
+        contentView.hidden = YES;
+        contentView.transform = CGAffineTransformIdentity;
+        contentView.hidden = NO;
         [UIView setAnimationDelegate:nil];
         [UIView setAnimationDidStopSelector:nil];
         
