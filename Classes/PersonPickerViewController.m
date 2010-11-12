@@ -137,17 +137,20 @@
         cell.selectionStyle = UITableViewCellSeparatorStyleNone;
     }
     
-    Person *p = nil;;
+    Person *p = nil;
     
     switch (filterSwitcher.selectedSegmentIndex)
     {
         case 0:
             p = [fetchedResultsController objectAtIndexPath:indexPath];
             cell.showsReorderControl = NO;
+            NSUInteger index = [persons indexOfObject:p];
+            cell.textLabel.enabled = (index == NSNotFound);
             break;
         case 1:
             p = [self.persons objectAtIndex:indexPath.row];
             cell.showsReorderControl = YES;
+            cell.textLabel.enabled = YES;
             break;
     }
 
