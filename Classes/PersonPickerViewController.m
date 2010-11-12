@@ -71,7 +71,7 @@
     
     tableView = [[UITableView alloc] initWithFrame:tableViewFrame style: UITableViewStylePlain];
     
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    tableView.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     
     [self.view addSubview: tableView];
     
