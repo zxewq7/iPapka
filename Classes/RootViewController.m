@@ -443,12 +443,7 @@ static NSString* SyncingContext       = @"SyncingContext";
 
 -(void) showDocuments:(id) sender
 {
-    NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-    NSData *foldersData = [currentDefaults objectForKey:@"folders"];
-    
-    NSAssert(foldersData != nil, @"No folders found");
-    
-    NSArray *folders = [NSKeyedUnarchiver unarchiveObjectWithData:foldersData];
+    NSArray *folders = [DataSource sharedDataSource].folders;
     Folder *f = [folders objectAtIndex:((UIButton *)sender).tag];
 
     // Create the modal view controller
