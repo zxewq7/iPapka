@@ -283,6 +283,8 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     documentInfoViewController.view.frame = documentInfoFrame;
     
+    documentInfoViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    
     documentInfoViewControllerSize = documentInfoFrame.size;
 
     [documentInfoViewController addObserver:self
