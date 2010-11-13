@@ -89,7 +89,6 @@
 - (void)layoutSubviews 
 {
     [super layoutSubviews];
-    
     CGSize viewSize = self.bounds.size;
     
     [detailTextLabel2 sizeToFit];
@@ -99,14 +98,18 @@
     CGRect textLabelFrame = textLabel.frame;
     
     //increase label height
-    CGSize suggestedSize = [textLabel.text sizeWithFont:textLabel.font constrainedToSize:CGSizeMake(viewSize.width, FLT_MAX) lineBreakMode:textLabel.lineBreakMode];
+    if (textLabel.text)
+    {
+        CGSize suggestedSize = [textLabel.text sizeWithFont:textLabel.font constrainedToSize:CGSizeMake(viewSize.width, FLT_MAX) lineBreakMode:textLabel.lineBreakMode];
 
-    textLabelFrame.size.height = suggestedSize.height;
+        textLabelFrame.size.height = suggestedSize.height;
     
-    textLabelFrame.size.width = viewSize.width;
+        textLabelFrame.size.width = viewSize.width;
+    }
+    else 
+        textLabelFrame = CGRectZero;
     
     textLabel.frame = textLabelFrame;
-    
     
     //detailsTextLabel1
     
@@ -126,13 +129,13 @@
                                               detailTextLabel2.bounds.size.height);
     
     detailTextLabel2.frame = detailTextLabel2Frame;
-    
+
     
     CGRect filterFrame = filterView.frame;
     filterFrame.origin.x = round((viewSize.width - filterFrame.size.width) / 2);
     filterFrame.origin.y = detailTextLabel2Frame.origin.y + detailTextLabel2Frame.size.height + 20.0f;
     filterView.frame = filterFrame;
-    
+
     CGRect tableFrame = tableView.frame;
 
     tableFrame.origin.x = 0;
