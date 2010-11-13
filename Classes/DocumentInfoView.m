@@ -141,12 +141,6 @@
     tableFrame.size.width = viewSize.width;
     
     tableView.frame = tableFrame;
-
-//    CGRect bounds = self.bounds;
-//    
-//    bounds.size.height = MAX(detailTextLabel1Frame.origin.y + detailTextLabel1Frame.size.height, detailTextLabel2Frame.origin.y + detailTextLabel2Frame.size.height);
-//    
-//    self.bounds = bounds;
 }
 
 - (void)dealloc 
