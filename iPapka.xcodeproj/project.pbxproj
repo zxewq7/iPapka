@@ -66,6 +66,8 @@
 		813A3D4B123B4F1400E6C382 /* ButtonPaletteSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */; };
 		813EF9A512492CA400E52803 /* ButtonPlay.png in Resources */ = {isa = PBXBuildFile; fileRef = 813EF9A412492CA400E52803 /* ButtonPlay.png */; };
 		813EF9E51249332600E52803 /* ButtonStop.png in Resources */ = {isa = PBXBuildFile; fileRef = 813EF9E41249332600E52803 /* ButtonStop.png */; };
+		814037CA128F0D71001E9349 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 814037C7128F0D71001E9349 /* ASIDataCompressor.m */; };
+		814037CB128F0D71001E9349 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = 814037C9128F0D71001E9349 /* ASIDataDecompressor.m */; };
 		8141131F12880C7500BEFD32 /* IntRow.m in Sources */ = {isa = PBXBuildFile; fileRef = 8141131E12880C7500BEFD32 /* IntRow.m */; };
 		8141DD7A1259DC2400C6C24D /* PasswordManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 8141DD791259DC2400C6C24D /* PasswordManager.m */; };
 		81432FA81265B47000C38FFA /* _CommentAudio.m in Sources */ = {isa = PBXBuildFile; fileRef = 81432FA51265B47000C38FFA /* _CommentAudio.m */; };
@@ -305,6 +307,10 @@
 		813A3D4A123B4F1400E6C382 /* ButtonPaletteSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPaletteSelected.png; sourceTree = "<group>"; };
 		813EF9A412492CA400E52803 /* ButtonPlay.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonPlay.png; sourceTree = "<group>"; };
 		813EF9E41249332600E52803 /* ButtonStop.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonStop.png; sourceTree = "<group>"; };
+		814037C6128F0D71001E9349 /* ASIDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIDataCompressor.h; path = "asi-http-request/Classes/ASIDataCompressor.h"; sourceTree = "<group>"; };
+		814037C7128F0D71001E9349 /* ASIDataCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASIDataCompressor.m; path = "asi-http-request/Classes/ASIDataCompressor.m"; sourceTree = "<group>"; };
+		814037C8128F0D71001E9349 /* ASIDataDecompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ASIDataDecompressor.h; path = "asi-http-request/Classes/ASIDataDecompressor.h"; sourceTree = "<group>"; };
+		814037C9128F0D71001E9349 /* ASIDataDecompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ASIDataDecompressor.m; path = "asi-http-request/Classes/ASIDataDecompressor.m"; sourceTree = "<group>"; };
 		8141131D12880C7500BEFD32 /* IntRow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IntRow.h; sourceTree = "<group>"; };
 		8141131E12880C7500BEFD32 /* IntRow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IntRow.m; sourceTree = "<group>"; };
 		8141DD781259DC2400C6C24D /* PasswordManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PasswordManager.h; sourceTree = "<group>"; };
@@ -990,6 +996,10 @@
 			isa = PBXGroup;
 			children = (
 				81E5EE5F1287FFFC000B304A /* Reachability */,
+				814037C6128F0D71001E9349 /* ASIDataCompressor.h */,
+				814037C7128F0D71001E9349 /* ASIDataCompressor.m */,
+				814037C8128F0D71001E9349 /* ASIDataDecompressor.h */,
+				814037C9128F0D71001E9349 /* ASIDataDecompressor.m */,
 				81E5EE491287FFE8000B304A /* ASIAuthenticationDialog.h */,
 				81E5EE4A1287FFE8000B304A /* ASIAuthenticationDialog.m */,
 				81E5EE4B1287FFE8000B304A /* ASICacheDelegate.h */,
@@ -1271,6 +1281,8 @@
 				8141131F12880C7500BEFD32 /* IntRow.m in Sources */,
 				8176F80E128816CE00EC3F57 /* LNResourcesReader.m in Sources */,
 				81C9FF7E128EC4A50017790A /* DocumentInfoView.m in Sources */,
+				814037CA128F0D71001E9349 /* ASIDataCompressor.m in Sources */,
+				814037CB128F0D71001E9349 /* ASIDataDecompressor.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
