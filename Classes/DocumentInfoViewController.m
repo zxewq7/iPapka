@@ -11,7 +11,7 @@
 #import "Attachment.h"
 #import "Person.h"
 #import "DocumentResolution.h"
-#import "DocumentInfoDetailsView.h"
+#import "DocumentInfoView.h"
 #import "AZZSegmentedLabel.h"
 
 #define kMinTableRows 4
@@ -39,7 +39,7 @@
 }
 - (void)loadView
 {
-    documentInfo = [[DocumentInfoDetailsView alloc] initWithFrame:CGRectZero];
+    documentInfo = [[DocumentInfoView alloc] initWithFrame:CGRectZero];
     self.view = documentInfo;
 }
 

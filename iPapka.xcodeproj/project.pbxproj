@@ -95,7 +95,6 @@
 		8151B8CF12674CAB00AAFEA9 /* LNNetwork.m in Sources */ = {isa = PBXBuildFile; fileRef = 8151B8CE12674CAB00AAFEA9 /* LNNetwork.m */; };
 		8152BCCC1276E0FB004A1D15 /* BlankLogoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8152BCCB1276E0FB004A1D15 /* BlankLogoView.m */; };
 		8152BCCE1276E127004A1D15 /* BlankLogo.png in Resources */ = {isa = PBXBuildFile; fileRef = 8152BCCD1276E127004A1D15 /* BlankLogo.png */; };
-		8152BCD11276FCB5004A1D15 /* DocumentInfoDetailsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8152BCD01276FCB5004A1D15 /* DocumentInfoDetailsView.m */; };
 		815657C21257574A0019A88D /* AudioCommentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815657C11257574A0019A88D /* AudioCommentController.m */; };
 		815658181257820A0019A88D /* ButtonRecordRemove.png in Resources */ = {isa = PBXBuildFile; fileRef = 815658171257820A0019A88D /* ButtonRecordRemove.png */; };
 		8157959C1246802B002A42C0 /* TwoRows.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959B1246802B002A42C0 /* TwoRows.png */; };
@@ -180,6 +179,7 @@
 		81C47F9C125E397300F60C49 /* PaletteRedSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F90125E397300F60C49 /* PaletteRedSelected.png */; };
 		81C47F9D125E397300F60C49 /* PaletteYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F91125E397300F60C49 /* PaletteYellow.png */; };
 		81C47F9E125E397300F60C49 /* PaletteYellowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F92125E397300F60C49 /* PaletteYellowSelected.png */; };
+		81C9FF7E128EC4A50017790A /* DocumentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C9FF7D128EC4A50017790A /* DocumentInfoView.m */; };
 		81D1A97F1274A81D00D43A92 /* ButtonRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D1A97E1274A81D00D43A92 /* ButtonRed.png */; };
 		81D3EBD21258BEA2002FCCDC /* OneRow.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D3EBD11258BEA2002FCCDC /* OneRow.png */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
@@ -356,8 +356,6 @@
 		8152BCCA1276E0FB004A1D15 /* BlankLogoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BlankLogoView.h; sourceTree = "<group>"; };
 		8152BCCB1276E0FB004A1D15 /* BlankLogoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BlankLogoView.m; sourceTree = "<group>"; };
 		8152BCCD1276E127004A1D15 /* BlankLogo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BlankLogo.png; sourceTree = "<group>"; };
-		8152BCCF1276FCB5004A1D15 /* DocumentInfoDetailsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoDetailsView.h; sourceTree = "<group>"; };
-		8152BCD01276FCB5004A1D15 /* DocumentInfoDetailsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoDetailsView.m; sourceTree = "<group>"; };
 		815657C01257574A0019A88D /* AudioCommentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioCommentController.h; sourceTree = "<group>"; };
 		815657C11257574A0019A88D /* AudioCommentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioCommentController.m; sourceTree = "<group>"; };
 		815658171257820A0019A88D /* ButtonRecordRemove.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRecordRemove.png; sourceTree = "<group>"; };
@@ -483,6 +481,8 @@
 		81C47F90125E397300F60C49 /* PaletteRedSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteRedSelected.png; sourceTree = "<group>"; };
 		81C47F91125E397300F60C49 /* PaletteYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteYellow.png; sourceTree = "<group>"; };
 		81C47F92125E397300F60C49 /* PaletteYellowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteYellowSelected.png; sourceTree = "<group>"; };
+		81C9FF7C128EC4A50017790A /* DocumentInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoView.h; sourceTree = "<group>"; };
+		81C9FF7D128EC4A50017790A /* DocumentInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoView.m; sourceTree = "<group>"; };
 		81D1A97E1274A81D00D43A92 /* ButtonRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRed.png; sourceTree = "<group>"; };
 		81D3EBD11258BEA2002FCCDC /* OneRow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OneRow.png; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
@@ -709,6 +709,8 @@
 		8155A5F41237AF4800A15FE5 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				81C9FF7C128EC4A50017790A /* DocumentInfoView.h */,
+				81C9FF7D128EC4A50017790A /* DocumentInfoView.m */,
 				8141131D12880C7500BEFD32 /* IntRow.h */,
 				8141131E12880C7500BEFD32 /* IntRow.m */,
 				8175D0D912856D5C00512AE1 /* SignatureContentView.h */,
@@ -717,8 +719,6 @@
 				811460AC1280AD6C005C16D0 /* EmptyPageView.m */,
 				81FBA5D5127EF34C00A70025 /* ResolutionContentView.h */,
 				81FBA5D6127EF34C00A70025 /* ResolutionContentView.m */,
-				8152BCCF1276FCB5004A1D15 /* DocumentInfoDetailsView.h */,
-				8152BCD01276FCB5004A1D15 /* DocumentInfoDetailsView.m */,
 				8152BCCA1276E0FB004A1D15 /* BlankLogoView.h */,
 				8152BCCB1276E0FB004A1D15 /* BlankLogoView.m */,
 				819B5C8812730D7000594E0D /* DocumentCellView.h */,
@@ -1252,7 +1252,6 @@
 				812C3D641275874E00F9E32B /* NSDateFormatter+Additions.m in Sources */,
 				81C157F21276D8A50087B147 /* AZZSegmentedLabel.m in Sources */,
 				8152BCCC1276E0FB004A1D15 /* BlankLogoView.m in Sources */,
-				8152BCD11276FCB5004A1D15 /* DocumentInfoDetailsView.m in Sources */,
 				81FBA5D7127EF34C00A70025 /* ResolutionContentView.m in Sources */,
 				8178288B128072C700A4C8DC /* MBProgressHUD.m in Sources */,
 				811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */,
@@ -1273,6 +1272,7 @@
 				814BF0C412880216006F37AD /* SBJsonWriter.m in Sources */,
 				8141131F12880C7500BEFD32 /* IntRow.m in Sources */,
 				8176F80E128816CE00EC3F57 /* LNResourcesReader.m in Sources */,
+				81C9FF7E128EC4A50017790A /* DocumentInfoView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class AZZSegmentedLabel;
-@interface DocumentInfoDetailsView : UIView 
+@interface DocumentInfoView : UIView 
 {
     UILabel *textLabel;
     AZZSegmentedLabel *detailTextLabel1;

@@ -6,14 +6,14 @@
 //  Copyright (c) 2010 __MyCompanyName__. All rights reserved.
 //
 
-#import "DocumentInfoDetailsView.h"
+#import "DocumentInfoView.h"
 #import "AZZSegmentedLabel.h"
 #import <QuartzCore/CALayer.h>
 
 
 #define kSpaceBetweenLabels 8.f
 
-@implementation DocumentInfoDetailsView
+@implementation DocumentInfoView
 
 
 @synthesize textLabel, detailTextLabel1, detailTextLabel2, tableView, filterView;
