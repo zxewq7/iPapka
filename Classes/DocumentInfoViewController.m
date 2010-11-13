@@ -10,13 +10,11 @@
 #import "Document.h"
 #import "Attachment.h"
 #import "Person.h"
-#import <QuartzCore/CALayer.h>
 #import "DocumentResolution.h"
 #import "DocumentInfoDetailsView.h"
 #import "AZZSegmentedLabel.h"
 
 #define kMinTableRows 4
-#define kTableRowHeight 60.0f
 
 @interface  DocumentInfoViewController(Private)
 -(void) updateContent;
@@ -39,6 +37,11 @@
     
     [self updateContent];
 }
+- (void)loadView
+{
+    documentInfo = [[DocumentInfoDetailsView alloc] initWithFrame:CGRectZero];
+    self.view = documentInfo;
+}
 
 - (void)viewDidLoad
 {
@@ -47,72 +50,23 @@
     dateFormatter.dateStyle = NSDateFormatterLongStyle;
     dateFormatter.timeStyle = NSDateFormatterNoStyle;
     
-    CGSize viewSize = self.view.bounds.size;
-    
-    //create header
-    CGRect containerViewFrame = CGRectMake(0, 0, viewSize.width, 157);
-    UIView *containerView =[[UIView alloc] initWithFrame: containerViewFrame];
-    containerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    containerView.userInteractionEnabled = YES;
-    
-    documentInfo = [[DocumentInfoDetailsView alloc] initWithFrame:CGRectZero];
-    
-    CGRect documentInfoFrame = CGRectMake(5.f, 40, containerViewFrame.size.width - 10.f, 45.f);
-    
-    documentInfo.frame = documentInfoFrame;
-    
-    documentInfo.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-
-    [containerView addSubview:documentInfo];
-    
-    
-    
     //filter
-    filter = [[UISegmentedControl alloc] initWithItems: [NSArray arrayWithObjects:NSLocalizedString(@"Files", "Files"),
-                                                        NSLocalizedString(@"Linked files", "Linked files"),
-                                                         nil]];
-    filter.segmentedControlStyle = UISegmentedControlStyleBar;
-    
-    filter.userInteractionEnabled = YES;
+    filter = documentInfo.filterView;
+    [filter retain];
+    [filter insertSegmentWithTitle:NSLocalizedString(@"Files", "Files") atIndex:0 animated:NO];
+    [filter insertSegmentWithTitle:NSLocalizedString(@"Linked files", "Linked files") atIndex:1 animated:NO];
 
-    [filter sizeToFit];
-    CGRect filterFrame = filter.frame;
-    filterFrame.origin.x = (documentInfoFrame.size.width - filterFrame.size.width)/2;
-    filterFrame.origin.y = documentInfoFrame.origin.y + documentInfoFrame.size.height + 20.0f;
-    filter.frame = filterFrame;
-    filter.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin);
+    filter.selectedSegmentIndex = 0;
 
     [filter addTarget:self action:@selector(switchFilter:) forControlEvents:UIControlEventValueChanged];
 
-    filter.selectedSegmentIndex = 0;
+    tableView = documentInfo.tableView;
     
-    [containerView addSubview: filter];
+    [tableView retain];
     
-    [self.view addSubview: containerView];
-
-    [containerView release];
-    
-    CGRect tableViewFrame = CGRectMake(containerViewFrame.origin.x, containerViewFrame.size.height + containerViewFrame.origin.y, containerViewFrame.size.width, kMinTableRows * kTableRowHeight);
-    tableView = [[UITableView alloc] initWithFrame:tableViewFrame style: UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
-    tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
-    tableView.layer.borderWidth = 1.0f;
-    tableView.layer.borderColor = [UIColor colorWithRed:0.878 green:0.878 blue:0.878 alpha:1.0].CGColor;
     
-    //clear table background
-    //http://useyourloaf.com/blog/2010/7/21/ipad-table-backgroundview.html
-    tableView.backgroundView = nil;
-    tableView.backgroundColor = [UIColor clearColor];
-    tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
-    tableView.rowHeight = kTableRowHeight;
-
-    [self.view addSubview: tableView];
-    
-    CGRect viewFrame = self.view.frame;
-    viewFrame.size.height = tableView.frame.origin.y + tableViewFrame.size.height;
-    self.view.frame = viewFrame;
-
     [self updateContent];
 }
 
@@ -296,9 +250,6 @@
     
     documentInfo.detailTextLabel2.text = (isStatus || isPriority)? [@", " stringByAppendingString:details]:details;
 
-    
-    [documentInfo setNeedsLayout];
-    
     if ([currentItems count]) 
         attachmentIndex = 0;
     else
@@ -310,6 +261,8 @@
         filter.hidden = NO;
     
     filter.selectedSegmentIndex = 0;
+    
+    [self.view sizeToFit];
     
     [tableView reloadData];
 }

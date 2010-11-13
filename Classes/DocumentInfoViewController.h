@@ -19,6 +19,7 @@
     NSUInteger         attachmentIndex;
     NSUInteger         linkIndex;
     UITableView        *tableView;
+    UILabel            *titleLabel;
 }
 @property (nonatomic, retain, setter=setDocument:) Document   *document;
 @property (nonatomic, retain)                      Attachment *attachment;

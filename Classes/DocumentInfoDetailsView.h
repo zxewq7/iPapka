@@ -14,10 +14,14 @@
     UILabel *textLabel;
     AZZSegmentedLabel *detailTextLabel1;
     UILabel *detailTextLabel2;
+    UITableView *tableView;
+    UISegmentedControl *filterView;
 }
 
 @property (nonatomic, readonly) UILabel *textLabel;
 @property (nonatomic, readonly) AZZSegmentedLabel *detailTextLabel1;
 @property (nonatomic, readonly) UILabel *detailTextLabel2;
 
+@property (nonatomic, readonly) UITableView *tableView;
+@property (nonatomic, readonly) UISegmentedControl *filterView;
 @end
