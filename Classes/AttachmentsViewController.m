@@ -35,6 +35,9 @@ typedef enum _TapPosition{
     [paintingTools release];
     paintingTools = [aPaintingTools retain];
     paintingTools.delegate = self;
+    
+    currentPage.color = paintingTools.color;
+    nextPage.color = paintingTools.color;
 }
 
 -(void) setPageControl:(PageControl *) aPageControl
