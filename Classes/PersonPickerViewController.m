@@ -36,6 +36,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    iconChecked = [UIImage imageNamed:@"Checked.png"];
+    iconUnchecked = [UIImage imageNamed:@"Unchecked.png"];
+    
     fetchedResultsController = [[DataSource sharedDataSource] persons];
     [fetchedResultsController retain];
     fetchedResultsController.delegate = self;
@@ -130,30 +133,46 @@
     
     static NSString *CellIdentifier = @"PersonCell";
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-    if (cell == nil) 
-    {
-        cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-        cell.selectionStyle = UITableViewCellSeparatorStyleNone;
-    }
+    static NSString *CellIdentifierReorder = @"PersonReorderCell";
+    
+    UITableViewCell *cell = nil;
     
     Person *p = nil;
     
     switch (filterSwitcher.selectedSegmentIndex)
     {
         case 0:
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+            if (cell == nil) 
+            {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+                cell.selectionStyle = UITableViewCellSeparatorStyleNone;
+            }
             p = [fetchedResultsController objectAtIndexPath:indexPath];
-            cell.showsReorderControl = NO;
             NSUInteger index = [persons indexOfObject:p];
-            cell.textLabel.enabled = (index == NSNotFound);
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+            UIImage *image = (index == NSNotFound?iconUnchecked:iconChecked);
+            CGRect frame = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
+            button.frame = frame;	// match the button's size with the image size
+            
+            [button setBackgroundImage:image forState:UIControlStateNormal];
+            
+            // set the button's target to this table view controller so we can interpret touch events and map that to a NSIndexSet
+            [button addTarget:self action:@selector(addRemovePerformer:event:) forControlEvents:UIControlEventTouchUpInside];
+            cell.accessoryView = button;
             break;
         case 1:
+            cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierReorder];
+            if (cell == nil) 
+            {
+                cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
+                cell.selectionStyle = UITableViewCellSeparatorStyleNone;
+                cell.showsReorderControl = YES;
+            }
             p = [self.persons objectAtIndex:indexPath.row];
-            cell.showsReorderControl = YES;
-            cell.textLabel.enabled = YES;
             break;
     }
-
+    
     cell.textLabel.text = p.fullName;
     
     return cell;
@@ -178,6 +197,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
+    return;
+    
     Person *person = nil;
     
     switch (filterSwitcher.selectedSegmentIndex)
@@ -261,7 +282,6 @@
 
 
 - (void)controller:(NSFetchedResultsController *)controller didChangeSection:(id <NSFetchedResultsSectionInfo>)sectionInfo atIndex:(NSUInteger)sectionIndex forChangeType:(NSFetchedResultsChangeType)type {
-
     if (filterSwitcher.selectedSegmentIndex)
         return;
     
@@ -292,7 +312,30 @@
     self.tableView.editing = (filterSwitcher.selectedSegmentIndex == 1);
     [self.tableView reloadData];
 }
-
+-(void)addRemovePerformer:(id) sender event:(id)event
+{
+	NSSet *touches = [event allTouches];
+	UITouch *touch = [touches anyObject];
+	CGPoint currentTouchPosition = [touch locationInView:self.tableView];
+	NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
+	if (indexPath != nil)
+	{
+        Person *person = [fetchedResultsController objectAtIndexPath:indexPath];
+        NSUInteger index = [self.persons indexOfObject:person];
+        UIButton *button = (UIButton *)[tableView cellForRowAtIndexPath:indexPath].accessoryView;
+        if (index == NSNotFound)
+        {
+            [self.persons addObject:person];
+            [button setBackgroundImage:iconUnchecked forState:UIControlStateNormal];
+        }
+        else
+        {
+            [self.persons removeObjectAtIndex:index];
+            [button setBackgroundImage:iconChecked forState:UIControlStateNormal];
+        }
+        [target performSelector:action withObject:self];
+	}
+}
 #pragma mark -
 #pragma mark Memory management
 - (void)viewDidUnload 
@@ -302,6 +345,8 @@
     [fetchedResultsController release]; fetchedResultsController = nil;
     [tableView release]; tableView = nil;
     [filterSwitcher release]; filterSwitcher = nil;
+    [iconUnchecked release]; iconUnchecked = nil;
+    [iconChecked release]; iconChecked = nil;
 }
 
 
@@ -318,6 +363,10 @@
     [tableView release]; tableView = nil;
     
     [filterSwitcher release]; filterSwitcher = nil;
+    
+    [iconUnchecked release]; iconUnchecked = nil;
+
+    [iconChecked release]; iconChecked = nil;
 
     [super dealloc];
 }

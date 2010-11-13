@@ -18,6 +18,9 @@
     id target;
     UITableView *tableView;
     UISegmentedControl *filterSwitcher;
+    
+    UIImage *iconChecked;
+    UIImage *iconUnchecked;
 }
 
 @property (nonatomic, assign) SEL action;

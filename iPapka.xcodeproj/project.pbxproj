@@ -153,6 +153,8 @@
 		819B5C8A12730D7000594E0D /* DocumentCellView.m in Sources */ = {isa = PBXBuildFile; fileRef = 819B5C8912730D7000594E0D /* DocumentCellView.m */; };
 		819CA55612579C9B00AF308E /* NSString+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 819CA55512579C9B00AF308E /* NSString+Additions.m */; };
 		819D8083123DFD8B00483E10 /* Entitlements.plist in Resources */ = {isa = PBXBuildFile; fileRef = 819D8082123DFD8B00483E10 /* Entitlements.plist */; };
+		819DB875128EE82E00D3026C /* Checked.png in Resources */ = {isa = PBXBuildFile; fileRef = 819DB873128EE82E00D3026C /* Checked.png */; };
+		819DB876128EE82E00D3026C /* Unchecked.png in Resources */ = {isa = PBXBuildFile; fileRef = 819DB874128EE82E00D3026C /* Unchecked.png */; };
 		81A1B66C123E3DC70089C988 /* ButtonSquare.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B66B123E3DC70089C988 /* ButtonSquare.png */; };
 		81A1B676123E3E930089C988 /* ButtonSquareSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B675123E3E930089C988 /* ButtonSquareSelected.png */; };
 		81A1B678123E3EA00089C988 /* ButtonRefresh.png in Resources */ = {isa = PBXBuildFile; fileRef = 81A1B677123E3EA00089C988 /* ButtonRefresh.png */; };
@@ -448,6 +450,8 @@
 		819CA55412579C9B00AF308E /* NSString+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Additions.h"; sourceTree = "<group>"; };
 		819CA55512579C9B00AF308E /* NSString+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Additions.m"; sourceTree = "<group>"; };
 		819D8082123DFD8B00483E10 /* Entitlements.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Entitlements.plist; sourceTree = "<group>"; };
+		819DB873128EE82E00D3026C /* Checked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Checked.png; sourceTree = "<group>"; };
+		819DB874128EE82E00D3026C /* Unchecked.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Unchecked.png; sourceTree = "<group>"; };
 		81A1B66B123E3DC70089C988 /* ButtonSquare.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSquare.png; sourceTree = "<group>"; };
 		81A1B675123E3E930089C988 /* ButtonSquareSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonSquareSelected.png; sourceTree = "<group>"; };
 		81A1B677123E3EA00089C988 /* ButtonRefresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRefresh.png; sourceTree = "<group>"; };
@@ -616,6 +620,8 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				819DB873128EE82E00D3026C /* Checked.png */,
+				819DB874128EE82E00D3026C /* Unchecked.png */,
 				810E19761286E1CC004DBEC3 /* BlankBackground.png */,
 				8152BCCD1276E127004A1D15 /* BlankLogo.png */,
 				81D1A97E1274A81D00D43A92 /* ButtonRed.png */,
@@ -1157,6 +1163,8 @@
 				81D1A97F1274A81D00D43A92 /* ButtonRed.png in Resources */,
 				8152BCCE1276E127004A1D15 /* BlankLogo.png in Resources */,
 				810E19771286E1CC004DBEC3 /* BlankBackground.png in Resources */,
+				819DB875128EE82E00D3026C /* Checked.png in Resources */,
+				819DB876128EE82E00D3026C /* Unchecked.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
