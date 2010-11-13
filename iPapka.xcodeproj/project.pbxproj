@@ -30,7 +30,6 @@
 		810E197A1286EC41004DBEC3 /* SSTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 810E19791286EC41004DBEC3 /* SSTextView.m */; };
 		81113FB2126087C400132C39 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81113FB1126087C400132C39 /* MessageUI.framework */; };
 		811456071258AC9300B755EB /* SignatureCommentViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 811456061258AC9300B755EB /* SignatureCommentViewController.m */; };
-		811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 811460AC1280AD6C005C16D0 /* EmptyPageView.m */; };
 		811B583412454D1000BEB158 /* ColorPicker.m in Sources */ = {isa = PBXBuildFile; fileRef = 811B583312454D1000BEB158 /* ColorPicker.m */; };
 		811DF44A1237A11300903D30 /* BrushComment.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42D1237A11300903D30 /* BrushComment.png */; };
 		811DF44B1237A11300903D30 /* BrushErase.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF42E1237A11300903D30 /* BrushErase.png */; };
@@ -45,7 +44,6 @@
 		811DF4581237A11300903D30 /* ButtonRotateCCV.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF43B1237A11300903D30 /* ButtonRotateCCV.png */; };
 		811DF4591237A11300903D30 /* ButtonRotateCV.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF43C1237A11300903D30 /* ButtonRotateCV.png */; };
 		811DF45F1237A11300903D30 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4421237A11300903D30 /* Icon.png */; };
-		811DF4621237A11300903D30 /* PageLoading.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4451237A11300903D30 /* PageLoading.png */; };
 		811DF4631237A11300903D30 /* UnreadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4461237A11300903D30 /* UnreadMark.png */; };
 		811DF4651237A11300903D30 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4481237A11300903D30 /* MainWindow.xib */; };
 		811DF4681237A11E00903D30 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4671237A11E00903D30 /* Settings.bundle */; };
@@ -260,8 +258,6 @@
 		81113FB1126087C400132C39 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		811456051258AC9300B755EB /* SignatureCommentViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignatureCommentViewController.h; sourceTree = "<group>"; };
 		811456061258AC9300B755EB /* SignatureCommentViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignatureCommentViewController.m; sourceTree = "<group>"; };
-		811460AB1280AD6C005C16D0 /* EmptyPageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EmptyPageView.h; sourceTree = "<group>"; };
-		811460AC1280AD6C005C16D0 /* EmptyPageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EmptyPageView.m; sourceTree = "<group>"; };
 		811B583212454D1000BEB158 /* ColorPicker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ColorPicker.h; sourceTree = "<group>"; };
 		811B583312454D1000BEB158 /* ColorPicker.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ColorPicker.m; sourceTree = "<group>"; };
 		811DF42D1237A11300903D30 /* BrushComment.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushComment.png; sourceTree = "<group>"; };
@@ -277,7 +273,6 @@
 		811DF43B1237A11300903D30 /* ButtonRotateCCV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRotateCCV.png; sourceTree = "<group>"; };
 		811DF43C1237A11300903D30 /* ButtonRotateCV.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRotateCV.png; sourceTree = "<group>"; };
 		811DF4421237A11300903D30 /* Icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon.png; sourceTree = "<group>"; };
-		811DF4451237A11300903D30 /* PageLoading.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PageLoading.png; sourceTree = "<group>"; };
 		811DF4461237A11300903D30 /* UnreadMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnreadMark.png; sourceTree = "<group>"; };
 		811DF4481237A11300903D30 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		811DF4491237A11300903D30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -700,7 +695,6 @@
 				811DF43B1237A11300903D30 /* ButtonRotateCCV.png */,
 				811DF43C1237A11300903D30 /* ButtonRotateCV.png */,
 				811DF4421237A11300903D30 /* Icon.png */,
-				811DF4451237A11300903D30 /* PageLoading.png */,
 				811DF4461237A11300903D30 /* UnreadMark.png */,
 			);
 			path = images;
@@ -715,8 +709,6 @@
 				8141131E12880C7500BEFD32 /* IntRow.m */,
 				8175D0D912856D5C00512AE1 /* SignatureContentView.h */,
 				8175D0DA12856D5C00512AE1 /* SignatureContentView.m */,
-				811460AB1280AD6C005C16D0 /* EmptyPageView.h */,
-				811460AC1280AD6C005C16D0 /* EmptyPageView.m */,
 				81FBA5D5127EF34C00A70025 /* ResolutionContentView.h */,
 				81FBA5D6127EF34C00A70025 /* ResolutionContentView.m */,
 				8152BCCA1276E0FB004A1D15 /* BlankLogoView.h */,
@@ -1089,7 +1081,6 @@
 				811DF4581237A11300903D30 /* ButtonRotateCCV.png in Resources */,
 				811DF4591237A11300903D30 /* ButtonRotateCV.png in Resources */,
 				811DF45F1237A11300903D30 /* Icon.png in Resources */,
-				811DF4621237A11300903D30 /* PageLoading.png in Resources */,
 				811DF4631237A11300903D30 /* UnreadMark.png in Resources */,
 				811DF4651237A11300903D30 /* MainWindow.xib in Resources */,
 				811DF4681237A11E00903D30 /* Settings.bundle in Resources */,
@@ -1254,7 +1245,6 @@
 				8152BCCC1276E0FB004A1D15 /* BlankLogoView.m in Sources */,
 				81FBA5D7127EF34C00A70025 /* ResolutionContentView.m in Sources */,
 				8178288B128072C700A4C8DC /* MBProgressHUD.m in Sources */,
-				811460AD1280AD6C005C16D0 /* EmptyPageView.m in Sources */,
 				8175D0DB12856D5C00512AE1 /* SignatureContentView.m in Sources */,
 				810E197A1286EC41004DBEC3 /* SSTextView.m in Sources */,
 				81E5EE591287FFE8000B304A /* ASIAuthenticationDialog.m in Sources */,

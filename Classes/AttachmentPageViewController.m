@@ -11,7 +11,6 @@
 #import "AttachmentPage.h"
 #import "AttachmentPagePainting.h"
 #import "DataSource.h"
-#import "EmptyPageView.h"
 
 
     // This is defined in Math.h
@@ -38,7 +37,6 @@
     UIImage *pageImage = page.image;
     if (pageImage)
     {
-        emptyPageView.hidden = YES;
         [imageView displayImage: pageImage angle: DEGREES_TO_RADIANS(page.angleValue)];
         
         imageView.painting = page.painting.image;
@@ -48,8 +46,6 @@
         [imageView displayImage: nil angle: 0];
         
         imageView.painting = nil;
-
-        emptyPageView.hidden = NO;
     }
 }
 
@@ -65,11 +61,6 @@
     [self.view addSubview:imageView];
     
     [imageView setOpaque: NO];
-    
-    emptyPageView = [[EmptyPageView alloc] initWithFrame:self.view.bounds];
-    emptyPageView.autoresizingMask = (UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
-
-    [self.view addSubview:emptyPageView];
 }
 
 
@@ -92,14 +83,12 @@
 - (void)viewDidUnload {
     [super viewDidUnload];
     [imageView release]; imageView = nil;
-    [emptyPageView release]; emptyPageView = nil;
 }
 
 
 - (void)dealloc 
 {
     [imageView release]; imageView = nil;
-    [emptyPageView release]; emptyPageView = nil;
     self.page = nil;
     self.color = nil;
     [super dealloc];
