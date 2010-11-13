@@ -1,7 +1,7 @@
 #import "ImageScrollView.h"
 #import "PaintingView.h"
 
-#define MAX_WIDTH 1088.0f
+#define MAX_WIDTH 1024.0f
 
 @interface ImageScrollView (Private)
 - (void) createSavedPaintingView;
