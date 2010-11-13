@@ -262,7 +262,7 @@
     
     filter.selectedSegmentIndex = 0;
     
-    [self.view sizeToFit];
+    [self.view setNeedsLayout];
     
     [tableView reloadData];
 }
