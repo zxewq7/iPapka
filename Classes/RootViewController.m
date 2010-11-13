@@ -278,14 +278,17 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     CGRect documentInfoFrame = documentInfoViewController.view.frame;
     documentInfoFrame.origin.x = kLeftMargin;
-    documentInfoFrame.origin.y = kTopMargin;
+    documentInfoFrame.origin.y = kTopMargin + 40.f;
     documentInfoFrame.size.width = contentViewFrame.size.width - kLeftMargin - kRightMargin;
+    documentInfoFrame.size.height = 395;
     
     documentInfoViewController.view.frame = documentInfoFrame;
     
-    documentInfoViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+    documentInfoViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
     
     documentInfoViewControllerSize = documentInfoFrame.size;
+    
+    documentInfoViewControllerSize.height = documentInfoFrame.size.height;
 
     [documentInfoViewController addObserver:self
                                  forKeyPath:@"attachment"
