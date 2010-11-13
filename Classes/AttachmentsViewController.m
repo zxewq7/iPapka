@@ -213,7 +213,7 @@ typedef enum _TapPosition{
 
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
 {
-    if (!self.attachment) //do not show pager or switch pages if attachment is nil
+    if (!self.attachment || commenting) //do not show pager or switch pages if attachment is nil or we are in commenting mode
         return NO;
         
     TapPosition tapPosition = [self tapPosition:[touch locationInView:self.view]];
