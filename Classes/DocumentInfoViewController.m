@@ -231,6 +231,8 @@
     
     documentInfo.detailTextLabel1.texts = labels;
     
+    [labels release];
+    
     NSString *details;
     
     if (!document)
