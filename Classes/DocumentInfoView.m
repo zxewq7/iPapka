@@ -55,6 +55,9 @@
         
         detailTextLabel1.labels = [NSArray arrayWithObjects:label1, label2, label3, nil];
 
+        [label1 release];
+        [label2 release];
+        [label3 release];
         
         [self addSubview:detailTextLabel1];
 
