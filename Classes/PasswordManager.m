@@ -90,7 +90,10 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PasswordManager);
     if (login && ![login isEqualToString:@""])
         [textField2 becomeFirstResponder];
     else
-        [textField becomeFirstResponder];        
+        [textField becomeFirstResponder];       
+    
+    [textField2 release];
+    [textField release];
 }
 
 - (void)dealloc 
