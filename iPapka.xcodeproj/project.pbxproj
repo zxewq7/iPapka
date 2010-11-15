@@ -1896,7 +1896,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPapka_Prefix.pch;
-				INFOPLIST_FILE = "Info copy 2.plist";
+				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = iPapka;
 				SDKROOT = iphoneos3.2;
 				WRAPPER_EXTENSION = app;
@@ -1914,7 +1914,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPapka_Prefix.pch;
-				INFOPLIST_FILE = "Info copy 2.plist";
+				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = iPapka;
 				SDKROOT = iphoneos3.2;
 				VALIDATE_PRODUCT = YES;
@@ -1933,7 +1933,7 @@
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = iPapka_Prefix.pch;
-				INFOPLIST_FILE = "Info copy 2.plist";
+				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = iPapka;
 				SDKROOT = iphoneos3.2;
 				VALIDATE_PRODUCT = YES;
