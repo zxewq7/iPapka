@@ -12,15 +12,12 @@
 #import "Folder.h"
 #import "DataSource.h"
 #import "NSUserDefaults+Additions.h"
-#import "Logger.h"
 
 @implementation AppDelegate
 @synthesize window, rootViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application
 {
-    [Logger sharedLogger].redirectEnabled = YES;
-    
     NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
     
     //Create dictionary
@@ -116,8 +113,6 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:unreadCount];
 
     [ds shutdown];
-    
-    [[Logger sharedLogger] removeLogFile];
 }
 
 - (void)dealloc 

@@ -128,7 +128,7 @@ static NSString* OperationCount = @"OperationCount";
             if (parsedResponse == nil)
             {
                 blockSelf.hasError = YES;
-                NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
+                AZZLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
                 handler(NO, nil);
                 return;
             }
@@ -163,7 +163,7 @@ static NSString* OperationCount = @"OperationCount";
         if (error)
         {
             NSString *err  = @"Unable to create json string";
-            NSLog(@"%@", err);
+            AZZLog(@"%@", err);
             return;
         }
 
@@ -200,7 +200,7 @@ static NSString* OperationCount = @"OperationCount";
             if (parsedResponse == nil)
             {
                 blockSelf.hasError = YES;
-                NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
+                AZZLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
                 handler(NO, nil);
                 return;
             }
@@ -336,7 +336,7 @@ static NSString* OperationCount = @"OperationCount";
     [[request error] localizedDescription];
     if (error)
     {
-        NSLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
+        AZZLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
         return YES;
     }
     else

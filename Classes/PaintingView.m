@@ -114,7 +114,7 @@
     
     if( ! buffer ) 
     {
-        NSLog(@"PaintingView#image: not enough memory");
+        AZZLog(@"PaintingView#image: not enough memory");
         [buffer release];
         return nil;
     }
@@ -627,7 +627,7 @@
 	
 	if(glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES) != GL_FRAMEBUFFER_COMPLETE_OES)
 	{
-		NSLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES));
+		AZZLog(@"failed to make complete framebuffer object %x", glCheckFramebufferStatusOES(GL_FRAMEBUFFER_OES));
 		return NO;
 	}
 	

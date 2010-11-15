@@ -52,7 +52,7 @@ static NSString* kFieldMiddle = @"middle";
             if (!(uid && first && last))
             {
                 blockSelf.hasError = YES;
-                NSLog(@"not enough person attributes, skipped %@", personDict);
+                AZZLog(@"not enough person attributes, skipped %@", personDict);
                 continue;
             }
             

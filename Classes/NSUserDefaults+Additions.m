@@ -18,7 +18,7 @@
     
     NSString *settingsBundle = [[NSBundle mainBundle] pathForResource:@"Settings" ofType:@"bundle"];
     if(!settingsBundle) {
-        NSLog(@"Could not find Settings.bundle");
+        AZZLog(@"Could not find Settings.bundle");
         return defaultsToRegister;
     }
     

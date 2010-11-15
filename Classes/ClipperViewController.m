@@ -7,7 +7,6 @@
 //
 
 #import "ClipperViewController.h"
-#import "Logger.h"
 
 @implementation ClipperViewController
 @synthesize opened;
@@ -113,6 +112,6 @@
 
 -(void) openLogTap:(UIGestureRecognizer *)gestureRecognizer
 {
-    [[Logger sharedLogger] showLogForController:self];
+//    [[Logger sharedLogger] showLogForController:self];
 }
 @end

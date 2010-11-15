@@ -115,7 +115,7 @@ static NSString* kFieldDrawing = @"drawing";
             status = @"rejected";
             break;
         default:
-            NSLog(@"unknown status %d dor document %@", document.statusValue, document.uid);
+            AZZLog(@"unknown status %d dor document %@", document.statusValue, document.uid);
             return;
     }
     
@@ -192,7 +192,7 @@ static NSString* kFieldDrawing = @"drawing";
     }
     else
     {
-        NSLog(@"Unknown file to sync: %@", [file class]);
+        AZZLog(@"Unknown file to sync: %@", [file class]);
         return;
     }
 
@@ -225,7 +225,7 @@ static NSString* kFieldDrawing = @"drawing";
              fileField = kFieldDrawing;
          else
          {
-             NSLog(@"Unknown file type: %@", [file class]);
+             AZZLog(@"Unknown file type: %@", [file class]);
              return;
          }
          
@@ -235,7 +235,7 @@ static NSString* kFieldDrawing = @"drawing";
          NSString *version = [object valueForKey:kFieldVersion];
          if (uid == nil || version == nil)
          {
-             NSLog(@"error parsing response: %@", response);
+             AZZLog(@"error parsing response: %@", response);
              return;
          }
          file.uid = uid;

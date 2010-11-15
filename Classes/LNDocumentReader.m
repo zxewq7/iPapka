@@ -378,7 +378,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                   [paintingPageNumber intValue] >= 0 && 
                   [paintingPageNumber intValue] < [attachment.pages count]))
             {
-                NSLog(@"invalid drawings object: %@/%@/%@", document.uid, attachment.uid, paintingId);
+                AZZLog(@"invalid drawings object: %@/%@/%@", document.uid, attachment.uid, paintingId);
                 continue;
             }
             
@@ -414,7 +414,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         if (!author)
         {
-            NSLog(@"no author, document skipped: %@", uid);
+            AZZLog(@"no author, document skipped: %@", uid);
             return;
         }
         
@@ -423,7 +423,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         documentStatus = [statusDictionary objectForKey:stringStatus];
         if (!documentStatus)
         {
-            NSLog(@"unknown document status '%@', document skipped: %@", stringStatus, uid);
+            AZZLog(@"unknown document status '%@', document skipped: %@", stringStatus, uid);
             return;
         }
         
@@ -433,7 +433,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
         if (!dateModifiedString || !(dateModified = [parseFormatterDst dateFromString:dateModifiedString]))
         {
-            NSLog(@"unknown document date modified, document skipped: %@", uid);
+            AZZLog(@"unknown document date modified, document skipped: %@", uid);
             return;
         }
 
@@ -441,7 +441,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         if (!documentVersion)
         {
-            NSLog(@"unknown document version, document skipped: %@", uid);
+            AZZLog(@"unknown document version, document skipped: %@", uid);
             return;
         }
         
@@ -455,7 +455,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                 document = [[self dataSource] documentReader:self createEntity:[DocumentSignature class]];
             else
             {
-                NSLog(@"wrong form, document skipped: %@ %@", uid, form);
+                AZZLog(@"wrong form, document skipped: %@ %@", uid, form);
                 return;
             }
 
@@ -687,7 +687,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             if (performer)
                 [performer addResolutionsObject: resolution];
             else
-                NSLog(@"Unknown person: %@", uid);
+                AZZLog(@"Unknown person: %@", uid);
         }
         
         //parent resolution

@@ -53,6 +53,7 @@
 		8124544212660A4600453AB8 /* DocumentResolutionParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8124544012660A4600453AB8 /* DocumentResolutionParent.m */; };
 		8124C7A0125DFB400031C07E /* BrushPen.png in Resources */ = {isa = PBXBuildFile; fileRef = 8124C79F125DFB400031C07E /* BrushPen.png */; };
 		812C3D641275874E00F9E32B /* NSDateFormatter+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 812C3D631275874E00F9E32B /* NSDateFormatter+Additions.m */; };
+		812CFFCF12915A0F008F3D8E /* AZZLog.m in Sources */ = {isa = PBXBuildFile; fileRef = 812CFFCE12915A0F008F3D8E /* AZZLog.m */; };
 		813011E1126DD664002ADE40 /* CalloutViewBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DC126DD664002ADE40 /* CalloutViewBackground.png */; };
 		813011E2126DD664002ADE40 /* CalloutViewBottomAnchor.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */; };
 		813011E3126DD664002ADE40 /* CalloutViewLeftCap.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */; };
@@ -126,7 +127,6 @@
 		8165427E12379C6A008FC80F /* UIColor-Expanded.m in Sources */ = {isa = PBXBuildFile; fileRef = 8165427A12379C6A008FC80F /* UIColor-Expanded.m */; };
 		81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 81656362125A2A5E00154640 /* DeleteItemViewController.m */; };
 		8165640A125A473F00154640 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 81656408125A473F00154640 /* InfoPlist.strings */; };
-		816C3BE912608D2F00139BA3 /* Logger.m in Sources */ = {isa = PBXBuildFile; fileRef = 816C3BE812608D2F00139BA3 /* Logger.m */; };
 		816CD7841239466C006BC92F /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
 		816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7BD12394AA0006BC92F /* Default-Landscape.png */; };
 		816D76F1125B16380042BD8E /* iTunesArtwork in Resources */ = {isa = PBXBuildFile; fileRef = 816D76F0125B16380042BD8E /* iTunesArtwork */; };
@@ -292,6 +292,8 @@
 		8124C79F125DFB400031C07E /* BrushPen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = BrushPen.png; sourceTree = "<group>"; };
 		812C3D621275874E00F9E32B /* NSDateFormatter+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSDateFormatter+Additions.h"; path = "thirdparty/NSDateFormatter+Additions.h"; sourceTree = "<group>"; };
 		812C3D631275874E00F9E32B /* NSDateFormatter+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSDateFormatter+Additions.m"; path = "thirdparty/NSDateFormatter+Additions.m"; sourceTree = "<group>"; };
+		812CFFCD12915A0F008F3D8E /* AZZLog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZLog.h; path = thirdparty/AZZLog.h; sourceTree = "<group>"; };
+		812CFFCE12915A0F008F3D8E /* AZZLog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AZZLog.m; path = thirdparty/AZZLog.m; sourceTree = "<group>"; };
 		813011DC126DD664002ADE40 /* CalloutViewBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewBackground.png; sourceTree = "<group>"; };
 		813011DD126DD664002ADE40 /* CalloutViewBottomAnchor.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewBottomAnchor.png; sourceTree = "<group>"; };
 		813011DE126DD664002ADE40 /* CalloutViewLeftCap.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = CalloutViewLeftCap.png; sourceTree = "<group>"; };
@@ -415,8 +417,6 @@
 		81656362125A2A5E00154640 /* DeleteItemViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DeleteItemViewController.m; sourceTree = "<group>"; };
 		81656409125A473F00154640 /* en */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		8165640B125A477F00154640 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		816C3BE712608D2F00139BA3 /* Logger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Logger.h; sourceTree = "<group>"; };
-		816C3BE812608D2F00139BA3 /* Logger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Logger.m; sourceTree = "<group>"; };
 		816CD7831239466C006BC92F /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		816CD7BD12394AA0006BC92F /* Default-Landscape.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape.png"; sourceTree = "<group>"; };
 		816D76F0125B16380042BD8E /* iTunesArtwork */ = {isa = PBXFileReference; lastKnownFileType = file; path = iTunesArtwork; sourceTree = "<group>"; };
@@ -744,8 +744,6 @@
 		8155A5F51237AF6F00A15FE5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				816C3BE712608D2F00139BA3 /* Logger.h */,
-				816C3BE812608D2F00139BA3 /* Logger.m */,
 				8141DD781259DC2400C6C24D /* PasswordManager.h */,
 				8141DD791259DC2400C6C24D /* PasswordManager.m */,
 				815657C01257574A0019A88D /* AudioCommentController.h */,
@@ -897,6 +895,8 @@
 		8165422412379B44008FC80F /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				812CFFCD12915A0F008F3D8E /* AZZLog.h */,
+				812CFFCE12915A0F008F3D8E /* AZZLog.m */,
 				81E5EE481287FF86000B304A /* ASIHTTPRequest */,
 				810E19781286EC41004DBEC3 /* SSTextView.h */,
 				810E19791286EC41004DBEC3 /* SSTextView.m */,
@@ -1234,7 +1234,6 @@
 				8141DD7A1259DC2400C6C24D /* PasswordManager.m in Sources */,
 				81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */,
 				81656363125A2A5E00154640 /* DeleteItemViewController.m in Sources */,
-				816C3BE912608D2F00139BA3 /* Logger.m in Sources */,
 				810586AF1263130400B8B079 /* _FileField.m in Sources */,
 				810586B11263130400B8B079 /* FileField.m in Sources */,
 				81B7091012635FFF006B5D53 /* LNFormDataRequest.m in Sources */,
@@ -1283,6 +1282,7 @@
 				81C9FF7E128EC4A50017790A /* DocumentInfoView.m in Sources */,
 				814037CA128F0D71001E9349 /* ASIDataCompressor.m in Sources */,
 				814037CB128F0D71001E9349 /* ASIDataDecompressor.m in Sources */,
+				812CFFCF12915A0F008F3D8E /* AZZLog.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1323,7 +1323,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphonesimulator3.2;
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "thirdparty/ASIHTTPRequest/**";
 			};
@@ -1341,7 +1341,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.2;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphonesimulator3.2;
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "thirdparty/ASIHTTPRequest/**";
 			};
@@ -1396,7 +1396,7 @@
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				PREBINDING = NO;
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
-				SDKROOT = iphoneos3.2;
+				SDKROOT = iphonesimulator3.2;
 				TARGETED_DEVICE_FAMILY = 2;
 				USER_HEADER_SEARCH_PATHS = "thirdparty/ASIHTTPRequest/**";
 			};

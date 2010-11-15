@@ -33,7 +33,7 @@
         if (!url || !field)
         {
             blockSelf.hasError = YES;
-            NSLog(@"invalid settings");
+            AZZLog(@"invalid settings");
             return;
         }
         

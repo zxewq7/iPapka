@@ -635,7 +635,7 @@ static NSString* SyncingContext = @"SyncingContext";
         
         if (fi >= filtersCount)
         {
-            NSLog(@"Invalid filter index: %d", fi);
+            AZZLog(@"Invalid filter index: %d", fi);
             continue;
         }
         
