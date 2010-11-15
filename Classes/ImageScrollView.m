@@ -1,7 +1,8 @@
 #import "ImageScrollView.h"
 #import "PaintingView.h"
 
-#define MAX_WIDTH 1024.0f
+#define LANDSCAPE_MAX_WIDTH 1024.0f
+#define PORTRAIT_MAX_WIDTH 768.0f
 
 @interface ImageScrollView (Private)
 - (void) createSavedPaintingView;
@@ -316,8 +317,11 @@
     
     NSUInteger newWidth = ceil(imageWidth / 32 ) * 32;
     
-    if (newWidth>MAX_WIDTH)
-        newWidth = MAX_WIDTH;
+    UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
+    CGFloat maxWidth = ((orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)?PORTRAIT_MAX_WIDTH:LANDSCAPE_MAX_WIDTH);
+
+    if (newWidth>maxWidth)
+        newWidth = maxWidth;
 
     CGFloat newScale = (newWidth / imageWidth) * self.zoomScale;
     
