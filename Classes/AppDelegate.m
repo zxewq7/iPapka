@@ -107,7 +107,7 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 
-    [syncTimer invalidate]; [syncTimer release]; syncTimer = nil;
+    [syncTimer invalidate]; syncTimer = nil;
     
     DataSource *ds = [DataSource sharedDataSource];
 
