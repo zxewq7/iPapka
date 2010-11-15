@@ -320,7 +320,7 @@
     UIInterfaceOrientation orientation = [UIApplication sharedApplication].statusBarOrientation;
     CGFloat maxWidth = ((orientation == UIInterfaceOrientationPortrait || orientation == UIInterfaceOrientationPortraitUpsideDown)?PORTRAIT_MAX_WIDTH:LANDSCAPE_MAX_WIDTH);
 
-    if (newWidth>maxWidth)
+    if (newWidth > maxWidth)
         newWidth = maxWidth;
 
     CGFloat newScale = (newWidth / imageWidth) * self.zoomScale;
