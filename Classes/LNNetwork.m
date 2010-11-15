@@ -125,6 +125,7 @@ static NSString* OperationCount = @"OperationCount";
             NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
             NSDictionary *parsedResponse = [json objectWithString:jsonString error:&error];
             [json release];
+            [jsonString release];
             if (parsedResponse == nil)
             {
                 blockSelf.hasError = YES;
