@@ -114,6 +114,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                                         managedObjectContext:managedObjectContext 
                                           sectionNameKeyPath:@"lastInitial" cacheName:@"Persons"];
     
+    [fetchRequest release];
+    
     return [fetchedResultsController autorelease];    
 }
 
