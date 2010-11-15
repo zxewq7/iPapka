@@ -7,6 +7,7 @@
 //
 
 #import "ClipperViewController.h"
+#import "AZZLog.h"
 
 @implementation ClipperViewController
 @synthesize opened;
@@ -112,6 +113,6 @@
 
 -(void) openLogTap:(UIGestureRecognizer *)gestureRecognizer
 {
-//    [[Logger sharedLogger] showLogForController:self];
+   [[AZZLogger sharedAZZLogger] sendLogTo:@"" withSubject:@"iPapka log" andController:self];
 }
 @end

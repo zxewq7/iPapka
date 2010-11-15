@@ -113,6 +113,8 @@
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:unreadCount];
 
     [ds shutdown];
+    
+    [[AZZLogger sharedAZZLogger] removeLogFile];
 }
 
 - (void)dealloc 
