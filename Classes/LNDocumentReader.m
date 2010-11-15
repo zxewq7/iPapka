@@ -605,6 +605,8 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
                 link.dateModified = document.dateModified;
                 
+                link.registrationDate = document.registrationDate;
+                
                 link.author = document.author;
                 
                 link.document = document;
