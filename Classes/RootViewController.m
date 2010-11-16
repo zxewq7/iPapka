@@ -62,8 +62,10 @@ static NSString* SyncingContext       = @"SyncingContext";
     document = [aDocument retain];
     
     if (!document.isReadValue)
+    {
         document.isReadValue = YES;
-    [[DataSource sharedDataSource] commit];
+        [[DataSource sharedDataSource] commit];
+    }
     
     [self updateContent];
 }
@@ -364,6 +366,14 @@ static NSString* SyncingContext       = @"SyncingContext";
                                        context:&SyncingContext];
     
     [self findAndSetDocumentInFolder];
+    
+    NSNotificationCenter * nc = [NSNotificationCenter defaultCenter];
+	
+	[nc addObserver: self selector: @selector(documentsChanged:)
+			   name: kDocumentFlowDeleted object: nil];
+
+    [nc addObserver: self selector: @selector(documentsChanged:)
+			   name: kDocumentFlowUpdated object: nil];
 }
 
 #pragma mark - 
@@ -858,5 +868,17 @@ static NSString* SyncingContext       = @"SyncingContext";
         break; //only for first folder
     }
     self.document = nil;
+}
+
+- (void)documentsChanged:(NSNotification*) notification
+{
+    NSSet *documents = notification.object;
+    if ([documents containsObject:self.document])
+    {
+        if (self.document.isDeleted)
+            [self findAndSetDocumentInFolder];
+        else
+            self.document = self.document;
+    }
 }
 @end
