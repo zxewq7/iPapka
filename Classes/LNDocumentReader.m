@@ -311,6 +311,9 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
     
     //add new attachments
     existingAttachments = document.attachments;
+    NSFileManager *df = [NSFileManager defaultManager];
+    
+
     
     for(NSDictionary *dictAttachment in attachments)
     {
@@ -366,6 +369,8 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         }
         
         NSArray *paintings = [dictAttachment objectForKey:field_AttachmentPagePainting];
+        NSMutableSet *paintingsFromServer = [[NSMutableSet alloc] initWithCapacity:[paintings count]];
+                                               
         for (NSDictionary *painting in paintings)
         {
             NSDictionary *parent = [painting valueForKey:field_ContainerId];
@@ -394,7 +399,20 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                 painting.uid = paintingId;
                 painting.syncStatusValue = SyncStatusNeedSyncFromServer;
             }
+            
+            [paintingsFromServer addObject:paintingPageNumber];
         }
+
+        for (AttachmentPage *page in attachment.pages)
+        {
+            if (![paintingsFromServer containsObject:page.number])
+            {
+                [df removeItemAtPath:page.painting.path error:NULL];
+                page.painting.syncStatusValue = SyncStatusSynced;
+            }
+        }
+        
+        [paintingsFromServer release];
         [[self dataSource] documentReaderCommit: self];
     }
 }
@@ -535,10 +553,9 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         //parse comment
         NSDictionary *commentAudio = [parsedDocument valueForKey:field_CommentAudio];
+        CommentAudio *audio = document.audio;
         if (commentAudio)
         {
-            CommentAudio *audio = document.audio;
-            
             NSString *version = [commentAudio valueForKey:field_Version];
             NSString *uid = [commentAudio valueForKey:field_Uid];
             if (!([audio.version isEqualToString: version] && [audio.uid isEqualToString: uid]))
@@ -548,6 +565,11 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                 audio.url = [NSString stringWithFormat:url_AudioCommentFormat, document.uid];
                 audio.syncStatusValue = SyncStatusNeedSyncFromServer;
             }
+        }
+        else
+        {
+            [df removeItemAtPath:audio.path error:NULL];
+            audio.syncStatusValue = SyncStatusSynced;
         }
         
         //parse attachments
