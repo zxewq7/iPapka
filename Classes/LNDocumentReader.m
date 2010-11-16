@@ -198,6 +198,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                                 [[blockSelf dataSource] documentReader:blockSelf removeObject: obj];
                         }
                     }
+                    [[blockSelf dataSource]  documentReaderCommit: self];
                     if ([blockSelf->uidsToFetch count])
                         [blockSelf fetchDocuments];
                     else
