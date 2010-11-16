@@ -11,6 +11,9 @@
 #import "LNDocumentReader.h"
 #import "LNPersonReader.h"
 
+#define kDocumentFlowDeleted @"documentFlowDeleted"
+#define kDocumentFlowUpdated @"documentFlowUpdated"
+
 @class Folder, Document, Document, LNDocumentWriter, LNSettingsReader;
 
 @interface DataSource : NSObject<LNDocumentReaderDataSource, LNPersonReaderDataSource>

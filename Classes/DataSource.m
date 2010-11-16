@@ -215,10 +215,29 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void)commit
 {
+    NSSet *deletedObjects = [managedObjectContext deletedObjects];
+    NSSet *updatedObjects = [managedObjectContext updatedObjects];
+
+    NSMutableSet *deletedDocuments = [[NSMutableSet alloc] initWithCapacity:[deletedObjects count]];
+    for (NSManagedObject *object in deletedObjects)
+    {
+        if ([object isKindOfClass:[Document class]])
+            [deletedDocuments addObject:object];
+    }
+    
+    NSMutableSet *updatedDocuments = [[NSMutableSet alloc] initWithCapacity:[updatedObjects count]];
+    for (NSManagedObject *object in updatedObjects)
+    {
+        if ([object isKindOfClass:[Document class]])
+            [updatedDocuments addObject:object];
+        else if ([object isKindOfClass:[CommentAudio class]])
+            [updatedDocuments addObject:((CommentAudio *)object).document];
+        else if ([object isKindOfClass:[AttachmentPagePainting class]])
+            [updatedDocuments addObject:((AttachmentPagePainting *)object).page.attachment.document];
+    }
+    
     if (!self.isSyncing) //skip when syncing
     {
-        NSSet *updatedObjects = [managedObjectContext updatedObjects];
-        
         for (NSManagedObject *object in updatedObjects)
         {
             NSDictionary *changedValues = [object changedValues];
@@ -264,7 +283,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         }        
     }
 
-    NSSet *deletedObjects = [managedObjectContext deletedObjects];
     NSFileManager *df = [NSFileManager defaultManager];
     
     for (NSManagedObject *object in deletedObjects)
@@ -284,6 +302,15 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     {
         NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
     }
+    
+    if ([deletedDocuments count])
+        [[NSNotificationCenter defaultCenter] postNotificationName: kDocumentFlowDeleted object: deletedDocuments];
+    
+    if ([updatedDocuments count])
+        [[NSNotificationCenter defaultCenter] postNotificationName: kDocumentFlowUpdated object: updatedDocuments];
+    
+    [updatedDocuments release];
+    [deletedDocuments release];
 }
 
 #pragma mark -
