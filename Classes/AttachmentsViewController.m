@@ -55,15 +55,14 @@ typedef enum _TapPosition{
 
 -(void) setAttachment:(Attachment *) anAttachment
 {
-    
-    if (attachment == anAttachment)
-        return;
-    
-    [attachment release];
-    attachment = [anAttachment retain];
-  
     [currentPage saveContent];
-
+    
+    if (attachment != anAttachment)
+    {
+        [attachment release];
+        attachment = [anAttachment retain];
+    }
+  
     pageControl.numberOfPages = [attachment.pagesOrdered count];
     pageControl.currentPage = 0;
     

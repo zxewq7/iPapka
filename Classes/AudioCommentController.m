@@ -33,11 +33,11 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void) setFile:(FileField *)aFile
 {
-    if (file == aFile)
-        return;
-    
-    [file release];
-    file = [aFile retain];
+    if (file != aFile)
+    {
+        [file release];
+        file = [aFile retain];
+    }
     
     self.player.path = file.path;
     [self updateContent];

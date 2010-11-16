@@ -40,10 +40,11 @@ static NSString* SyncingContext = @"SyncingContext";
 
 - (void) setFolder:(Folder *)aFolder
 {
-    if (folder == aFolder)
-        return;
-    [folder release];
-    folder = [aFolder retain];
+    if (folder != aFolder)
+    {
+        [folder release];
+        folder = [aFolder retain];
+    }
     
     [self updateContent];
 }

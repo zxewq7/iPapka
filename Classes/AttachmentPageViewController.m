@@ -26,13 +26,13 @@
 
 - (void)setPage:(AttachmentPage *)aPage
 {
-    if (page == aPage)
-        return;
-
     [self saveContent];
 
-    [page release];
-    page = [aPage retain];
+    if (page != aPage)
+    {
+        [page release];
+        page = [aPage retain];
+    }
     
     UIImage *pageImage = page.image;
     if (pageImage)

@@ -34,11 +34,11 @@
 
 -(void) setDocument:(DocumentResolution *) aDocument
 {
-    if (document == aDocument)
-    return;
-    
-    [document release];
-    document = [aDocument retain];
+    if (document != aDocument)
+    {
+        [document release];
+        document = [aDocument retain];
+    }
     
     resolutionSwitcher.selectedSegmentIndex = 0;
     [self updateContent];

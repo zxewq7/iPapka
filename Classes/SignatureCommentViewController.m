@@ -32,11 +32,11 @@
 
 -(void) setDocument:(DocumentSignature *) aDocument
 {
-    if (document == aDocument)
-        return;
-    
-    [document release];
-    document = [aDocument retain];
+    if (document != aDocument)
+    {
+        [document release];
+        document = [aDocument retain];
+    }
     
     [self updateContent];
 }
