@@ -199,11 +199,19 @@ static NSString* kFieldDrawing = @"drawing";
     id fileContent;
     
     if (fileExists)
-        fileContent =  [NSDictionary dictionaryWithObjectsAndKeys:(file.version?file.version:@"null"), kFieldVersion,
+    {
+        NSObject *version;
+        if (file.version)
+            version = file.version;
+        else 
+            version = [NSNull null];
+
+        fileContent =  [NSDictionary dictionaryWithObjectsAndKeys:version, kFieldVersion,
                  file.uid, kFieldUid,
                  nil];
+    }
     else
-        fileContent = @"null";
+        fileContent = [NSNull null];
     
     [jsonDict setObject:fileContent
                  forKey:fileField];
