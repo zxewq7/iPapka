@@ -224,31 +224,37 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     NSSet *deletedObjects = [managedObjectContext deletedObjects];
     NSSet *updatedObjects = [managedObjectContext updatedObjects];
 
-    NSMutableSet *deletedDocuments = [[NSMutableSet alloc] initWithCapacity:[deletedObjects count]];
-    for (NSManagedObject *object in deletedObjects)
+    if (self.isSyncing) //skip when syncing
     {
-        if (!object.isFault && [object isKindOfClass:[Document class]])
-            [deletedDocuments addObject:object];
+        NSMutableSet *deletedDocuments = [[NSMutableSet alloc] initWithCapacity:[deletedObjects count]];
+        for (NSManagedObject *object in deletedObjects)
+        {
+            if (!object.isFault && [object isKindOfClass:[Document class]])
+                [deletedDocuments addObject:object];
+        }
+        
+        NSMutableSet *updatedDocuments = [[NSMutableSet alloc] initWithCapacity:[updatedObjects count]];
+        for (NSManagedObject *object in updatedObjects)
+        {
+            if ([object isKindOfClass:[Document class]])
+                [updatedDocuments addObject:object];
+            else if ([object isKindOfClass:[CommentAudio class]])
+                [updatedDocuments addObject:((CommentAudio *)object).document];
+            else if ([object isKindOfClass:[AttachmentPagePainting class]])
+                [updatedDocuments addObject:((AttachmentPagePainting *)object).page.attachment.document];
+        }
+        
+        if ([deletedDocuments count])
+            [[NSNotificationCenter defaultCenter] postNotificationName: kDocumentFlowDeleted object: deletedDocuments];
+        
+        if ([updatedDocuments count])
+            [[NSNotificationCenter defaultCenter] postNotificationName: kDocumentFlowUpdated object: updatedDocuments];
+        
+        [updatedDocuments release];
+        
+        [deletedDocuments release];
     }
-    
-    NSMutableSet *updatedDocuments = [[NSMutableSet alloc] initWithCapacity:[updatedObjects count]];
-    for (NSManagedObject *object in updatedObjects)
-    {
-        if ([object isKindOfClass:[Document class]])
-            [updatedDocuments addObject:object];
-        else if ([object isKindOfClass:[CommentAudio class]])
-            [updatedDocuments addObject:((CommentAudio *)object).document];
-        else if ([object isKindOfClass:[AttachmentPagePainting class]])
-            [updatedDocuments addObject:((AttachmentPagePainting *)object).page.attachment.document];
-    }
-    
-    if ([deletedDocuments count])
-        [[NSNotificationCenter defaultCenter] postNotificationName: kDocumentFlowDeleted object: deletedDocuments];
-    
-    if ([updatedDocuments count])
-        [[NSNotificationCenter defaultCenter] postNotificationName: kDocumentFlowUpdated object: updatedDocuments];
-    
-    if (!self.isSyncing) //skip when syncing
+    else 
     {
         for (NSManagedObject *object in updatedObjects)
         {
@@ -292,8 +298,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 sourceDocument.dateModified = [NSDate date];            
                 sourceDocument.syncStatusValue = SyncStatusNeedSyncToServer;
             }
-        }        
+        }     
     }
+
 
     //remove FS items
     NSFileManager *df = [NSFileManager defaultManager];
@@ -308,10 +315,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             [df removeItemAtPath:path error:NULL];
     }
 
-    [updatedDocuments release];
-
-    [deletedDocuments release];
-    
     NSError *error = nil;
 
     if (![managedObjectContext save:&error])
