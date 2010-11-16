@@ -48,7 +48,14 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AZZLogger);
 {
     if ((self = [super init])) 
     {
-        logFile = [NSFileHandle fileHandleForWritingAtPath: self.logPath];
+        NSString *path = self.logPath;
+        NSFileManager *df = [NSFileManager defaultManager];
+        if (![df isWritableFileAtPath:path])
+            [df createFileAtPath:path
+                        contents:nil 
+                      attributes:nil];
+
+        logFile = [NSFileHandle fileHandleForUpdatingAtPath: path];
     }
     return self;
 }
