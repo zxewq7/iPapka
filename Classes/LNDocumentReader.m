@@ -53,6 +53,7 @@ static NSString *field_Version = @"version";
 static NSString *field_Correspondents = @"corrs";
 static NSString *field_Priority = @"priority";
 static NSString *field_PageNumber = @"pageNum";
+static NSString *field_Managed = @"hasControl";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -527,6 +528,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         if ([document isKindOfClass:[DocumentResolution class]]) 
         {
             DocumentResolution *resolution = (DocumentResolution *)document;
+            resolution.isManagedValue = [[parsedDocument valueForKey:field_Managed] boolValue];
             [self parseResolution:resolution fromDictionary:parsedDocument];
 
         }

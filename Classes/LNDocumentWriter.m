@@ -30,6 +30,7 @@ static NSString* kFieldDocument = @"document";
 static NSString* kFieldPage = @"pageNum";
 static NSString* kFieldAudio = @"audio";
 static NSString* kFieldDrawing = @"drawing";
+static NSString* kFieldManaged = @"hasControl";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(Document *) document;
@@ -140,6 +141,8 @@ static NSString* kFieldDrawing = @"drawing";
             
             [performersArray release];
         }
+        
+        [dictDocument setObject:resolution.isManaged forKey:kFieldManaged];
     }
     
     if (document.text)
