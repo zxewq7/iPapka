@@ -735,6 +735,15 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             
             resolution.parentResolution = parentResolution;
             parentResolution.resolution = resolution;
+            
+            NSDate *dDegistrationDate = nil;
+            NSString *sDegistrationDate = [parsedParentResolution objectForKey:field_RegistrationDate];
+            if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
+                dDegistrationDate = [parseFormatterSimple dateFromString:sDegistrationDate];
+            else
+                dDegistrationDate = parentResolution.resolution.registrationDate;
+            
+            parentResolution.registrationDate = dDegistrationDate;
         }
     }
     else if ([aResolution isKindOfClass:[DocumentResolutionParent class]])
