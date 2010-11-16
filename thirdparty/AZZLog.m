@@ -56,6 +56,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AZZLogger);
                       attributes:nil];
 
         logFile = [NSFileHandle fileHandleForUpdatingAtPath: path];
+        [logFile retain];
     }
     return self;
 }
@@ -97,7 +98,7 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AZZLogger);
     [controller release]; controller = nil;
     [logPath release]; logPath = nil;
     [logFile closeFile];
-    
+    [logFile release];
     [super dealloc];
 }
 
