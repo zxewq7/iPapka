@@ -128,7 +128,7 @@ static NSString* kFieldDrawing = @"drawing";
         if (resolution.deadline)
             [dictDocument setObject:[parseFormatterSimple stringFromDate:resolution.deadline] forKey:kFieldDeadline];
         
-        NSSet *performers = resolution.performers;
+        NSArray *performers = resolution.performersOrdered;
         NSUInteger performersCount = [performers count];
         if (performersCount)
         {
