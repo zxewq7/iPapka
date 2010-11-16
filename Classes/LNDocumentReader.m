@@ -548,6 +548,13 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         {
             DocumentResolution *resolution = (DocumentResolution *)document;
             resolution.isManagedValue = [[parsedDocument valueForKey:field_Managed] boolValue];
+            NSDate *dDate = nil;
+            NSString *sDate = [subDocument objectForKey:field_Date];
+            if (sDate && ![sDate isEqualToString:@""])
+                dDate = [parseFormatterSimple dateFromString:sDate];
+            
+            resolution.registrationDate = dDate;
+            
             [self parseResolution:resolution fromDictionary:parsedDocument];
 
         }
@@ -741,8 +748,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             NSString *sDate = [parsedParentResolution objectForKey:field_Date];
             if (sDate && ![sDate isEqualToString:@""])
                 dDate = [parseFormatterSimple dateFromString:sDate];
-            else
-                dDate = parentResolution.resolution.registrationDate;
             
             parentResolution.registrationDate = dDate;
         }
