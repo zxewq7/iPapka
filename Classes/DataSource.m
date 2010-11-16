@@ -215,6 +215,12 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void)commit
 {
+    if (![NSThread isMainThread])
+    {
+        [self performSelectorOnMainThread:@selector(commit) withObject:nil waitUntilDone:NO];
+        return;
+    }
+    
     NSSet *deletedObjects = [managedObjectContext deletedObjects];
     NSSet *updatedObjects = [managedObjectContext updatedObjects];
 
