@@ -39,7 +39,7 @@ URL для обработанных документов: **protocol**://**hostN
 **Пример документа**
 
 <code>
-{
+	{
 	"type": "resolution",
 	"id": "C2BD986B24B1CB24C32577DD003D915A",
 	"docVersion": "C32577DD:0045A59D",
@@ -50,7 +50,7 @@ URL для обработанных документов: **protocol**://**hostN
 	"priority" : 0,
 	"author": "Леонов О.В.",
 	"editable": true
-}
+	}
 </code>
 
 * **type** - обязательное строковое значение типа документа. Возможные значения: 
@@ -79,7 +79,7 @@ URL для обработанных документов: **protocol**://**hostN
 **Пример документа**
 
 <code>
-{
+	{
 	"type": "resolution",
 	"id": "C2BD986B24B1CB24C32577DD003D915A",
 	"docVersion": "C32577DD:0045A59D",
@@ -117,7 +117,7 @@ URL для обработанных документов: **protocol**://**hostN
 	                "drawing": [{"id":"id", "version":"version"}], 
 	                "audio": [{"id":"id1","version":"version1"}, {"id":"id2","version2":"version2"}]
 	        }
-}
+		}
 </code>
 
 **Описание полей**
@@ -159,7 +159,7 @@ URL для обработанных документов: **protocol**://**hostN
 -------------------------------
 
 <code>
-{
+	{
 	"type": "document",
 	"id": "77754C83D03A4A19C32577DC005D6736",
 	"version": "C32577DD:0045A5A6",
@@ -183,7 +183,7 @@ URL для обработанных документов: **protocol**://**hostN
 	                "audio": [{"id":"id1","version":"version1"}, {"id":"id2","version2":"version2"}]
 	        }
 	
-}
+	}
 </code>
 
 * **text** - строковый комментарий.
