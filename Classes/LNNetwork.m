@@ -327,6 +327,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: url]];
     request.delegate = self;
+    request.validatesSecureCertificate = [[NSUserDefaults standardUserDefaults] boolForKey:@"serverValidateSecureCertificate"];
     return request;
 }
 
@@ -334,6 +335,7 @@ static NSString* OperationCount = @"OperationCount";
 {
     LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: url]];
     request.delegate = self;
+    request.validatesSecureCertificate = [[NSUserDefaults standardUserDefaults] boolForKey:@"serverValidateSecureCertificate"];
     return request;
 }
 
