@@ -142,7 +142,8 @@ static NSString* kFieldManaged = @"hasControl";
             [performersArray release];
         }
         
-        [dictDocument setObject:resolution.isManaged forKey:kFieldManaged];
+        //for boolena in json - [NSNumber numberWithBool ...]
+        [dictDocument setObject:[NSNumber numberWithBool:resolution.isManagedValue] forKey:kFieldManaged];
     }
     
     if (document.text)
