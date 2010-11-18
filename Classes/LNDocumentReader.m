@@ -270,14 +270,9 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                  {
                      documentsLeftToFetch--;
                  }
-                 
-                 if (documentsLeftToFetch == 0)
-                     [blockSelf endSession];
              }];
         }
     }
-    else
-        [blockSelf endSession];
 }
 
 - (NSString *) documentDirectory:(NSString *) anUid
