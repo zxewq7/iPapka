@@ -235,8 +235,9 @@ typedef enum _TapPosition{
 
         NSUInteger numberOfPages = pageControl.numberOfPages-1;
         
-        if (currentPageIndex<0 || currentPageIndex>numberOfPages) //out of bounds
+        if (currentIndex < 0 || currentIndex > numberOfPages) //out of bounds
             return;
+        
         pageControl.currentPage = currentIndex;
         
         //emulate pager tap
