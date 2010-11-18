@@ -153,10 +153,8 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
 #pragma mark -
 #pragma mark Methods
--(void) sync
+-(void) run
 {
-    [self beginSession];
-    
     [uidsToFetch release];
     
     [fetchedUids release];
@@ -207,8 +205,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             }
         }];
     }
-    
-    [self endSession];
 }
 
 - (void)purgeCache

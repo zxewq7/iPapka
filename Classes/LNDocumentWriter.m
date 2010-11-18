@@ -54,13 +54,8 @@ static NSString* kFieldManaged = @"hasControl";
 }
 
 
-- (void) sync
+- (void) run
 {
-    if (self.isSyncing) //prevent multiple syncs
-        return;
-    
-    [self beginSession];
-    
     NSError *error = nil;
 
     if (![unsyncedFiles performFetch:&error])
@@ -74,9 +69,6 @@ static NSString* kFieldManaged = @"hasControl";
 
     for (Document *document in [unsyncedDocuments fetchedObjects])
         [self syncDocument:document];
-
-
-    [self endSession];
 }
 
 - (void)dealloc 

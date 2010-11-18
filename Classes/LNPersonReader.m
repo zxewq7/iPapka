@@ -27,10 +27,8 @@ static NSString* kFieldMiddle = @"middle";
     }
     return self;
 }
-- (void) sync;
+- (void) run;
 {
-    [self beginSession];
-    
     id<LNPersonReaderDataSource> mds = [self dataSource];
 
     __block LNPersonReader *blockSelf = self;
@@ -82,7 +80,6 @@ static NSString* kFieldMiddle = @"middle";
         [mds personReaderCommit:blockSelf];
         
     }];
-    [self endSession];
 }
 
 #pragma mark -

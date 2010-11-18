@@ -16,11 +16,10 @@
 @end
 
 @implementation LNSettingsReader
--(void) sync
+-(void) run
 {
     __block LNSettingsReader *blockSelf = self;
     
-    [self beginSession];
     [self jsonRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(BOOL err, id response)
     {
         if (err)
@@ -74,8 +73,6 @@
         else
             [blockSelf removeBlankLogo];
     }];
-    
-    [self endSession];
 }
 
 #pragma mark Private

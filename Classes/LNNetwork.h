@@ -36,7 +36,6 @@
                       path:(NSString *)path 
                 andHandler:(void (^)(BOOL error, NSString* path)) handler;
 
--(void) beginSession;
--(void) endSession;
 -(void) sync;
+-(void) run;
 @end

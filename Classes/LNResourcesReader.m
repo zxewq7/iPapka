@@ -28,10 +28,8 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
 @implementation LNResourcesReader
 @synthesize unsyncedFiles, unsyncedPages;
 
--(void) sync
+-(void) run
 {
-    [self beginSession];
-    
     NSError *error = nil;
     
     if (![unsyncedFiles performFetch:&error])
@@ -49,8 +47,6 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
     
     for (AttachmentPage *page in objects)
         [self readPage:page];
-
-    [self endSession];
 }
 
 - (void)dealloc 

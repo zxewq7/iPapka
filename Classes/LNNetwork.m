@@ -23,15 +23,12 @@ static NSString* OperationCount = @"OperationCount";
 -(BOOL) hasRequestError:(ASIHTTPRequest *) request;
 -(void) beginRequest;
 -(void) endRequest;
+-(void) beginSession;
+-(void) endSession;
 @end
 
 @implementation LNNetwork
 @synthesize isSyncing, queue, hasError, numberOfRequests;
-
--(void) sync
-{
-    NSAssert(NO, @"sync method MUST be replaced");
-}
 
 -(NSString *) serverUrl
 {
@@ -60,6 +57,18 @@ static NSString* OperationCount = @"OperationCount";
         [queue go];
     }
     return self;
+}
+
+-(void) sync
+{
+    [self beginSession];
+    [self run];
+    [self endSession];
+}
+
+-(void) run
+{
+    NSAssert(NO, @"run method MUST be replaced");
 }
 
 -(void) fileRequestWithUrl:(NSString *)url 
