@@ -21,7 +21,6 @@
 @property (nonatomic, readonly) BOOL isSyncing;
 @property (nonatomic, readonly) NSString *serverUrl;
 @property (nonatomic, readonly) ASINetworkQueue *queue;
-@property (nonatomic, assign) BOOL allRequestsSent;
 @property (nonatomic, assign) BOOL hasError;
 @property (assign) NSUInteger numberOfRequests;
 

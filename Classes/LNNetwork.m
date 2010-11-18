@@ -26,7 +26,7 @@ static NSString* OperationCount = @"OperationCount";
 @end
 
 @implementation LNNetwork
-@synthesize isSyncing, queue, allRequestsSent, hasError, numberOfRequests;
+@synthesize isSyncing, queue, hasError, numberOfRequests;
 
 -(void) sync
 {
@@ -40,18 +40,6 @@ static NSString* OperationCount = @"OperationCount";
     return serverUrl;
 }
 
-
--(void) setAllRequestsSent:(BOOL) value
-{
-    allRequestsSent = value;
-    BOOL x = !allRequestsSent || (queue.requestsCount != 0);
-    if ( x != isSyncing )
-    {
-        [self willChangeValueForKey:@"isSyncing"];
-        isSyncing = x;
-        [self didChangeValueForKey:@"isSyncing"];
-    }
-}
 
 - (id)init 
 {
@@ -90,11 +78,10 @@ static NSString* OperationCount = @"OperationCount";
     [request setDownloadDestinationPath:path];
 
     __block LNNetwork *blockSelf = self;
-    
-    request.requestHandler = ^(ASIHTTPRequest *request) 
-    {
-        [blockSelf beginRequest];
-        
+
+    [self beginRequest];
+
+    request.requestHandler = ^(ASIHTTPRequest *request) {
         if ([blockSelf hasRequestError:request])
         {
             blockSelf.hasError = YES;
@@ -103,8 +90,6 @@ static NSString* OperationCount = @"OperationCount";
         }
         else
             handler(NO, path);
-        
-        [blockSelf endRequest];
     };
     
     [queue addOperation:request];
@@ -116,11 +101,10 @@ static NSString* OperationCount = @"OperationCount";
     LNHttpRequest *request = [self requestWithUrl:url];
     
     __block LNNetwork *blockSelf = self;
+
+    [self beginRequest];
     
-    request.requestHandler = ^(ASIHTTPRequest *request) 
-    {
-        [blockSelf beginRequest];
-        
+    request.requestHandler = ^(ASIHTTPRequest *request) {
         if ([blockSelf hasRequestError:request])
         {
             blockSelf.hasError = YES;
@@ -144,8 +128,6 @@ static NSString* OperationCount = @"OperationCount";
 
             handler(NO, parsedResponse);
         }
-        
-        [blockSelf endRequest];
     };
     
     [queue addOperation:request];
@@ -194,9 +176,10 @@ static NSString* OperationCount = @"OperationCount";
     
     __block LNNetwork *blockSelf = self;
     
+    [self beginRequest];
+    
     request.requestHandler = ^(ASIHTTPRequest *request) 
     {
-        [blockSelf beginRequest];
         
         if ([blockSelf hasRequestError:request])
         {
@@ -222,8 +205,6 @@ static NSString* OperationCount = @"OperationCount";
             
             handler(NO, parsedResponse);
         }
-        
-        [blockSelf endRequest];
     };
     
     [queue addOperation:request];      
@@ -233,7 +214,6 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) beginSession
 {
-    self.allRequestsSent = NO;
     self.hasError = NO;
     isSyncing = YES;
     self.numberOfRequests = 0;
@@ -241,7 +221,7 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) endSession
 {
-    self.allRequestsSent = YES;
+    [self checkSyncing];
 }
 
 
@@ -251,7 +231,7 @@ static NSString* OperationCount = @"OperationCount";
     if (handler)
         handler(request);
     
-    [self checkSyncing];
+    [self endRequest];
 }
 
 - (void)fetchFailed:(ASIHTTPRequest *)request
@@ -260,7 +240,7 @@ static NSString* OperationCount = @"OperationCount";
     if (handler)
         handler(request);
     
-    [self checkSyncing];
+    [self endRequest];
 }
 
 - (void)authenticationNeededForRequest:(ASIHTTPRequest *)request
@@ -320,7 +300,7 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) checkSyncing
 {
-    BOOL x = !(allRequestsSent && (numberOfRequests == 0) && (queue.requestsCount == 0));
+    BOOL x = !((self.numberOfRequests == 0) && (queue.requestsCount == 0));
     if ( x != isSyncing )
     {
         [self willChangeValueForKey:@"isSyncing"];
@@ -371,5 +351,4 @@ static NSString* OperationCount = @"OperationCount";
     
     [self checkSyncing];
 }
-
 @end
