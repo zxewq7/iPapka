@@ -21,6 +21,8 @@ static NSString* OperationCount = @"OperationCount";
 -(LNHttpRequest *) requestWithUrl:(NSString *) url;
 -(LNFormDataRequest *) formRequestWithUrl:(NSString *) url;
 -(BOOL) hasRequestError:(ASIHTTPRequest *) request;
+-(void) beginRequest;
+-(void) endRequest;
 @end
 
 @implementation LNNetwork
@@ -88,9 +90,11 @@ static NSString* OperationCount = @"OperationCount";
     [request setDownloadDestinationPath:path];
 
     __block LNNetwork *blockSelf = self;
-    requestComplete = NO;
     
-    request.requestHandler = ^(ASIHTTPRequest *request) {
+    request.requestHandler = ^(ASIHTTPRequest *request) 
+    {
+        [blockSelf beginRequest];
+        
         if ([blockSelf hasRequestError:request])
         {
             blockSelf.hasError = YES;
@@ -99,6 +103,8 @@ static NSString* OperationCount = @"OperationCount";
         }
         else
             handler(NO, path);
+        
+        [blockSelf endRequest];
     };
     
     [queue addOperation:request];
@@ -110,9 +116,11 @@ static NSString* OperationCount = @"OperationCount";
     LNHttpRequest *request = [self requestWithUrl:url];
     
     __block LNNetwork *blockSelf = self;
-    requestComplete = NO;
     
-    request.requestHandler = ^(ASIHTTPRequest *request) {
+    request.requestHandler = ^(ASIHTTPRequest *request) 
+    {
+        [blockSelf beginRequest];
+        
         if ([blockSelf hasRequestError:request])
         {
             blockSelf.hasError = YES;
@@ -136,6 +144,8 @@ static NSString* OperationCount = @"OperationCount";
 
             handler(NO, parsedResponse);
         }
+        
+        [blockSelf endRequest];
     };
     
     [queue addOperation:request];
@@ -184,7 +194,9 @@ static NSString* OperationCount = @"OperationCount";
     
     __block LNNetwork *blockSelf = self;
     
-    request.requestHandler = ^(ASIHTTPRequest *request) {
+    request.requestHandler = ^(ASIHTTPRequest *request) 
+    {
+        [blockSelf beginRequest];
         
         if ([blockSelf hasRequestError:request])
         {
@@ -210,6 +222,8 @@ static NSString* OperationCount = @"OperationCount";
             
             handler(NO, parsedResponse);
         }
+        
+        [blockSelf endRequest];
     };
     
     [queue addOperation:request];      
@@ -236,7 +250,6 @@ static NSString* OperationCount = @"OperationCount";
     if (handler)
         handler(request);
     
-    requestComplete = YES;
     [self checkSyncing];
 }
 
@@ -246,7 +259,6 @@ static NSString* OperationCount = @"OperationCount";
     if (handler)
         handler(request);
     
-    requestComplete = YES;
     [self checkSyncing];
 }
 
@@ -307,7 +319,7 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) checkSyncing
 {
-    BOOL x = !(requestComplete && allRequestsSent && (queue.requestsCount == 0));
+    BOOL x = !((numberOfRequests == 0) && (queue.requestsCount == 0));
     if ( x != isSyncing )
     {
         [self willChangeValueForKey:@"isSyncing"];
@@ -346,4 +358,23 @@ static NSString* OperationCount = @"OperationCount";
         return NO;
     
 }
+
+-(void) beginRequest
+{
+    @synchronized(self)
+    {
+        numberOfRequests++;
+    }
+}
+
+-(void) endRequest
+{
+    @synchronized(self)
+    {
+        numberOfRequests--;
+    }
+    
+    [self checkSyncing];
+}
+
 @end
