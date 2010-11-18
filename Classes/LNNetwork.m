@@ -215,7 +215,11 @@ static NSString* OperationCount = @"OperationCount";
 -(void) beginSession
 {
     self.hasError = NO;
+
+    [self willChangeValueForKey:@"isSyncing"];
     isSyncing = YES;
+    [self didChangeValueForKey:@"isSyncing"];
+
     self.numberOfRequests = 0;
 }
 
@@ -300,7 +304,8 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) checkSyncing
 {
-    BOOL x = !((self.numberOfRequests == 0) && (queue.requestsCount == 0));
+    BOOL x = !(self.numberOfRequests == 0 && queue.requestsCount == 0);
+    
     if ( x != isSyncing )
     {
         [self willChangeValueForKey:@"isSyncing"];
