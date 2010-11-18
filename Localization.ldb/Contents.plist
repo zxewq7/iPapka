@@ -8,10 +8,7 @@
 			<key>change date</key>
 			<date>2001-01-01T00:00:00Z</date>
 			<key>changed values</key>
-			<array>
-				<string>&lt;reference&gt;</string>
-				<string>ru</string>
-			</array>
+			<array/>
 			<key>class</key>
 			<string>BLBundleObject</string>
 			<key>errors</key>
@@ -22,20 +19,17 @@
 					<key>attachments</key>
 					<dict/>
 					<key>change date</key>
-					<date>2010-11-18T16:12:55Z</date>
+					<date>2010-11-18T16:22:31Z</date>
 					<key>changed values</key>
-					<array>
-						<string>&lt;reference&gt;</string>
-						<string>ru</string>
-					</array>
+					<array/>
 					<key>class</key>
 					<string>BLStringsFileObject</string>
 					<key>errors</key>
 					<array/>
 					<key>flags</key>
-					<integer>1</integer>
+					<integer>0</integer>
 					<key>hash</key>
-					<string>07ddc01f86d063e01877c49603a7f76f
+					<string>2f0dce22d64af399158f2a29ad9097da
 </string>
 					<key>name</key>
 					<string>Root.strings</string>
@@ -45,9 +39,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -72,9 +64,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -99,9 +89,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -126,9 +114,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -153,9 +139,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -180,9 +164,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -207,9 +189,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -234,9 +214,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -261,9 +239,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -288,10 +264,7 @@
 							<key>change date</key>
 							<date>2001-01-01T00:00:00Z</date>
 							<key>changed values</key>
-							<array>
-								<string>&lt;reference&gt;</string>
-								<string>ru</string>
-							</array>
+							<array/>
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
@@ -301,13 +274,13 @@
 							<key>flags</key>
 							<integer>0</integer>
 							<key>key</key>
-							<string>Enable security certificates checking</string>
+							<string>Validate secure certificate</string>
 							<key>localizations</key>
 							<dict>
 								<key>en</key>
-								<string>Enable security certificates checking</string>
+								<string>Validate secure certificate</string>
 								<key>ru</key>
-								<string>Включить проверку сертификатов безопасности</string>
+								<string>Проверять сертификат безопасности</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -336,6 +309,34 @@
 							<dict>
 								<key>en</key>
 								<string>Automatically synchronize</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array>
+								<string>&lt;reference&gt;</string>
+								<string>ru</string>
+							</array>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences.</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Enable security certificates checking</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Enable security certificates checking</string>
+								<key>ru</key>
+								<string>Включить проверку сертификатов безопасности</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
