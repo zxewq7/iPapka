@@ -23,6 +23,7 @@
 @property (nonatomic, readonly) ASINetworkQueue *queue;
 @property (nonatomic, assign) BOOL allRequestsSent;
 @property (nonatomic, assign) BOOL hasError;
+@property (assign) NSUInteger numberOfRequests;
 
 -(void) jsonRequestWithUrl:(NSString *)url 
                 andHandler:(void (^)(BOOL error, id response)) handler;

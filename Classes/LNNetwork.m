@@ -26,7 +26,7 @@ static NSString* OperationCount = @"OperationCount";
 @end
 
 @implementation LNNetwork
-@synthesize isSyncing, queue, allRequestsSent, hasError;
+@synthesize isSyncing, queue, allRequestsSent, hasError, numberOfRequests;
 
 -(void) sync
 {
@@ -236,6 +236,7 @@ static NSString* OperationCount = @"OperationCount";
     self.allRequestsSent = NO;
     self.hasError = NO;
     isSyncing = YES;
+    self.numberOfRequests = 0;
 }
 
 -(void) endSession
@@ -319,7 +320,7 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) checkSyncing
 {
-    BOOL x = !((numberOfRequests == 0) && (queue.requestsCount == 0));
+    BOOL x = !(allRequestsSent && (numberOfRequests == 0) && (queue.requestsCount == 0));
     if ( x != isSyncing )
     {
         [self willChangeValueForKey:@"isSyncing"];
@@ -361,18 +362,12 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) beginRequest
 {
-    @synchronized(self)
-    {
-        numberOfRequests++;
-    }
+    self.numberOfRequests++;
 }
 
 -(void) endRequest
 {
-    @synchronized(self)
-    {
-        numberOfRequests--;
-    }
+    self.numberOfRequests--;
     
     [self checkSyncing];
 }
