@@ -133,7 +133,7 @@ URL для обработанных документов: **protocol**://**hostN
 		,"links": [{"id":"1","type":"Последующие","info": "28 от 31.07.2009", "files": [{"id":"de85a92ed9f45ed797ca78d37aedffe6","name":"Документ.tif","pageCount":20},{"id":"ef4f6a7d2a80af94bd18114eb6e77c99","name":"Дополнения к ПЗ на доработку ПО СМ 3.tiff","pageCount":12}]}],
 	}
 	"resources": { 
-	                "drawing": [{"id":"id", "version":"version"}], 
+	                "drawing": {"id":"id", "version":"version"},
 	                "audio": [{"id":"id1","version":"version1"}, {"id":"id2","version2":"version2"}]
 	        }
 		}
