@@ -22,7 +22,7 @@ id - строка, pageNum - целое неотрицательное.
 Создание, удаление, изменение ресурса происходит POST мультипартом на известный url. Мультипарт из двух частей: управляющий json и контент ресурса. В случае удаление ресурса - контент не передается. В управляющем json указывается: версия документа, контейнер, id и version ресурса 
         
 Создание ресурса.Запрос. 
-json = { 
+	json = { 
         docVersion: doc_version, 
         parent: { 
                 document: doc_id, 
@@ -33,12 +33,12 @@ json = {
                 id: null, 
                 version: null 
         } 
-} 
+	} 
 file = filecontent 
 
 Создание ресурса.Ответ. 
 успех(200): 
-{ 
+	{ 
         docVersion: new_doc_version, 
         parent: { 
                 document: doc_id, 
@@ -49,7 +49,7 @@ file = filecontent
                 id: res_id, 
                 version: res_version 
         } 
-} 
+	} 
 неудача 
         404 - например при попытке записи в несуществующий контенейнер 
         500 - например при попытке создание второго рисования к странице. (конфликт) 
@@ -62,17 +62,17 @@ file = filecontent
 Формат ошибки.
 -------------------------------
 сервер должен отвечать с кодом 500:
-{
-                "error":
-                {
-                                 "code":numeric_error_code,
-                                 "message":"human readable message"
-                }
-} 
+	{
+    	"error":
+        {
+        	"code":numeric_error_code,
+         	"message":"human readable message"
+        }
+	}
 
 
 Изменение ресурса.Запрос. 
-json = { 
+	json = { 
         docVersion: doc_version, 
         parent: { 
                 document: doc_id, 
@@ -83,11 +83,11 @@ json = {
                 id: res_id, 
                 version: res_version 
         } 
-} 
+	} 
 file = filecontent 
 Изменение ресурса. Ответ 
 успех(200): 
-{ 
+	{ 
         docVersion: new_doc_version, 
         parent: { 
                 document: doc_id, 
@@ -98,13 +98,13 @@ file = filecontent
                 id: res_id, 
                 version: new_res_version 
         } 
-} 
+	} 
 неудача 
         404 - например при попытке записи в несуществующий контенейнер, при попытке изменения несуществующего ресурса 
         500 - например при несовпадений версии ресурса или документа 
                 
 Удаление ресурса.Запрос 
-json = { 
+	json = { 
         docVersion: doc_version, 
         parent: { 
                 document: doc_id, 
@@ -115,11 +115,11 @@ json = {
                         id: res_id, 
                         version: res_version 
                 } 
-} 
+		} 
 file не передается. 
 Удаление ресурса.Ответ 
 успех(200): 
-{ 
+	{ 
         docVersion: new_doc_version, 
         parent: { 
                 document: doc_id, 
@@ -127,25 +127,25 @@ file не передается.
                 pageNum: pageNum 
         }, 
         audio: null 
-} 
+	} 
 неудача 
         404 - например при попытке записи в несуществующий контенейнер, при попытке изменения несуществующего ресурса 
         500 - например при несовпадений версии 
 
 
 контейнер-документ: содержит в корне json-поле resources: 
-{ 
+	{ 
         drawing: {id,version}
         audio: [{id,version},{id,version},...] 
-} 
+	} 
 при полном отсутствии ресурсов в контейнере поле resources не передается 
 
 контейнеры-страницы. располагаются внтутри файла. представлены массивом resources. каждому контейнеру соотвествует элемент массива. 
-{ 
+	{ 
         pagenum: pagenum, 
         drawing: {id,version} 
         audio: [{id,version},{id,version},...] 
-} 
+	} 
 при полном отсутствии ресурсов к странице - отсутствует соответсвующий элемент с этим pageNum 
 
 при отсутсвии одного из ресурсов в контейнере - соответсвующее поле ( drawing или audio ) не передаецтся 
@@ -153,7 +153,7 @@ file не передается.
 
 Примеры: 
 Т.о. в общем виде это выглядит так: 
-{ 
+	{ 
         id: docid, 
         docVersion: docVersion, 
         ... 
@@ -172,7 +172,7 @@ file не передается.
                                         }, 
                                         { 
                                                 pageNum: pageNum, 
-                                                drawing: [{id,version}] 
+                                                drawing: {id,version}
                                                 audio: [{id,version},{id,version},...] 
                                         }, 
                                         .... 
@@ -186,27 +186,27 @@ file не передается.
                 drawing: {id,version}
                 audio: [{id,version},{id,version},...] 
         } 
-} 
+	} 
 
 Отсутcвие ресурсов к документу 
-{ 
+	{ 
         id: docid, 
         docVersion: docVersion, 
         ... 
-} 
+	} 
 
 Отсутствие рисования к документу: 
-{ 
+	{ 
         id: docid, 
         docVersion: docVersion, 
         ... 
         resources: { 
                 audio: [{id,version},{id,version},...] 
         } 
-} 
+	} 
 
 Отсутствие рисования к странице: 
-{ 
+	{ 
         id: docid, 
         docVersion: docVersion, 
         ... 
@@ -227,7 +227,7 @@ file не передается.
                 ] 
         } 
         ... 
-} 
+	} 
 
 
 
