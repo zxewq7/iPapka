@@ -188,10 +188,11 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(void) sync:(BOOL) value
 {
-    if (isSyncing) //prevent multiple calls
+    if (self.isSyncing) //prevent multiple calls
         return;
     showErrors = value;
     syncStep = 0;
+    self.isSyncing = YES;
     
     [[self.readers objectAtIndex:syncStep] sync];
 }
@@ -540,10 +541,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
         }
         
-        self.isSyncing = ss;
+        if (self.isSyncing != ss)
+        {
+            self.isSyncing = ss;
         
-        if (!self.isSyncing)
-            [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
+            if (!self.isSyncing)
+                [[NSUserDefaults standardUserDefaults] setObject:[NSKeyedArchiver archivedDataWithRootObject:[NSDate date]] forKey: @"lastSynced"];
+        }
         
     }
     else
