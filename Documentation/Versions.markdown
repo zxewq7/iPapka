@@ -135,7 +135,7 @@ file не передается.
 
 контейнер-документ: содержит в корне json-поле resources: 
 { 
-        drawing: [{id,version}] 
+        drawing: {id,version}
         audio: [{id,version},{id,version},...] 
 } 
 при полном отсутствии ресурсов в контейнере поле resources не передается 
@@ -143,7 +143,7 @@ file не передается.
 контейнеры-страницы. располагаются внтутри файла. представлены массивом resources. каждому контейнеру соотвествует элемент массива. 
 { 
         pagenum: pagenum, 
-        drawing: [{id,version}] 
+        drawing: {id,version} 
         audio: [{id,version},{id,version},...] 
 } 
 при полном отсутствии ресурсов к странице - отсутствует соответсвующий элемент с этим pageNum 
@@ -167,7 +167,7 @@ file не передается.
                                 resources: [ 
                                         { 
                                                 pageNum: pageNum, 
-                                                drawing: [{id,version}] 
+                                                drawing: {id,version} 
                                                 audio: [{id,version},{id,version},...] 
                                         }, 
                                         { 
@@ -183,7 +183,7 @@ file не передается.
         } 
         ... 
         resources: { 
-                drawing: [{id,version}] 
+                drawing: {id,version}
                 audio: [{id,version},{id,version},...] 
         } 
 } 
