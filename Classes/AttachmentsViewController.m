@@ -169,7 +169,7 @@ typedef enum _TapPosition{
     AttachmentPage *page = [attachment.pagesOrdered objectAtIndex: aPage];
     
     if (page.hasPaintings)
-        return [NSArray arrayWithObject:[UIImage imageNamed:@"IconPainting.png"]];
+        return [NSArray arrayWithObject:[UIImage imageNamed:@"IconComment.png"]];
     
     return nil;
 }
