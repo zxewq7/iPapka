@@ -29,10 +29,7 @@ id - строка, pageNum - целое неотрицательное.
                 file: file_id, 
                 pageNum: pageNum 
                 }, 
-        audio: { 
-                id: null, 
-                version: null 
-        } 
+        audio: null
 	} 
 file = filecontent 
 
@@ -45,10 +42,7 @@ file = filecontent
                 file: file_id, 
                 pageNum: pageNum 
         }, 
-        audio: { 
-                id: res_id, 
-                version: res_version 
-        } 
+        audio: file_hash
 	} 
 неудача 
         404 - например при попытке записи в несуществующий контенейнер 
@@ -79,10 +73,7 @@ file = filecontent
                 file: file_id, 
                 pageNum: pageNum 
                 }, 
-        audio: { 
-                id: res_id, 
-                version: res_version 
-        } 
+        audio: file_hash
 	} 
 file = filecontent 
 Изменение ресурса. Ответ 
@@ -94,10 +85,7 @@ file = filecontent
                 file: file_id, 
                 pageNum: pageNum 
         }, 
-        audio: { 
-                id: res_id, 
-                version: new_res_version 
-        } 
+        audio: file_hash
 	} 
 неудача 
         404 - например при попытке записи в несуществующий контенейнер, при попытке изменения несуществующего ресурса 
@@ -111,10 +99,7 @@ file = filecontent
                 file: file_id, 
                 pageNum: pageNum 
                 }, 
-                audio: { 
-                        id: res_id, 
-                        version: res_version 
-                } 
+                audio: file_hash
 		} 
 file не передается. 
 Удаление ресурса.Ответ 
@@ -135,16 +120,15 @@ file не передается.
 
 контейнер-документ: содержит в корне json-поле resources: 
 	{ 
-        drawing: {id,version}
-        audio: [{id,version},{id,version},...] 
+        drawing: file_hash
+        audio: file_hash
 	} 
 при полном отсутствии ресурсов в контейнере поле resources не передается 
 
 контейнеры-страницы. располагаются внтутри файла. представлены массивом resources. каждому контейнеру соотвествует элемент массива. 
 	{ 
         pagenum: pagenum, 
-        drawing: {id,version} 
-        audio: [{id,version},{id,version},...] 
+        drawing: file_hash
 	} 
 при полном отсутствии ресурсов к странице - отсутствует соответсвующий элемент с этим pageNum 
 
@@ -167,13 +151,11 @@ file не передается.
                                 resources: [ 
                                         { 
                                                 pageNum: pageNum, 
-                                                drawing: {id,version} 
-                                                audio: [{id,version},{id,version},...] 
+                                                drawing: file_hash
                                         }, 
                                         { 
                                                 pageNum: pageNum, 
-                                                drawing: {id,version}
-                                                audio: [{id,version},{id,version},...] 
+                                                drawing: file_hash
                                         }, 
                                         .... 
                                 ] 
@@ -183,8 +165,8 @@ file не передается.
         } 
         ... 
         resources: { 
-                drawing: {id,version}
-                audio: [{id,version},{id,version},...] 
+                drawing: file_hash
+                audio: file_hash
         } 
 	} 
 
@@ -201,7 +183,7 @@ file не передается.
         docVersion: docVersion, 
         ... 
         resources: { 
-                audio: [{id,version},{id,version},...] 
+                audio: file_hash
         } 
 	} 
 
@@ -218,7 +200,7 @@ file не передается.
                                 resources: [ 
                                         { 
                                                 pageNum: pageNum, 
-                                                audio: [{id,version},{id,version},...] 
+                                                audio: file_hash
                                         }, 
                                         .... 
                                 ] 
@@ -257,7 +239,7 @@ file не передается.
 Пример реализации схемы на клиенты 
          строим хэшмэп всех ресурсов серверного документа: 
                 ключ: parent , type ,id 
-                значение: version 
+                значение: значение соотвествующего поля (хэш) 
         и аналогичный клиенский hashmap 
         
         step1. проходим по серверной коллекции 
