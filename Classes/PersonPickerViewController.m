@@ -149,17 +149,19 @@
                 cell.selectionStyle = UITableViewCellSeparatorStyleNone;
             }
             p = [fetchedResultsController objectAtIndexPath:indexPath];
+            
             NSUInteger index = [persons indexOfObject:p];
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-            UIImage *image = (index == NSNotFound?iconUnchecked:iconChecked);
-            CGRect frame = CGRectMake(0.0, 0.0, image.size.width, image.size.height);
-            button.frame = frame;	// match the button's size with the image size
             
-            [button setBackgroundImage:image forState:UIControlStateNormal];
-            
-            // set the button's target to this table view controller so we can interpret touch events and map that to a NSIndexSet
-            [button addTarget:self action:@selector(addRemovePerformer:event:) forControlEvents:UIControlEventTouchUpInside];
-            cell.accessoryView = button;
+            if (index == NSNotFound)
+            {
+                cell.imageView.image = iconUnchecked;
+                cell.textLabel.enabled = YES;
+            }
+            else
+            {
+                cell.imageView.image = iconChecked;
+                cell.textLabel.enabled = NO;
+            }
             break;
         case 1:
             cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifierReorder];
@@ -197,15 +199,20 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath 
 {
-    return;
-    
     Person *person = nil;
     
     switch (filterSwitcher.selectedSegmentIndex)
     {
         case 0:
             person = [fetchedResultsController objectAtIndexPath:indexPath];
-            [self.persons addObject:person];
+
+            NSUInteger index = [self.persons indexOfObject:person];
+
+            if (index == NSNotFound)
+                [self.persons addObject:person];
+            else
+                [self.persons removeObjectAtIndex:index];
+
             [target performSelector:action withObject:self];
             break;
     }
@@ -311,30 +318,6 @@
 {
     self.tableView.editing = (filterSwitcher.selectedSegmentIndex == 1);
     [self.tableView reloadData];
-}
--(void)addRemovePerformer:(id) sender event:(id)event
-{
-	NSSet *touches = [event allTouches];
-	UITouch *touch = [touches anyObject];
-	CGPoint currentTouchPosition = [touch locationInView:self.tableView];
-	NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint: currentTouchPosition];
-	if (indexPath != nil)
-	{
-        Person *person = [fetchedResultsController objectAtIndexPath:indexPath];
-        NSUInteger index = [self.persons indexOfObject:person];
-        UIButton *button = (UIButton *)[tableView cellForRowAtIndexPath:indexPath].accessoryView;
-        if (index == NSNotFound)
-        {
-            [self.persons addObject:person];
-            [button setBackgroundImage:iconUnchecked forState:UIControlStateNormal];
-        }
-        else
-        {
-            [self.persons removeObjectAtIndex:index];
-            [button setBackgroundImage:iconChecked forState:UIControlStateNormal];
-        }
-        [target performSelector:action withObject:self];
-	}
 }
 #pragma mark -
 #pragma mark Memory management
