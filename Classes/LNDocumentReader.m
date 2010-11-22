@@ -7,7 +7,7 @@
 //
 
 #import "LNDocumentReader.h"
-#import "Document.h"
+#import "DocumentWithResources.h"
 #import "DocumentResolution.h"
 #import "DocumentSignature.h"
 #import "DocumentLink.h"
@@ -31,6 +31,8 @@ static NSString *view_EntryDataFirstElement = @"0";
 static NSString *field_Title       = @"subject";
 static NSString *field_Author      = @"author";
 static NSString *field_Modified    = @"modified";
+static NSString *field_Editable    = @"editable";
+static NSString *field_Created    = @"created";
 static NSString *field_Subdocument = @"document";
 static NSString *field_Deadline    = @"deadline";
 static NSString *field_RegistrationDate    = @"regDate";
@@ -50,6 +52,8 @@ static NSString *field_LinkTitle = @"info";
 static NSString *field_Status = @"status";
 static NSString *field_CommentAudio = @"audio";
 static NSString *field_Version = @"version";
+static NSString *field_DocVersion = @"docVersion";
+static NSString *field_ContentVersion = @"contentVersion";
 static NSString *field_Correspondents = @"corrs";
 static NSString *field_Priority = @"priority";
 static NSString *field_PageNumber = @"pageNum";
@@ -228,15 +232,15 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         NSDictionary *values = [self extractValuesFromViewColumn: entryData];
         
-        NSString *version = [values objectForKey:field_Version];
+        NSString *docVersion = [values objectForKey:field_DocVersion];
         
-        NSAssert(version != nil, @"Unable to find version in view");
+        NSAssert(docVersion != nil, @"Unable to find version in view");
 
         Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document)
             [uidsToFetch addObject: uid];
-        else if (![document.version isEqualToString: version])
+        else if (![document.docVersion isEqualToString: docVersion])
             [uidsToFetch addObject: uid];
         
         [fetchedUids addObject: uid];
@@ -439,7 +443,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         NSString *dateModifiedString = [parsedDocument objectForKey:field_Modified];
         
-        NSDate *dateModified = nil;
+        NSDate *dateModified;
 
         if (!dateModifiedString || !(dateModified = [parseFormatterDst dateFromString:dateModifiedString]))
         {
@@ -447,15 +451,44 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             return;
         }
 
-        NSString *documentVersion = [parsedDocument objectForKey:field_Version];
+        NSString *dateCreatedString = [parsedDocument objectForKey:field_Created];
         
-        if (!documentVersion)
+        NSDate *dateCreated;
+        
+        if (!dateCreatedString || !(dateCreated = [parseFormatterDst dateFromString:dateCreatedString]))
         {
-            AZZLog(@"unknown document version, document skipped: %@", uid);
+            AZZLog(@"unknown document date created, document skipped: %@", uid);
             return;
         }
         
-        Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
+        NSString *dateString = [parsedDocument objectForKey:field_Date];
+        
+        NSDate *date;
+        
+        if (!dateString || !(date = [parseFormatterDst dateFromString:dateString]))
+        {
+            AZZLog(@"unknown document date, document skipped: %@", uid);
+            return;
+        }
+        
+        
+        NSString *documentVersion = [parsedDocument objectForKey:field_DocVersion];
+        
+        if (!documentVersion)
+        {
+            AZZLog(@"unknown docVersion, document skipped: %@", uid);
+            return;
+        }
+        
+        NSString *contentVersion = [parsedDocument objectForKey:field_ContentVersion];
+
+        if (!contentVersion)
+        {
+            AZZLog(@"unknown contentVersion, document skipped: %@", uid);
+            return;
+        }
+        
+        DocumentWithResources *document = (DocumentWithResources *)[[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document ) //create new document
         {
@@ -482,72 +515,75 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             audio.document = document;
         }
         
-        document.version = documentVersion;
+        document.docVersion = documentVersion;
         
         document.syncStatus = SyncStatusSynced;
 
-        document.author = author;
         
-        document.status = documentStatus;
-        
-        document.isReadValue = (document.statusValue != DocumentStatusNew);
-        
-        document.uid = uid;
-        
-        document.title = [subDocument objectForKey:field_Title];
-        
-        document.dateModified = dateModified;
-        
-        document.correspondents = [subDocument objectForKey:field_Correspondents];
-        
-        document.text = [parsedDocument objectForKey:field_Text];
-
-        NSNumber *priority = [parsedDocument objectForKey:field_Priority];
-        
-        if ([priority intValue]>0)
-            document.priorityValue = DocumentPriorityHigh;
-        else
-            document.priorityValue = DocumentPriorityNormal;
-        
-        
-        NSDate *dDegistrationDate = nil;
-        NSString *sDegistrationDate = [subDocument objectForKey:field_RegistrationDate];
-        if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
-            dDegistrationDate = [parseFormatterSimple dateFromString:sDegistrationDate];
-        else
-            dDegistrationDate = document.dateModified;
-        
-        document.registrationDate = dDegistrationDate;
-
-        NSCalendar *calendar = [NSCalendar currentCalendar];
-        unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-        
-        NSDateComponents *comps = [calendar components:unitFlags fromDate:document.registrationDate];
-        
-        document.registrationDateStripped = [calendar dateFromComponents:comps];
-
-        //registrationNumber
-        NSString *registrationNumber = [subDocument objectForKey:field_RegistrationNumber];
-        
-        if (registrationNumber && ![registrationNumber isEqualToString:@""])
-            document.registrationNumber = registrationNumber;
-        
-        
-        if ([document isKindOfClass:[DocumentResolution class]]) 
+        if (![document.contentVersion isEqualToString:contentVersion])
         {
-            DocumentResolution *resolution = (DocumentResolution *)document;
-            resolution.isManagedValue = [[parsedDocument valueForKey:field_Managed] boolValue];
-            NSDate *dDate = nil;
-            NSString *sDate = [subDocument objectForKey:field_Date];
-            if (sDate && ![sDate isEqualToString:@""])
-                dDate = [parseFormatterSimple dateFromString:sDate];
+            NSCalendar *calendar = [NSCalendar currentCalendar];
+            unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
+            NSDateComponents *comps;
             
-            resolution.registrationDate = dDate;
+            document.contentVersion = contentVersion;
             
-            [self parseResolution:resolution fromDictionary:parsedDocument];
+            document.created = dateCreated;
+            
+            comps = [calendar components:unitFlags fromDate:document.created];
+            document.created = [calendar dateFromComponents:comps];
 
+            document.modified = dateModified;
+            
+            document.date = date;
+
+            comps = [calendar components:unitFlags fromDate:document.date];
+            document.dateStripped = [calendar dateFromComponents:comps];
+
+            document.isEditable = [parsedDocument objectForKey:field_Editable];
+
+            document.author = author;
+            
+            document.status = documentStatus;
+            
+            document.isReadValue = (document.statusValue != DocumentStatusNew);
+            
+            document.uid = uid;
+            
+            document.title = [subDocument objectForKey:field_Title];
+            
+            document.correspondents = [subDocument objectForKey:field_Correspondents];
+            
+            document.text = [parsedDocument objectForKey:field_Text];
+            
+            NSNumber *priority = [parsedDocument objectForKey:field_Priority];
+            
+            if ([priority intValue]>0)
+                document.priorityValue = DocumentPriorityHigh;
+            else
+                document.priorityValue = DocumentPriorityNormal;
+            
+            if ([document isKindOfClass:[DocumentResolution class]]) 
+            {
+                DocumentResolution *resolution = (DocumentResolution *)document;
+                resolution.isManagedValue = [[parsedDocument valueForKey:field_Managed] boolValue];
+
+                NSDate *dDegistrationDate = nil;
+                NSString *sDegistrationDate = [subDocument objectForKey:field_RegistrationDate];
+                if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
+                    dDegistrationDate = [parseFormatterSimple dateFromString:sDegistrationDate];
+                
+                resolution.regDate = dDegistrationDate;
+                
+                resolution.regNumber = [subDocument objectForKey:field_RegistrationNumber];
+                
+                [self parseResolution:resolution fromDictionary:parsedDocument];
+                
+            }
+            
         }
         
+
         //parse comment
         NSDictionary *commentAudio = [parsedDocument valueForKey:field_CommentAudio];
         CommentAudio *audio = document.audio;
@@ -625,12 +661,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
                 link.title = [dictLink objectForKey:field_LinkTitle];
 
-                link.dateModified = document.dateModified;
-                
-                link.registrationDate = document.registrationDate;
-                
-                link.author = document.author;
-                
                 link.document = document;
                 
                 link.path = [[document.path stringByAppendingPathComponent:@"links"] stringByAppendingPathComponent:link.uid];
@@ -724,9 +754,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             if (!parentResolution.title)
                 parentResolution.title = resolution.title;
             
-            if (!parentResolution.dateModified)
-                parentResolution.dateModified = resolution.dateModified;
-            
             if (!parentResolution.uid)
                 parentResolution.uid = [resolution.uid stringByAppendingString:@"/parentResolution"];
             
@@ -738,7 +765,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             if (sDate && ![sDate isEqualToString:@""])
                 dDate = [parseFormatterSimple dateFromString:sDate];
             
-            parentResolution.registrationDate = dDate;
+            parentResolution.date = dDate;
         }
     }
     else if ([aResolution isKindOfClass:[DocumentResolutionParent class]])
