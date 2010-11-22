@@ -20,7 +20,6 @@
     BOOL                        commenting;
     PageControl         *pageControl;
     PaintingToolsViewController *paintingTools;
-    NSUInteger                  currentPageIndex;
 }
 
 @property (nonatomic, retain)           Attachment            *attachment;

@@ -21,7 +21,7 @@ typedef enum _TapPosition{
 
 @interface AttachmentsViewController(Private)
 - (TapPosition) tapPosition:(CGPoint) location;
-- (void) setPages;
+- (void) setPages:(NSInteger) direction;
 @end
 
 @implementation AttachmentsViewController
@@ -66,7 +66,7 @@ typedef enum _TapPosition{
     pageControl.numberOfPages = [attachment.pagesOrdered count];
     pageControl.currentPage = 0;
     
-    [self setPages];
+    [self setPages:1];
 }
 
 #pragma mark -
@@ -106,11 +106,12 @@ typedef enum _TapPosition{
     currentPage.color = paintingTools.color;
     nextPage.color = paintingTools.color;
     
-    //refrest pages
-    self.attachment = self.attachment;
-    
     [self.view addSubview:nextPage.view];
 	[self.view addSubview:currentPage.view];
+    
+    //refresh pages
+    self.attachment = self.attachment;
+
 }
 
 - (void)viewDidUnload
@@ -141,22 +142,17 @@ typedef enum _TapPosition{
 {
     NSUInteger currentIndex = pageControl.currentPage;
     
-    if (currentPageIndex != currentIndex)
+    if (currentPage.page.number.integerValue != currentIndex)
     {
-        BOOL down = currentIndex < currentPageIndex;
+        BOOL down = currentIndex > currentPage.page.number.integerValue;
         
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.5f];
-        [UIView setAnimationTransition: (down?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp)
+        [UIView setAnimationTransition: (!down?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp)
                                forView:self.view cache:YES];
 
-        AttachmentPageViewController *swapController = currentPage;
-        currentPage = nextPage;
-        nextPage = swapController;
-        [self setPages];
+        [self setPages:(down?1:-1)];
         
-        nextPage.view.hidden = YES;
-        currentPage.view.hidden = NO;
         // Commit the changes
         [UIView commitAnimations];
     }
@@ -231,7 +227,7 @@ typedef enum _TapPosition{
         [pageControl hide:!pageControl.hidden animated:YES];
     else if (tapPosition == TapPositionTop || tapPosition == TapPositionBottom)
     {
-        NSInteger currentIndex = currentPageIndex + (tapPosition == TapPositionTop?-1:1);
+        NSInteger currentIndex = currentPage.page.number.integerValue + (tapPosition == TapPositionTop?-1:1);
 
         NSUInteger numberOfPages = pageControl.numberOfPages-1;
         
@@ -274,30 +270,37 @@ typedef enum _TapPosition{
 {
     CGSize size = self.view.frame.size;
     
-    if ((size.height - location.y)<100.0f)
+    if ((size.height - location.y) < 100.0f)
         return TapPositionBottom;
     
-    if (location.y<100.0f)
+    if (location.y < 100.0f)
         return TapPositionTop;
 
     return TapPositionMiddle;
 }
-- (void) setPages
+- (void) setPages:(NSInteger) direction
 {
     //cancel all paintings
     [paintingTools cancel];
     
     NSUInteger numberOfPages = pageControl.numberOfPages;
-    NSUInteger currentIndex = pageControl.currentPage;
-    NSInteger direction = (pageControl.currentPage < currentPageIndex?-1:1);
+    NSInteger currentIndex = pageControl.currentPage;
     
-    if (numberOfPages > currentIndex)
+    if (0 <= currentIndex && currentIndex < numberOfPages)
     {
-        currentPage.page = [attachment.pagesOrdered objectAtIndex: currentIndex];
-        currentPageIndex = currentIndex;
+        if (nextPage.page && currentIndex == nextPage.page.number.integerValue)
+        {
+            AttachmentPageViewController *swapController = currentPage;
+            currentPage = nextPage;
+            nextPage = swapController;
+        }
+        else
+            currentPage.page = [attachment.pagesOrdered objectAtIndex: currentIndex];
         
-        if (numberOfPages > (currentIndex + direction))
-            nextPage.page = [attachment.pagesOrdered objectAtIndex: (currentIndex + direction)];
+        NSInteger nextIndex = currentIndex + direction;
+        
+        if (0 <= nextIndex && nextIndex < numberOfPages)
+            nextPage.page = [attachment.pagesOrdered objectAtIndex: nextIndex];
         else
             nextPage.page = nil;
     }
@@ -306,6 +309,9 @@ typedef enum _TapPosition{
         currentPage.page = nil;
         nextPage.page = nil;
     }
+    
+    nextPage.view.hidden = YES;
+    currentPage.view.hidden = NO;
     
     paintingTools.view.hidden = !currentPage.page.isEditable;
 }
