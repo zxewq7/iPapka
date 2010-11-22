@@ -131,7 +131,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         statusDictionary = [NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithInt:DocumentStatusDraft], @"draft",
                                                                               [NSNumber numberWithInt:DocumentStatusNew], @"new",
                                                                               [NSNumber numberWithInt:DocumentStatusDeclined], @"rejected",
-                                                                              [NSNumber numberWithInt:DocumentStatusAccepted], @"approved",
+                                                                              [NSNumber numberWithInt:DocumentStatusAccepted], @"accepted",
                                                                               nil];
         [statusDictionary retain];
     }
