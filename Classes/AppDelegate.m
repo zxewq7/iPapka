@@ -25,33 +25,49 @@
     
     //default folders
     //names should be unique across all folders
+    
     Folder *inbox = [Folder folderWithName:@"Documents" 
-                           predicateString:nil
-                                entityName:nil
+                           predicateString:nil 
+                           sortDescriprors:nil 
+                                entityName:nil 
                                   iconName:@"ButtonDocuments.png"];
     inbox.filters = [NSArray arrayWithObjects: 
-                     [Folder folderWithName:@"Resolutions" 
-                            predicateString:@"(status == 0 || status == 1)" 
+                     [Folder folderWithName:@"Resolutions"
+                            predicateString:@"(status == 0 || status == 1)"
+                            sortDescriprors:[NSArray arrayWithObjects:
+                                             [[[NSSortDescriptor alloc] initWithKey:@"createdStripped" ascending:NO] autorelease], 
+                                             [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease], 
+                                             nil] 
                                  entityName:@"DocumentResolution"
-                                   iconName:@"ButtonResolution.png"], 
-                     [Folder folderWithName:@"Signatures" 
-                            predicateString:@"(status == 0 || status == 1)" 
+                                   iconName:@"ButtonResolution.png"],
+                     [Folder folderWithName:@"Signatures"
+                            predicateString:@"(status == 0 || status == 1)"
+                            sortDescriprors:[NSArray arrayWithObjects:
+                                             [[[NSSortDescriptor alloc] initWithKey:@"createdStripped" ascending:NO] autorelease], 
+                                             [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease], 
+                                             nil] 
                                  entityName:@"DocumentSignature"
                                    iconName:@"ButtonSignature.png"],
                      nil];
     
-    Folder *archive = [Folder folderWithName:@"Archive" 
-                             predicateString:nil
-                                  entityName:nil
+    Folder *archive = [Folder folderWithName:@"Archive"
+                             predicateString:nil 
+                             sortDescriprors:nil 
+                                  entityName:nil 
                                     iconName:@"ButtonArchive.png"];
-    
     archive.filters = [NSArray arrayWithObjects: 
-                       [Folder folderWithName:@"Archived resolutions" 
-                              predicateString:@"!(status == 0 || status == 1)" 
+                       [Folder folderWithName:@"Resolutions"
+                              predicateString:@"!(status == 0 || status == 1)"
+                              sortDescriprors:[NSArray arrayWithObject:
+                                               [[[NSSortDescriptor alloc] initWithKey:@"dateStripped" ascending:NO] autorelease]
+                                               ] 
                                    entityName:@"DocumentResolution"
                                      iconName:@"ButtonResolution.png"], 
-                       [Folder folderWithName:@"Archived signatures" 
-                              predicateString:@"!(status == 0 || status == 1)" 
+                       [Folder folderWithName:@"Signatures"
+                              predicateString:@"!(status == 0 || status == 1)"
+                              sortDescriprors:[NSArray arrayWithObject:
+                                               [[[NSSortDescriptor alloc] initWithKey:@"dateStripped" ascending:NO] autorelease] 
+                                              ] 
                                    entityName:@"DocumentSignature"
                                      iconName:@"ButtonSignature.png"],
                        nil];

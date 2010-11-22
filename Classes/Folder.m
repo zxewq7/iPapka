@@ -13,15 +13,20 @@
 #import "DataSource.h"
 
 @implementation Folder
-@synthesize name, predicateString, entityName, icon, iconName, filters;
+@synthesize name, predicateString, entityName, icon, iconName, filters, sortDescriptors;
 
-+(id)folderWithName:(NSString *) aName predicateString:(NSString *) aPredicateString entityName:(NSString *) anEntityName iconName:(NSString *) anIconName
++(id)folderWithName:(NSString *) aName 
+    predicateString:(NSString *) aPredicateString 
+    sortDescriprors:(NSArray *)sortDescriptors 
+         entityName:(NSString *) anEntityName 
+           iconName:(NSString *) anIconName
 {
     Folder *folder = [[Folder alloc] init];
     folder.name = aName;
     folder.predicateString = aPredicateString;
     folder.entityName = anEntityName;
     folder.iconName = anIconName;
+    folder.sortDescriptors = sortDescriptors;
     return [folder autorelease];
 }
 
@@ -34,6 +39,8 @@
     [localizedName release]; self.iconName = nil;
     [icon release]; icon = nil;
     self.filters = nil;
+    
+    self.sortDescriptors = nil;
     
     [super dealloc];
 }
@@ -49,6 +56,7 @@
         self.entityName = [coder decodeObjectForKey:@"entityName"];
         self.iconName = [coder decodeObjectForKey:@"iconName"];
         self.filters = [coder decodeObjectForKey:@"filters"];
+        self.sortDescriptors = [coder decodeObjectForKey:@"sortDescriptors"];
     }
     return self;
 }
@@ -60,6 +68,7 @@
     [coder encodeObject: self.entityName forKey:@"entityName"];
     [coder encodeObject: self.iconName forKey:@"iconName"];
     [coder encodeObject: self.filters forKey:@"filters"];
+    [coder encodeObject: self.sortDescriptors forKey:@"sortDescriptors"];
 }
 
 -(void)setName:(NSString *)aName
@@ -156,7 +165,7 @@
     return documents;
 }
 
-- (Document*) firstDocument
+- (DocumentWithResources*) firstDocument
 {
     NSFetchedResultsController *documents = self.documents;
 
