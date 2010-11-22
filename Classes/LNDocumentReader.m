@@ -59,6 +59,8 @@ static NSString *field_Priority = @"priority";
 static NSString *field_PageNumber = @"pageNum";
 static NSString *field_Managed = @"hasControl";
 static NSString *field_Date = @"date";
+static NSString *field_Resources = @"resources";
+static NSString *field_Drawing = @"drawing";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -78,6 +80,9 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
 - (void) parseResolution:(DocumentResolutionAbstract *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) parseResources:(DocumentWithResources *) document fromDictionary:(NSDictionary *) dictionary;
+- (void) parseLinks:(DocumentWithResources *) document fromArray:(NSArray *) links;
+- (void) parseAttachmentResources:(Attachment *) attachment fromArray:(NSArray *) resources;
 @end
 
 @implementation LNDocumentReader
@@ -305,9 +310,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
     
     //add new attachments
     existingAttachments = document.attachments;
-    NSFileManager *df = [NSFileManager defaultManager];
-    
-
     
     for(NSDictionary *dictAttachment in attachments)
     {
@@ -350,8 +352,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                 else
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
                 
-                painting.uid = @"drawings";
-                
                 painting.syncStatusValue = SyncStatusSynced;
 
                 page.painting = painting;
@@ -362,51 +362,8 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             }
         }
         
-        NSArray *paintings = [dictAttachment objectForKey:field_AttachmentPagePainting];
-        NSMutableSet *paintingsFromServer = [[NSMutableSet alloc] initWithCapacity:[paintings count]];
-                                               
-        for (NSDictionary *painting in paintings)
-        {
-            NSDictionary *parent = [painting valueForKey:field_ContainerId];
-            
-            NSString *paintingId = [painting valueForKey:field_Uid];
-            NSString *paintingVersion = [painting valueForKey:field_Version];
-            NSNumber *paintingPageNumber = [parent valueForKey:field_PageNumber];
-            
-            if (!(paintingId && 
-                  paintingVersion && 
-                  paintingPageNumber && 
-                  [paintingPageNumber intValue] >= 0 && 
-                  [paintingPageNumber intValue] < [attachment.pages count]))
-            {
-                AZZLog(@"invalid drawings object: %@/%@/%@", document.uid, attachment.uid, paintingId);
-                continue;
-            }
-            
-            AttachmentPage *page = [attachment.pagesOrdered objectAtIndex:[paintingPageNumber intValue]];
-            
-            AttachmentPagePainting *painting = page.painting;
-            
-            if (!([painting.version isEqualToString:paintingVersion] && [painting.uid isEqualToString:paintingId]))
-            {
-                painting.version = paintingVersion;
-                painting.uid = paintingId;
-                painting.syncStatusValue = SyncStatusNeedSyncFromServer;
-            }
-            
-            [paintingsFromServer addObject:paintingPageNumber];
-        }
-
-        for (AttachmentPage *page in attachment.pages)
-        {
-            if (![paintingsFromServer containsObject:page.number])
-            {
-                [df removeItemAtPath:page.painting.path error:NULL];
-                page.painting.syncStatusValue = SyncStatusSynced;
-            }
-        }
+        [self parseAttachmentResources:attachment fromArray:[dictAttachment objectForKey:field_Resources]];
         
-        [paintingsFromServer release];
         [[self dataSource] documentReaderCommit: self];
     }
 }
@@ -506,7 +463,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             
             CommentAudio *audio = [[self dataSource] documentReader:self createEntity:[CommentAudio class]];
             audio.path = [[document.path stringByAppendingPathComponent:@"comments"] stringByAppendingPathComponent:@"audioComment.caf"];
-            audio.uid = @"audio";
             [df createDirectoryAtPath:[audio.path stringByDeletingLastPathComponent] withIntermediateDirectories:TRUE 
                            attributes:nil error:nil];
 
@@ -518,7 +474,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         document.docVersion = documentVersion;
         
         document.syncStatus = SyncStatusSynced;
-
         
         if (![document.contentVersion isEqualToString:contentVersion])
         {
@@ -584,94 +539,11 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         }
         
 
-        //parse comment
-        NSDictionary *commentAudio = [parsedDocument valueForKey:field_CommentAudio];
-        CommentAudio *audio = document.audio;
-        if (commentAudio)
-        {
-            NSString *version = [commentAudio valueForKey:field_Version];
-            NSString *uid = [commentAudio valueForKey:field_Uid];
-            if (!([audio.version isEqualToString: version] && [audio.uid isEqualToString: uid]))
-            {
-                audio.uid = uid;
-                audio.version = version;
-                audio.url = [NSString stringWithFormat:url_AudioCommentFormat, document.uid];
-                audio.syncStatusValue = SyncStatusNeedSyncFromServer;
-            }
-        }
-        else
-        {
-            [df removeItemAtPath:audio.path error:NULL];
-            audio.syncStatusValue = SyncStatusSynced;
-        }
+        [self parseResources:document fromDictionary:[parsedDocument valueForKey:field_Resources]];
         
-        //parse attachments
-        NSArray *attachments = [subDocument objectForKey:field_Attachments];
+        [self parseAttachments:document attachments: [subDocument objectForKey:field_Attachments]];
         
-        [self parseAttachments:document attachments: attachments];
-        
-        //parse links
-        NSArray *links = [subDocument objectForKey:field_Links];
-        
-        NSSet *existingLinks = document.links;
-        
-        //remove obsoleted attachments
-        for (DocumentLink *link in existingLinks)
-        {
-            BOOL  exists = NO;
-            for (NSDictionary *dictLink in links)
-            {
-                NSString *linkUid = [dictLink objectForKey:field_Uid];
-                if ([link.index isEqualToString :linkUid])
-                {
-                    exists = YES;
-                    break;
-                }
-            }
-            
-            if (!exists)
-                [[self dataSource] documentReader:self removeObject: link];
-        }
-        
-        //add new links
-        existingLinks = document.links;
-        
-        for(NSDictionary *dictLink in links)
-        {
-            NSString *linkUid = [dictLink objectForKey:field_Uid];
-            
-            DocumentLink *link = nil;
-            
-            for (DocumentLink *l in existingLinks)
-            {
-                if ([l.index isEqualToString: linkUid])
-                {
-                    link = l;
-                    break;
-                }
-            }
-            
-            if (!link) //create new link
-            {
-                link = [[self dataSource] documentReader:self createEntity:[DocumentLink class]];
-
-                link.index = [dictLink objectForKey:field_Uid];
-                
-                link.uid = [uid stringByAppendingPathComponent:[@"links" stringByAppendingPathComponent:[dictLink objectForKey:field_Uid]]];
-
-                link.title = [dictLink objectForKey:field_LinkTitle];
-
-                link.document = document;
-                
-                link.path = [[document.path stringByAppendingPathComponent:@"links"] stringByAppendingPathComponent:link.uid];
-                
-                [[self dataSource] documentReaderCommit: self];
-                
-                NSArray *linkAttachments = [dictLink objectForKey:field_Attachments];
-                
-                [self parseAttachments:link attachments: linkAttachments];
-            }
-        }
+        [self parseLinks:document fromArray:[subDocument objectForKey:field_Links]];
         
         [[self dataSource] documentReaderCommit: self];
     }
@@ -774,5 +646,139 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         DocumentResolutionParent *resolution = (DocumentResolutionParent *)aResolution;
         resolution.performers = performers;
     }
+}
+
+- (void) parseResources:(DocumentWithResources *) document fromDictionary:(NSDictionary *) dictionary
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+
+        //parse audio
+    NSString *audioVersion = [dictionary valueForKey:field_CommentAudio];
+    CommentAudio *audio = document.audio;
+    if (audioVersion)
+    {
+        NSString *version = [dictionary valueForKey:field_Version];
+        if (!([audio.version isEqualToString: version]))
+        {
+            audio.version = version;
+            audio.url = [NSString stringWithFormat:url_AudioCommentFormat, document.uid];
+            audio.syncStatusValue = SyncStatusNeedSyncFromServer;
+        }
+    }
+    else
+    {
+        [df removeItemAtPath:audio.path error:NULL];
+        audio.syncStatusValue = SyncStatusSynced;
+    }
+}
+
+- (void) parseLinks:(DocumentWithResources *) document fromArray:(NSArray *) links
+{
+    NSSet *existingLinks = document.links;
+    
+        //remove obsoleted attachments
+    for (DocumentLink *link in existingLinks)
+    {
+        BOOL  exists = NO;
+        for (NSDictionary *dictLink in links)
+        {
+            NSString *linkUid = [dictLink objectForKey:field_Uid];
+            if ([link.index isEqualToString :linkUid])
+            {
+                exists = YES;
+                break;
+            }
+        }
+        
+        if (!exists)
+            [[self dataSource] documentReader:self removeObject: link];
+    }
+    
+        //add new links
+    existingLinks = document.links;
+    
+    for(NSDictionary *dictLink in links)
+    {
+        NSString *linkUid = [dictLink objectForKey:field_Uid];
+        
+        DocumentLink *link = nil;
+        
+        for (DocumentLink *l in existingLinks)
+        {
+            if ([l.index isEqualToString: linkUid])
+            {
+                link = l;
+                break;
+            }
+        }
+        
+        if (!link) //create new link
+        {
+            link = [[self dataSource] documentReader:self createEntity:[DocumentLink class]];
+            
+            link.index = [dictLink objectForKey:field_Uid];
+            
+            link.uid = [document.uid stringByAppendingPathComponent:[@"links" stringByAppendingPathComponent:[dictLink objectForKey:field_Uid]]];
+            
+            link.title = [dictLink objectForKey:field_LinkTitle];
+            
+            link.document = document;
+            
+            link.path = [[document.path stringByAppendingPathComponent:@"links"] stringByAppendingPathComponent:link.uid];
+            
+            [[self dataSource] documentReaderCommit: self];
+            
+            NSArray *linkAttachments = [dictLink objectForKey:field_Attachments];
+            
+            [self parseAttachments:link attachments: linkAttachments];
+        }
+    }
+    
+}
+
+- (void) parseAttachmentResources:(Attachment *) attachment fromArray:(NSArray *) resources
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+
+    NSMutableSet *paintingsFromServer = [[NSMutableSet alloc] initWithCapacity:[resources count]];
+    
+    for (NSDictionary *painting in resources)
+    {
+        NSString *paintingVersion = [painting valueForKey:field_Drawing];
+
+        NSNumber *paintingPageNumber = [painting valueForKey:field_PageNumber];
+        
+        if (!(paintingVersion && 
+              paintingPageNumber && 
+              [paintingPageNumber intValue] >= 0 && 
+              [paintingPageNumber intValue] < [attachment.pages count]))
+        {
+            AZZLog(@"invalid drawings object: %@/%@/%@", attachment.document.uid, attachment.uid, paintingPageNumber);
+            continue;
+        }
+        
+        AttachmentPage *page = [attachment.pagesOrdered objectAtIndex:[paintingPageNumber intValue]];
+        
+        AttachmentPagePainting *painting = page.painting;
+        
+        if (!([painting.version isEqualToString:paintingVersion]))
+        {
+            painting.version = paintingVersion;
+            painting.syncStatusValue = SyncStatusNeedSyncFromServer;
+        }
+        
+        [paintingsFromServer addObject:paintingPageNumber];
+    }
+    
+    for (AttachmentPage *page in attachment.pages)
+    {
+        if (![paintingsFromServer containsObject:page.number])
+        {
+            [df removeItemAtPath:page.painting.path error:NULL];
+            page.painting.syncStatusValue = SyncStatusSynced;
+        }
+    }
+    
+    [paintingsFromServer release];
 }
 @end
