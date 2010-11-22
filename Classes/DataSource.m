@@ -129,20 +129,12 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     if (filter)
         [fetchRequest setPredicate:filter];
     
-    NSSortDescriptor *sortDescriptor = 
-    [[NSSortDescriptor alloc] initWithKey:@"registrationDateStripped" 
-                                ascending:NO];
-    
-    NSArray *sortDescriptors = [[NSArray alloc] 
-                                initWithObjects:sortDescriptor, nil];  
-    [fetchRequest setSortDescriptors:sortDescriptors];
-    [sortDescriptors release];
-    [sortDescriptor release];
+    [fetchRequest setSortDescriptors:folder.sortDescriptors];
 	
     
     NSFetchedResultsController *fetchedResultsController = 
     [[NSFetchedResultsController alloc] initWithFetchRequest:fetchRequest 
-                                        managedObjectContext:managedObjectContext sectionNameKeyPath:@"registrationDateStripped" 
+                                        managedObjectContext:managedObjectContext sectionNameKeyPath:((NSSortDescriptor *)[folder.sortDescriptors objectAtIndex:0]).key
                                                    cacheName:folder.name];
     [fetchRequest release];
     
