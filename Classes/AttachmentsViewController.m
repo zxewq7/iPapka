@@ -145,14 +145,14 @@ typedef enum _TapPosition{
     if (currentPage.page.number.integerValue != currentIndex)
     {
         BOOL down = currentIndex > currentPage.page.number.integerValue;
-        
+
+        [self setPages:(down?1:-1)];
+
         [UIView beginAnimations:nil context:NULL];
         [UIView setAnimationDuration:0.5f];
         [UIView setAnimationTransition: (!down?UIViewAnimationTransitionCurlDown:UIViewAnimationTransitionCurlUp)
                                forView:self.view cache:YES];
 
-        [self setPages:(down?1:-1)];
-        
         // Commit the changes
         [UIView commitAnimations];
     }
