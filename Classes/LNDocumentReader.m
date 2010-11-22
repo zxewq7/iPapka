@@ -471,7 +471,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         document.docVersion = documentVersion;
         
-        document.syncStatus = SyncStatusSynced;
+        document.syncStatusValue = SyncStatusSynced;
         
         if (![document.contentVersion isEqualToString:contentVersion])
         {
