@@ -12,7 +12,6 @@
 
 
 
-
 @interface FileFieldID : NSManagedObjectID {}
 @end
 
@@ -23,28 +22,6 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (FileFieldID*)objectID;
-
-
-
-@property (nonatomic, retain) NSString *uid;
-
-//- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *path;
-
-//- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *syncStatus;
-
-@property short syncStatusValue;
-- (short)syncStatusValue;
-- (void)setSyncStatusValue:(short)value_;
-
-//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -60,15 +37,31 @@
 
 
 
-@property (nonatomic, retain) NSString *version;
+@property (nonatomic, retain) NSString *path;
 
-//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
 
 
 
 @property (nonatomic, retain) NSString *url;
 
 //- (BOOL)validateUrl:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSNumber *syncStatus;
+
+@property short syncStatusValue;
+- (short)syncStatusValue;
+- (void)setSyncStatusValue:(short)value_;
+
+//- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *version;
+
+//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -81,12 +74,20 @@
 
 @interface _FileField (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveUid;
-- (void)setPrimitiveUid:(NSString*)value;
+- (NSString*)primitiveName;
+- (void)setPrimitiveName:(NSString*)value;
+
+
+- (NSDate*)primitiveDateModified;
+- (void)setPrimitiveDateModified:(NSDate*)value;
 
 
 - (NSString*)primitivePath;
 - (void)setPrimitivePath:(NSString*)value;
+
+
+- (NSString*)primitiveUrl;
+- (void)setPrimitiveUrl:(NSString*)value;
 
 
 - (NSNumber*)primitiveSyncStatus;
@@ -96,20 +97,8 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_;
 
 
-- (NSString*)primitiveName;
-- (void)setPrimitiveName:(NSString*)value;
-
-
-- (NSDate*)primitiveDateModified;
-- (void)setPrimitiveDateModified:(NSDate*)value;
-
-
 - (NSString*)primitiveVersion;
 - (void)setPrimitiveVersion:(NSString*)value;
-
-
-- (NSString*)primitiveUrl;
-- (void)setPrimitiveUrl:(NSString*)value;
 
 
 
