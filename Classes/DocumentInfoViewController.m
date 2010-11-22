@@ -242,7 +242,7 @@
         
         if ([self.document isKindOfClass:[DocumentResolution class]])
         {
-            DocumentResolutionAbstract *resolution = (DocumentResolution *) self.document;
+            DocumentResolution *resolution = (DocumentResolution *) self.document;
             
             if ([resolution.correspondents count])
                 details = [NSString stringWithFormat:@"%@ %@ %@, %@", resolution.regNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: resolution.regDate], [resolution.correspondents componentsJoinedByString:@", "]];

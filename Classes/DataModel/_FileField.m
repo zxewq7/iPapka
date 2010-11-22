@@ -59,13 +59,6 @@
 
 
 
-@dynamic version;
-
-
-
-
-
-
 @dynamic syncStatus;
 
 
@@ -87,6 +80,13 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_ {
 	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
 }
+
+
+
+
+
+@dynamic version;
+
 
 
 

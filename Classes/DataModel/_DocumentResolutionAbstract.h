@@ -8,8 +8,6 @@
 
 
 
-
-
 @interface DocumentResolutionAbstractID : NSManagedObjectID {}
 @end
 
@@ -23,12 +21,6 @@
 
 
 
-@property (nonatomic, retain) NSDate *regDate;
-
-//- (BOOL)validateRegDate:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSNumber *isManaged;
 
 @property BOOL isManagedValue;
@@ -36,12 +28,6 @@
 - (void)setIsManagedValue:(BOOL)value_;
 
 //- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *regNumber;
-
-//- (BOOL)validateRegNumber:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -60,19 +46,11 @@
 
 @interface _DocumentResolutionAbstract (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSDate*)primitiveRegDate;
-- (void)setPrimitiveRegDate:(NSDate*)value;
-
-
 - (NSNumber*)primitiveIsManaged;
 - (void)setPrimitiveIsManaged:(NSNumber*)value;
 
 - (BOOL)primitiveIsManagedValue;
 - (void)setPrimitiveIsManagedValue:(BOOL)value_;
-
-
-- (NSString*)primitiveRegNumber;
-- (void)setPrimitiveRegNumber:(NSString*)value;
 
 
 - (NSDate*)primitiveDeadline;

@@ -38,6 +38,20 @@
 
 
 
+@dynamic regDate;
+
+
+
+
+
+
+@dynamic regNumber;
+
+
+
+
+
+
 @dynamic performers;
 
 	

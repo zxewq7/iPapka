@@ -194,7 +194,7 @@ static NSString* SyncingContext = @"SyncingContext";
     
     if ([doc isKindOfClass:[DocumentResolution class]])
     {
-        DocumentResolutionAbstract *resolution = (DocumentResolution *)doc;
+        DocumentResolution *resolution = (DocumentResolution *)doc;
         
         if ([resolution.correspondents count])
             details1 = [NSString stringWithFormat:@"%@ %@ %@, %@", resolution.regNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: resolution.regDate], [resolution.correspondents componentsJoinedByString:@", "]];

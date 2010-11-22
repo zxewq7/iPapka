@@ -9,6 +9,8 @@
 
 @class NSObject;
 
+
+
 @interface DocumentResolutionID : NSManagedObjectID {}
 @end
 
@@ -25,6 +27,18 @@
 @property (nonatomic, retain) NSObject *performersOrdering;
 
 //- (BOOL)validatePerformersOrdering:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *regDate;
+
+//- (BOOL)validateRegDate:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *regNumber;
+
+//- (BOOL)validateRegNumber:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -54,6 +68,14 @@
 
 - (NSObject*)primitivePerformersOrdering;
 - (void)setPrimitivePerformersOrdering:(NSObject*)value;
+
+
+- (NSDate*)primitiveRegDate;
+- (void)setPrimitiveRegDate:(NSDate*)value;
+
+
+- (NSString*)primitiveRegNumber;
+- (void)setPrimitiveRegNumber:(NSString*)value;
 
 
 
