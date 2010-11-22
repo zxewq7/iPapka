@@ -12,10 +12,12 @@
 
 
 
-@class NSArray;
+
 
 @class NSObject;
 
+
+@class NSArray;
 
 @interface DocumentWithResourcesID : NSManagedObjectID {}
 @end
@@ -30,9 +32,39 @@
 
 
 
+@property (nonatomic, retain) NSString *author;
+
+//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *createdStripped;
+
+//- (BOOL)validateCreatedStripped:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *created;
+
+//- (BOOL)validateCreated:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSDate *date;
 
 //- (BOOL)validateDate:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *modified;
+
+//- (BOOL)validateModified:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *text;
+
+//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -43,36 +75,6 @@
 - (void)setPriorityValue:(short)value_;
 
 //- (BOOL)validatePriority:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *text;
-
-//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *modified;
-
-//- (BOOL)validateModified:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *author;
-
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSArray *correspondents;
-
-//- (BOOL)validateCorrespondents:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *created;
-
-//- (BOOL)validateCreated:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -89,6 +91,18 @@
 - (void)setStatusValue:(short)value_;
 
 //- (BOOL)validateStatus:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *dateStripped;
+
+//- (BOOL)validateDateStripped:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSArray *correspondents;
+
+//- (BOOL)validateCorrespondents:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -116,8 +130,28 @@
 
 @interface _DocumentWithResources (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSString*)primitiveAuthor;
+- (void)setPrimitiveAuthor:(NSString*)value;
+
+
+- (NSDate*)primitiveCreatedStripped;
+- (void)setPrimitiveCreatedStripped:(NSDate*)value;
+
+
+- (NSDate*)primitiveCreated;
+- (void)setPrimitiveCreated:(NSDate*)value;
+
+
 - (NSDate*)primitiveDate;
 - (void)setPrimitiveDate:(NSDate*)value;
+
+
+- (NSDate*)primitiveModified;
+- (void)setPrimitiveModified:(NSDate*)value;
+
+
+- (NSString*)primitiveText;
+- (void)setPrimitiveText:(NSString*)value;
 
 
 - (NSNumber*)primitivePriority;
@@ -125,26 +159,6 @@
 
 - (short)primitivePriorityValue;
 - (void)setPrimitivePriorityValue:(short)value_;
-
-
-- (NSString*)primitiveText;
-- (void)setPrimitiveText:(NSString*)value;
-
-
-- (NSDate*)primitiveModified;
-- (void)setPrimitiveModified:(NSDate*)value;
-
-
-- (NSString*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(NSString*)value;
-
-
-- (NSArray*)primitiveCorrespondents;
-- (void)setPrimitiveCorrespondents:(NSArray*)value;
-
-
-- (NSDate*)primitiveCreated;
-- (void)setPrimitiveCreated:(NSDate*)value;
 
 
 - (NSObject*)primitiveLinksOrdering;
@@ -156,6 +170,14 @@
 
 - (short)primitiveStatusValue;
 - (void)setPrimitiveStatusValue:(short)value_;
+
+
+- (NSDate*)primitiveDateStripped;
+- (void)setPrimitiveDateStripped:(NSDate*)value;
+
+
+- (NSArray*)primitiveCorrespondents;
+- (void)setPrimitiveCorrespondents:(NSArray*)value;
 
 
 

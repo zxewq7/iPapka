@@ -31,7 +31,42 @@
 
 
 
+@dynamic author;
+
+
+
+
+
+
+@dynamic createdStripped;
+
+
+
+
+
+
+@dynamic created;
+
+
+
+
+
+
 @dynamic date;
+
+
+
+
+
+
+@dynamic modified;
+
+
+
+
+
+
+@dynamic text;
 
 
 
@@ -59,41 +94,6 @@
 - (void)setPrimitivePriorityValue:(short)value_ {
 	[self setPrimitivePriority:[NSNumber numberWithShort:value_]];
 }
-
-
-
-
-
-@dynamic text;
-
-
-
-
-
-
-@dynamic modified;
-
-
-
-
-
-
-@dynamic author;
-
-
-
-
-
-
-@dynamic correspondents;
-
-
-
-
-
-
-@dynamic created;
-
 
 
 
@@ -127,6 +127,20 @@
 - (void)setPrimitiveStatusValue:(short)value_ {
 	[self setPrimitiveStatus:[NSNumber numberWithShort:value_]];
 }
+
+
+
+
+
+@dynamic dateStripped;
+
+
+
+
+
+
+@dynamic correspondents;
+
 
 
 
