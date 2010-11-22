@@ -234,8 +234,8 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         NSArray *entryData = [entry objectForKey:view_EntryData];
         
         NSDictionary *values = [self extractValuesFromViewColumn: entryData];
-        
-        NSString *docVersion = [values objectForKey:field_DocVersion];
+#warning wrong column name        
+        NSString *docVersion = [values objectForKey:field_Version];
         
         NSAssert(docVersion != nil, @"Unable to find version in view");
 
