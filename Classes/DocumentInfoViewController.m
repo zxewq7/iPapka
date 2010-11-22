@@ -13,6 +13,9 @@
 #import "DocumentResolution.h"
 #import "DocumentInfoView.h"
 #import "AZZSegmentedLabel.h"
+#import "DocumentWithResources.h"
+#import "DocumentLink.h"
+#import "DocumentSignature.h"
 
 #define kMinTableRows 4
 
@@ -174,7 +177,7 @@
             [currentItems retain];
             break;
         case 1:
-            currentItems = document.linksOrdered;
+            currentItems = ((DocumentWithResources *)document).linksOrdered;
             [currentItems retain];
             break;
         default:
@@ -191,77 +194,101 @@
     currentItems = document.attachmentsOrdered;
     [currentItems retain];
     
-    documentInfo.textLabel.text = document.title;
-
     NSMutableArray *labels = [[NSMutableArray alloc] initWithCapacity:4];
-    BOOL isPriority = (document.priorityValue > 0);
-    BOOL isStatus = NO;
-    
-    if (isPriority)
-        [labels addObject: [NSLocalizedString(@"Important", @"Important") uppercaseString]];
-    else
-        [labels addObject: @""];
-    
-    switch (document.statusValue)
+
+    if ([self.document isKindOfClass:[DocumentWithResources class]])
     {
-        case DocumentStatusAccepted:
+        documentInfo.textLabel.text = document.title;
+
+        DocumentWithResources *doc = (DocumentWithResources *)self.document;
+        
+        BOOL isPriority = (doc.priorityValue > 0);
+        BOOL isStatus = NO;
+        
+        if (isPriority)
+            [labels addObject: [NSLocalizedString(@"Important", @"Important") uppercaseString]];
+        else
             [labels addObject: @""];
+        
+        switch (doc.statusValue)
+        {
+            case DocumentStatusAccepted:
+                [labels addObject: @""];
+                
+                if (isPriority)
+                    [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]]];
+                else
+                    [labels addObject: [NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]];
+                
+                isStatus = YES;
+                break;
+            case DocumentStatusDeclined:
+                if (isPriority)
+                    [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Declined", @"Declined") uppercaseString]]];
+                else
+                    [labels addObject: [NSLocalizedString(@"Declined", @"Declined") uppercaseString]];
+                
+                [labels addObject: @""];
+                
+                isStatus = YES;
+                break;
+            default:
+                [labels addObject: @""];
+                [labels addObject: @""];
+                break;
+        }
+        
+        NSString *details;
+        
+        if ([self.document isKindOfClass:[DocumentResolution class]])
+        {
+            DocumentResolutionAbstract *resolution = (DocumentResolution *) self.document;
             
-            if (isPriority)
-                [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]]];
+            if ([resolution.correspondents count])
+                details = [NSString stringWithFormat:@"%@ %@ %@, %@", resolution.regNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: resolution.regDate], [resolution.correspondents componentsJoinedByString:@", "]];
             else
-                [labels addObject: [NSLocalizedString(@"Accepted", @"Accepted") uppercaseString]];
+                details = [NSString stringWithFormat:@"%@ %@ %@", resolution.regNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: resolution.regDate]];
+        }
+        else if ([self.document isKindOfClass:[DocumentSignature class]])
+        {
+            DocumentSignature *signature = (DocumentSignature *) self.document;
+            if ([signature.correspondents count])
+            {
+                details = [NSString stringWithFormat:@"%@ %@, %@",  NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.created], [signature.correspondents componentsJoinedByString:@", "]];
+            }
+        }
+        else
+            NSAssert1(NO, @"invalid class %@", [self.document class])
             
-            isStatus = YES;
-            break;
-        case DocumentStatusDeclined:
-            if (isPriority)
-                [labels addObject: [@" " stringByAppendingString:[NSLocalizedString(@"Declined", @"Declined") uppercaseString]]];
-            else
-                [labels addObject: [NSLocalizedString(@"Declined", @"Declined") uppercaseString]];
-            
-            [labels addObject: @""];
-            
-            isStatus = YES;
-            break;
-        default:
-            [labels addObject: @""];
-            [labels addObject: @""];
-            break;
+        documentInfo.detailTextLabel2.text = (isStatus || isPriority)? [@", " stringByAppendingString:details]:details;
+        
+        if (![doc.links count])
+            filter.hidden = YES;
+        else
+            filter.hidden = NO;
+        
     }
+    else if ([self.document isKindOfClass:[DocumentLink class]] || (self.document == nil))
+    {
+        documentInfo.textLabel.text = ((DocumentLink *)document).document.title;
+        
+        for (int i = 0; i < 4; i++)
+            [labels addObject:@""];
+        
+        documentInfo.detailTextLabel2.text = document.title;
+        
+        filter.hidden = YES;
+    }
+
     
     documentInfo.detailTextLabel1.texts = labels;
     
     [labels release];
     
-    NSString *details;
-    
-    if (!document)
-        details = nil;
-    else if ([document isKindOfClass:[DocumentResolution class]])
-    {
-        if ([document.correspondents count])
-            details = [NSString stringWithFormat:@"%@ %@ %@, %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], [document.correspondents componentsJoinedByString:@", "]];
-        else
-            details = [NSString stringWithFormat:@"%@ %@ %@", document.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate]];
-    }
-    else if ([document.correspondents count])
-        details = [NSString stringWithFormat:@"%@ %@, %@",  NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate], [document.correspondents componentsJoinedByString:@", "]];
-    else
-        details = [NSString stringWithFormat:@"%@ %@",  NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: document.registrationDate]];
-    
-    
-    documentInfo.detailTextLabel2.text = (isStatus || isPriority)? [@", " stringByAppendingString:details]:details;
-
     if ([currentItems count]) 
         attachmentIndex = 0;
     else
         attachmentIndex = NSNotFound;
-    
-    if (![document.links count])
-        filter.hidden = YES;
-    else
-        filter.hidden = NO;
     
     filter.selectedSegmentIndex = 0;
     
