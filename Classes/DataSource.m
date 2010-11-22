@@ -24,6 +24,7 @@
 #import "AttachmentPagePainting.h"
 #import "LNResourcesReader.h"
 #import "LNNetwork.h"
+#import "DocumentWithResources.h"
 
 static NSString* SyncingContext = @"SyncingContext";
 
@@ -266,13 +267,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             if (!numberOfProperties) //no properties to analyse
                 continue;
             
-            Document *sourceDocument = nil;
+            DocumentWithResources *sourceDocument = nil;
             
-            if ([object isKindOfClass:[Document class]])
+            if ([object isKindOfClass:[DocumentWithResources class]])
             {
                 
                 if (!([changedValues objectForKey: @"isRead"] != nil && numberOfProperties == 1)) //ignore isRead
-                    sourceDocument = (Document *)object;
+                    sourceDocument = (DocumentWithResources *)object;
                 
             }
             else if (numberOfProperties > 0) //other documents
@@ -296,7 +297,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 if (sourceDocument.statusValue == DocumentStatusNew)
                     sourceDocument.statusValue = DocumentStatusDraft;
                 
-                sourceDocument.dateModified = [NSDate date];            
                 sourceDocument.syncStatusValue = SyncStatusNeedSyncToServer;
             }
         }     
