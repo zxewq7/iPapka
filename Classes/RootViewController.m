@@ -7,7 +7,7 @@
     //
 
 #import "RootViewController.h"
-#import "Document.h"
+#import "DocumentWithResources.h"
 #import "DataSource.h"
 #import "AttachmentsViewController.h"
 #import "UIButton+Additions.h"
@@ -53,7 +53,7 @@ static NSString* SyncingContext       = @"SyncingContext";
 #pragma mark Properties
 @synthesize document;
 
--(void) setDocument:(Document *) aDocument
+-(void) setDocument:(DocumentWithResources *) aDocument
 {
     if (document != aDocument)
     {
@@ -857,7 +857,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     {
         for (Folder *filter in folder.filters)
         {
-            Document *d = filter.firstDocument;
+            DocumentWithResources *d = filter.firstDocument;
             if (d)
             {
                 self.document = d;

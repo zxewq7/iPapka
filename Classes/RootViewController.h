@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "DocumentsListViewController.h"
 
-@class Document, AttachmentsViewController, ClipperViewController, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController, RotateableImageView, SignatureCommentViewController, MBProgressHUD;
+@class DocumentWithResources, AttachmentsViewController, ClipperViewController, DocumentInfoViewController, PaintingToolsViewController, ResolutionViewController, RotateableImageView, SignatureCommentViewController, MBProgressHUD;
 
 @interface RootViewController : UIViewController<DocumentsListDelegate>
 {
-    Document             *document;
+    DocumentWithResources       *document;
     AttachmentsViewController   *attachmentsViewController;
     UIToolbar                   *toolbar;
     ClipperViewController       *clipperViewController;
@@ -34,5 +34,5 @@
     CGSize documentInfoViewControllerSize;
 }
 
-@property (nonatomic, retain, setter=setDocument:) Document *document;
+@property (nonatomic, retain, setter=setDocument:) DocumentWithResources *document;
 @end
