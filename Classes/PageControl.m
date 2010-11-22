@@ -196,8 +196,8 @@ static NSString *SliderContext = @"SliderContext";
 
 - (void)setCurrentPage:(NSUInteger) number
 {
-    [self updateContent];
     [slider setValue:number animated:YES];
+    [self updateContent];
 }
 
 - (NSUInteger) currentPage
