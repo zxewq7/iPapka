@@ -374,7 +374,7 @@
 #warning obsoleted in iOS 4
     //due to bug in 3.2 with editable property (showing keybouar), use this trick
     //http://stackoverflow.com/questions/2133335/iphone-uitextview-which-is-disabled-becomes-first-responder-when-re-enabled
-    resolutionText.userInteractionEnabled = resolution.isEditable;
+    resolutionText.userInteractionEnabled = resolution.isEditableValue;
 
     
     dateLabel.text = [dateFormatter stringFromDate: resolution.registrationDate];
@@ -407,7 +407,7 @@
     
     managedButton.on = resolution.isManagedValue;
     
-    managedButton.enabled = resolution.isEditable;
+    managedButton.enabled = resolution.isEditableValue;
     
     [contentView setNeedsLayout];
     
