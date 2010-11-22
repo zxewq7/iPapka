@@ -484,7 +484,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             document.created = dateCreated;
             
             comps = [calendar components:unitFlags fromDate:document.created];
-            document.created = [calendar dateFromComponents:comps];
+            document.createdStripped = [calendar dateFromComponents:comps];
 
             document.modified = dateModified;
             
