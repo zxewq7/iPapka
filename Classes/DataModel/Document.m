@@ -16,14 +16,4 @@
 {
     return [self mutableOrderedValueForKey:@"attachments"];
 }
-
-- (NSMutableArray*) linksOrdered
-{
-    return [self mutableOrderedValueForKey:@"links"];
-}
-
--(BOOL) isEditable
-{
-    return (self.statusValue == DocumentStatusDraft || self.statusValue == DocumentStatusNew);
-}
 @end

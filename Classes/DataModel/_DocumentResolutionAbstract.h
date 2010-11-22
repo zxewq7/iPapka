@@ -2,7 +2,9 @@
 // Make changes to DocumentResolutionAbstract.h instead.
 
 #import <CoreData/CoreData.h>
-#import "Document.h"
+#import "DocumentWithResources.h"
+
+
 
 
 
@@ -11,13 +13,19 @@
 @interface DocumentResolutionAbstractID : NSManagedObjectID {}
 @end
 
-@interface _DocumentResolutionAbstract : Document {}
+@interface _DocumentResolutionAbstract : DocumentWithResources {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (DocumentResolutionAbstractID*)objectID;
+
+
+
+@property (nonatomic, retain) NSDate *regDate;
+
+//- (BOOL)validateRegDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -28,6 +36,12 @@
 - (void)setIsManagedValue:(BOOL)value_;
 
 //- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *regNumber;
+
+//- (BOOL)validateRegNumber:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -46,11 +60,19 @@
 
 @interface _DocumentResolutionAbstract (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSDate*)primitiveRegDate;
+- (void)setPrimitiveRegDate:(NSDate*)value;
+
+
 - (NSNumber*)primitiveIsManaged;
 - (void)setPrimitiveIsManaged:(NSNumber*)value;
 
 - (BOOL)primitiveIsManagedValue;
 - (void)setPrimitiveIsManagedValue:(BOOL)value_;
+
+
+- (NSString*)primitiveRegNumber;
+- (void)setPrimitiveRegNumber:(NSString*)value;
 
 
 - (NSDate*)primitiveDeadline;

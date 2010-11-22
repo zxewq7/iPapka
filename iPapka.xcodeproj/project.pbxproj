@@ -80,6 +80,8 @@
 		8144AD85123A143B006B2AD7 /* RootBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 8144AD82123A143B006B2AD7 /* RootBackground.png */; };
 		8144C4A412648FB300735428 /* _AttachmentPagePainting.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144C4A112648FB200735428 /* _AttachmentPagePainting.m */; };
 		8144C4A512648FB300735428 /* AttachmentPagePainting.m in Sources */ = {isa = PBXBuildFile; fileRef = 8144C4A312648FB200735428 /* AttachmentPagePainting.m */; };
+		81467BB6129AAE6B001D79C7 /* _DocumentWithResources.m in Sources */ = {isa = PBXBuildFile; fileRef = 81467BB3129AAE6B001D79C7 /* _DocumentWithResources.m */; };
+		81467BB7129AAE6B001D79C7 /* DocumentWithResources.m in Sources */ = {isa = PBXBuildFile; fileRef = 81467BB5129AAE6B001D79C7 /* DocumentWithResources.m */; };
 		8148EC2E123A323A000E9762 /* ClipperViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8148EC2D123A323A000E9762 /* ClipperViewController.m */; };
 		8148EC34123A3378000E9762 /* ClipperClosed.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148EC33123A3378000E9762 /* ClipperClosed.png */; };
 		8148ED24123A4996000E9762 /* Paper.png in Resources */ = {isa = PBXBuildFile; fileRef = 8148ED23123A4996000E9762 /* Paper.png */; };
@@ -542,6 +544,10 @@
 		8144C4A112648FB200735428 /* _AttachmentPagePainting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _AttachmentPagePainting.m; sourceTree = "<group>"; };
 		8144C4A212648FB200735428 /* AttachmentPagePainting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AttachmentPagePainting.h; sourceTree = "<group>"; };
 		8144C4A312648FB200735428 /* AttachmentPagePainting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AttachmentPagePainting.m; sourceTree = "<group>"; };
+		81467BB2129AAE6B001D79C7 /* _DocumentWithResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DocumentWithResources.h; sourceTree = "<group>"; };
+		81467BB3129AAE6B001D79C7 /* _DocumentWithResources.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DocumentWithResources.m; sourceTree = "<group>"; };
+		81467BB4129AAE6B001D79C7 /* DocumentWithResources.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentWithResources.h; sourceTree = "<group>"; };
+		81467BB5129AAE6B001D79C7 /* DocumentWithResources.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentWithResources.m; sourceTree = "<group>"; };
 		8148EC2C123A323A000E9762 /* ClipperViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClipperViewController.h; sourceTree = "<group>"; };
 		8148EC2D123A323A000E9762 /* ClipperViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ClipperViewController.m; sourceTree = "<group>"; };
 		8148EC33123A3378000E9762 /* ClipperClosed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ClipperClosed.png; sourceTree = "<group>"; };
@@ -802,6 +808,10 @@
 		810BBBDA1251FEE900BD88EB /* DataModel */ = {
 			isa = PBXGroup;
 			children = (
+				81467BB2129AAE6B001D79C7 /* _DocumentWithResources.h */,
+				81467BB3129AAE6B001D79C7 /* _DocumentWithResources.m */,
+				81467BB4129AAE6B001D79C7 /* DocumentWithResources.h */,
+				81467BB5129AAE6B001D79C7 /* DocumentWithResources.m */,
 				8124543D12660A4600453AB8 /* _DocumentResolutionParent.h */,
 				8124543E12660A4600453AB8 /* _DocumentResolutionParent.m */,
 				8124543F12660A4600453AB8 /* DocumentResolutionParent.h */,
@@ -1625,6 +1635,8 @@
 				814037CA128F0D71001E9349 /* ASIDataCompressor.m in Sources */,
 				814037CB128F0D71001E9349 /* ASIDataDecompressor.m in Sources */,
 				812CFFCF12915A0F008F3D8E /* AZZLog.m in Sources */,
+				81467BB6129AAE6B001D79C7 /* _DocumentWithResources.m in Sources */,
+				81467BB7129AAE6B001D79C7 /* DocumentWithResources.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

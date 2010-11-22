@@ -5,8 +5,8 @@
 #import "BWOrderedManagedObject.h"
 
 @class Attachment;
-@class CommentAudio;
-@class DocumentLink;
+
+
 
 @class NSObject;
 
@@ -14,16 +14,6 @@
 
 
 
-
-
-
-
-
-
-
-
-@class NSArray;
-@class NSObject;
 
 
 @interface DocumentID : NSManagedObjectID {}
@@ -39,19 +29,25 @@
 
 
 
+@property (nonatomic, retain) NSNumber *isEditable;
+
+@property BOOL isEditableValue;
+- (BOOL)isEditableValue;
+- (void)setIsEditableValue:(BOOL)value_;
+
+//- (BOOL)validateIsEditable:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *contentVersion;
+
+//- (BOOL)validateContentVersion:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSObject *attachmentsOrdering;
 
 //- (BOOL)validateAttachmentsOrdering:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *priority;
-
-@property short priorityValue;
-- (short)priorityValue;
-- (void)setPriorityValue:(short)value_;
-
-//- (BOOL)validatePriority:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -71,54 +67,6 @@
 
 
 
-@property (nonatomic, retain) NSString *path;
-
-//- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *dateModified;
-
-//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *title;
-
-//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *registrationNumber;
-
-//- (BOOL)validateRegistrationNumber:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *registrationDate;
-
-//- (BOOL)validateRegistrationDate:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *text;
-
-//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *registrationDateStripped;
-
-//- (BOOL)validateRegistrationDateStripped:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *version;
-
-//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSNumber *isRead;
 
 @property BOOL isReadValue;
@@ -129,47 +77,27 @@
 
 
 
-@property (nonatomic, retain) NSString *author;
+@property (nonatomic, retain) NSString *path;
 
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSArray *correspondents;
-
-//- (BOOL)validateCorrespondents:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, retain) NSObject *linksOrdering;
+@property (nonatomic, retain) NSString *docVersion;
 
-//- (BOOL)validateLinksOrdering:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateDocVersion:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, retain) NSNumber *status;
+@property (nonatomic, retain) NSString *title;
 
-@property short statusValue;
-- (short)statusValue;
-- (void)setStatusValue:(short)value_;
-
-//- (BOOL)validateStatus:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
 
 
 
 
 @property (nonatomic, retain) NSSet* attachments;
 - (NSMutableSet*)attachmentsSet;
-
-
-
-@property (nonatomic, retain) CommentAudio* audio;
-//- (BOOL)validateAudio:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSSet* links;
-- (NSMutableSet*)linksSet;
 
 
 
@@ -182,24 +110,23 @@
 - (void)addAttachmentsObject:(Attachment*)value_;
 - (void)removeAttachmentsObject:(Attachment*)value_;
 
-- (void)addLinks:(NSSet*)value_;
-- (void)removeLinks:(NSSet*)value_;
-- (void)addLinksObject:(DocumentLink*)value_;
-- (void)removeLinksObject:(DocumentLink*)value_;
-
 @end
 
 @interface _Document (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSNumber*)primitiveIsEditable;
+- (void)setPrimitiveIsEditable:(NSNumber*)value;
+
+- (BOOL)primitiveIsEditableValue;
+- (void)setPrimitiveIsEditableValue:(BOOL)value_;
+
+
+- (NSString*)primitiveContentVersion;
+- (void)setPrimitiveContentVersion:(NSString*)value;
+
+
 - (NSObject*)primitiveAttachmentsOrdering;
 - (void)setPrimitiveAttachmentsOrdering:(NSObject*)value;
-
-
-- (NSNumber*)primitivePriority;
-- (void)setPrimitivePriority:(NSNumber*)value;
-
-- (short)primitivePriorityValue;
-- (void)setPrimitivePriorityValue:(short)value_;
 
 
 - (NSString*)primitiveUid;
@@ -213,38 +140,6 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_;
 
 
-- (NSString*)primitivePath;
-- (void)setPrimitivePath:(NSString*)value;
-
-
-- (NSDate*)primitiveDateModified;
-- (void)setPrimitiveDateModified:(NSDate*)value;
-
-
-- (NSString*)primitiveTitle;
-- (void)setPrimitiveTitle:(NSString*)value;
-
-
-- (NSString*)primitiveRegistrationNumber;
-- (void)setPrimitiveRegistrationNumber:(NSString*)value;
-
-
-- (NSDate*)primitiveRegistrationDate;
-- (void)setPrimitiveRegistrationDate:(NSDate*)value;
-
-
-- (NSString*)primitiveText;
-- (void)setPrimitiveText:(NSString*)value;
-
-
-- (NSDate*)primitiveRegistrationDateStripped;
-- (void)setPrimitiveRegistrationDateStripped:(NSDate*)value;
-
-
-- (NSString*)primitiveVersion;
-- (void)setPrimitiveVersion:(NSString*)value;
-
-
 - (NSNumber*)primitiveIsRead;
 - (void)setPrimitiveIsRead:(NSNumber*)value;
 
@@ -252,39 +147,22 @@
 - (void)setPrimitiveIsReadValue:(BOOL)value_;
 
 
-- (NSString*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(NSString*)value;
+- (NSString*)primitivePath;
+- (void)setPrimitivePath:(NSString*)value;
 
 
-- (NSArray*)primitiveCorrespondents;
-- (void)setPrimitiveCorrespondents:(NSArray*)value;
+- (NSString*)primitiveDocVersion;
+- (void)setPrimitiveDocVersion:(NSString*)value;
 
 
-- (NSObject*)primitiveLinksOrdering;
-- (void)setPrimitiveLinksOrdering:(NSObject*)value;
-
-
-- (NSNumber*)primitiveStatus;
-- (void)setPrimitiveStatus:(NSNumber*)value;
-
-- (short)primitiveStatusValue;
-- (void)setPrimitiveStatusValue:(short)value_;
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
 
 
 
 
 - (NSMutableSet*)primitiveAttachments;
 - (void)setPrimitiveAttachments:(NSMutableSet*)value;
-
-
-
-- (CommentAudio*)primitiveAudio;
-- (void)setPrimitiveAudio:(CommentAudio*)value;
-
-
-
-- (NSMutableSet*)primitiveLinks;
-- (void)setPrimitiveLinks:(NSMutableSet*)value;
 
 
 @end
