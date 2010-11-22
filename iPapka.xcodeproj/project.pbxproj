@@ -60,6 +60,10 @@
 		813011E4126DD664002ADE40 /* CalloutViewRightCap.png in Resources */ = {isa = PBXBuildFile; fileRef = 813011DF126DD664002ADE40 /* CalloutViewRightCap.png */; };
 		813011E8126DDE05002ADE40 /* PageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = 813011E7126DDE05002ADE40 /* PageControl.m */; };
 		813011EB126DDFF2002ADE40 /* AZZCalloutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 813011EA126DDFF2002ADE40 /* AZZCalloutView.m */; };
+		8133A3DE129ADCB20045B6D7 /* _DocumentWithResources.h in Sources */ = {isa = PBXBuildFile; fileRef = 81467BB2129AAE6B001D79C7 /* _DocumentWithResources.h */; };
+		8133A3DF129ADCB20045B6D7 /* _DocumentWithResources.m in Sources */ = {isa = PBXBuildFile; fileRef = 81467BB3129AAE6B001D79C7 /* _DocumentWithResources.m */; };
+		8133A3E6129ADCDB0045B6D7 /* DocumentWithResources.h in Sources */ = {isa = PBXBuildFile; fileRef = 81467BB4129AAE6B001D79C7 /* DocumentWithResources.h */; };
+		8133A3E7129ADCDB0045B6D7 /* DocumentWithResources.m in Sources */ = {isa = PBXBuildFile; fileRef = 81467BB5129AAE6B001D79C7 /* DocumentWithResources.m */; };
 		8136E05F12439120008D68AB /* PageControlBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = 8136E05E12439120008D68AB /* PageControlBackground.png */; };
 		813A3CDE123B477F00E6C382 /* ButtonMarker.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDC123B477F00E6C382 /* ButtonMarker.png */; };
 		813A3CDF123B477F00E6C382 /* ButtonMarkerSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 813A3CDD123B477F00E6C382 /* ButtonMarkerSelected.png */; };
@@ -1644,6 +1648,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8133A3E6129ADCDB0045B6D7 /* DocumentWithResources.h in Sources */,
+				8133A3E7129ADCDB0045B6D7 /* DocumentWithResources.m in Sources */,
+				8133A3DE129ADCB20045B6D7 /* _DocumentWithResources.h in Sources */,
+				8133A3DF129ADCB20045B6D7 /* _DocumentWithResources.m in Sources */,
 				81ED6833129165BE009F37CC /* main.m in Sources */,
 				81ED6834129165BE009F37CC /* AppDelegate.m in Sources */,
 				81ED6835129165BE009F37CC /* AttachmentPageViewController.m in Sources */,
