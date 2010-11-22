@@ -13,6 +13,7 @@
 #import "Document.h"
 #import "Attachment.h"
 #import "DataSource.h"
+#import "DocumentWithResources.h"
 
 //document/id/file/file.id/page/pagenum
 static NSString *url_AttachmentFetchPageFormat = @"/document/%@/file/%@/page/%@";
@@ -73,7 +74,7 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
     {
         DocumentLink *link = (DocumentLink *)rootDocument;
         
-        rootDocument = link.document;
+        rootDocument = (Document *)link.document;
         
         url = [self.serverUrl stringByAppendingFormat:url_LinkAttachmentFetchPageFormat, rootDocument.uid, link.index, attachment.uid, page.number];
     }

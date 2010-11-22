@@ -7,7 +7,7 @@
 //
 
 #import "LNDocumentWriter.h"
-#import "Document.h"
+#import "DocumentWithResources.h"
 #import "DocumentResolution.h"
 #import "DocumentSignature.h"
 #import "DataSource.h"
@@ -87,7 +87,7 @@ static NSString* kFieldManaged = @"hasControl";
 
 #pragma mark -
 #pragma mark Private
-- (void) syncDocument:(Document *) document
+- (void) syncDocument:(DocumentWithResources *) document
 {
     NSMutableDictionary *dictDocument = [NSMutableDictionary dictionaryWithCapacity: 6];
     
@@ -203,7 +203,6 @@ static NSString* kFieldManaged = @"hasControl";
             version = [NSNull null];
 
         fileContent =  [NSDictionary dictionaryWithObjectsAndKeys:version, kFieldVersion,
-                 file.uid, kFieldUid,
                  nil];
     }
     else
@@ -242,7 +241,6 @@ static NSString* kFieldManaged = @"hasControl";
              AZZLog(@"error parsing response: %@", response);
              return;
          }
-         file.uid = uid;
          file.version = version;
          file.syncStatusValue = SyncStatusSynced;
          [[DataSource sharedDataSource] commit];
