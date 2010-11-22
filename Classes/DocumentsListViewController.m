@@ -8,7 +8,7 @@
 
 #import "DocumentsListViewController.h"
 #import "DataSource.h"
-#import "Document.h"
+#import "DocumentWithResources.h"
 #import "Folder.h";
 #import "UIButton+Additions.h"
 #import "Person.h"
@@ -16,6 +16,7 @@
 #import "DocumentCellView.h"
 #import "NSDateFormatter+Additions.h"
 #import "AZZSegmentedLabel.h"
+#import "DocumentSignature.h"
 
 #define ROW_HEIGHT 94
 
@@ -118,9 +119,11 @@ static NSString* SyncingContext = @"SyncingContext";
         // Section title is the region name
 	id <NSFetchedResultsSectionInfo> sectionInfo = [[fetchedResultsController sections] objectAtIndex:section];
     NSArray *objects = [sectionInfo objects];
-    Document *doc = [objects objectAtIndex:0];
+    DocumentWithResources *doc = [objects objectAtIndex:0];
 
-    return [dateFormatter stringForDateFromNow:doc.registrationDateStripped];
+    NSDate *date = [doc valueForKey:sortField];
+    
+    return [dateFormatter stringForDateFromNow:date];
 }
 
 
@@ -183,7 +186,7 @@ static NSString* SyncingContext = @"SyncingContext";
     DocumentCellView *contentView = [cell.contentView.subviews objectAtIndex:0];
     
         // Set appropriate labels for the cells.
-    Document *doc = [fetchedResultsController objectAtIndexPath:indexPath];
+    DocumentWithResources *doc = [fetchedResultsController objectAtIndexPath:indexPath];
 
     contentView.textLabel.text = doc.title;
     
@@ -191,15 +194,24 @@ static NSString* SyncingContext = @"SyncingContext";
     
     if ([doc isKindOfClass:[DocumentResolution class]])
     {
-        if ([doc.correspondents count])
-            details1 = [NSString stringWithFormat:@"%@ %@ %@, %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
+        DocumentResolutionAbstract *resolution = (DocumentResolution *)doc;
+        
+        if ([resolution.correspondents count])
+            details1 = [NSString stringWithFormat:@"%@ %@ %@, %@", resolution.regNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: resolution.regDate], [resolution.correspondents componentsJoinedByString:@", "]];
         else
-            details1 = [NSString stringWithFormat:@"%@ %@ %@", doc.registrationNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate]];
+            details1 = [NSString stringWithFormat:@"%@ %@ %@", resolution.regNumber, NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: resolution.regDate]];
     }
-    else if ([doc.correspondents count])
-        details1 = [NSString stringWithFormat:@"%@ %@, %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate], [doc.correspondents componentsJoinedByString:@", "]];
-    else
-        details1 = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: doc.registrationDate]];
+    else if ([doc isKindOfClass:[DocumentSignature class]])
+    {
+        DocumentSignature *signature = (DocumentSignature *)doc;
+        
+        if ([signature.correspondents count])
+            details1 = [NSString stringWithFormat:@"%@ %@, %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.created], [signature.correspondents componentsJoinedByString:@", "]];
+        else
+            details1 = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.created]];
+    }
+    else 
+        NSAssert1(NO, @"invalid class %@", [doc class]);
     
     contentView.detailTextLabel1.text = details1;
     
@@ -210,7 +222,7 @@ static NSString* SyncingContext = @"SyncingContext";
     }
     else
     {
-        contentView.detailTextLabel2.text = [NSString stringWithFormat:@"%@ %@ %@ %@", NSLocalizedString(@"Modified", @"DocumentList->Modified"), [dateFormatter stringFromDate: doc.dateModified], NSLocalizedString(@"at", @"documentList-> modified at time"), [timeFormatter stringFromDate: doc.dateModified]];
+        contentView.detailTextLabel2.text = [NSString stringWithFormat:@"%@ %@ %@ %@", NSLocalizedString(@"Modified", @"DocumentList->Modified"), [dateFormatter stringFromDate: doc.modified], NSLocalizedString(@"at", @"documentList-> modified at time"), [timeFormatter stringFromDate: doc.modified]];
         contentView.detailTextLabel2.textColor = [UIColor colorWithRed:0.137 green:0.467 blue:0.929 alpha:1.0];
     }
 
@@ -395,6 +407,16 @@ static NSString* SyncingContext = @"SyncingContext";
     else
         filter = folder;
 
+    [sortField release];
+    
+    if ([filter.sortDescriptors count])
+    {
+        sortField = ((NSSortDescriptor *)[filter.sortDescriptors objectAtIndex:0]).key;
+        [sortField retain];
+    }
+    else 
+        sortField = nil;
+    
     fetchedResultsController.delegate = nil;
     [fetchedResultsController release];
     fetchedResultsController = filter.documents;
@@ -457,6 +479,7 @@ static NSString* SyncingContext = @"SyncingContext";
     [filtersBar release]; filtersBar = nil;
     [timeFormatter release]; timeFormatter = nil;
 
+    [sortField release]; sortField = nil;
     
     [[DataSource sharedDataSource] removeObserver:self
                                        forKeyPath:@"isSyncing"];
@@ -480,6 +503,9 @@ static NSString* SyncingContext = @"SyncingContext";
                                        forKeyPath:@"isSyncing"];
     
     [timeFormatter release]; timeFormatter = nil;
+    
+    [sortField release]; sortField = nil;
+    
     [super dealloc];
 }
 @end

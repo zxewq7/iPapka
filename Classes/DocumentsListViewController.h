@@ -11,7 +11,7 @@
 
 @class FoldersViewController, Folder;
 
-@class DocumentsListViewController, Document;
+@class DocumentsListViewController, DocumentWithResources;
 
 @protocol DocumentsListDelegate <NSObject>
 
@@ -32,13 +32,14 @@
     NSDateFormatter         *activityDateFormatter;
     NSDateFormatter         *activityTimeFormatter;
     id<DocumentsListDelegate> delegate;
-    Document                *document;
+    DocumentWithResources   *document;
     UITabBar                *filtersBar;
     NSFetchedResultsController *fetchedResultsController;
+    NSString                *sortField;
 }
 @property (nonatomic, retain, setter=setFolder:) Folder *folder;
 
 @property (nonatomic, retain) id<DocumentsListDelegate> delegate;
-@property (nonatomic, retain) Document           *document;
+@property (nonatomic, retain) DocumentWithResources     *document;
 -(void)dismiss:(id)sender;
 @end
