@@ -377,7 +377,7 @@
     resolutionText.userInteractionEnabled = resolution.isEditableValue;
 
     
-    dateLabel.text = [dateFormatter stringFromDate: resolution.registrationDate];
+    dateLabel.text = [dateFormatter stringFromDate: resolution.date];
     
     NSString *label;
     if (resolution.deadline)
