@@ -258,7 +258,7 @@
             }
         }
         else
-            NSAssert1(NO, @"invalid class %@", [self.document class])
+            NSAssert1(NO, @"invalid class %@", [self.document class]);
             
         documentInfo.detailTextLabel2.text = (isStatus || isPriority)? [@", " stringByAppendingString:details]:details;
         
