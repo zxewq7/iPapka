@@ -288,7 +288,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 {
                     AttachmentPagePainting *painting = (AttachmentPagePainting *) object;
                     painting.syncStatusValue = SyncStatusNeedSyncToServer;
-                    sourceDocument = painting.page.attachment.document;
+                    sourceDocument = (DocumentWithResources *)painting.page.attachment.document;
                 }
             }
             
@@ -296,6 +296,8 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             {
                 if (sourceDocument.statusValue == DocumentStatusNew)
                     sourceDocument.statusValue = DocumentStatusDraft;
+
+                sourceDocument.modified = [NSDate date];
                 
                 sourceDocument.syncStatusValue = SyncStatusNeedSyncToServer;
             }
