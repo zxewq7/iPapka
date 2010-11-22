@@ -1,9 +1,9 @@
 #import "CommentAudio.h"
-#import "Document.h"
+#import "DocumentWithResources.h"
 
 @implementation CommentAudio
 -(BOOL) isEditable
 {
-    return self.document.isEditable;
+    return self.document.isEditableValue;
 }
 @end
