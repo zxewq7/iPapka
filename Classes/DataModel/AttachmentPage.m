@@ -48,7 +48,7 @@
 
 -(BOOL) isEditable
 {
-    return self.attachment.document.isEditable && 
+    return self.attachment.document.isEditableValue && 
         self.syncStatusValue != SyncStatusNeedSyncFromServer &&
         self.isImageExists;
 }
