@@ -161,7 +161,7 @@
         {
             NSData *paintingData = UIImagePNGRepresentation(painting);
             [paintingData writeToFile: paintingPath atomically:YES];
-            page.painting.dateModified = [NSDate date];
+            page.painting.modified = [NSDate date];
             [[DataSource sharedDataSource] commit];
         }
     }

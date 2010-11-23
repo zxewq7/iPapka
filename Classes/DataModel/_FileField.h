@@ -31,9 +31,9 @@
 
 
 
-@property (nonatomic, retain) NSDate *dateModified;
+@property (nonatomic, retain) NSDate *modified;
 
-//- (BOOL)validateDateModified:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateModified:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -78,8 +78,8 @@
 - (void)setPrimitiveName:(NSString*)value;
 
 
-- (NSDate*)primitiveDateModified;
-- (void)setPrimitiveDateModified:(NSDate*)value;
+- (NSDate*)primitiveModified;
+- (void)setPrimitiveModified:(NSDate*)value;
 
 
 - (NSString*)primitivePath;

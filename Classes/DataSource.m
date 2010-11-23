@@ -666,7 +666,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     if (!readers)
     {
         NSSortDescriptor *dateModifiedSortDescriptor = 
-        [[NSSortDescriptor alloc] initWithKey:@"uid" 
+        [[NSSortDescriptor alloc] initWithKey:@"modified" 
                                     ascending:NO];
         
         NSArray *dateModifiedSortDescriptors = [[NSArray alloc] 

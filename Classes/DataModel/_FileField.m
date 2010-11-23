@@ -38,7 +38,7 @@
 
 
 
-@dynamic dateModified;
+@dynamic modified;
 
 
 

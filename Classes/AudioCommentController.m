@@ -432,7 +432,7 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void) markFileModified
 {
-    self.file.dateModified = [NSDate date];
+    self.file.modified = [NSDate date];
     [[DataSource sharedDataSource] commit];
 }
 @end
