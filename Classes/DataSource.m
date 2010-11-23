@@ -346,7 +346,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setResultType:NSDictionaryResultType];
     [fetchRequest setReturnsDistinctResults:YES];
-    [fetchRequest setEntity:[NSEntityDescription entityForName:@"RootDocument" inManagedObjectContext:managedObjectContext]];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"DocumentRoot" inManagedObjectContext:managedObjectContext]];
     [fetchRequest setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
 
     NSError *error;
@@ -436,7 +436,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 - (NSSet *) personReaderAllPersonsUids:(LNPersonReader *) personReader
 {
     NSFetchRequest *request = [[NSFetchRequest alloc] init];
-    [request setEntity:self.documentEntityDescription];
+    [request setEntity:self.personEntityDescription];
     [request setResultType:NSDictionaryResultType];
     [request setReturnsDistinctResults:YES];
     
