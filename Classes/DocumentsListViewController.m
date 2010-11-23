@@ -8,7 +8,7 @@
 
 #import "DocumentsListViewController.h"
 #import "DataSource.h"
-#import "DocumentWithResources.h"
+#import "RootDocument.h"
 #import "Folder.h";
 #import "UIButton+Additions.h"
 #import "Person.h"
@@ -186,7 +186,7 @@ static NSString* SyncingContext = @"SyncingContext";
     DocumentCellView *contentView = [cell.contentView.subviews objectAtIndex:0];
     
         // Set appropriate labels for the cells.
-    DocumentWithResources *doc = [fetchedResultsController objectAtIndexPath:indexPath];
+    RootDocument *doc = [fetchedResultsController objectAtIndexPath:indexPath];
 
     contentView.textLabel.text = doc.title;
     

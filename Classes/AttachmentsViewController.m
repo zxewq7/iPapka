@@ -10,7 +10,6 @@
 #import "ImageScrollView.h"
 #import "Attachment.h"
 #import "AttachmentPageViewController.h"
-#import "Document.h"
 #import "AttachmentPage.h"
 
 typedef enum _TapPosition{

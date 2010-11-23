@@ -7,7 +7,6 @@
 //
 
 #import "DocumentInfoViewController.h"
-#import "Document.h"
 #import "Attachment.h"
 #import "Person.h"
 #import "DocumentResolution.h"
@@ -31,7 +30,7 @@
 @synthesize document, attachment, link;
 
 
--(void) setDocument:(Document *) aDocument
+-(void) setDocument:(DocumentWithResources *) aDocument
 {
     if (document != aDocument)
     {
@@ -93,7 +92,7 @@
     if ([file isKindOfClass: [Attachment class]])
         self.attachment = (Attachment *)file;
     else
-        self.link = (Document *)file;
+        self.link = (DocumentLink *)file;
 }
 
 
@@ -140,7 +139,7 @@
     }
     else
     {
-        Document *d = (Document *) file;
+        DocumentLink *d = (DocumentLink *) file;
         cell.textLabel.text = d.title;
     }
     return cell;
@@ -196,11 +195,12 @@
     
     NSMutableArray *labels = [[NSMutableArray alloc] initWithCapacity:4];
 
-    if ([self.document isKindOfClass:[DocumentWithResources class]])
+    if ([self.document isKindOfClass:[RootDocument class]])
     {
-        documentInfo.textLabel.text = document.title;
+        RootDocument *doc = (RootDocument *)self.document;
 
-        DocumentWithResources *doc = (DocumentWithResources *)self.document;
+        documentInfo.textLabel.text = doc.title;
+
         
         BOOL isPriority = (doc.priorityValue > 0);
         BOOL isStatus = NO;
@@ -270,12 +270,14 @@
     }
     else if ([self.document isKindOfClass:[DocumentLink class]] || (self.document == nil))
     {
-        documentInfo.textLabel.text = ((DocumentLink *)document).document.title;
+        DocumentLink *doc = (DocumentLink *)self.document;
+        
+        documentInfo.textLabel.text = ((RootDocument *)doc.document).title;
         
         for (int i = 0; i < 4; i++)
             [labels addObject:@""];
         
-        documentInfo.detailTextLabel2.text = document.title;
+        documentInfo.detailTextLabel2.text = doc.title;
         
         filter.hidden = YES;
     }

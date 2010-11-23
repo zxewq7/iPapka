@@ -10,10 +10,10 @@
 #import "LNResourcesReader.h"
 #import "AttachmentPage.h"
 #import "DocumentLink.h"
-#import "Document.h"
 #import "Attachment.h"
 #import "DataSource.h"
 #import "DocumentWithResources.h"
+#import "RootDocument.h"
 
 //document/id/file/file.id/page/pagenum
 static NSString *url_AttachmentFetchPageFormat = @"/document/%@/file/%@/page/%@";
@@ -68,15 +68,15 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
     NSString *url;
     
     Attachment *attachment = page.attachment;
-    Document *rootDocument = attachment.document;
+    DocumentWithResources *rootDocument = attachment.document;
     
     if ([rootDocument isKindOfClass:[DocumentLink class]]) //link
     {
         DocumentLink *link = (DocumentLink *)rootDocument;
         
-        rootDocument = (Document *)link.document;
+        rootDocument = (RootDocument *)link.document;
         
-        url = [self.serverUrl stringByAppendingFormat:url_LinkAttachmentFetchPageFormat, rootDocument.uid, link.index, attachment.uid, page.number];
+        url = [self.serverUrl stringByAppendingFormat:url_LinkAttachmentFetchPageFormat, rootDocument.uid, link.uid, attachment.uid, page.number];
     }
     else
         url = [self.serverUrl stringByAppendingFormat:url_AttachmentFetchPageFormat, rootDocument.uid, attachment.uid, page.number];

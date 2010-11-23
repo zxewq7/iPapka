@@ -31,7 +31,7 @@
 
 
 
-@dynamic index;
+@dynamic title;
 
 
 

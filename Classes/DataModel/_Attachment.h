@@ -4,7 +4,7 @@
 #import <CoreData/CoreData.h>
 #import "BWOrderedManagedObject.h"
 
-@class Document;
+@class DocumentWithResources;
 @class AttachmentPage;
 
 
@@ -43,7 +43,7 @@
 
 
 
-@property (nonatomic, retain) Document* document;
+@property (nonatomic, retain) DocumentWithResources* document;
 //- (BOOL)validateDocument:(id*)value_ error:(NSError**)error_;
 
 
@@ -80,8 +80,8 @@
 
 
 
-- (Document*)primitiveDocument;
-- (void)setPrimitiveDocument:(Document*)value;
+- (DocumentWithResources*)primitiveDocument;
+- (void)setPrimitiveDocument:(DocumentWithResources*)value;
 
 
 

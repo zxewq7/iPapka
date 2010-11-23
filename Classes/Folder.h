@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class DocumentWithResources;
+@class RootDocument;
 
 @interface Folder : NSObject<NSCoding> {
     NSString     *name;
@@ -41,6 +41,6 @@
 
 @property (nonatomic, readonly)                             NSUInteger   countUnread;
 @property (nonatomic, readonly)                             NSFetchedResultsController *documents;
-@property (nonatomic, readonly)                             DocumentWithResources     *firstDocument;
+@property (nonatomic, readonly)                             RootDocument     *firstDocument;
 @property (nonatomic, retain)                               NSArray     *sortDescriptors;
 @end

@@ -2,7 +2,7 @@
 // Make changes to DocumentLink.h instead.
 
 #import <CoreData/CoreData.h>
-#import "Document.h"
+#import "DocumentWithResources.h"
 
 @class DocumentWithResources;
 
@@ -11,7 +11,7 @@
 @interface DocumentLinkID : NSManagedObjectID {}
 @end
 
-@interface _DocumentLink : Document {}
+@interface _DocumentLink : DocumentWithResources {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -21,9 +21,9 @@
 
 
 
-@property (nonatomic, retain) NSString *index;
+@property (nonatomic, retain) NSString *title;
 
-//- (BOOL)validateIndex:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateTitle:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -41,8 +41,8 @@
 
 @interface _DocumentLink (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveIndex;
-- (void)setPrimitiveIndex:(NSString*)value;
+- (NSString*)primitiveTitle;
+- (void)setPrimitiveTitle:(NSString*)value;
 
 
 

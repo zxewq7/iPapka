@@ -31,74 +31,6 @@
 
 
 
-@dynamic author;
-
-
-
-
-
-
-@dynamic createdStripped;
-
-
-
-
-
-
-@dynamic created;
-
-
-
-
-
-
-@dynamic date;
-
-
-
-
-
-
-@dynamic modified;
-
-
-
-
-
-
-@dynamic text;
-
-
-
-
-
-
-@dynamic priority;
-
-
-
-- (short)priorityValue {
-	NSNumber *result = [self priority];
-	return [result shortValue];
-}
-
-- (void)setPriorityValue:(short)value_ {
-	[self setPriority:[NSNumber numberWithShort:value_]];
-}
-
-- (short)primitivePriorityValue {
-	NSNumber *result = [self primitivePriority];
-	return [result shortValue];
-}
-
-- (void)setPrimitivePriorityValue:(short)value_ {
-	[self setPrimitivePriority:[NSNumber numberWithShort:value_]];
-}
-
-
-
-
-
 @dynamic linksOrdering;
 
 
@@ -106,45 +38,63 @@
 
 
 
-@dynamic status;
+@dynamic attachmentsOrdering;
 
 
 
-- (short)statusValue {
-	NSNumber *result = [self status];
-	return [result shortValue];
+
+
+
+@dynamic uid;
+
+
+
+
+
+
+@dynamic path;
+
+
+
+
+
+
+@dynamic isEditable;
+
+
+
+- (BOOL)isEditableValue {
+	NSNumber *result = [self isEditable];
+	return [result boolValue];
 }
 
-- (void)setStatusValue:(short)value_ {
-	[self setStatus:[NSNumber numberWithShort:value_]];
+- (void)setIsEditableValue:(BOOL)value_ {
+	[self setIsEditable:[NSNumber numberWithBool:value_]];
 }
 
-- (short)primitiveStatusValue {
-	NSNumber *result = [self primitiveStatus];
-	return [result shortValue];
+- (BOOL)primitiveIsEditableValue {
+	NSNumber *result = [self primitiveIsEditable];
+	return [result boolValue];
 }
 
-- (void)setPrimitiveStatusValue:(short)value_ {
-	[self setPrimitiveStatus:[NSNumber numberWithShort:value_]];
+- (void)setPrimitiveIsEditableValue:(BOOL)value_ {
+	[self setPrimitiveIsEditable:[NSNumber numberWithBool:value_]];
 }
 
 
 
 
 
-@dynamic dateStripped;
+@dynamic attachments;
 
-
-
-
-
-
-@dynamic correspondents;
-
-
-
-
-
+	
+- (NSMutableSet*)attachmentsSet {
+	[self willAccessValueForKey:@"attachments"];
+	NSMutableSet *result = [self mutableSetValueForKey:@"attachments"];
+	[self didAccessValueForKey:@"attachments"];
+	return result;
+}
+	
 
 @dynamic audio;
 

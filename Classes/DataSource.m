@@ -9,7 +9,6 @@
 #import "DataSource.h"
 #import "Folder.h"
 #import "SynthesizeSingleton.h"
-#import "Document.h"
 #import "Attachment.h"
 #import "AttachmentPage.h"
 #import "LNDocumentReader.h"
@@ -223,14 +222,14 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         NSMutableSet *deletedDocuments = [[NSMutableSet alloc] initWithCapacity:[deletedObjects count]];
         for (NSManagedObject *object in deletedObjects)
         {
-            if (!object.isFault && [object isKindOfClass:[Document class]])
+            if (!object.isFault && [object isKindOfClass:[DocumentWithResources class]])
                 [deletedDocuments addObject:object];
         }
         
         NSMutableSet *updatedDocuments = [[NSMutableSet alloc] initWithCapacity:[updatedObjects count]];
         for (NSManagedObject *object in updatedObjects)
         {
-            if ([object isKindOfClass:[Document class]])
+            if ([object isKindOfClass:[RootDocument class]])
                 [updatedDocuments addObject:object];
             else if ([object isKindOfClass:[CommentAudio class]])
                 [updatedDocuments addObject:((CommentAudio *)object).document];
@@ -259,13 +258,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             if (!numberOfProperties) //no properties to analyse
                 continue;
             
-            DocumentWithResources *sourceDocument = nil;
+            RootDocument *sourceDocument = nil;
             
-            if ([object isKindOfClass:[DocumentWithResources class]])
+            if ([object isKindOfClass:[RootDocument class]])
             {
                 
                 if (!([changedValues objectForKey: @"isRead"] != nil && numberOfProperties == 1)) //ignore isRead
-                    sourceDocument = (DocumentWithResources *)object;
+                    sourceDocument = (RootDocument *)object;
                 
             }
             else if (numberOfProperties > 0) //other documents
@@ -274,13 +273,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 {
                     CommentAudio *audio = (CommentAudio *) object;
                     audio.syncStatusValue = SyncStatusNeedSyncToServer;
-                    sourceDocument = audio.document;
+                    sourceDocument = (RootDocument *)audio.document;
                 }
                 else if ([object isKindOfClass:[AttachmentPagePainting class]])
                 {
                     AttachmentPagePainting *painting = (AttachmentPagePainting *) object;
                     painting.syncStatusValue = SyncStatusNeedSyncToServer;
-                    sourceDocument = (DocumentWithResources *)painting.page.attachment.document;
+                    sourceDocument = (RootDocument *)painting.page.attachment.document;
                 }
             }
             
@@ -320,7 +319,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 #pragma mark -
 #pragma mark LNDocumentReaderDataSource
-- (Document *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) anUid
+- (RootDocument *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) anUid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:self.documentEntityDescription];
@@ -347,28 +346,19 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setResultType:NSDictionaryResultType];
     [fetchRequest setReturnsDistinctResults:YES];
+    [fetchRequest setEntity:[NSEntityDescription entityForName:@"RootDocument" inManagedObjectContext:managedObjectContext]];
+    [fetchRequest setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
 
-    NSArray *entityDescriptions = [NSArray arrayWithObjects:
-                        [NSEntityDescription entityForName:@"DocumentResolution" inManagedObjectContext:managedObjectContext],
-                        [NSEntityDescription entityForName:@"DocumentSignature" inManagedObjectContext:managedObjectContext], nil];
-
-    NSMutableSet * result = [NSMutableSet setWithCapacity: 100];
-
-    for (NSEntityDescription *ed in entityDescriptions)
-    {
-        [fetchRequest setEntity:ed];
-        [fetchRequest setPropertiesToFetch :[NSArray arrayWithObject:@"uid"]];
-
-        // Execute the fetch.
-        NSError *error;
-        
-        NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
-        
-        NSAssert1(fetchResults != nil, @"Unhandled error executing document fetch: %@", [error localizedDescription]);
-        
-        for (NSDictionary *doc in fetchResults)
-            [result addObject: [doc objectForKey: @"uid"]];
-    }
+    NSError *error;
+    
+    NSArray *fetchResults = [managedObjectContext executeFetchRequest:fetchRequest error:&error];
+    
+    NSAssert1(fetchResults != nil, @"Unhandled error executing document fetch: %@", [error localizedDescription]);
+    
+    NSMutableSet * result = [NSMutableSet setWithCapacity: [fetchResults count]];
+    
+    for (NSDictionary *doc in fetchResults)
+        [result addObject: [doc objectForKey: @"uid"]];
 
     [fetchRequest release];
 
@@ -755,7 +745,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [fetchedResultsController release];    
         
-        [readers addObject:resourcesReader];
+//        [readers addObject:resourcesReader];
         
         //document writer
         LNDocumentWriter *documentWriter = [[LNDocumentWriter alloc] init];
@@ -802,7 +792,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [pageNumberSortDescriptors release];
         
-        [readers addObject:documentWriter];
+//        [readers addObject:documentWriter];
         
         [readers makeObjectsPerformSelector:@selector(release)];
         

@@ -17,6 +17,7 @@
 #import "CommentAudio.h"
 #import "AttachmentPagePainting.h"
 #import "DocumentResolutionParent.h"
+#import "RootDocument.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -80,6 +81,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 - (void) parseResources:(DocumentWithResources *) document fromDictionary:(NSDictionary *) dictionary;
 - (void) parseLinks:(DocumentWithResources *) document fromArray:(NSArray *) links;
 - (void) parseAttachmentResources:(Attachment *) attachment fromArray:(NSArray *) resources;
+- (void)parseAttachments:(DocumentWithResources *) document attachments:(NSArray *) attachments;
 @end
 
 @implementation LNDocumentReader
@@ -199,7 +201,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                     {
                         if (![blockSelf->fetchedUids containsObject: uid])
                         {
-                            Document *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
+                            RootDocument *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
                             if (obj)
                                 [[blockSelf dataSource] documentReader:blockSelf removeObject: obj];
                         }
@@ -238,7 +240,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         NSAssert(docVersion != nil, @"Unable to find version in view");
 
-        Document *document = [[self dataSource] documentReader:self documentWithUid:uid];
+        RootDocument *document = [[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document)
             [uidsToFetch addObject: uid];
@@ -283,7 +285,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
     return directory;
 }
 
-- (void)parseAttachments:(Document *) document attachments:(NSArray *) attachments
+- (void)parseAttachments:(DocumentWithResources *) document attachments:(NSArray *) attachments
 {
     NSSet *existingAttachments = document.attachments;
     
@@ -344,7 +346,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                 if ([document isKindOfClass:[DocumentLink class]])
                 {
                     DocumentLink *link = (DocumentLink *) document;
-                    painting.url = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, link.document.uid, link.uid, attachment.uid, page.number];
+                    painting.url = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, ((RootDocument *)link.document).uid, link.uid, attachment.uid, page.number];
                 }
                 else
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
@@ -431,7 +433,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             return;
         }
         
-        DocumentWithResources *document = (DocumentWithResources *)[[self dataSource] documentReader:self documentWithUid:uid];
+        RootDocument *document = (RootDocument *)[[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document ) //create new document
         {
@@ -518,9 +520,9 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
 
 //        [self parseResources:document fromDictionary:[parsedDocument valueForKey:field_Resources]];
-//        
+//
 //        [self parseAttachments:document attachments: [subDocument objectForKey:field_Attachments]];
-//        
+//
 //        [self parseLinks:document fromArray:[subDocument objectForKey:field_Links]];
         
         [[self dataSource] documentReaderCommit: self];
@@ -668,7 +670,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         for (NSDictionary *dictLink in links)
         {
             NSString *linkUid = [dictLink objectForKey:field_Uid];
-            if ([link.index isEqualToString :linkUid])
+            if ([link.uid isEqualToString :linkUid])
             {
                 exists = YES;
                 break;
@@ -690,7 +692,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         for (DocumentLink *l in existingLinks)
         {
-            if ([l.index isEqualToString: linkUid])
+            if ([l.uid isEqualToString: linkUid])
             {
                 link = l;
                 break;
@@ -701,7 +703,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         {
             link = [[self dataSource] documentReader:self createEntity:[DocumentLink class]];
             
-            link.index = [dictLink objectForKey:field_Uid];
+            link.uid = [dictLink objectForKey:field_Uid];
             
             link.uid = [document.uid stringByAppendingPathComponent:[@"links" stringByAppendingPathComponent:[dictLink objectForKey:field_Uid]]];
             

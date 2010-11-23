@@ -23,6 +23,8 @@
 #import "SignatureCommentViewController.h"
 #import "DataSource.h"
 #import "MBProgressHUD.h"
+#import "RootDocument.h"
+#import "DocumentLink.h"
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
 static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
@@ -53,7 +55,7 @@ static NSString* SyncingContext       = @"SyncingContext";
 #pragma mark Properties
 @synthesize document;
 
--(void) setDocument:(DocumentWithResources *) aDocument
+-(void) setDocument:(RootDocument *) aDocument
 {
     if (document != aDocument)
     {
@@ -561,7 +563,7 @@ static NSString* SyncingContext       = @"SyncingContext";
         if (clipperViewController.opened)
             clipperViewController.opened = NO;
         
-        Document *linkedDocument = documentInfoViewController.link;
+        DocumentLink *linkedDocument = documentInfoViewController.link;
         
         if (backButton.hidden)
         {
@@ -857,7 +859,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     {
         for (Folder *filter in folder.filters)
         {
-            DocumentWithResources *d = filter.firstDocument;
+            RootDocument *d = filter.firstDocument;
             if (d)
             {
                 self.document = d;

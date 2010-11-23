@@ -14,7 +14,7 @@
 #define kDocumentFlowDeleted @"documentFlowDeleted"
 #define kDocumentFlowUpdated @"documentFlowUpdated"
 
-@class Folder, Document, Document, LNDocumentWriter, LNSettingsReader;
+@class Folder, RootDocument, LNDocumentWriter, LNSettingsReader;
 
 @interface DataSource : NSObject<LNDocumentReaderDataSource, LNPersonReaderDataSource>
 {

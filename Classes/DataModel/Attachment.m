@@ -1,5 +1,5 @@
 #import "Attachment.h"
-#import "Document.h"
+#import "DocumentWithResources.h"
 
 @implementation Attachment
 

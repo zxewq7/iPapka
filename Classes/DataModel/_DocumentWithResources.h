@@ -2,27 +2,22 @@
 // Make changes to DocumentWithResources.h instead.
 
 #import <CoreData/CoreData.h>
-#import "Document.h"
+#import "BWOrderedManagedObject.h"
 
+@class Attachment;
 @class CommentAudio;
 @class DocumentLink;
 
-
-
-
-
-
-
-
+@class NSObject;
 @class NSObject;
 
 
-@class NSArray;
+
 
 @interface DocumentWithResourcesID : NSManagedObjectID {}
 @end
 
-@interface _DocumentWithResources : Document {}
+@interface _DocumentWithResources : BWOrderedManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -32,78 +27,43 @@
 
 
 
-@property (nonatomic, retain) NSString *author;
-
-//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *createdStripped;
-
-//- (BOOL)validateCreatedStripped:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *created;
-
-//- (BOOL)validateCreated:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *date;
-
-//- (BOOL)validateDate:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *modified;
-
-//- (BOOL)validateModified:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSString *text;
-
-//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSNumber *priority;
-
-@property short priorityValue;
-- (short)priorityValue;
-- (void)setPriorityValue:(short)value_;
-
-//- (BOOL)validatePriority:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSObject *linksOrdering;
 
 //- (BOOL)validateLinksOrdering:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, retain) NSNumber *status;
+@property (nonatomic, retain) NSObject *attachmentsOrdering;
 
-@property short statusValue;
-- (short)statusValue;
-- (void)setStatusValue:(short)value_;
-
-//- (BOOL)validateStatus:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateAttachmentsOrdering:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, retain) NSDate *dateStripped;
+@property (nonatomic, retain) NSString *uid;
 
-//- (BOOL)validateDateStripped:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateUid:(id*)value_ error:(NSError**)error_;
 
 
 
-@property (nonatomic, retain) NSArray *correspondents;
+@property (nonatomic, retain) NSString *path;
 
-//- (BOOL)validateCorrespondents:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validatePath:(id*)value_ error:(NSError**)error_;
 
+
+
+@property (nonatomic, retain) NSNumber *isEditable;
+
+@property BOOL isEditableValue;
+- (BOOL)isEditableValue;
+- (void)setIsEditableValue:(BOOL)value_;
+
+//- (BOOL)validateIsEditable:(id*)value_ error:(NSError**)error_;
+
+
+
+
+@property (nonatomic, retain) NSSet* attachments;
+- (NSMutableSet*)attachmentsSet;
 
 
 
@@ -121,6 +81,11 @@
 
 @interface _DocumentWithResources (CoreDataGeneratedAccessors)
 
+- (void)addAttachments:(NSSet*)value_;
+- (void)removeAttachments:(NSSet*)value_;
+- (void)addAttachmentsObject:(Attachment*)value_;
+- (void)removeAttachmentsObject:(Attachment*)value_;
+
 - (void)addLinks:(NSSet*)value_;
 - (void)removeLinks:(NSSet*)value_;
 - (void)addLinksObject:(DocumentLink*)value_;
@@ -130,55 +95,33 @@
 
 @interface _DocumentWithResources (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSString*)primitiveAuthor;
-- (void)setPrimitiveAuthor:(NSString*)value;
-
-
-- (NSDate*)primitiveCreatedStripped;
-- (void)setPrimitiveCreatedStripped:(NSDate*)value;
-
-
-- (NSDate*)primitiveCreated;
-- (void)setPrimitiveCreated:(NSDate*)value;
-
-
-- (NSDate*)primitiveDate;
-- (void)setPrimitiveDate:(NSDate*)value;
-
-
-- (NSDate*)primitiveModified;
-- (void)setPrimitiveModified:(NSDate*)value;
-
-
-- (NSString*)primitiveText;
-- (void)setPrimitiveText:(NSString*)value;
-
-
-- (NSNumber*)primitivePriority;
-- (void)setPrimitivePriority:(NSNumber*)value;
-
-- (short)primitivePriorityValue;
-- (void)setPrimitivePriorityValue:(short)value_;
-
-
 - (NSObject*)primitiveLinksOrdering;
 - (void)setPrimitiveLinksOrdering:(NSObject*)value;
 
 
-- (NSNumber*)primitiveStatus;
-- (void)setPrimitiveStatus:(NSNumber*)value;
-
-- (short)primitiveStatusValue;
-- (void)setPrimitiveStatusValue:(short)value_;
+- (NSObject*)primitiveAttachmentsOrdering;
+- (void)setPrimitiveAttachmentsOrdering:(NSObject*)value;
 
 
-- (NSDate*)primitiveDateStripped;
-- (void)setPrimitiveDateStripped:(NSDate*)value;
+- (NSString*)primitiveUid;
+- (void)setPrimitiveUid:(NSString*)value;
 
 
-- (NSArray*)primitiveCorrespondents;
-- (void)setPrimitiveCorrespondents:(NSArray*)value;
+- (NSString*)primitivePath;
+- (void)setPrimitivePath:(NSString*)value;
 
+
+- (NSNumber*)primitiveIsEditable;
+- (void)setPrimitiveIsEditable:(NSNumber*)value;
+
+- (BOOL)primitiveIsEditableValue;
+- (void)setPrimitiveIsEditableValue:(BOOL)value_;
+
+
+
+
+- (NSMutableSet*)primitiveAttachments;
+- (void)setPrimitiveAttachments:(NSMutableSet*)value;
 
 
 

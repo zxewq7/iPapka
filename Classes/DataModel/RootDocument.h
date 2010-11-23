@@ -1,4 +1,4 @@
-#import "_Document.h"
+#import "_RootDocument.h"
 
 typedef enum _DocumentStatus {
     DocumentStatusDraft = 0,
@@ -22,9 +22,6 @@ typedef enum _DocumentPriority
 
 @class Attachment;
 
-@interface Document : _Document 
-
-@property (nonatomic, readonly) Attachment *firstAttachment;
-@property (readonly) NSMutableArray* attachmentsOrdered;
+@interface RootDocument : _RootDocument 
 
 @end

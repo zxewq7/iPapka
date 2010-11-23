@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class Document, Attachment, DocumentInfoView;
+@class DocumentWithResources, Attachment, DocumentInfoView, DocumentLink;
 @interface DocumentInfoViewController : UIViewController<UITableViewDelegate, UITableViewDataSource>
 {
-    Document    *document;
-    DocumentInfoView  *documentInfo;
+    DocumentWithResources       *document;
+    DocumentInfoView   *documentInfo;
     UISegmentedControl *filter;
     NSDateFormatter    *dateFormatter;
     NSArray            *currentItems;
@@ -20,9 +20,10 @@
     NSUInteger         linkIndex;
     UITableView        *tableView;
     UILabel            *titleLabel;
+    DocumentLink       *link;
 }
-@property (nonatomic, retain, setter=setDocument:) Document   *document;
+@property (nonatomic, retain, setter=setDocument:) DocumentWithResources   *document;
 @property (nonatomic, retain)                      Attachment *attachment;
-@property (nonatomic, retain)                      Document   *link;
+@property (nonatomic, retain)                      DocumentLink   *link;
 
 @end
