@@ -221,7 +221,7 @@
     //http://stackoverflow.com/questions/2133335/iphone-uitextview-which-is-disabled-becomes-first-responder-when-re-enabled
     commentText.userInteractionEnabled = document.isEditableValue;
     
-    dateLabel.text = [dateFormatter stringFromDate: document.date];
+    dateLabel.text = [dateFormatter stringFromDate: (document.date?document.date:[NSDate date])];
     
     audioCommentController.file = document.audio;
     

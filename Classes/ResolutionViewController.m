@@ -373,7 +373,7 @@
             //http://stackoverflow.com/questions/2133335/iphone-uitextview-which-is-disabled-becomes-first-responder-when-re-enabled
         resolutionText.userInteractionEnabled = resolution.isEditableValue;
         
-        dateLabel.text = [dateFormatter stringFromDate: resolution.date];
+        dateLabel.text = [dateFormatter stringFromDate: (resolution.date?resolution.date:[NSDate date])];
 
         NSString *label;
         if (resolution.deadline)
