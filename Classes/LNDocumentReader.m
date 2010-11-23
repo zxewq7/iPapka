@@ -519,11 +519,11 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         }
         
 
-//        [self parseResources:document fromDictionary:[parsedDocument valueForKey:field_Resources]];
-//
-//        [self parseAttachments:document attachments: [subDocument objectForKey:field_Attachments]];
-//
-//        [self parseLinks:document fromArray:[subDocument objectForKey:field_Links]];
+        [self parseResources:document fromDictionary:[parsedDocument valueForKey:field_Resources]];
+
+        [self parseAttachments:document attachments: [subDocument objectForKey:field_Attachments]];
+
+        [self parseLinks:document fromArray:[subDocument objectForKey:field_Links]];
         
         [[self dataSource] documentReaderCommit: self];
     }

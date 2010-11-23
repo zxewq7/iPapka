@@ -745,7 +745,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [fetchedResultsController release];    
         
-//        [readers addObject:resourcesReader];
+        [readers addObject:resourcesReader];
         
         //document writer
         LNDocumentWriter *documentWriter = [[LNDocumentWriter alloc] init];
