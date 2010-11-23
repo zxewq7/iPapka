@@ -500,6 +500,8 @@ static NSString* SyncingContext       = @"SyncingContext";
 - (void) declineDocument:(id) sender
 {
     self.document.statusValue = DocumentStatusDeclined;
+    
+    self.document.date = [NSDate date];
 
     [[DataSource sharedDataSource] commit];
     
@@ -509,6 +511,8 @@ static NSString* SyncingContext       = @"SyncingContext";
 - (void) acceptDocument:(id) sender
 {
     self.document.statusValue = DocumentStatusAccepted;
+    
+    self.document.date = [NSDate date];
     
     [[DataSource sharedDataSource] commit];
 
