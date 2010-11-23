@@ -19,7 +19,6 @@
 #import "Attachment.h"
 #import "AttachmentPage.h"
 
-static NSString* kFieldVersion = @"version";
 static NSString* kFieldUid = @"id";
 static NSString* kFieldDeadline = @"deadline";
 static NSString* kFieldPerformers = @"performers";
@@ -214,24 +213,15 @@ static NSString* kFieldDate = @"date";
     }
 
     [jsonDict setObject:document.docVersion forKey:kFieldDocVersion];
-    
-    id fileContent;
-    
-    if (fileExists)
-    {
-        NSObject *version;
-        if (file.version)
-            version = file.version;
-        else 
-            version = [NSNull null];
 
-        fileContent =  [NSDictionary dictionaryWithObjectsAndKeys:version, kFieldVersion,
-                 nil];
-    }
-    else
-        fileContent = [NSNull null];
+    NSObject *version;
+
+    if (file.version)
+        version = file.version;
+    else 
+        version = [NSNull null];
     
-    [jsonDict setObject:fileContent
+    [jsonDict setObject:version
                  forKey:fileField];
 
     __block LNDocumentWriter *blockSelf = self;
@@ -262,17 +252,18 @@ static NSString* kFieldDate = @"date";
              return;
          }
          
-         NSDictionary *object = [response valueForKey:fileField];
+         NSString *fileVersion = [response valueForKey:fileField];
          
-         NSString *uid = [object valueForKey:kFieldUid];
-         NSString *version = [object valueForKey:kFieldVersion];
-         if (uid == nil || version == nil)
+         NSString *docVersion = [response valueForKey:kFieldDocVersion];
+         
+         if (docVersion == nil || (fileExists && fileVersion == nil))
          {
-             AZZLog(@"error parsing response: %@", response);
+             AZZLog(@"error parsing response (docVersion or fileVersion is null): %@", response);
              return;
          }
-         file.version = version;
+         file.version = fileVersion;
          file.syncStatusValue = SyncStatusSynced;
+         document.docVersion = docVersion;
          [[DataSource sharedDataSource] commit];
      }];  
 }
@@ -300,5 +291,6 @@ static NSString* kFieldDate = @"date";
 
 - (void) discardDocument:(DocumentRoot *) document
 {
+    
 }
 @end
