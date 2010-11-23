@@ -31,7 +31,61 @@
 
 
 
+@dynamic author;
+
+
+
+
+
+
 @dynamic performers;
+
+
+
+
+
+
+@dynamic text;
+
+
+
+
+
+
+@dynamic isManaged;
+
+
+
+- (BOOL)isManagedValue {
+	NSNumber *result = [self isManaged];
+	return [result boolValue];
+}
+
+- (void)setIsManagedValue:(BOOL)value_ {
+	[self setIsManaged:[NSNumber numberWithBool:value_]];
+}
+
+- (BOOL)primitiveIsManagedValue {
+	NSNumber *result = [self primitiveIsManaged];
+	return [result boolValue];
+}
+
+- (void)setPrimitiveIsManagedValue:(BOOL)value_ {
+	[self setPrimitiveIsManaged:[NSNumber numberWithBool:value_]];
+}
+
+
+
+
+
+@dynamic deadline;
+
+
+
+
+
+
+@dynamic date;
 
 
 

@@ -8,16 +8,19 @@
 
 #import <UIKit/UIKit.h>
 
-@class ViewWithButtons, DocumentResolutionAbstract;
+@class ViewWithButtons;
 
 @interface PerformersViewController : UIViewController
 {
     NSMutableArray *performers;
     ViewWithButtons *performersView;
-    DocumentResolutionAbstract *document;
     UIPopoverController *personPopoverController;
     UIButton *buttonAdd;
+    id<NSObject>target;
+    SEL action;
+    BOOL isEditable;
 }
-
-@property (nonatomic, retain) DocumentResolutionAbstract *document;
+-(void) setPerformers:(NSMutableArray *)performers isEditable:(BOOL)isEditable;
+@property (nonatomic, retain) id<NSObject>target;
+@property (nonatomic) SEL action;
 @end

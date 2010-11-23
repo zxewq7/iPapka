@@ -2,16 +2,21 @@
 // Make changes to DocumentResolutionParent.h instead.
 
 #import <CoreData/CoreData.h>
-#import "DocumentResolutionAbstract.h"
+#import "BWOrderedManagedObject.h"
 
 @class DocumentResolution;
 
+
 @class NSArray;
+
+
+
+
 
 @interface DocumentResolutionParentID : NSManagedObjectID {}
 @end
 
-@interface _DocumentResolutionParent : DocumentResolutionAbstract {}
+@interface _DocumentResolutionParent : BWOrderedManagedObject {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -21,9 +26,43 @@
 
 
 
+@property (nonatomic, retain) NSString *author;
+
+//- (BOOL)validateAuthor:(id*)value_ error:(NSError**)error_;
+
+
+
 @property (nonatomic, retain) NSArray *performers;
 
 //- (BOOL)validatePerformers:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *text;
+
+//- (BOOL)validateText:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSNumber *isManaged;
+
+@property BOOL isManagedValue;
+- (BOOL)isManagedValue;
+- (void)setIsManagedValue:(BOOL)value_;
+
+//- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *deadline;
+
+//- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *date;
+
+//- (BOOL)validateDate:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -41,8 +80,31 @@
 
 @interface _DocumentResolutionParent (CoreDataGeneratedPrimitiveAccessors)
 
+- (NSString*)primitiveAuthor;
+- (void)setPrimitiveAuthor:(NSString*)value;
+
+
 - (NSArray*)primitivePerformers;
 - (void)setPrimitivePerformers:(NSArray*)value;
+
+
+- (NSString*)primitiveText;
+- (void)setPrimitiveText:(NSString*)value;
+
+
+- (NSNumber*)primitiveIsManaged;
+- (void)setPrimitiveIsManaged:(NSNumber*)value;
+
+- (BOOL)primitiveIsManagedValue;
+- (void)setPrimitiveIsManagedValue:(BOOL)value_;
+
+
+- (NSDate*)primitiveDeadline;
+- (void)setPrimitiveDeadline:(NSDate*)value;
+
+
+- (NSDate*)primitiveDate;
+- (void)setPrimitiveDate:(NSDate*)value;
 
 
 

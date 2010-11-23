@@ -17,7 +17,6 @@
 #import "CommentAudio.h"
 #import "AttachmentPagePainting.h"
 #import "DocumentResolutionParent.h"
-#import "DocumentResolutionAbstract.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -77,7 +76,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 - (void)parseDocumentData:(NSDictionary *) parsedDocument;
 - (NSString *) documentDirectory:(NSString *) anUid;
 - (NSDictionary *) extractValuesFromViewColumn:(NSArray *)entryData;
-- (void) parseResolution:(DocumentResolutionAbstract *) resolution fromDictionary:(NSDictionary *) dictionary;
+- (void) parseResolution:(DocumentResolution *) resolution fromDictionary:(NSDictionary *) dictionary;
 - (void) parseResources:(DocumentWithResources *) document fromDictionary:(NSDictionary *) dictionary;
 - (void) parseLinks:(DocumentWithResources *) document fromArray:(NSArray *) links;
 - (void) parseAttachmentResources:(Attachment *) attachment fromArray:(NSArray *) resources;
@@ -416,17 +415,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             return;
         }
         
-        NSString *dateString = [parsedDocument objectForKey:field_Date];
-        
-        NSDate *date;
-        
-        if (!dateString || !(date = [parseFormatterDst dateFromString:dateString]))
-        {
-            AZZLog(@"unknown document date, document skipped: %@", uid);
-            return;
-        }
-        
-        
         NSString *documentVersion = [parsedDocument objectForKey:field_DocVersion];
         
         if (!documentVersion)
@@ -488,6 +476,10 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
             document.modified = dateModified;
             
+            NSString *dateString = [parsedDocument objectForKey:field_Date];
+            
+            NSDate *date = (dateString?[parseFormatterDst dateFromString:dateString]:nil);
+            
             document.date = date;
 
             comps = [calendar components:unitFlags fromDate:document.date];
@@ -519,29 +511,17 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             if ([document isKindOfClass:[DocumentResolution class]]) 
             {
                 DocumentResolution *resolution = (DocumentResolution *)document;
-                resolution.isManagedValue = [[parsedDocument valueForKey:field_Managed] boolValue];
-
-                NSDate *dDegistrationDate = nil;
-                NSString *sDegistrationDate = [subDocument objectForKey:field_RegistrationDate];
-                if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
-                    dDegistrationDate = [parseFormatterSimple dateFromString:sDegistrationDate];
-                
-                resolution.regDate = dDegistrationDate;
-                
-                resolution.regNumber = [subDocument objectForKey:field_RegistrationNumber];
-                
                 [self parseResolution:resolution fromDictionary:parsedDocument];
-                
             }
             
         }
         
 
-        [self parseResources:document fromDictionary:[parsedDocument valueForKey:field_Resources]];
-        
-        [self parseAttachments:document attachments: [subDocument objectForKey:field_Attachments]];
-        
-        [self parseLinks:document fromArray:[subDocument objectForKey:field_Links]];
+//        [self parseResources:document fromDictionary:[parsedDocument valueForKey:field_Resources]];
+//        
+//        [self parseAttachments:document attachments: [subDocument objectForKey:field_Attachments]];
+//        
+//        [self parseLinks:document fromArray:[subDocument objectForKey:field_Links]];
         
         [[self dataSource] documentReaderCommit: self];
     }
@@ -582,67 +562,71 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
     return result;
 }
 
-- (void) parseResolution:(DocumentResolutionAbstract *) aResolution fromDictionary:(NSDictionary *) dictionary
+- (void) parseResolution:(DocumentResolution *) resolution fromDictionary:(NSDictionary *) parsedDocument
 {
-    aResolution.text = [dictionary objectForKey:field_Text];
-    aResolution.author = [dictionary objectForKey:field_Author];
+    NSDictionary *subDocument = [parsedDocument objectForKey:field_Subdocument];
 
+    resolution.text = [parsedDocument objectForKey:field_Text];
+    resolution.author = [parsedDocument objectForKey:field_Author];
+
+    resolution.isManagedValue = [[parsedDocument valueForKey:field_Managed] boolValue];
+    
+    NSDate *dDegistrationDate = nil;
+    NSString *sDegistrationDate = [subDocument objectForKey:field_RegistrationDate];
+    if (sDegistrationDate && ![sDegistrationDate isEqualToString:@""])
+        dDegistrationDate = [parseFormatterSimple dateFromString:sDegistrationDate];
+    
+    resolution.regDate = dDegistrationDate;
+    
+    resolution.regNumber = [subDocument objectForKey:field_RegistrationNumber];
+    
     NSDate *dDeadline = nil;
-    NSString *sDeadline = [dictionary objectForKey:field_Deadline];
+    NSString *sDeadline = [parsedDocument objectForKey:field_Deadline];
     if (sDeadline && ![sDeadline isEqualToString:@""])
         dDeadline = [parseFormatterSimple dateFromString:sDeadline];
     
-    aResolution.deadline = dDeadline;
+    resolution.deadline = dDeadline;
 
-    NSArray *performers = [dictionary objectForKey:field_Performers];
+    NSArray *performers = [parsedDocument objectForKey:field_Performers];
 
-    if ([aResolution isKindOfClass:[DocumentResolution class]])
+    for (NSString *uid in performers)
     {
-        DocumentResolution *resolution = (DocumentResolution *)aResolution;
-
-        //performers
-        NSArray *performers = [dictionary objectForKey:field_Performers];
-        for (NSString *uid in performers)
-        {
-            NSString *u = [uid stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
-            if ([u isEqualToString:@""])
-                continue;
-            Person *performer = [[self dataSource] documentReader:self personWithUid: uid];
-            if (performer)
-                [performer addResolutionsObject: resolution];
-            else
-                AZZLog(@"Unknown person: %@", uid);
-        }
-        
-        //parent resolution
-        NSDictionary *parsedParentResolution = [dictionary objectForKey:field_ParentResolution];
-        if (parsedParentResolution) 
-        {
-            DocumentResolutionParent *parentResolution = [[self dataSource] documentReader:self createEntity:[DocumentResolutionParent class]];
-            [self parseResolution:parentResolution fromDictionary:parsedParentResolution];
-            
-            if (!parentResolution.title)
-                parentResolution.title = resolution.title;
-            
-            if (!parentResolution.uid)
-                parentResolution.uid = [resolution.uid stringByAppendingString:@"/parentResolution"];
-            
-            resolution.parentResolution = parentResolution;
-            parentResolution.resolution = resolution;
-            
-            NSDate *dDate = nil;
-            NSString *sDate = [parsedParentResolution objectForKey:field_Date];
-            if (sDate && ![sDate isEqualToString:@""])
-                dDate = [parseFormatterSimple dateFromString:sDate];
-            
-            parentResolution.date = dDate;
-        }
+        NSString *u = [uid stringByTrimmingCharactersInSet: [NSCharacterSet whitespaceAndNewlineCharacterSet]];
+        if ([u isEqualToString:@""])
+            continue;
+        Person *performer = [[self dataSource] documentReader:self personWithUid: uid];
+        if (performer)
+            [performer addResolutionsObject: resolution];
+        else
+            AZZLog(@"Unknown person: %@", uid);
     }
-    else if ([aResolution isKindOfClass:[DocumentResolutionParent class]])
+    
+    NSDictionary *parsedParentResolution = [parsedDocument objectForKey:field_ParentResolution];
+    if (parsedParentResolution) 
     {
-        //performers
-        DocumentResolutionParent *resolution = (DocumentResolutionParent *)aResolution;
-        resolution.performers = performers;
+        DocumentResolutionParent *parentResolution = [[self dataSource] documentReader:self createEntity:[DocumentResolutionParent class]];
+        
+        resolution.parentResolution = parentResolution;
+        
+        NSDate *dDate = nil;
+        NSString *sDate = [parsedParentResolution objectForKey:field_Date];
+        if (sDate && ![sDate isEqualToString:@""])
+            dDate = [parseFormatterSimple dateFromString:sDate];
+        
+        parentResolution.date = dDate;
+        
+        parentResolution.performers = [parsedParentResolution objectForKey:field_Performers];
+        
+        parentResolution.text = [parsedParentResolution objectForKey:field_Text];
+        
+        parentResolution.author = [parsedParentResolution objectForKey:field_Author];
+        
+        NSDate *dParentDeadline = nil;
+        NSString *sParentDeadline = [parsedParentResolution objectForKey:field_Deadline];
+        if (sParentDeadline && ![sParentDeadline isEqualToString:@""])
+            dParentDeadline = [parseFormatterSimple dateFromString:sParentDeadline];
+        
+        parentResolution.deadline = dParentDeadline;
     }
 }
 

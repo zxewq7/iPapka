@@ -9,12 +9,8 @@
 #import "PerformersViewController.h"
 #import "ViewWithButtons.h"
 #import "UIButton+Additions.h"
-#import "DocumentResolution.h"
-#import "DocumentResolutionAbstract.h"
-#import "DocumentResolutionParent.h"
 #import "Person.h"
 #import "PersonPickerViewController.h"
-#import "DataSource.h"
 #import "DeleteItemViewController.h"
 
 @interface PerformersViewController (Private)
@@ -22,15 +18,17 @@
 @end
 
 @implementation PerformersViewController
-@synthesize document;
+@synthesize action, target;
 
--(void) setDocument:(DocumentResolutionAbstract *) aDocument
+-(void) setPerformers:(NSMutableArray *)pf isEditable:(BOOL)editable
 {
-    if (document != aDocument)
+    if (pf != performers)
     {
-        [document release];
-        document = [aDocument retain];
+        [performers release];
+        performers = [pf retain];
     }
+    
+    isEditable = editable;
     
     [self updateContent];
 }
@@ -78,7 +76,7 @@
     
     PersonPickerViewController *picker = (PersonPickerViewController *)personPopoverController.contentViewController;
     
-    picker.persons = ((DocumentResolution *)self.document).performersOrdered;
+    picker.persons = performers;
 
     
     UIView *button = (UIView *)sender;
@@ -89,19 +87,16 @@
 {
     __block PerformersViewController *blockSelf = self;
 
-    DocumentResolution *resolution = (DocumentResolution *) document;
-    
-    [[DeleteItemViewController sharedDeleteItemViewController] showForView:(UIView *)sender handler:^(UIView *target){
-        Person *performerToDelete  = [performers objectAtIndex:target.tag];
-        [resolution removePerformersObject:performerToDelete];
-        [[DataSource sharedDataSource] commit];
+    [[DeleteItemViewController sharedDeleteItemViewController] showForView:(UIView *)sender handler:^(UIView *v){
+        [performers removeObjectAtIndex:v.tag];
+        [blockSelf->target performSelector:action];
         [blockSelf updateContent];
     }];
 }
 
 -(void) performersEdited:(id) sender
 {
-    [[DataSource sharedDataSource] commit];
+    [target performSelector:action];
     [self updateContent];
 }
 #pragma mark -
@@ -129,7 +124,8 @@
 
 - (void)dealloc 
 {
-    self.document = nil;
+    self.action = nil;
+    self.target = nil;
 
     [performers release]; performers = nil;
 
@@ -152,7 +148,7 @@
 
     BOOL wasHidden = buttonAdd.hidden;
     
-    buttonAdd.hidden = !document.isEditable;
+    buttonAdd.hidden = !isEditable;
     
     //hide or show add performer button
     if (wasHidden != buttonAdd.hidden)
@@ -170,71 +166,51 @@
         }
     }
     
-    if (document)
+    if (performers)
     {
         UIFont *font = [UIFont fontWithName:@"CharterC" size:16];
+
+        NSUInteger countPerformers = [performers count];
         
-        if ([document isKindOfClass:[DocumentResolution class]])
+        performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
+        
+        UIImage *buttonBackground = [UIImage imageNamed:@"ButtonPerformer.png"];
+        
+        UIColor *color = [UIColor clearColor];
+        
+        for (NSUInteger i=0; i < countPerformers; i++)
         {
-            performers = ((DocumentResolution *)document).performersOrdered;
-
-            [performers retain];
+            Person *performer = [performers objectAtIndex:i];
             
-            NSUInteger countPerformers = [performers count];
+            UIView *performerButton;
             
-            performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
-
-            UIImage *buttonBackground = [UIImage imageNamed:@"ButtonPerformer.png"];
-            
-            for (NSUInteger i=0; i < countPerformers; i++)
+            if ([performer isKindOfClass:[Person class]])
+                performerButton = [UIButton buttonWithBackgroundAndTitle:performer.fullName
+                                                               titleFont:font
+                                                                  target:self
+                                                                selector:(isEditable?@selector(removePerformer:):nil)
+                                                                   frame:CGRectMake(0, 0, 29, 26)
+                                                           addLabelWidth:YES
+                                                                   image:buttonBackground
+                                                            imagePressed:buttonBackground
+                                                            leftCapWidth:13.0f
+                                                           darkTextColor:YES];
+            else
             {
-                Person *performer = [performers objectAtIndex:i];
+               UILabel *pb = [[UILabel alloc] initWithFrame:CGRectZero];
+                pb.backgroundColor = color;
+                pb.font = font;
+                pb.text = (NSString *)performer;
+                [pb sizeToFit];
                 
-                UIButton *performerButton = [UIButton buttonWithBackgroundAndTitle:performer.fullName
-                                                                         titleFont:font
-                                                                            target:self
-                                                                          selector:(document.isEditable?@selector(removePerformer:):nil)
-                                                                             frame:CGRectMake(0, 0, 29, 26)
-                                                                     addLabelWidth:YES
-                                                                             image:buttonBackground
-                                                                      imagePressed:buttonBackground
-                                                                      leftCapWidth:13.0f
-                                                                     darkTextColor:YES];
-
-                performerButton.tag = i;
-                [performerButtons addObject: performerButton];
-            }
-        }
-        else if ([document isKindOfClass:[DocumentResolutionParent class]])
-        {
-            performers = [NSMutableArray arrayWithArray: ((DocumentResolutionParent *)document).performers];
-            [performers retain];
-            
-            NSUInteger countPerformers = [performers count];
-            
-            performerButtons = [NSMutableArray arrayWithCapacity: countPerformers];
-            
-            UIColor *color = [UIColor clearColor];
-            
-            for (NSUInteger i=0; i < countPerformers; i++)
-            {
-                 NSString *performer = [performers objectAtIndex:i];
-                
-                UILabel *performerButton = [[UILabel alloc] initWithFrame:CGRectZero];
-                performerButton.backgroundColor = color;
-                performerButton.font = font;
-                performerButton.text = performer;
-                [performerButton sizeToFit];
-                performerButton.tag = i;
-                
-                [performerButtons addObject: performerButton];
-                
-                [performerButton release];
+                performerButton = [pb autorelease];
             }
             
+            performerButton.tag = i;
+            [performerButtons addObject: performerButton];
         }
     }
-
+    
     performersView.subviews = performerButtons;
     
     //resize content

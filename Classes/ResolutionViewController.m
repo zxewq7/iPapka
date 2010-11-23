@@ -18,6 +18,7 @@
 #import "CommentAudio.h"
 #import "BlankLogoView.h"
 #import "ResolutionContentView.h"
+#import "DocumentResolutionParent.h"
 
 #define RIGHT_MARGIN 30.0f
 #define LEFT_MARGIN 30.0f
@@ -100,6 +101,9 @@
     
     //performersViewController
     performersViewController = [[PerformersViewController alloc] init];
+    
+    performersViewController.target = [DataSource sharedDataSource];
+    performersViewController.action = @selector(commit);
     
     [contentView addSubview: performersViewController.view withTag:ResolutionContentViewPerformers];
     
@@ -352,63 +356,90 @@
 
 -(void) updateContent
 {
-    DocumentResolutionAbstract *resolution  = document;
-    DocumentResolutionParent *parentResolution = document.parentResolution;
-    
-    resolutionSwitcher.hidden = (parentResolution == nil);
+    resolutionSwitcher.hidden = (document.parentResolution == nil);
     
     if (resolutionSwitcher.selectedSegmentIndex == 0) //resolution
     {
         deadlineButton.userInteractionEnabled = YES;
+
+        DocumentResolution *resolution  = document;
+
+        authorLabel.text = resolution.author;
+        
+        resolutionText.text = resolution.text;
+        
+#warning obsoleted in iOS 4
+            //due to bug in 3.2 with editable property (showing keybouar), use this trick
+            //http://stackoverflow.com/questions/2133335/iphone-uitextview-which-is-disabled-becomes-first-responder-when-re-enabled
+        resolutionText.userInteractionEnabled = resolution.isEditableValue;
+        
+        dateLabel.text = [dateFormatter stringFromDate: resolution.date];
+
+        NSString *label;
+        if (resolution.deadline)
+            label = [NSString stringWithFormat:@"   %@   ", [dateFormatter stringFromDate:resolution.deadline]];
+        else
+            label = [NSString stringWithFormat:@"   %@   ", NSLocalizedString(@"Not set", "resolution->deadline->Not set")];
+        
+        if (resolution.isEditable)
+        {
+            [deadlineButton setTitle:label forState:UIControlStateNormal];
+            [deadlineButton sizeToFit];
+            deadlineButton.hidden = NO;
+            
+            deadlineLabel.hidden = YES;
+        }
+        else
+        {
+            deadlineLabel.text = label;
+            [deadlineLabel sizeToFit];
+            deadlineLabel.hidden = NO;
+            
+            deadlineButton.hidden = YES;
+        }
+        
+        [performersViewController setPerformers:resolution.performersOrdered isEditable:resolution.isEditableValue];
+        
+        audioCommentController.file = resolution.audio;
+        
+        managedButton.on = resolution.isManagedValue;
+        
+        managedButton.enabled = resolution.isEditableValue;
     }
     else //parent resolution
     {
-        resolution = (DocumentResolutionAbstract *)parentResolution;
         deadlineButton.userInteractionEnabled = NO;
-    }
         
-    authorLabel.text = resolution.author;
-    
-    resolutionText.text = resolution.text;
-    
-#warning obsoleted in iOS 4
-    //due to bug in 3.2 with editable property (showing keybouar), use this trick
-    //http://stackoverflow.com/questions/2133335/iphone-uitextview-which-is-disabled-becomes-first-responder-when-re-enabled
-    resolutionText.userInteractionEnabled = resolution.isEditableValue;
+        resolutionText.userInteractionEnabled = NO;
 
-    
-    dateLabel.text = [dateFormatter stringFromDate: resolution.date];
-    
-    NSString *label;
-    if (resolution.deadline)
-        label = [NSString stringWithFormat:@"   %@   ", [dateFormatter stringFromDate:resolution.deadline]];
-    else
-        label = [NSString stringWithFormat:@"   %@   ", NSLocalizedString(@"Not set", "resolution->deadline->Not set")];
+        DocumentResolutionParent *parentResolution = document.parentResolution;
 
-    if (resolution.isEditable)
-    {
-        [deadlineButton setTitle:label forState:UIControlStateNormal];
-        [deadlineButton sizeToFit];
-        deadlineButton.hidden = NO;
+        authorLabel.text = parentResolution.author;
         
-        deadlineLabel.hidden = YES;
-    }
-    else
-    {
+        resolutionText.text = parentResolution.text;
+        
+        dateLabel.text = [dateFormatter stringFromDate: parentResolution.date];
+
+        NSString *label;
+        if (parentResolution.deadline)
+            label = [NSString stringWithFormat:@"   %@   ", [dateFormatter stringFromDate:parentResolution.deadline]];
+        else
+            label = [NSString stringWithFormat:@"   %@   ", NSLocalizedString(@"Not set", "resolution->deadline->Not set")];
+        
         deadlineLabel.text = label;
         [deadlineLabel sizeToFit];
         deadlineLabel.hidden = NO;
-        
         deadlineButton.hidden = YES;
+        
+        [performersViewController setPerformers:nil isEditable:NO];
+        
+        audioCommentController.file = nil;
+        
+        managedButton.on = parentResolution.isManagedValue;
+        
+        managedButton.enabled = NO;
     }
-    performersViewController.document = resolution;
-    
-    audioCommentController.file = resolution.audio;
-    
-    managedButton.on = resolution.isManagedValue;
-    
-    managedButton.enabled = resolution.isEditableValue;
-    
+
     [contentView setNeedsLayout];
     
     //scroll content to top

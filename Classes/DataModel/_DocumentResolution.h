@@ -2,7 +2,7 @@
 // Make changes to DocumentResolution.h instead.
 
 #import <CoreData/CoreData.h>
-#import "DocumentResolutionAbstract.h"
+#import "DocumentWithResources.h"
 
 @class Person;
 @class DocumentResolutionParent;
@@ -11,10 +11,12 @@
 
 
 
+
+
 @interface DocumentResolutionID : NSManagedObjectID {}
 @end
 
-@interface _DocumentResolution : DocumentResolutionAbstract {}
+@interface _DocumentResolution : DocumentWithResources {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
@@ -33,6 +35,22 @@
 @property (nonatomic, retain) NSDate *regDate;
 
 //- (BOOL)validateRegDate:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSNumber *isManaged;
+
+@property BOOL isManagedValue;
+- (BOOL)isManagedValue;
+- (void)setIsManagedValue:(BOOL)value_;
+
+//- (BOOL)validateIsManaged:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *deadline;
+
+//- (BOOL)validateDeadline:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -72,6 +90,17 @@
 
 - (NSDate*)primitiveRegDate;
 - (void)setPrimitiveRegDate:(NSDate*)value;
+
+
+- (NSNumber*)primitiveIsManaged;
+- (void)setPrimitiveIsManaged:(NSNumber*)value;
+
+- (BOOL)primitiveIsManagedValue;
+- (void)setPrimitiveIsManagedValue:(BOOL)value_;
+
+
+- (NSDate*)primitiveDeadline;
+- (void)setPrimitiveDeadline:(NSDate*)value;
 
 
 - (NSString*)primitiveRegNumber;
