@@ -627,6 +627,9 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             dParentDeadline = [parseFormatterSimple dateFromString:sParentDeadline];
         
         parentResolution.deadline = dParentDeadline;
+        
+        parentResolution.isManagedValue = [[parsedParentResolution valueForKey:field_Managed] boolValue];
+
     }
 }
 
