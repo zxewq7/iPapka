@@ -333,6 +333,7 @@ static NSString* kErrorCode = @"code";
     LNHttpRequest *request = [LNHttpRequest requestWithURL:[NSURL URLWithString: url]];
     request.delegate = self;
     request.validatesSecureCertificate = [[NSUserDefaults standardUserDefaults] boolForKey:@"serverValidateSecureCertificate"];
+    request.numberOfTimesToRetryOnTimeout = 1;
     return request;
 }
 
@@ -341,6 +342,7 @@ static NSString* kErrorCode = @"code";
     LNFormDataRequest *request = [LNFormDataRequest requestWithURL:[NSURL URLWithString: url]];
     request.delegate = self;
     request.validatesSecureCertificate = [[NSUserDefaults standardUserDefaults] boolForKey:@"serverValidateSecureCertificate"];
+    request.numberOfTimesToRetryOnTimeout = 1;
     return request;
 }
 
