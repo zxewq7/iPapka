@@ -142,8 +142,6 @@
 
 - (void) updateContent
 {
-    [performers release];
-    performers = nil;
     NSMutableArray *performerButtons = nil;
 
     BOOL wasHidden = buttonAdd.hidden;
