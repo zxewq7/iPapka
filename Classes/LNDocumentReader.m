@@ -235,8 +235,8 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         NSArray *entryData = [entry objectForKey:view_EntryData];
         
         NSDictionary *values = [self extractValuesFromViewColumn: entryData];
-#warning wrong column name        
-        NSString *docVersion = [values objectForKey:field_Version];
+
+        NSString *docVersion = [values objectForKey:field_DocVersion];
         
         NSAssert(docVersion != nil, @"Unable to find version in view");
 
@@ -704,8 +704,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             link = [[self dataSource] documentReader:self createEntity:[DocumentLink class]];
             
             link.uid = [dictLink objectForKey:field_Uid];
-            
-            link.uid = [document.uid stringByAppendingPathComponent:[@"links" stringByAppendingPathComponent:[dictLink objectForKey:field_Uid]]];
             
             link.title = [dictLink objectForKey:field_LinkTitle];
             
