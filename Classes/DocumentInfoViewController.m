@@ -195,9 +195,9 @@
     
     NSMutableArray *labels = [[NSMutableArray alloc] initWithCapacity:4];
 
-    if ([self.document isKindOfClass:[RootDocument class]])
+    if ([self.document isKindOfClass:[DocumentRoot class]])
     {
-        RootDocument *doc = (RootDocument *)self.document;
+        DocumentRoot *doc = (DocumentRoot *)self.document;
 
         documentInfo.textLabel.text = doc.title;
 
@@ -272,7 +272,7 @@
     {
         DocumentLink *doc = (DocumentLink *)self.document;
         
-        documentInfo.textLabel.text = ((RootDocument *)doc.document).title;
+        documentInfo.textLabel.text = ((DocumentRoot *)doc.document).title;
         
         for (int i = 0; i < 4; i++)
             [labels addObject:@""];

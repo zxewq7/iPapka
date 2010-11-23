@@ -1,5 +1,5 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to RootDocument.h instead.
+// Make changes to DocumentRoot.h instead.
 
 #import <CoreData/CoreData.h>
 #import "DocumentWithResources.h"
@@ -21,16 +21,16 @@
 
 @class NSArray;
 
-@interface RootDocumentID : NSManagedObjectID {}
+@interface DocumentRootID : NSManagedObjectID {}
 @end
 
-@interface _RootDocument : DocumentWithResources {}
+@interface _DocumentRoot : DocumentWithResources {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
-- (RootDocumentID*)objectID;
+- (DocumentRootID*)objectID;
 
 
 
@@ -143,11 +143,11 @@
 
 @end
 
-@interface _RootDocument (CoreDataGeneratedAccessors)
+@interface _DocumentRoot (CoreDataGeneratedAccessors)
 
 @end
 
-@interface _RootDocument (CoreDataGeneratedPrimitiveAccessors)
+@interface _DocumentRoot (CoreDataGeneratedPrimitiveAccessors)
 
 - (NSString*)primitiveAuthor;
 - (void)setPrimitiveAuthor:(NSString*)value;

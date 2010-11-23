@@ -229,7 +229,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         NSMutableSet *updatedDocuments = [[NSMutableSet alloc] initWithCapacity:[updatedObjects count]];
         for (NSManagedObject *object in updatedObjects)
         {
-            if ([object isKindOfClass:[RootDocument class]])
+            if ([object isKindOfClass:[DocumentRoot class]])
                 [updatedDocuments addObject:object];
             else if ([object isKindOfClass:[CommentAudio class]])
                 [updatedDocuments addObject:((CommentAudio *)object).document];
@@ -258,13 +258,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             if (!numberOfProperties) //no properties to analyse
                 continue;
             
-            RootDocument *sourceDocument = nil;
+            DocumentRoot *sourceDocument = nil;
             
-            if ([object isKindOfClass:[RootDocument class]])
+            if ([object isKindOfClass:[DocumentRoot class]])
             {
                 
                 if (!([changedValues objectForKey: @"isRead"] != nil && numberOfProperties == 1)) //ignore isRead
-                    sourceDocument = (RootDocument *)object;
+                    sourceDocument = (DocumentRoot *)object;
                 
             }
             else if (numberOfProperties > 0) //other documents
@@ -273,13 +273,13 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 {
                     CommentAudio *audio = (CommentAudio *) object;
                     audio.syncStatusValue = SyncStatusNeedSyncToServer;
-                    sourceDocument = (RootDocument *)audio.document;
+                    sourceDocument = (DocumentRoot *)audio.document;
                 }
                 else if ([object isKindOfClass:[AttachmentPagePainting class]])
                 {
                     AttachmentPagePainting *painting = (AttachmentPagePainting *) object;
                     painting.syncStatusValue = SyncStatusNeedSyncToServer;
-                    sourceDocument = (RootDocument *)painting.page.attachment.document;
+                    sourceDocument = (DocumentRoot *)painting.page.attachment.document;
                 }
             }
             
@@ -319,7 +319,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 #pragma mark -
 #pragma mark LNDocumentReaderDataSource
-- (RootDocument *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) anUid
+- (DocumentRoot *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) anUid
 {
     NSFetchRequest *fetchRequest = [[NSFetchRequest alloc] init];
     [fetchRequest setEntity:self.documentEntityDescription];

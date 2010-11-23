@@ -1,4 +1,4 @@
-#import "_RootDocument.h"
+#import "_DocumentRoot.h"
 
 typedef enum _DocumentStatus {
     DocumentStatusDraft = 0,
@@ -22,6 +22,6 @@ typedef enum _DocumentPriority
 
 @class Attachment;
 
-@interface RootDocument : _RootDocument 
+@interface DocumentRoot : _DocumentRoot 
 
 @end

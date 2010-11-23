@@ -9,10 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "LNNetwork.h"
 
-@class RootDocument, DocumentResolution, DocumentSignature, AttachmentPage, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person, CommentAudio, Comment, AttachmentPagePainting;
+@class DocumentRoot, DocumentResolution, DocumentSignature, AttachmentPage, Attachment, ASINetworkQueue, LNDocumentReader, NSManagedObject, Person, CommentAudio, Comment, AttachmentPagePainting;
 
 @protocol LNDocumentReaderDataSource<NSObject>
-- (RootDocument *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
+- (DocumentRoot *) documentReader:(LNDocumentReader *) documentReader documentWithUid:(NSString *) uid;
 
 - (Person *) documentReader:(LNDocumentReader *) documentReader personWithUid:(NSString *) uid;
 

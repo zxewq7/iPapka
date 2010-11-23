@@ -10,7 +10,7 @@
 #import "DocumentWithResources.h"
 #import "DocumentResolution.h"
 #import "DocumentSignature.h"
-#import "RootDocument.h"
+#import "DocumentRoot.h"
 #import "DataSource.h"
 #import "Person.h"
 #import "FileField.h"
@@ -34,7 +34,7 @@ static NSString* kFieldDrawing = @"drawing";
 static NSString* kFieldManaged = @"hasControl";
 
 @interface LNDocumentWriter(Private)
-- (void) syncDocument:(RootDocument *) document;
+- (void) syncDocument:(DocumentRoot *) document;
 - (void) syncFile:(FileField *) file;
 - (NSString *)postFileUrl;
 - (NSString *)postFileField;
@@ -68,7 +68,7 @@ static NSString* kFieldManaged = @"hasControl";
     if (![unsyncedDocuments performFetch:&error])
 		NSAssert1(error == nil, @"Unhandled error executing unsynced documents: %@", [error localizedDescription]);
 
-    for (RootDocument *document in [unsyncedDocuments fetchedObjects])
+    for (DocumentRoot *document in [unsyncedDocuments fetchedObjects])
         [self syncDocument:document];
 }
 
@@ -88,7 +88,7 @@ static NSString* kFieldManaged = @"hasControl";
 
 #pragma mark -
 #pragma mark Private
-- (void) syncDocument:(RootDocument *) document
+- (void) syncDocument:(DocumentRoot *) document
 {
     NSMutableDictionary *dictDocument = [NSMutableDictionary dictionaryWithCapacity: 6];
     

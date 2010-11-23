@@ -23,7 +23,7 @@
 #import "SignatureCommentViewController.h"
 #import "DataSource.h"
 #import "MBProgressHUD.h"
-#import "RootDocument.h"
+#import "DocumentRoot.h"
 #import "DocumentLink.h"
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
@@ -55,7 +55,7 @@ static NSString* SyncingContext       = @"SyncingContext";
 #pragma mark Properties
 @synthesize document;
 
--(void) setDocument:(RootDocument *) aDocument
+-(void) setDocument:(DocumentRoot *) aDocument
 {
     if (document != aDocument)
     {
@@ -859,7 +859,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     {
         for (Folder *filter in folder.filters)
         {
-            RootDocument *d = filter.firstDocument;
+            DocumentRoot *d = filter.firstDocument;
             if (d)
             {
                 self.document = d;

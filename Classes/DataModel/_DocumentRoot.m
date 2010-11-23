@@ -1,31 +1,31 @@
 // DO NOT EDIT. This file is machine-generated and constantly overwritten.
-// Make changes to RootDocument.m instead.
+// Make changes to DocumentRoot.m instead.
 
-#import "_RootDocument.h"
+#import "_DocumentRoot.h"
 
-@implementation RootDocumentID
+@implementation DocumentRootID
 @end
 
-@implementation _RootDocument
+@implementation _DocumentRoot
 
 
 
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription insertNewObjectForEntityForName:@"RootDocument" inManagedObjectContext:moc_];
+	return [NSEntityDescription insertNewObjectForEntityForName:@"DocumentRoot" inManagedObjectContext:moc_];
 }
 
 + (NSString*)entityName {
-	return @"RootDocument";
+	return @"DocumentRoot";
 }
 
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_ {
 	NSParameterAssert(moc_);
-	return [NSEntityDescription entityForName:@"RootDocument" inManagedObjectContext:moc_];
+	return [NSEntityDescription entityForName:@"DocumentRoot" inManagedObjectContext:moc_];
 }
 
-- (RootDocumentID*)objectID {
-	return (RootDocumentID*)[super objectID];
+- (DocumentRootID*)objectID {
+	return (DocumentRootID*)[super objectID];
 }
 
 

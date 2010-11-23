@@ -17,7 +17,7 @@
 #import "CommentAudio.h"
 #import "AttachmentPagePainting.h"
 #import "DocumentResolutionParent.h"
-#import "RootDocument.h"
+#import "DocumentRoot.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -201,7 +201,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                     {
                         if (![blockSelf->fetchedUids containsObject: uid])
                         {
-                            RootDocument *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
+                            DocumentRoot *obj = [[blockSelf dataSource] documentReader:blockSelf documentWithUid:uid];
                             if (obj)
                                 [[blockSelf dataSource] documentReader:blockSelf removeObject: obj];
                         }
@@ -240,7 +240,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         NSAssert(docVersion != nil, @"Unable to find version in view");
 
-        RootDocument *document = [[self dataSource] documentReader:self documentWithUid:uid];
+        DocumentRoot *document = [[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document)
             [uidsToFetch addObject: uid];
@@ -346,7 +346,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                 if ([document isKindOfClass:[DocumentLink class]])
                 {
                     DocumentLink *link = (DocumentLink *) document;
-                    painting.url = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, ((RootDocument *)link.document).uid, link.uid, attachment.uid, page.number];
+                    painting.url = [NSString stringWithFormat:url_LinkAttachmentFetchPaintingFormat, ((DocumentRoot *)link.document).uid, link.uid, attachment.uid, page.number];
                 }
                 else
                     painting.url = [NSString stringWithFormat:url_AttachmentFetchPaintingFormat, document.uid, attachment.uid, page.number];
@@ -433,7 +433,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             return;
         }
         
-        RootDocument *document = (RootDocument *)[[self dataSource] documentReader:self documentWithUid:uid];
+        DocumentRoot *document = (DocumentRoot *)[[self dataSource] documentReader:self documentWithUid:uid];
         
         if (!document ) //create new document
         {

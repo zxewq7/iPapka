@@ -162,7 +162,7 @@
     return documents;
 }
 
-- (RootDocument*) firstDocument
+- (DocumentRoot*) firstDocument
 {
     NSFetchedResultsController *documents = self.documents;
 

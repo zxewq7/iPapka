@@ -2,14 +2,14 @@
 // Make changes to DocumentSignature.h instead.
 
 #import <CoreData/CoreData.h>
-#import "RootDocument.h"
+#import "DocumentRoot.h"
 
 
 
 @interface DocumentSignatureID : NSManagedObjectID {}
 @end
 
-@interface _DocumentSignature : RootDocument {}
+@interface _DocumentSignature : DocumentRoot {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;

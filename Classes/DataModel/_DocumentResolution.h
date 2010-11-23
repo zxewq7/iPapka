@@ -2,7 +2,7 @@
 // Make changes to DocumentResolution.h instead.
 
 #import <CoreData/CoreData.h>
-#import "RootDocument.h"
+#import "DocumentRoot.h"
 
 @class Person;
 @class DocumentResolutionParent;
@@ -16,7 +16,7 @@
 @interface DocumentResolutionID : NSManagedObjectID {}
 @end
 
-@interface _DocumentResolution : RootDocument {}
+@interface _DocumentResolution : DocumentRoot {}
 
 	
 + (id)insertInManagedObjectContext:(NSManagedObjectContext*)moc_;

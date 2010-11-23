@@ -2,7 +2,7 @@
 #import "Attachment.h"
 #import "AttachmentPagePainting.h"
 #import "DocumentWithResources.h"
-#import "RootDocument.h"
+#import "DocumentRoot.h"
 
 @implementation AttachmentPage
 
