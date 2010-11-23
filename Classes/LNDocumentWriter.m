@@ -32,6 +32,9 @@ static NSString* kFieldPage = @"pageNum";
 static NSString* kFieldAudio = @"audio";
 static NSString* kFieldDrawing = @"drawing";
 static NSString* kFieldManaged = @"hasControl";
+static NSString* kFieldDocVersion = @"docVersion";
+static NSString* kFieldStatus = @"status";
+static NSString* kFieldDate = @"date";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(DocumentRoot *) document;
@@ -95,6 +98,8 @@ static NSString* kFieldManaged = @"hasControl";
     
     [dictDocument setObject:document.uid forKey:kFieldUid];
     
+    [dictDocument setObject:document.docVersion forKey:kFieldDocVersion];
+    
     NSString *status;
     
     switch (document.statusValue)
@@ -104,17 +109,19 @@ static NSString* kFieldManaged = @"hasControl";
             status = @"draft";
             break;
         case DocumentStatusAccepted:
-            status = @"approved";
+            status = @"accepted";
+            [dictDocument setObject:document.date forKey:kFieldDate];
             break;
         case DocumentStatusDeclined:
             status = @"rejected";
+            [dictDocument setObject:document.date forKey:kFieldDate];
             break;
         default:
             AZZLog(@"unknown status %d dor document %@", document.statusValue, document.uid);
             return;
     }
     
-    [dictDocument setObject:status forKey:@"status"];
+    [dictDocument setObject:status forKey:kFieldStatus];
     
     if ([document isKindOfClass: [DocumentResolution class]])
     {
@@ -206,6 +213,8 @@ static NSString* kFieldManaged = @"hasControl";
         return;
     }
 
+    [jsonDict setObject:document.docVersion forKey:kFieldDocVersion];
+    
     id fileContent;
     
     if (fileExists)
