@@ -83,9 +83,9 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
     
     [self fileRequestWithUrl:url
                         path:page.pathImage
-                andHandler:^(BOOL error, NSString* path)
+                andHandler:^(NSError *err, NSString* path)
      {
-         if (error)
+         if (err)
              blockSelf.hasError = NO;
          else
          {
@@ -104,9 +104,9 @@ static NSString *url_LinkAttachmentFetchPageFormat = @"/document/%@/link/%@/file
     
     [self fileRequestWithUrl:url
                         path:file.path
-                  andHandler:^(BOOL error, NSString* path)
+                  andHandler:^(NSError *err, NSString* path)
      {
-         if (error)
+         if (err)
              blockSelf.hasError = NO;
          else
          {

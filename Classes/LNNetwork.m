@@ -15,12 +15,13 @@
 #import "LNFormDataRequest.h"
 
 static NSString* OperationCount = @"OperationCount";
+static NSString* kErrorCode = @"code";
 
 @interface LNNetwork (Private)
 -(void) checkSyncing;
 -(LNHttpRequest *) requestWithUrl:(NSString *) url;
 -(LNFormDataRequest *) formRequestWithUrl:(NSString *) url;
--(BOOL) hasRequestError:(ASIHTTPRequest *) request;
+- (NSError *)errorFromRequest:(ASIHTTPRequest *) request;
 -(void) beginRequest;
 -(void) endRequest;
 -(void) beginSession;
@@ -73,7 +74,7 @@ static NSString* OperationCount = @"OperationCount";
 
 -(void) fileRequestWithUrl:(NSString *)url 
                       path:(NSString *)path 
-                andHandler:(void (^)(BOOL error, NSString* path)) handler
+                andHandler:(void (^)(NSError *error, NSString* path)) handler
 {
     NSFileManager *df = [NSFileManager defaultManager];
     
@@ -91,21 +92,22 @@ static NSString* OperationCount = @"OperationCount";
     [self beginRequest];
 
     request.requestHandler = ^(ASIHTTPRequest *request) {
-        if ([blockSelf hasRequestError:request])
+        NSError *err = [blockSelf errorFromRequest:request];
+        if (err)
         {
             blockSelf.hasError = YES;
             [df removeItemAtPath:path error:NULL];
-            handler(YES, nil);
+            handler(err, nil);
         }
         else
-            handler(NO, path);
+            handler(nil, path);
     };
     
     [queue addOperation:request];
 }
 
 -(void) jsonRequestWithUrl:(NSString *)url 
-                andHandler:(void (^)(BOOL error, id response)) handler
+                andHandler:(void (^)(NSError *error, id response)) handler
 {
     LNHttpRequest *request = [self requestWithUrl:url];
     
@@ -114,10 +116,12 @@ static NSString* OperationCount = @"OperationCount";
     [self beginRequest];
     
     request.requestHandler = ^(ASIHTTPRequest *request) {
-        if ([blockSelf hasRequestError:request])
+        NSError *err = [blockSelf errorFromRequest:request];
+        
+        if (err)
         {
             blockSelf.hasError = YES;
-            handler(YES, nil);
+            handler(err, nil);
         }
         else
         {
@@ -131,11 +135,11 @@ static NSString* OperationCount = @"OperationCount";
             {
                 blockSelf.hasError = YES;
                 AZZLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
-                handler(NO, nil);
+                handler(NSErrorWithCode(ERROR_IPAPKA_SERVER), nil);
                 return;
             }
 
-            handler(NO, parsedResponse);
+            handler(nil, parsedResponse);
         }
     };
     
@@ -145,7 +149,7 @@ static NSString* OperationCount = @"OperationCount";
 -(void) jsonPostRequestWithUrl:(NSString *)url 
                       postData:(NSDictionary *) postData 
                          files:(NSDictionary *) files 
-                    andHandler:(void (^)(BOOL error, id response)) handler
+                    andHandler:(void (^)(NSError *error, id response)) handler
 {
     LNFormDataRequest *request = [self formRequestWithUrl:url];
     
@@ -189,11 +193,12 @@ static NSString* OperationCount = @"OperationCount";
     
     request.requestHandler = ^(ASIHTTPRequest *request) 
     {
+        NSError *err = [blockSelf errorFromRequest:request];
         
-        if ([blockSelf hasRequestError:request])
+        if (err)
         {
             blockSelf.hasError = YES;
-            handler(YES, nil);
+            handler(err, nil);
         }
         else
         {
@@ -208,11 +213,11 @@ static NSString* OperationCount = @"OperationCount";
             {
                 blockSelf.hasError = YES;
                 AZZLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
-                handler(NO, nil);
+                handler(NSErrorWithCode(ERROR_IPAPKA_SERVER), nil);
                 return;
             }
             
-            handler(NO, parsedResponse);
+            handler(nil, parsedResponse);
         }
     };
     
@@ -339,23 +344,6 @@ static NSString* OperationCount = @"OperationCount";
     return request;
 }
 
--(BOOL) hasRequestError:(ASIHTTPRequest *) request
-{
-    NSString *error = [request error] == nil?
-    ([request responseStatusCode] == 200?
-     nil:
-     [NSString stringWithFormat:@"Bad response: %d", [request responseStatusCode]]):
-    [[request error] localizedDescription];
-    if (error)
-    {
-        AZZLog(@"error fetching url: %@\n error:%@\n response:%@", [request originalURL], error, [request responseString]);
-        return YES;
-    }
-    else
-        return NO;
-    
-}
-
 -(void) beginRequest
 {
     self.numberOfRequests++;
@@ -366,5 +354,39 @@ static NSString* OperationCount = @"OperationCount";
     self.numberOfRequests--;
     
     [self checkSyncing];
+}
+
+- (NSError *)errorFromRequest:(ASIHTTPRequest *) request
+{
+    SBJsonParser *json;
+    
+    if ([request error])
+    {
+        AZZLog(@"error fetching url: %@\nerror:%@", [request originalURL], [request error]);
+        return NSErrorWithCode(ERROR_IPAPKA_SERVER);
+    }
+    else 
+    {
+        switch ([request responseStatusCode]) 
+        {
+            case 500:
+                AZZLog(@"error fetching url: %@\ncode:%d\nresponse:%@", [request originalURL], [request responseStatusCode], [request responseString]);
+                json = [[SBJsonParser alloc] init];
+                NSString *jsonString = [[NSString alloc] initWithData:[request responseData] encoding:NSUTF8StringEncoding];
+                NSDictionary *parsedResponse = [json objectWithString:jsonString error:nil];
+                [json release];
+                [jsonString release];
+                NSNumber *errorCode = [parsedResponse objectForKey:kErrorCode];
+                if (errorCode)
+                    return NSErrorWithCode(ERROR_IPAPKA_CONFLICT);
+                else
+                    return NSErrorWithCode(ERROR_IPAPKA_SERVER);
+            case 200:
+                return nil;
+            default:
+                AZZLog(@"error fetching url: %@\n code:%d\n response:%@", [request originalURL], [request responseStatusCode], [request responseString]);
+                return NSErrorWithCode(ERROR_IPAPKA_SERVER);
+        }        
+    }
 }
 @end

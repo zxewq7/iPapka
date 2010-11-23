@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "AppErrors.h"
 
 @class ASINetworkQueue, LNHttpRequest;
 @interface LNNetwork : NSObject 
@@ -25,16 +26,16 @@
 @property (assign) NSUInteger numberOfRequests;
 
 -(void) jsonRequestWithUrl:(NSString *)url 
-                andHandler:(void (^)(BOOL error, id response)) handler;
+                andHandler:(void (^)(NSError *error, id response)) handler;
 
 -(void) jsonPostRequestWithUrl:(NSString *)url 
                       postData:(NSDictionary *) postData 
                          files:(NSDictionary *) files 
-                    andHandler:(void (^)(BOOL error, id response)) handler;
+                    andHandler:(void (^)(NSError *error, id response)) handler;
 
 -(void) fileRequestWithUrl:(NSString *)url 
                       path:(NSString *)path 
-                andHandler:(void (^)(BOOL error, NSString* path)) handler;
+                andHandler:(void (^)(NSError *error, NSString* path)) handler;
 
 -(void) sync;
 -(void) run;

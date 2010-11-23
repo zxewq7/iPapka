@@ -46,7 +46,8 @@ static NSString *field_Attachments = @"files";
 static NSString *field_AttachmentName = @"name";
 static NSString *field_AttachmentPageCount = @"pageCount";
 static NSString *field_Links = @"links";
-static NSString *field_LinkTitle = @"info";
+static NSString *field_LinkInfo = @"info";
+static NSString *field_LinkType = @"type";
 static NSString *field_Status = @"status";
 static NSString *field_CommentAudio = @"audio";
 static NSString *field_Version = @"version";
@@ -179,7 +180,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         __block LNDocumentReader *blockSelf = self;
         
         [self jsonRequestWithUrl:url 
-                      andHandler:^(BOOL err, id response)
+                      andHandler:^(NSError *err, id response)
         {
             if (err)
                 return;
@@ -263,7 +264,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         {
             NSString *url = [NSString stringWithFormat:urlFetchDocumentFormat, uid];
             [self jsonRequestWithUrl:url 
-                          andHandler:^(BOOL err, id response)
+                          andHandler:^(NSError *err, id response)
              {
                  if (err)
                      blockSelf.hasError = NO; //ignore error
@@ -705,7 +706,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             
             link.uid = [dictLink objectForKey:field_Uid];
             
-            link.title = [dictLink objectForKey:field_LinkTitle];
+            link.title = [NSString stringWithFormat:@"%@ %@", [dictLink objectForKey:field_LinkType], [dictLink objectForKey:field_LinkInfo]];
             
             link.document = document;
             

@@ -20,7 +20,7 @@
 {
     __block LNSettingsReader *blockSelf = self;
     
-    [self jsonRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(BOOL err, id response)
+    [self jsonRequestWithUrl:[[self serverUrl] stringByAppendingString:@"/settings"] andHandler:^(NSError *err, id response)
     {
         if (err)
             return;
@@ -57,9 +57,9 @@
 
                 [blockSelf fileRequestWithUrl:[[blockSelf serverUrl] stringByAppendingString:blankLogoUrl]
                                          path:[blockSelf blankLogoPath]
-                                   andHandler:^(BOOL error, NSString* path)
+                                   andHandler:^(NSError *err1, NSString* path)
                                    {
-                                       if (error)
+                                       if (err1)
                                            [blockSelf removeBlankLogo];
                                        else
                                        {

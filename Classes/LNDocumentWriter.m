@@ -38,6 +38,7 @@ static NSString* kFieldManaged = @"hasControl";
 - (void) syncFile:(FileField *) file;
 - (NSString *)postFileUrl;
 - (NSString *)postFileField;
+- (void) discardDocument:(DocumentRoot *) document;
 @end
 
 
@@ -142,13 +143,19 @@ static NSString* kFieldManaged = @"hasControl";
     if (document.text)
         [dictDocument setObject:document.text forKey:kFieldText];
     
+    __block LNDocumentWriter *blockSelf = self;
+    
     [self jsonPostRequestWithUrl:self.postFileUrl
                         postData:[NSDictionary dictionaryWithObjectsAndKeys:dictDocument, kPostDataField, nil]
                            files:nil 
-                      andHandler:^(BOOL error, id response)
+                      andHandler:^(NSError *err, id response)
     {
-        if (error)
+        if (err)
+        {
+            if (isAppError(err, ERROR_IPAPKA_CONFLICT))
+                [blockSelf discardDocument:document];
             return;
+        }
         
         document.syncStatusValue = SyncStatusSynced;
         [[DataSource sharedDataSource] commit];
@@ -165,11 +172,15 @@ static NSString* kFieldManaged = @"hasControl";
 
     NSString *fileField;
     
+    DocumentRoot *document = nil;
+    
     if ([file isKindOfClass: [CommentAudio class]])
     {
         CommentAudio *audio = (CommentAudio *) file;
         
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:audio.document.uid, kFieldDocument,
+        document = (DocumentRoot *)audio.document;
+        
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:document.uid, kFieldDocument,
                             nil] 
                      forKey:kFieldParent];
 
@@ -178,11 +189,13 @@ static NSString* kFieldManaged = @"hasControl";
     }
     else if ([file isKindOfClass: [AttachmentPagePainting class]])
     {
-        AttachmentPagePainting *painting = (AttachmentPagePainting *) file;
+        AttachmentPage *page = ((AttachmentPagePainting *) file).page;
         
-        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:painting.page.attachment.document.uid, kFieldDocument,
-                                                                       painting.page.attachment.uid, kFieldFile,
-                                                                       painting.page.number,kFieldPage, nil] 
+        document = (DocumentRoot *)page.attachment.document;
+        
+        [jsonDict setObject:[NSDictionary dictionaryWithObjectsAndKeys:document.uid, kFieldDocument,
+                                                                       page.attachment.uid, kFieldFile,
+                                                                       page.number,kFieldPage, nil] 
                      forKey:kFieldParent];
         
         fileField = kFieldDrawing;
@@ -212,14 +225,21 @@ static NSString* kFieldManaged = @"hasControl";
     [jsonDict setObject:fileContent
                  forKey:fileField];
 
+    __block LNDocumentWriter *blockSelf = self;
     
     [self jsonPostRequestWithUrl:self.postFileUrl
                         postData:[NSDictionary dictionaryWithObjectsAndKeys:jsonDict, kPostDataField, nil]
                            files:[NSDictionary dictionaryWithObjectsAndKeys:file.path, self.postFileField, nil] 
-                      andHandler:^(BOOL error, id response)
+                      andHandler:^(NSError *err, id response)
      {
-         if (error)
+         if (err)
+         {
+             if (isAppError(err, ERROR_IPAPKA_CONFLICT))
+             {
+                 [blockSelf discardDocument:document];
+             }
              return;
+         }
          
          NSString *fileField;
          
@@ -245,7 +265,6 @@ static NSString* kFieldManaged = @"hasControl";
          file.version = version;
          file.syncStatusValue = SyncStatusSynced;
          [[DataSource sharedDataSource] commit];
-         
      }];  
 }
 
@@ -268,5 +287,9 @@ static NSString* kFieldManaged = @"hasControl";
     }
     
     return postFileField;
+}
+
+- (void) discardDocument:(DocumentRoot *) document
+{
 }
 @end

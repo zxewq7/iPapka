@@ -33,7 +33,7 @@ static NSString* kFieldMiddle = @"middle";
 
     __block LNPersonReader *blockSelf = self;
 
-    [self jsonRequestWithUrl:url andHandler:^(BOOL err, id response)
+    [self jsonRequestWithUrl:url andHandler:^(NSError *err, id response)
     {
         if (err)
             return;
