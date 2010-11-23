@@ -751,7 +751,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         LNDocumentWriter *documentWriter = [[LNDocumentWriter alloc] init];
         
         fetchRequest = [[NSFetchRequest alloc] init];
-        [fetchRequest setEntity:[NSEntityDescription entityForName:@"Document" inManagedObjectContext:managedObjectContext]];
+        [fetchRequest setEntity:self.documentEntityDescription];
         
         [fetchRequest setPredicate:[NSPredicate predicateWithFormat:@"syncStatus==%d", SyncStatusNeedSyncToServer]];
         
@@ -792,7 +792,7 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
         
         [pageNumberSortDescriptors release];
         
-//        [readers addObject:documentWriter];
+        [readers addObject:documentWriter];
         
         [readers makeObjectsPerformSelector:@selector(release)];
         
