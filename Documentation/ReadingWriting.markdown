@@ -39,7 +39,6 @@
 
 3. считывание файловых ресурсов с сервера.
 	* URL доступа к рисованию к странице документа: **protocol**://**hostName**/**databaseName**/document/**docId**/file/**fileId**/page/**pageNum**/drawing
-	* URL доступа к рисованию к странице связанного документа: **protocol**://**hostName**/**databaseName**/document/**docId**/link/**linkId**/file/**fileId**/page/**pageNum**/drawing
 	* URL доступа к аудио комментарию документа: **protocol**://**hostName**/**databaseName**/document/**docId**/audio
 
 
