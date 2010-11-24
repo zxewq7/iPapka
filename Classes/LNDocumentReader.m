@@ -63,7 +63,7 @@ static NSString *field_Drawing = @"drawing";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
-static NSString *url_FetchViewFormat     = @"%@/%@?ReadViewEntries&OutputFormat=json";
+static NSString *url_FetchViewFormat     = @"%@/%@/";
 static NSString *url_FetchDocumentFormat = @"%@/document/%@";
 
 static NSString *url_AttachmentFetchPaintingFormat = @"/document/%@/file/%@/page/%@/drawing";
