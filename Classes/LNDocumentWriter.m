@@ -171,6 +171,7 @@ static NSString* kFieldDate = @"date";
         if (docVersion == nil || contentVersion == nil)
         {
             AZZLog(@"error parsing response (docVersion or contentVersion is null): %@", response);
+            blockSelf.hasError = YES;
             return;
         }
         document.docVersion = docVersion;
@@ -222,6 +223,7 @@ static NSString* kFieldDate = @"date";
     else
     {
         AZZLog(@"Unknown file to sync: %@", [file class]);
+        self.hasError = YES;
         return;
     }
 
@@ -262,6 +264,7 @@ static NSString* kFieldDate = @"date";
          else
          {
              AZZLog(@"Unknown file type: %@", [file class]);
+             blockSelf.hasError = YES;
              return;
          }
          
@@ -272,6 +275,7 @@ static NSString* kFieldDate = @"date";
          if (docVersion == nil || (fileExists && fileVersion == nil))
          {
              AZZLog(@"error parsing response (docVersion or fileVersion is null): %@", response);
+             blockSelf.hasError = YES;
              return;
          }
          file.version = fileVersion;
