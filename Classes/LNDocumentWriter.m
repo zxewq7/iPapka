@@ -32,6 +32,7 @@ static NSString* kFieldAudio = @"audio";
 static NSString* kFieldDrawing = @"drawing";
 static NSString* kFieldManaged = @"hasControl";
 static NSString* kFieldDocVersion = @"docVersion";
+static NSString* kFieldContentVersion = @"contentVersion";
 static NSString* kFieldStatus = @"status";
 static NSString* kFieldDate = @"date";
 
@@ -163,7 +164,19 @@ static NSString* kFieldDate = @"date";
             return;
         }
         
+        NSString *contentVersion = [response valueForKey:kFieldContentVersion];
+        
+        NSString *docVersion = [response valueForKey:kFieldDocVersion];
+        
+        if (docVersion == nil || contentVersion == nil)
+        {
+            AZZLog(@"error parsing response (docVersion or contentVersion is null): %@", response);
+            return;
+        }
+        document.docVersion = docVersion;
+        document.contentVersion = contentVersion;
         document.syncStatusValue = SyncStatusSynced;
+        
         [[DataSource sharedDataSource] commit];
     }];  
 }
