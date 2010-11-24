@@ -261,7 +261,6 @@ json
 
 	{
 		"docVersion":"C32577E5:0040CB38",
-		"hasControl":true,
 		"status":"draft",
 		"text":"????????? ? ????????",
 		"id":"6664E64AE72E1F3CC32577E4004EA93F"
