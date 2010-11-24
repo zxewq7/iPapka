@@ -19,8 +19,8 @@
 считывание данных происходит в три этапа
 
 1. чтение списка документов из следующий очередей:
-	* обработанные документы: **protocol**://**hostName**/**databaseName**/archive
-	* необработанные документы: **protocol**://**hostName**/**databaseName**/inbox
+	* обработанные документы: **protocol**://**hostName**/**databaseName**/archive/
+	* необработанные документы: **protocol**://**hostName**/**databaseName**/inbox/
 		где:
 
 		* **protocol** - протокол работы с сервером (http или https)
