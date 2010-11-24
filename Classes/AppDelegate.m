@@ -78,8 +78,8 @@
                                nil];
     [defaultValues setObject:[NSKeyedArchiver archivedDataWithRootObject:defaultFolders] forKey:@"folders"];
     
-    [defaultValues setObject:@"ProcessedRest" forKey:@"serverDatabaseViewArchive"];
-    [defaultValues setObject:@"documents" forKey:@"serverDatabaseViewInbox"];
+    [defaultValues setObject:@"archive" forKey:@"serverDatabaseViewArchive"];
+    [defaultValues setObject:@"inbox" forKey:@"serverDatabaseViewInbox"];
     
     //Register the dictionary of defaults
     
