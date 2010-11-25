@@ -156,7 +156,6 @@ static NSString *AudioContext = @"AudioContext";
     
     [recordButton setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
     
-    
     recordButton.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | 
                                      UIViewAutoresizingFlexibleTopMargin |
                                      UIViewAutoresizingFlexibleWidth |
