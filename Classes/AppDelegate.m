@@ -35,16 +35,18 @@
                      [Folder folderWithName:@"Resolutions"
                             predicateString:@"(status == 0 || status == 1)"
                             sortDescriprors:[NSArray arrayWithObjects:
-                                             [[[NSSortDescriptor alloc] initWithKey:@"createdStripped" ascending:NO] autorelease], 
-                                             [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease], 
+                                             [[[NSSortDescriptor alloc] initWithKey:@"createdStripped" ascending:NO] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease],
                                              nil] 
                                  entityName:@"DocumentResolution"
                                    iconName:@"ButtonResolution.png"],
                      [Folder folderWithName:@"Signatures"
                             predicateString:@"(status == 0 || status == 1)"
                             sortDescriprors:[NSArray arrayWithObjects:
-                                             [[[NSSortDescriptor alloc] initWithKey:@"createdStripped" ascending:NO] autorelease], 
-                                             [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease], 
+                                             [[[NSSortDescriptor alloc] initWithKey:@"createdStripped" ascending:NO] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease],
                                              nil] 
                                  entityName:@"DocumentSignature"
                                    iconName:@"ButtonSignature.png"],
