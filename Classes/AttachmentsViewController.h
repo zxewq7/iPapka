@@ -16,10 +16,12 @@
     AttachmentPageViewController *currentPage;
     AttachmentPageViewController *nextPage;
 
-    Attachment           *attachment;
-    BOOL                        commenting;
-    PageControl         *pageControl;
-    PaintingToolsViewController *paintingTools;
+    Attachment                   *attachment;
+    BOOL                         commenting;
+    PageControl                  *pageControl;
+    PaintingToolsViewController  *paintingTools;
+    CGSize                       imageSize;
+    float                        zoomScale;
 }
 
 @property (nonatomic, retain)           Attachment            *attachment;

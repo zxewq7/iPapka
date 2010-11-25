@@ -15,8 +15,10 @@
 @property (readonly)          BOOL isModified;
 @property (nonatomic, retain) id<PaintingViewDelegate> paintingDelegate;
 @property (nonatomic, retain) UIColor *color;
+@property (readonly)          CGSize imageSize;
 
 - (void)displayImage:(UIImage *)image angle:(CGFloat) anAngle;
+
 - (void)setMaxMinZoomScalesForCurrentBounds;
 
 - (CGPoint) pointToCenterAfterRotation;

@@ -238,7 +238,7 @@
                 break;
         }
         
-        NSString *details;
+        NSString *details = nil;
         
         if ([self.document isKindOfClass:[DocumentResolution class]])
         {

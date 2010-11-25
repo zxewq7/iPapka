@@ -13,6 +13,11 @@
 @implementation ImageScrollView
 @synthesize painting, paintingDelegate, color, isModified;
 
+- (CGSize) imageSize
+{
+    return imageOriginalSize;
+}
+
 -(BOOL) isModified
 {
     return paintingView.isModified;
@@ -151,8 +156,11 @@
     [self addSubview:imageView];
     
     self.contentSize = imageOriginalSize;
+    
     [self setMaxMinZoomScalesForCurrentBounds];
+    
     self.zoomScale = self.minimumZoomScale;
+    
     if (currentAngle != anAngle) 
     {
         currentAngle = anAngle;
