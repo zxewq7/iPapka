@@ -11,7 +11,6 @@
 
 
 
-
 @interface FileFieldID : NSManagedObjectID {}
 @end
 
@@ -22,12 +21,6 @@
 + (NSString*)entityName;
 + (NSEntityDescription*)entityInManagedObjectContext:(NSManagedObjectContext*)moc_;
 - (FileFieldID*)objectID;
-
-
-
-@property (nonatomic, retain) NSString *name;
-
-//- (BOOL)validateName:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -49,12 +42,6 @@
 
 
 
-@property (nonatomic, retain) NSString *version;
-
-//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSNumber *syncStatus;
 
 @property short syncStatusValue;
@@ -62,6 +49,12 @@
 - (void)setSyncStatusValue:(short)value_;
 
 //- (BOOL)validateSyncStatus:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSString *version;
+
+//- (BOOL)validateVersion:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -73,10 +66,6 @@
 @end
 
 @interface _FileField (CoreDataGeneratedPrimitiveAccessors)
-
-- (NSString*)primitiveName;
-- (void)setPrimitiveName:(NSString*)value;
-
 
 - (NSDate*)primitiveModified;
 - (void)setPrimitiveModified:(NSDate*)value;
@@ -90,15 +79,15 @@
 - (void)setPrimitiveUrl:(NSString*)value;
 
 
-- (NSString*)primitiveVersion;
-- (void)setPrimitiveVersion:(NSString*)value;
-
-
 - (NSNumber*)primitiveSyncStatus;
 - (void)setPrimitiveSyncStatus:(NSNumber*)value;
 
 - (short)primitiveSyncStatusValue;
 - (void)setPrimitiveSyncStatusValue:(short)value_;
+
+
+- (NSString*)primitiveVersion;
+- (void)setPrimitiveVersion:(NSString*)value;
 
 
 

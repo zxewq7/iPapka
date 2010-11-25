@@ -31,13 +31,6 @@
 
 
 
-@dynamic name;
-
-
-
-
-
-
 @dynamic modified;
 
 
@@ -53,13 +46,6 @@
 
 
 @dynamic url;
-
-
-
-
-
-
-@dynamic version;
 
 
 
@@ -87,6 +73,13 @@
 - (void)setPrimitiveSyncStatusValue:(short)value_ {
 	[self setPrimitiveSyncStatus:[NSNumber numberWithShort:value_]];
 }
+
+
+
+
+
+@dynamic version;
+
 
 
 
