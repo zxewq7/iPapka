@@ -135,11 +135,11 @@ static NSString *AudioContext = @"AudioContext";
     
     CGRect recordButtonFrame = recordButton.frame;
     
-    recordButtonFrame.size.width = viewFrame.size.width/2;
+    recordButtonFrame.size.width = round(viewFrame.size.width / 2);
     
     recordButtonFrame.origin.x = viewFrame.size.width - recordButtonFrame.size.width - 10.0f;
     
-    recordButtonFrame.origin.y = (viewFrame.size.height - recordButtonFrame.size.height)/2;
+    recordButtonFrame.origin.y = round((viewFrame.size.height - recordButtonFrame.size.height) / 2);
     
     recordButton.frame = recordButtonFrame;
 
@@ -180,11 +180,20 @@ static NSString *AudioContext = @"AudioContext";
     
     [removeButton sizeToFit];
     
-    removeButton.frame = recordButtonFrame;
-
+    CGRect removeButtonFrame = removeButton.frame;
+    
+    removeButtonFrame.origin.x = viewFrame.size.width - removeButtonFrame.size.width - 10.0f;
+    
+    removeButtonFrame.origin.y = round((viewFrame.size.height - removeButtonFrame.size.height) / 2);
+    
+        //inset
+    removeButtonFrame.size.width += 5.0f;
+    
+    removeButton.frame = removeButtonFrame;
+    
     CGSize imageRemoveSize = imageRemove.size;
     
-    removeButton.imageEdgeInsets = UIEdgeInsetsMake(0, recordButtonFrame.size.width - imageRemoveSize.width, 0, 0);
+    removeButton.imageEdgeInsets = UIEdgeInsetsMake(0, removeButtonFrame.size.width - imageRemoveSize.width, 0, 0);
     removeButton.titleEdgeInsets = UIEdgeInsetsMake(0, -(imageRemoveSize.width + 0.5f), 0, imageRemoveSize.width + 5.0f);
 
     [removeButton setTitleColor:[UIColor colorWithRed:0.431 green:0.510 blue:0.655 alpha:1.0] forState:UIControlStateNormal];
