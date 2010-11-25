@@ -265,7 +265,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                 
                 if (!([changedValues objectForKey: @"isRead"] != nil && numberOfProperties == 1)) //ignore isRead
                     sourceDocument = (DocumentRoot *)object;
-                
+                else
+                    ((DocumentRoot *)object).syncStatusValue = SyncStatusNeedSyncToServer;
+
             }
             else if (numberOfProperties > 0) //other documents
             {
@@ -289,8 +291,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
                     sourceDocument.statusValue = DocumentStatusDraft;
 
                 sourceDocument.modified = [NSDate date];
-                
-                sourceDocument.syncStatusValue = SyncStatusNeedSyncToServer;
             }
         }     
     }
