@@ -448,6 +448,10 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
             
             audio.document = document;
+            
+            document.received = [NSDate date];
+            
+            document.receivedStripped = [document.received stripTime];
         }
         
         document.docVersion = documentVersion;
@@ -458,10 +462,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         {
             document.contentVersion = contentVersion;
             
-            document.received = [NSDate date];
-            
-            document.receivedStripped = [document.received stripTime];
-
             document.modified = dateModified;
             
             NSString *dateString = [parsedDocument objectForKey:field_Date];
