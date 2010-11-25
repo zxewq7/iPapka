@@ -18,6 +18,7 @@
 #import "AttachmentPagePainting.h"
 #import "DocumentResolutionParent.h"
 #import "DocumentRoot.h"
+#import "NSDate+Additions.h"
 
 static NSString *view_RootEntry = @"viewentry";
 static NSString *view_EntryUid = @"@unid";
@@ -32,7 +33,6 @@ static NSString *field_Title       = @"subject";
 static NSString *field_Author      = @"author";
 static NSString *field_Modified    = @"modified";
 static NSString *field_Editable    = @"editable";
-static NSString *field_Created    = @"created";
 static NSString *field_Subdocument = @"document";
 static NSString *field_Deadline    = @"deadline";
 static NSString *field_RegistrationDate    = @"regDate";
@@ -408,16 +408,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             return;
         }
 
-        NSString *dateCreatedString = [parsedDocument objectForKey:field_Created];
-        
-        NSDate *dateCreated;
-        
-        if (!dateCreatedString || !(dateCreated = [parseFormatterDst dateFromString:dateCreatedString]))
-        {
-            AZZLog(@"unknown document date created, document skipped: %@", uid);
-            return;
-        }
-        
         NSString *documentVersion = [parsedDocument objectForKey:field_DocVersion];
         
         if (!documentVersion)
@@ -466,16 +456,11 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         
         if (![document.contentVersion isEqualToString:contentVersion])
         {
-            NSCalendar *calendar = [NSCalendar currentCalendar];
-            unsigned unitFlags = NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit;
-            NSDateComponents *comps;
-            
             document.contentVersion = contentVersion;
             
-            document.created = dateCreated;
+            document.received = [NSDate date];
             
-            comps = [calendar components:unitFlags fromDate:document.created];
-            document.createdStripped = [calendar dateFromComponents:comps];
+            document.receivedStripped = [document.received stripTime];
 
             document.modified = dateModified;
             
@@ -485,8 +470,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             
             document.date = date;
 
-            comps = [calendar components:unitFlags fromDate:document.date];
-            document.dateStripped = [calendar dateFromComponents:comps];
+            document.dateStripped = [document.date stripTime];
 
             document.isEditable = [parsedDocument objectForKey:field_Editable];
 

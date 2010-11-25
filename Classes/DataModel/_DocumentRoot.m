@@ -38,14 +38,7 @@
 
 
 
-@dynamic createdStripped;
-
-
-
-
-
-
-@dynamic created;
+@dynamic receivedStripped;
 
 
 
@@ -67,6 +60,13 @@
 
 
 @dynamic modified;
+
+
+
+
+
+
+@dynamic received;
 
 
 

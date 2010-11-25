@@ -254,7 +254,7 @@
             DocumentSignature *signature = (DocumentSignature *) self.document;
             if ([signature.correspondents count])
             {
-                details = [NSString stringWithFormat:@"%@ %@, %@",  NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.created], [signature.correspondents componentsJoinedByString:@", "]];
+                details = [NSString stringWithFormat:@"%@ %@, %@",  NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.received], [signature.correspondents componentsJoinedByString:@", "]];
             }
         }
         else

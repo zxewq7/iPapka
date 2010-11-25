@@ -7,8 +7,8 @@
 @class Person;
 @class DocumentResolutionParent;
 
-@class NSObject;
 
+@class NSObject;
 
 
 
@@ -26,15 +26,15 @@
 
 
 
-@property (nonatomic, retain) NSObject *performersOrdering;
-
-//- (BOOL)validatePerformersOrdering:(id*)value_ error:(NSError**)error_;
-
-
-
 @property (nonatomic, retain) NSDate *regDate;
 
 //- (BOOL)validateRegDate:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSObject *performersOrdering;
+
+//- (BOOL)validatePerformersOrdering:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -84,12 +84,12 @@
 
 @interface _DocumentResolution (CoreDataGeneratedPrimitiveAccessors)
 
-- (NSObject*)primitivePerformersOrdering;
-- (void)setPrimitivePerformersOrdering:(NSObject*)value;
-
-
 - (NSDate*)primitiveRegDate;
 - (void)setPrimitiveRegDate:(NSDate*)value;
+
+
+- (NSObject*)primitivePerformersOrdering;
+- (void)setPrimitivePerformersOrdering:(NSObject*)value;
 
 
 - (NSNumber*)primitiveIsManaged;

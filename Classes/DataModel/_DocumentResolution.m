@@ -31,14 +31,14 @@
 
 
 
-@dynamic performersOrdering;
-
-
-
-
-
-
 @dynamic regDate;
+
+
+
+
+
+
+@dynamic performersOrdering;
 
 
 

@@ -189,6 +189,7 @@
 		81C47F9C125E397300F60C49 /* PaletteRedSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F90125E397300F60C49 /* PaletteRedSelected.png */; };
 		81C47F9D125E397300F60C49 /* PaletteYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F91125E397300F60C49 /* PaletteYellow.png */; };
 		81C47F9E125E397300F60C49 /* PaletteYellowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F92125E397300F60C49 /* PaletteYellowSelected.png */; };
+		81C8EB74129E8E9F004169D8 /* NSDate+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C8EB73129E8E9F004169D8 /* NSDate+Additions.m */; };
 		81C9FF7E128EC4A50017790A /* DocumentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C9FF7D128EC4A50017790A /* DocumentInfoView.m */; };
 		81D1A97F1274A81D00D43A92 /* ButtonRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D1A97E1274A81D00D43A92 /* ButtonRed.png */; };
 		81D3EBD21258BEA2002FCCDC /* OneRow.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D3EBD11258BEA2002FCCDC /* OneRow.png */; };
@@ -704,6 +705,8 @@
 		81C47F90125E397300F60C49 /* PaletteRedSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteRedSelected.png; sourceTree = "<group>"; };
 		81C47F91125E397300F60C49 /* PaletteYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteYellow.png; sourceTree = "<group>"; };
 		81C47F92125E397300F60C49 /* PaletteYellowSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = PaletteYellowSelected.png; sourceTree = "<group>"; };
+		81C8EB72129E8E9F004169D8 /* NSDate+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Additions.h"; sourceTree = "<group>"; };
+		81C8EB73129E8E9F004169D8 /* NSDate+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Additions.m"; sourceTree = "<group>"; };
 		81C9FF7C128EC4A50017790A /* DocumentInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoView.h; sourceTree = "<group>"; };
 		81C9FF7D128EC4A50017790A /* DocumentInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoView.m; sourceTree = "<group>"; };
 		81D1A97E1274A81D00D43A92 /* ButtonRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRed.png; sourceTree = "<group>"; };
@@ -1039,6 +1042,8 @@
 				8165420712379B3B008FC80F /* NSUserDefaults+Additions.m */,
 				8165420E12379B3B008FC80F /* UIButton+Additions.h */,
 				8165420F12379B3B008FC80F /* UIButton+Additions.m */,
+				81C8EB72129E8E9F004169D8 /* NSDate+Additions.h */,
+				81C8EB73129E8E9F004169D8 /* NSDate+Additions.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1629,6 +1634,7 @@
 				81467BB7129AAE6B001D79C7 /* DocumentWithResources.m in Sources */,
 				8102400B129BBF5E005BD716 /* DocumentRoot.m in Sources */,
 				81024155129BCDF2005BD716 /* _DocumentRoot.m in Sources */,
+				81C8EB74129E8E9F004169D8 /* NSDate+Additions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

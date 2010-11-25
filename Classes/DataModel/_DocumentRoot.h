@@ -40,15 +40,9 @@
 
 
 
-@property (nonatomic, retain) NSDate *createdStripped;
+@property (nonatomic, retain) NSDate *receivedStripped;
 
-//- (BOOL)validateCreatedStripped:(id*)value_ error:(NSError**)error_;
-
-
-
-@property (nonatomic, retain) NSDate *created;
-
-//- (BOOL)validateCreated:(id*)value_ error:(NSError**)error_;
+//- (BOOL)validateReceivedStripped:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -67,6 +61,12 @@
 @property (nonatomic, retain) NSDate *modified;
 
 //- (BOOL)validateModified:(id*)value_ error:(NSError**)error_;
+
+
+
+@property (nonatomic, retain) NSDate *received;
+
+//- (BOOL)validateReceived:(id*)value_ error:(NSError**)error_;
 
 
 
@@ -153,12 +153,8 @@
 - (void)setPrimitiveAuthor:(NSString*)value;
 
 
-- (NSDate*)primitiveCreatedStripped;
-- (void)setPrimitiveCreatedStripped:(NSDate*)value;
-
-
-- (NSDate*)primitiveCreated;
-- (void)setPrimitiveCreated:(NSDate*)value;
+- (NSDate*)primitiveReceivedStripped;
+- (void)setPrimitiveReceivedStripped:(NSDate*)value;
 
 
 - (NSDate*)primitiveDate;
@@ -171,6 +167,10 @@
 
 - (NSDate*)primitiveModified;
 - (void)setPrimitiveModified:(NSDate*)value;
+
+
+- (NSDate*)primitiveReceived;
+- (void)setPrimitiveReceived:(NSDate*)value;
 
 
 - (NSString*)primitiveText;

@@ -206,9 +206,9 @@ static NSString* SyncingContext = @"SyncingContext";
         DocumentSignature *signature = (DocumentSignature *)doc;
         
         if ([signature.correspondents count])
-            details1 = [NSString stringWithFormat:@"%@ %@, %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.created], [signature.correspondents componentsJoinedByString:@", "]];
+            details1 = [NSString stringWithFormat:@"%@ %@, %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.received], [signature.correspondents componentsJoinedByString:@", "]];
         else
-            details1 = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.created]];
+            details1 = [NSString stringWithFormat:@"%@ %@", NSLocalizedString(@"from", @"from"), [dateFormatter stringFromDate: signature.received]];
     }
     else 
         NSAssert1(NO, @"invalid class %@", [doc class]);

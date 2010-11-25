@@ -35,8 +35,8 @@
                      [Folder folderWithName:@"Resolutions"
                             predicateString:@"(status == 0 || status == 1)"
                             sortDescriprors:[NSArray arrayWithObjects:
-                                             [[[NSSortDescriptor alloc] initWithKey:@"createdStripped" ascending:NO] autorelease],
-                                             [[[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"receivedStripped" ascending:NO] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"received" ascending:NO] autorelease],
                                              [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease],
                                              nil] 
                                  entityName:@"DocumentResolution"
@@ -44,8 +44,8 @@
                      [Folder folderWithName:@"Signatures"
                             predicateString:@"(status == 0 || status == 1)"
                             sortDescriprors:[NSArray arrayWithObjects:
-                                             [[[NSSortDescriptor alloc] initWithKey:@"createdStripped" ascending:NO] autorelease],
-                                             [[[NSSortDescriptor alloc] initWithKey:@"created" ascending:NO] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"receivedStripped" ascending:NO] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"received" ascending:NO] autorelease],
                                              [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease],
                                              nil] 
                                  entityName:@"DocumentSignature"
