@@ -50,7 +50,6 @@ static NSString *field_LinkInfo = @"info";
 static NSString *field_LinkType = @"type";
 static NSString *field_Status = @"status";
 static NSString *field_CommentAudio = @"audio";
-static NSString *field_Version = @"version";
 static NSString *field_DocVersion = @"docVersion";
 static NSString *field_ContentVersion = @"contentVersion";
 static NSString *field_Correspondents = @"corrs";
@@ -629,10 +628,9 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
     CommentAudio *audio = document.audio;
     if (audioVersion)
     {
-        NSString *version = [dictionary valueForKey:field_Version];
-        if (!([audio.version isEqualToString: version]))
+        if (!([audio.version isEqualToString: audioVersion]))
         {
-            audio.version = version;
+            audio.version = audioVersion;
             audio.url = [NSString stringWithFormat:url_AudioCommentFormat, document.uid];
             audio.syncStatusValue = SyncStatusNeedSyncFromServer;
         }
