@@ -15,6 +15,7 @@
 @interface LNDocumentWriter : LNNetwork<NSFetchedResultsControllerDelegate> 
 {
     NSDateFormatter *parseFormatterSimple;
+    NSDateFormatter *parseFormatterDst;
     NSString        *postFileUrl;
     NSString        *postFileField;
     NSFetchedResultsController *unsyncedDocuments;

@@ -52,6 +52,10 @@ static NSString* kFieldEditable = @"date";
 - (id) init
 {
     if ((self = [super init])) {
+        parseFormatterDst = [[NSDateFormatter alloc] init];
+            //2010.11.25T13:19:42Z+0000
+        [parseFormatterDst setDateFormat:@"yyyy.MM.dd'T'HH:mm:ss'Z'Z"];
+        
         parseFormatterSimple = [[NSDateFormatter alloc] init];
         //20100811
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
@@ -80,6 +84,8 @@ static NSString* kFieldEditable = @"date";
 - (void)dealloc 
 {
     [parseFormatterSimple release]; parseFormatterSimple = nil;
+    
+    [parseFormatterDst release]; parseFormatterDst = nil;
     
     [postFileUrl release]; postFileUrl = nil;
     
@@ -111,11 +117,11 @@ static NSString* kFieldEditable = @"date";
             break;
         case DocumentStatusAccepted:
             status = @"accepted";
-            [dictDocument setObject:document.date forKey:kFieldDate];
+            [dictDocument setObject:[parseFormatterDst stringFromDate:document.date] forKey:kFieldDate];
             break;
         case DocumentStatusDeclined:
             status = @"rejected";
-            [dictDocument setObject:document.date forKey:kFieldDate];
+            [dictDocument setObject:[parseFormatterDst stringFromDate:document.date] forKey:kFieldDate];
             break;
         default:
             AZZLog(@"unknown status %d dor document %@", document.statusValue, document.uid);

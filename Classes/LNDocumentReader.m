@@ -119,8 +119,8 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
                                                    attributes:nil error:nil]; 
 
         parseFormatterDst = [[NSDateFormatter alloc] init];
-            //20100811T183249,89+04
-        [parseFormatterDst setDateFormat:@"yyyyMMdd'T'HHmmss,S"];
+            //2010.11.25T13:19:42Z+0000
+        [parseFormatterDst setDateFormat:@"yyyy.MM.dd'T'HH:mm:ss'Z'Z"];
         parseFormatterSimple = [[NSDateFormatter alloc] init];
             //20100811
         [parseFormatterSimple setDateFormat:@"yyyyMMdd"];
