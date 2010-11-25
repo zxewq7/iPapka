@@ -43,6 +43,7 @@ static NSString* kFieldEditable = @"editable";
 - (NSString *)postFileUrl;
 - (NSString *)postFileField;
 - (void) discardDocument:(DocumentRoot *) document;
+- (void) syncDocuments;
 @end
 
 
@@ -71,14 +72,13 @@ static NSString* kFieldEditable = @"editable";
     if (![unsyncedFiles performFetch:&error])
 		NSAssert1(error == nil, @"Unhandled error executing unsynced files: %@", [error localizedDescription]);
     
-    for (FileField *file in [unsyncedFiles fetchedObjects])
-        [self syncFile:file];
-
-    if (![unsyncedDocuments performFetch:&error])
-		NSAssert1(error == nil, @"Unhandled error executing unsynced documents: %@", [error localizedDescription]);
-
-    for (DocumentRoot *document in [unsyncedDocuments fetchedObjects])
-        [self syncDocument:document];
+    [resourcesToSync release];
+    
+    resourcesToSync = [NSMutableArray arrayWithArray:[unsyncedFiles fetchedObjects]];
+    
+    [resourcesToSync retain];
+    
+    [self syncFile:[resourcesToSync lastObject]];
 }
 
 - (void)dealloc 
@@ -92,7 +92,10 @@ static NSString* kFieldEditable = @"editable";
     [postFileField release]; postFileField = nil;
     
     self.unsyncedDocuments = nil;
+    
     self.unsyncedFiles = nil;
+    
+    [resourcesToSync release]; resourcesToSync = nil;
     
     [super dealloc];
 }
@@ -194,6 +197,12 @@ static NSString* kFieldEditable = @"editable";
 
 - (void) syncFile:(FileField *) file
 {
+    if (!file)
+    {
+        [self syncDocuments];
+        return;
+    }
+    
     NSMutableDictionary *jsonDict = [NSMutableDictionary dictionaryWithCapacity:4];
 
     NSFileManager *df = [NSFileManager defaultManager];
@@ -256,12 +265,17 @@ static NSString* kFieldEditable = @"editable";
                            files:[NSDictionary dictionaryWithObjectsAndKeys:file.path, self.postFileField, nil] 
                       andHandler:^(NSError *err, id response)
      {
+         [blockSelf->resourcesToSync removeLastObject];
+         
+         FileField *nextFile = [resourcesToSync lastObject];
+         
          if (err)
          {
              if (isAppError(err, ERROR_IPAPKA_CONFLICT))
              {
                  [blockSelf discardDocument:document];
              }
+             [blockSelf syncFile:nextFile];
              return;
          }
          
@@ -292,6 +306,8 @@ static NSString* kFieldEditable = @"editable";
          file.syncStatusValue = SyncStatusSynced;
          document.docVersion = docVersion;
          [[DataSource sharedDataSource] commit];
+         
+         [blockSelf syncFile:nextFile];
      }];  
 }
 
@@ -319,5 +335,16 @@ static NSString* kFieldEditable = @"editable";
 - (void) discardDocument:(DocumentRoot *) document
 {
     
+}
+
+- (void) syncDocuments
+{
+    NSError *error = nil;
+    
+    if (![unsyncedDocuments performFetch:&error])
+        NSAssert1(error == nil, @"Unhandled error executing unsynced documents: %@", [error localizedDescription]);
+    
+    for (DocumentRoot *document in [unsyncedDocuments fetchedObjects])
+        [self syncDocument:document];
 }
 @end

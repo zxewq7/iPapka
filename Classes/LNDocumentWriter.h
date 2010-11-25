@@ -20,6 +20,7 @@
     NSString        *postFileField;
     NSFetchedResultsController *unsyncedDocuments;
     NSFetchedResultsController *unsyncedFiles;
+    NSMutableArray         *resourcesToSync;
 }
 
 @property (nonatomic, retain) NSFetchedResultsController *unsyncedDocuments;
