@@ -21,6 +21,7 @@ typedef enum _TapPosition{
 @interface AttachmentsViewController(Private)
 - (TapPosition) tapPosition:(CGPoint) location;
 - (void) setPages:(NSInteger) direction;
+- (void) setPageZoomScale:(AttachmentPageViewController *) pageController;
 @end
 
 @implementation AttachmentsViewController
@@ -74,6 +75,10 @@ typedef enum _TapPosition{
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    imageSize = CGSizeZero;
+    zoomScale = 0.f;
+
     
     self.view.autoresizesSubviews = YES;
     
@@ -277,9 +282,10 @@ typedef enum _TapPosition{
 
     return TapPositionMiddle;
 }
+
 - (void) setPages:(NSInteger) direction
 {
-    //cancel all paintings
+        //cancel all paintings
     [paintingTools cancel];
     
     NSUInteger numberOfPages = pageControl.numberOfPages;
@@ -287,6 +293,9 @@ typedef enum _TapPosition{
     
     if (0 <= currentIndex && currentIndex < numberOfPages)
     {
+        zoomScale = currentPage.zoomScale;
+        imageSize = currentPage.imageSize;
+        
         if (nextPage.page && currentIndex == nextPage.page.number.integerValue)
         {
             AttachmentPageViewController *swapController = currentPage;
@@ -309,9 +318,22 @@ typedef enum _TapPosition{
         nextPage.page = nil;
     }
     
+    [self setPageZoomScale:currentPage];
+    [self setPageZoomScale:nextPage];
+    
     nextPage.view.hidden = YES;
     currentPage.view.hidden = NO;
     
     paintingTools.view.hidden = !currentPage.page.isEditable;
+}
+- (void) setPageZoomScale:(AttachmentPageViewController *) pageController
+{
+        //determine optimal zoomScale
+    CGFloat widthDifference = imageSize.width * 0.1;
+    CGSize currentImageSize = pageController.imageSize;
+    
+    if ( ((imageSize.width - widthDifference) <= currentImageSize.width) &&
+        ((imageSize.width + widthDifference) >= currentImageSize.width))
+        pageController.zoomScale = zoomScale;    
 }
 @end

@@ -24,10 +24,26 @@
 @dynamic pen, stamper, eraser, marker, angle;
 @dynamic color;
 
+- (CGSize) imageSize
+{
+    return imageView.imageSize;
+}
+
+- (CGFloat) zoomScale
+{
+    return imageView.zoomScale;
+}
+
+- (void) setZoomScale:(float) zoomScale
+{
+    [imageView setZoomScale:zoomScale animated:NO];
+    [imageView setContentOffset: CGPointZero animated:NO];
+}
+
 - (void)setPage:(AttachmentPage *)aPage
 {
     [self saveContent];
-
+    
     if (page != aPage)
     {
         [page release];

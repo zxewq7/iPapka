@@ -16,14 +16,17 @@
     ImageScrollView *imageView;
 }
 
-@property (nonatomic, retain) AttachmentPage       *page;
-@property (nonatomic)         BOOL              pen;
-@property (nonatomic)         BOOL              marker;
-@property (nonatomic)         BOOL              eraser;
-@property (nonatomic)         BOOL              stamper;
-@property (nonatomic)         CGFloat           angle;
-@property (nonatomic, retain) UIColor           *color;
+@property (nonatomic, retain) AttachmentPage *page;
+@property (nonatomic)         BOOL           pen;
+@property (nonatomic)         BOOL           marker;
+@property (nonatomic)         BOOL           eraser;
+@property (nonatomic)         BOOL           stamper;
+@property (nonatomic)         CGFloat        angle;
+@property (nonatomic, retain) UIColor        *color;
+@property (readonly)          CGSize         imageSize;
+@property (nonatomic)         float          zoomScale;
 
 - (void) setCommenting:(BOOL) state;
 - (void) saveContent;
+
 @end
