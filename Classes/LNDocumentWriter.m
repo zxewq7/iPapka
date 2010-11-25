@@ -35,6 +35,7 @@ static NSString* kFieldDocVersion = @"docVersion";
 static NSString* kFieldContentVersion = @"contentVersion";
 static NSString* kFieldStatus = @"status";
 static NSString* kFieldDate = @"date";
+static NSString* kFieldEditable = @"date";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(DocumentRoot *) document;
@@ -168,15 +169,18 @@ static NSString* kFieldDate = @"date";
         
         NSString *docVersion = [response valueForKey:kFieldDocVersion];
         
-        if (docVersion == nil || contentVersion == nil)
+        NSNumber *editable = [response valueForKey:kFieldEditable];
+        
+        if (docVersion == nil || contentVersion == nil || editable == nil)
         {
-            AZZLog(@"error parsing response (docVersion or contentVersion is null): %@", response);
+            AZZLog(@"error parsing response (editable, docVersion or contentVersion is null): %@", response);
             blockSelf.hasError = YES;
             return;
         }
         document.docVersion = docVersion;
         document.contentVersion = contentVersion;
         document.syncStatusValue = SyncStatusSynced;
+        document.isEditable = editable;
         
         [[DataSource sharedDataSource] commit];
     }];  
