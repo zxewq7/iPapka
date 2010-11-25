@@ -264,8 +264,6 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
             {
                 
                 if (!([changedValues objectForKey: @"isRead"] != nil && numberOfProperties == 1)) //ignore isRead
-                    sourceDocument = (DocumentRoot *)object;
-                else
                     ((DocumentRoot *)object).syncStatusValue = SyncStatusNeedSyncToServer;
 
             }
