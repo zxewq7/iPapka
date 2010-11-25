@@ -857,7 +857,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     backButton.hidden = YES;
     
-    [self setCanEdit: ((self.document.statusValue == DocumentStatusDraft || self.document.statusValue == DocumentStatusNew))];
+    [self setCanEdit: document.isEditableValue];
 }
 
 - (void) findAndSetDocumentInFolder
