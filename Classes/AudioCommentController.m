@@ -415,7 +415,7 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void) stopTimer
 {
-    [timer invalidate]; [timer release]; timer = nil;
+    [timer invalidate]; timer = nil;
 }
 
 -(void) updateDuration:(NSTimer *)timer
