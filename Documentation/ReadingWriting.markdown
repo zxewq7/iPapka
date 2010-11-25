@@ -44,6 +44,7 @@
 	* URL доступа к рисованию к странице документа: **protocol**://**hostName**/**databaseName**/document/**docId**/file/**fileId**/page/**pageNum**/drawing
 	* URL доступа к аудио комментарию документа: **protocol**://**hostName**/**databaseName**/document/**docId**/audio
 
+При каждом получении документа с сервера дата получения документа должна устанавливаться в значение текущей даты и времени.
 
 ##Запись данных на сервер##
 
