@@ -170,14 +170,9 @@
     if (![documents performFetch:&error])
         NSAssert1(NO, @"Unhandled error executing count unread document: %@", [error localizedDescription]);
 
-    NSUInteger sectionsCount = [[documents sections] count];
-    
-    for (NSUInteger sectionIndex = 0; sectionIndex < sectionsCount; sectionIndex++)
-    {
-        id <NSFetchedResultsSectionInfo> sectionInfo = [[documents sections] objectAtIndex:sectionIndex];
-        if ([sectionInfo numberOfObjects])
-            return [documents objectAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:sectionIndex]];
-    }
+    NSArray *objects = [documents fetchedObjects];
+    if ([objects count])
+        return [objects objectAtIndex:0];
     
     return nil;
 }
