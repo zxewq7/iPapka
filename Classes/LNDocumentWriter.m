@@ -288,7 +288,7 @@ static NSString* kFieldEditable = @"editable";
              blockSelf.hasError = YES;
              return;
          }
-         file.version = fileVersion;
+         file.version = [fileVersion isKindOfClass:[NSNull class]]?nil:fileVersion;
          file.syncStatusValue = SyncStatusSynced;
          document.docVersion = docVersion;
          [[DataSource sharedDataSource] commit];
