@@ -35,7 +35,7 @@ static NSString* kFieldDocVersion = @"docVersion";
 static NSString* kFieldContentVersion = @"contentVersion";
 static NSString* kFieldStatus = @"status";
 static NSString* kFieldDate = @"date";
-static NSString* kFieldEditable = @"date";
+static NSString* kFieldEditable = @"editable";
 
 @interface LNDocumentWriter(Private)
 - (void) syncDocument:(DocumentRoot *) document;
