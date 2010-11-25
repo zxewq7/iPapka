@@ -27,7 +27,7 @@
 
 - (id)initWithContainer:(BWOrderedManagedObject*)inContainer key:(NSString*)inKey
 {
-	if (self = [super init])
+	if ((self = [super init]))
 	{
 		container = [inContainer retain];
 		key = [inKey copy];
@@ -104,7 +104,7 @@ NSString* BWOrderedChangeContext = @"BWOrderedChangeContext";
 	NSString*			relationshipKey;
 
 	enumerator = [[self orderedKeys] objectEnumerator];
-	while (relationshipKey = [enumerator nextObject]) 
+	while ((relationshipKey = [enumerator nextObject])) 
 	{
 		[self addObserver:self forKeyPath:relationshipKey options:NSKeyValueObservingOptionNew | NSKeyValueObservingOptionOld context:BWOrderedChangeContext];
 	}
@@ -134,7 +134,7 @@ NSString* BWOrderedChangeContext = @"BWOrderedChangeContext";
 	NSError*		error = nil;
 
 	enumerator = [[self orderedKeys] objectEnumerator];
-	while (key = [enumerator nextObject]) 
+	while ((key = [enumerator nextObject])) 
 	{
 		NSArray*	orderedObjects = [self orderedValueForKey:key];
 		
@@ -161,7 +161,7 @@ NSString* BWOrderedChangeContext = @"BWOrderedChangeContext";
 	NSString*			key;
 
 	enumerator = [[[self entity] relationshipsByName] keyEnumerator];
-	while (key = [enumerator nextObject]) 
+	while ((key = [enumerator nextObject])) 
 	{
 		NSString* orderingKey = [self orderingKeyForRelationshipKey:key];
 		
@@ -305,7 +305,7 @@ NSString* BWOrderedChangeContext = @"BWOrderedChangeContext";
 		if ([addedObjects isEqual:[NSNull null]]  || ([addedObjects respondsToSelector:@selector(isFault)] && [addedObjects performSelector:@selector(isFault)]))
 			addedObjects = nil;
 		enumerator = [removedObjects objectEnumerator];
-		while (managedObject = [enumerator nextObject]) 
+		while ((managedObject = [enumerator nextObject])) 
 		{
 			//If a set<Key>: method was called, it's possible for an object to be both in the
 			//addedObjects and removedObjects sets, in which case we just ignore it.
@@ -316,7 +316,7 @@ NSString* BWOrderedChangeContext = @"BWOrderedChangeContext";
 			}
 		}
 		enumerator = [addedObjects objectEnumerator];
-		while (managedObject = [enumerator nextObject])
+		while ((managedObject = [enumerator nextObject]))
 		{
 			//If a set<Key>: method was called, it's possible for an object to be both in the
 			//addedObjects and removedObjects sets, in which case we just ignore it.

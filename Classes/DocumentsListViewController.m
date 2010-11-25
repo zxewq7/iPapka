@@ -9,7 +9,7 @@
 #import "DocumentsListViewController.h"
 #import "DataSource.h"
 #import "DocumentRoot.h"
-#import "Folder.h";
+#import "Folder.h"
 #import "UIButton+Additions.h"
 #import "Person.h"
 #import "DocumentResolution.h"

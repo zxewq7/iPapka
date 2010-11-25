@@ -48,7 +48,7 @@
 #pragma mark NSCoding
 - (id) initWithCoder: (NSCoder *)coder
 {
-    if (self = [super init])
+    if ((self = [super init]))
     {
         self.name = [coder decodeObjectForKey:@"name"];
         self.predicateString = [coder decodeObjectForKey:@"predicateString"];

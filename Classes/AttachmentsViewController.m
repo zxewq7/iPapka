@@ -199,6 +199,8 @@ typedef enum _TapPosition{
         case PaintingToolPen:
             currentPage.pen = YES;
             break;
+        default:
+            break;
     }
 }
 
