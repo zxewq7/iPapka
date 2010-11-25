@@ -867,7 +867,7 @@
 								<key>en</key>
 								<string>Decline</string>
 								<key>ru</key>
-								<string>Вернуть</string>
+								<string>Отказать</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
