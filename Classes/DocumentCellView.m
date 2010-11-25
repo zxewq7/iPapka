@@ -73,11 +73,9 @@
     
     //textLabel
     
-    CGFloat textLabelMinusWidth = (attachmentImageViewSize.width >0 ?(attachmentImageViewSize.width + kSpaceBetweenTextLabelAndAttachmentImageView):0);
-    
     CGRect textLabelFrame = CGRectMake(labelLeftMargin, 
                                        round((size.height - labelsHeight) / 2), 
-                                       ((textLabel.bounds.size.width + textLabelMinusWidth) > labelWidth?(labelWidth - textLabelMinusWidth):textLabel.bounds.size.width), 
+                                       labelWidth, 
                                        textLabel.bounds.size.height);
     textLabel.frame = textLabelFrame;
     
