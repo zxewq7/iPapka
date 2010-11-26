@@ -215,6 +215,8 @@
 		81E5FE7B1240EEBA00D697EA /* Papers-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE791240EEBA00D697EA /* Papers-Landscape.png */; };
 		81E5FE7C1240EEBA00D697EA /* Papers.png in Resources */ = {isa = PBXBuildFile; fileRef = 81E5FE7A1240EEBA00D697EA /* Papers.png */; };
 		81EA7EB91259F823007D4A7C /* KeychainItemWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 81EA7EB81259F823007D4A7C /* KeychainItemWrapper.m */; };
+		81EBADD2129FF20A00509708 /* NSDate+Additions.h in Sources */ = {isa = PBXBuildFile; fileRef = 81C8EB72129E8E9F004169D8 /* NSDate+Additions.h */; };
+		81EBADD3129FF20A00509708 /* NSDate+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C8EB73129E8E9F004169D8 /* NSDate+Additions.m */; };
 		81ED6833129165BE009F37CC /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541C912379AA3008FC80F /* main.m */; };
 		81ED6834129165BE009F37CC /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541E912379B3B008FC80F /* AppDelegate.m */; };
 		81ED6835129165BE009F37CC /* AttachmentPageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 816541EB12379B3B008FC80F /* AttachmentPageViewController.m */; };
@@ -1644,8 +1646,10 @@
 			files = (
 				8133A3E6129ADCDB0045B6D7 /* DocumentWithResources.h in Sources */,
 				8133A3E7129ADCDB0045B6D7 /* DocumentWithResources.m in Sources */,
+				81EBADD2129FF20A00509708 /* NSDate+Additions.h in Sources */,
 				8133A3DE129ADCB20045B6D7 /* _DocumentWithResources.h in Sources */,
 				8133A3DF129ADCB20045B6D7 /* _DocumentWithResources.m in Sources */,
+				81EBADD3129FF20A00509708 /* NSDate+Additions.m in Sources */,
 				81ED6833129165BE009F37CC /* main.m in Sources */,
 				81ED6834129165BE009F37CC /* AppDelegate.m in Sources */,
 				81ED6835129165BE009F37CC /* AttachmentPageViewController.m in Sources */,
