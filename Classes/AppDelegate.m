@@ -36,8 +36,8 @@
                             predicateString:@"(status == 0 || status == 1)"
                             sortDescriprors:[NSArray arrayWithObjects:
                                              [[[NSSortDescriptor alloc] initWithKey:@"receivedStripped" ascending:NO] autorelease],
-                                             [[[NSSortDescriptor alloc] initWithKey:@"received" ascending:NO] autorelease],
                                              [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"received" ascending:NO] autorelease],
                                              nil] 
                                  entityName:@"DocumentResolution"
                                    iconName:@"ButtonResolution.png"],
@@ -45,8 +45,8 @@
                             predicateString:@"(status == 0 || status == 1)"
                             sortDescriprors:[NSArray arrayWithObjects:
                                              [[[NSSortDescriptor alloc] initWithKey:@"receivedStripped" ascending:NO] autorelease],
-                                             [[[NSSortDescriptor alloc] initWithKey:@"received" ascending:NO] autorelease],
                                              [[[NSSortDescriptor alloc] initWithKey:@"priority" ascending:YES] autorelease],
+                                             [[[NSSortDescriptor alloc] initWithKey:@"received" ascending:NO] autorelease],
                                              nil] 
                                  entityName:@"DocumentSignature"
                                    iconName:@"ButtonSignature.png"],
