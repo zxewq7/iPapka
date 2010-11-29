@@ -91,6 +91,12 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(AZZLogger);
     }
 }
 
+#pragma mark MFMailComposeViewControllerDelegate
+- (void)mailComposeController:(MFMailComposeViewController*)ctl didFinishWithResult:(MFMailComposeResult)result error:(NSError*)error
+{
+	[controller dismissModalViewControllerAnimated:YES];
+}
+
 #pragma mark -
 #pragma mark Memory Management
 - (void)dealloc 
