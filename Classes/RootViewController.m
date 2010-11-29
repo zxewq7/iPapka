@@ -25,7 +25,6 @@
 #import "MBProgressHUD.h"
 #import "DocumentRoot.h"
 #import "DocumentLink.h"
-#import "NSDate+Additions.h"
 
 static NSString* ArchiveAnimationId = @"ArchiveAnimationId";
 static NSString* OpenClipperAnimationId = @"OpenClipperAnimationId";
@@ -500,12 +499,10 @@ static NSString* SyncingContext       = @"SyncingContext";
 
 - (void) declineDocument:(id) sender
 {
-    self.document.statusValue = DocumentStatusDeclined;
-    
-    self.document.date = [NSDate date];
-    
-    self.document.dateStripped = [self.document.date stripTime];
-
+	[paintingToolsViewController cancel];
+	
+    [self.document decline];
+	
     [[DataSource sharedDataSource] commit];
     
     [self moveToArchive];
@@ -513,12 +510,10 @@ static NSString* SyncingContext       = @"SyncingContext";
 
 - (void) acceptDocument:(id) sender
 {
-    self.document.statusValue = DocumentStatusAccepted;
-    
-    self.document.date = [NSDate date];
-    
-    self.document.dateStripped = [self.document.date stripTime];
-    
+	[paintingToolsViewController cancel];
+
+    [self.document accept];
+
     [[DataSource sharedDataSource] commit];
 
     [self moveToArchive];

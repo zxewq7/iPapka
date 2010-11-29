@@ -24,4 +24,6 @@ typedef enum _DocumentPriority
 
 @interface DocumentRoot : _DocumentRoot 
 
+-(void) accept;
+-(void) decline;
 @end
