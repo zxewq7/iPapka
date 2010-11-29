@@ -1,6 +1,6 @@
 /*
- * Copyright 2008-2009 Apple, Inc.
- * Copyright 2009 Plausible Labs Cooperative, Inc.
+ * Copyright 2008 - 2009 Apple, Inc.
+ * Copyright 2009 - 2010 Plausible Labs Cooperative, Inc.
  *
  * All rights reserved.
  *
@@ -61,8 +61,8 @@
  * @ingroup constants
  */
 
-#ifndef _Block_H_
-#define _Block_H_
+#ifndef _PLBLOCK_H_
+#define _PLBLOCK_H_
 
 #if !defined(BLOCK_EXPORT)
 #   if defined(__cplusplus)
@@ -75,13 +75,12 @@
 #include <AvailabilityMacros.h>
 #include <TargetConditionals.h>
 
-/* Compatibility defines. The PLBlocks runtime symbols have been renamed to avoid
- * future conflicts with Apple's standard implementation */
-#define _Block_copy             _PLBlock_copy
-#define _Block_release          _PLBlock_release
+/* Compatibility defines. Using the PLBlock_* variants instead is recommended. */
+#undef Block_copy
+#define Block_copy(...) ((__typeof(__VA_ARGS__))_PLBlock_copy((const void *)(__VA_ARGS__)))
 
-#define Block_copy              _PLBlock_copy
-#define Block_release           _PLBlock_release
+#undef Block_release
+#define Block_release(...) _PLBlock_release((const void *)(__VA_ARGS__))
 
 #if __cplusplus
 extern "C" {
@@ -109,15 +108,15 @@ extern "C" {
 /**
  * Copy a a stack-allocated block.
  */
-#define PLBlock_copy(...) ((__typeof(__VA_ARGS__))_Block_copy((const void *)(__VA_ARGS__)))
+#define PLBlock_copy(...) ((__typeof(__VA_ARGS__))_PLBlock_copy((const void *)(__VA_ARGS__)))
 
 /**
  * Release a block instance.
  */
-#define PLBlock_release(...) _Block_release((const void *)(__VA_ARGS__))
+#define PLBlock_release(...) _PLBlock_release((const void *)(__VA_ARGS__))
 
 /**
  * @} functions
  */
 
-#endif
+#endif /* _PLBLOCK_H_ */
