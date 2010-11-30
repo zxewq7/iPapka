@@ -34,10 +34,10 @@ static NSString* AttachmentContext    = @"AttachmentContext";
 static NSString* LinkContext          = @"LinkContext";
 static NSString* SyncingContext       = @"SyncingContext";
 
-#define kLeftMargin 7.0f
+#define kLeftMargin 10.0f
 #define kRightMargin 10.0f
 
-#define kTopMargin 7.0f
+#define kTopMargin 10.0f
 
 @interface RootViewController(Private)
 - (void) createToolbar;
