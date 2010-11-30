@@ -164,7 +164,7 @@
     if (currentAngle != anAngle) 
     {
         currentAngle = anAngle;
-        self.transform = CGAffineTransformMakeRotation(0);
+        self.transform = CGAffineTransformIdentity;
         self.transform = CGAffineTransformMakeRotation(currentAngle);
     }
 }
