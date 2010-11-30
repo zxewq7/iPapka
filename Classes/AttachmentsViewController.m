@@ -180,6 +180,7 @@ typedef enum _TapPosition{
 -(void) paintingView: (PaintingToolsViewController *) sender color:(UIColor *) aColor
 {
     currentPage.color = aColor;
+	nextPage.color = aColor;
 }
 
 -(void) paintingView: (PaintingToolsViewController *) sender tool: (PaintingTool) aTool
