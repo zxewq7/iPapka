@@ -313,15 +313,15 @@ typedef enum _TapPosition{
             nextPage.page = [attachment.pagesOrdered objectAtIndex: nextIndex];
         else
             nextPage.page = nil;
+
+		[self setPageZoomScale:currentPage];
+		[self setPageZoomScale:nextPage];
     }
     else
     {
         currentPage.page = nil;
         nextPage.page = nil;
     }
-    
-    [self setPageZoomScale:currentPage];
-    [self setPageZoomScale:nextPage];
     
     nextPage.view.hidden = YES;
     currentPage.view.hidden = NO;
