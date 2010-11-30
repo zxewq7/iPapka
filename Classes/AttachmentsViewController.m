@@ -44,10 +44,10 @@ typedef enum _TapPosition{
 {
     if (pageControl == aPageControl)
         return;
-    [pageControl removeTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
+    [pageControl removeTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventValueChanged];
     [pageControl release];
     pageControl = [aPageControl retain];
-    [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventTouchUpInside];
+    [pageControl addTarget:self action:@selector(pageAction:) forControlEvents:UIControlEventValueChanged];
     pageControl.numberOfPages = [attachment.pagesOrdered count];
     pageControl.hidden = YES;
     pageControl.delegate = self;
@@ -145,7 +145,7 @@ typedef enum _TapPosition{
 -(void)pageAction:(id) sender
 {
     NSUInteger currentIndex = pageControl.currentPage;
-    
+	
     if (currentPage.page.number.integerValue != currentIndex)
     {
         BOOL down = currentIndex > currentPage.page.number.integerValue;

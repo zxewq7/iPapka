@@ -104,11 +104,11 @@ static NSString *SliderContext = @"SliderContext";
         
         [slider setThumbImage:knob forState:UIControlStateNormal];
 
-        [slider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventTouchUpInside];
+        [slider addTarget:self action:@selector(sliderChanged:) forControlEvents:UIControlEventValueChanged];
         
         [slider addObserver:self forKeyPath:@"tracking" options:NSKeyValueChangeReplacement context:SliderContext];
         
-        slider.continuous = YES;
+        slider.continuous = NO;
 
         [self addSubview:slider];
         
@@ -342,7 +342,7 @@ static NSString *SliderContext = @"SliderContext";
 
 -(void)sliderChanged:(id) sender
 {
-    [self sendActionsForControlEvents:UIControlEventTouchUpInside];
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
 }
 
 
