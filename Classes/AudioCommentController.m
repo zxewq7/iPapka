@@ -158,7 +158,6 @@ static NSString *AudioContext = @"AudioContext";
     
     recordButton.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | 
                                      UIViewAutoresizingFlexibleTopMargin |
-                                     UIViewAutoresizingFlexibleWidth |
                                      UIViewAutoresizingFlexibleBottomMargin);
     
     [self.view addSubview: recordButton];
