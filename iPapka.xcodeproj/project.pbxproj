@@ -111,6 +111,8 @@
 		8157959E12468130002A42C0 /* ButtonRecord.png in Resources */ = {isa = PBXBuildFile; fileRef = 8157959D12468130002A42C0 /* ButtonRecord.png */; };
 		81585475123BC24000A827E6 /* UIToolbar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585474123BC24000A827E6 /* UIToolbar+Additions.m */; };
 		81585488123BC2F100A827E6 /* UITabBar+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81585487123BC2F100A827E6 /* UITabBar+Additions.m */; };
+		815DD54512A52EAC00206288 /* 1x1.png in Resources */ = {isa = PBXBuildFile; fileRef = 815DD54412A52EAC00206288 /* 1x1.png */; };
+		815DD54612A52EAC00206288 /* 1x1.png in Resources */ = {isa = PBXBuildFile; fileRef = 815DD54412A52EAC00206288 /* 1x1.png */; };
 		815DDC5612450C3F00F72600 /* PersonPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DDC5512450C3F00F72600 /* PersonPickerViewController.m */; };
 		815DE5AA12742EBA00D26CE8 /* AZZAudioPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DE5A712742EBA00D26CE8 /* AZZAudioPlayer.m */; };
 		815DE5AB12742EBA00D26CE8 /* AZZAudioRecorder.m in Sources */ = {isa = PBXBuildFile; fileRef = 815DE5A912742EBA00D26CE8 /* AZZAudioRecorder.m */; };
@@ -592,6 +594,7 @@
 		81585474123BC24000A827E6 /* UIToolbar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIToolbar+Additions.m"; sourceTree = "<group>"; };
 		81585486123BC2F100A827E6 /* UITabBar+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITabBar+Additions.h"; sourceTree = "<group>"; };
 		81585487123BC2F100A827E6 /* UITabBar+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITabBar+Additions.m"; sourceTree = "<group>"; };
+		815DD54412A52EAC00206288 /* 1x1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 1x1.png; sourceTree = "<group>"; };
 		815DDC5412450C3F00F72600 /* PersonPickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PersonPickerViewController.h; sourceTree = "<group>"; };
 		815DDC5512450C3F00F72600 /* PersonPickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PersonPickerViewController.m; sourceTree = "<group>"; };
 		815DE5A612742EBA00D26CE8 /* AZZAudioPlayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AZZAudioPlayer.h; path = thirdparty/AZZAudioPlayer.h; sourceTree = "<group>"; };
@@ -865,6 +868,7 @@
 		811DF42C1237A11300903D30 /* images */ = {
 			isa = PBXGroup;
 			children = (
+				815DD54412A52EAC00206288 /* 1x1.png */,
 				819CE35712967623004266D7 /* IconComment.png */,
 				819DB873128EE82E00D3026C /* Checked.png */,
 				819DB874128EE82E00D3026C /* Unchecked.png */,
@@ -1433,6 +1437,7 @@
 				819DB875128EE82E00D3026C /* Checked.png in Resources */,
 				819DB876128EE82E00D3026C /* Unchecked.png in Resources */,
 				819CE35812967623004266D7 /* IconComment.png in Resources */,
+				815DD54512A52EAC00206288 /* 1x1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1528,6 +1533,7 @@
 				81ED68FE129165BE009F37CC /* BlankBackground.png in Resources */,
 				81ED68FF129165BE009F37CC /* Checked.png in Resources */,
 				81ED6900129165BE009F37CC /* Unchecked.png in Resources */,
+				815DD54612A52EAC00206288 /* 1x1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

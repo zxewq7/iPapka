@@ -94,9 +94,11 @@ static NSString *SliderContext = @"SliderContext";
         //slider
         CGRect sliderFrame = CGRectMake(0,0,frame.size.width, frame.size.height);
         slider = [[UISlider alloc] initWithFrame:sliderFrame];
-        
-        [slider setMinimumTrackImage:nil forState:UIControlStateNormal];
-        [slider setMaximumTrackImage:nil forState:UIControlStateNormal];
+
+        UIImage *empty = [UIImage imageNamed:@"1x1.png"];
+		
+        [slider setMinimumTrackImage:empty forState:UIControlStateNormal];
+        [slider setMaximumTrackImage:empty forState:UIControlStateNormal];
         
         UIImage *knob = [UIImage imageNamed:@"DotCurrent.png"];
         
