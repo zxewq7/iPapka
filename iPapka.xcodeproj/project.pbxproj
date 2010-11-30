@@ -1844,7 +1844,7 @@
 				GCC_PREFIX_HEADER = iPapka_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				PRODUCT_NAME = iPapka;
-				SDKROOT = iphonesimulator3.2;
+				SDKROOT = iphoneos4.2;
 				VALIDATE_PRODUCT = YES;
 				WRAPPER_EXTENSION = app;
 			};
