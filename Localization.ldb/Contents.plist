@@ -5,6 +5,8 @@
 	<key>bundles</key>
 	<array>
 		<dict>
+			<key>associated Xcode projects</key>
+			<array/>
 			<key>change date</key>
 			<date>2001-01-01T00:00:00Z</date>
 			<key>changed values</key>
@@ -362,6 +364,8 @@
 			<string>Settings.bundle</string>
 		</dict>
 		<dict>
+			<key>associated Xcode projects</key>
+			<array/>
 			<key>change date</key>
 			<date>2001-01-01T00:00:00Z</date>
 			<key>changed values</key>
@@ -454,9 +458,20 @@
 				</dict>
 				<dict>
 					<key>attachments</key>
-					<dict/>
+					<dict>
+						<key>backup</key>
+						<dict>
+							<key>1</key>
+							<dict>
+								<key>class</key>
+								<string>BLWrapperHandle</string>
+								<key>name</key>
+								<string>iPapka/Localizable/1/Localizable.strings</string>
+							</dict>
+						</dict>
+					</dict>
 					<key>change date</key>
-					<date>2010-11-12T10:14:49Z</date>
+					<date>2010-11-30T14:51:16Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -466,7 +481,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>b506be81aef263a9f300c34a4365bd01
+					<string>f03500de5cb99c7eb1ee9be6226a8f3c
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -1430,31 +1445,6 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
-							<string>Page is not loaded</string>
-							<key>errors</key>
-							<array/>
-							<key>flags</key>
-							<integer>0</integer>
-							<key>key</key>
-							<string>Page is not loaded</string>
-							<key>localizations</key>
-							<dict>
-								<key>en</key>
-								<string>Page is not loaded</string>
-								<key>ru</key>
-								<string>Страница не загружена</string>
-							</dict>
-							<key>snapshots</key>
-							<dict/>
-						</dict>
-						<dict>
-							<key>change date</key>
-							<date>2001-01-01T00:00:00Z</date>
-							<key>changed values</key>
-							<array/>
-							<key>class</key>
-							<string>BLStringKeyObject</string>
-							<key>comment</key>
 							<string>pages from 2 to 4 in instrumentalis</string>
 							<key>errors</key>
 							<array/>
@@ -1680,6 +1670,31 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
+							<string>Saving</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Saving</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Saving</string>
+								<key>ru</key>
+								<string>Сохранение</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
 							<string>Folders-&gt;Signatures</string>
 							<key>errors</key>
 							<array/>
@@ -1843,31 +1858,6 @@
 								<string>Tomorrow</string>
 								<key>ru</key>
 								<string>Завтра</string>
-							</dict>
-							<key>snapshots</key>
-							<dict/>
-						</dict>
-						<dict>
-							<key>change date</key>
-							<date>2001-01-01T00:00:00Z</date>
-							<key>changed values</key>
-							<array/>
-							<key>class</key>
-							<string>BLStringKeyObject</string>
-							<key>comment</key>
-							<string>Try to look again later</string>
-							<key>errors</key>
-							<array/>
-							<key>flags</key>
-							<integer>0</integer>
-							<key>key</key>
-							<string>Try to look again later</string>
-							<key>localizations</key>
-							<dict>
-								<key>en</key>
-								<string>Try to look again later</string>
-								<key>ru</key>
-								<string>Попробуйте посмотреть позже</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -2100,13 +2090,66 @@
 							<key>snapshots</key>
 							<dict/>
 						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Page is not loaded</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Page is not loaded</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Page is not loaded</string>
+								<key>ru</key>
+								<string>Страница не загружена</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Try to look again later</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Try to look again later</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Try to look again later</string>
+								<key>ru</key>
+								<string>Попробуйте посмотреть позже</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
 					</array>
 					<key>plist file</key>
 					<false/>
 					<key>snapshots</key>
 					<dict/>
 					<key>versions</key>
-					<dict/>
+					<dict>
+						<key>en</key>
+						<string>1</string>
+					</dict>
 				</dict>
 			</array>
 			<key>flags</key>
@@ -2128,24 +2171,50 @@
 	</array>
 	<key>preferences</key>
 	<dict>
+		<key>XcodeAddMissingFiles</key>
+		<true/>
+		<key>XcodeFileLimit</key>
+		<real>75</real>
+		<key>XcodeHasFileLimit</key>
+		<true/>
+		<key>XcodeHasLanguageLimit</key>
+		<true/>
+		<key>XcodeLanguageLimit</key>
+		<real>90</real>
+		<key>XcodeRemoveNotMatchingFiles</key>
+		<false/>
+		<key>autotranslateNewStrings</key>
+		<true/>
+		<key>compressLocalizationFiles</key>
+		<false/>
+		<key>deactivateEmptyStrings</key>
+		<true/>
 		<key>defaultBundleNaming</key>
 		<integer>1</integer>
 		<key>defaultBundleReferencing</key>
 		<integer>1</integer>
+		<key>embedDictionary</key>
+		<false/>
+		<key>importEmptyStrings</key>
+		<true/>
 		<key>includeInterfacePreview</key>
 		<true/>
-		<key>lastOpenedFolder</key>
-		<string>/Users/vovasty/Documents/inttrust/iPapka</string>
 		<key>lastSavePath</key>
 		<string></string>
+		<key>markAutotranslatedAsNotChanged</key>
+		<true/>
 		<key>openFolderAfterWriteOut</key>
 		<string></string>
-		<key>saveToOneFile</key>
-		<integer>1</integer>
+		<key>saveCompressed</key>
+		<false/>
+		<key>updateXcodeProjects</key>
+		<false/>
+		<key>valueChangesResetStrings</key>
+		<false/>
 	</dict>
 	<key>reference language</key>
 	<string>en</string>
 	<key>version</key>
-	<integer>4</integer>
+	<integer>5</integer>
 </dict>
 </plist>

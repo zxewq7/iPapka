@@ -11,13 +11,17 @@
 #import "AttachmentPage.h"
 #import "AttachmentPagePainting.h"
 #import "DataSource.h"
-
+#import "MBProgressHUD.h"
 
     // This is defined in Math.h
 #define M_PI   3.14159265358979323846264338327950288   /* pi */
 
     // Our conversion definition
 #define DEGREES_TO_RADIANS(angle) ((angle / 180.0) * M_PI)
+
+@interface AttachmentPageViewController(Private)
+-(void) saveImage;
+@end
 
 @implementation AttachmentPageViewController
 @synthesize page;
@@ -77,6 +81,15 @@
     [self.view addSubview:imageView];
     
     [imageView setOpaque: NO];
+	
+	blockView = [[MBProgressHUD alloc] initWithView:self.view];
+	
+    blockView.mode = MBProgressHUDModeIndeterminate;
+	
+    [self.view addSubview:blockView];
+	
+    blockView.labelText = NSLocalizedString(@"Saving", "Saving");
+	
 }
 
 
@@ -107,6 +120,7 @@
     [imageView release]; imageView = nil;
     self.page = nil;
     self.color = nil;
+	[blockView release]; blockView = nil;
     [super dealloc];
 }
 
@@ -170,16 +184,9 @@
 {
     if (imageView.isModified)
     {
-        NSString *paintingPath = page.painting.path;
-        UIImage *painting = imageView.painting;
-        
-        if (painting)
-        {
-            NSData *paintingData = UIImagePNGRepresentation(painting);
-            [paintingData writeToFile: paintingPath atomically:YES];
-            page.painting.modified = [NSDate date];
-            [[DataSource sharedDataSource] commit];
-        }
+		[blockView show:NO];
+		
+		[self performSelector:@selector(saveImage) withObject:nil afterDelay:0];
     }
 }
 
@@ -218,5 +225,23 @@
 - (UIColor *) color
 {
     return imageView.color;
+}
+
+#pragma mark Private
+
+-(void) saveImage
+{
+	NSString *paintingPath = page.painting.path;
+	UIImage *painting = imageView.painting;
+	
+	if (painting)
+	{
+		NSData *paintingData = UIImagePNGRepresentation(painting);
+		[paintingData writeToFile: paintingPath atomically:YES];
+		page.painting.modified = [NSDate date];
+		[[DataSource sharedDataSource] commit];
+	}
+	
+	[blockView hide:YES];
 }
 @end

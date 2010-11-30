@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import "PaintingView.h"
 
-@class AttachmentPage, ImageScrollView;
+@class AttachmentPage, ImageScrollView, MBProgressHUD;
 @interface AttachmentPageViewController : UIViewController<PaintingViewDelegate>
 {
     AttachmentPage  *page;
     ImageScrollView *imageView;
+	MBProgressHUD               *blockView;
 }
 
 @property (nonatomic, retain) AttachmentPage *page;
