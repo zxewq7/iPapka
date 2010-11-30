@@ -201,14 +201,6 @@ static void HSL2RGB(float h, float s, float l, float* outR, float* outG, float* 
 
 #pragma mark -
 #pragma mark Memory management
-- (void)viewDidUnload 
-{
-    [super viewDidUnload];
-    
-    self.color = nil;
-}
-
-
 - (void)dealloc 
 {
     self.color = nil;

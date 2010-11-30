@@ -184,11 +184,13 @@ static NSString* ColorContext = @"ColorContext";
     if (!colorPicker)
     {
         colorPicker = [[ColorPicker alloc] init];
+
+		colorPicker.color = self.color;
+
         [colorPicker addObserver:self
                       forKeyPath:@"color"
                         options:0
                          context:&ColorContext];
-        colorPicker.color = self.color;
     }
     if (!popoverController)
     {
