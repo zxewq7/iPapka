@@ -444,8 +444,7 @@
     if (color != aColor)
     {
         [color release];
-        color = [UIColor colorWithRed:aColor.red green:aColor.green blue:aColor.blue alpha:kBrushOpacity];
-        [color retain];
+        color = [aColor retain];
     }
     [self setBrushColor];
 }
