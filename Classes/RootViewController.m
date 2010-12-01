@@ -554,6 +554,7 @@ static NSString* SyncingContext       = @"SyncingContext";
 
         [UIView commitAnimations];
         infoButton.selected = clipperViewController.opened;
+		[paintingToolsViewController cancel];
 
     }
     else if (context == &AttachmentContext)
@@ -637,7 +638,8 @@ static NSString* SyncingContext       = @"SyncingContext";
     resolutionViewController.view.hidden = !resolutionButton.selected;
     
     [UIView commitAnimations];
-    
+	
+	[paintingToolsViewController cancel];
 }
 
 - (void) showSignatureComment:(id) sender
@@ -658,6 +660,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     [UIView commitAnimations];
     
+	[paintingToolsViewController cancel];
 }
 
 - (void) createToolbar
