@@ -14,7 +14,6 @@
 {
     AttachmentPage  *page;
     ImageScrollView *imageView;
-	MBProgressHUD               *blockView;
 }
 
 @property (nonatomic, retain) AttachmentPage *page;

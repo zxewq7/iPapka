@@ -19,10 +19,6 @@
     // Our conversion definition
 #define DEGREES_TO_RADIANS(angle) ((angle / 180.0) * M_PI)
 
-@interface AttachmentPageViewController(Private)
--(void) saveImage;
-@end
-
 @implementation AttachmentPageViewController
 @synthesize page;
 @dynamic pen, stamper, eraser, marker, angle;
@@ -81,15 +77,6 @@
     [self.view addSubview:imageView];
     
     [imageView setOpaque: NO];
-	
-	blockView = [[MBProgressHUD alloc] initWithView:self.view];
-	
-    blockView.mode = MBProgressHUDModeIndeterminate;
-	
-    [self.view addSubview:blockView];
-	
-    blockView.labelText = NSLocalizedString(@"Saving", "Saving");
-	
 }
 
 
@@ -120,7 +107,6 @@
     [imageView release]; imageView = nil;
     self.page = nil;
     self.color = nil;
-	[blockView release]; blockView = nil;
     [super dealloc];
 }
 
@@ -184,9 +170,16 @@
 {
     if (imageView.isModified)
     {
-		[blockView show:NO];
+		UIImage *painting = imageView.painting;
 		
-		[self performSelector:@selector(saveImage) withObject:nil afterDelay:0];
+		if (painting)
+		{
+			NSString *paintingPath = page.painting.path;
+			NSData *paintingData = UIImagePNGRepresentation(painting);
+			[paintingData writeToFile: paintingPath atomically:YES];
+			page.painting.modified = [NSDate date];
+			[[DataSource sharedDataSource] commit];
+		}
     }
 }
 
@@ -225,23 +218,5 @@
 - (UIColor *) color
 {
     return imageView.color;
-}
-
-#pragma mark Private
-
--(void) saveImage
-{
-	NSString *paintingPath = page.painting.path;
-	UIImage *painting = imageView.painting;
-	
-	if (painting)
-	{
-		NSData *paintingData = UIImagePNGRepresentation(painting);
-		[paintingData writeToFile: paintingPath atomically:YES];
-		page.painting.modified = [NSDate date];
-		[[DataSource sharedDataSource] commit];
-	}
-	
-	[blockView hide:YES];
 }
 @end

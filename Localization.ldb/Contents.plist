@@ -471,7 +471,7 @@
 						</dict>
 					</dict>
 					<key>change date</key>
-					<date>2010-11-30T14:51:16Z</date>
+					<date>2010-12-01T16:26:09Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -481,7 +481,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>f03500de5cb99c7eb1ee9be6226a8f3c
+					<string>f9ef1983e992db52518e38f7109eab75
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -1670,31 +1670,6 @@
 							<key>class</key>
 							<string>BLStringKeyObject</string>
 							<key>comment</key>
-							<string>Saving</string>
-							<key>errors</key>
-							<array/>
-							<key>flags</key>
-							<integer>0</integer>
-							<key>key</key>
-							<string>Saving</string>
-							<key>localizations</key>
-							<dict>
-								<key>en</key>
-								<string>Saving</string>
-								<key>ru</key>
-								<string>Сохранение</string>
-							</dict>
-							<key>snapshots</key>
-							<dict/>
-						</dict>
-						<dict>
-							<key>change date</key>
-							<date>2001-01-01T00:00:00Z</date>
-							<key>changed values</key>
-							<array/>
-							<key>class</key>
-							<string>BLStringKeyObject</string>
-							<key>comment</key>
 							<string>Folders-&gt;Signatures</string>
 							<key>errors</key>
 							<array/>
@@ -2136,6 +2111,31 @@
 								<string>Try to look again later</string>
 								<key>ru</key>
 								<string>Попробуйте посмотреть позже</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Saving</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Saving</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Saving</string>
+								<key>ru</key>
+								<string>Сохранение</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
