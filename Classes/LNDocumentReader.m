@@ -59,6 +59,7 @@ static NSString *field_Managed = @"hasControl";
 static NSString *field_Date = @"date";
 static NSString *field_Resources = @"resources";
 static NSString *field_Drawing = @"drawing";
+static NSString *field_Received = @"receivedDate";
 
 static NSString *form_Resolution   = @"resolution";
 static NSString *form_Signature    = @"document";
@@ -407,6 +408,18 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             return;
         }
 
+		
+		NSString *dateReceivedString = [parsedDocument objectForKey:field_Received];
+        
+        NSDate *dateReceived;
+		
+        if (!dateReceivedString || !(dateReceived = [parseFormatterDst dateFromString:dateReceivedString]))
+        {
+            AZZLog(@"unknown document receivedDate, document skipped: %@", uid);
+            return;
+        }
+		
+		
         NSString *documentVersion = [parsedDocument objectForKey:field_DocVersion];
         
         if (!documentVersion)
@@ -447,10 +460,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
 
             
             audio.document = document;
-            
-            document.received = [NSDate date];
-            
-            document.receivedStripped = [document.received stripTime];
         }
         
         document.docVersion = documentVersion;
@@ -468,8 +477,12 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             NSDate *date = (dateString?[parseFormatterDst dateFromString:dateString]:nil);
             
             document.date = date;
-
+			
             document.dateStripped = [document.date stripTime];
+			
+			document.received = dateReceived;
+
+			document.receivedStripped = [document.received stripTime];
 
             document.isEditable = [parsedDocument objectForKey:field_Editable];
 
