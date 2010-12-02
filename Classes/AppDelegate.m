@@ -120,7 +120,11 @@
     [[DataSource sharedDataSource] sync:NO];
 }
 
+#warning remove it when drops iOS3
 - (void)applicationWillTerminate:(UIApplication *)application {
+
+	
+	[[NSNotificationCenter defaultCenter] postNotificationName: @"ApplicationMayTerminateNotification" object: nil];
 
     [syncTimer invalidate]; syncTimer = nil;
     
@@ -133,6 +137,17 @@
     [ds shutdown];
     
     [[AZZLogger sharedAZZLogger] removeLogFile];
+}
+
+- (void)applicationDidEnterBackground:(UIApplication *)application
+{
+	[[NSNotificationCenter defaultCenter] postNotificationName: @"ApplicationMayTerminateNotification" object: nil];
+
+    DataSource *ds = [DataSource sharedDataSource];
+	
+    NSUInteger unreadCount = [ds countUnreadDocuments];
+    
+    [[UIApplication sharedApplication] setApplicationIconBadgeNumber:unreadCount];
 }
 
 - (void)dealloc 

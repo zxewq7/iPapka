@@ -77,6 +77,10 @@
     [self.view addSubview:imageView];
     
     [imageView setOpaque: NO];
+	
+	[[NSNotificationCenter defaultCenter] addObserver: self selector: @selector(saveContent)
+			   name: @"ApplicationMayTerminateNotification" object: nil];
+	
 }
 
 
@@ -104,6 +108,7 @@
 
 - (void)dealloc 
 {
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     [imageView release]; imageView = nil;
     self.page = nil;
     self.color = nil;
