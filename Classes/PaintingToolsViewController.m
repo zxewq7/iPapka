@@ -107,7 +107,7 @@ static NSString* ColorContext = @"ColorContext";
     
     [paletteButton retain];
 
-    [self alignButtons:[NSArray arrayWithObjects:penButton, markerButton, eraserButton, paletteButton, nil] 
+    [self alignButtons:[NSArray arrayWithObjects:paletteButton, penButton, markerButton, eraserButton, nil] 
              topOffset:FIRST_BAR_OFFSET
                barSize:CGSizeMake(contentSize.width, FIRST_BAR_HEIGHT)
    spaceBetweenButtons:SPACE_BETWEEN_BUTTONS];
