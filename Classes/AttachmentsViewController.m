@@ -55,8 +55,6 @@ typedef enum _TapPosition{
 
 -(void) setAttachment:(Attachment *) anAttachment
 {
-    [currentPage saveContent];
-    
     if (attachment != anAttachment)
     {
         [attachment release];
