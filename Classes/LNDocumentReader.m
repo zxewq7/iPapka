@@ -515,7 +515,6 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
             
         }
         
-
         [self parseResources:document fromDictionary:[parsedDocument valueForKey:field_Resources]];
 
         [self parseAttachments:document attachments: [subDocument objectForKey:field_Attachments]];
@@ -610,7 +609,7 @@ static NSString *url_AudioCommentFormat = @"/document/%@/audio";
         NSDate *dDate = nil;
         NSString *sDate = [parsedParentResolution objectForKey:field_Date];
         if (sDate && ![sDate isEqualToString:@""])
-            dDate = [parseFormatterSimple dateFromString:sDate];
+            dDate = [parseFormatterDst dateFromString:sDate];
         
         parentResolution.date = dDate;
         
