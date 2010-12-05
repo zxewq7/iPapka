@@ -23,7 +23,7 @@
 #define RIGHT_MARGIN 30.0f
 #define LEFT_MARGIN 30.0f
 //plus shadow 26
-#define BOTTOM_MARGIN 56.0f
+#define BOTTOM_MARGIN 54.0f
 #define MIN_CONTENT_HEIGHT 460.0f
 
 @interface ResolutionViewController (Private)
@@ -75,6 +75,8 @@
     viewSize.width = 562.0;
 
     CGRect contentViewFrame = CGRectMake(0, 44, viewSize.width, MIN_CONTENT_HEIGHT);
+	
+	fullContentViewSize = contentViewFrame.size;
     
     contentView = [[ResolutionContentView alloc] initWithFrame: contentViewFrame];
     contentView.contentInset = UIEdgeInsetsMake(0, LEFT_MARGIN, 0, RIGHT_MARGIN);
@@ -196,7 +198,7 @@
     [self.view addSubview:contentView];
 
     UIImage *twoRowsImage = [UIImage imageNamed: @"TwoRows.png"];
-    UIImageView *twoRows = [[UIImageView alloc] initWithImage: [twoRowsImage stretchableImageWithLeftCapWidth:12.0f topCapHeight:0.0f]];
+    twoRows = [[UIImageView alloc] initWithImage: [twoRowsImage stretchableImageWithLeftCapWidth:12.0f topCapHeight:0.0f]];
     
     twoRows.userInteractionEnabled = YES;
     
@@ -206,6 +208,12 @@
     
     CGFloat oneRowHeight = round(twoRowsFrame.size.height / 2);
     
+	CGRect managedViewFrame = CGRectMake(10.f, 0, twoRowsFrame.size.width - 10.0f - 10.f, oneRowHeight - 6);
+	
+	managedView = [[UIView alloc] initWithFrame:managedViewFrame];
+	
+	[twoRows addSubview:managedView];
+	
     //label Managed
     UILabel *labelManaged = [[UILabel alloc] initWithFrame: CGRectZero];
     
@@ -218,13 +226,13 @@
     
     CGRect labelManagedFrame = labelManaged.frame;
     
-    labelManagedFrame.origin.x = 10.0f;
+    labelManagedFrame.origin.x = 0.f;
     
-    labelManagedFrame.origin.y = round((oneRowHeight - labelManagedFrame.size.height) / 2);
+    labelManagedFrame.origin.y = round((managedViewFrame.size.height - labelManagedFrame.size.height) / 2);
     
     labelManaged.frame = labelManagedFrame;
     
-    [twoRows addSubview: labelManaged];
+    [managedView addSubview: labelManaged];
     
     [labelManaged release];
     
@@ -238,14 +246,14 @@
     
     CGRect managedButtonFrame = managedButton.frame;
     
-    managedButtonFrame.origin.x = twoRowsFrame.size.width - managedButtonFrame.size.width - 12.0f;;
+    managedButtonFrame.origin.x = managedViewFrame.size.width - managedButtonFrame.size.width;
     
-    managedButtonFrame.origin.y = round((oneRowHeight - labelManagedFrame.size.height) / 2);
+    managedButtonFrame.origin.y = round((managedViewFrame.size.height - labelManagedFrame.size.height) / 2);
     
     managedButton.frame = managedButtonFrame;
     
-    [twoRows addSubview: managedButton];
-    
+    [managedView addSubview: managedButton];
+	
     //audioCommentController
     audioCommentController = [[AudioCommentController alloc] init];
     
@@ -256,8 +264,17 @@
     [twoRows addSubview: audioCommentController.view];
  
     [self.view addSubview: twoRows];
-
-    [twoRows release];
+	
+	UIImage *oneRowImage = [UIImage imageNamed: @"OneRow.png"];
+    oneRow = [[UIImageView alloc] initWithImage: [oneRowImage stretchableImageWithLeftCapWidth:12.0f topCapHeight:0.0f]];
+    
+    oneRow.userInteractionEnabled = YES;
+    
+    CGRect oneRowFrame = CGRectMake(LEFT_MARGIN, viewSize.height - oneRow.frame.size.height - BOTTOM_MARGIN, viewSize.width - RIGHT_MARGIN - LEFT_MARGIN, oneRow.frame.size.height);
+	
+    oneRow.frame = oneRowFrame;
+	
+	[self.view addSubview:oneRow];
 
     [self updateContent];
 }
@@ -294,6 +311,12 @@
     [deadlineLabel release]; deadlineLabel = nil;
     
     [contentView release]; contentView = nil;
+	
+	[twoRows release]; twoRows = nil;
+	
+	[oneRow release]; oneRow = nil;
+	
+	[managedView release]; managedView = nil;
 }
 
 
@@ -325,6 +348,13 @@
     self.document = nil;
     
     [contentView release]; contentView = nil;
+	
+	[twoRows release]; twoRows = nil;
+
+	[oneRow release]; oneRow = nil;
+	
+	[managedView release]; managedView = nil;
+	
     [super dealloc];
 
 }
@@ -360,7 +390,7 @@
     
     if (resolutionSwitcher.selectedSegmentIndex == 0) //resolution
     {
-        deadlineButton.userInteractionEnabled = YES;
+		deadlineButton.userInteractionEnabled = YES;
 
         DocumentResolution *resolution  = document;
 
@@ -405,7 +435,21 @@
         managedButton.on = resolution.isManagedValue;
         
         managedButton.enabled = resolution.isEditableValue;
-    }
+
+		[managedView removeFromSuperview];
+		
+		[twoRows addSubview:managedView];
+		
+		oneRow.hidden = YES;
+		
+		twoRows.hidden = NO;
+
+		CGRect contentViewFrame = contentView.frame;
+		
+		contentViewFrame.size.height = fullContentViewSize.height;
+		
+		contentView.frame = contentViewFrame;
+}
     else //parent resolution
     {
         deadlineButton.userInteractionEnabled = NO;
@@ -438,6 +482,20 @@
         managedButton.on = parentResolution.isManagedValue;
         
         managedButton.enabled = NO;
+		
+		[managedView removeFromSuperview];
+		
+		[oneRow addSubview:managedView];
+		
+		oneRow.hidden = NO;
+		
+		twoRows.hidden = YES;
+		
+		CGRect contentViewFrame = contentView.frame;
+		
+		contentViewFrame.size.height = fullContentViewSize.height + oneRow.frame.size.height;
+		
+		contentView.frame = contentViewFrame;
     }
 
     [contentView setNeedsLayout];
