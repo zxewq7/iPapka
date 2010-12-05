@@ -26,6 +26,10 @@
     AudioCommentController *audioCommentController;
     ResolutionContentView *contentView;
     CGSize              minSize;
+	UIView				*twoRows;
+	UIView				*oneRow;
+	UIView				*managedView;
+	CGSize				fullContentViewSize;
 }
 
 @property (nonatomic, retain) DocumentResolution    *document;
