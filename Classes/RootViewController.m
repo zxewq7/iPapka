@@ -104,7 +104,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     clipperViewController = [[ClipperViewController alloc] init];
     CGRect clipperFrame = clipperViewController.view.frame;
     clipperFrame.origin.x = round((viewSize.width - clipperFrame.size.width) / 2);
-    clipperFrame.origin.y = 0;
+    clipperFrame.origin.y = 3.f;
     clipperViewController.view.frame = clipperFrame;
     clipperViewController.view.autoresizingMask = (UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin);
     
@@ -126,7 +126,7 @@ static NSString* SyncingContext       = @"SyncingContext";
 
     CGRect paperViewFrame = paperView.frame;
     paperViewFrame.origin.x = round((viewSize.width - paperViewFrame.size.width) / 2);
-    paperViewFrame.origin.y = 43;
+    paperViewFrame.origin.y = 40.f;
     paperView.frame = paperViewFrame;
     
     paperView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
@@ -263,7 +263,7 @@ static NSString* SyncingContext       = @"SyncingContext";
     
     CGRect contentViewFrame = contentView.frame;
     contentViewFrame.origin.x = round((backgroundViewFrame.size.width - contentViewFrame.size.width) / 2);
-    contentViewFrame.origin.y = 43;
+    contentViewFrame.origin.y = paperViewFrame.origin.y;
     contentView.frame = contentViewFrame;
     contentView.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
 
