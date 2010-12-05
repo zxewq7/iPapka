@@ -102,7 +102,7 @@ static NSString *AudioContext = @"AudioContext";
     
     playButtonFrame.size.width = viewFrame.size.width/2;
     
-    playButtonFrame.origin.x = 10.0f;
+    playButtonFrame.origin.x = 15.0f;
     
     playButtonFrame.origin.y = (viewFrame.size.height - playButtonFrame.size.height)/2;
     
@@ -116,7 +116,6 @@ static NSString *AudioContext = @"AudioContext";
     
     playButton.autoresizingMask = (UIViewAutoresizingFlexibleRightMargin | 
                                      UIViewAutoresizingFlexibleTopMargin | 
-                                     UIViewAutoresizingFlexibleWidth |
                                      UIViewAutoresizingFlexibleBottomMargin);
     
     [self.view addSubview: playButton];
