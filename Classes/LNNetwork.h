@@ -14,7 +14,6 @@
 {
 @private ASINetworkQueue *queue;
 @private BOOL isSyncing;
-@private BOOL allRequestsSent;
 @private BOOL hasError;
 @private NSUInteger numberOfRequests;
 }
