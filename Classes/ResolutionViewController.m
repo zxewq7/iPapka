@@ -23,7 +23,7 @@
 #define RIGHT_MARGIN 30.0f
 #define LEFT_MARGIN 30.0f
 //plus shadow 26
-#define BOTTOM_MARGIN 56.0f
+#define BOTTOM_MARGIN 54.0f
 #define MIN_CONTENT_HEIGHT 460.0f
 
 @interface ResolutionViewController (Private)
