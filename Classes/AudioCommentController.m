@@ -19,7 +19,6 @@
 static NSString *AudioContext = @"AudioContext";
 
 @interface AudioCommentController(Private)
--(BOOL) fileExists;
 -(void) updateContent;
 -(AZZAudioPlayer*) player;
 -(void) startTimer;
@@ -30,6 +29,12 @@ static NSString *AudioContext = @"AudioContext";
 
 @implementation AudioCommentController
 @synthesize file;
+
+-(BOOL) isExists
+{
+    NSFileManager *df = [NSFileManager defaultManager];
+    return [df fileExistsAtPath: self.file.path];
+}
 
 -(void) setFile:(FileField *)aFile
 {
@@ -359,8 +364,7 @@ static NSString *AudioContext = @"AudioContext";
 
 -(void) updateContent
 {
-    NSFileManager *df = [NSFileManager defaultManager];
-    BOOL exists = [df fileExistsAtPath: self.file.path];
+    BOOL exists = self.isExists;
     
     if (recorder.recording)
     {

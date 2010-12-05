@@ -24,4 +24,5 @@
 }
     
 @property (nonatomic, retain) FileField* file;
+@property (readonly) BOOL isExists;
 @end

@@ -436,19 +436,45 @@
         
         managedButton.enabled = resolution.isEditableValue;
 
-		[managedView removeFromSuperview];
+		if (resolution.isEditableValue || (!resolution.isEditableValue && audioCommentController.isExists))
+		{
+			if (managedView.superview != twoRows)
+			{
+				[managedView removeFromSuperview];
 		
-		[twoRows addSubview:managedView];
+				[twoRows addSubview:managedView];
 		
-		oneRow.hidden = YES;
+				oneRow.hidden = YES;
 		
-		twoRows.hidden = NO;
+				twoRows.hidden = NO;
 
-		CGRect contentViewFrame = contentView.frame;
+				CGRect contentViewFrame = contentView.frame;
 		
-		contentViewFrame.size.height = fullContentViewSize.height;
+				contentViewFrame.size.height = fullContentViewSize.height;
 		
-		contentView.frame = contentViewFrame;
+				contentView.frame = contentViewFrame;
+			}
+		}
+		else
+		{
+			if (managedView.superview != oneRow) 
+			{
+				[managedView removeFromSuperview];
+				
+				[oneRow addSubview:managedView];
+				
+				oneRow.hidden = NO;
+				
+				twoRows.hidden = YES;
+				
+				CGRect contentViewFrame = contentView.frame;
+				
+				contentViewFrame.size.height = fullContentViewSize.height + oneRow.frame.size.height;
+				
+				contentView.frame = contentViewFrame;
+				
+			}
+		}
 }
     else //parent resolution
     {
@@ -483,19 +509,23 @@
         
         managedButton.enabled = NO;
 		
-		[managedView removeFromSuperview];
-		
-		[oneRow addSubview:managedView];
-		
-		oneRow.hidden = NO;
-		
-		twoRows.hidden = YES;
-		
-		CGRect contentViewFrame = contentView.frame;
-		
-		contentViewFrame.size.height = fullContentViewSize.height + oneRow.frame.size.height;
-		
-		contentView.frame = contentViewFrame;
+		if (managedView.superview != oneRow) 
+		{
+			[managedView removeFromSuperview];
+			
+			[oneRow addSubview:managedView];
+
+			oneRow.hidden = NO;
+			
+			twoRows.hidden = YES;
+			
+			CGRect contentViewFrame = contentView.frame;
+			
+			contentViewFrame.size.height = fullContentViewSize.height + oneRow.frame.size.height;
+			
+			contentView.frame = contentViewFrame;
+			
+		}
     }
 
     [contentView setNeedsLayout];
