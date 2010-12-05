@@ -11,6 +11,7 @@
 	<key>CFBundleIconFiles</key>
 	<array>
 		<string>Icon.png</string>
+		<string>Icon-50.png</string>
 	</array>
 	<key>CFBundleIdentifier</key>
 	<string>ru.intertrust.cm.iPapka</string>
