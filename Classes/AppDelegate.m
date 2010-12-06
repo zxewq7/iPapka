@@ -204,7 +204,7 @@
 -(void) purgeData
 {
 	UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Purge local data", "Purge local data")
-													 message:@"Do really want purge all local data?"
+													 message:NSLocalizedString(@"Do really want purge all local data?", "Do really want purge all local data?")
 													delegate:self 
 										   cancelButtonTitle:NSLocalizedString(@"Cancel", "Cancel")
 										   otherButtonTitles:NSLocalizedString(@"OK", "OK"),

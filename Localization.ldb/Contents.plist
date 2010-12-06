@@ -19,9 +19,20 @@
 			<array>
 				<dict>
 					<key>attachments</key>
-					<dict/>
+					<dict>
+						<key>backup</key>
+						<dict>
+							<key>1</key>
+							<dict>
+								<key>class</key>
+								<string>BLWrapperHandle</string>
+								<key>name</key>
+								<string>Settings.bundle/Root/1/Root.strings</string>
+							</dict>
+						</dict>
+					</dict>
 					<key>change date</key>
-					<date>2010-11-18T16:22:31Z</date>
+					<date>2010-12-06T13:04:21Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -31,7 +42,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>2f0dce22d64af399158f2a29ad9097da
+					<string>bf47b4cefb91a5c2cf720ae155073d02
 </string>
 					<key>name</key>
 					<string>Root.strings</string>
@@ -287,6 +298,56 @@
 							<key>snapshots</key>
 							<dict/>
 						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences.</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Advanced</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Advanced</string>
+								<key>ru</key>
+								<string>Дополнительно</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>A single strings file, whose title is specified in your preferences schema. The strings files provide the localized content to display to the user for each of your preferences.</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Remove all data</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Remove all data</string>
+								<key>ru</key>
+								<string>Удалить все данные</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
 					</array>
 					<key>old objects</key>
 					<array>
@@ -349,7 +410,10 @@
 					<key>snapshots</key>
 					<dict/>
 					<key>versions</key>
-					<dict/>
+					<dict>
+						<key>en</key>
+						<string>1</string>
+					</dict>
 				</dict>
 			</array>
 			<key>flags</key>
@@ -471,7 +535,7 @@
 						</dict>
 					</dict>
 					<key>change date</key>
-					<date>2010-12-01T16:26:09Z</date>
+					<date>2010-12-06T14:26:26Z</date>
 					<key>changed values</key>
 					<array/>
 					<key>class</key>
@@ -481,7 +545,7 @@
 					<key>flags</key>
 					<integer>0</integer>
 					<key>hash</key>
-					<string>f9ef1983e992db52518e38f7109eab75
+					<string>60c9d90c03fc244131724a2d5a65aa81
 </string>
 					<key>name</key>
 					<string>Localizable.strings</string>
@@ -933,6 +997,31 @@
 								<string>Delete</string>
 								<key>ru</key>
 								<string>Удалить</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Do really want purge all local data?</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Do really want purge all local data?</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Do really want purge all local data?</string>
+								<key>ru</key>
+								<string>Вы действительно хотите удалить все локальные данные?</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
@@ -1533,6 +1622,31 @@
 								<string>Password</string>
 								<key>ru</key>
 								<string>Пароль</string>
+							</dict>
+							<key>snapshots</key>
+							<dict/>
+						</dict>
+						<dict>
+							<key>change date</key>
+							<date>2001-01-01T00:00:00Z</date>
+							<key>changed values</key>
+							<array/>
+							<key>class</key>
+							<string>BLStringKeyObject</string>
+							<key>comment</key>
+							<string>Purge local data</string>
+							<key>errors</key>
+							<array/>
+							<key>flags</key>
+							<integer>0</integer>
+							<key>key</key>
+							<string>Purge local data</string>
+							<key>localizations</key>
+							<dict>
+								<key>en</key>
+								<string>Purge local data</string>
+								<key>ru</key>
+								<string>Удаление локальных данных</string>
 							</dict>
 							<key>snapshots</key>
 							<dict/>
