@@ -65,27 +65,9 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 
 -(id)init
 {
-    if ((self = [super init])) {
+    if ((self = [super init])) 
+	{
         notify = [NSNotificationCenter defaultCenter];
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-
-        NSURL *storeUrl = [NSURL fileURLWithPath: [basePath stringByAppendingPathComponent: @"Documents.sqlite"]];
-        
-        NSError *error;
-        
-        persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: self.managedObjectModel];
-        if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
-            [persistentStoreCoordinator release];
-            persistentStoreCoordinator = nil;
-            NSAssert1(NO, @"Unhandled to create persistentStoreCoordinator: %@", [error localizedDescription]);
-        }
-        
-        if (persistentStoreCoordinator != nil) {
-            managedObjectContext = [[NSManagedObjectContext alloc] init];
-            [managedObjectContext setPersistentStoreCoordinator: persistentStoreCoordinator];
-        }
     }
     return self;
 }
@@ -187,6 +169,16 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     self.isSyncing = YES;
     
     [[self.readers objectAtIndex:syncStep] sync];
+}
+
+-(void) stopSync
+{
+	if (!self.isSyncing)
+        return;
+
+	LNNetwork *currentReader = [self.readers objectAtIndex:syncStep];
+	syncStep = 999;
+	[currentReader stopSync];
 }
 
 -(NSArray *) folders
@@ -313,6 +305,70 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
     {
         NSAssert1(NO, @"Unhandled error executing commit: %@", [error localizedDescription]);
     }
+}
+
+-(void) initDatabase
+{
+    [documentEntityDescription release]; documentEntityDescription = nil;
+	[personEntityDescription release]; personEntityDescription = nil;
+	[fileEntityDescription release]; fileEntityDescription = nil;
+	[pageEntityDescription release]; pageEntityDescription = nil;
+	
+	[managedObjectModel release]; managedObjectModel = nil;
+	
+	[managedObjectContext release]; managedObjectContext = nil;
+	
+	[persistentStoreCoordinator release]; persistentStoreCoordinator = nil;
+	
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+	
+	NSURL *storeUrl = [NSURL fileURLWithPath: [basePath stringByAppendingPathComponent: @"Documents.sqlite"]];
+	
+	NSError *error;
+	
+	persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel: self.managedObjectModel];
+	if (![persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeUrl options:nil error:&error]) {
+		[persistentStoreCoordinator release];
+		persistentStoreCoordinator = nil;
+		NSAssert1(NO, @"Unhandled to create persistentStoreCoordinator: %@", [error localizedDescription]);
+	}
+	
+	if (persistentStoreCoordinator != nil) {
+		managedObjectContext = [[NSManagedObjectContext alloc] init];
+		[managedObjectContext setPersistentStoreCoordinator: persistentStoreCoordinator];
+	}
+	
+}
+
+-(void) purgeDatabase
+{
+    [self stopSync];
+	
+	[documentEntityDescription release]; documentEntityDescription = nil;
+	[personEntityDescription release]; personEntityDescription = nil;
+	[fileEntityDescription release]; fileEntityDescription = nil;
+	[pageEntityDescription release]; pageEntityDescription = nil;
+	
+	[managedObjectModel release]; managedObjectModel = nil;
+	
+	[managedObjectContext release]; managedObjectContext = nil;
+	
+	[persistentStoreCoordinator release]; persistentStoreCoordinator = nil;
+	
+	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+
+	NSFileManager *df = [NSFileManager defaultManager];
+	
+	NSArray *files = [df contentsOfDirectoryAtPath:basePath error:nil];
+	
+	for (NSString *file in files)
+	{
+		NSString *fullPath = [basePath stringByAppendingPathComponent:file];
+		[df removeItemAtPath:fullPath error:nil];
+	}
+
 }
 
 #pragma mark -
@@ -503,25 +559,33 @@ static NSString * const kPersonUidSubstitutionVariable = @"UID";
 {
     if (context == &SyncingContext)
     {
-        LNNetwork *currentReader = [self.readers objectAtIndex:syncStep];
-        BOOL ss = currentReader.isSyncing;
-        
-        if (!ss)
-        {
-            if (currentReader.hasError)
-                [self showErrorMessage];
-            else
-            {
-                syncStep++;
-                
-                if (syncStep < [self.readers count])
-                {
-                    [[self.readers objectAtIndex:syncStep] sync];
-                    return;
-                }
-            }
+		BOOL ss = NO;
+		
+		if (syncStep < [self.readers count])
+		{
+			LNNetwork *currentReader = [self.readers objectAtIndex:syncStep];
+			ss = currentReader.isSyncing;
+			
+			if (!ss)
+			{
+				if (currentReader.hasError)
+					[self showErrorMessage];
+				else
+				{
+					syncStep++;
+					
+					if (syncStep < [self.readers count])
+					{
+						[[self.readers objectAtIndex:syncStep] sync];
+						return;
+					}
+				}
+				
+			}
+		}
+		else
+			ss = NO;
 
-        }
         
         if (self.isSyncing != ss)
         {

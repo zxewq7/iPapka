@@ -45,4 +45,7 @@
 -(void) shutdown;
 -(void) commit;
 -(NSFetchedResultsController *) persons;
+-(void) initDatabase;
+-(void) purgeDatabase;
+-(void) stopSync;
 @end
