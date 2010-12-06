@@ -27,9 +27,9 @@
     
     for(NSDictionary *prefSpecification in preferences) {
         NSString *key = [prefSpecification objectForKey:@"Key"];
-        if(key) {
+		NSString *value = [prefSpecification objectForKey:@"DefaultValue"];
+        if(key && value) 
             [defaultsToRegister setObject:[prefSpecification objectForKey:@"DefaultValue"] forKey:key];
-        }
     }
     return defaultsToRegister;
 }
