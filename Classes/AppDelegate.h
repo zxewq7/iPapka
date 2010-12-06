@@ -11,7 +11,7 @@
 
 @class RootViewController;
 
-@interface AppDelegate : NSObject <UIApplicationDelegate> {
+@interface AppDelegate : NSObject <UIApplicationDelegate, UIAlertViewDelegate> {
 
     UIWindow                *window;
 

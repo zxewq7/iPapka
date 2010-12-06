@@ -13,6 +13,11 @@
 #import "DataSource.h"
 #import "NSUserDefaults+Additions.h"
 
+@interface AppDelegate (Private)
+-(void) purgeData;
+@end
+
+
 @implementation AppDelegate
 @synthesize window, rootViewController;
 
@@ -104,12 +109,11 @@
     
 	if ([currentDefaults boolForKey:@"localRemoveAll"])
 	{
-		[[DataSource sharedDataSource] purgeDatabase];
-		
+		[self purgeData];
 		[currentDefaults setBool:NO forKey:@"localRemoveAll"];
 	}
-	
-	[[DataSource sharedDataSource] initDatabase];
+	else
+		[[DataSource sharedDataSource] initDatabase];
 	
     NSInteger interval = [currentDefaults integerForKey:@"serverSynchronizationInterval"];
     
@@ -162,14 +166,13 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
 	NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+
 	[currentDefaults synchronize];
+
 	if ([currentDefaults boolForKey:@"localRemoveAll"])
 	{
-		[[DataSource sharedDataSource] purgeDatabase];
-		
+		[self purgeData];
 		[currentDefaults setBool:NO forKey:@"localRemoveAll"];
-		
-		[[DataSource sharedDataSource] initDatabase];
 	}
 }
 
@@ -180,5 +183,34 @@
     self.rootViewController = nil;
     [syncTimer invalidate]; [syncTimer release]; syncTimer = nil;
     [super dealloc];
+}
+
+#pragma mark -
+#pragma mark UIAlertViewDelegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    BOOL canceled = (buttonIndex == 0);
+    
+    if (!canceled)
+    {
+		[[DataSource sharedDataSource] purgeDatabase];
+		
+		[[DataSource sharedDataSource] initDatabase];
+    }
+}
+
+#pragma mark Private
+-(void) purgeData
+{
+	UIAlertView *prompt = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Purge local data", "Purge local data")
+													 message:@"Do really want purge all local data?"
+													delegate:self 
+										   cancelButtonTitle:NSLocalizedString(@"Cancel", "Cancel")
+										   otherButtonTitles:NSLocalizedString(@"OK", "OK"),
+						   nil];
+	[prompt show];
+	
+	[prompt release];
 }
 @end
