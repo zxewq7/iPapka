@@ -35,4 +35,6 @@
 }
 
 @property (nonatomic, retain, setter=setDocument:) DocumentRoot *document;
+
+- (void) findAndSetDocumentInFolder;
 @end

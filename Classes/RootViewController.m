@@ -46,7 +46,6 @@ static NSString* SyncingContext       = @"SyncingContext";
 - (void) updateContent;
 - (void) showResolution:(id) sender;
 - (void) showSignatureComment:(id) sender;
-- (void) findAndSetDocumentInFolder;
 @end
 
 @implementation RootViewController
@@ -367,8 +366,6 @@ static NSString* SyncingContext       = @"SyncingContext";
                                        options:0
                                        context:&SyncingContext];
     
-    [self findAndSetDocumentInFolder];
-    
     NSNotificationCenter * nc = [NSNotificationCenter defaultCenter];
 	
 	[nc addObserver: self selector: @selector(documentsChanged:)
@@ -518,6 +515,28 @@ static NSString* SyncingContext       = @"SyncingContext";
 
     [self moveToArchive];
 }
+
+- (void) findAndSetDocumentInFolder
+{
+    NSArray *folders = [DataSource sharedDataSource].folders;
+    
+    for (Folder *folder in folders)
+    {
+        for (Folder *filter in folder.filters)
+        {
+            DocumentRoot *d = filter.firstDocument;
+            if (d)
+            {
+                self.document = d;
+                return;
+            }
+        }
+        
+        break; //only for first folder
+    }
+    self.document = nil;
+}
+
 
 #pragma mark - 
 #pragma mark DocumentsListDelegate
@@ -856,27 +875,6 @@ static NSString* SyncingContext       = @"SyncingContext";
     backButton.hidden = YES;
     
     [self setCanEdit: document.isEditableValue];
-}
-
-- (void) findAndSetDocumentInFolder
-{
-    NSArray *folders = [DataSource sharedDataSource].folders;
-    
-    for (Folder *folder in folders)
-    {
-        for (Folder *filter in folder.filters)
-        {
-            DocumentRoot *d = filter.firstDocument;
-            if (d)
-            {
-                self.document = d;
-                return;
-            }
-        }
-        
-        break; //only for first folder
-    }
-    self.document = nil;
 }
 
 - (void)documentsChanged:(NSNotification*) notification

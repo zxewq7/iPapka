@@ -113,7 +113,11 @@
 		[currentDefaults setBool:NO forKey:@"localRemoveAll"];
 	}
 	else
+	{
 		[[DataSource sharedDataSource] initDatabase];
+		
+		[rootViewController findAndSetDocumentInFolder];
+	}
 	
     NSInteger interval = [currentDefaults integerForKey:@"serverSynchronizationInterval"];
     
@@ -194,6 +198,8 @@
     
     if (!canceled)
     {
+		rootViewController.document = nil;
+
 		[[DataSource sharedDataSource] purgeDatabase];
 		
 		[[DataSource sharedDataSource] initDatabase];
