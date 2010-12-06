@@ -102,6 +102,15 @@
     [self.window addSubview:rootViewController.view];
     [self.window makeKeyAndVisible];
     
+	if ([currentDefaults boolForKey:@"localRemoveAll"])
+	{
+		[[DataSource sharedDataSource] purgeDatabase];
+		
+		[currentDefaults setBool:NO forKey:@"localRemoveAll"];
+	}
+	
+	[[DataSource sharedDataSource] initDatabase];
+	
     NSInteger interval = [currentDefaults integerForKey:@"serverSynchronizationInterval"];
     
     if (interval)
@@ -148,6 +157,20 @@
     NSUInteger unreadCount = [ds countUnreadDocuments];
     
     [[UIApplication sharedApplication] setApplicationIconBadgeNumber:unreadCount];
+}
+
+- (void)applicationDidBecomeActive:(UIApplication *)application
+{
+	NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
+	[currentDefaults synchronize];
+	if ([currentDefaults boolForKey:@"localRemoveAll"])
+	{
+		[[DataSource sharedDataSource] purgeDatabase];
+		
+		[currentDefaults setBool:NO forKey:@"localRemoveAll"];
+		
+		[[DataSource sharedDataSource] initDatabase];
+	}
 }
 
 - (void)dealloc 

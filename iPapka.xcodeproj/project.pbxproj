@@ -49,7 +49,6 @@
 		811DF45F1237A11300903D30 /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4421237A11300903D30 /* Icon.png */; };
 		811DF4631237A11300903D30 /* UnreadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4461237A11300903D30 /* UnreadMark.png */; };
 		811DF4651237A11300903D30 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4481237A11300903D30 /* MainWindow.xib */; };
-		811DF4681237A11E00903D30 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4671237A11E00903D30 /* Settings.bundle */; };
 		811ED76A12551F9E00D2E027 /* _DocumentResolution.m in Sources */ = {isa = PBXBuildFile; fileRef = 811ED76912551F9E00D2E027 /* _DocumentResolution.m */; };
 		811ED7AA125521A300D2E027 /* _DocumentSignature.m in Sources */ = {isa = PBXBuildFile; fileRef = 811ED7A9125521A300D2E027 /* _DocumentSignature.m */; };
 		8124544112660A4600453AB8 /* _DocumentResolutionParent.m in Sources */ = {isa = PBXBuildFile; fileRef = 8124543E12660A4600453AB8 /* _DocumentResolutionParent.m */; };
@@ -193,6 +192,8 @@
 		81C47F9E125E397300F60C49 /* PaletteYellowSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = 81C47F92125E397300F60C49 /* PaletteYellowSelected.png */; };
 		81C8EB74129E8E9F004169D8 /* NSDate+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C8EB73129E8E9F004169D8 /* NSDate+Additions.m */; };
 		81C9FF7E128EC4A50017790A /* DocumentInfoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 81C9FF7D128EC4A50017790A /* DocumentInfoView.m */; };
+		81CFBB2612AD131F007E9A14 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 81CFBB2512AD131F007E9A14 /* Settings.bundle */; };
+		81CFBB2712AD131F007E9A14 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 81CFBB2512AD131F007E9A14 /* Settings.bundle */; };
 		81D1A97F1274A81D00D43A92 /* ButtonRed.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D1A97E1274A81D00D43A92 /* ButtonRed.png */; };
 		81D3EBD21258BEA2002FCCDC /* OneRow.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D3EBD11258BEA2002FCCDC /* OneRow.png */; };
 		81D60366123AB3B800CEAF75 /* DocumentInfoSelectedCell.png in Resources */ = {isa = PBXBuildFile; fileRef = 81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */; };
@@ -343,7 +344,6 @@
 		81ED68B2129165BE009F37CC /* Icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4421237A11300903D30 /* Icon.png */; };
 		81ED68B3129165BE009F37CC /* UnreadMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4461237A11300903D30 /* UnreadMark.png */; };
 		81ED68B4129165BE009F37CC /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4481237A11300903D30 /* MainWindow.xib */; };
-		81ED68B5129165BE009F37CC /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 811DF4671237A11E00903D30 /* Settings.bundle */; };
 		81ED68B6129165BE009F37CC /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8107AAB31237A1AF00F0C71F /* Localizable.strings */; };
 		81ED68B7129165BE009F37CC /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7831239466C006BC92F /* Default.png */; };
 		81ED68B8129165BE009F37CC /* Default-Landscape.png in Resources */ = {isa = PBXBuildFile; fileRef = 816CD7BD12394AA0006BC92F /* Default-Landscape.png */; };
@@ -504,7 +504,6 @@
 		811DF4461237A11300903D30 /* UnreadMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = UnreadMark.png; sourceTree = "<group>"; };
 		811DF4481237A11300903D30 /* MainWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		811DF4491237A11300903D30 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		811DF4671237A11E00903D30 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		811ED76812551F9E00D2E027 /* _DocumentResolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DocumentResolution.h; sourceTree = "<group>"; };
 		811ED76912551F9E00D2E027 /* _DocumentResolution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = _DocumentResolution.m; sourceTree = "<group>"; };
 		811ED7A8125521A300D2E027 /* _DocumentSignature.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = _DocumentSignature.h; sourceTree = "<group>"; };
@@ -718,6 +717,7 @@
 		81C8EB73129E8E9F004169D8 /* NSDate+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Additions.m"; sourceTree = "<group>"; };
 		81C9FF7C128EC4A50017790A /* DocumentInfoView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentInfoView.h; sourceTree = "<group>"; };
 		81C9FF7D128EC4A50017790A /* DocumentInfoView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentInfoView.m; sourceTree = "<group>"; };
+		81CFBB2512AD131F007E9A14 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		81D1A97E1274A81D00D43A92 /* ButtonRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ButtonRed.png; sourceTree = "<group>"; };
 		81D3EBD11258BEA2002FCCDC /* OneRow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = OneRow.png; sourceTree = "<group>"; };
 		81D60365123AB3B800CEAF75 /* DocumentInfoSelectedCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = DocumentInfoSelectedCell.png; sourceTree = "<group>"; };
@@ -1101,11 +1101,11 @@
 		816541B512379AA3008FC80F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				81CFBB2512AD131F007E9A14 /* Settings.bundle */,
 				81656408125A473F00154640 /* InfoPlist.strings */,
 				818E90F9123E0496006FCE06 /* Fonts */,
 				819D8082123DFD8B00483E10 /* Entitlements.plist */,
 				8107AAB31237A1AF00F0C71F /* Localizable.strings */,
-				811DF4671237A11E00903D30 /* Settings.bundle */,
 				811DF42C1237A11300903D30 /* images */,
 				811DF4481237A11300903D30 /* MainWindow.xib */,
 				811DF4491237A11300903D30 /* Info.plist */,
@@ -1371,7 +1371,6 @@
 				811DF45F1237A11300903D30 /* Icon.png in Resources */,
 				811DF4631237A11300903D30 /* UnreadMark.png in Resources */,
 				811DF4651237A11300903D30 /* MainWindow.xib in Resources */,
-				811DF4681237A11E00903D30 /* Settings.bundle in Resources */,
 				8107AAB41237A1AF00F0C71F /* Localizable.strings in Resources */,
 				816CD7841239466C006BC92F /* Default.png in Resources */,
 				816CD7BE12394AA0006BC92F /* Default-Landscape.png in Resources */,
@@ -1448,6 +1447,7 @@
 				815DD54512A52EAC00206288 /* 1x1.png in Resources */,
 				81FD161312ABE3540007C0CC /* Icon-Small-50.png in Resources */,
 				81FD161412ABE3540007C0CC /* Icon-Small.png in Resources */,
+				81CFBB2612AD131F007E9A14 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1470,7 +1470,6 @@
 				81ED68B2129165BE009F37CC /* Icon.png in Resources */,
 				81ED68B3129165BE009F37CC /* UnreadMark.png in Resources */,
 				81ED68B4129165BE009F37CC /* MainWindow.xib in Resources */,
-				81ED68B5129165BE009F37CC /* Settings.bundle in Resources */,
 				81ED68B6129165BE009F37CC /* Localizable.strings in Resources */,
 				81ED68B7129165BE009F37CC /* Default.png in Resources */,
 				81ED68B8129165BE009F37CC /* Default-Landscape.png in Resources */,
@@ -1546,6 +1545,7 @@
 				815DD54612A52EAC00206288 /* 1x1.png in Resources */,
 				81FD161512ABE3540007C0CC /* Icon-Small-50.png in Resources */,
 				81FD161612ABE3540007C0CC /* Icon-Small.png in Resources */,
+				81CFBB2712AD131F007E9A14 /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
