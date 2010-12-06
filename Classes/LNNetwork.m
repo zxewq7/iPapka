@@ -67,6 +67,11 @@ static NSString* kErrorCode = @"code";
     [self endSession];
 }
 
+-(void) stopSync
+{
+	[queue cancelAllOperations];
+}
+
 -(void) run
 {
     NSAssert(NO, @"run method MUST be replaced");

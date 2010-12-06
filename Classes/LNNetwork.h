@@ -38,4 +38,5 @@
 
 -(void) sync;
 -(void) run;
+-(void) stopSync;
 @end
