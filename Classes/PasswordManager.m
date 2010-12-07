@@ -21,20 +21,16 @@ SYNTHESIZE_SINGLETON_FOR_CLASS(PasswordManager);
     if ((self = [super init])) 
     {
         wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
-        
-        NSUserDefaults *currentDefaults = [NSUserDefaults standardUserDefaults];
-        if ([currentDefaults boolForKey:@"serverResetPasssword"])
-        {
-            [wrapper resetKeychainItem];
-            [wrapper release];
-            //recreate wrapper after reset
-            wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
-            
-            [currentDefaults setBool:NO forKey:@"serverResetPasssword"];
-        }
-            
     }
     return self;
+}
+
+- (void) resetPassword
+{
+	[wrapper resetKeychainItem];
+	[wrapper release];
+	//recreate wrapper after reset
+	wrapper = [[KeychainItemWrapper alloc] initWithIdentifier:@"Password" accessGroup:nil];
 }
 
 - (void) credentials:(BOOL) requery handler:(void (^)(NSString *login, NSString *password, BOOL canceled))handler

@@ -16,4 +16,5 @@
 }
 + (PasswordManager *)sharedPasswordManager;
 - (void) credentials:(BOOL) requery handler:(void (^)(NSString *login, NSString *password, BOOL canceled))handler;
+- (void) resetPassword;
 @end

@@ -12,6 +12,7 @@
 #import "Folder.h"
 #import "DataSource.h"
 #import "NSUserDefaults+Additions.h"
+#import "PasswordManager.h"
 
 @interface AppDelegate (Private)
 -(void) purgeData;
@@ -106,6 +107,15 @@
     
     [self.window addSubview:rootViewController.view];
     [self.window makeKeyAndVisible];
+
+	if ([currentDefaults boolForKey:@"serverResetPasssword"])
+	{
+		[[PasswordManager sharedPasswordManager] resetPassword];
+		[currentDefaults setBool:NO forKey:@"serverResetPasssword"];
+	}
+	
+	NSInteger syncInterval = [currentDefaults integerForKey:@"serverSynchronizationInterval"];
+
     
 	if ([currentDefaults boolForKey:@"localRemoveAll"])
 	{
@@ -117,18 +127,22 @@
 		[[DataSource sharedDataSource] initDatabase];
 		
 		[rootViewController findAndSetDocumentInFolder];
+		
+		if (syncInterval)
+			[[DataSource sharedDataSource] sync:YES];
 	}
+	
+	
 	
     NSInteger interval = [currentDefaults integerForKey:@"serverSynchronizationInterval"];
     
-    if (interval)
+    if (syncInterval)
     {
         syncTimer = [NSTimer scheduledTimerWithTimeInterval:(interval * 60.0)
                                                      target:self 
                                                    selector:@selector(sync) 
                                                    userInfo:nil
                                                     repeats:YES];
-        [[DataSource sharedDataSource] sync:YES];
     }
 }
 
@@ -177,6 +191,12 @@
 	{
 		[self purgeData];
 		[currentDefaults setBool:NO forKey:@"localRemoveAll"];
+	}
+	
+	if ([currentDefaults boolForKey:@"serverResetPasssword"])
+	{
+		[[PasswordManager sharedPasswordManager] resetPassword];
+		[currentDefaults setBool:NO forKey:@"serverResetPasssword"];
 	}
 }
 
