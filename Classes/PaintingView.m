@@ -16,6 +16,11 @@
 - (void) paintTexture:(UIImage *) aTexture;
 - (void) createTexture:(GLuint *) texture withImage:(UIImage *) anImage;
 - (void) setBrushColor;
+
+// ------------------------------
+// smoothing
+- (void)drawSmoothSpline;
+// ------------------------------
 @end
 
 @implementation PaintingView
@@ -230,6 +235,15 @@
 		needsErase = YES;
         
         stamps = [[NSMutableArray alloc] init];
+		
+		
+		// ------------------------------
+		// smoothing
+		smEnableSmoothing=TRUE;
+		smPoints=nil;
+		smVertexBuffer=NULL;
+		// ------------------------------
+		
 	}
 	
 	return self;
@@ -305,6 +319,16 @@
     [tapRecognizer release];
     [numberOfPoints release];
     
+	// ------------------------------
+	// smoothing
+	[smPoints release];
+	if (smVertexBuffer)
+	{
+		free(smVertexBuffer);
+		smVertexBuffer=NULL;
+	}
+	// ------------------------------
+	
 	[super dealloc];
 }
 
@@ -323,6 +347,7 @@
 	[context presentRenderbuffer:GL_RENDERBUFFER_OES];
 }
 
+
     // Handles the start of a touch
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
@@ -335,6 +360,19 @@
         // Convert touch point from UIView referential to OpenGL one (upside-down flip)
 	location = [touch locationInView:self];
 	location.y = bounds.size.height - location.y;
+	
+	// ------------------------------
+	// smoothing
+	if (smEnableSmoothing && currentTool==kToolTypePen)
+	{
+		smPoints=[[NSMutableArray alloc] initWithCapacity:100];
+		CGPoint p=CGPointMake(location.x,location.y);
+		NSValue *q=[[NSValue alloc] initWithBytes:&p objCType:@encode(CGPoint)];
+		[smPoints addObject: q];
+		[q release];
+	}
+	// ------------------------------
+	
     modifiedContentSaved = NO;
     [numberOfPoints release];
     numberOfPoints = [[IntRow alloc] init];
@@ -363,7 +401,39 @@
 		previousLocation = [touch previousLocationInView:self];
 		previousLocation.y = bounds.size.height - previousLocation.y;
 	}
-        // Render the stroke
+
+	// ------------------------------
+	// smoothing
+	static int iii=0;
+	static int jjj=0; // 0 - every, 2 - 1, 3, 5...
+	if (smEnableSmoothing && currentTool==kToolTypePen)
+	{
+if (jjj && ++iii>=jjj)
+{
+	iii=0;
+	return;
+}
+		
+		CGPoint p=CGPointMake(location.x,location.y);
+		NSValue *q=[[NSValue alloc] initWithBytes:&p objCType:@encode(CGPoint)];
+		[smPoints addObject: q];
+		[q release];
+		NSUInteger q1=[smPoints count];
+		if (q1>=4)
+		{
+			if (q1==4)
+				smCurrentBeginPointIndex=0;
+			else
+				smCurrentBeginPointIndex++;
+			[self drawSmoothSpline];
+
+		}
+		return;
+	}
+	// ------------------------------
+	
+	
+	// Render the stroke
 	[self renderLineFromPoint:previousLocation toPoint:location];
 }
 
@@ -381,9 +451,23 @@
 		previousLocation.y = bounds.size.height - previousLocation.y;
 		[self renderLineFromPoint:previousLocation toPoint:location];
 	}
+
+	// ------------------------------
+	// smoothing
+	if (smEnableSmoothing && currentTool==kToolTypePen)
+	{
+		if (smPoints)
+		{
+			[smPoints release];
+			smPoints=nil;
+		}
+	}
+	// ------------------------------
+	
     [numberOfPoints release];
     numberOfPoints = nil;
 }
+
 
 #pragma mark -
 #pragma mark UIGestureRecognizerDelegate
@@ -718,4 +802,71 @@
             break;
     }
 }
+
+// ------------------------------
+// smoothing
+- (void)drawSmoothSpline
+{
+	static NSUInteger vertexMax=0;
+	
+	CGPoint p1=[[smPoints objectAtIndex: smCurrentBeginPointIndex] CGPointValue];
+	CGPoint p2=[[smPoints objectAtIndex: smCurrentBeginPointIndex+1] CGPointValue];
+	CGPoint p3=[[smPoints objectAtIndex: smCurrentBeginPointIndex+2] CGPointValue];
+	CGPoint p4=[[smPoints objectAtIndex: smCurrentBeginPointIndex+3] CGPointValue];
+	
+	[EAGLContext setCurrentContext:context];
+	glBindFramebufferOES(GL_FRAMEBUFFER_OES, viewFramebuffer);
+	
+	//	NSUInteger np=sqrt(pow((p3.y-p4.y),2)+pow((p3.x-p4.x),2));
+	NSUInteger np=sqrt(pow((p1.y-p4.y),2)+pow((p1.x-p4.x),2));
+	[numberOfPoints add: np];
+	double divider = numberOfPoints.median;
+	if (divider > maxPenScale)
+		divider = maxPenScale;
+	else if (divider < minPenScale)
+		divider = minPenScale;
+	glPointSize(penWidth / divider);
+    
+	// Convert locations from Points to Pixels
+#warning iOS 4 stuff
+    CGFloat scale = 1.0;
+	//	CGFloat scale = self.contentScaleFactor;
+	p1.x*=scale;
+	p1.y*=scale;
+	p2.x*=scale;
+	p2.y*=scale;
+	p3.x*=scale;
+	p3.y*=scale;
+	p4.x*=scale;
+	p4.y*=scale;
+#define DSS_LENGTH(pp1,pp2,dev) (MAX(ceilf(sqrtf((pp2.x-pp1.x)*(pp2.x-pp1.x)+(pp2.y-pp1.y)*(pp2.y-pp1.y))/dev),1))
+	NSUInteger count=DSS_LENGTH(p1,p2,kBrushPixelStep)+DSS_LENGTH(p2,p3,kBrushPixelStep)+DSS_LENGTH(p3,p4,kBrushPixelStep);
+#undef DSS_LENGTH
+//	count=100;
+	if (!smVertexBuffer)
+		smVertexBuffer=malloc((vertexMax=count)*2*sizeof(GLfloat));
+	else if (count>vertexMax)
+		smVertexBuffer=realloc(smVertexBuffer,(vertexMax=count)*2*sizeof(GLfloat));
+
+	CGPoint r;
+	float countf=(float)count,t,t2,t3;
+	for(NSUInteger i=0;i<count;++i)
+	{
+		{
+			t3=(t2=(t=((float)i)/countf)*t)*t;
+			r.x=0.5f*(2.0f*p2.x-(p1.x-p3.x)*t+(2.0f*p1.x-5.0f*p2.x+4*p3.x-p4.x)*t2-(p1.x-3.0f*p2.x+3.0f*p3.x-p4.x)*t3);
+			r.y=0.5f*(2.0f*p2.y-(p1.y-p3.y)*t+(2.0f*p1.y-5.0f*p2.y+4*p3.y-p4.y)*t2-(p1.y-3.0f*p2.y+3.0f*p3.y-p4.y)*t3);
+		};
+		smVertexBuffer[2*i+0]=r.x;
+		smVertexBuffer[2*i+1]=r.y;
+	}
+	
+	glVertexPointer(2,GL_FLOAT,0,smVertexBuffer);
+	glDrawArrays(GL_POINTS,0,count);
+	
+	glBindRenderbufferOES(GL_RENDERBUFFER_OES,viewRenderbuffer);
+	[context presentRenderbuffer:GL_RENDERBUFFER_OES];	
+}
+// ------------------------------
+
 @end

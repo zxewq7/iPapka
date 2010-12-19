@@ -69,6 +69,14 @@ typedef enum
     CGFloat maxPenScale;
     CGFloat penScale;
     BOOL isModified;
+	
+	// ------------------------------
+	// smoothing
+	BOOL smEnableSmoothing;
+	NSMutableArray *smPoints;
+	NSUInteger smCurrentBeginPointIndex;
+	GLfloat *smVertexBuffer;
+	// ------------------------------
 }
 
 @property(nonatomic, readwrite) CGPoint location;
@@ -86,4 +94,6 @@ typedef enum
 - (void) enablePen:(BOOL) enabled;
 - (void) enableEraser:(BOOL) enabled;
 - (void) enableStamper:(BOOL) enabled;
+
 @end
+
